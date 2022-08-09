@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "gogo-cms",
-	"webDir": "www",
-	"bundledWebRuntime": false
+    "appId": "my.com.gogo.cms",
+    "appName": "Gogo CMS",
+    "webDir": "www",
+    "bundledWebRuntime": false
 }
