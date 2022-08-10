@@ -1,0 +1,24 @@
+<ion-menu side="end" menuId="first" contentId="main">
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-title>Start Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list *ngIf="navigation">
+            <ion-menu-toggle *ngFor="let item of navigation.items">
+                <ion-item [routerLink]="item.path">{{ item.name | cmsTranslate }}</ion-item>
+            </ion-menu-toggle>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+
+<winbox99-header>
+
+</winbox99-header>
+<ion-content id="main">
+    <div style="min-height: 100vh;">
+        <router-outlet></router-outlet>
+    </div>
+    <winbox99-footer></winbox99-footer>
+</ion-content>

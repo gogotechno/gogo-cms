@@ -1,0 +1,7 @@
+<ion-grid *ngIf="page" [fixed]="!page.fullscreen" [class.edgeless]="page.edgeless">
+    <ion-row>
+        <ion-col>
+            <div [innerHTML]="page.htmlContent | cmsTranslate | safeHtml"></div>
+        </ion-col>
+    </ion-row>
+</ion-grid>

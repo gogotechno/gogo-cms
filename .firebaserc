@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "gogo-cms": {
+      "hosting": {
+        "app": [
+          "gogo-cms"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "gogo-cms"
+  }
+}

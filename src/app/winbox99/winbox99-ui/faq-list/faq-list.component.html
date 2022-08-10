@@ -1,0 +1,12 @@
+<ion-grid fixed="true" *ngIf="faqList">
+    <ion-row>
+        <ion-col>
+            <h2 class="ion-text-center">{{ 'winbox99._FAQ' | translate }}</h2>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <cms-accordion [list]="faqList"></cms-accordion>
+        </ion-col>
+    </ion-row>
+</ion-grid>

@@ -1,0 +1,5 @@
+<nav *ngIf="navigation">
+    <ul>
+        <li *ngFor="let item of navigation.items"><a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a></li>
+    </ul>
+</nav>

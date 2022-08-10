@@ -1,0 +1,13 @@
+<ion-grid fixed="true">
+    <ion-row>
+        <ion-col class="ion-text-center">
+            <h2>{{ 'winbox99._GAMES' | translate }}</h2>
+        </ion-col>
+    </ion-row>
+
+    <ion-row>
+        <ion-col sizeXs="4" *ngFor="let game of games">
+            <img [src]="game.thumbnail" alt="" />
+        </ion-col>
+    </ion-row>
+</ion-grid>

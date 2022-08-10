@@ -1,0 +1,40 @@
+<ion-grid fixed="true">
+
+    <ion-row>
+        <ion-col>
+            <div class="main-container">
+                <div class="steps-container">
+                    <ion-card class="ion-background-primary ion-hide-md-down">
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row *ngIf="registerList">
+                                    <ion-col *ngFor="let item of registerList.items" class="ion-text-center">
+                                        <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
+                </div>
+
+                <div class="phone-container">
+                    <img class="phone-screen" src="/assets/winbox99/winbox-main-screen-recording.gif" alt="" height="489" />
+                    <img class="phone-frame" src="/assets/winbox99/iphone-13-pro-max-frame.png" alt="" />
+
+                </div>
+            </div>
+        </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="downloadList">
+        <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" *ngFor="let item of downloadList.items">
+            <ion-card (click)="onDownloadClick(item)">
+                <ion-card-content>
+                    <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml">
+                    </div>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+
+</ion-grid>

@@ -1,0 +1,14 @@
+<div class="ion-background-dark">
+    <ion-grid *ngIf="list">
+        <ion-row>
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" *ngFor="let item of list.items">
+                <h4>{{ item.title | cmsTranslate | uppercase }}</h4>
+                <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+
+<div class="ion-background-primary ion-padding-sm ion-text-center">
+    <small>&copy;2022 by Gogo Technology</small>
+</div>
