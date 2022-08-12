@@ -44,3 +44,34 @@ export interface CmsPage {
     fullscreen: boolean,
     edgeless: boolean
 }
+
+export interface CmsForm {
+    code: string,
+    site: string,
+    items: Array<CmsFormItem>
+}
+
+export interface CmsFormItem {
+    code: string,
+    label: CmsTranslation,
+    type: 'string' | 'number' | 'cms-translate' | 'array' | 'email' | 'password',
+    dataType: string,
+}
+
+export interface CmsSignInRequest {
+    email: string,
+    password: string,
+    remember: boolean
+}
+
+export interface CmsTable {
+    code: string,
+    site: string | 'default',
+    name: CmsTranslation,
+    nameField: string,
+    codeField: string,   
+}
+
+export class CmsAdminChildPage {
+    title: string = '';
+}

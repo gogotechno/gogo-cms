@@ -1,0 +1,10 @@
+<cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-list *ngIf="list">
+        <ion-item *cdkVirtualFor="let item of list" [routerLink]="getTableDataId(item)">
+            <ion-label>
+                {{getTableDataName(item) }}<br />
+                <ion-text color="medium"><small><i>#{{ getTableDataId(item) }}</i></small></ion-text>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</cdk-virtual-scroll-viewport>

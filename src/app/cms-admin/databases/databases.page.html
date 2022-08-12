@@ -1,0 +1,13 @@
+<cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-toolbar>
+        <ion-title>{{ '_DATABASES' | translate }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button>{{ '_ADD' | translate }}</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-list>
+        <ion-item *cdkVirtualFor="let item of list" [routerLink]="item.code">
+            <ion-label> {{item.name | cmsTranslate }} </ion-label>
+        </ion-item>
+    </ion-list>
+</cdk-virtual-scroll-viewport>

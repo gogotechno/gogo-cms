@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from './cms.service';
 
@@ -9,15 +9,19 @@ import { CmsService } from './cms.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router, private cms: CmsService, private translate: TranslateService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private cms: CmsService, private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.translate.setDefaultLang('en');
     this.redirectToTemplate();
-    this.translate.setDefaultLang('en')
   }
 
   async redirectToTemplate() {
     this.cms.SITE = await this.cms.getSite();
-    this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
+    console.log(this.router.url.split('/'))
+    let found = this.router.url.split('/').find(s => s == 'cms-admin');
+    if (!found) {
+      this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
+    }
   }
 }

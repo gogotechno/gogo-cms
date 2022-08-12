@@ -1,0 +1,15 @@
+.container {
+    width: 100%;
+}
+
+.container ion-select {
+    display: inline-flex;
+    width: 50px;
+    padding: 0 10px;
+    padding-right: 2px;
+}
+
+.container ion-input {
+    display: inline-flex;
+    width: calc(100% - 50px);
+}

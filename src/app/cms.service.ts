@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { first, map, take } from 'rxjs/operators'
 
-import { CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow } from './cms.type';
+import { CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow, CmsTable } from './cms.type';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class CmsService {
 
   public SITE: CmsSite;
 
-  constructor(private firestore: AngularFirestore) { }  
+  constructor(private firestore: AngularFirestore) { }
 
   getSite(hostname?: string) {
     if (!hostname) {
@@ -46,5 +46,61 @@ export class CmsService {
     return this.firestore.doc<CmsPage>(`sites/${this.SITE.code}/pages/${id}`).valueChanges().pipe(
       take(1),
     ).toPromise();
+  }
+
+  getForm(id: string) {
+    return this.firestore.doc<CmsForm>(`forms/${id}`).valueChanges().pipe(
+      take(1),
+    ).toPromise();
+  }
+
+  getTable(id: string) {
+    return this.firestore.doc<CmsTable>(`tables/${id}`).valueChanges().pipe(
+      take(1),
+    ).toPromise();
+  }
+
+  getTables() {
+    return this.firestore.collection<CmsTable>(`tables`).valueChanges().pipe(
+      take(1),
+    ).toPromise();
+  }
+
+  getTableData(table: CmsTable) {
+    let collectionPath = table.code;
+    if (table.site != 'default') {
+
+    }
+    return this.firestore.collection<any>(collectionPath).valueChanges().pipe(
+      take(1),
+    ).toPromise();
+  }
+
+  getDocument(table: CmsTable, id: string) {
+    let collectionPath = table.code;
+    if (table.site != 'default') {
+
+    }
+    return this.firestore.doc<any>(`${collectionPath}/${id}`).valueChanges().pipe(
+      take(1),
+    ).toPromise();
+  }
+
+  saveDocument(table: CmsTable, document: any, id?: string) {
+    let collectionPath = table.code;
+    if (table.site != 'default') {
+
+    }
+    if (id) {
+      return this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
+    }
+    return this.firestore.collection<any>(collectionPath).add(document);
+  }
+
+  isTranslationObject(obj: any) {
+    if (!(obj instanceof Object)) {
+      return false;
+    }
+    return 'en' in obj;
   }
 }

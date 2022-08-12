@@ -10,11 +10,15 @@ export class CmsTranslatePipe implements PipeTransform {
     constructor(private cms: CmsService, private translate: TranslateService) { }
 
     transform(value: CmsTranslation): string {
-        let lang = this.translate.currentLang;
-        if (!lang) {
-            lang = this.cms.SITE.defaultLanguage;
+        try {
+            let lang = this.translate.currentLang;
+            if (!lang) {
+                lang = this.cms.SITE.defaultLanguage;
+            }
+            return value[lang] || value;
+        } catch (error) {
+            return <string>value;
         }
-        return value[lang];
     }
 }
 

@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{ 'Gogo CMS' | translate }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid fixed="true">
+        <ion-row>
+            <ion-col>
+                <!-- <ion-list>
+                    <ion-item>
+                        <ion-label position="fixed">{{ '_EMAIL' | translate }}</ion-label>
+                        <ion-input type="email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="fixed">{{ '_PASSWORD' | translate }}</ion-label>
+                        <ion-input type="password"></ion-input>
+                    </ion-item>
+                    <ion-item lines="none">
+                        <ion-checkbox></ion-checkbox>
+                        <ion-label>{{ '_REMEMBER_ME' | translate }}</ion-label>
+                    </ion-item>
+                </ion-list> -->
+                <cms-form *ngIf="form" [form]="form" (submit)="signIn($event)"></cms-form>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-button expand="block" fill="clear" size="small">{{ '_FORGOT_PASSWORD' | translate }}</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

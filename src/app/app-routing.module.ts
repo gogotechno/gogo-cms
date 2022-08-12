@@ -12,6 +12,10 @@ const routes: Routes = [
     loadChildren: () => import('./winbox99/winbox99.module').then(m => m.Winbox99PageModule),
     canActivate: [SiteGuardService]
   },
+  {
+    path: 'cms-admin',
+    loadChildren: () => import('./cms-admin/cms-admin.module').then( m => m.CmsAdminPageModule)
+  },
 ];
 
 @NgModule({
