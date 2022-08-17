@@ -7,6 +7,18 @@
                 <cms-array-input [data-type]="item.dataType" [formControlName]="item.code"></cms-array-input>
             </ng-container>
 
+            <ng-container *ngSwitchCase="'cms-translate-editor'">
+                <ion-list-header>{{ item.label | cmsTranslate }}</ion-list-header>
+                <cms-translation-editor-input [formControlName]="item.code"></cms-translation-editor-input>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'checkbox'">
+                <ion-item>
+                    <ion-checkbox [formControlName]="item.code"></ion-checkbox>
+                    <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+                </ion-item>
+            </ng-container>
+
             <ng-container *ngSwitchDefault>
                 <ion-item>
                     <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>

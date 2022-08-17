@@ -30,3 +30,9 @@
 @import "~@ionic/angular/css/flex-utils.css";
 @import "./ionic-ext.scss";
 @import "./css-utils.scss";
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}

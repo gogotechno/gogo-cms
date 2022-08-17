@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
 import { CmsAdminChildPage, CmsTable } from 'src/app/cms.type';
@@ -11,6 +12,7 @@ import { CmsAdminChildPage, CmsTable } from 'src/app/cms.type';
 })
 export class DatabasesPage extends CmsAdminChildPage implements OnInit {
 
+  @ViewChild(IonModal) modal: IonModal;
   list: Array<CmsTable> = [];
 
   constructor(private cms: CmsService, private translate: TranslatePipe) {

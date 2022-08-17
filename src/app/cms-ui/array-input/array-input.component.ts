@@ -25,7 +25,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   @Input('data-type') dataType: string;
   form: CmsForm;
   // table: CmsTable;
-  value: Array<any>;
+  value: Array<any> = [];
   disabled = false;
   onChange: any = () => { };
   onTouched: any = () => { };
@@ -45,7 +45,11 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(value: Array<any>): void {
+    if (!value) {
+      value = [];
+    }
     this.value = value;
+    this.onChange(this.value);
   }
 
   registerOnChange(fn: any): void {
@@ -63,12 +67,14 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   remove(i: number) {
     if (confirm(this.translate.transform('_DELETE_CONFIRMATION_MESSAGE'))) {
       this.value.splice(i, 1);
+      this.onChange(this.value);
     }
   }
 
   reorder(event: Event) {
     let detail = (<ItemReorderCustomEvent>event).detail;
     this.value = array_move(this.value, detail.from, detail.to);
+    this.onChange(this.value);
     detail.complete(true);
   }
 
@@ -91,6 +97,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     } else {
       this.value.push(item);
     }
+    this.onChange(this.value);
     this.modal.dismiss();
   }
 

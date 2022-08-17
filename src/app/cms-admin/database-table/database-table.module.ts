@@ -9,6 +9,7 @@ import { DatabaseTablePageRoutingModule } from './database-table-routing.module'
 
 import { DatabaseTablePage } from './database-table.page';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     DatabaseTablePageRoutingModule,
     ScrollingModule,
     CmsUIModule,
+    TranslateModule.forChild(),
   ],
   declarations: [DatabaseTablePage]
 })

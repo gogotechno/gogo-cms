@@ -12,6 +12,8 @@ import { FormComponent } from './form/form.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationInputComponent } from './translation-input/translation-input.component';
 import { ArrayInputComponent } from './array-input/array-input.component';
+import { QuillModule } from 'ngx-quill';
+import { TranslationEditorInputComponent } from './translation-editor-input/translation-editor-input.component';
 
 
 
@@ -23,6 +25,7 @@ import { ArrayInputComponent } from './array-input/array-input.component';
     FormComponent,
     TranslationInputComponent,
     ArrayInputComponent,
+    TranslationEditorInputComponent,
     CmsTranslatePipe,
     SafeHtmlPipe,
   ],
@@ -33,6 +36,21 @@ import { ArrayInputComponent } from './array-input/array-input.component';
     IonicModule,
     RouterModule,
     TranslateModule.forChild(),
+    QuillModule.forRoot({
+      modules: {
+        'toolbar': [
+          [{ 'font': [] }, { 'size': [] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'script': 'super' }, { 'script': 'sub' }],
+          [{ 'header': 1 }, { 'header': 2 }, 'blockquote', 'code-block'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+          ['direction', { 'align': [] }],
+          ['link', 'image', 'video', 'formula'],
+          ['clean']
+        ]
+      }
+    })
   ],
   exports: [
     SlideshowComponent,

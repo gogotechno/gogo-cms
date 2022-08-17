@@ -1,5 +1,5 @@
-<ion-list class="ion-no-padding" *ngIf="value">
-    <ion-reorder-group (ionItemReorder)="reorder($event)" disabled="false">
+<ion-list class="ion-no-padding">
+    <ion-reorder-group *ngIf="value" (ionItemReorder)="reorder($event)" disabled="false">
         <ion-item-sliding *ngFor="let item of value; let i = index">
             <ion-item (click)="edit(i, $event)">
                 <ion-reorder slot="start"></ion-reorder>
@@ -29,7 +29,9 @@
             </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-            <cms-form *ngIf="form" (submit)="update($event)" [form]="form" [value]="value[activatedIndex]"></cms-form>
+            <ng-container *ngIf="form">
+                <cms-form (submit)="update($event)" [form]="form" [value]="activatedIndex == null ? null : value[activatedIndex]"></cms-form>
+            </ng-container>
         </ion-content>
     </ng-template>
 </ion-modal>

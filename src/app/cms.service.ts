@@ -69,7 +69,7 @@ export class CmsService {
   getTableData(table: CmsTable) {
     let collectionPath = table.code;
     if (table.site != 'default') {
-
+      collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
     return this.firestore.collection<any>(collectionPath).valueChanges().pipe(
       take(1),
@@ -79,7 +79,7 @@ export class CmsService {
   getDocument(table: CmsTable, id: string) {
     let collectionPath = table.code;
     if (table.site != 'default') {
-
+      collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
     return this.firestore.doc<any>(`${collectionPath}/${id}`).valueChanges().pipe(
       take(1),
@@ -89,12 +89,14 @@ export class CmsService {
   saveDocument(table: CmsTable, document: any, id?: string) {
     let collectionPath = table.code;
     if (table.site != 'default') {
-
+      collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
     if (id) {
       return this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
+    } else {
+      id = document['code'] || document[table.codeField];
     }
-    return this.firestore.collection<any>(collectionPath).add(document);
+    return this.firestore.collection<any>(collectionPath).doc(id).set(document);
   }
 
   isTranslationObject(obj: any) {

@@ -54,7 +54,7 @@ export interface CmsForm {
 export interface CmsFormItem {
     code: string,
     label: CmsTranslation,
-    type: 'string' | 'number' | 'cms-translate' | 'array' | 'email' | 'password',
+    type: 'string' | 'number' | 'cms-translate' | 'array' | 'email' | 'password' | 'checkbox',
     dataType: string,
 }
 

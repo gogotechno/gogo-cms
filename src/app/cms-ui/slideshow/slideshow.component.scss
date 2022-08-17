@@ -1,13 +1,38 @@
-ion-slides {
-    z-index: 0;
+.slideshow-container {
     position: relative;
 }
 
+// ion-slides {
+//     z-index: 0;
+//     // position: absolute;
+// }
 .cms-slide {
     height: 50vh;
+    width: 100%;
     background-position: center;
     background-size: cover;
-    width: 100%;
     display: flex;
     align-items: center;
+}
+
+.phone-container {
+    height: 485px;
+    width: 237px;
+    z-index: 1;
+    background-color: aqua;
+    // background-image: url('/assets/winbox99/iphone-13-pro-max-frame.png');
+    // display: inline-block;
+    position: absolute;
+    top: 30px;
+    right: 16px;
+}
+
+.phone-container img {
+    width: 100%;
+    width: 500px;
+}
+
+.phone-screen {
+    position: absolute;
+    // margin: 11px;
 }

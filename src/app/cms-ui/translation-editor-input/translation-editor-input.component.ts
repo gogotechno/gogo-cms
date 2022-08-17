@@ -1,22 +1,22 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
 import { CmsTranslation } from 'src/app/cms.type';
 
 @Component({
-  selector: 'cms-translation-input',
-  templateUrl: './translation-input.component.html',
-  styleUrls: ['./translation-input.component.scss'],
+  selector: 'cms-translation-editor-input',
+  templateUrl: './translation-editor-input.component.html',
+  styleUrls: ['./translation-editor-input.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TranslationInputComponent),
+      useExisting: forwardRef(() => TranslationEditorInputComponent),
       multi: true
     }
   ]
 })
-export class TranslationInputComponent implements OnInit, ControlValueAccessor {
+export class TranslationEditorInputComponent implements OnInit, ControlValueAccessor {
 
   languages = languages;
   value: CmsTranslation = {};
@@ -69,3 +69,5 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
     console.log('Text changed', this.value)
   }
 }
+
+
