@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
+import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsFormItem } from 'src/app/cms.type';
 
@@ -8,20 +10,22 @@ import { CmsForm, CmsFormItem } from 'src/app/cms.type';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent extends CmsComponent implements OnInit {
   @Input('form') form: CmsForm;
   @Input('value') value: any;
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private cms: CmsService) { }
+  constructor(private formBuilder: FormBuilder, private cms: CmsService, private admin: CmsAdminService) {
+    super();
+  }
 
   ngOnInit() {
     this.loadData();
   }
 
-  loadData() {
+  async loadData() {
     if (!this.form) return;
 
     let controls = {};
@@ -36,6 +40,19 @@ export class FormComponent implements OnInit {
           break;
       }
     });
+
+    let uid = (await this.admin.currentUser)?.uid;
+    if (this.value) {
+      controls['updatedAt'] = [this.now];
+      controls['updatedBy'] = [uid];
+    } else {
+      controls['createdAt'] = [this.now];
+      controls['createdBy'] = [uid];
+      controls['updatedAt'] = [this.now];
+      controls['updatedBy'] = [uid];
+    }
+
+
     this.formGroup = this.formBuilder.group(controls);
     // this.value = this.formGroup.value;
   }

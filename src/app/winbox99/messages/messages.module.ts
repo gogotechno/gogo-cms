@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MessagesPageRoutingModule } from './messages-routing.module';
 
 import { MessagesPage } from './messages.page';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MessagesPageRoutingModule
+    MessagesPageRoutingModule,
+    CmsUIModule,
   ],
   declarations: [MessagesPage]
 })

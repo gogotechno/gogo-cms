@@ -12,14 +12,21 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private cms: CmsService, private translate: TranslateService) { }
 
   ngOnInit(): void {
-    this.translate.setDefaultLang('en');
     this.redirectToTemplate();
+    this.translate.setDefaultLang('en');
   }
 
   async redirectToTemplate() {
     this.cms.SITE = await this.cms.getSite();
-    console.log(this.router.url.split('/'))
+    this.translate.addLangs(this.cms.SITE.supportedLanguages);
+    this.translate.setDefaultLang(this.cms.SITE.defaultLanguage);
+    let browserLangauge = this.translate.getBrowserLang();
+    let used = await this.translate.use(browserLangauge).toPromise();
+    if (!used) {
+      await this.translate.use(this.cms.SITE.defaultLanguage);
+    }
     let found = this.router.url.split('/').find(s => s == 'cms-admin');
+    console.log(this.router.url.split('/'))
     if (!found) {
       this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
     }

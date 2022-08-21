@@ -63,3 +63,16 @@
     --ion-color-light-shade: #d7d8da;
     --ion-color-light-tint: #f5f6f9;
 }
+
+.active {
+    border-left: 12px solid var(--ion-color-primary);
+    font-weight: bold;
+}
+
+
+ion-modal .modal-wrapper {
+    height: 20%;
+    top: 80%;
+    position: absolute; 
+    display: block;  
+ }

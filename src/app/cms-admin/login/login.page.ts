@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsSignInRequest } from 'src/app/cms.type';
+import { CmsAdminService } from '../cms-admin.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginPage implements OnInit {
 
   form: CmsForm;
 
-  constructor(private cms: CmsService, private fireauth: AngularFireAuth) { }
+  constructor(private cms: CmsService, private admin: CmsAdminService) { }
 
   ngOnInit() {
     this.loadData();
@@ -23,11 +24,7 @@ export class LoginPage implements OnInit {
   }
 
   async signIn(event) {
-    try {
-      let credential = this.fireauth.signInWithEmailAndPassword(event.email, event.password);
-    } catch (error) {
-      alert(error);
-    }
+      await this.admin.signInWithEmailAndPassword(event.email, event.password);
   }
 
   async forgotPassword(event?: Event) {

@@ -3,6 +3,8 @@ import { CmsService } from "../cms.service";
 import { CmsTranslation } from "../cms.type";
 import { TranslateService } from '@ngx-translate/core'
 import { DomSanitizer } from "@angular/platform-browser";
+import { DatePipe } from "@angular/common";
+import { Timestamp } from "@angular/fire/firestore";
 
 @Pipe({ name: 'cmsTranslate' })
 export class CmsTranslatePipe implements PipeTransform {
@@ -27,5 +29,21 @@ export class SafeHtmlPipe implements PipeTransform {
     constructor(private sanitized: DomSanitizer) { }
     transform(value) {
         return this.sanitized.bypassSecurityTrustHtml(value);
+    }
+}
+
+@Pipe({ name: 'cssUrl' })
+export class CssUrlPipe implements PipeTransform {
+    constructor() { }
+    transform(value: string) {
+        return `url(${value})`;
+    }
+}
+
+@Pipe({ name: 'firestoreDate' })
+export class FirestoreDatePipe implements PipeTransform {
+    constructor(private date: DatePipe) { }
+    transform(value: Timestamp) {
+        return this.date.transform(value.toDate());
     }
 }

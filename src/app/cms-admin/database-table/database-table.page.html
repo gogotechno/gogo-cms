@@ -3,16 +3,26 @@
         <ion-buttons slot="start">
             <ion-back-button></ion-back-button>
         </ion-buttons>
+        
         <div class="ion-padding-start">
+            <a routerLink="../../" routerDirection="back"><ion-icon name="home"></ion-icon></a> /
+            <a routerLink="../" routerDirection="back">{{ '_DATABASES' | translate }}</a> /
             {{ table.name | cmsTranslate }}
         </div>
         <ion-buttons slot="end">
-            <ion-button fill="outline" shape="round" color="success" routerLink="new">{{ '_ADD' | translate }}</ion-button>
-            <ion-button fill="outline" shape="round" color="danger">{{ '_DELETE' | translate }}</ion-button>
+            <ng-container *ngIf="!selectMode">
+                <ion-button fill="outline" shape="round" color="primary" (click)="onSelectModeClick($event)">{{ '_SELECT' | translate }}</ion-button>
+                <ion-button fill="outline" shape="round" color="success" routerLink="new">{{ '_ADD' | translate }}</ion-button>
+            </ng-container>
+            <ng-container *ngIf="selectMode">
+                <ion-button fill="outline" shape="round" color="primary" (click)="onCancelSelectModeClick($event)">{{ '_CANCEL' | translate }}</ion-button>
+                <ion-button fill="outline" shape="round" color="danger" [disabled]="selectedItems.length > 0 ? false : true">{{ '_DELETE' | translate }}</ion-button>
+            </ng-container>
         </ion-buttons>
     </ion-toolbar>
     <ion-list *ngIf="list">
-        <ion-item *cdkVirtualFor="let item of list" [routerLink]="getTableDataId(item)">
+        <ion-item *cdkVirtualFor="let item of list" [routerLink]="selectMode ? '.' : getTableDataId(item)">
+            <ion-checkbox *ngIf="selectMode" mode="ios" (ionChange)="toggleItem(item, $event)"></ion-checkbox>
             <ion-label>
                 {{getTableDataName(item) }}<br />
                 <ion-text color="medium"><small><i>#{{ getTableDataId(item) }}</i></small></ion-text>

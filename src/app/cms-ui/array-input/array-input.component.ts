@@ -24,7 +24,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   @ViewChild(IonModal) modal: IonModal;
   @Input('data-type') dataType: string;
   form: CmsForm;
-  // table: CmsTable;
+  table: CmsTable;
   value: Array<any> = [];
   disabled = false;
   onChange: any = () => { };
@@ -39,8 +39,27 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   async loadData() {
     if (this.dataType) {
-      this.form = await this.cms.getForm(this.dataType);
-      // this.table = await this.cms.getTable(this.dataType);
+
+      switch (this.dataType) {
+        case 'text':
+          this.form = {
+            code: 'text-form',
+            items: [
+              {
+                code: 'value',
+                label: {en: 'Text Value'},
+                type: 'text'
+              }
+            ],
+          }
+          break;
+      
+        default:
+          this.form = await this.cms.getForm(this.dataType);
+          this.table = await this.cms.getTable(this.dataType);
+          break;
+      }
+
     }
   }
 
@@ -93,9 +112,17 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   update(item) {
     if (this.activatedIndex != null) {
-      this.value[this.activatedIndex] = item;
+      this.value[this.activatedIndex] = this.dataType == 'text' ? item.value: item;
     } else {
-      this.value.push(item);
+      switch (this.dataType) {
+        case 'text':
+          this.value.push(item.value);
+          break;
+      
+        default:
+          this.value.push(item);
+          break;
+      }
     }
     this.onChange(this.value);
     this.modal.dismiss();
@@ -103,5 +130,13 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   add(event?: Event) {
     this.modal.present();
+  }
+
+  getName(item) {
+    try {
+      return item[this.table.nameField];
+    } catch (error) {
+      return "";
+    }
   }
 }

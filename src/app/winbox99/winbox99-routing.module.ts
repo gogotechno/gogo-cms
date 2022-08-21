@@ -18,10 +18,12 @@ const routes: Routes = [
       },
       {
         path: 'promotions',
-        loadChildren: () => import('./promotions/promotions.module').then( m => m.PromotionsPageModule)
+        data: { listCode: 'promotions' },
+        loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
       },
       {
         path: 'messages',
+        data: { listCode: 'messages' },
         loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
       },
       {

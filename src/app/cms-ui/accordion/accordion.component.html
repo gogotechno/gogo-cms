@@ -1,5 +1,5 @@
 <ion-accordion-group *ngIf="list">
-    <ion-accordion value="first" *ngFor="let item of list.items">
+    <ion-accordion [value]="item.title | cmsTranslate" *ngFor="let item of list.items">
         <ion-item slot="header" color="light">
             <ion-label>{{ item.title | cmsTranslate }}</ion-label>
         </ion-item>

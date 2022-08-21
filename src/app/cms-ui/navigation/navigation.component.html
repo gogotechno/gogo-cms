@@ -1,5 +1,21 @@
 <nav *ngIf="navigation">
     <ul>
-        <li *ngFor="let item of navigation.items"><a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a></li>
+        <ng-container *ngFor="let item of navigation.items">
+            <li [class.active]="isActive(item.path)" *ngIf="!item.children; else child">
+                <a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a>
+            </li>
+            <ng-template #child>
+                <li [id]="item.name | cmsTranslate">
+                    <a>{{ item.name | cmsTranslate }}</a>
+                    <ion-popover [trigger]="item.name | cmsTranslate" triggerAction="hover">
+                        <ng-template>
+                          <ion-list lines="none">
+                            <ion-item *ngFor="let child of item.children" [routerLink]="child.path" lines="none"><ion-label>{{ child.name | cmsTranslate }}</ion-label></ion-item>
+                          </ion-list>
+                        </ng-template>
+                      </ion-popover>
+                </li>
+            </ng-template>
+        </ng-container>
     </ul>
 </nav>

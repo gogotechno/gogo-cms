@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { first, map, take } from 'rxjs/operators'
+import { CmsAdminService } from './cms-admin/cms-admin.service';
 
 import { CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow, CmsTable } from './cms.type';
 
@@ -61,6 +62,11 @@ export class CmsService {
   }
 
   getTables() {
+    // if (this.SITE.code != 'default') {
+    //   return this.firestore.collection<CmsTable>(`tables`, ref => ref.where('site', '==', this.SITE.code)).valueChanges().pipe(
+    //     take(1),
+    //   ).toPromise();
+    // }
     return this.firestore.collection<CmsTable>(`tables`).valueChanges().pipe(
       take(1),
     ).toPromise();

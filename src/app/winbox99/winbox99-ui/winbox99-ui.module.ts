@@ -10,6 +10,8 @@ import { GameListComponent } from './game-list/game-list.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { FaqListComponent } from './faq-list/faq-list.component';
+import { IphoneComponent } from './iphone/iphone.component';
+import { HtmlModalComponent } from './html-modal/html-modal.component';
 
 
 
@@ -20,6 +22,8 @@ import { FaqListComponent } from './faq-list/faq-list.component';
     RegistrationStepsComponent,
     GameListComponent,
     FaqListComponent,
+    IphoneComponent,
+    HtmlModalComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +39,7 @@ import { FaqListComponent } from './faq-list/faq-list.component';
     RegistrationStepsComponent,
     GameListComponent,
     FaqListComponent,
+    IphoneComponent
   ]
 })
 export class Winbox99UiModule { }

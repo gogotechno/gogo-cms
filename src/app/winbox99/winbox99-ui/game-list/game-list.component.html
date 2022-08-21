@@ -5,9 +5,12 @@
         </ion-col>
     </ion-row>
 
-    <ion-row>
-        <ion-col sizeXs="4" *ngFor="let game of games">
-            <img [src]="game.thumbnail" alt="" />
+    <ion-row *ngIf="gameList">
+        <ion-col sizeXs="4" sizeSm="4" sizeMd="3" sizeLg="3" sizeXl="2" *ngFor="let item of gameList.items">
+            <div (click)="gameDetail(item)" class="ion-activatable ripple-parent">
+                <img class="game-thumbnail" [src]="item.thumbnail | cmsTranslate" alt="" />
+                <ion-ripple-effect></ion-ripple-effect>
+            </div>
         </ion-col>
     </ion-row>
 </ion-grid>

@@ -1,0 +1,27 @@
+.phone-container {
+    // height: 485px;
+    // width: 237px;
+    z-index: 1;
+    height: 100%;
+    position: relative;
+}
+
+.phone-container img {
+    position: absolute;
+    bottom: 0;
+}
+
+.phone-screen {
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    // z-index: 1;
+    // margin: 11px;
+}
+
+.phone-screen-img {
+    width: 100%;
+    max-width: 248px;
+    padding: 1.3vw;
+}

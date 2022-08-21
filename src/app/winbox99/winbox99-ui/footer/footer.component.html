@@ -1,9 +1,24 @@
 <div class="ion-background-dark">
     <ion-grid *ngIf="list">
         <ion-row>
-            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" *ngFor="let item of list.items">
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="3" sizeXl="3" *ngFor="let item of list.items">
                 <h4>{{ item.title | cmsTranslate | uppercase }}</h4>
                 <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
+            </ion-col>
+
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="1" sizeXl="1">
+                <nav *ngIf="navigation">
+                    <h4>{{ '_INFORMATION' | translate | uppercase }}</h4>
+                    <ul>
+                        <li *ngFor="let item of navigation.items"><a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a></li>
+                    </ul>
+                </nav>
+            </ion-col>
+
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="2" sizeXl="2">
+                <nav *ngIf="navigation">
+                    <h4>{{ '_CONTACT_US' | translate | uppercase }}</h4>
+                </nav>
             </ion-col>
         </ion-row>
     </ion-grid>

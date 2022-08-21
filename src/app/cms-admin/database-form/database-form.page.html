@@ -1,7 +1,25 @@
-<ion-grid fixed="true">
-    <ion-row>
-        <ion-col size="12" *ngIf="isLoaded">
-            <cms-form [form]="form" [value]="document" (submit)="saveDocument($event)"></cms-form>
-        </ion-col>
-    </ion-row>
-</ion-grid>
+<ng-container *ngIf="isLoaded">
+    <ion-toolbar *ngIf="table">
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <div class="ion-padding-start">
+            <a routerLink="../../" routerDirection="back"><ion-icon name="home"></ion-icon></a> /
+            <a routerLink="../../" routerDirection="back">{{ '_DATABASES' | translate }}</a> /
+            <a routerLink="../../{{table.code}}" routerDirection="back">{{ table.name | cmsTranslate }}</a> /
+            <ng-container *ngIf="document; else newDocument">
+                {{ (document[table.nameField] | cmsTranslate) || (document[table.codeField] | cmsTranslate) }}
+            </ng-container>
+            <ng-template #newDocument>New</ng-template>
+        </div>
+        <ion-buttons slot="end">
+        </ion-buttons>
+    </ion-toolbar>
+    <ion-grid fixed="true">
+        <ion-row>
+            <ion-col size="12">
+                <cms-form [form]="form" [value]="document" (submit)="saveDocument($event)"></cms-form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ng-container>

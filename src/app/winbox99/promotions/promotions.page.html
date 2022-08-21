@@ -1,0 +1,10 @@
+<ng-container *ngIf="promotionList">
+    <ion-card (click)="detail(item)" class="ion-activatable ripple-parent" *ngFor="let item of promotionList.items">
+        <ion-img [src]="item.thumbnail | cmsTranslate"></ion-img>
+        <ion-card-content>
+            <ion-card-title>{{ item.title | cmsTranslate }}</ion-card-title>
+            <ion-card-title>{{ item.description | cmsTranslate }}</ion-card-title>
+        </ion-card-content>
+        <ion-ripple-effect></ion-ripple-effect>
+    </ion-card>
+</ng-container>

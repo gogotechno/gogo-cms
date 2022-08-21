@@ -6,6 +6,12 @@
     </ion-header>
     <ion-content>
         <ion-list>
+            <!-- <ion-item>
+                <ion-label>{{ '_SITE' | translate }}</ion-label>
+                <ion-select>
+                    <ion-select-option [(ngModel)]="selectedSite" *ngFor="let site of ownedSites" [value]="site">{{ site }}</ion-select-option>
+                </ion-select>
+            </ion-item> -->
             <ion-menu-toggle>
                 <ion-item routerLink="/cms-admin/">{{ '_DASHBOARD' | translate }}</ion-item>
             </ion-menu-toggle>
@@ -14,6 +20,11 @@
             </ion-menu-toggle>
         </ion-list>
     </ion-content>
+    <ion-footer>
+        <ion-toolbar>
+            <ion-button fill="clear" color="danger" expand="block" (click)="signOut()">{{ '_LOGOUT' | translate }}</ion-button>
+        </ion-toolbar>
+    </ion-footer>
 </ion-menu>
 
 <ion-header>

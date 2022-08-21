@@ -1,5 +1,17 @@
 {
+    "en": "English",
+    "zh": "简体中文",
+    "ms": "Bahasa Malaysia",
+    "_LANGUAGE": "Language",
+    "_DATABASES": "Databases",
+    "_SELECT": "Select",
+    "_ADD": "Add",
+    "_CANCEL": "Cancel",
+    "_DELETE": "Delete",
     "winbox99": {
-        "LOGIN": "Login"
+        "LOGIN": "Login",
+        "_GAMES": "Our Games",
+        "_FAQ": "Frequently Asked Questions",
+        "_CLOSE": "Close"
     }
 }

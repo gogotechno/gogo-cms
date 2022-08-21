@@ -1,15 +1,17 @@
 <ion-header>
     <ion-toolbar class="ion-no-padding" color="primary">
-        <div routerLink="/winbox99" class="logo-container ion-background-light d-inline-block">
-            <img src="https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/winbox99%2Fupload%2Fwinbox-logo%40150x60.jpg?alt=media&token=e86ec568-6634-46f6-b21f-7a7c5e17df72" alt="" height="60" width="200" />
+        <div>
+            <div routerLink="/winbox99" class="logo-container ion-background-light d-inline-block">
+                <img src="https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/winbox99%2Fupload%2Fwinbox-logo%40150x60.jpg?alt=media&token=e86ec568-6634-46f6-b21f-7a7c5e17df72" alt="" height="60" width="200" />
+            </div>
+    
+            <cms-navigation class="d-inline-block ion-hide-md-down"></cms-navigation>
         </div>
-
-        <cms-navigation class="d-inline-block ion-hide-md-down"></cms-navigation>
 
 
         <ion-buttons slot="end">
-            <ion-button fill="outline" shape="round">{{ 'winbox99.LOGIN' | translate }}</ion-button>
-            <ion-menu-button menu="first"></ion-menu-button>
+            <ion-button href="https://www.wbox1.cc/" target="_blank" fill="outline" shape="round">{{ 'winbox99.LOGIN' | translate }}</ion-button>
+            <ion-menu-button class="ion-hide-lg-up" menu="first"></ion-menu-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>

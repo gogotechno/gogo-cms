@@ -15,6 +15,8 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
   tableId: string;
   table: CmsTable;
   list = [];
+  selectMode = false;
+  selectedItems = [];
 
   constructor(private cms: CmsService, private route: ActivatedRoute, private cmsTranslate: CmsTranslatePipe) {
     super();
@@ -44,6 +46,26 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
     let idField = this.table.codeField;
     let id = tableData.code || tableData[idField] as string;
     return id;
+  }
+
+  onSelectModeClick(event?: Event) {
+    this.selectMode = true;
+  }
+
+  onCancelSelectModeClick(event?: Event) {
+    this.selectMode = false;
+    this.selectedItems = [];
+  }
+
+  toggleItem(item, event: Event) {
+    let checked = (<CustomEvent>event).detail.checked;
+    if (checked) {
+      this.selectedItems.push(item);
+    } else {
+      let i = this.selectedItems.findIndex((v) => this.getTableDataId(v) === this.getTableDataId(item));
+      this.selectedItems.splice(i, 1);
+    }
+    console.log(this.selectedItems);
   }
 
 }
