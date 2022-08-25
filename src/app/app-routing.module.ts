@@ -15,7 +15,11 @@ const routes: Routes = [
   {
     path: 'cms-admin',
     loadChildren: () => import('./cms-admin/cms-admin.module').then( m => m.CmsAdminPageModule)
+  },  {
+    path: 'tastefully',
+    loadChildren: () => import('./tastefully/tastefully.module').then( m => m.TastefullyPageModule)
   },
+
 ];
 
 @NgModule({

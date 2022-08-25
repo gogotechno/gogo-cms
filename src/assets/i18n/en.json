@@ -8,10 +8,32 @@
     "_ADD": "Add",
     "_CANCEL": "Cancel",
     "_DELETE": "Delete",
+    "_GOOD_MORNING": "Good Morning",
+    "_GOOD_EVENING": "Good Evening",
+    "_GOOD_AFTERNOON": "Good Afternoon",
+    "_SUBMIT": "Submit",
     "winbox99": {
         "LOGIN": "Login",
         "_GAMES": "Our Games",
         "_FAQ": "Frequently Asked Questions",
         "_CLOSE": "Close"
+    },
+    "tastefully": {
+        "_HOME": "Home",
+        "_ME": "Me",
+        "_SHOP": "Shop",
+        "_GIFT": "Gift",
+        "_LUCKY": "Lucky",
+        "_MORE": "More",
+        "_TERMS_AND_CONDITIONS": "Terms and Conditions",
+        "_COMING_SOON": "Coming Soon",
+        "_READ_MORE": "Read More",
+        "_GET_NOW": "Get Now",
+        "_SETTINGS": "Settings",
+        "_UNDER_DEVELOPMENT": "Coming soon, we are building this for you.",
+        "_EDIT_PROFILE": "Edit your profile",
+        "_ALL_CAUGHT_UP": "You are all caught up for now",
+        "_Menu": "Menu"
+
     }
 }

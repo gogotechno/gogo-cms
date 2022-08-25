@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-back-button defaultHref="/tastefully"></ion-back-button>
+    </ion-buttons>
+    <ion-title>event-detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="light">
+
+  <div style="height: 10em; width: 100%; background-position: center; background-size: cover;"
+    [style.background-image]="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgBrHAJKF0Yn-v5q9IMURjsq_hZaXXcWT3rg&usqp=CAU' | cssUrl">
+  </div>
+
+  <div style="border-radius: 1rem; background-color: white; margin: 0 2rem; margin-top: -5rem;">
+    <div style="width: 100%; padding: 16px">
+      <div style="display: flex; align-items: center">
+        <ion-icon style="color: var(--ion-color-light); font-size: xx-large; margin-right: 16px" name="time"></ion-icon>
+        <div>
+          <b>{{ 'Available Timing' | translate }}</b><br />
+          <small style="color: var(--ion-color-medium);">10 AM to 10 PM</small>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%; padding: 16px">
+      <div style="display: flex; align-items: center">
+        <ion-icon style="color: var(--ion-color-light); font-size: xx-large; margin-right: 16px" name="hourglass">
+        </ion-icon>
+        <div>
+          <b>{{ 'Available Timing' | translate }}</b><br />
+          <small style="color: var(--ion-color-medium);">Mid Valley Exhibition Centre</small>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 100%; padding: 16px;">
+      <div style="display: flex; align-items: center">
+        <ion-icon style="color: var(--ion-color-light); font-size: xx-large; margin-right: 16px" name="navigate-circle">
+        </ion-icon>
+        <div>
+          <b>{{ 'tastefully._LOCATION' | translate }}</b><br />
+          <small style="color: var(--ion-color-medium);">Mid Valley Exhibition Centre</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ion-padding">
+    <h2>Description</h2>
+  </div>
+</ion-content>

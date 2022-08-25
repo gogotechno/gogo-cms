@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'tastefully._MENU' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- <div class="ion-padding me-container">
+      <div class="avatar ion-margin-right" [style.background-image]="'https://via.placeholder.com/512x512' | cssUrl"></div>
+      <div>
+        <ion-text>Soh Yee Lin</ion-text><br />
+        <ion-icon name="male"></ion-icon> / 26 yo
+      </div>
+    </div> -->
+    <ion-item>
+      <ion-avatar slot="start">
+        <div class="avatar ion-margin-right" [style.background-image]="'https://via.placeholder.com/512x512' | cssUrl"></div>
+      </ion-avatar>
+      <div>
+        <ion-label>
+          <ion-text>Soh Yee Lin</ion-text><br />
+          <!-- <small><ion-icon name="male" style="color: rgb(10, 136, 158);"></ion-icon> / 26 yo</small> -->
+          <ion-text color="medium"><small>{{ 'tastefully._EDIT_PROFILE' | translate }}</small></ion-text>
+        </ion-label>
+      </div>
+    </ion-item>
+    
+    <hr />
+
+    <ion-item routerLink="/tastefully/settings">
+      <ion-icon name="settings" slot="start"></ion-icon>
+      <ion-label>{{ 'tastefully._SETTINGS' | translate }}</ion-label>
+    </ion-item>
+
+    <ion-item routerLink="/tastefully/settings">
+      <ion-icon name="settings" slot="start"></ion-icon>
+      <ion-label>{{ 'tastefully._SETTINGS' | translate }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

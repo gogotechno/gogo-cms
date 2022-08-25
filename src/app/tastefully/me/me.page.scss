@@ -1,0 +1,14 @@
+.me-container {
+    display: flex;
+
+    .avatar {
+        height: 5rem;
+        width: 5rem;
+        border-radius: 50%;
+        background-position: center;
+        background-size: cover;
+        display: inline-block;
+        margin-right: var(--ion-margin, 16px);
+    }
+
+}

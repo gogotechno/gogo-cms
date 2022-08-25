@@ -1,0 +1,24 @@
+<div style="display: flex; justify-content: space-between; align-items: center; padding-left: 6px">
+  <h2 style="font-size: medium; margin: 0; font-weight: bold;">Upcoming Events</h2>
+  <ion-button size="small" fill="clear" routerLink="/tastefully/events">View All</ion-button>
+</div>
+<div style="overflow-x: scroll; white-space: nowrap; padding: 6px;">
+  <div class="ion-activatable ripple-parent" routerLink="/tastefully/events/{{'MV2022'}}" *ngFor="let item of [1,1,1,1]; let i = index"
+    style="display: inline-block; margin-left: 6px; width: 25vw; height: 20vh; border-radius: 1rem; position: relative; background-image: url(https://www.tastefullyexpo.com/wp-content/uploads/2022/03/Photo-gallery-Food-Expo.png); background-position: center; background-size: cover;">
+    <div
+      style="border-radius: 50%; height: 2rem; width: 2rem; border: 3px solid var(--ion-color-primary); position: absolute; background-image: url(/assets/tastefully/cities/kuala-lumpur.jpg); background-position: center; background-size: cover; margin: 6px; top: 0;">
+    </div>
+    <div
+      style="height: 100%; width: 100%; background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.8) 100%); border-radius: 1rem;">
+      <div style="color: white; padding: 6px; position: absolute; bottom: 0; font-size: small; white-space: normal;">
+        Mid Valley Exhibition Centre<br />
+        <b style="color: var(--ion-color-primary); text-shadow: 2px;">SEP 14</b>
+      </div>
+    </div>
+    <ion-ripple-effect style="border-radius: 1rem;"></ion-ripple-effect>
+  </div>
+
+  <ion-refresher slot="fixed">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+</div>
