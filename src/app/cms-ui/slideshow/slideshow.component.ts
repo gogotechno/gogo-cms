@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { CmsService } from 'src/app/cms.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { CmsSlideshow } from 'src/app/cms.type';
 
 @Component({
@@ -9,17 +8,15 @@ import { CmsSlideshow } from 'src/app/cms.type';
 })
 export class SlideshowComponent implements OnInit {
 
-  slideshow: CmsSlideshow;
+  @Input() options: any;
+  @Input() slideshow: CmsSlideshow;
 
-  constructor(private cms: CmsService) { }
+  pager: boolean;
+
+  constructor() { }
 
   ngOnInit() {
-    this.loadData();
-  }
-
-  async loadData() {
-    this.slideshow = await this.cms.getSlideshow('home-slideshow');
-    console.log(this.slideshow)
+    this.pager = this.options && this.options.pager;
   }
 
 }

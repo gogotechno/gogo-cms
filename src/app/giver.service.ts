@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
-import { CmsService } from '../cms.service';
+import { CmsService } from './cms.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +17,26 @@ export class GiverService {
     const configs = await this.cms.getExternalIntegration("GIVER");
     const config = configs[0];
     const requestBody = this.hashData("md=" + token + "&appkey=" + config.appKey);
-    const requestUrl = config.apiUrl + "/validate";
+    const requestUrl = config.apiUrl + "/validate/";
 
     const options = {
       headers: new HttpHeaders({
-        "Content-type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded",
         "token": this.hashData({ md: token, appkey: config.appKey })
       })
     }
 
-    const result = await this.http.post(requestUrl, requestBody, options).toPromise();
-    console.log(result);
+    try {
+      const response = await this.http.post<any>(requestUrl, requestBody, options).toPromise();
+      const result: GiverValidationResponse = {
+        ...response,
+        name: response.Name
+      };
+      return result;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
   }
 
   private hashData(data: { [key: string]: string } | string) {
@@ -39,7 +48,16 @@ export class GiverService {
       .appendStr("giver888");
 
     const hashed = md5.end();
-    return hashed + "giver2u";
+    return hashed + " giver2u";
   }
 
+}
+
+export interface GiverValidationResponse {
+  result: string,
+  memberID: string,
+  name: string,
+  email: string,
+  phone: string,
+  isHalal: boolean
 }

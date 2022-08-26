@@ -90,17 +90,22 @@ export class CmsService {
     ).toPromise();
   }
 
-  saveDocument(table: CmsTable, document: any, id?: string) {
+  async saveDocument(table: CmsTable, document: any, id?: string) {
     let collectionPath = table.code;
     if (table.site != 'default') {
       collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
     if (id) {
-      return this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
+      await this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
     } else {
       id = document['code'] || document[table.codeField];
+      await this.firestore.collection<any>(collectionPath).doc(id).set(document);
     }
-    return this.firestore.collection<any>(collectionPath).doc(id).set(document);
+
+    let result = {
+      id: id
+    }
+    return result;
   }
 
   isTranslationObject(obj: any) {

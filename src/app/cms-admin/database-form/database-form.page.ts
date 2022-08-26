@@ -41,9 +41,9 @@ export class DatabaseFormPage implements OnInit {
     console.log(this.document)
   }
 
-  async saveDocument(document) {
+  async saveDocument(document: any) {
     this.document = document;
-    if(confirm(this.translate.transform('_DOCUMENT_SAVE_CONFIRMATION_MESSAGE'))) {
+    if (confirm(this.translate.transform('_DOCUMENT_SAVE_CONFIRMATION_MESSAGE'))) {
       await this.cms.saveDocument(this.table, document, this.documentId);
       alert(this.translate.transform('_DOCUMENT_SAVED_MESSAGE'));
     }

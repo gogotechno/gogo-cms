@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as dayjs from 'dayjs';
 import { CmsService } from 'src/app/cms.service';
+import { getTime } from 'src/app/cms.util';
 import { TastefullyEvent } from '../tastefully.type';
 
 @Component({
@@ -27,15 +28,11 @@ export class EventDetailPage implements OnInit {
   }
 
   mapEvent() {
-    let sArr = this.event.startAt.split(":");
-    let sHour = Number(sArr[0]);
-    let sMinute = Number(sArr[1]);
-    this.event.startAt = dayjs().set("hour", sHour).set("minute", sMinute).format("hh:mm a");
+    let startTime = getTime(this.event.startAt);
+    this.event.startAt = dayjs().set("hour", startTime.hour).set("minute", startTime.minute).format("hh:mm a");
 
-    let eArr = this.event.endAt.split(":");
-    let eHour = Number(eArr[0]);
-    let eMinute = Number(eArr[1]);
-    this.event.endAt = dayjs().set("hour", eHour).set("minute", eMinute).format("hh:mm a");
+    let endTime = getTime(this.event.endAt);
+    this.event.endAt = dayjs().set("hour", endTime.hour).set("minute", endTime.minute).format("hh:mm a");
   }
 
 }

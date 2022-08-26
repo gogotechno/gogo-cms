@@ -1,0 +1,15 @@
+ion-content.main {
+    --background: linear-gradient(127deg, rgba(243, 112, 33, 1) 11%, rgba(249, 200, 74, 1) 81%);
+}
+
+.card {
+    z-index: 1;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+
+    ion-card-content {
+        min-width: 20rem;
+        min-height: 10rem;
+    }
+}

@@ -12,6 +12,12 @@
     "_GOOD_EVENING": "Good Evening",
     "_GOOD_AFTERNOON": "Good Afternoon",
     "_SUBMIT": "Submit",
+    "_IS_REQUIRED": "{{ label }} is required",
+    "_HAS_UNKNOWN_ERROR": "{{ label }} has unknown error",
+    "_INFORMATION": "Information",
+    "_ERROR": "Error",
+    "_CONFIRM": "Confirm",
+    "_LOADING": "Loading",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",
@@ -40,6 +46,15 @@
         "_AVAILABLE_DATE": "Available Date",
         "_AVAILABLE_TIME": "Available Time",
         "_DESCRIPTION": "Description",
-        "_LOCATION": "Location"
+        "_LOCATION": "Location",
+        "_FREE_GOODIES_BAGS": "Free Goodies Bag!",
+        "_REGISTER_TO_GET_FREE_BAGS": "Register to get your FREE goodies bag!",
+        "_FAILED_TO_LOGIN": "Failed to login",
+        "_PLEASE_LOGIN_AGAIN": "Please close the program and open again or contact us to get advanced supports.",
+        "_STAY_TUNED": "Stay Tuned",
+        "_ERROR_WHILE_PROCESSING_REGISTER": "Error while processing register",
+        "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "Error while creating customer profile",
+        "_REGISTERED_FOR_EVENT": "Registered",
+        "_GUEST": "Guest"
     }
 }

@@ -22,6 +22,18 @@ export interface CmsSite extends CmsDocument {
     supportedLanguages: Array<string>,
 }
 
+export interface CmsSiteAttribute extends CmsDocument {
+    code: string,
+    name: CmsTranslation,
+    value: string,
+    options: Array<CmsSiteAttributeOption>
+}
+
+export interface CmsSiteAttributeOption {
+    code: string,
+    label: CmsTranslation
+}
+
 export interface CmsNavigation extends CmsDocument {
     code: string,
     items: Array<CmsNavigationItem>
@@ -82,8 +94,25 @@ export interface CmsForm extends CmsDocument {
 export interface CmsFormItem extends CmsDocument {
     code: string,
     label: CmsTranslation,
-    type: 'text' | 'number' | 'cms-translate' | 'array' | 'email' | 'password' | 'checkbox',
+    type: 'text' | 'number' | 'cms-translate' | 'cms-translate-editor' | 'array' | 'email' | 'password' | 'checkbox' | 'select',
     dataType?: string,
+    required?: boolean,
+    options?: Array<CmsFormItemOptions>
+}
+
+export interface CmsFormItemOptions {
+    code: string,
+    label: CmsTranslation
+}
+
+export interface CmsFormValidation {
+    valid: boolean,
+    errors?: Array<CmsFormValidationError>
+}
+
+export interface CmsFormValidationError {
+    error: any,
+    message: string
 }
 
 export interface CmsSignInRequest extends CmsDocument {

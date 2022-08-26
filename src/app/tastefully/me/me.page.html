@@ -8,19 +8,12 @@
   <ion-list>
     <ion-item lines="full" class="me">
       <ion-avatar slot="start">
-        <ion-img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQybfZDCOylNw3wPpQ9r0F9khF0mXeRcSzx5A&usqp=CAU">
-        </ion-img>
+        <img class="avatar" *ngIf="CURRENT_CUSTOMER" [src]="CURRENT_CUSTOMER.profilePic" />
+        <img class="avatar" *ngIf="!CURRENT_CUSTOMER" src="/assets/avatar-placeholder.png" />
       </ion-avatar>
       <ion-label>
-        <h3>Soh Yee Lin</h3>
-        <!-- <small>
-          <ion-icon name="male"></ion-icon>
-          <ion-text color="medium">&nbsp;/&nbsp;26 yo</ion-text>
-        </small> -->
-        <!-- <small>
-          <ion-text color="medium">{{ 'tastefully._EDIT_PROFILE' | translate }}</ion-text>
-        </small> -->
+        <h3 *ngIf="CURRENT_CUSTOMER">{{ CURRENT_CUSTOMER.name }}</h3>
+        <h3 *ngIf="!CURRENT_CUSTOMER">{{ "tastefully._GUEST" | translate }}</h3>
       </ion-label>
     </ion-item>
     <ion-item lines="none" routerLink="/tastefully/settings">

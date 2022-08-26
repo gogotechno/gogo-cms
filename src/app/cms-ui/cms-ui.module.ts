@@ -67,7 +67,8 @@ import { FileInputComponent } from './file-input/file-input.component';
     FirestoreDatePipe,
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    CmsTranslatePipe
   ]
 })
 export class CmsUIModule { }

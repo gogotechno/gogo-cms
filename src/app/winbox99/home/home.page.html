@@ -1,4 +1,6 @@
-<cms-slideshow></cms-slideshow>
+<ng-container *ngIf="slideshow">
+    <cms-slideshow [slideshow]="slideshow"></cms-slideshow>
+</ng-container>
 
 <winbox99-registration-steps></winbox99-registration-steps>
 

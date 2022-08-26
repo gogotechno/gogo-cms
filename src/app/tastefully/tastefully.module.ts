@@ -8,7 +8,6 @@ import { TastefullyPageRoutingModule } from './tastefully-routing.module';
 
 import { TastefullyPage } from './tastefully.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { EventDetailPipe } from './event-detail.pipe';
 
 @NgModule({
   imports: [
@@ -18,6 +17,6 @@ import { EventDetailPipe } from './event-detail.pipe';
     TastefullyPageRoutingModule,
     TranslateModule.forChild()
   ],
-  declarations: [TastefullyPage, EventDetailPipe]
+  declarations: [TastefullyPage]
 })
-export class TastefullyPageModule {}
+export class TastefullyPageModule { }

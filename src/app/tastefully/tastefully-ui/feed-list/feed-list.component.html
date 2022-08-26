@@ -1,5 +1,13 @@
-<ng-container *ngFor="let feed of feeds">
-  <div>
+<ng-container *ngIf="!feeds">
+  <div class="ion-padding">
+    <div class="skeleton">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="feeds && feeds.length > 0; else empty">
+  <ng-container *ngFor="let feed of feeds; let last = last">
     <div class="ion-padding">
       <h3 class="font-bolder font-medium ion-no-margin">{{ feed.title | cmsTranslate }}</h3>
       <small>
@@ -8,15 +16,18 @@
       <div class="content" [innerHTML]="feed.content | cmsTranslate | safeHtml"></div>
       <div class="thumbnail" [style.background-image]="feed.thumbnail | cssUrl"></div>
     </div>
-    <!-- <ion-button size="small" fill="clear" expand="block">{{ 'tastefully._READ_MORE' | translate }}</ion-button> -->
+    <hr class="divider" *ngIf="!last" />
+  </ng-container>
+
+  <div class="ion-text-center ion-padding ion-background-light">
+    <small>
+      <ion-text color="medium">
+        {{ 'tastefully._ALL_CAUGHT_UP' | translate }}
+      </ion-text>
+    </small>
   </div>
-  <hr class="divider" />
 </ng-container>
 
-<div class="ion-text-center ion-padding ion-background-light">
-  <small>
-    <ion-text color="medium">
-      {{ 'tastefully._ALL_CAUGHT_UP' | translate }}
-    </ion-text>
-  </small>
-</div>
+<ng-template #empty>
+
+</ng-template>

@@ -11,42 +11,36 @@
 
 <ion-content>
 
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button style="--background: url(https://assets.sunwaypyramid.com/events/32702f39e595e4f2d2c873daab27141f/w768-crop.jpg) no-repeat center;" routerLink="/tastefully/free-gift">
-      <ion-icon name="add" slot="icon-only"></ion-icon>
-    </ion-fab-button>
-  </ion-fab> -->
-
-  <ion-refresher slot="fixed">
+  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  
-  <div class="ion-padding"
-    style="display: flex; align-items: center; border-top: 1px solid var(--ion-color-light); border-bottom: 6px solid var(--ion-color-light);">
-    <img class="avatar" style="height: 3rem; width: 3rem;"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQybfZDCOylNw3wPpQ9r0F9khF0mXeRcSzx5A&usqp=CAU"
-      alt="" />
-    <div class="greeting" style="vertical-align: top;">
-      <ion-text color="medium"><small>{{ greetingKey | translate }}</small></ion-text><br />
-      <ion-text>{{ 'Soh Yee Lin' }}</ion-text>
+
+  <div class="ion-padding d-flex ion-align-items-center welcome">
+    <img class="avatar" *ngIf="CURRENT_CUSTOMER" [src]="CURRENT_CUSTOMER.profilePic" />
+    <img class="avatar" *ngIf="!CURRENT_CUSTOMER" src="/assets/avatar-placeholder.png" />
+    <div class="greeting">
+      <p class="ion-no-margin">
+        <small>
+          <ion-text color="medium">{{ greetingKey | translate }}</ion-text>
+        </small>
+      </p>
+      <p class="ion-no-margin-bottom ion-margin-top-sm">
+        <span *ngIf="CURRENT_CUSTOMER">{{ CURRENT_CUSTOMER.name }}</span>
+        <span *ngIf="!CURRENT_CUSTOMER">{{ "tastefully._GUEST" | translate }}</span>
+      </p>
     </div>
   </div>
 
-  <tastefully-event-list></tastefully-event-list>
-
-  <!-- <hr />
-
-  <ion-slides>
-    <ion-slide>
-      <div
-        style="height: 20vh; width: 100%; background-image: url(https://cdn.shopify.com/s/files/1/0607/2496/9691/files/KV_Tastefully-02-02.png?v=1658379029&width=1500); background-size: cover; background-position: center;">
-
-      </div>
-    </ion-slide>
-  </ion-slides>
-
-  <hr /> -->
+  <tastefully-event-list [events]="events"></tastefully-event-list>
   
-  <tastefully-feed-list></tastefully-feed-list>
+  <div class="divider"></div>
+
+  <ng-container *ngIf="slideshow">
+    <cms-slideshow [options]="{ loop: true, pager: true }" [slideshow]="slideshow"></cms-slideshow>
+  </ng-container>
+  
+  <hr class="divider" />
+
+  <tastefully-feed-list [feeds]="feeds"></tastefully-feed-list>
 
 </ion-content>
