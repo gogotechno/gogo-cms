@@ -30,8 +30,8 @@ export class CmsAdminPage implements OnInit {
     // this.selectedSite = this.cms.SITE.code;
   }
 
-  componentActivated(component) {
-    console.log(component)
+  componentActivated(component: { [key: string]: any }) {
+    console.log(component);
     if (component.title) {
       console.log('Is CMS admin child, change title')
       this.title = component.title;

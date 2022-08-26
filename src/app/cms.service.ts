@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-
-import { first, map, take } from 'rxjs/operators'
-import { CmsAdminService } from './cms-admin/cms-admin.service';
-
-import { CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow, CmsTable } from './cms.type';
+import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
+import { map, take } from 'rxjs/operators'
+import { CmsExternalIntegration, CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow, CmsTable } from './cms.type';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +64,7 @@ export class CmsService {
     //     take(1),
     //   ).toPromise();
     // }
+
     return this.firestore.collection<CmsTable>(`tables`).valueChanges().pipe(
       take(1),
     ).toPromise();
@@ -110,5 +108,18 @@ export class CmsService {
       return false;
     }
     return 'en' in obj;
+  }
+
+  getExternalIntegration(code?: string) {
+    let queryFn: QueryFn = (ref) => {
+      if (code) {
+        ref.where("code", "==", code);
+      }
+      return ref;
+    };
+
+    return this.firestore.collection<CmsExternalIntegration>("external-integration", queryFn).valueChanges().pipe(
+      take(1)
+    ).toPromise();
   }
 }

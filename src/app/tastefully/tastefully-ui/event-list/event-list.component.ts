@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TastefullyService } from '../../tastefully.service';
+import { TastefullyEvent } from '../../tastefully.type';
 
 @Component({
   selector: 'tastefully-event-list',
@@ -7,8 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventListComponent implements OnInit {
 
-  constructor() { }
+  events: TastefullyEvent[];
 
-  ngOnInit() {}
+  constructor(private tastefully: TastefullyService) { }
+
+  async ngOnInit() {
+    this.events = await this.tastefully.getEvents();
+    console.log(this.events);
+  }
 
 }

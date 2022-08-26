@@ -8,9 +8,7 @@ import { Timestamp } from "@angular/fire/firestore";
 
 @Pipe({ name: 'cmsTranslate' })
 export class CmsTranslatePipe implements PipeTransform {
-
     constructor(private cms: CmsService, private translate: TranslateService) { }
-
     transform(value: CmsTranslation): string {
         try {
             let lang = this.translate.currentLang;
@@ -27,7 +25,7 @@ export class CmsTranslatePipe implements PipeTransform {
 @Pipe({ name: 'safeHtml' })
 export class SafeHtmlPipe implements PipeTransform {
     constructor(private sanitized: DomSanitizer) { }
-    transform(value) {
+    transform(value: string) {
         return this.sanitized.bypassSecurityTrustHtml(value);
     }
 }
@@ -36,6 +34,7 @@ export class SafeHtmlPipe implements PipeTransform {
 export class CssUrlPipe implements PipeTransform {
     constructor() { }
     transform(value: string) {
+        if (!value) value = "./assets/image-placeholder.jpg";
         return `url(${value})`;
     }
 }

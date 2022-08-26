@@ -1,26 +1,22 @@
-<ng-container *ngFor="let item of [1,1,1,1,1,1,1]">
+<ng-container *ngFor="let feed of feeds">
   <div>
     <div class="ion-padding">
-      <h3 style="color: black; font-size: medium; margin: 0; font-weight: bolder;">Absolute Halal Malaysia 2019@MDEC</h3>
-      <small style="color: var(--ion-color-medium);">1 day ago</small>
-      <div style="margin-top: 3px;">
-        uis autem vel eure dolor in henrerit in vulptate esse molestie consequat.
-      </div>
+      <h3 class="font-bolder font-medium ion-no-margin">{{ feed.title | cmsTranslate }}</h3>
+      <small>
+        <ion-text color="medium">{{ feed.fromNow | titlecase }}</ion-text>
+      </small>
+      <div class="content" [innerHTML]="feed.content | cmsTranslate | safeHtml"></div>
+      <div class="thumbnail" [style.background-image]="feed.thumbnail | cssUrl"></div>
     </div>
-    <div
-      style="height: 35vh; background-image: url(https://cdn.pixabay.com/photo/2021/09/06/05/55/love-6600903_960_720.jpg); background-position: center; background-size: cover;">
-  
-    </div>
-    <ion-button size="small" fill="clear" expand="block">{{ 'tastefully._READ_MORE' | translate }}</ion-button>
+    <!-- <ion-button size="small" fill="clear" expand="block">{{ 'tastefully._READ_MORE' | translate }}</ion-button> -->
   </div>
-
-  <hr />
+  <hr class="divider" />
 </ng-container>
 
-<div style="text-align: center; padding: 16px; color: var(--ion-color-light); background-color: var(--ion-color-light);">
-  <small style="color: var(--ion-color-medium);">{{ 'tastefully._ALL_CAUGHT_UP' | translate }}</small>
+<div class="ion-text-center ion-padding ion-background-light">
+  <small>
+    <ion-text color="medium">
+      {{ 'tastefully._ALL_CAUGHT_UP' | translate }}
+    </ion-text>
+  </small>
 </div>
-
-<ion-refresher>
-  <ion-refresher-content></ion-refresher-content>
-</ion-refresher>

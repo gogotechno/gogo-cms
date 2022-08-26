@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { EventListComponent } from './event-list/event-list.component';
 import { FeedListComponent } from './feed-list/feed-list.component';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 
 
@@ -19,7 +20,8 @@ import { FeedListComponent } from './feed-list/feed-list.component';
     FormsModule,
     IonicModule,
     RouterModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    CmsUIModule,
   ],
   exports: [
     EventListComponent,

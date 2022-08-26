@@ -23,10 +23,9 @@ export class AppComponent implements OnInit {
     let browserLangauge = this.translate.getBrowserLang();
     let used = await this.translate.use(browserLangauge).toPromise();
     if (!used) {
-      await this.translate.use(this.cms.SITE.defaultLanguage);
+      await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
     let found = this.router.url.split('/').find(s => s == 'cms-admin');
-    console.log(this.router.url.split('/'))
     if (!found) {
       this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
     }

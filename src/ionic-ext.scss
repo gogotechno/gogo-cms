@@ -13,4 +13,124 @@
     color: var(--ion-color-dark);
 }
 
-.ion-padding-sm {}
+.ion-padding-sm {
+    padding: var(--ion-padding-sm, 8px);
+}
+
+.ion-padding-top-sm {
+    padding-top: var(--ion-padding-sm, 8px);
+}
+
+.ion-padding-bottom-sm {
+    padding-bottom: var(--ion-padding-sm, 8px);
+}
+
+.ion-padding-start-sm {
+    padding-left: var(--ion-padding-sm, 8px);
+}
+
+.ion-padding-end-sm {
+    padding-right: var(--ion-padding-sm, 8px);
+}
+
+.ion-padding-lg {
+    padding: var(--ion-padding-lg, 24px);
+}
+
+.ion-padding-top-lg {
+    padding-top: var(--ion-padding-lg, 24px);
+}
+
+.ion-padding-bottom-lg {
+    padding-bottom: var(--ion-padding-lg, 24px);
+}
+
+.ion-padding-start-lg {
+    padding-left: var(--ion-padding-lg, 24px);
+}
+
+.ion-padding-end-lg {
+    padding-right: var(--ion-padding-lg, 24px);
+}
+
+.ion-margin-sm {
+    margin: var(--ion-margin-sm, 8px);
+}
+
+.ion-margin-top-sm {
+    margin-top: var(--ion-margin-sm, 8px);
+}
+
+.ion-margin-bottom-sm {
+    margin-bottom: var(--ion-margin-sm, 8px);
+}
+
+.ion-margin-start-sm {
+    margin-left: var(--ion-margin-sm, 8px);
+}
+
+.ion-margin-end-sm {
+    margin-right: var(--ion-margin-sm, 8px);
+}
+
+.ion-margin-lg {
+    margin: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-top-lg {
+    margin-top: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-bottom-lg {
+    margin-bottom: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-start-lg {
+    margin-left: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-end-lg {
+    margin-right: var(--ion-margin-lg, 24px);
+}
+
+@supports (margin-inline-start: 0) or (-webkit-margin-start: 0) {
+    .ion-padding-start-sm {
+        padding-left: unset;
+        padding-inline-start: var(--ion-padding-sm, 8px);
+    }
+
+    .ion-padding-end-sm {
+        padding-right: unset;
+        padding-inline-end: var(--ion-padding-sm, 8px);
+    }
+
+    .ion-padding-start-lg {
+        padding-left: unset;
+        padding-inline-start: var(--ion-padding-lg, 24px);
+    }
+
+    .ion-padding-end-lg {
+        padding-right: unset;
+        padding-inline-end: var(--ion-padding-lg, 24px);
+    }
+
+    .ion-margin-start-sm {
+        margin-left: unset;
+        margin-inline-start: var(--ion-margin-sm, 8px);
+    }
+
+    .ion-margin-end-sm {
+        margin-right: unset;
+        margin-inline-end: var(--ion-margin-sm, 8px);
+    }
+
+    .ion-margin-start-lg {
+        margin-left: unset;
+        margin-inline-start: var(--ion-margin-lg, 24px);
+    }
+
+    .ion-margin-end-lg {
+        margin-right: unset;
+        margin-inline-end: var(--ion-margin-lg, 24px);
+    }
+}

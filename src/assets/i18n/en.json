@@ -13,7 +13,7 @@
     "_GOOD_AFTERNOON": "Good Afternoon",
     "_SUBMIT": "Submit",
     "winbox99": {
-        "LOGIN": "Login",
+        "_LOGIN": "Login",
         "_GAMES": "Our Games",
         "_FAQ": "Frequently Asked Questions",
         "_CLOSE": "Close"
@@ -33,7 +33,13 @@
         "_UNDER_DEVELOPMENT": "Coming soon, we are building this for you.",
         "_EDIT_PROFILE": "Edit your profile",
         "_ALL_CAUGHT_UP": "You are all caught up for now",
-        "_Menu": "Menu"
-
+        "_MENU": "Menu",
+        "_VIEW_ALL": "View All",
+        "_UPCOMING_EVENTS": "Upcoming Events",
+        "_TO": "To",
+        "_AVAILABLE_DATE": "Available Date",
+        "_AVAILABLE_TIME": "Available Time",
+        "_DESCRIPTION": "Description",
+        "_LOCATION": "Location"
     }
 }

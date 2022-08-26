@@ -1,14 +1,9 @@
-.me-container {
-    display: flex;
+.me {
+    --padding-top: var(--ion-padding, 16px);
+    --padding-bottom: var(--ion-padding, 16px);
+}
 
-    .avatar {
-        height: 5rem;
-        width: 5rem;
-        border-radius: 50%;
-        background-position: center;
-        background-size: cover;
-        display: inline-block;
-        margin-right: var(--ion-margin, 16px);
-    }
-
+.me ion-avatar {
+    height: 5rem;
+    width: 5rem;
 }

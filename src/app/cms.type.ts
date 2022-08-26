@@ -21,25 +21,30 @@ export interface CmsSite extends CmsDocument {
     domains: Array<string>,
     supportedLanguages: Array<string>,
 }
+
 export interface CmsNavigation extends CmsDocument {
     code: string,
     items: Array<CmsNavigationItem>
 }
+
 export interface CmsNavigationItem extends CmsDocument {
     path: string,
     name: CmsTranslation,
     isExternal: boolean,
     children: Array<CmsNavigationItem>,
 }
+
 export interface CmsSlideshow extends CmsDocument {
     code: string,
     items: Array<CmsSlideshowItem>
 }
+
 export interface CmsSlideshowItem extends CmsDocument {
     backgroundImage: string,
     buttons: Array<CmsSlideshowItemButton>,
     htmlContent: CmsTranslation
 }
+
 export interface CmsSlideshowItemButton extends CmsDocument {
     text: CmsTranslation,
     link: string,
@@ -92,11 +97,11 @@ export interface CmsTable extends CmsDocument {
     site: string | 'default',
     name: CmsTranslation,
     nameField: string,
-    codeField: string,   
+    codeField: string,
 }
 
 export class CmsAdminChildPage {
-    title: string = '';
+    title: string = ''
 }
 
 export interface CmsUser extends CmsDocument {
@@ -105,4 +110,11 @@ export interface CmsUser extends CmsDocument {
     email?: string,
     phoneNumber?: string,
     ownedSites?: Array<string>,
+}
+
+export interface CmsExternalIntegration extends CmsDocument {
+    code: string,
+    name: string,
+    apiUrl: string,
+    appKey: string
 }

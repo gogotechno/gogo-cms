@@ -3,6 +3,7 @@ import { IonModal } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
 import { CmsAdminChildPage, CmsTable } from 'src/app/cms.type';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-databases',
@@ -26,6 +27,15 @@ export class DatabasesPage extends CmsAdminChildPage implements OnInit {
   async loadData() {
     this.list = await this.cms.getTables();
     this.title = this.translate.transform('_DATABASES');
+
+    // const groups = _(this.list).groupBy("site").map((list, site) => {
+    //   return {
+    //     site: site,
+    //     list: list
+    //   }
+    // }).value();
+
+    // console.log(groups);
   }
 
 }

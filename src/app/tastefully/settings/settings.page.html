@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>settings</ion-title>
+    <ion-title>{{ "tastefully._SETTINGS" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,8 +14,8 @@
         <ion-list>
           <ion-item>
             <ion-label>{{ '_LANGUAGE' | translate }}</ion-label>
-            <ion-select>
-              <ion-select-option>English</ion-select-option>
+            <ion-select [(ngModel)]="currentLang">
+              <ion-select-option value="en">English</ion-select-option>
             </ion-select>
           </ion-item>
         </ion-list>

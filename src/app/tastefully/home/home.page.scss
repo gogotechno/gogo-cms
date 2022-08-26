@@ -1,15 +1,10 @@
-ion-content {
-    // --background: url(https://cdn.pixabay.com/photo/2021/09/06/05/55/love-6600903_960_720.jpg);
-}
-
 ion-slide {
-    // height: 100vh;
     width: 100%;
     backdrop-filter: blur(1rem);
 }
 
 ion-header ion-toolbar {
-    --background: #FFFFFF;
+    --background: #ffffff;
 }
 
 .image-title {
@@ -23,18 +18,14 @@ ion-header ion-toolbar {
     border-radius: 16px;
 }
 
-
 .avatar {
     border-radius: 50%;
-    // height: 5rem !important;
     margin-right: var(--ion-margin, 16px);
 }
 
 .greeting {
     display: inline-block;
 }
-
-element.style {}
 
 hr {
     border: 3px solid var(--ion-color-light);

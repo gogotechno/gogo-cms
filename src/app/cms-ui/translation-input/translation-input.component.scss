@@ -1,5 +1,10 @@
+:host {
+    --width: 100%;
+    width: var(--width);
+}
+
 .container {
-    width: 100%;
+    width: var(--width);
 }
 
 .container ion-select {

@@ -1,0 +1,27 @@
+.background {
+    width: 100%;
+    height: 10em;
+    background-size: cover;
+    background-position: center;
+}
+
+.content {
+    margin-top: -5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    background-color: var(--ion-color-light);
+}
+
+ion-icon {
+    margin-right: 16px;
+    font-size: xx-large;
+}
+
+.card {
+    border-radius: 1rem;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.card > div:not(:last-of-type) {
+    margin-bottom: var(--ion-margin, 16px);
+}
