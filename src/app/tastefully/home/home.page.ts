@@ -31,7 +31,7 @@ export class HomePage implements OnInit {
   async loadData(event?: Event) {
     let today = new Date();
     if (today.getHours() < 12) {
-      this.greetingKey = '_MORNING';
+      this.greetingKey = '_GOOD_MORNING';
     } else if (today.getHours() <= 2) {
       this.greetingKey = '_GOOD_AFTERNOON';
     } else {

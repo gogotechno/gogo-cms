@@ -1,7 +1,16 @@
 <ion-content class="main">
+  <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <div class="h-100 d-flex-center">
-    <ng-container *ngIf="!event">
+    <ng-container *ngIf="!event && !eventNotFound">
       <ion-spinner></ion-spinner>
+    </ng-container>
+    <ng-container *ngIf="!event && eventNotFound">
+      <div class="color-white ion-text-center">
+        <p class="ion-no-margin font-bold">{{ "tastefully._COMING_SOON" | translate }}</p>
+        <p class="ion-no-margin-bottom font-small">{{ "tastefully._STAY_TUNED" | translate }}</p>
+      </div>
     </ng-container>
     <ng-container *ngIf="event">
       <div>
@@ -13,7 +22,7 @@
           <ion-card-content class="d-flex-center">
             <ng-container *ngIf="type == 'incoming'">
               <div class="color-white ion-text-center">
-                <p class="ion-no-margin"><b>{{ "tastefully._COMING_SOON" | translate }}</b></p>
+                <p class="ion-no-margin font-bold">{{ "tastefully._COMING_SOON" | translate }}</p>
                 <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
               </div>
             </ng-container>

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsTable } from 'src/app/cms.type';
-import { IonModal } from '@ionic/angular';
+import { IonModal, RefresherCustomEvent } from '@ionic/angular';
 import { TastefullyCustomer, TastefullyEvent, TastefullyFreeGiftRegister } from '../tastefully.type';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { AppUtils, getTime } from 'src/app/cms.util';
@@ -18,6 +18,7 @@ export class FreeGiftPage implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild(FormComponent) cmsForm: FormComponent;
+  @ViewChild("cd") countdown: CountdownComponent;
 
   readonly CURRENT_CUSTOMER: TastefullyCustomer;
 
@@ -32,6 +33,8 @@ export class FreeGiftPage implements OnInit {
   presentingElement = null;
   config: CountdownConfig;
 
+  eventNotFound: boolean;
+
   constructor(private app: AppUtils, private cms: CmsService, private tastefully: TastefullyService) {
     this.CURRENT_CUSTOMER = this.tastefully.CURRENT_CUSTOMER;
   }
@@ -41,7 +44,7 @@ export class FreeGiftPage implements OnInit {
     this.loadData();
   }
 
-  async loadData(event?: Event) {
+  async loadData(refresher?: Event) {
     this.form = await this.cms.getForm('free-gift-registers');
     this.value = { name: this.CURRENT_CUSTOMER.name, mobileNo: this.CURRENT_CUSTOMER.mobileNo };
 
@@ -60,10 +63,33 @@ export class FreeGiftPage implements OnInit {
         let ev = events[0];
         let startTime = getTime(ev.startAt);
         let organisedAt = dayjs(ev.organisedAt).set("hour", startTime.hour).set("minute", startTime.minute);
-        this.config = { leftTime: organisedAt.diff(dayjs(), "seconds") };
+        this.config = {
+          leftTime: organisedAt.diff(dayjs(), "seconds"),
+          formatDate: ({ date, formatStr }) => {
+            let duration = Number(date || 0);
+            return CountdownTimeUnits.reduce((current, [name, unit]) => {
+              if (current.indexOf(name) !== -1) {
+                const v = Math.floor(duration / unit);
+                duration -= v * unit;
+                return current.replace(new RegExp(`${name}+`, 'g'), (match: string) => {
+                  return v.toString().padStart(match.length, '0');
+                });
+              }
+              return current;
+            }, formatStr);
+          }
+        };
         this.type = "incoming";
         this.event = ev;
       }
+    }
+
+    if (!this.event) {
+      this.eventNotFound = true;
+    }
+
+    if (refresher) {
+      (<RefresherCustomEvent>refresher).target.complete();
     }
   }
 
@@ -97,3 +123,13 @@ export class FreeGiftPage implements OnInit {
   }
 
 }
+
+const CountdownTimeUnits: Array<[string, number]> = [
+  ['Y', 1000 * 60 * 60 * 24 * 365], // years
+  ['M', 1000 * 60 * 60 * 24 * 30], // months
+  ['D', 1000 * 60 * 60 * 24], // days
+  ['H', 1000 * 60 * 60], // hours
+  ['m', 1000 * 60], // minutes
+  ['s', 1000], // seconds
+  ['S', 1], // million seconds
+];
