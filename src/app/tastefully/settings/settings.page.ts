@@ -22,8 +22,8 @@ export class SettingsPage implements OnInit {
   }
 
   async onLanguageChange() {
-    // await this.translate.use(this.currentLang).toPromise();
-    await this.translate.use("zh").toPromise();
+    await this.translate.use(this.currentLang).toPromise();
+    // await this.translate.use("zh").toPromise();
   }
 
 }

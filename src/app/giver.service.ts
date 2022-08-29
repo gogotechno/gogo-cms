@@ -16,13 +16,15 @@ export class GiverService {
   async validateAuthToken(token: string) {
     const configs = await this.cms.getExternalIntegration("GIVER");
     const config = configs[0];
-    const requestBody = this.hashData("md=" + token + "&appkey=" + config.appKey);
+    const requestBody = `md=${token}&appkey=${config.appKey}`;
     const requestUrl = config.apiUrl + "/validate/";
+
+    let tokenstr = this.hashData({ md: token, appkey: config.appKey });
 
     const options = {
       headers: new HttpHeaders({
         "Content-Type": "application/x-www-form-urlencoded",
-        "token": this.hashData({ md: token, appkey: config.appKey })
+        "token": tokenstr
       })
     }
 
@@ -40,15 +42,12 @@ export class GiverService {
   }
 
   private hashData(data: { [key: string]: string } | string) {
-    const stringified = JSON.stringify(data);
+    let str = `giver888${JSON.stringify(data)}72df3a2a625b683b2c7f98f7f985b3ecgiver888`;
     const md5 = new Md5();
-    md5.appendStr("giver888")
-      .appendStr(stringified)
-      .appendStr("72df3a2a625b683b2c7f98f7f985b3ec")
-      .appendStr("giver888");
-
+    md5.start();
+    md5.appendStr(str);
     const hashed = md5.end();
-    return hashed + " giver2u";
+    return `${hashed} giver2u`;
   }
 
 }
