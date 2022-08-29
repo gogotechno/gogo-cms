@@ -1,0 +1,103 @@
+<ion-menu side="start" menuId="first" contentId="teckguan-main">
+  <ion-header>
+    <ion-toolbar>
+      <div class="brand" slot="start">
+        <img class="logo" src="https://isaham.sgp1.digitaloceanspaces.com/stock_logo/TECGUAN.png" alt="" />
+        <div>
+          <ion-label class="title">Mobile Solution</ion-label>
+          <ion-label class="subtitle">Teck Guan Group Holdings</ion-label>
+        </div>
+      </div>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item routerLink="/teckguan" [class.activated]="currentUrl === '/teckguan'" lines="none">
+          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-label>{{ 'teckguan._DASHBOARD' | translate }}</ion-label>
+          <ion-menu-toggle>
+            <ion-button routerLink="/teckguan/settings" fill="clear" color="medium">
+              <ion-icon name="settings" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-menu-toggle>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-list-header>
+        {{ 'teckguan._YOUR_SHORTCUTS' | translate }}
+      </ion-list-header>
+      <ion-menu-toggle>
+        <ion-item lines="none" routerLink="/teckguan/fleet" [class.activated]="currentUrl === '/teckguan/fleet'">
+          <ion-icon slot="start" name="car"></ion-icon>
+          Fleet
+        </ion-item>
+      </ion-menu-toggle>
+      <ng-container *ngIf="categories">
+        <ion-list-header>
+          {{ 'teckguan._PRODUCT_CATEGORIES' | translate }}
+        </ion-list-header>
+        <div class="ion-padding">
+          <ion-accordion-group>
+            <ion-accordion [value]="category.code" *ngFor="let category of categories">
+              <ion-item slot="header">
+                <ion-label color="white">{{ category.name }}</ion-label>
+              </ion-item>
+              <div slot="content">
+                <ion-menu-toggle *ngFor="let product of category.products">
+                  <ion-item lines="none" [routerLink]="product.path" [class.activated]="currentUrl === product.path">
+                    <ion-icon slot="start" [name]="product.icon"></ion-icon>
+                    {{ product.name }}
+                  </ion-item>
+                </ion-menu-toggle>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </div>
+      </ng-container>
+
+      <hr />
+      <ion-menu-toggle>
+        <ion-item lines="none" routerLink="/teckguan/all-products">
+          <ion-icon slot="start" name="apps"></ion-icon>
+          {{ 'teckguan._ALL_PRODUCTS' | translate }}
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-menu side="end" menuId="notification-menu" contentId="teckguan-main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ 'teckguan._NOTIFICATIONS' | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <div class="ion-padding-horizontal">
+      <ion-button shape="round" color="light">{{ 'teckguan._ALL' | translate }}</ion-button>
+      <ion-button shape="round" color="light">{{ 'teckguan._UNREAD' | translate }}</ion-button>
+    </div>
+  </ion-content>
+</ion-menu>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="dark" menu="first"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-toggle menu="notification-menu">
+        <ion-button color="dark">
+          <ion-icon name="chatbox-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button color="dark">
+          <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+      <cms-image-button routerLink="/teckguan/my-account"></cms-image-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [scrollY]="false">
+  <ion-router-outlet id="teckguan-main"></ion-router-outlet>
+</ion-content>

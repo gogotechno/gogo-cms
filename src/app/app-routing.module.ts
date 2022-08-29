@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./tastefully/tastefully.module').then(m => m.TastefullyPageModule),
     canActivate: [SiteGuardService]
   },
+  {
+    path: 'teckguan',
+    loadChildren: () => import('./teckguan/teckguan.module').then( m => m.TeckguanPageModule)
+  },
 
 ];
 

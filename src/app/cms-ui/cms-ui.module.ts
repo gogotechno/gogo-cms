@@ -15,6 +15,7 @@ import { ArrayInputComponent } from './array-input/array-input.component';
 import { QuillModule } from 'ngx-quill';
 import { TranslationEditorInputComponent } from './translation-editor-input/translation-editor-input.component';
 import { FileInputComponent } from './file-input/file-input.component';
+import { ImageButtonComponent } from './image-button/image-button.component';
 
 
 
@@ -28,6 +29,7 @@ import { FileInputComponent } from './file-input/file-input.component';
     ArrayInputComponent,
     TranslationEditorInputComponent,
     FileInputComponent,
+    ImageButtonComponent,
     CmsTranslatePipe,
     SafeHtmlPipe,
     CssUrlPipe,
@@ -61,6 +63,7 @@ import { FileInputComponent } from './file-input/file-input.component';
     NavigationComponent,
     AccordionComponent,
     FormComponent,
+    ImageButtonComponent,
     CmsTranslatePipe,
     SafeHtmlPipe,
     CssUrlPipe,
