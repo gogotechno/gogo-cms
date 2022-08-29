@@ -26,9 +26,9 @@ export class AppComponent implements OnInit {
     if (!used) {
       await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
-    let found = this.router.url.split('/').find(s => s == 'cms-admin');
+    let found = this.router.url.split('/').find(s => s == 'cms-admin' || s == 'teckguan');
     if (!found) {
-      // this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
+      this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
     }
   }
 }
