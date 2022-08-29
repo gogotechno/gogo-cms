@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { CountdownComponent, CountdownConfig } from 'ngx-countdown';
+import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdown';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsTable } from 'src/app/cms.type';
 import { IonModal, RefresherCustomEvent } from '@ionic/angular';
@@ -93,7 +93,7 @@ export class FreeGiftPage implements OnInit {
     }
   }
 
-  handleEvent(event?: Event) {
+  handleEvent(event?: CountdownEvent) {
     console.log(event);
   }
 

@@ -97,7 +97,8 @@ export interface CmsFormItem extends CmsDocument {
     type: 'text' | 'number' | 'cms-translate' | 'cms-translate-editor' | 'array' | 'email' | 'password' | 'checkbox' | 'select',
     dataType?: string,
     required?: boolean,
-    options?: Array<CmsFormItemOptions>
+    options?: Array<CmsFormItemOptions>,
+    hidden?: boolean,
 }
 
 export interface CmsFormItemOptions {

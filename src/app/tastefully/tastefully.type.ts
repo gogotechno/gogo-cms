@@ -29,7 +29,7 @@ export interface TastefullyEvent extends CmsDocument {
     countryCode: string,
     background: string,
     giftCardImage: string,
-    thankYouMessage: string,
+    thankYouMessage: CmsTranslation,
     stateLogo?: string
 }
 
