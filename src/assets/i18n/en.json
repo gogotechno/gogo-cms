@@ -41,5 +41,14 @@
         "_AVAILABLE_TIME": "Available Time",
         "_DESCRIPTION": "Description",
         "_LOCATION": "Location"
+    },
+    "teckguan": {
+        "_DASHBOARD": "Dashboard",
+        "_YOUR_SHORTCUTS": "Your Shortcuts",
+        "_PRODUCT_CATEGORIES": "Product Categories",
+        "_ALL_PRODUCTS": "All Products",
+        "_ALL": "All",
+        "_UNREAD": "Unread"
+
     }
 }

@@ -1,0 +1,80 @@
+ion-menu {
+
+    --ion-background-color: #283c86;
+    /* fallback for old browsers */
+    --ion-background-color: -webkit-linear-gradient(to top, #45a247, #283c86);
+    /* Chrome 10-25, Safari 5.1-6 */
+    --ion-background-color: linear-gradient(to top, #45a247, #283c86);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    --ion-item-background: transparent;
+
+    --ion-text-color: var(--ion-color-medium);
+    --ion-toolbar-background: transparent;
+
+    ion-content {
+        // --background: black;
+    }
+
+    ion-header {
+        ion-toolbar {
+            .brand {
+                display: flex;
+                align-items: center;
+
+                .logo {
+                    height: 32px;
+                    width: 32px;
+                    margin-right: 1rem;
+                }
+
+                .title,
+                .subtitle {
+                    display: block;
+                    color: var(--ion-color-white);
+                }
+
+                .title {
+                    font-weight: bold;
+                }
+
+                .subtitle {
+                    font-size: small;
+                }
+            }
+
+            .logo-text {
+                height: 2rem;
+                width: 4rem;
+            }
+        }
+
+        ion-title {
+            :host {
+                padding-inline: 0;
+            }
+        }
+    }
+
+    ion-item {
+        --border-width: 0;
+
+        ::slotted(ion-icon) {
+            color: red;
+        }
+    }
+
+    ion-list-header {
+        --color: var(--ion-color-medium);
+        font-size: small;
+    }
+
+    ion-accordion-group {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+    }
+
+    .activated {
+        --ion-text-color: var(--ion-color-white);
+        font-weight: bolder;
+    }
+}

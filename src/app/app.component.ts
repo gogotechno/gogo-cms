@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
     }
     let found = this.router.url.split('/').find(s => s == 'cms-admin');
     if (!found) {
-      this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
+      // this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
     }
   }
 }

@@ -1,0 +1,36 @@
+<ion-card class="ion-no-margin">
+  <ion-card-header class="ion-no-padding">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-select [value]="1">
+            <ion-select-option [value]="1">This Month</ion-select-option>
+          </ion-select>
+        </ion-col>
+        <ion-col>
+          <ion-select [value]="1">
+            <ion-select-option [value]="1">Amount (RM)</ion-select-option>
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card-subtitle>Total Fuel Consumption</ion-card-subtitle>
+          <ion-card-title>RM4,000.00</ion-card-title>
+        </ion-col>
+        <ion-col size="12" style="display: flex; align-items: center; justify-content: end;">
+          <canvas #lineCanvas style="position: relative; height: 5rem; width: 5rem"></canvas>
+          <ng-container *ngIf="lineChart">
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <!-- <div class="ion-text-right">
+      <ion-button shape="round">Check Now</ion-button>
+    </div> -->
+  </ion-card-content>
+</ion-card>

@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'tastefully',
     loadChildren: () => import('./tastefully/tastefully.module').then( m => m.TastefullyPageModule)
   },
+  {
+    path: 'teckguan',
+    loadChildren: () => import('./teckguan/teckguan.module').then( m => m.TeckguanPageModule)
+  },
 
 ];
 
