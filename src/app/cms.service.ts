@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
 import { map, take } from 'rxjs/operators'
-import { CmsExternalIntegration, CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSlideshow, CmsTable } from './cms.type';
+import { CmsExternalIntegration, CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSiteAttribute, CmsSlideshow, CmsTable } from './cms.type';
 
 @Injectable({
   providedIn: 'root'
@@ -124,6 +124,12 @@ export class CmsService {
     };
 
     return this.firestore.collection<CmsExternalIntegration>("external-integration", queryFn).valueChanges().pipe(
+      take(1)
+    ).toPromise();
+  }
+
+  async getAttributes() {
+    return this.firestore.collection<CmsSiteAttribute>("sites/" + this.SITE.code + "/attributes").valueChanges().pipe(
       take(1)
     ).toPromise();
   }

@@ -18,11 +18,15 @@
     "_ERROR": "Error",
     "_CONFIRM": "Confirm",
     "_LOADING": "Loading",
+    "_CONTACT_US": "Contact Us",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",
         "_FAQ": "Frequently Asked Questions",
-        "_CLOSE": "Close"
+        "_CLOSE": "Close",
+        "_WHATSAPP_NOW": "Whatsapp Now",
+        "_WE_ARE_HERE_TO_HELP": "We're here to help with and questions or code",
+        "_CLICK_HERE": "Click Here"
     },
     "tastefully": {
         "_HOME": "Home",
@@ -55,6 +59,5 @@
         "_ALL_PRODUCTS": "All Products",
         "_ALL": "All",
         "_UNREAD": "Unread"
-
     }
 }

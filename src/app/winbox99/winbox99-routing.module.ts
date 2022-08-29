@@ -13,22 +13,12 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'default-layout',
-        loadChildren: () => import('./default-layout/default-layout.module').then( m => m.DefaultLayoutPageModule)
-      },
-      {
-        path: 'promotions',
-        data: { listCode: 'promotions' },
-        loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
-      },
-      {
-        path: 'messages',
-        data: { listCode: 'messages' },
-        loadChildren: () => import('./messages/messages.module').then( m => m.MessagesPageModule)
+        path: 'listing/:code',
+        loadChildren: () => import('./default-list/default-list.module').then(m => m.DefaultListPageModule)
       },
       {
         path: ':page',
-        loadChildren: () => import('./default-layout/default-layout.module').then( m => m.DefaultLayoutPageModule)
+        loadChildren: () => import('./default-layout/default-layout.module').then(m => m.DefaultLayoutPageModule)
       },
     ]
   }

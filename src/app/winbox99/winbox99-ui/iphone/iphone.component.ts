@@ -9,6 +9,6 @@ export class IphoneComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

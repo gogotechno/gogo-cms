@@ -1,6 +1,14 @@
-<div class="phone-container">
+<!-- <div class="phone-container">
   <div class="phone-screen">
       <img class="phone-screen-img" src="/assets/winbox99/winbox-main-screen-recording.gif" alt="" />
   </div>
   <img class="phone-frame" src="/assets/winbox99/iphone-13-pro-max-frame.png" alt="" />
+</div> -->
+
+<div class="phone-container">
+  <div class="phone-screen" [style.background-image]="'/assets/winbox99/winbox-main-screen-recording.gif' | cssUrl">
+    <div class="phone-frame">
+      <img src="/assets/winbox99/iphone-13-pro-max-frame.png" alt="" />
+    </div>
+  </div>
 </div>

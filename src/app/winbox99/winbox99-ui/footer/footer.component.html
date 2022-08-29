@@ -1,26 +1,58 @@
 <div class="ion-background-dark">
+
     <ion-grid *ngIf="list">
         <ion-row>
             <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="3" sizeXl="3" *ngFor="let item of list.items">
-                <h4>{{ item.title | cmsTranslate | uppercase }}</h4>
+                <h4 class="title font-bold">{{ item.title | cmsTranslate | uppercase }}</h4>
                 <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
             </ion-col>
 
-            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="1" sizeXl="1">
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="3" sizeXl="3">
                 <nav *ngIf="navigation">
-                    <h4>{{ '_INFORMATION' | translate | uppercase }}</h4>
+                    <h4 class="title font-bold">{{ '_INFORMATION' | translate | uppercase }}</h4>
                     <ul>
-                        <li *ngFor="let item of navigation.items"><a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a></li>
+                        <li *ngFor="let item of navigation.items">
+                            <a [routerLink]="item.path">{{ item.name | cmsTranslate }}</a>
+                        </li>
                     </ul>
                 </nav>
             </ion-col>
 
-            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="2" sizeXl="2">
-                <nav *ngIf="navigation">
-                    <h4>{{ '_CONTACT_US' | translate | uppercase }}</h4>
+            <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="3" sizeXl="3">
+                <nav *ngIf="contactUs">
+                    <h4 class="title font-bold">{{ '_CONTACT_US' | translate | uppercase }}</h4>
+                    <div class="ion-text-center ion-margin-bottom-sm" *ngIf="getContactUsOption('whatsapp') as whatsapp">
+                        <ion-icon class="whatsapp" name="logo-whatsapp"></ion-icon>
+                        <p class="font-bold ion-no-margin-bottom">
+                            {{ "winbox99._WHATSAPP_NOW" | translate | uppercase }}
+                        </p>
+                        <p class="font-small ion-no-margin-top">{{ "winbox99._WE_ARE_HERE_TO_HELP" | translate }}</p>
+                        <ion-button [href]="whatsapp.value">
+                            <ion-label>{{ "winbox99._CLICK_HERE" | translate }}</ion-label>
+                        </ion-button>
+                    </div>
+                    <div class="d-flex ion-align-items-center">
+                        <ng-container *ngIf="getContactUsOption('android') as android">
+                            <a [href]="android.value">
+                                <ion-icon class="android" name="logo-android"></ion-icon>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="getContactUsOption('ios') as ios">
+                            <a [href]="ios.value">
+                                <ion-icon class="ios" name="logo-apple-appstore"></ion-icon>
+                            </a>
+                        </ng-container>
+                    </div>
+                    <ul class="contact-us-list">
+                        <li *ngFor="let option of getContactUsOptions()">
+                            <div>{{ option.label | cmsTranslate }}:&nbsp;</div>
+                            <div>{{ option.value }}</div>
+                        </li>
+                    </ul>
                 </nav>
             </ion-col>
         </ion-row>
+
     </ion-grid>
 </div>
 

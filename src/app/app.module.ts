@@ -17,7 +17,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SiteGuardService } from './cms-ui/route-guards.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,24 +35,8 @@ import { QuillModule } from 'ngx-quill';
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    }),
-    QuillModule.forRoot({
-      modules: {
-        toolbar: [
-          [{ 'font': [] }, { 'size': [] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'script': 'super' }, { 'script': 'sub' }],
-          [{ 'header': 1 }, { 'header': 2 }, 'blockquote', 'code-block'],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-          ['direction', { 'align': [] }],
-          ['link', 'image', 'video', 'formula'],
-          ['clean']
-        ]
-      }
     })
   ],
-
   providers: [
     {
       provide: RouteReuseStrategy,

@@ -29,7 +29,7 @@
 
     <ion-row *ngIf="downloadList">
         <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" *ngFor="let item of downloadList.items">
-            <ion-card [href]="item.link" target="_blank" style="height: 100%;" [class.ion-activatable]="item.link" [class.ripple-parent]="item.link">
+            <ion-card [href]="item.link" target="_blank" class="h-100" [class.ion-activatable]="item.link" [class.ripple-parent]="item.link">
                 <ion-card-content>
                     <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml">
                     </div>

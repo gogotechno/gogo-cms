@@ -24,14 +24,15 @@ export interface CmsSite extends CmsDocument {
 
 export interface CmsSiteAttribute extends CmsDocument {
     code: string,
-    name: CmsTranslation,
+    label: CmsTranslation,
     value: string,
     options: Array<CmsSiteAttributeOption>
 }
 
 export interface CmsSiteAttributeOption {
     code: string,
-    label: CmsTranslation
+    label: CmsTranslation,
+    value: string,
 }
 
 export interface CmsNavigation extends CmsDocument {

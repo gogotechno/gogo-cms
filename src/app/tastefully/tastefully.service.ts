@@ -76,11 +76,7 @@ export class TastefullyService {
   }
 
   async getAttributes() {
-    this._ATTRIBUTES = await this.firestore.collection<CmsSiteAttribute>("sites/" + this.SITE.code + "/attributes")
-      .valueChanges()
-      .pipe(
-        take(1)
-      ).toPromise();
+    this._ATTRIBUTES = await this.cms.getAttributes();
   }
 
   getCustomers(queryFn?: QueryFn) {

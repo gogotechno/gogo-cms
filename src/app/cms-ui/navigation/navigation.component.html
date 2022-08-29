@@ -9,11 +9,13 @@
                     <a>{{ item.name | cmsTranslate }}</a>
                     <ion-popover [trigger]="item.name | cmsTranslate" triggerAction="hover">
                         <ng-template>
-                          <ion-list lines="none">
-                            <ion-item *ngFor="let child of item.children" [routerLink]="child.path" lines="none"><ion-label>{{ child.name | cmsTranslate }}</ion-label></ion-item>
-                          </ion-list>
+                            <ion-list lines="none">
+                                <ion-item lines="none" *ngFor="let child of item.children" [routerLink]="child.path">
+                                    <ion-label>{{ child.name | cmsTranslate }}</ion-label>
+                                </ion-item>
+                            </ion-list>
                         </ng-template>
-                      </ion-popover>
+                    </ion-popover>
                 </li>
             </ng-template>
         </ng-container>
