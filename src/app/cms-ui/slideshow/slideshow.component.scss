@@ -1,12 +1,17 @@
+:host {
+    --width: 100%;
+    --height: 50vh;
+}
+
 .slideshow-container {
     position: relative;
 }
+
 .cms-slide {
-    height: 50vh;
-    width: 100%;
-    background-position: center;
-    background-size: cover;
+    width: var(--width);
+    height: var(--height);
     display: flex;
     align-items: center;
-    // text-align: left;
+    background-size: cover;
+    background-position: center;
 }

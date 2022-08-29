@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { TastefullyService } from '../../tastefully.service';
+import { Component, Input, OnInit } from '@angular/core';
 import { TastefullyFeed } from '../../tastefully.type';
 
 @Component({
@@ -9,12 +8,10 @@ import { TastefullyFeed } from '../../tastefully.type';
 })
 export class FeedListComponent implements OnInit {
 
-  feeds: TastefullyFeed[];
+  @Input() feeds: TastefullyFeed[];
 
-  constructor(private tastefully: TastefullyService) { }
+  constructor() { }
 
-  async ngOnInit() {
-    this.feeds = await this.tastefully.getFeeds();
-  }
+  ngOnInit() { }
 
 }

@@ -12,6 +12,12 @@
     "_GOOD_EVENING": "Good Evening",
     "_GOOD_AFTERNOON": "Good Afternoon",
     "_SUBMIT": "Submit",
+    "_IS_REQUIRED": "{{ label }} is required",
+    "_HAS_UNKNOWN_ERROR": "{{ label }} has unknown error",
+    "_INFORMATION": "Information",
+    "_ERROR": "Error",
+    "_CONFIRM": "Confirm",
+    "_LOADING": "Loading",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",

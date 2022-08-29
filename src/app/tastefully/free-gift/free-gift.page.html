@@ -1,46 +1,56 @@
-<ion-content style="--background: linear-gradient(127deg, rgba(243, 112, 33, 1) 11%, rgba(249, 200, 74, 1) 81%)">
-  <div style="display: flex; height: 100%; align-items: center;justify-content: center;">
-    <div>
-      <div class="ion-padding" style="color: white">
-        <h1 style="margin: 0; text-align: center;">Free Goodies Bag!</h1>
-        <p style="margin: 0; text-align: center;">Register to get your FREE goodies bag!</p>
-      </div>
-
-      <ion-card style="position: relative; background-position: center; background-size: cover; z-index: 1;"
-        [style.background-image]="'https://assets.sunwaypyramid.com/events/32702f39e595e4f2d2c873daab27141f/w768-crop.jpg' | cssUrl">
-        <div *ngIf="false; else register"
-          style="position: absolute; top: 0; width: 100%; height: 100%; text-align: center; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.9);">
-          <div style="color: black;">
-            <b>{{ 'tastefully._COMING_SOON' | translate }}</b><br />
-            <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
-          </div>
+<ion-content class="main">
+  <div class="h-100 d-flex-center">
+    <ng-container *ngIf="!event">
+      <ion-spinner></ion-spinner>
+    </ng-container>
+    <ng-container *ngIf="event">
+      <div>
+        <div class="ion-padding color-white">
+          <h1 class="ion-no-margin font-bold ion-text-center">{{ event.name | cmsTranslate }}</h1>
+          <p class="ion-no-margin ion-text-center">{{ event.highlight | cmsTranslate }}</p>
         </div>
-        <ng-template #register>
-          <div
-            style="position: absolute; top: 0; width: 100%; height: 100%; text-align: center; display: flex; align-items: center; justify-content: center; z-index: 2;">
-            <ion-button id="open-modal" fill="solid" shape="round" color="light">{{ 'tastefully._GET_NOW' | translate }}</ion-button>
-          </div>
-        </ng-template>
-        <ion-card-content style="min-height: 10rem">
-
-        </ion-card-content>
-      </ion-card>
-    </div>
+        <ion-card class="card ion-no-margin-top" [style.background-image]="event.giftCardImage | cssUrl">
+          <ion-card-content class="d-flex-center">
+            <ng-container *ngIf="type == 'incoming'">
+              <div class="color-white ion-text-center">
+                <p class="ion-no-margin"><b>{{ "tastefully._COMING_SOON" | translate }}</b></p>
+                <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="type == 'today'">
+              <ng-container *ngIf="!register">
+                <ion-button fill="solid" shape="round" color="light" (click)="openModal()">
+                  <ion-label>{{ 'tastefully._GET_NOW' | translate }}</ion-label>
+                </ion-button>
+              </ng-container>
+              <ng-container *ngIf="register">
+                <div class="color-white ion-text-center">
+                  <p class="ion-no-margin">
+                    <span *ngIf="event.thankYouMessage">{{ event.thankYouMessage | cmsTranslate }}</span>
+                    <span *ngIf="!event.thankYouMessage">{{ "tastefully._REGISTERED_FOR_EVENT" | translate }}</span>
+                  </p>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ng-container>
   </div>
-
-  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)" [presentingElement]="presentingElement">
+  <ion-button id="open-modal" class="d-none">Open modal</ion-button>
+  <ion-modal trigger="open-modal" [presentingElement]="presentingElement">
     <ng-template>
       <ng-container *ngIf="form">
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
-              <ion-button (click)="cancel()">Cancel</ion-button>
+              <ion-button (click)="cancel()">{{ "_CANCEL" | translate }}</ion-button>
             </ion-buttons>
             <ion-title>{{ form.name | cmsTranslate }}</ion-title>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <cms-form [form]="form" (submit)="freeGiftRegister($event)"></cms-form>
+          <cms-form [form]="form" [value]="value" (submit)="freeGiftRegister($event)"></cms-form>
         </ion-content>
       </ng-container>
     </ng-template>

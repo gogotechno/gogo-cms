@@ -10,7 +10,7 @@
 <ion-content [fullscreen]="true" color="light">
 
   <ng-container *ngIf="event">
-    <div class="background" [style.background-image]="event.thumbnail | cssUrl"></div>
+    <div class="background" [style.background-image]="event.background | cssUrl"></div>
     <div class="content">
       <div class="w-100 ion-padding card">
         <div class="d-flex ion-align-items-center">
@@ -18,7 +18,7 @@
           <div>
             <p class="ion-no-margin">{{ "tastefully._AVAILABLE_DATE" | translate }}</p>
             <small>
-              <ion-text color="medium">{{ event.organisedAt | date: "YYYY-MM-dd" }}</ion-text>
+              <ion-text color="medium">{{ event.organisedAt | date: "YYYY-MM-DD" }}</ion-text>
             </small>
           </div>
         </div>

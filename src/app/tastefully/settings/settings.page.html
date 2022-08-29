@@ -14,8 +14,10 @@
         <ion-list>
           <ion-item>
             <ion-label>{{ '_LANGUAGE' | translate }}</ion-label>
-            <ion-select [(ngModel)]="currentLang">
-              <ion-select-option value="en">English</ion-select-option>
+            <ion-select [(ngModel)]="currentLang" (ionChange)="onLanguageChange()">
+              <ion-select-option *ngFor="let lang of languages" [value]="lang.code">
+                <ion-label>{{ lang.label | cmsTranslate }}</ion-label>
+              </ion-select-option>
             </ion-select>
           </ion-item>
         </ion-list>

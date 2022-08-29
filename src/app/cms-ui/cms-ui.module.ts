@@ -70,7 +70,8 @@ import { ImageButtonComponent } from './image-button/image-button.component';
     FirestoreDatePipe,
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    CmsTranslatePipe
   ]
 })
 export class CmsUIModule { }

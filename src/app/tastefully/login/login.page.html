@@ -1,0 +1,14 @@
+<ion-content>
+  <div class="h-100 d-flex-center">
+    <ng-container *ngIf="!loginFailed">
+      <ion-spinner></ion-spinner>
+    </ng-container>
+    <ng-container *ngIf="loginFailed">
+      <div class="color-white ion-padding">
+        <ion-icon name="sad-outline"></ion-icon>
+        <h3 class="font-bold">{{ "tastefully._FAILED_TO_LOGIN" | translate }}</h3>
+        <p>{{ "tastefully._PLEASE_LOGIN_AGAIN" | translate }}</p>
+      </div>
+    </ng-container>
+  </div>
+</ion-content>

@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { FeedPageRoutingModule } from './feed-routing.module';
+import { FeedPageRoutingModule } from './feed-detail-routing.module';
 
-import { FeedPage } from './feed.page';
+import { FeedDetailPage } from './feed-detail.page';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { FeedPage } from './feed.page';
     IonicModule,
     FeedPageRoutingModule
   ],
-  declarations: [FeedPage]
+  declarations: [FeedDetailPage]
 })
-export class FeedPageModule {}
+export class FeedDetailPageModule { }

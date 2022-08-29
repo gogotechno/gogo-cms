@@ -1,3 +1,7 @@
+.d-none {
+    display: none;
+}
+
 .d-flex {
     display: flex;
 }
@@ -24,6 +28,10 @@
     font-size: medium;
 }
 
+.font-smaller {
+    font-size: smaller;
+}
+
 .font-small {
     font-size: small;
 }
@@ -39,4 +47,12 @@
 
 .w-100 {
     width: 100%;
+}
+
+.color-white {
+    color: #ffffff;
+}
+
+.color-black {
+    color: #000000;
 }
