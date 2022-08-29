@@ -12,6 +12,7 @@ import { TastefullyService } from '../tastefully.service';
 export class LoginPage implements OnInit {
 
   loginFailed: boolean;
+  debugUrl: string;
 
   constructor(
     private router: Router,
@@ -23,17 +24,18 @@ export class LoginPage implements OnInit {
 
   async ngOnInit() {
     // login logic here
-    // let queryParams = new URLSearchParams(window.location.search);
-    // let authtoken = queryParams.get("authtoken");
-    // let result = await this.giver.validateAuthToken(authtoken);
+    let queryParams = new URLSearchParams(window.location.search);
+    this.debugUrl = window.location.href;
+    let authtoken = queryParams.get("authtoken");
+    let result = await this.giver.validateAuthToken(authtoken);
 
     // fake login for ease of testing purpose
-    let result = {
-      result: "successful",
-      memberID: "100",
-      name: "Testing Customer",
-      phone: "0199999999"
-    }
+    // let result = {
+    //   result: "successful",
+    //   memberID: "100",
+    //   name: "Testing Customer",
+    //   phone: "0199999999"
+    // }
 
     let success = result && result.result == "successful";
 
