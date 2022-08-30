@@ -50,7 +50,9 @@
         "_AVAILABLE_DATE": "Available Date",
         "_AVAILABLE_TIME": "Available Time",
         "_DESCRIPTION": "Description",
-        "_LOCATION": "Location"
+        "_LOCATION": "Location",
+        "_FAILED_TO_LOGIN": "Failed to login",
+        "_PLEASE_LOGIN_AGAIN": "Please close the program and login again or contact us for advanced support."
     },
     "teckguan": {
         "_DASHBOARD": "Dashboard",

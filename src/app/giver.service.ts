@@ -18,13 +18,10 @@ export class GiverService {
     const config = configs[0];
     const requestBody = `md=${token}&appkey=${config.appKey}`;
     const requestUrl = config.apiUrl + "/validate/";
-
-    let tokenstr = this.hashData({ md: token, appkey: config.appKey });
-
     const options = {
       headers: new HttpHeaders({
         "Content-Type": "application/x-www-form-urlencoded",
-        "token": tokenstr
+        "token": this.hashData({ md: token, appkey: config.appKey })
       })
     }
 
@@ -42,7 +39,7 @@ export class GiverService {
   }
 
   private hashData(data: { [key: string]: string } | string) {
-    let str = `giver888${JSON.stringify(data)}72df3a2a625b683b2c7f98f7f985b3ecgiver888`;
+    const str = `giver888${JSON.stringify(data)}72df3a2a625b683b2c7f98f7f985b3ecgiver888`;
     const md5 = new Md5();
     md5.start();
     md5.appendStr(str);
