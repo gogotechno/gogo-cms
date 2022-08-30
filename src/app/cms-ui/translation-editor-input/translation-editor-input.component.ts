@@ -4,12 +4,6 @@ import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
 import { CmsTranslation } from 'src/app/cms.type';
 
-import Quill from 'quill'
-const parchment = Quill.import('parchment');
-const block = parchment.query('block');
-block.tagName = 'DIV';
-Quill.register(block, true);
-
 @Component({
   selector: 'cms-translation-editor-input',
   templateUrl: './translation-editor-input.component.html',

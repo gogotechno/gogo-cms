@@ -33,7 +33,7 @@ export class FooterComponent extends CmsComponent implements OnInit {
 
   getContactUsOption(code: string) {
     let option = this.contactUs.options.find((o) => o.code == code);
-    if (!option.value) return null;
+    if (!option || !option.value) return null;
     return option;
   }
 

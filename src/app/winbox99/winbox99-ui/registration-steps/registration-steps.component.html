@@ -11,7 +11,7 @@
                                     <ion-grid>
                                         <ion-row *ngIf="registerList">
                                             <ion-col *ngFor="let item of registerList.items" class="ion-text-center">
-                                                <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
+                                                <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
                                             </ion-col>
                                         </ion-row>
                                     </ion-grid>
@@ -31,8 +31,7 @@
         <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" *ngFor="let item of downloadList.items">
             <ion-card [href]="item.link" target="_blank" class="h-100" [class.ion-activatable]="item.link" [class.ripple-parent]="item.link">
                 <ion-card-content>
-                    <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml">
-                    </div>
+                    <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
                 </ion-card-content>
                 <ion-ripple-effect *ngIf="item.link"></ion-ripple-effect>
             </ion-card>

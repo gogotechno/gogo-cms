@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, SafeHtmlPipe } from './cms.pipe';
-import { AppRoutingModule } from '../app-routing.module';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent } from './accordion/accordion.component';
 import { FormComponent } from './form/form.component';
@@ -16,6 +15,7 @@ import { QuillModule } from 'ngx-quill';
 import { TranslationEditorInputComponent } from './translation-editor-input/translation-editor-input.component';
 import { FileInputComponent } from './file-input/file-input.component';
 import { ImageButtonComponent } from './image-button/image-button.component';
+import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
 
 
 
@@ -30,6 +30,7 @@ import { ImageButtonComponent } from './image-button/image-button.component';
     TranslationEditorInputComponent,
     FileInputComponent,
     ImageButtonComponent,
+    HtmlViewerComponent,
     CmsTranslatePipe,
     SafeHtmlPipe,
     CssUrlPipe,
@@ -42,21 +43,7 @@ import { ImageButtonComponent } from './image-button/image-button.component';
     IonicModule,
     RouterModule,
     TranslateModule.forChild(),
-    QuillModule.forRoot({
-      modules: {
-        'toolbar': [
-          [{ 'font': [] }, { 'size': [] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'script': 'super' }, { 'script': 'sub' }],
-          [{ 'header': 1 }, { 'header': 2 }, 'blockquote', 'code-block'],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-          ['direction', { 'align': [] }],
-          ['link', 'image', 'video', 'formula'],
-          ['clean']
-        ]
-      }
-    })
+    QuillModule,
   ],
   exports: [
     SlideshowComponent,
@@ -64,6 +51,7 @@ import { ImageButtonComponent } from './image-button/image-button.component';
     AccordionComponent,
     FormComponent,
     ImageButtonComponent,
+    HtmlViewerComponent,
     CmsTranslatePipe,
     SafeHtmlPipe,
     CssUrlPipe,

@@ -23,8 +23,6 @@ export class HomePage implements OnInit {
     this.page = await this.cms.getPage('home');
     this.sellingPointList = await this.cms.getList('selling-points');
     this.slideshow = await this.cms.getSlideshow('home-slideshow');
-
-    console.log(this.sellingPointList);
   }
 
 }

@@ -1,15 +1,19 @@
 <div class="slideshow-container">
     <ion-slides [options]="options" [pager]="pager" *ngIf="slideshow">
         <ion-slide *ngFor="let item of slideshow.items">
-            <div class="cms-slide" [style.background-image]="'url(' + item.backgroundImage + ')'">
+            <div class="cms-slide" [style.background-image]="item.backgroundImage | cssUrl">
                 <ion-grid fixed="true">
                     <ion-row>
                         <ion-col sizeXs="8" sizeSm="8" sizeMd="9">
                             <div>
                                 <ng-container *ngIf="item.htmlContent">
-                                    <div [innerHTML]="item.htmlContent | cmsTranslate | safeHtml"></div>
+                                    <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
                                 </ng-container>
-                                <ion-button shape="round" [href]="button.link" target="_blank" *ngFor="let button of item.buttons">{{ button.text | cmsTranslate }}</ion-button>
+                                <ng-container *ngFor="let button of item.buttons">
+                                    <ion-button shape="round" [href]="button.link" target="_blank">
+                                        <ion-label>{{ button.text | cmsTranslate }}</ion-label>
+                                    </ion-button>
+                                </ng-container>
                             </div>
                         </ion-col>
                     </ion-row>

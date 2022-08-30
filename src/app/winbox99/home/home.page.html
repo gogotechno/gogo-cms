@@ -8,26 +8,23 @@
 
 <winbox99-faq-list></winbox99-faq-list>
 
-<div *ngIf="sellingPointList as list">
+<ng-container *ngIf="sellingPointList as list">
     <ion-grid>
         <ion-row>
-            <ion-col size="6" sizeXs="12" sizeSm="12" sizeMd="6">
-                <div class="ion-padding color-white list-background"
-                    [style.background-image]="list.backgroundImage | cmsTranslate | cssUrl">
+            <ion-col size="12" sizeSm="12" sizeMd="6">
+                <div class="list-background" [style.background-image]="list.backgroundImage | cmsTranslate | cssUrl">
                     <h2>{{ list.title | cmsTranslate }}</h2>
                     <p>{{ list.description | cmsTranslate }}</p>
                 </div>
             </ion-col>
-            <ion-col>
+            <ion-col class="d-flex">
                 <ion-row>
                     <ion-col sizeXs="12" sizeSm="12" sizeMd="12" sizeLg="6" sizeXl="6" *ngFor="let item of list.items">
-                        <div class="d-flex">
-                            <img class="item-thumbnail" [src]="item.thumbnail | cmsTranslate" alt="" />
+                        <div class="d-flex list-item">
+                            <img [src]="item.thumbnail | cmsTranslate" alt="" />
                             <div>
-                                <h3 class="ion-no-margin-bottom">
-                                    <ion-text color="primary">{{ item.title | cmsTranslate }}</ion-text>
-                                </h3>
-                                <p class="ion-no-margin">{{ item.description }}</p>
+                                <h3>{{ item.title | cmsTranslate }}</h3>
+                                <p>{{ item.description }}</p>
                             </div>
                         </div>
                     </ion-col>
@@ -35,8 +32,8 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-</div>
+</ng-container>
 
 <ng-container *ngIf="page">
-    <div [innerHTML]="page.htmlContent | cmsTranslate | safeHtml"></div>
+    <cms-html-viewer [html]="page.htmlContent | cmsTranslate"></cms-html-viewer>
 </ng-container>

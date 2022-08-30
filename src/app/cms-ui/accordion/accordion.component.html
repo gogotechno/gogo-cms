@@ -3,7 +3,8 @@
         <ion-item slot="header" color="light">
             <ion-label>{{ item.title | cmsTranslate }}</ion-label>
         </ion-item>
-        <div class="ion-padding" slot="content" [innerHTML]="item.htmlContent | cmsTranslate | safeHtml">
+        <div slot="content" class="ion-padding">
+            <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
         </div>
     </ion-accordion>
 </ion-accordion-group>
