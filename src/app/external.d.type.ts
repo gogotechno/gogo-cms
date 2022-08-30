@@ -1,1 +1,1 @@
-declare module 'quill-blot-formatter/dist/BlotFormatter';
+declare module 'quill-image-resize-module';

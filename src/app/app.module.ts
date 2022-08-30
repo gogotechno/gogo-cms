@@ -18,16 +18,16 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SiteGuardService } from './cms-ui/route-guards.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { QuillModule } from 'ngx-quill';
+import Quill from 'quill';
 
-import Quill from 'quill'
+const Parchment = Quill.import("parchment");
+const Block = Parchment.query("block");
+class NewBlock extends Block { };
+NewBlock.tagName = "div";
+Quill.register(NewBlock, true);
 
-const parchment = Quill.import('parchment');
-const block = parchment.query('block');
-block.tagName = "DIV";
-Quill.register(block, true);
-
-import BlotFormatter from 'quill-blot-formatter/dist/BlotFormatter';
-Quill.register('modules/blotFormatter', BlotFormatter);
+import ImageResize from 'quill-image-resize-module';
+Quill.register('modules/imageResize', ImageResize);
 
 @NgModule({
   declarations: [AppComponent],
@@ -51,16 +51,21 @@ Quill.register('modules/blotFormatter', BlotFormatter);
       modules: {
         toolbar: [
           ['bold', 'italic', 'underline', 'strike'],
-          [{ 'font': [] }, { 'size': [] }],
+          ['blockquote', 'code-block'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': [] }],
+          [{ 'header': [] }],
           [{ 'color': [] }, { 'background': [] }],
-          [{ 'script': 'super' }, { 'script': 'sub' }],
-          [{ 'header': 1 }, { 'header': 2 }, 'blockquote', 'code-block'],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
-          ['direction', { 'align': [] }],
-          ['link', 'image', 'video', 'formula'],
-          ['clean']
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+          ['clean'],
+          ['link', 'image', 'video', 'formula']
         ],
-        blotFormatter: {}
+        imageResize: {}
       }
     })
   ],
