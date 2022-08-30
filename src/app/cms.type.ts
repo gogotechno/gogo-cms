@@ -95,12 +95,16 @@ export interface CmsForm extends CmsDocument {
 export interface CmsFormItem extends CmsDocument {
     code: string,
     label: CmsTranslation,
-    type: 'text' | 'number' | 'cms-translate' | 'cms-translate-editor' | 'array' | 'email' | 'password' | 'checkbox' | 'select',
+    type: CmsFormItemType,
     dataType?: string,
     required?: boolean,
     options?: Array<CmsFormItemOptions>,
     hidden?: boolean,
 }
+
+export type CmsFormItemType =
+    'text' | 'number' | 'cms-translate' | 'cms-translate-editor' | 'array' |
+    'email' | 'password' | 'checkbox' | 'select' | 'date' | 'time' | 'datetime'
 
 export interface CmsFormItemOptions {
     code: string,

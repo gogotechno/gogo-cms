@@ -18,7 +18,11 @@
           <div>
             <p class="ion-no-margin">{{ "tastefully._AVAILABLE_DATE" | translate }}</p>
             <small>
-              <ion-text color="medium">{{ event.organisedAt | date: "YYYY-MM-DD" }}</ion-text>
+              <ion-text color="medium">
+                {{ event.organisedAt | firestoreDate: "YYYY-MM-dd" }}
+                &nbsp;{{ "tastefully._TO" | translate }}&nbsp;
+                {{ event.finishedAt | firestoreDate: "YYYY-MM-dd" }}
+              </ion-text>
             </small>
           </div>
         </div>

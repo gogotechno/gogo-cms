@@ -38,6 +38,7 @@
                             <ng-container [ngSwitch]="item.type">
                                 <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"></ion-input>
                                 <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"></ion-input>
+                                <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code"></ion-input>
                                 <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code"></ion-input>
                                 <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code"></ion-input>
                                 <cms-file-input *ngSwitchCase="'file'" [formControlName]="item.code"></cms-file-input>

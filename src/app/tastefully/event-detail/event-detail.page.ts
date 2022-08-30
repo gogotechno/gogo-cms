@@ -1,8 +1,8 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import * as dayjs from 'dayjs';
 import { CmsService } from 'src/app/cms.service';
-import { getTime } from 'src/app/cms.util';
+import { timestr_to_date } from 'src/app/cms.util';
 import { TastefullyEvent } from '../tastefully.type';
 
 @Component({
@@ -15,7 +15,7 @@ export class EventDetailPage implements OnInit {
   eventSlug: string;
   event: TastefullyEvent;
 
-  constructor(private cms: CmsService, private activatedRoute: ActivatedRoute) { }
+  constructor(private cms: CmsService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) { }
 
   async ngOnInit() {
     let params = this.activatedRoute.snapshot.params;
@@ -24,15 +24,8 @@ export class EventDetailPage implements OnInit {
     let table = await this.cms.getTable("events");
     this.event = await this.cms.getDocument(table, this.eventSlug);
 
-    this.mapEvent();
-  }
-
-  mapEvent() {
-    let startTime = getTime(this.event.startAt);
-    this.event.startAt = dayjs().set("hour", startTime.hour).set("minute", startTime.minute).format("hh:mm a");
-
-    let endTime = getTime(this.event.endAt);
-    this.event.endAt = dayjs().set("hour", endTime.hour).set("minute", endTime.minute).format("hh:mm a");
+    this.event.startAt = this.datePipe.transform(timestr_to_date(this.event.startAt), "hh:mm a");
+    this.event.endAt = this.datePipe.transform(timestr_to_date(this.event.endAt), "hh:mm a");
   }
 
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
-import * as dayjs from 'dayjs';
+import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
 import { CmsSlideshow } from 'src/app/cms.type';
+import { start_of_day } from 'src/app/cms.util';
 import { TastefullyService } from '../tastefully.service';
 import { TastefullyCustomer, TastefullyEvent, TastefullyFeed } from '../tastefully.type';
 
@@ -11,7 +12,7 @@ import { TastefullyCustomer, TastefullyEvent, TastefullyFeed } from '../tasteful
   templateUrl: './home.page.html',
   styleUrls: ['../tastefully.scss', './home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage extends CmsComponent implements OnInit {
 
   readonly CURRENT_CUSTOMER: TastefullyCustomer;
 
@@ -21,6 +22,7 @@ export class HomePage implements OnInit {
   feeds: TastefullyFeed[];
 
   constructor(private cms: CmsService, private tastefully: TastefullyService) {
+    super();
     this.CURRENT_CUSTOMER = this.tastefully.CURRENT_CUSTOMER;
   }
 
@@ -39,7 +41,7 @@ export class HomePage implements OnInit {
     }
 
     this.slideshow = await this.cms.getSlideshow('home-slideshow');
-    this.events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">=", dayjs().format("YYYY-MM-DD")).orderBy("organisedAt", "desc"));
+    this.events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">=", start_of_day(this.now)).orderBy("organisedAt", "desc"));
     this.feeds = await this.tastefully.getFeeds();
 
     if (event) {

@@ -51,7 +51,7 @@ export class CssUrlPipe implements PipeTransform {
 @Pipe({ name: 'firestoreDate' })
 export class FirestoreDatePipe implements PipeTransform {
     constructor(private date: DatePipe) { }
-    transform(value: Timestamp) {
-        return this.date.transform(value.toDate());
+    transform(value: Timestamp, format?: string) {
+        return this.date.transform(value.toDate(), format);
     }
 }

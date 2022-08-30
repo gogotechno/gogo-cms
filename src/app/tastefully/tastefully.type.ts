@@ -1,3 +1,4 @@
+import { Timestamp } from "@angular/fire/firestore";
 import { CmsDocument, CmsTranslation } from "../cms.type";
 
 export interface TastefullyCustomer extends CmsDocument {
@@ -18,7 +19,8 @@ export interface TastefullyFeed extends CmsDocument {
 export interface TastefullyEvent extends CmsDocument {
     code: string,
     name: CmsTranslation,
-    organisedAt: Date,
+    organisedAt: Timestamp,
+    finishedAt: Timestamp,
     startAt: string,
     endAt: string,
     highlight: CmsTranslation,

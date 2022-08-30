@@ -48,14 +48,12 @@
         "_AVAILABLE_TIME": "可用时间",
         "_DESCRIPTION": "描述",
         "_LOCATION": "位置",
-        "_FREE_GOODIES_BAGS": "免费礼品袋！",
-        "_REGISTER_TO_GET_FREE_BAGS": "注册即可获得免费礼品包！",
         "_FAILED_TO_LOGIN": "登录失败",
         "_PLEASE_LOGIN_AGAIN": "请关闭程序并重新打开或联系我们以获得高级支持。",
         "_STAY_TUNED": "敬请期待",
         "_ERROR_WHILE_PROCESSING_REGISTER": "处理活动注册时出错",
         "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "创建客户资料时出错",
-        "_REGISTERED_FOR_EVENT": "已注册",
+        "_REGISTERED_FOR_EVENT": "已注册于此活动",
         "_GUEST": "客人"
     }
 }

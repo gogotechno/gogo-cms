@@ -52,7 +52,12 @@
         "_DESCRIPTION": "Description",
         "_LOCATION": "Location",
         "_FAILED_TO_LOGIN": "Failed to login",
-        "_PLEASE_LOGIN_AGAIN": "Please close the program and login again or contact us for advanced support."
+        "_PLEASE_LOGIN_AGAIN": "Please close the program and login again or contact us for advanced support.",
+        "_STAY_TUNED": "Stay Tuned",
+        "_ERROR_WHILE_PROCESSING_REGISTER": "Error while processing register",
+        "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "Error while creating customer profile",
+        "_REGISTERED_FOR_EVENT": "Registered for this event",
+        "_GUEST": "Guest"
     },
     "teckguan": {
         "_DASHBOARD": "Dashboard",

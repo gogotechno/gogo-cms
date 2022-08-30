@@ -59,7 +59,7 @@ import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
   ],
   providers: [
     DatePipe,
-    CmsTranslatePipe
+    CmsTranslatePipe,
   ]
 })
 export class CmsUIModule { }

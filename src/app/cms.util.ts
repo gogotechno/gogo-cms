@@ -13,14 +13,17 @@ export function array_move(arr: Array<any>, old_index: number, new_index: number
     return arr; // for testing
 };
 
-export function getTime(time: string) {
-    let arr = time.split(":");
-    let hour = Number(arr[0]);
-    let minute = Number(arr[1]);
-    return {
-        hour: hour,
-        minute: minute
-    }
+export function start_of_day(date: Date) {
+    return new Date(date.setHours(0, 0, 0, 0));
+}
+
+export function end_of_day(date: Date) {
+    return new Date(date.setHours(23, 59, 59, 999));
+}
+
+export function timestr_to_date(time: string) {
+    let arr = time.split(":").map((val) => Number(val));
+    return new Date(new Date().setHours(arr[0], arr[1]));
 }
 
 @Injectable({

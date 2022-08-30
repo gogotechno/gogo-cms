@@ -20,7 +20,7 @@
         <div class="ion-padding-sm font-small">
           <p class="ion-no-margin">{{ event.location }}</p>
           <b class="date">
-            <ion-text color="primary">{{ event.organisedAt | date: "MMM dd" }}</ion-text>
+            <ion-text color="primary">{{ event.organisedAt | firestoreDate: "MMM dd" }}</ion-text>
           </b>
         </div>
       </div>

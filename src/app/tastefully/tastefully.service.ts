@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
-import * as dayjs from 'dayjs';
-import * as relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { map, take } from 'rxjs/operators'
 import { CmsService } from '../cms.service';
 import { CmsSite, CmsSiteAttribute, CmsTable } from '../cms.type';
@@ -40,7 +40,8 @@ export class TastefullyService {
   }
 
   getFeeds() {
-    return this.firestore.collection<TastefullyFeed>("sites/" + this.SITE.code + "/feeds", (ref) => ref.orderBy("createdAt", "desc"))
+    let queryFn: QueryFn = (ref) => ref.orderBy("createdAt", "desc");
+    return this.firestore.collection<TastefullyFeed>("sites/" + this.SITE.code + "/feeds", queryFn)
       .valueChanges()
       .pipe(
         take(1),

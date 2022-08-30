@@ -1,4 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
@@ -22,10 +24,12 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private datePipe: DatePipe,
     private cms: CmsService,
     private admin: CmsAdminService,
+    private translate: TranslateService,
     private cmsTranslate: CmsTranslatePipe,
-    private translate: TranslateService) {
+  ) {
     super();
   }
 
@@ -37,21 +41,26 @@ export class FormComponent extends CmsComponent implements OnInit {
     if (!this.form) return;
 
     let controls = {};
-    this.form.items.forEach((item) => {
+    for (let item of this.form.items) {
       switch (item.type) {
-        // case 'array':
-        //   controls[item.code] = this.formBuilder.array([]);
-        //   break;
+        case "datetime":
+          controls[item.code] = [this.value ? this.datePipe.transform((<Timestamp>this.value[item.code]).toDate(), "YYYY-MM-ddTHH:mm") : null];
+          break;
 
         default:
           controls[item.code] = [this.value ? this.value[item.code] : null];
           break;
       }
 
+      let validators = [];
       if (item.required) {
-        controls[item.code].push(Validators.required);
+        validators.push(Validators.required);
       }
-    });
+
+      if (validators.length > 0) {
+        controls[item.code].push(Validators.compose(validators));
+      }
+    }
 
     let uid = (await this.admin.currentUser)?.uid;
     if (this.value) {
@@ -69,6 +78,12 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   onSubmit(event?: Event) {
     let data = this.formGroup.value;
+
+    let datetimeItems = this.form.items.filter((item) => item.type == "datetime");
+    for (let item of datetimeItems) {
+      data[item.code] = new Date(data[item.code]);
+    }
+
     this.submit.emit(data);
   }
 

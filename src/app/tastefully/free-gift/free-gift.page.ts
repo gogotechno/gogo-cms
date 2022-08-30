@@ -5,16 +5,17 @@ import { CmsForm, CmsTable } from 'src/app/cms.type';
 import { IonModal, RefresherCustomEvent } from '@ionic/angular';
 import { TastefullyCustomer, TastefullyEvent, TastefullyFreeGiftRegister } from '../tastefully.type';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { AppUtils, getTime } from 'src/app/cms.util';
+import { AppUtils, end_of_day, start_of_day } from 'src/app/cms.util';
 import { TastefullyService } from '../tastefully.service';
-import * as dayjs from 'dayjs';
+import { CmsComponent } from 'src/app/cms.component';
+import dayjs from 'dayjs';
 
 @Component({
   selector: 'app-free-gift',
   templateUrl: './free-gift.page.html',
   styleUrls: ['../tastefully.scss', './free-gift.page.scss'],
 })
-export class FreeGiftPage implements OnInit {
+export class FreeGiftPage extends CmsComponent implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild(FormComponent) cmsForm: FormComponent;
@@ -36,6 +37,7 @@ export class FreeGiftPage implements OnInit {
   eventNotFound: boolean;
 
   constructor(private app: AppUtils, private cms: CmsService, private tastefully: TastefullyService) {
+    super();
     this.CURRENT_CUSTOMER = this.tastefully.CURRENT_CUSTOMER;
   }
 
@@ -50,21 +52,19 @@ export class FreeGiftPage implements OnInit {
 
     this.table = await this.cms.getTable('free-gift-registers');
 
-    let events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", "==", dayjs().format("YYYY-MM-DD")));
+    let events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">=", start_of_day(this.now)).where("organisedAt", "<=", end_of_day(this.now)));
     if (events.length > 0) {
-      let ev = events[0];
-      let registers = await this.tastefully.getRegisters((ref) => ref.where("mobileNo", "==", this.CURRENT_CUSTOMER.mobileNo).where("eventCode", "==", ev.code));
+      let event = events[0];
+      let registers = await this.tastefully.getRegisters((ref) => ref.where("mobileNo", "==", this.CURRENT_CUSTOMER.mobileNo).where("eventCode", "==", event.code));
       this.register = registers.length > 0 ? registers[0] : null;
       this.type = "today";
-      this.event = ev;
+      this.event = event;
     } else {
-      events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">", dayjs().format("YYYY-MM-DD")));
+      events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">", this.now));
       if (events.length > 0) {
-        let ev = events[0];
-        let startTime = getTime(ev.startAt);
-        let organisedAt = dayjs(ev.organisedAt).set("hour", startTime.hour).set("minute", startTime.minute);
+        let event = events[0];
         this.config = {
-          leftTime: organisedAt.diff(dayjs(), "seconds"),
+          leftTime: dayjs(event.organisedAt.toDate()).diff(this.now, "seconds"),
           formatDate: ({ date, formatStr }) => {
             let duration = Number(date || 0);
             return CountdownTimeUnits.reduce((current, [name, unit]) => {
@@ -78,9 +78,9 @@ export class FreeGiftPage implements OnInit {
               return current;
             }, formatStr);
           }
-        };
+        }
         this.type = "incoming";
-        this.event = ev;
+        this.event = event;
       }
     }
 
