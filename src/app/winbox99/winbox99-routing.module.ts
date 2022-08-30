@@ -13,13 +13,17 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
       },
       {
-        path: 'listing/:code',
+        path: 'faqs',
+        loadChildren: () => import('./faqs/faqs.module').then(m => m.FaqsPageModule)
+      },
+      {
+        path: 'list/:code',
         loadChildren: () => import('./default-list/default-list.module').then(m => m.DefaultListPageModule)
       },
       {
         path: ':page',
         loadChildren: () => import('./default-layout/default-layout.module').then(m => m.DefaultLayoutPageModule)
-      },
+      }
     ]
   }
 ];
