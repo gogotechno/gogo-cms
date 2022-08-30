@@ -16,9 +16,9 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     SettingsPageRoutingModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     CmsUIModule
   ],
   declarations: [SettingsPage]
 })
-export class SettingsPageModule {}
+export class SettingsPageModule { }

@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     MePageRoutingModule,
     CmsUIModule,
-    TranslateModule.forChild(),
+    TranslateModule,
   ],
   declarations: [MePage]
 })

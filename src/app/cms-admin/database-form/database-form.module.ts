@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     DatabaseFormPageRoutingModule,
     CmsUIModule,
-    TranslateModule.forChild()
+    TranslateModule
   ],
   declarations: [DatabaseFormPage]
 })

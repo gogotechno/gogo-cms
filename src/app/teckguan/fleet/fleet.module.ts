@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     FleetPageRoutingModule,
-    TranslateModule.forChild()
+    TranslateModule
   ],
   declarations: [FleetPage]
 })

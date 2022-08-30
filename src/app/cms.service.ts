@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QueryFn } from '@angular/fire/compat/firestore';
+import { TranslateService } from '@ngx-translate/core';
 import { map, take } from 'rxjs/operators'
 import { CmsExternalIntegration, CmsForm, CmsList, CmsNavigation, CmsPage, CmsSite, CmsSiteAttribute, CmsSlideshow, CmsTable } from './cms.type';
 
@@ -10,7 +11,7 @@ export class CmsService {
 
   public SITE: CmsSite;
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private translate: TranslateService) { }
 
   getSite(hostname?: string) {
     if (!hostname) {
@@ -113,6 +114,26 @@ export class CmsService {
       return false;
     }
     return 'en' in obj;
+  }
+
+  getCurrentLang() {
+    if (this.translate.currentLang) {
+      return this.translate.currentLang;
+    }
+
+    return this.getDefaultLang();
+  }
+
+  getDefaultLang() {
+    if (this.SITE.defaultLanguage) {
+      return this.SITE.defaultLanguage;
+    }
+
+    if (this.translate.defaultLang) {
+      return this.translate.defaultLang;
+    }
+    
+    return "en";
   }
 
   getExternalIntegration(code?: string) {

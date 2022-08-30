@@ -42,7 +42,7 @@ import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
     ReactiveFormsModule,
     IonicModule,
     RouterModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     QuillModule,
   ],
   exports: [

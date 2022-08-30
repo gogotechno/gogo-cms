@@ -6,25 +6,25 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { Timestamp } from "@angular/fire/firestore";
 
-@Pipe({ name: 'cmsTranslate' })
+@Pipe({
+    name: 'cmsTranslate',
+    pure: false
+})
 export class CmsTranslatePipe implements PipeTransform {
     constructor(private cms: CmsService, private translate: TranslateService) { }
     transform(value: CmsTranslation): string {
         try {
-            let defaultLang = this.cms.SITE.defaultLanguage;
-            let lang = this.translate.currentLang;
-            if (!lang) {
-                lang = defaultLang;
-            }
+            let lang = this.cms.getCurrentLang();
             if (value[lang]) {
-                return value[lang];
+                return value[lang] as string;
             }
+            let defaultLang = this.cms.getDefaultLang();
             if (value[defaultLang]) {
-                return value[defaultLang];
+                return value[defaultLang] as string;
             }
-            return <string>value;
+            return value as string;
         } catch (error) {
-            return <string>value;
+            return value as string;
         }
     }
 }

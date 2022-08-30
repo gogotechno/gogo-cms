@@ -18,7 +18,7 @@ import { FuelConsumptionComponent } from './widgets/fuel-consumption/fuel-consum
     FormsModule,
     IonicModule,
     DashboardPageRoutingModule,
-    TranslateModule.forChild(),
+    TranslateModule,
   ],
   declarations: [
     DashboardPage,

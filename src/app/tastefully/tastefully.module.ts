@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     TastefullyPageRoutingModule,
-    TranslateModule.forChild()
+    TranslateModule
   ],
   declarations: [TastefullyPage]
 })

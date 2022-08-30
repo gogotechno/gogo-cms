@@ -19,6 +19,9 @@
     "_CONFIRM": "Confirm",
     "_LOADING": "Loading",
     "_CONTACT_US": "Contact Us",
+    "_DASHBOARD": "Dashboard",
+    "_DATABASE": "Database",
+    "_LOGOUT": "Logout",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",

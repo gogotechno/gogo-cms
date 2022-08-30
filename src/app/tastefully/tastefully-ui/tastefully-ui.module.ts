@@ -20,7 +20,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     RouterModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     CmsUIModule,
   ],
   exports: [

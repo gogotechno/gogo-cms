@@ -19,7 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     DatabaseTablePageRoutingModule,
     ScrollingModule,
     CmsUIModule,
-    TranslateModule.forChild(),
+    TranslateModule,
   ],
   declarations: [DatabaseTablePage]
 })

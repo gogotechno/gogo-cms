@@ -16,7 +16,7 @@ import { CmsUIModule } from '../cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     TeckguanPageRoutingModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     CmsUIModule,
   ],
   declarations: [TeckguanPage]

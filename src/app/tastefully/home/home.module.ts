@@ -17,7 +17,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     CmsUIModule,
     TastefullyUiModule,
   ],

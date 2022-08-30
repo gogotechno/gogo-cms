@@ -18,7 +18,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     IonicModule,
     FreeGiftPageRoutingModule,
     CountdownModule,
-    TranslateModule.forChild(),
+    TranslateModule,
     CmsUIModule
   ],
   declarations: [FreeGiftPage]

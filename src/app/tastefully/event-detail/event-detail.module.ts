@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
     IonicModule,
     EventDetailPageRoutingModule,
     CmsUIModule,
-    TranslateModule.forChild()
+    TranslateModule
   ],
   declarations: [EventDetailPage],
   providers: [DatePipe]

@@ -18,7 +18,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     IonicModule,
     LoginPageRoutingModule,
     CmsUIModule,
-    TranslateModule.forChild()
+    TranslateModule
   ],
   declarations: [LoginPage]
 })
