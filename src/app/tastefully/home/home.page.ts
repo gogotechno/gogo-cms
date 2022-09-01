@@ -10,7 +10,7 @@ import { TastefullyCustomer, TastefullyEvent, TastefullyFeed } from '../tasteful
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
-  styleUrls: ['../tastefully.scss', './home.page.scss'],
+  styleUrls: ['./home.page.scss'],
 })
 export class HomePage extends CmsComponent implements OnInit {
 

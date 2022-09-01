@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable } from "@angular/core";
 import { AlertController, AlertOptions, LoadingController, LoadingOptions } from "@ionic/angular";
 import { TranslateService } from "@ngx-translate/core";
 
@@ -32,10 +33,29 @@ export function timestr_to_date(time: string) {
 export class AppUtils {
 
     constructor(
+        @Inject(DOCUMENT) private document: Document,
         private alertCtrl: AlertController,
         private loadingCtrl: LoadingController,
         private translate: TranslateService
     ) { }
+
+    /**
+     * Load template theme
+     * @param template Template name
+     */
+    loadTemplateTheme(template: string) {
+        const head = this.document.getElementsByTagName("head")[0];
+        const themeLink = this.document.getElementById("dynamic-theme") as HTMLLinkElement;
+        if (themeLink) {
+            themeLink.href = template + ".css";
+        } else {
+            const link = this.document.createElement("link");
+            link.id = "dynamic-theme";
+            link.rel = "stylesheet";
+            link.href = template + ".css";
+            head.appendChild(link);
+        }
+    }
 
     /**
      * Present alert dialog

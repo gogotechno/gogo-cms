@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 @Component({
   selector: 'app-free-gift',
   templateUrl: './free-gift.page.html',
-  styleUrls: ['../tastefully.scss', './free-gift.page.scss'],
+  styleUrls: ['./free-gift.page.scss'],
 })
 export class FreeGiftPage extends CmsComponent implements OnInit {
 

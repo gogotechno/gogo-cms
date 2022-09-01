@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from './cms.service';
 
@@ -9,7 +9,7 @@ import { CmsService } from './cms.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  
+
   constructor(private router: Router, private cms: CmsService, private translate: TranslateService) { }
 
   ngOnInit(): void {

@@ -32,7 +32,12 @@
                         ],
                         "styles": [
                             "src/theme/variables.scss",
-                            "src/global.scss"
+                            "src/global.scss",
+                            {
+                                "input": "src/app/tastefully/tastefully.scss",
+                                "bundleName": "tastefully",
+                                "inject": false
+                            }
                         ],
                         "scripts": [
                             "./node_modules/quill/dist/quill.min.js"
