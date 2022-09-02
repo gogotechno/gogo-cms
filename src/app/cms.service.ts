@@ -11,12 +11,16 @@ export class CmsService {
 
   public SITE: CmsSite;
 
-  constructor(private firestore: AngularFirestore, private translate: TranslateService) { }
+  constructor(
+    private firestore: AngularFirestore,
+    private translate: TranslateService
+  ) { }
 
   getSite(hostname?: string) {
     if (!hostname) {
       hostname = document.location.hostname;
     }
+
     return this.firestore.collection<CmsSite>('sites', ref => ref.where('domains', 'array-contains', hostname)).valueChanges().pipe(
       take(1),
       map((value) => value[0])
@@ -76,6 +80,7 @@ export class CmsService {
     if (table.site != 'default') {
       collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
+
     return this.firestore.collection<any>(collectionPath).valueChanges().pipe(
       take(1),
     ).toPromise();
@@ -86,6 +91,7 @@ export class CmsService {
     if (table.site != 'default') {
       collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
+
     return this.firestore.doc<any>(`${collectionPath}/${id}`).valueChanges().pipe(
       take(1),
     ).toPromise();
@@ -96,6 +102,7 @@ export class CmsService {
     if (table.site != 'default') {
       collectionPath = `sites/${this.SITE.code}/${collectionPath}`;
     }
+
     if (id) {
       await this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
     } else {
@@ -103,9 +110,7 @@ export class CmsService {
       await this.firestore.collection<any>(collectionPath).doc(id).set(document);
     }
 
-    let result = {
-      id: id
-    }
+    let result = { id: id };
     return result;
   }
 
@@ -113,6 +118,7 @@ export class CmsService {
     if (!(obj instanceof Object)) {
       return false;
     }
+
     return 'en' in obj;
   }
 
@@ -132,7 +138,7 @@ export class CmsService {
     if (this.translate.defaultLang) {
       return this.translate.defaultLang;
     }
-    
+
     return "en";
   }
 
@@ -141,6 +147,7 @@ export class CmsService {
       if (code) {
         ref.where("code", "==", code);
       }
+      
       return ref;
     };
 

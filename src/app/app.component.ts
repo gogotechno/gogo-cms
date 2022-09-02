@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.redirectToTemplate();
     this.translate.setDefaultLang('en');
   }
