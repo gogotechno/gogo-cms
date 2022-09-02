@@ -32,7 +32,7 @@
                   <ion-label>{{ 'tastefully._GET_NOW' | translate }}</ion-label>
                 </ion-button>
               </ng-container>
-              <ng-container *ngIf="register">
+              <ng-container *ngIf="register && !activation">
                 <div class="color-white ion-text-center">
                   <p class="ion-no-margin">
                     <span *ngIf="event.thankYouMessage">{{ event.thankYouMessage | cmsTranslate }}</span>
@@ -44,15 +44,21 @@
           </ion-card-content>
         </ion-card>
         <ng-container *ngIf="event && register">
-          <div class="ion-text-center ion-margin-top-sm">
+          <div class="ion-text-center ion-margin-top-sm ion-margin-horizontal">
             <ng-container *ngIf="!activation">
-              <ion-button (click)="onGetFreeGift()" color="light">
+              <ion-button expand="block" (click)="onGetFreeGift()" color="light">
                 <ion-label>{{ "tastefully._GET_YOUR_FREE_GIFT_NOW" | translate }}</ion-label>
               </ion-button>
             </ng-container>
             <ng-container *ngIf="activation">
-              <countdown #activationCountdown class="activation-countdown" [config]="config"
-                (event)="handleEvent($event)"></countdown>
+              <ng-container *ngIf="activationEnded">
+                <ion-button expand="block" color="light">
+                  <ion-label>{{ event.freeGiftThankYouMessage | cmsTranslate }}</ion-label>
+                </ion-button>
+              </ng-container>
+              <ng-container *ngIf="!activationEnded">
+                <countdown class="activation-countdown" [config]="config" (event)="handleEvent($event)"></countdown>
+              </ng-container>
             </ng-container>
           </div>
         </ng-container>

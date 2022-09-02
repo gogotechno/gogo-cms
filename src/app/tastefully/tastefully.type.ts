@@ -33,6 +33,7 @@ export interface TastefullyEvent extends CmsDocument {
     giftCardImage: string,
     thankYouMessage: CmsTranslation,
     freeGiftConfirmationMessage: CmsTranslation,
+    freeGiftThankYouMessage: CmsTranslation,
     stateLogo?: string,
 }
 

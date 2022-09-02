@@ -33,9 +33,9 @@ export class LoginPage implements OnInit {
     // fake login for ease of testing purpose
     // let result = {
     //   result: "successful",
-    //   memberID: "100",
+    //   memberID: "TESTING_CUSTOMER",
     //   name: "Testing Customer",
-    //   phone: "0199999999"
+    //   phone: "TESTING_CUSTOMER"
     // }
 
     let success = result && result.result == "successful";

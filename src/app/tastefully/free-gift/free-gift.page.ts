@@ -37,6 +37,7 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
   config: CountdownConfig;
 
   eventNotFound: boolean;
+  activationEnded: boolean;
 
   constructor(
     private app: AppUtils,
@@ -78,10 +79,8 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
       events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">", this.now));
       if (events.length > 0) {
         let event = events[0];
-        this.config = {
-          leftTime: dayjs(event.organisedAt.toDate()).diff(this.now, "seconds"),
-          formatDate: countdownFormatDateFn
-        }
+        let leftTime = dayjs(event.organisedAt.toDate()).diff(this.now, "seconds");
+        this.config = { leftTime: leftTime, formatDate: countdownFormatDateFn };
         this.type = "incoming";
         this.event = event;
       }
@@ -142,9 +141,12 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
     let freeGiftConfig = this.tastefully.ATTRIBUTES.find((a) => a.code == "free-gift-config");
     let countdownTimer = freeGiftConfig.options.find((o) => o.code == "countdown-timer");
     let activatedAt = activation.activatedAt as Timestamp;
-    this.config = {
-      leftTime: dayjs(activatedAt.toDate()).add(Number(countdownTimer.value), "seconds").diff(this.now, "seconds"),
-      formatDate: countdownFormatDateFn
+    let leftTime = dayjs(activatedAt.toDate()).add(Number(countdownTimer.value), "seconds").diff(this.now, "seconds");
+    if (leftTime > 0) {
+      this.activationEnded = false;
+      this.config = { leftTime: leftTime, formatDate: countdownFormatDateFn };
+    } else {
+      this.activationEnded = true;
     }
   }
 
