@@ -1,26 +1,8 @@
-// .phone-container {
-//     z-index: 1;
-//     height: 100%;
-//     position: relative;
-// }
-
-// .phone-container img {
-//     position: absolute;
-//     bottom: 0;
-// }
-
-// .phone-screen {
-//     position: absolute;
-//     bottom: 0;
-//     height: 100%;
-//     width: 100%;
-// }
-
-// .phone-screen-img {
-//     width: 100%;
-//     max-width: 248px;
-//     padding: 1.3vw;
-// }
+:host {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+}
 
 .phone-container,
 .phone-frame,
@@ -29,10 +11,7 @@
 }
 
 .phone-container {
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
-    margin: 10px;
+    padding: 12px;
 }
 
 .phone-screen {
@@ -44,8 +23,8 @@
 
 .phone-frame {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     img {
         transform: scale(1.04);

@@ -1,8 +1,15 @@
-.logo-container {
-    height: 64px;
-    width: 250px;
-    border-top-right-radius: 50px;
-    align-items: center;
-    box-shadow: 4px 0px 16px rgba(0, 0, 0, 0.18);
-    background-color: white;
+.logo {
+    height: 68px;
+    filter: drop-shadow(4px 0px 16px rgba(0, 0, 0, 0.18));
+}
+
+@media only screen and (max-width: 576px) {
+    .logo {
+        width: 180px;
+    }
+}
+
+.login-button {
+    --padding-start: 2rem;
+    --padding-end: 2rem;
 }

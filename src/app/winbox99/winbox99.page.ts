@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonModal, SelectCustomEvent } from '@ionic/angular';
+import { IonModal } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe } from '../cms-ui/cms.pipe';
 import { CmsService } from '../cms.service';
 import { CmsList, CmsNavigation, CmsSite } from '../cms.type';
+import { Winbox99Service } from './winbox99.service';
 
 @Component({
   selector: 'app-winbox99',
@@ -15,30 +16,38 @@ import { CmsList, CmsNavigation, CmsSite } from '../cms.type';
 export class Winbox99Page implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
-  navigation: CmsNavigation;
-  site: CmsSite;
-  selectedLanguage: string;
-  popupList: CmsList;
 
-  constructor(private cms: CmsService, private router: Router, private translate: TranslateService, private alertController: AlertController, private cmsTranslate: CmsTranslatePipe) { }
+  lang: string;
+  site: CmsSite;
+  popupList: CmsList;
+  navigation: CmsNavigation;
+
+  constructor(
+    private router: Router,
+    private cms: CmsService,
+    private winbox99: Winbox99Service,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
     this.translate.onLangChange.subscribe(event => {
-      this.selectedLanguage = event.lang || this.translate.getDefaultLang();
+      this.lang = event.lang || this.translate.getDefaultLang();
     });
+
     this.loadData();
   }
 
   async loadData() {
+    await this.winbox99.getAttributes();
+
     this.site = this.cms.SITE;
-    this.selectedLanguage = this.translate.currentLang || this.translate.getDefaultLang();
+    this.lang = this.translate.currentLang || this.translate.getDefaultLang();
     this.navigation = await this.cms.getNavigation('top-nav');
     this.popupList = await this.cms.getList('popups');
-    if (this.popupList) {
-      // this.modal.present();
-      // let popupAlert = await this.alertController.create({message: `<img src="${this.cmsTranslate.transform(this.popupList.items[0].thumbnail)}" />`});
-      // popupAlert.present();
-    }
+
+    // if (this.popupList) {
+    //   this.modal.present();
+    // }
   }
 
   isActive(path: string) {
@@ -64,7 +73,7 @@ export class Winbox99Page implements OnInit {
   }
 
   onWillDismiss(event?: Event) {
-
+    console.log(event);
   }
 
 }

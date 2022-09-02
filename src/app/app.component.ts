@@ -10,7 +10,11 @@ import { CmsService } from './cms.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private router: Router, private cms: CmsService, private translate: TranslateService) { }
+  constructor(
+    private router: Router,
+    private cms: CmsService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.redirectToTemplate();

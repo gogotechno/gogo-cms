@@ -3,7 +3,7 @@ import { IonModal } from '@ionic/angular';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
 import { CmsAdminChildPage, CmsTable } from 'src/app/cms.type';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 @Component({
   selector: 'app-databases',
@@ -34,8 +34,6 @@ export class DatabasesPage extends CmsAdminChildPage implements OnInit {
     //     list: list
     //   }
     // }).value();
-
-    // console.log(groups);
   }
 
 }

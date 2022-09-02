@@ -4,7 +4,7 @@
             <div class="cms-slide" [style.background-image]="item.backgroundImage | cssUrl">
                 <ion-grid fixed="true">
                     <ion-row>
-                        <ion-col sizeXs="8" sizeSm="8" sizeMd="9">
+                        <ion-col size="8" sizeMd="9">
                             <div>
                                 <ng-container *ngIf="item.htmlContent">
                                     <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>

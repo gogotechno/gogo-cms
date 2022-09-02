@@ -2,34 +2,31 @@
 
     <ion-row>
         <ion-col>
-            <ion-row>
-                <ion-col>
-                    <div class="main-container">
-                        <div class="steps-container">
-                            <ion-card class="ion-background-primary ion-hide-md-down">
-                                <ion-card-content>
-                                    <ion-grid>
-                                        <ion-row *ngIf="registerList">
-                                            <ion-col *ngFor="let item of registerList.items" class="ion-text-center">
-                                                <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
-                                            </ion-col>
-                                        </ion-row>
-                                    </ion-grid>
-                                </ion-card-content>
-                            </ion-card>
-                        </div>
-                    </div>
+            <ion-row class="ion-hide-md-down">
+                <ion-col class="ion-no-padding">
+                    <ion-card class="ion-background-primary ion-no-margin">
+                        <ion-card-content>
+                            <ion-grid>
+                                <ion-row *ngIf="registerList">
+                                    <ion-col *ngFor="let item of registerList.items" class="ion-text-center">
+                                        <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-card-content>
+                    </ion-card>
                 </ion-col>
             </ion-row>
+            <div class="ion-hide-md-up ion-padding-bottom-lg"></div>
         </ion-col>
-        <ion-col size="3" sizeSm="4"  sizeXs="4">
+        <ion-col size="3" sizeSm="4" sizeXs="4" class="d-flex-center">
             <winbox99-iphone></winbox99-iphone>
         </ion-col>
     </ion-row>
 
     <ion-row *ngIf="downloadList">
-        <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" *ngFor="let item of downloadList.items">
-            <ion-card [href]="item.link" target="_blank" class="h-100" [class.ion-activatable]="item.link" [class.ripple-parent]="item.link">
+        <ion-col sizeXs="12" sizeSm="12" sizeLg="4" *ngFor="let item of downloadList.items">
+            <ion-card [href]="item.link" target="_blank" class="h-100 ion-no-margin" [class.ion-activatable]="item.link" [class.ripple-parent]="item.link">
                 <ion-card-content>
                     <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
                 </ion-card-content>
