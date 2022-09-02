@@ -3,12 +3,14 @@ import { CountdownComponent, CountdownConfig, CountdownEvent } from 'ngx-countdo
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsTable } from 'src/app/cms.type';
 import { IonModal, RefresherCustomEvent } from '@ionic/angular';
-import { TastefullyCustomer, TastefullyEvent, TastefullyFreeGiftRegister } from '../tastefully.type';
+import { TastefullyCustomer, TastefullyEvent, TastefullyFreeGiftActivation, TastefullyFreeGiftRegister } from '../tastefully.type';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { AppUtils, end_of_day, start_of_day } from 'src/app/cms.util';
 import { TastefullyService } from '../tastefully.service';
 import { CmsComponent } from 'src/app/cms.component';
 import dayjs from 'dayjs';
+import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
+import { Timestamp } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-free-gift',
@@ -19,7 +21,6 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
 
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild(FormComponent) cmsForm: FormComponent;
-  @ViewChild("cd") countdown: CountdownComponent;
 
   readonly CURRENT_CUSTOMER: TastefullyCustomer;
 
@@ -30,13 +31,19 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
   type: "today" | "incoming";
   event: TastefullyEvent;
   register: TastefullyFreeGiftRegister;
+  activation: TastefullyFreeGiftActivation;
 
   presentingElement = null;
   config: CountdownConfig;
 
   eventNotFound: boolean;
 
-  constructor(private app: AppUtils, private cms: CmsService, private tastefully: TastefullyService) {
+  constructor(
+    private app: AppUtils,
+    private cms: CmsService,
+    private tastefully: TastefullyService,
+    private cmsTranslate: CmsTranslatePipe
+  ) {
     super();
     this.CURRENT_CUSTOMER = this.tastefully.CURRENT_CUSTOMER;
   }
@@ -56,7 +63,15 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
     if (events.length > 0) {
       let event = events[0];
       let registers = await this.tastefully.getRegisters((ref) => ref.where("mobileNo", "==", this.CURRENT_CUSTOMER.mobileNo).where("eventCode", "==", event.code));
-      this.register = registers.length > 0 ? registers[0] : null;
+      if (registers.length > 0) {
+        let activations = await this.tastefully.getActivations((ref) => ref.where("mobileNo", "==", this.CURRENT_CUSTOMER.mobileNo).where("eventCode", "==", event.code));
+        if (activations.length > 0) {
+          let activation = activations[0];
+          this.activation = activation;
+          this.startActivationCountdown(this.activation);
+        }
+        this.register = registers[0];
+      }
       this.type = "today";
       this.event = event;
     } else {
@@ -65,19 +80,7 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
         let event = events[0];
         this.config = {
           leftTime: dayjs(event.organisedAt.toDate()).diff(this.now, "seconds"),
-          formatDate: ({ date, formatStr }) => {
-            let duration = Number(date || 0);
-            return CountdownTimeUnits.reduce((current, [name, unit]) => {
-              if (current.indexOf(name) !== -1) {
-                const v = Math.floor(duration / unit);
-                duration -= v * unit;
-                return current.replace(new RegExp(`${name}+`, 'g'), (match: string) => {
-                  return v.toString().padStart(match.length, '0');
-                });
-              }
-              return current;
-            }, formatStr);
-          }
+          formatDate: countdownFormatDateFn
         }
         this.type = "incoming";
         this.event = event;
@@ -97,7 +100,7 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
     console.log(event);
   }
 
-  async cancel() {
+  async dismissModal() {
     await this.modal.dismiss();
   }
 
@@ -113,13 +116,36 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
     const result = await this.tastefully.saveFreeGiftRegister(this.table, data);
     if (result) {
       this.register = result;
-      await this.cancel();
+      await this.dismissModal();
     }
   }
 
   openModal() {
     let trigger = document.getElementById("open-modal");
     trigger.click();
+  }
+
+  async onGetFreeGift() {
+    let confirmMessage = this.cmsTranslate.transform(this.event.freeGiftConfirmationMessage);
+    let confirm = await this.app.presentConfirm(confirmMessage, null, "_I_UNDERSTAND", "_CANCEL");
+    if (confirm) {
+      let table = await this.cms.getTable('free-gift-activations');
+      const result = await this.tastefully.saveFreeGiftActivation(table, { ...this.register, activatedAt: this.now });
+      if (result) {
+        this.activation = result;
+        this.startActivationCountdown(this.activation);
+      }
+    }
+  }
+
+  startActivationCountdown(activation: TastefullyFreeGiftActivation) {
+    let freeGiftConfig = this.tastefully.ATTRIBUTES.find((a) => a.code == "free-gift-config");
+    let countdownTimer = freeGiftConfig.options.find((o) => o.code == "countdown-timer");
+    let activatedAt = activation.activatedAt as Timestamp;
+    this.config = {
+      leftTime: dayjs(activatedAt.toDate()).add(Number(countdownTimer.value), "seconds").diff(this.now, "seconds"),
+      formatDate: countdownFormatDateFn
+    }
   }
 
 }
@@ -133,3 +159,17 @@ const CountdownTimeUnits: Array<[string, number]> = [
   ['s', 1000], // seconds
   ['S', 1], // million seconds
 ];
+
+const countdownFormatDateFn = ({ date, formatStr }) => {
+  let duration = Number(date || 0);
+  return CountdownTimeUnits.reduce((current, [name, unit]) => {
+    if (current.indexOf(name) !== -1) {
+      const v = Math.floor(duration / unit);
+      duration -= v * unit;
+      return current.replace(new RegExp(`${name}+`, 'g'), (match: string) => {
+        return v.toString().padStart(match.length, '0');
+      });
+    }
+    return current;
+  }, formatStr);
+}

@@ -18,12 +18,12 @@
           <h1 class="ion-no-margin font-bold ion-text-center">{{ event.name | cmsTranslate }}</h1>
           <p class="ion-no-margin ion-text-center">{{ event.highlight | cmsTranslate }}</p>
         </div>
-        <ion-card class="card ion-no-margin-top" [style.background-image]="event.giftCardImage | cssUrl">
+        <ion-card class="card ion-no-margin-vertical" [style.background-image]="event.giftCardImage | cssUrl">
           <ion-card-content class="d-flex-center">
             <ng-container *ngIf="type == 'incoming'">
               <div class="color-white ion-text-center">
                 <p class="ion-no-margin font-bold">{{ "tastefully._COMING_SOON" | translate }}</p>
-                <countdown #cd [config]="config" (event)="handleEvent($event)"></countdown>
+                <countdown [config]="config" (event)="handleEvent($event)"></countdown>
               </div>
             </ng-container>
             <ng-container *ngIf="type == 'today'">
@@ -43,6 +43,19 @@
             </ng-container>
           </ion-card-content>
         </ion-card>
+        <ng-container *ngIf="event && register">
+          <div class="ion-text-center ion-margin-top-sm">
+            <ng-container *ngIf="!activation">
+              <ion-button (click)="onGetFreeGift()" color="light">
+                <ion-label>{{ "tastefully._GET_YOUR_FREE_GIFT_NOW" | translate }}</ion-label>
+              </ion-button>
+            </ng-container>
+            <ng-container *ngIf="activation">
+              <countdown #activationCountdown class="activation-countdown" [config]="config"
+                (event)="handleEvent($event)"></countdown>
+            </ng-container>
+          </div>
+        </ng-container>
       </div>
     </ng-container>
   </div>
@@ -53,7 +66,7 @@
         <ion-header>
           <ion-toolbar>
             <ion-buttons slot="start">
-              <ion-button (click)="cancel()">{{ "_CANCEL" | translate }}</ion-button>
+              <ion-button (click)="dismissModal()">{{ "_CANCEL" | translate }}</ion-button>
             </ion-buttons>
             <ion-title>{{ form.name | cmsTranslate }}</ion-title>
           </ion-toolbar>

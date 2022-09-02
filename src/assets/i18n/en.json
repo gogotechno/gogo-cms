@@ -22,6 +22,8 @@
     "_DASHBOARD": "Dashboard",
     "_DATABASE": "Database",
     "_LOGOUT": "Logout",
+    "_CONFIRMATION": "Confirmation",
+    "_I_UNDERSTAND": "I Understand",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",
@@ -60,7 +62,9 @@
         "_ERROR_WHILE_PROCESSING_REGISTER": "Error while processing register",
         "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "Error while creating customer profile",
         "_REGISTERED_FOR_EVENT": "Registered for this event",
-        "_GUEST": "Guest"
+        "_GUEST": "Guest",
+        "_GET_YOUR_FREE_GIFT_NOW": "Get your free gift now",
+        "_ERROR_WHILE_PROCESSING_ACTIVATION": "Error while processing activation"
     },
     "teckguan": {
         "_DASHBOARD": "Dashboard",

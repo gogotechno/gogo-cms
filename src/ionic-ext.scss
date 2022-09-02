@@ -119,6 +119,11 @@
     margin-right: 0;
 }
 
+.ion-no-margin-vertical {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 @supports (margin-inline-start: 0) or (-webkit-margin-start: 0) {
     .ion-padding-start-sm {
         padding-left: unset;

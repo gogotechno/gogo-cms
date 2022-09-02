@@ -103,4 +103,32 @@ export class AppUtils {
         await this.loadingCtrl.dismiss();
     }
 
+    async presentConfirm(message: string, header?: string, confirmBtnText?: string, cancelBtnText?: string) {
+        header = header ? header : "_CONFIRMATION";
+        confirmBtnText = confirmBtnText ? confirmBtnText : "_CONFIRM";
+        cancelBtnText = cancelBtnText ? cancelBtnText : "_CANCEL";
+
+        return new Promise(async (resolve) => {
+            const confirm = await this.alertCtrl.create({
+                header: await this.translate.get(header).toPromise(),
+                message: await this.translate.get(message).toPromise(),
+                buttons: [
+                    {
+                        text: await this.translate.get(cancelBtnText).toPromise(),
+                        role: "cancel",
+                        id: "cancel-button",
+                        handler: () => { resolve(false); }
+                    },
+                    {
+                        text: await this.translate.get(confirmBtnText).toPromise(),
+                        id: "confirm-button",
+                        handler: () => { resolve(true); }
+                    }
+                ]
+            })
+
+            await confirm.present();
+        })
+    }
+
 }

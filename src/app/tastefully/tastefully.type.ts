@@ -32,7 +32,8 @@ export interface TastefullyEvent extends CmsDocument {
     background: string,
     giftCardImage: string,
     thankYouMessage: CmsTranslation,
-    stateLogo?: string
+    freeGiftConfirmationMessage: CmsTranslation,
+    stateLogo?: string,
 }
 
 export interface TastefullyFreeGiftRegister extends CmsDocument {
@@ -41,6 +42,15 @@ export interface TastefullyFreeGiftRegister extends CmsDocument {
     email?: string,
     gender?: "M" | "F",
     eventCode?: string
+}
+
+export interface TastefullyFreeGiftActivation extends CmsDocument {
+    name: string
+    mobileNo: string,
+    email?: string,
+    gender?: "M" | "F",
+    eventCode?: string,
+    activatedAt: Date | Timestamp
 }
 
 export interface TastefullyLanguage {

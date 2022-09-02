@@ -22,6 +22,8 @@
     "_DASHBOARD": "主页",
     "_DATABASE": "数据库",
     "_LOGOUT": "登出",
+    "_CONFIRMATION": "确认",
+    "_I_UNDERSTAND": "我明白",
     "winbox99": {
         "_LOGIN": "登录",
         "_GAMES": "我们的游戏",
@@ -54,9 +56,11 @@
         "_FAILED_TO_LOGIN": "登录失败",
         "_PLEASE_LOGIN_AGAIN": "请关闭程序并重新打开或联系我们以获得高级支持。",
         "_STAY_TUNED": "敬请期待",
-        "_ERROR_WHILE_PROCESSING_REGISTER": "处理活动注册时出错",
+        "_ERROR_WHILE_PROCESSING_REGISTER": "处理注册时出错",
         "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "创建客户资料时出错",
         "_REGISTERED_FOR_EVENT": "已注册于此活动",
-        "_GUEST": "客人"
+        "_GUEST": "客人",
+        "_GET_YOUR_FREE_GIFT_NOW": "立即获取您的免费礼物",
+        "_ERROR_WHILE_PROCESSING_ACTIVATION": "处理激活时出错"
     }
 }

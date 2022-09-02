@@ -10,6 +10,7 @@ import { FreeGiftPage } from './free-gift.page';
 import { CountdownModule } from 'ngx-countdown';
 import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     TranslateModule,
     CmsUIModule
   ],
-  declarations: [FreeGiftPage]
+  declarations: [FreeGiftPage],
+  providers: [CmsTranslatePipe]
 })
-export class FreeGiftPageModule {}
+export class FreeGiftPageModule { }

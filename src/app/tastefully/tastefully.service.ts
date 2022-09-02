@@ -6,7 +6,7 @@ import { map, take } from 'rxjs/operators'
 import { CmsService } from '../cms.service';
 import { CmsSite, CmsSiteAttribute, CmsTable } from '../cms.type';
 import { AppUtils } from '../cms.util';
-import { TastefullyCustomer, TastefullyEvent, TastefullyFeed, TastefullyFreeGiftRegister } from './tastefully.type';
+import { TastefullyCustomer, TastefullyEvent, TastefullyFeed, TastefullyFreeGiftActivation, TastefullyFreeGiftRegister } from './tastefully.type';
 
 @Injectable({
   providedIn: 'root'
@@ -76,6 +76,14 @@ export class TastefullyService {
       ).toPromise();
   }
 
+  getActivations(queryFn?: QueryFn) {
+    return this.firestore.collection<TastefullyFreeGiftActivation>("sites/" + this.SITE.code + "/free-gift-activations", queryFn)
+      .valueChanges()
+      .pipe(
+        take(1)
+      ).toPromise();
+  }
+
   async getAttributes() {
     this._ATTRIBUTES = await this.cms.getAttributes();
   }
@@ -96,6 +104,21 @@ export class TastefullyService {
       return created;
     } catch (err) {
       await this.app.presentAlert("tastefully._ERROR_WHILE_PROCESSING_REGISTER", "_ERROR");
+      console.error(err);
+      return null;
+    } finally {
+      await this.app.dismissLoading();
+    }
+  }
+
+  async saveFreeGiftActivation(table: CmsTable, data: TastefullyFreeGiftActivation) {
+    await this.app.presentLoading();
+    try {
+      const result = await this.cms.saveDocument(table, data);
+      const created = await this.cms.getDocument(table, result.id);
+      return created;
+    } catch (err) {
+      await this.app.presentAlert("tastefully._ERROR_WHILE_PROCESSING_ACTIVATION", "_ERROR");
       console.error(err);
       return null;
     } finally {
