@@ -17,7 +17,8 @@ import { CmsTranslatePipe } from '../cms.pipe';
 export class FormComponent extends CmsComponent implements OnInit {
 
   @Input('form') form: CmsForm;
-  @Input('value') value: any;
+  @Input('value') value: { [key: string]: any };
+  @Input('collection-path') collectionPath: string;
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;

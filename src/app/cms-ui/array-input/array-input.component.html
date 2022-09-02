@@ -21,16 +21,13 @@
         <ion-header>
             <ion-toolbar>
                 <ion-buttons slot="start">
-                    <ion-button (click)="cancel($event)">Cancel</ion-button>
-                </ion-buttons>
-                <ion-title>Welcome</ion-title>
-                <ion-buttons slot="end">
+                    <ion-button (click)="cancel($event)">{{ "_CANCEL" | translate }}</ion-button>
                 </ion-buttons>
             </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
             <ng-container *ngIf="form">
-                <cms-form (submit)="update($event)" [form]="form" [value]="activatedIndex == null ? null : value[activatedIndex]"></cms-form>
+                <cms-form (submit)="update($event)" [form]="form" [value]="activatedValue" [collection-path]="collectionPath"></cms-form>
             </ng-container>
         </ion-content>
     </ng-template>

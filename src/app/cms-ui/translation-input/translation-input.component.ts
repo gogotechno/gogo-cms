@@ -58,7 +58,8 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
     if (this.value != null) {
       this.text = this.value[this.language];
     }
-    console.log('Language changed', this.value)
+
+    console.log('Language changed', this.value);
   }
 
   textChanged(event?: Event) {
@@ -66,6 +67,7 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
       this.value[this.language] = this.text;
       this.onChange(this.value);
     }
-    console.log('Text changed', this.value)
+
+    console.log('Text changed', this.value);
   }
 }

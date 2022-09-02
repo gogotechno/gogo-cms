@@ -6,12 +6,12 @@
 
                     <ng-container *ngSwitchCase="'array'">
                         <ion-list-header>{{ item.label | cmsTranslate }}</ion-list-header>
-                        <cms-array-input [data-type]="item.dataType" [formControlName]="item.code"></cms-array-input>
+                        <cms-array-input [data-type]="item.dataType" [collection-path]="collectionPath" [formControlName]="item.code"></cms-array-input>
                     </ng-container>
         
                     <ng-container *ngSwitchCase="'cms-translate-editor'">
                         <ion-list-header>{{ item.label | cmsTranslate }}</ion-list-header>
-                        <cms-translation-editor-input [formControlName]="item.code"></cms-translation-editor-input>
+                        <cms-translation-editor-input [collection-path]="collectionPath" [formControlName]="item.code"></cms-translation-editor-input>
                     </ng-container>
         
                     <ng-container *ngSwitchCase="'checkbox'">

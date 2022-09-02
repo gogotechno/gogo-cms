@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsTable } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'app-database-form',
@@ -18,9 +19,14 @@ export class DatabaseFormPage implements OnInit {
   table: CmsTable;
   form: CmsForm;
   document: any;
+  collectionPath: string;
   isLoaded = false;
 
-  constructor(private route: ActivatedRoute, private cms: CmsService, private translate: TranslatePipe) { }
+  constructor(
+    private route: ActivatedRoute,
+    private app: AppUtils,
+    private cms: CmsService
+  ) { }
 
   ngOnInit() {
     this.loadData();
@@ -34,18 +40,25 @@ export class DatabaseFormPage implements OnInit {
     this.form = await this.cms.getForm(this.formId);
     this.documentId = this.route.snapshot.params.document;
     this.document = await this.cms.getDocument(this.table, this.documentId);
-    if (!this.document) {
+    if (this.document) {
+      this.collectionPath = `${this.tableId}/${this.documentId}`;
+    } else {
       this.documentId = null;
+      this.collectionPath = this.tableId;
     }
     this.isLoaded = true;
-    console.log(this.document)
   }
 
   async saveDocument(document: any) {
     this.document = document;
-    if (confirm(this.translate.transform('_DOCUMENT_SAVE_CONFIRMATION_MESSAGE'))) {
-      await this.cms.saveDocument(this.table, document, this.documentId);
-      alert(this.translate.transform('_DOCUMENT_SAVED_MESSAGE'));
+    const confirm = await this.app.presentConfirm("_DOCUMENT_SAVE_CONFIRMATION_MESSAGE");
+    if (confirm) {
+      const { id } = await this.cms.saveDocument(this.table, document, this.documentId);
+      if (!this.documentId) {
+        this.documentId = id;
+        this.collectionPath += `/${this.documentId}`;
+      }
+      await this.app.presentAlert("_DOCUMENT_SAVED_MESSAGE");
     }
   }
 

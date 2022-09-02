@@ -29,6 +29,10 @@ Quill.register(NewBlock, true);
 import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
+import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
+Quill.register('modules/imageHandler', ImageHandler);
+Quill.register('modules/videoHandler', VideoHandler);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -64,8 +68,7 @@ Quill.register('modules/imageResize', ImageResize);
           [{ 'align': [] }],
           ['clean'],
           ['link', 'image', 'video', 'formula']
-        ],
-        imageResize: {}
+        ]
       }
     })
   ],

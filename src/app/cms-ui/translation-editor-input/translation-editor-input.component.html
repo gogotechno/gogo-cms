@@ -1,7 +1,11 @@
-<ion-select [(ngModel)]="language" (ionChange)="languageChanged()">
-    <ion-select-option *ngFor="let language of languages" [value]="language">{{ language }}</ion-select-option>
-</ion-select>
-<quill-editor class="ion-padding-start" [(ngModel)]="text" (onContentChanged)="textChanged()"></quill-editor>
+<ion-item lines="none">
+    <ion-select slot="end" [(ngModel)]="language" (ionChange)="languageChanged()">
+        <ion-select-option *ngFor="let language of languages" [value]="language">
+            <ion-label>{{ language }}</ion-label>
+        </ion-select-option>
+    </ion-select>
+</ion-item>
+<quill-editor [modules]="modules" [(ngModel)]="text" (onContentChanged)="textChanged()"></quill-editor>
 <ion-item>
-    <ion-textarea [(ngModel)]="text" (onChange)="textChanged()"></ion-textarea>
+    <ion-textarea autoGrow [(ngModel)]="text" (onChange)="textChanged()"></ion-textarea>
 </ion-item>

@@ -10,6 +10,8 @@ import { CmsService } from './cms.service';
 })
 export class AppComponent implements OnInit {
 
+  pathName: string;
+
   constructor(
     private router: Router,
     private cms: CmsService,
@@ -17,6 +19,8 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.pathName = window.location.pathname;
+
     this.redirectToTemplate();
     this.translate.setDefaultLang('en');
   }
@@ -25,14 +29,24 @@ export class AppComponent implements OnInit {
     this.cms.SITE = await this.cms.getSite();
     this.translate.addLangs(this.cms.SITE.supportedLanguages);
     this.translate.setDefaultLang(this.cms.SITE.defaultLanguage);
+
     let browserLangauge = this.translate.getBrowserLang();
     let used = await this.translate.use(browserLangauge).toPromise();
     if (!used) {
       await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
+
     let found = this.router.url.split('/').find(s => s == 'cms-admin' || s == 'teckguan');
     if (!found) {
-      this.router.navigate([`/${this.cms.SITE.template}`], { skipLocationChange: true })
+      let commands = [`/${this.cms.SITE.template}`];
+      if (this.pathName != "/") {
+        let paths = this.pathName.split("/").filter((path) => path && path != this.cms.SITE.template);
+        if (paths.length > 0) {
+          commands.push(...paths);
+        }
+      }
+
+      this.router.navigate(commands, { skipLocationChange: true });
     }
   }
 }

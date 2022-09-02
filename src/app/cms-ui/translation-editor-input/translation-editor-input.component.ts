@@ -1,8 +1,11 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
-import { CmsTranslation } from 'src/app/cms.type';
+import { CmsSite, CmsTranslation } from 'src/app/cms.type';
+import { QuillModules } from 'ngx-quill';
+import { AppUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-translation-editor-input',
@@ -18,19 +21,29 @@ import { CmsTranslation } from 'src/app/cms.type';
 })
 export class TranslationEditorInputComponent implements OnInit, ControlValueAccessor {
 
-  languages = languages;
-  value: CmsTranslation = {};
-  language: string;
-  text: string;
-  disabled = false;
+  @Input('collection-path') collectionPath: string;
 
+  site: CmsSite;
+  language: string;
+  languages = languages;
+  text: string;
+  value: CmsTranslation = {};
+  modules: QuillModules;
+
+  disabled = false;
   onChange: any = () => { };
   onTouched: any = () => { };
 
-  constructor(private cms: CmsService) { }
+  constructor(
+    private app: AppUtils,
+    private cms: CmsService,
+    private storage: AngularFireStorage
+  ) { }
 
   ngOnInit() {
-    this.language = this.cms.SITE.defaultLanguage;
+    this.site = this.cms.SITE;
+    this.language = this.site.defaultLanguage;
+    this.modules = this.getModules();
     this.onChange(this.value);
   }
 
@@ -39,6 +52,7 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
       this.value = value;
       this.onChange(this.value);
     }
+
     this.languageChanged();
   }
 
@@ -58,7 +72,8 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
     if (this.value != null) {
       this.text = this.value[this.language];
     }
-    console.log('Language changed', this.value)
+
+    console.log('Language changed', this.value);
   }
 
   textChanged(event?: Event) {
@@ -66,8 +81,56 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
       this.value[this.language] = this.text;
       this.onChange(this.value);
     }
-    console.log('Text changed', this.value)
+
+    console.log('Text changed', this.value);
+  }
+
+  getModules() {
+    const uploadFile = (file: File) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          if (this.collectionPath.split("/").length < 2) {
+            await this.app.presentAlert("_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE", "_ERROR");
+            reject("Please save document to get valid collection path");
+            return;
+          }
+
+          const pathName = `${this.site.code}/upload/${this.collectionPath}/${file.name}`;
+          const ref = this.storage.ref(pathName);
+          const task = this.storage.upload(pathName, file);
+          const res = await task.snapshotChanges().toPromise();
+          const url = await ref.getDownloadURL().toPromise();
+          resolve(url);
+        } catch (err) {
+          console.error(err);
+          await this.app.presentAlert("_ERROR_WHILE_UPLOADING_FILE", "_ERROR");
+          reject("Error while uploading file");
+        }
+      })
+    }
+
+    let modules: QuillModules = {
+      toolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['blockquote', 'code-block'],
+        [{ 'header': 1 }, { 'header': 2 }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'script': 'sub' }, { 'script': 'super' }],
+        [{ 'indent': '-1' }, { 'indent': '+1' }],
+        [{ 'direction': 'rtl' }],
+        [{ 'size': [] }],
+        [{ 'header': [] }],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+        ['clean'],
+        ['link', 'image', 'video', 'formula']
+      ],
+      imageResize: {},
+      imageHandler: { upload: uploadFile },
+      videoHandler: { upload: uploadFile }
+    }
+
+    return modules;
   }
 }
-
-

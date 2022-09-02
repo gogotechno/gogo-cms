@@ -10,15 +10,13 @@
             <ng-container *ngIf="document; else newDocument">
                 {{ (document[table.nameField] | cmsTranslate) || (document[table.codeField] | cmsTranslate) }}
             </ng-container>
-            <ng-template #newDocument>New</ng-template>
+            <ng-template #newDocument>{{ "_NEW" | translate }}</ng-template>
         </div>
-        <ion-buttons slot="end">
-        </ion-buttons>
     </ion-toolbar>
     <ion-grid fixed="true">
         <ion-row>
             <ion-col size="12">
-                <cms-form [form]="form" [value]="document" (submit)="saveDocument($event)"></cms-form>
+                <cms-form [form]="form" [value]="document" [collection-path]="collectionPath" (submit)="saveDocument($event)"></cms-form>
             </ion-col>
         </ion-row>
     </ion-grid>
