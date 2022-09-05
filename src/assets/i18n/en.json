@@ -15,6 +15,7 @@
     "_IS_REQUIRED": "{{ label }} is required",
     "_HAS_UNKNOWN_ERROR": "{{ label }} has unknown error",
     "_INFORMATION": "Information",
+    "_NEW": "New",
     "_ERROR": "Error",
     "_CONFIRM": "Confirm",
     "_LOADING": "Loading",
@@ -24,6 +25,9 @@
     "_LOGOUT": "Logout",
     "_CONFIRMATION": "Confirmation",
     "_I_UNDERSTAND": "I Understand",
+    "_FORGOT_PASSWORD": "Forgot Password",
+    "_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE": "Please save or submit to get valid collection path",
+    "_ERROR_WHILE_UPLOADING_FILE": "Error while uploading file",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",

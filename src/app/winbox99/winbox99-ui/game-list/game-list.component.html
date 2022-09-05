@@ -5,12 +5,18 @@
         </ion-col>
     </ion-row>
 
-    <ion-row *ngIf="gameList">
-        <ion-col sizeXs="4" sizeSm="4" sizeMd="3" sizeLg="3" sizeXl="2" *ngFor="let item of gameList.items">
-            <div (click)="gameDetail(item)" class="ion-activatable ripple-parent">
-                <img class="game-thumbnail" [src]="item.thumbnail | cmsTranslate" alt="" />
-                <ion-ripple-effect></ion-ripple-effect>
-            </div>
-        </ion-col>
-    </ion-row>
+    <ion-slides>
+        <ion-slide *ngFor="let group of gameGroups">
+            <ion-grid>
+                <ion-row>
+                    <ion-col size="4" *ngFor="let item of group">
+                        <div (click)="gameDetail(item)" class="ion-activatable ripple-parent">
+                            <img class="game-thumbnail" [src]="item.thumbnail | cmsTranslate" alt="" />
+                            <ion-ripple-effect></ion-ripple-effect>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-slide>
+    </ion-slides>
 </ion-grid>

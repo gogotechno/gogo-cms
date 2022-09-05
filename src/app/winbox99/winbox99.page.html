@@ -8,9 +8,9 @@
         <ion-list lines="none" class="ion-no-padding" *ngIf="navigation">
             <ion-item color="dark">
                 <ion-label>{{ '_LANGUAGE' | translate }}</ion-label>
-                <ion-select [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChanged($event)">
+                <ion-select [(ngModel)]="lang" (ionChange)="onLanguageChanged($event)">
                     <ion-select-option *ngFor="let language of site.supportedLanguages" [value]="language">
-                        {{ language | translate }}
+                        <ion-label>{{ language | translate }}</ion-label>
                     </ion-select-option>
                 </ion-select>
             </ion-item>
@@ -29,7 +29,9 @@
                             <div slot="content">
                                 <ion-menu-toggle *ngFor="let child of item.children">
                                     <ion-item lines="none" color="dark" [routerLink]="child.path"
-                                        [class.active]="isActive(child.path)">{{ child.name | cmsTranslate }}</ion-item>
+                                        [class.active]="isActive(child.path)">
+                                        {{ child.name | cmsTranslate }}
+                                    </ion-item>
                                 </ion-menu-toggle>
                             </div>
                         </ion-accordion>

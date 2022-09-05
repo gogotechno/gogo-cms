@@ -22,14 +22,27 @@ import { array_move } from 'src/app/cms.util';
 export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   @ViewChild(IonModal) modal: IonModal;
+
   @Input('data-type') dataType: string;
+  @Input('collection-path') collectionPath: string;
+
   form: CmsForm;
   table: CmsTable;
   value: Array<any> = [];
+  activatedIndex: number;
+
   disabled = false;
   onChange: any = () => { };
   onTouched: any = () => { };
-  activatedIndex: number;
+
+  get activatedValue() {
+    let value = null;
+    if (this.activatedIndex != null) {
+      value = this.value[this.activatedIndex];
+    }
+
+    return value;
+  }
 
   constructor(private translate: TranslatePipe, private cms: CmsService) { }
 
@@ -47,13 +60,13 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
             items: [
               {
                 code: 'value',
-                label: {en: 'Text Value'},
+                label: { en: 'Text Value' },
                 type: 'text'
               }
             ],
           }
           break;
-      
+
         default:
           this.form = await this.cms.getForm(this.dataType);
           this.table = await this.cms.getTable(this.dataType);
@@ -102,23 +115,23 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     this.modal.present();
   }
 
-  onWillDismiss(event) {
+  onWillDismiss(event: Event) {
     this.activatedIndex = null;
   }
 
-  cancel(event) {
+  cancel(event: Event) {
     this.modal.dismiss();
   }
 
-  update(item) {
+  update(item: { [key: string]: any }) {
     if (this.activatedIndex != null) {
-      this.value[this.activatedIndex] = this.dataType == 'text' ? item.value: item;
+      this.value[this.activatedIndex] = this.dataType == 'text' ? item.value : item;
     } else {
       switch (this.dataType) {
         case 'text':
           this.value.push(item.value);
           break;
-      
+
         default:
           this.value.push(item);
           break;
@@ -132,7 +145,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     this.modal.present();
   }
 
-  getName(item) {
+  getName(item: { [key: string]: any }) {
     try {
       return item[this.table.nameField];
     } catch (error) {

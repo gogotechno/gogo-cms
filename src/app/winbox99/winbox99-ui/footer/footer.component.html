@@ -21,8 +21,7 @@
             <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="3" sizeXl="3">
                 <nav *ngIf="contactUs">
                     <h4 class="title font-bold">{{ '_CONTACT_US' | translate | uppercase }}</h4>
-                    <div class="ion-text-center ion-margin-bottom-sm"
-                        *ngIf="getContactUsOption('whatsapp') as whatsapp">
+                    <div class="ion-margin-bottom-sm" *ngIf="getContactUsOption('whatsapp') as whatsapp">
                         <ion-icon class="whatsapp" name="logo-whatsapp"></ion-icon>
                         <p class="font-bold ion-no-margin-bottom">
                             {{ "winbox99._WHATSAPP_NOW" | translate | uppercase }}

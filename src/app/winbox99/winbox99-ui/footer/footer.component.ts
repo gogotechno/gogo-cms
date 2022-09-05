@@ -15,7 +15,10 @@ export class FooterComponent extends CmsComponent implements OnInit {
   navigation: CmsNavigation;
   contactUs: CmsSiteAttribute;
 
-  constructor(private cms: CmsService, private winbox99: Winbox99Service) {
+  constructor(
+    private cms: CmsService,
+    private winbox99: Winbox99Service
+  ) {
     super();
   }
 
@@ -26,7 +29,7 @@ export class FooterComponent extends CmsComponent implements OnInit {
   async loadData() {
     this.list = await this.cms.getList('footers');
     this.navigation = await this.cms.getNavigation('top-nav');
-
+    
     await this.winbox99.getAttributes();
     this.contactUs = this.winbox99.ATTRIBUTES.find((a) => a.code == "contact-us");
   }

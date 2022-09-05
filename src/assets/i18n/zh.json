@@ -15,6 +15,7 @@
     "_IS_REQUIRED": "{{ label }}是必需的",
     "_HAS_UNKNOWN_ERROR": "{{ label }}有未知错误",
     "_INFORMATION": "信息",
+    "_NEW": "新",
     "_ERROR": "错误",
     "_CONFIRM": "确认",
     "_LOADING": "加载中",
@@ -24,6 +25,9 @@
     "_LOGOUT": "登出",
     "_CONFIRMATION": "确认",
     "_I_UNDERSTAND": "我明白",
+    "_FORGOT_PASSWORD": "忘记密码",
+    "_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE": "请保存或提交以获取有效的上传路径",
+    "_ERROR_WHILE_UPLOADING_FILE": "上传文件时出错",
     "winbox99": {
         "_LOGIN": "登录",
         "_GAMES": "我们的游戏",
