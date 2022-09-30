@@ -29,7 +29,7 @@ export class FooterComponent extends CmsComponent implements OnInit {
   async loadData() {
     this.list = await this.cms.getList('footers');
     this.navigation = await this.cms.getNavigation('top-nav');
-    
+
     await this.winbox99.getAttributes();
     this.contactUs = this.winbox99.ATTRIBUTES.find((a) => a.code == "contact-us");
   }
@@ -41,7 +41,7 @@ export class FooterComponent extends CmsComponent implements OnInit {
   }
 
   getContactUsOptions() {
-    return this.contactUs.options.filter((o) => o.code != "whatsapp" && o.code != "android" && o.code != "ios");
+    return this.contactUs.options.filter((o) => o.code != "whatsapp" && o.code != "android" && o.code != "ios" && o.value);
   }
 
 }

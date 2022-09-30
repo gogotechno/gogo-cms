@@ -32,7 +32,10 @@
         "_LOGIN": "登录",
         "_GAMES": "我们的游戏",
         "_FAQ": "常见问题",
-        "_CLOSE": "关闭"
+        "_CLOSE": "关闭",
+        "_WHATSAPP_NOW": "现在 WhatsApp",
+        "_WE_ARE_HERE_TO_HELP": "我们在这里帮助解决问题或代码",
+        "_CLICK_HERE": "点击这里"
     },
     "tastefully": {
         "_HOME": "主页",
