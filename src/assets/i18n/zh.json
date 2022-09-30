@@ -62,6 +62,7 @@
         "_STAY_TUNED": "敬请期待",
         "_ERROR_WHILE_PROCESSING_REGISTER": "处理注册时出错",
         "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "创建客户资料时出错",
+        "_ERROR_WHILE_UPDATING_CUSTOMER_PROFILE": "更新客户资料时出错",
         "_REGISTERED_FOR_EVENT": "已注册于此活动",
         "_GUEST": "客人",
         "_GET_YOUR_FREE_GIFT_NOW": "立即获取您的免费礼物",

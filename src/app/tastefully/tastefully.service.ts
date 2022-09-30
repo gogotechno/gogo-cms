@@ -126,13 +126,14 @@ export class TastefullyService {
     }
   }
 
-  async saveCustomer(table: CmsTable, data: TastefullyCustomer) {
+  async saveCustomer(table: CmsTable, data: TastefullyCustomer, id?: string) {
     try {
-      const result = await this.cms.saveDocument(table, data);
+      const result = await this.cms.saveDocument(table, data, id);
       const created = await this.cms.getDocument(table, result.id);
       return created;
     } catch (err) {
-      await this.app.presentAlert("tastefully._ERROR_WHILE_CREATING_CUSTOMER_PROFILE", "_ERROR");
+      let errorMessage = id ? "tastefully._ERROR_WHILE_UPDATING_CUSTOMER_PROFILE" : "tastefully._ERROR_WHILE_CREATING_CUSTOMER_PROFILE";
+      await this.app.presentAlert(errorMessage, "_ERROR");
       console.error(err);
       return null;
     }

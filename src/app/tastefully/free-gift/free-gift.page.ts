@@ -56,7 +56,13 @@ export class FreeGiftPage extends CmsComponent implements OnInit {
 
   async loadData(refresher?: Event) {
     this.form = await this.cms.getForm('free-gift-registers');
-    this.value = { name: this.CURRENT_CUSTOMER.name, mobileNo: this.CURRENT_CUSTOMER.mobileNo };
+    this.value = {
+      name: this.CURRENT_CUSTOMER.name,
+      email: this.CURRENT_CUSTOMER.email,
+      mobileNo: this.CURRENT_CUSTOMER.mobileNo,
+      gender: this.CURRENT_CUSTOMER.gender,
+      dob: this.CURRENT_CUSTOMER.dob
+    };
 
     this.table = await this.cms.getTable('free-gift-registers');
 

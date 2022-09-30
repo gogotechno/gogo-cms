@@ -65,6 +65,7 @@
         "_STAY_TUNED": "Stay Tuned",
         "_ERROR_WHILE_PROCESSING_REGISTER": "Error while processing register",
         "_ERROR_WHILE_CREATING_CUSTOMER_PROFILE": "Error while creating customer profile",
+        "_ERROR_WHILE_UPDATING_CUSTOMER_PROFILE": "Error while updating customer profile",
         "_REGISTERED_FOR_EVENT": "Registered for this event",
         "_GUEST": "Guest",
         "_GET_YOUR_FREE_GIFT_NOW": "Get your free gift now",

@@ -31,6 +31,7 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
     this.table = await this.cms.getTable(this.tableId);
     this.list = await this.cms.getTableData(this.table);
     this.title = this.cmsTranslate.transform(this.table.name);
+    console.log("List: ", this.list);
   }
 
   getTableDataName(tableData: any) {
