@@ -2,9 +2,12 @@ import { Timestamp } from "@angular/fire/firestore";
 import { CmsDocument, CmsTranslation } from "../cms.type";
 
 export interface TastefullyCustomer extends CmsDocument {
-    name: string,
-    mobileNo: string,
     giverMemberId: string,
+    name: string,
+    email: string,
+    mobileNo: string,
+    gender: "M" | "F" | "S",
+    dob: string,
     profilePic?: string
 }
 
@@ -39,9 +42,10 @@ export interface TastefullyEvent extends CmsDocument {
 
 export interface TastefullyFreeGiftRegister extends CmsDocument {
     name: string
+    email: string,
     mobileNo: string,
-    email?: string,
-    gender?: "M" | "F",
+    gender: "M" | "F" | "S",
+    dob: string,
     eventCode?: string
 }
 
@@ -49,7 +53,7 @@ export interface TastefullyFreeGiftActivation extends CmsDocument {
     name: string
     mobileNo: string,
     email?: string,
-    gender?: "M" | "F",
+    gender?: "M" | "F" | "S",
     eventCode?: string,
     activatedAt: Date | Timestamp
 }

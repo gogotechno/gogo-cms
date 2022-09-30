@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CmsService } from 'src/app/cms.service';
-import { GiverService } from 'src/app/giver.service';
+import { GiverService, GiverValidationResponse } from 'src/app/giver.service';
 import { TastefullyService } from '../tastefully.service';
 
 @Component({
@@ -31,23 +31,32 @@ export class LoginPage implements OnInit {
     let result = await this.giver.validateAuthToken(authtoken);
 
     // fake login for ease of testing purpose
-    // let result = {
+    // let result: GiverValidationResponse = {
     //   result: "successful",
     //   memberID: "TESTING_CUSTOMER",
     //   name: "Testing Customer",
-    //   phone: "TESTING_CUSTOMER"
+    //   email: "TESTING_CUSTOMER",
+    //   phone: "TESTING_CUSTOMER",
+    //   dob: "1999-01-01",
+    //   gender: "M",
+    //   language: "en",
+    //   systemLanguage: "en",
+    //   isHalal: false
     // }
 
     let success = result && result.result == "successful";
 
     if (success) {
       let customers = await this.tastefully.getCustomers((ref) => ref.where("giverMemberId", "==", result.memberID));
+      let table = await this.cms.getTable("customers");
       if (customers.length <= 0) {
-        let table = await this.cms.getTable("customers");
         let customer = await this.tastefully.saveCustomer(table, {
+          giverMemberId: result.memberID,
           name: result.name,
+          email: result.email,
           mobileNo: result.phone,
-          giverMemberId: result.memberID
+          gender: result.gender,
+          dob: result.dob,
         })
         if (customer) {
           this.tastefully.CURRENT_CUSTOMER = customer;
@@ -55,7 +64,16 @@ export class LoginPage implements OnInit {
           this.loginFailed = true;
         }
       } else {
-        this.tastefully.CURRENT_CUSTOMER = customers[0];
+        let customer = customers[0];
+        let updated = await this.tastefully.saveCustomer(table, {
+          giverMemberId: result.memberID,
+          name: result.name,
+          email: result.email,
+          mobileNo: result.phone,
+          gender: result.gender,
+          dob: result.dob,
+        }, customer[table.codeField]);
+        this.tastefully.CURRENT_CUSTOMER = updated;
       }
       await this.tastefully.getAttributes();
       await this.router.navigate(["../home"], { relativeTo: this.route });

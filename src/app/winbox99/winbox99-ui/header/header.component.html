@@ -3,7 +3,7 @@
         <img slot="start" class="logo" [src]="logoUrl" alt="" />
         <cms-navigation class="ion-hide-md-down"></cms-navigation>
         <ion-buttons slot="end">
-            <ion-button class="login-button" href="https://www.wbox1.cc/" target="_blank" fill="outline" shape="round">
+            <ion-button class="login-button" [href]="loginUrl" target="_blank" fill="outline" shape="round">
                 <ion-label>{{ 'winbox99._LOGIN' | translate }}</ion-label>
             </ion-button>
             <ion-menu-button class="ion-hide-lg-up" menu="first"></ion-menu-button>

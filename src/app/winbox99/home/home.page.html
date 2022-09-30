@@ -24,7 +24,8 @@
                             <img [src]="item.thumbnail | cmsTranslate" alt="" />
                             <div>
                                 <h3>{{ item.title | cmsTranslate }}</h3>
-                                <p>{{ item.description }}</p>
+                                <!-- <p>{{ item.description | cmsTranslate }}</p> -->
+                                <cms-html-viewer [html]="item.htmlContent | cmsTranslate"></cms-html-viewer>
                             </div>
                         </div>
                     </ion-col>
