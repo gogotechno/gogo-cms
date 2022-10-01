@@ -28,7 +28,6 @@ export class GiverService {
 
     try {
       const response = await this.http.post<any>(requestUrl, requestBody, options).toPromise();
-
       const result: GiverValidationResponse = {
         ...response,
         name: response.Name,

@@ -46,16 +46,15 @@ export class LoginPage implements OnInit {
     // }
 
     let success = result && result.result == "successful";
-    let customerForm: TastefullyCustomer = {
-      giverMemberId: result.memberID,
-      name: result.name,
-      email: result.email,
-      mobileNo: result.phone,
-      gender: result.gender,
-      dob: result.dob
-    }
-
     if (success) {
+      let customerForm: TastefullyCustomer = {
+        giverMemberId: result.memberID,
+        name: result.name,
+        email: result.email,
+        mobileNo: result.phone,
+        gender: result.gender,
+        dob: result.dob
+      }
       let customers = await this.tastefully.getCustomers((ref) => ref.where("giverMemberId", "==", result.memberID));
       let table = await this.cms.getTable("customers");
       if (customers.length <= 0) {
