@@ -82,6 +82,10 @@ export class GiverService {
   }
 
   private getDOB(date: string) {
+    if (!date) {
+      return null;
+    }
+
     let arr = date.split("-");
     let day = arr[0];
     let month = arr[1];
