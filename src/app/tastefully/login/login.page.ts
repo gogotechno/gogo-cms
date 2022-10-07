@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CmsService } from 'src/app/cms.service';
 import { GiverService, GiverValidationResponse } from 'src/app/giver.service';
 import { TastefullyService } from '../tastefully.service';
+import { TastefullyCustomer } from '../tastefully.type';
 
 @Component({
   selector: 'app-login',
@@ -45,19 +46,19 @@ export class LoginPage implements OnInit {
     // }
 
     let success = result && result.result == "successful";
-
     if (success) {
+      let customerForm: TastefullyCustomer = {
+        giverMemberId: result.memberID,
+        name: result.name,
+        email: result.email,
+        mobileNo: result.phone,
+        gender: result.gender,
+        dob: result.dob
+      }
       let customers = await this.tastefully.getCustomers((ref) => ref.where("giverMemberId", "==", result.memberID));
       let table = await this.cms.getTable("customers");
       if (customers.length <= 0) {
-        let customer = await this.tastefully.saveCustomer(table, {
-          giverMemberId: result.memberID,
-          name: result.name,
-          email: result.email,
-          mobileNo: result.phone,
-          gender: result.gender,
-          dob: result.dob,
-        })
+        let customer = await this.tastefully.saveCustomer(table, customerForm)
         if (customer) {
           this.tastefully.CURRENT_CUSTOMER = customer;
         } else {
@@ -65,15 +66,12 @@ export class LoginPage implements OnInit {
         }
       } else {
         let customer = customers[0];
-        let updated = await this.tastefully.saveCustomer(table, {
-          giverMemberId: result.memberID,
-          name: result.name,
-          email: result.email,
-          mobileNo: result.phone,
-          gender: result.gender,
-          dob: result.dob,
-        }, customer[table.codeField]);
-        this.tastefully.CURRENT_CUSTOMER = updated;
+        let updated = await this.tastefully.saveCustomer(table, customerForm, customer[table.codeField]);
+        if (updated) {
+          this.tastefully.CURRENT_CUSTOMER = updated;
+        } else {
+          this.loginFailed = true;
+        }
       }
       await this.tastefully.getAttributes();
       await this.router.navigate(["../home"], { relativeTo: this.route });

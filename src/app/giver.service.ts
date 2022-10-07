@@ -28,7 +28,6 @@ export class GiverService {
 
     try {
       const response = await this.http.post<any>(requestUrl, requestBody, options).toPromise();
-
       const result: GiverValidationResponse = {
         ...response,
         name: response.Name,
@@ -82,6 +81,10 @@ export class GiverService {
   }
 
   private getDOB(date: string) {
+    if (!date) {
+      return null;
+    }
+
     let arr = date.split("-");
     let day = arr[0];
     let month = arr[1];
