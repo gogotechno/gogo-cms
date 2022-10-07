@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>issue-ticket</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onIssueTicket($event)">{{ '_ISSUE_TICKET' | translate }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="formGroup" [formGroup]="formGroup">
+    <ion-item>
+      <ion-label position="floating">{{ '_CUSTOMER_FIRST_NAME' | translate }}</ion-label>
+      <ion-input type="family-name" formControlName="customerFirstName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ '_CUSTOMER_LAST_NAME' | translate }}</ion-label>
+      <ion-input type="given-name" formControlName="customerLastName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ '_CUSTOMER_CONTACT' | translate }}</ion-label>
+      <ion-input type="tel" formControlName="customerContactNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ '_CUSTOMER_BILL_NO' | translate }}</ion-label>
+      <ion-input formControlName="billNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ '_TOTAL_TICKET' | translate }}</ion-label>
+      <ion-input inputmode="numeric" formControlName="ticketCount"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>

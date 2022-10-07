@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>home</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="./ended-events">{{ '_ENDED_EVENTS' | translate }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="lastEndedEvent as event">
+    <ion-card-content>
+      <ion-card-title>
+        <ion-badge>#{{ event.doc_id }}</ion-badge>{{ event.name }}
+      </ion-card-title>
+      <ion-card-subtitle>{{ event.drawAt | date }}</ion-card-subtitle>
+
+      <table style="width: 100%;">
+        <thead>
+          <tr>
+            <th>{{ '_TICKET' | translate }}</th>
+            <th>{{ '_PRIZE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>ABC</td>
+          <td>RM2000</td>
+        </tbody>
+      </table>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

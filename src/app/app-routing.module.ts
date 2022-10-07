@@ -24,7 +24,11 @@ const routes: Routes = [
   {
     path: 'teckguan',
     loadChildren: () => import('./teckguan/teckguan.module').then( m => m.TeckguanPageModule)
+  },  {
+    path: 'jj-luckydraw',
+    loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then( m => m.JjLuckydrawPageModule)
   },
+
 
 ];
 

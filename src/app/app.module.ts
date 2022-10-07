@@ -7,13 +7,14 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SiteGuardService } from './cms-ui/route-guards.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -30,6 +31,8 @@ import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
 import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
+import { SwsErpInterceptor } from './sws-erp.interceptors';
+
 Quill.register('modules/imageHandler', ImageHandler);
 Quill.register('modules/videoHandler', VideoHandler);
 
@@ -78,6 +81,12 @@ Quill.register('modules/videoHandler', VideoHandler);
       useClass: IonicRouteStrategy
     },
     SiteGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SwsErpInterceptor,
+      multi: true
+    },
+    Storage
   ],
 
   bootstrap: [AppComponent],

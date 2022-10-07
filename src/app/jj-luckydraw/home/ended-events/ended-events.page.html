@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>ended-events</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="events">
+    <ion-list *ngFor="let event of events">
+      <ion-item routerLink="./event-detail">
+        <ion-label>
+          <ion-text><b>{{ event.name }}</b></ion-text><br />
+          <ion-text><ion-chip *ngFor="let prize of event.prizes">{{ prize.name }}</ion-chip></ion-text>
+        </ion-label>
+        <ion-note slot="end">
+          <ion-text><small>{{ event.endAt | date }}</small></ion-text>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>

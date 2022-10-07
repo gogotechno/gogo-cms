@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from './cms.service';
 
@@ -15,12 +16,14 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private cms: CmsService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private storage: Storage,
   ) { }
 
   ngOnInit() {
     this.pathName = window.location.pathname;
 
+    this.initStorage();
     this.redirectToTemplate();
     this.translate.setDefaultLang('en');
   }
@@ -48,5 +51,9 @@ export class AppComponent implements OnInit {
 
       this.router.navigate(commands, { skipLocationChange: true });
     }
+  }
+
+  async initStorage() {
+    await this.storage.create();
   }
 }

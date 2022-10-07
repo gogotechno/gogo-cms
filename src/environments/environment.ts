@@ -13,6 +13,10 @@ export const environment = {
     messagingSenderId: '725199808903',
     measurementId: 'G-HV244CX08S',
   },
+  swsErp: {
+    ApiUrl: 'https://uat.erp.swstechno.com/api',
+    publicUrl: ['/login']
+  },
   production: false
 };
 

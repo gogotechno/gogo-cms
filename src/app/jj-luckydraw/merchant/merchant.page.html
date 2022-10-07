@@ -1,0 +1,24 @@
+<ion-menu contentId="merchant-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item routerLink="./dashboard">
+          <ion-label>{{ '_DASHBOARD' | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerLink="./issue-ticket">
+          <ion-label>{{ '_ISSUE_TICKET' | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="merchant-content">
+  <ion-router-outlet></ion-router-outlet>
+</div>

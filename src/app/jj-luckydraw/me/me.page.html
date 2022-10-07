@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>me</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngIf="me" routerLink="update-me">
+    <ion-thumbnail slot="start">
+      <ion-img></ion-img>
+    </ion-thumbnail>
+    <ion-label>
+      <ion-text><b>{{ me.first_name }} {{ me.last_name }}</b></ion-text><br />
+      <ion-text color="medium"><small>{{ me.email }}</small></ion-text>
+    </ion-label>
+  </ion-item>
+
+  <hr />
+
+  <ion-button color="danger" fill="clear" expand="block" (click)="onSignOut($event)">{{ '_SIGN_OUT' | translate }}</ion-button>
+</ion-content>

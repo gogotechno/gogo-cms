@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ '_SIGN_IN' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onSignIn($event)">{{ '_SIGN_IN' | translate }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form *ngIf="formGroup" [formGroup]="formGroup" class="ion-padding">
+    <ion-item>
+      <ion-label position="floating">{{ '_USERNAME_EMAL' | translate }}</ion-label>
+      <ion-input formControlName="email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">{{ '_PASSWORD' | translate }}</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-checkbox formControlName="rememberMe"></ion-checkbox>
+      <ion-label>{{ '_REMEMBER_ME' | translate }}</ion-label>
+    </ion-item>
+    <ion-button expand="block" (click)="onSignIn($event)">{{ '_SIGN_IN' | translate }}</ion-button>
+  </form>
+</ion-content>
