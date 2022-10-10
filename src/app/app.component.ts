@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from './cms.service';
+import { LocalStorageService } from './local-storage.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private cms: CmsService,
     private translate: TranslateService,
-    private storage: Storage,
+    private storage: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -26,6 +26,10 @@ export class AppComponent implements OnInit {
     this.initStorage();
     this.redirectToTemplate();
     this.translate.setDefaultLang('en');
+  }
+
+  async initStorage() {
+    await this.storage.init();
   }
 
   async redirectToTemplate() {
@@ -39,7 +43,7 @@ export class AppComponent implements OnInit {
       await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
 
-    let found = this.router.url.split('/').find(s => s == 'cms-admin' || s == 'teckguan');
+    let found = this.router.url.split('/').find(s => s == 'cms-admin');
     if (!found) {
       let commands = [`/${this.cms.SITE.template}`];
       if (this.pathName != "/") {
@@ -51,9 +55,5 @@ export class AppComponent implements OnInit {
 
       this.router.navigate(commands, { skipLocationChange: true });
     }
-  }
-
-  async initStorage() {
-    await this.storage.create();
   }
 }

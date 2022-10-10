@@ -12,7 +12,7 @@ import { Timestamp } from "@angular/fire/firestore";
 })
 export class CmsTranslatePipe implements PipeTransform {
     constructor(private cms: CmsService, private translate: TranslateService) { }
-    transform(value: CmsTranslation): string {
+    transform(value: CmsTranslation) {
         try {
             let lang = this.cms.getCurrentLang();
             if (value[lang]) {
@@ -22,9 +22,9 @@ export class CmsTranslatePipe implements PipeTransform {
             if (value[defaultLang]) {
                 return value[defaultLang] as string;
             }
-            return value as string;
+            return (value as any) as string;
         } catch (error) {
-            return value as string;
+            return (value as any) as string;
         }
     }
 }

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { JJLuckydrawService } from './jj-luckydraw.service';
+import { SwsErpService } from './sws-erp.service';
 
-describe('JJLuckydrawService', () => {
-  let service: JJLuckydrawService;
+describe('SwsErpService', () => {
+  let service: SwsErpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(JJLuckydrawService);
+    service = TestBed.inject(SwsErpService);
   });
 
   it('should be created', () => {

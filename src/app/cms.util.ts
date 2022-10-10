@@ -64,7 +64,6 @@ export class AppUtils {
      */
     async presentAlert(message: string, header?: string) {
         header = header ? header : "_INFORMATION";
-
         let defaultOpts: AlertOptions = {
             buttons: [await this.translate.get("_CONFIRM").toPromise()]
         }
@@ -81,13 +80,20 @@ export class AppUtils {
     /**
      * Present loading
      */
-    async presentLoading() {
+    async presentLoading(message?: string) {
+        if (await this.getTopLoading()) {
+            return;
+        }
+
+        message = message ? message : "_LOADING";
         let defaultOpts: LoadingOptions = {
-            message: await this.translate.get("_LOADING").toPromise(),
             spinner: "bubbles"
         };
 
-        const loading = await this.loadingCtrl.create(defaultOpts);
+        const loading = await this.loadingCtrl.create({
+            message: await this.translate.get(message).toPromise(),
+            ...defaultOpts
+        });
 
         await loading.present();
     }
@@ -97,17 +103,21 @@ export class AppUtils {
      * @returns Returns null if no loading presenting
      */
     async dismissLoading() {
-        const isLoading = await this.loadingCtrl.getTop();
-        if (!isLoading) return;
+        if (!await this.getTopLoading()) {
+            return;
+        }
 
         await this.loadingCtrl.dismiss();
+    }
+
+    async getTopLoading() {
+        return this.loadingCtrl.getTop();
     }
 
     async presentConfirm(message: string, header?: string, confirmBtnText?: string, cancelBtnText?: string) {
         header = header ? header : "_CONFIRMATION";
         confirmBtnText = confirmBtnText ? confirmBtnText : "_CONFIRM";
         cancelBtnText = cancelBtnText ? cancelBtnText : "_CANCEL";
-
         return new Promise(async (resolve) => {
             const confirm = await this.alertCtrl.create({
                 header: await this.translate.get(header).toPromise(),

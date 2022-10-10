@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { JjLuckydrawPage } from './jj-luckydraw.page';
+import { JJLuckydrawPage } from './jj-luckydraw.page';
 
-describe('JjLuckydrawPage', () => {
-  let component: JjLuckydrawPage;
-  let fixture: ComponentFixture<JjLuckydrawPage>;
+describe('JJLuckydrawPage', () => {
+  let component: JJLuckydrawPage;
+  let fixture: ComponentFixture<JJLuckydrawPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ JjLuckydrawPage ],
+      declarations: [ JJLuckydrawPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JjLuckydrawPage);
+    fixture = TestBed.createComponent(JJLuckydrawPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -7,7 +7,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -16,11 +15,11 @@ import { environment } from '../environments/environment';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SiteGuardService } from './cms-ui/route-guards.service';
+import { SiteGuard } from './cms-ui/route-guards.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-
 const Parchment = Quill.import("parchment");
 const Block = Parchment.query("block");
 class NewBlock extends Block { };
@@ -31,10 +30,17 @@ import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
 import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
-import { SwsErpInterceptor } from './sws-erp.interceptors';
-
 Quill.register('modules/imageHandler', ImageHandler);
 Quill.register('modules/videoHandler', VideoHandler);
+
+import { SwsErpInterceptor } from './sws-erp.interceptors';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { SWS_ERP_COMPANY } from './sws-erp.type';
+import { BehaviorSubject } from 'rxjs';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -73,26 +79,25 @@ Quill.register('modules/videoHandler', VideoHandler);
           ['link', 'image', 'video', 'formula']
         ]
       }
-    })
+    }),
+    IonicStorageModule.forRoot()
   ],
   providers: [
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-    SiteGuardService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SwsErpInterceptor,
       multi: true
     },
-    Storage
+    {
+      provide: SWS_ERP_COMPANY,
+      useValue: new BehaviorSubject<string>("default")
+    },
+    SiteGuard
   ],
-
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
-}

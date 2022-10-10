@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormComponent } from 'src/app/cms-ui/form/form.component';
+import { CmsForm } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -11,23 +12,74 @@ import { AuthService } from '../auth.service';
 })
 export class SignInPage implements OnInit {
 
-  formGroup: FormGroup;
+  @ViewChild(FormComponent) cmsForm: FormComponent;
 
-  constructor(private auth: AuthService, private fb: FormBuilder, private router: Router, private route: ActivatedRoute) { }
+  loaded: boolean;
+
+  form: CmsForm;
+  value: SignIn
+
+  constructor(private router: Router, private app: AppUtils, private auth: AuthService) { }
 
   ngOnInit() {
-    this.formGroup = this.fb.group({
-      email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      rememberMe: [true]
-    });
+    this.loaded = false;
+    
+    this.form = form;
+    this.value = {
+      email: "",
+      password: "",
+      rememberMe: true
+    }
+
+    this.loaded = true;
   }
 
-  async onSignIn(event?) {
-    let formValue = this.formGroup.value;
-    await this.auth.signInWithEmailAndPassword(formValue.email, formValue.password, formValue.rememberMe);
-    console.log(location.pathname)
+  async onSignIn(data?: SignIn) {
+    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    if (!validation.valid) {
+      return;
+    }
+
+    await this.auth.signInWithEmailAndPassword(data.email, data.password, data.rememberMe);
     this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
   }
 
+}
+
+interface SignIn {
+  email: string,
+  password: string,
+  rememberMe: boolean
+}
+
+const form: CmsForm = {
+  code: "sign-in",
+  items: [
+    {
+      code: "email",
+      label: {
+        en: "Email",
+        zh: "电子邮件"
+      },
+      type: "email",
+      required: true
+    },
+    {
+      code: "password",
+      label: {
+        en: "Password",
+        zh: "密码"
+      },
+      type: "password",
+      required: true
+    },
+    {
+      code: "rememberMe",
+      label: {
+        en: "Remember Me",
+        zh: "记住我"
+      },
+      type: "checkbox"
+    }
+  ]
 }

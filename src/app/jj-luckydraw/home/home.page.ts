@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JjLuckydrawService } from '../jj-luckydraw.service';
+import { JJLuckydrawService } from '../jj-luckydraw.service';
 
 @Component({
   selector: 'app-home',
@@ -9,15 +9,15 @@ import { JjLuckydrawService } from '../jj-luckydraw.service';
 export class HomePage implements OnInit {
   lastEndedEvent;
 
-  constructor(private jjLuckyDraw: JjLuckydrawService) { }
+  constructor(private jjLuckyDraw: JJLuckydrawService) { }
 
   ngOnInit() {
     this.loadData();
   }
 
   async loadData(event?) {
-    this.lastEndedEvent = await this.jjLuckyDraw.getLastEndedEvent();
-    console.log(this.lastEndedEvent);
+    // this.lastEndedEvent = await this.jjLuckyDraw.getLastEndedEvent();
+    // console.log(this.lastEndedEvent);
   }
 
 }

@@ -14,8 +14,8 @@ export const environment = {
     measurementId: 'G-HV244CX08S',
   },
   swsErp: {
-    ApiUrl: 'https://uat.erp.swstechno.com/api',
-    publicUrl: ['/login']
+    apiUrl: 'https://uat.erp.swstechno.com/api',
+    publicUrls: ['/login']
   },
   production: false
 };

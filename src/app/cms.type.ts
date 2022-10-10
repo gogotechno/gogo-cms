@@ -8,9 +8,7 @@ export interface CmsDocument {
 }
 
 export interface CmsTranslation {
-    en?: string,
-    zh?: string,
-    ms?: string
+    [key: string]: string
 }
 
 export interface CmsSite extends CmsDocument {
@@ -89,15 +87,18 @@ export interface CmsPage extends CmsDocument {
 export interface CmsForm extends CmsDocument {
     code: string,
     name?: CmsTranslation,
+    hideDefaultButtons?: boolean,
     items: Array<CmsFormItem>
 }
 
 export interface CmsFormItem extends CmsDocument {
     code: string,
     label: CmsTranslation,
+    labelPosition?: "fixed" | "floating" | "stacked",
     type: CmsFormItemType,
     dataType?: string,
     required?: boolean,
+    minimum?: number
     options?: Array<CmsFormItemOptions>,
     hidden?: boolean,
 }

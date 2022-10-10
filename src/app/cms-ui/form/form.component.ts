@@ -7,6 +7,7 @@ import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsFormItem, CmsFormValidation } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
 
 @Component({
@@ -30,6 +31,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     private admin: CmsAdminService,
     private translate: TranslateService,
     private cmsTranslate: CmsTranslatePipe,
+    private app: AppUtils
   ) {
     super();
   }
@@ -56,6 +58,10 @@ export class FormComponent extends CmsComponent implements OnInit {
       let validators = [];
       if (item.required) {
         validators.push(Validators.required);
+      }
+
+      if (item.minimum) {
+        validators.push(Validators.min(item.minimum));
       }
 
       if (validators.length > 0) {
@@ -118,12 +124,18 @@ export class FormComponent extends CmsComponent implements OnInit {
     for (let control of Object.keys(controls)) {
       let errors = controls[control].errors;
       if (errors) {
-        for (let error of Object.keys(errors)) {
+        for (let errorKey of Object.keys(errors)) {
+          let error = errors[errorKey];
           let field = this.form.items.find((i) => i.code == control);
           let label = this.cmsTranslate.transform(field.label);
           let messageKey: string;
-          let messageParams: { label: string } = { label: label };
-          switch (error) {
+          let messageParams = { label: label };
+          switch (errorKey) {
+            case "min":
+              messageKey = "_REQUIRES_MINIMUM";
+              messageParams["min"] = error.min;
+              break;
+
             case "required":
               messageKey = "_IS_REQUIRED";
               break;
@@ -136,6 +148,16 @@ export class FormComponent extends CmsComponent implements OnInit {
           validation.errors.push({ error: errors, message: message });
         }
       }
+    }
+
+    return validation;
+  }
+
+  async validateFormAndShowErrorMessages() {
+    let validation = await this.validateForm();
+    if (!validation.valid) {
+      let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + "</p>").join("");
+      this.app.presentAlert(messages, "_ERROR");
     }
 
     return validation;

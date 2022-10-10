@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>dashboard</ion-title>
   </ion-toolbar>
@@ -18,4 +18,31 @@
       <ion-card-subtitle>{{ '_TICKET_ISSUED' | translate }}</ion-card-subtitle>
     </ion-card-content>
   </ion-card>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "_DASHBOARD" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ng-container *ngIf="loaded">
+          <ion-card>
+            <ion-card-header>
+              
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

@@ -8,8 +8,7 @@ import { SignInPageRoutingModule } from './sign-in-routing.module';
 
 import { SignInPage } from './sign-in.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { MyInterceptor } from '../jj-luckydraw.interceptors';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -19,15 +18,8 @@ import { MyInterceptor } from '../jj-luckydraw.interceptors';
     IonicModule,
     SignInPageRoutingModule,
     TranslateModule,
-    HttpClientModule,
+    CmsUIModule
   ],
-  declarations: [SignInPage],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MyInterceptor,
-      multi: true
-    }
-  ],
+  declarations: [SignInPage]
 })
 export class SignInPageModule { }

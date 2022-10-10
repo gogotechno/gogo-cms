@@ -8,6 +8,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     DashboardPageRoutingModule,
-    TranslateModule
+    TranslateModule,
+    SwsErpModule
   ],
   declarations: [DashboardPage]
 })

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { SiteGuardService } from './cms-ui/route-guards.service';
+import { SiteGuard } from './cms-ui/route-guards.service';
 
 const routes: Routes = [
   {
@@ -14,22 +14,22 @@ const routes: Routes = [
   {
     path: 'winbox99',
     loadChildren: () => import('./winbox99/winbox99.module').then(m => m.Winbox99PageModule),
-    canActivate: [SiteGuardService]
+    canActivate: [SiteGuard]
   },
   {
     path: 'tastefully',
     loadChildren: () => import('./tastefully/tastefully.module').then(m => m.TastefullyPageModule),
-    canActivate: [SiteGuardService]
+    canActivate: [SiteGuard]
   },
   {
     path: 'teckguan',
-    loadChildren: () => import('./teckguan/teckguan.module').then( m => m.TeckguanPageModule)
-  },  {
-    path: 'jj-luckydraw',
-    loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then( m => m.JjLuckydrawPageModule)
+    loadChildren: () => import('./teckguan/teckguan.module').then(m => m.TeckguanPageModule)
   },
-
-
+  {
+    path: 'jj-luckydraw',
+    loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then(m => m.JJLuckydrawPageModule),
+    canActivate: [SiteGuard]
+  },
 ];
 
 @NgModule({

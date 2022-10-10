@@ -13,11 +13,11 @@ export class MePage implements OnInit {
   constructor(private auth: AuthService) { }
 
   async ngOnInit() {
-    this.me = await this.auth.getMe();
+    // this.me = await this.auth.getMe();
   }
 
   async onSignOut(event?) {
-    await this.auth.signOut();
+    // await this.auth.signOut();
   }
 
 }

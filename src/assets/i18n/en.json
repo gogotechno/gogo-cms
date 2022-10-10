@@ -13,6 +13,7 @@
     "_GOOD_AFTERNOON": "Good Afternoon",
     "_SUBMIT": "Submit",
     "_IS_REQUIRED": "{{ label }} is required",
+    "_REQUIRES_MINIMUM": "{{ label }} required minimum {{ min }}",
     "_HAS_UNKNOWN_ERROR": "{{ label }} has unknown error",
     "_INFORMATION": "Information",
     "_NEW": "New",
@@ -28,6 +29,7 @@
     "_FORGOT_PASSWORD": "Forgot Password",
     "_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE": "Please save or submit to get valid collection path",
     "_ERROR_WHILE_UPLOADING_FILE": "Error while uploading file",
+    "_UNKNOWN_ERROR": "Unknown Error",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",
@@ -78,5 +80,16 @@
         "_ALL_PRODUCTS": "All Products",
         "_ALL": "All",
         "_UNREAD": "Unread"
+    },
+    "jj-luckydraw": {
+        "_SIGN_IN": "Sign In",
+        "_HOME": "Home",
+        "_MERCHANT": "Merhcant",
+        "_ADMIN": "Admin",
+        "_ME": "Me",
+        "_MENU": "Menu",
+        "_DASHBOARD": "Dashboard",
+        "_ISSUE_TICKET": "Issue Ticket",
+        "_START_AT": "Start at"
     }
 }

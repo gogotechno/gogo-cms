@@ -1,26 +1,26 @@
-<ion-header>
+<ion-header collapse="fade">
   <ion-toolbar>
-    <ion-title>{{ '_SIGN_IN' | translate }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="onSignIn($event)">{{ '_SIGN_IN' | translate }}</ion-button>
-    </ion-buttons>
+    <ion-title>{{ "_SIGN_IN" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <form *ngIf="formGroup" [formGroup]="formGroup" class="ion-padding">
-    <ion-item>
-      <ion-label position="floating">{{ '_USERNAME_EMAL' | translate }}</ion-label>
-      <ion-input formControlName="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="floating">{{ '_PASSWORD' | translate }}</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-checkbox formControlName="rememberMe"></ion-checkbox>
-      <ion-label>{{ '_REMEMBER_ME' | translate }}</ion-label>
-    </ion-item>
-    <ion-button expand="block" (click)="onSignIn($event)">{{ '_SIGN_IN' | translate }}</ion-button>
-  </form>
+<ion-content [fullscreen]="true">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-header collapse="condense">
+          <ion-toolbar>
+            <ion-title size="large">{{ "_SIGN_IN" | translate }}</ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <div class="ion-padding-vertical">
+          <ng-container *ngIf="loaded">
+            <cms-form [form]="form" [value]="value" (submit)="onSignIn($event)"></cms-form>
+          </ng-container>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

@@ -14,7 +14,7 @@ const routes: Routes = [
       },
       {
         path: 'issue-ticket',
-        loadChildren: () => import('./issue-ticket/issue-ticket.module').then( m => m.IssueTicketPageModule)
+        loadChildren: () => import('./issue-ticket/issue-ticket.module').then(m => m.IssueTicketPageModule)
       },
       {
         path: '',
@@ -22,14 +22,6 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: 'issue-ticket',
-    loadChildren: () => import('./issue-ticket/issue-ticket.module').then( m => m.IssueTicketPageModule)
-  },
-  {
-    path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
   }
 ];
 
@@ -37,4 +29,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MerchantPageRoutingModule {}
+export class MerchantPageRoutingModule { }

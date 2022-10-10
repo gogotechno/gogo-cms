@@ -1,36 +1,42 @@
-// AuthGuard Service
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { JJLuckydrawService } from './jj-luckydraw.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private router: Router, private auth: AuthService, private lucky: JJLuckydrawService) { }
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-        if (!this.authService.initialized) {
-            await this.authService.init();
+        if (!this.lucky.initialized) {
+            await this.lucky.init();
         }
 
-        if (!this.authService.authenticated) {
-            console.log('Not authenticated! Go to sign in')
-            this.router.navigateByUrl('/jj-luckydraw/sign-in', { skipLocationChange: true });
+        if (!this.auth.initialized) {
+            await this.auth.init();
+        }
+
+        if (!this.auth.authenticated) {
+            console.log("Not authenticated!");
+            this.router.navigateByUrl("/jj-luckydraw/sign-in", { skipLocationChange: true });
             return false;
         }
+
         return true;
     }
 }
 
 @Injectable()
 export class SignInGuard implements CanActivate {
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(private router: Router, private auth: AuthService) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        if (this.authService.authenticated) {
-            this.router.navigateByUrl('/jj-luckydraw/', { replaceUrl: true });
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        if (this.auth.authenticated) {
+            console.log("Authenticated!");
+            this.router.navigateByUrl("/jj-luckydraw", { replaceUrl: true });
             return false;
         }
+
         return true;
     }
 }
