@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { Event, Merchant, TicketDistributionApplication } from '../../jj-luckydraw.type';
+import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-issue-ticket',
@@ -17,20 +18,25 @@ export class IssueTicketPage implements OnInit {
   loaded: boolean;
 
   form: CmsForm;
-  value: TicketDistributionApplication;
+  value: JJTicketDistributionApplication;
 
-  event: Event;
-  merchant: Merchant;
+  event: JJEvent;
+  merchant: JJMerchant;
 
-  constructor(private lucky: JJLuckydrawService) { }
+  success: boolean;
+
+  constructor(private app: AppUtils, private lucky: JJLuckydrawService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
     this.loaded = false;
-
     this.form = form;
-
     this.event = await this.lucky.getLastestEvent();
     this.merchant = await this.lucky.getMyMerchant();
+    this.initValue();
+    this.loaded = true;
+  }
+
+  initValue() {
     this.value = {
       merchant_id: this.merchant?.doc_id,
       event_id: this.event?.doc_id,
@@ -40,17 +46,26 @@ export class IssueTicketPage implements OnInit {
       billNo: "",
       ticketCount: 0
     }
-
-    this.loaded = true;
   }
 
-  async onIssueTicket(event?: TicketDistributionApplication) {
+  async onIssueTicket(application?: JJTicketDistributionApplication) {
     let validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
+    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS");
+    if (confirm) {
+      await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys("swserp", application));
+      await this.app.presentAlert("jj-luckydraw._TICKETS_ISSUED", "_SUCCESS");
+      this.cmsForm.reset();
+      this.success = true;
+      this.onDismiss();
+    }
+  }
 
+  async onDismiss() {
+    await this.modalCtrl.dismiss({ success: this.success });
   }
 
 }
@@ -61,7 +76,7 @@ const form: CmsForm = {
     {
       code: "merchant_id",
       label: {
-        en: "Merchant",
+        en: "JJMerchant",
         zh: "商家"
       },
       type: "number",

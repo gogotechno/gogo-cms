@@ -1,8 +1,9 @@
-import { ErpDoc } from "../sws-erp.type";
+import { CmsTranslation } from "../cms.type";
+import { DocUser, ErpDoc } from "../sws-erp.type";
 
 export const COMPANY_CODE = "lucky";
 
-export interface Merchant extends ErpDoc {
+export interface JJMerchant extends ErpDoc {
     name: string,
     logo?: string,
     officePhone: string,
@@ -16,7 +17,7 @@ export interface Merchant extends ErpDoc {
     code: string
 }
 
-export interface Event extends ErpDoc {
+export interface JJEvent extends ErpDoc {
     merchant_id?: number,
     name: string,
     highlight?: string,
@@ -26,10 +27,10 @@ export interface Event extends ErpDoc {
     startAt: Date,
     endAt?: Date,
     drawAt?: Date,
-    prizes: EventPrize[]
+    prizes: JJEventPrize[]
 }
 
-export interface EventPrize extends ErpDoc {
+export interface JJEventPrize extends ErpDoc {
     name: string,
     description?: string,
     worth: number,
@@ -44,7 +45,7 @@ export enum EventStatus {
     ENDED = "ENDED"
 }
 
-export interface TicketDistributionApplication extends ErpDoc {
+export interface JJTicketDistributionApplication extends ErpDoc {
     merchant_id: number,
     event_id: number,
     customerFirstName: string,
@@ -52,4 +53,54 @@ export interface TicketDistributionApplication extends ErpDoc {
     customerContactNo: string,
     billNo: string,
     ticketCount: number
+}
+
+export interface JJTicketDistribution extends ErpDoc {
+    merchant_id: number,
+    event_id: number,
+    distributedAt: Date,
+    distributedBy: number,
+    customerFirstName: string,
+    customerLastName: string,
+    customerContactNo: string,
+    billNo: string,
+    application_id: number,
+    tickets?: JJTicket[]
+    totalOfTickets?: number
+}
+
+export interface JJTicket extends ErpDoc {
+    serialNo: string,
+    status: TicketStatus,
+    event_id: number,
+    merchant_id: number,
+    ticket_distribution_id: number
+}
+
+export enum TicketStatus {
+    VALID = "VALID",
+    INVALID = "INVALID"
+}
+
+export interface JJUser extends ErpDoc {
+    merchant_id: number,
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    role: UserRole,
+    profilePicture?: string,
+    doc_user_id?: number,
+    roleTranslation?: CmsTranslation,
+    docUser?: DocUser
+}
+
+export interface JJUserRole extends ErpDoc {
+    code: UserRole,
+    name: string
+}
+
+export enum UserRole {
+    SYSTEM_ADMIN = "SYSTEM_ADMIN",
+    MERCHANT_ADMIN = "MERCHANT_ADMIN"
 }

@@ -3,12 +3,14 @@ import { Injectable, Injector } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { SWS_ERP_COMPANY, GetOptions, Pageable, CreateResponse, UpdateResponse, FindUserResponse, GenerateAccessTokenResponse, GenerateRefreshTokenResponse, DocUser, AuthStateEvent, DocUserAccess } from './sws-erp.type';
+import { SWS_ERP_COMPANY, GetOptions, Pageable, CreateResponse, UpdateResponse, FindUserResponse, GenerateAccessTokenResponse, GenerateRefreshTokenResponse, DocUser, AuthStateEvent, DocUserAccess, PostOptions, PutOptions, ChangePasswordDto } from './sws-erp.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SwsErpService {
+
+  private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
 
   private API_URL: string;
 
@@ -16,15 +18,15 @@ export class SwsErpService {
   private _REFRESH_TOKEN: string;
   private _DOC_USER: DocUser;
 
-  get TOKEN() {
+  get token() {
     return this._TOKEN;
   }
 
-  get REFRESH_TOKEN() {
+  get refreshToken() {
     return this._REFRESH_TOKEN;
   }
 
-  get DOC_USER() {
+  get docUser() {
     return this._DOC_USER;
   }
 
@@ -32,8 +34,9 @@ export class SwsErpService {
 
   constructor(injector: Injector, private _http: HttpClient) {
     this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
-    
-    injector.get(SWS_ERP_COMPANY).subscribe((companyCode) => {
+
+    this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
+    this.SWS_ERP_COMPANY_TOKEN.subscribe((companyCode) => {
       this.API_URL = `${environment.swsErp.apiUrl}/${companyCode}`;
     })
   }
@@ -68,8 +71,8 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns with created id and extra data
    */
-  public postDoc(docType: string, body: any, query: any = {}) {
-    const requestUrl = `${this.API_URL}/docs/${docType}`
+  public postDoc<T = any>(docType: string, body: T, query: PostOptions = {}) {
+    const requestUrl = `${this.API_URL}/docs/${docType}`;
     return this._http.post<CreateResponse>(requestUrl, body, { params: query }).toPromise();
   }
 
@@ -81,7 +84,7 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns with updated id and extra data
    */
-  public putDoc(docType: string, id: number, body: any, query: any = {}) {
+  public putDoc<T = any>(docType: string, id: number, body: T, query: PutOptions = {}) {
     const requestUrl = `${this.API_URL}/docs/${docType}/${id}`;
     return this._http.post<UpdateResponse>(requestUrl, body, { params: query }).toPromise();
   }
@@ -103,19 +106,15 @@ export class SwsErpService {
    */
   public async findMe(id: number, withAccesses: boolean, withGroups: boolean, withPermissions: boolean) {
     this._DOC_USER = await this.findDocUser(id);
-
     if (withAccesses) {
 
     }
-
     if (withGroups) {
 
     }
-
     if (withPermissions) {
 
     }
-
     return this._DOC_USER;
   }
 
@@ -123,10 +122,9 @@ export class SwsErpService {
    * Sign in with user credential
    * @param email User's email
    * @param password User's password
-   * @param args Extra arguments in inheritance
    * @returns Returns with refresh token, access token and user's profile
    */
-  public async signInWithEmailAndPassword(email: string, password: string, ...args: any[]) {
+  public async signInWithEmailAndPassword(email: string, password: string) {
     const requestUrl = `${this.API_URL}/login`;
     const requestBody = { email: email, password: password };
     let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
@@ -170,6 +168,18 @@ export class SwsErpService {
     let res = await this._http.get<GenerateAccessTokenResponse>(requestUrl, { headers: requestHeaders }).toPromise();
     this._TOKEN = res.data;
     return this._TOKEN;
+  }
+
+  /**
+   * Change password
+   * @param userId User ID
+   * @param payload Old password and new password
+   * @param userReference Provided when updating non-doc-user user
+   * @returns Returns with updated id and extra data
+   */
+  public changePassword(userId: number, payload: ChangePasswordDto, userReference?: string) {
+    const requestUrl = `${this.API_URL}/users/password` + (userReference ? `/${userReference}` : "") + `/${userId}`;
+    return this._http.put<UpdateResponse>(requestUrl, payload).toPromise();
   }
 
   /**

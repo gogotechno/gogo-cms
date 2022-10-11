@@ -10,6 +10,7 @@ export class MerchantPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

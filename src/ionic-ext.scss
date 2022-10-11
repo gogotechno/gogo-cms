@@ -83,6 +83,11 @@
     margin-right: var(--ion-margin-sm, 8px);
 }
 
+.ion-margin-vertical-sm {
+    margin-top: var(--ion-margin-sm, 8px);
+    margin-bottom: var(--ion-margin-sm, 8px);
+}
+
 .ion-margin-lg {
     margin: var(--ion-margin-lg, 24px);
 }
@@ -101,6 +106,11 @@
 
 .ion-margin-end-lg {
     margin-right: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-vertical-lg {
+    margin-top: var(--ion-margin-lg, 8px);
+    margin-bottom: var(--ion-margin-lg, 8px);
 }
 
 .ion-no-margin-top {
@@ -122,6 +132,11 @@
 .ion-no-margin-vertical {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+.ion-no-margin-horizontal {
+    margin-left: 0;
+    margin-right: 0;
 }
 
 @supports (margin-inline-start: 0) or (-webkit-margin-start: 0) {
@@ -171,7 +186,13 @@
     }
 
     .ion-no-margin-end {
-        margin-right: 0;
+        margin-right: unset;
         margin-inline-end: 0;
+    }
+
+    .ion-no-margin-horizontal {
+        margin-left: unset;
+        margin-right: unset;
+        margin-inline: 0;
     }
 }

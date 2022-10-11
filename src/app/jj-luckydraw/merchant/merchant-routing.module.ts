@@ -13,8 +13,20 @@ const routes: Routes = [
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
       },
       {
+        path: 'tickets',
+        loadChildren: () => import('./tickets/tickets.module').then(m => m.TicketsPageModule)
+      },
+      {
         path: 'issue-ticket',
         loadChildren: () => import('./issue-ticket/issue-ticket.module').then(m => m.IssueTicketPageModule)
+      },
+      {
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then(m => m.UsersPageModule)
+      },
+      {
+        path: 'create-user',
+        loadChildren: () => import('./create-user/create-user.module').then(m => m.CreateUserPageModule)
       },
       {
         path: '',

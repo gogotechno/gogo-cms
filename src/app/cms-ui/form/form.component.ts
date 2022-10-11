@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import _ from 'lodash';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
@@ -24,6 +25,8 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   formGroup: FormGroup;
 
+  matchingFields: { [key: string]: string[] };
+
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -41,7 +44,9 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   async loadData() {
-    if (!this.form) return;
+    if (!this.form) {
+      return;
+    }
 
     let controls = {};
     for (let item of this.form.items) {
@@ -162,5 +167,32 @@ export class FormComponent extends CmsComponent implements OnInit {
 
     return validation;
   }
+
+  removeUnusedKeys<T>(from: "swserp", source: T, keys?: string[]) {
+    let cloned = _.cloneDeep(source);
+    if (keys?.length > 0) {
+      for (let key of keys) {
+        delete cloned[key];
+      }
+    } else {
+      switch (from) {
+        case "swserp":
+          delete cloned["createdAt"];
+          delete cloned["createdBy"];
+          delete cloned["updatedAt"];
+          delete cloned["updatedBy"];
+          break;
+
+        default:
+          break;
+      }
+    }
+    return cloned;
+  }
+
+  reset() {
+    this.formGroup.reset();
+  }
+
 
 }

@@ -3,10 +3,18 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj-luckydraw/me"></ion-back-button>
     </ion-buttons>
-    <ion-title>update-me</ion-title>
+    <ion-title>{{ "jj-luckydraw._EDIT_PROFILE" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ng-container *ngIf="loaded">
+          <cms-form [form]="form" [value]="value" (submit)="onUpdateMe($event)"></cms-form>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

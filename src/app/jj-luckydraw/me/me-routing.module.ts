@@ -10,7 +10,11 @@ const routes: Routes = [
   },
   {
     path: 'update-me',
-    loadChildren: () => import('./update-me/update-me.module').then( m => m.UpdateMePageModule)
+    loadChildren: () => import('./update-me/update-me.module').then(m => m.UpdateMePageModule)
+  },
+  {
+    path: 'change-password',
+    loadChildren: () => import('./change-password/change-password.module').then(m => m.ChangePasswordPageModule)
   }
 ];
 
@@ -18,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MePageRoutingModule {}
+export class MePageRoutingModule { }

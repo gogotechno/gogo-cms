@@ -3,18 +3,18 @@ import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { CmsService } from '../cms.service';
-import { AppUtils } from '../cms.util';
+import { AppUtils, CmsUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
-import { DocUser, SWS_ERP_COMPANY } from '../sws-erp.type';
-import { COMPANY_CODE, Event, Merchant } from './jj-luckydraw.type';
+import { DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
+import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JJLuckydrawService {
 
-  readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
+  private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
 
   initialized: boolean = false;
 
@@ -25,15 +25,14 @@ export class JJLuckydrawService {
     private erp: SwsErpService,
     private storage: LocalStorageService,
     private app: AppUtils,
-    private cms: CmsService
+    private cms: CmsService,
+    private utils: CmsUtils
   ) {
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
   }
 
   async init() {
-    if (this.initialized) {
-      return;
-    }
+    if (this.initialized) return;
 
     this.title.setTitle("JJ Lucky");
     this.app.loadTemplateTheme(this.cms.SITE.template);
@@ -42,103 +41,123 @@ export class JJLuckydrawService {
     this.initialized = true;
   }
 
-  async getMyMerchant() {
-    return this.erp.getDoc<Merchant>("Merchant", 1);
-
+  async getMyMerchantId() {
     // let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
     // let access = docUser.user_access?.find((ua) => ua.access_table === "merchant");
-    // if (access) {
-    //   return this.erp.getDoc<Merchant>("Merchant", Number(access.access_val));
-    // } else {
-    //   return null;
-    // }
+    // return access ? Number(access.access_val) : null;
+    return 1;
+  }
+
+  async getMyMerchant() {
+    let merchantId = await this.getMyMerchantId();
+    return this.erp.getDoc<JJMerchant>("Merchant", merchantId);
   }
 
   async getLastestEvent() {
-    let res = await this.erp.getDocs<Event>("Event", {
+    let res = await this.erp.getDocs<JJEvent>("Event", {
+      itemsPerPage: 1,
+      currentPage: 1,
       hasFk: true,
       status: "ACTIVE",
       status_type: "=",
-      currentPage: 1,
-      itemsPerPage: 1,
       sortBy: "startAt",
       sortType: "asc"
     })
-
     return res.result[0];
   }
 
   async getLastEndedEvent() {
-    let res = await this.erp.getDocs("Event", {
+    let res = await this.erp.getDocs<JJEvent>("Event", {
+      itemsPerPage: 1,
+      currentPage: 1,
       hasFk: true,
       status: "ENDED",
       status_type: "=",
-      currentPage: 1,
-      itemsPerPage: 1,
       sortBy: "startAt",
       sortType: "asc"
     });
-
     return res.result[0];
   }
 
-  async getEndedEvents() {
-    let res = await this.erp.getDocs("Event", {
+  async getEndedEvents(pagination: Pagination) {
+    let res = await this.erp.getDocs<JJEvent>("Event", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
       hasFk: true,
       status: "ENDED",
       status_type: "="
     })
-
     return res.result;
   }
 
-  async getWinners() {
-    let res = await this.erp.getDocs("Winner", {
-      hasFk: true
+  async getTicketDistributionsByEvent(eventId: number, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJTicketDistribution>("Ticket Distribution", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      event_id: eventId,
+      event_id_type: "=",
+      sortBy: "distributedAt",
+      sortType: "desc"
+    })
+    return res.result;
+  }
+
+  async getTicketsByEvent(eventId: number, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJTicket>("Ticket", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      event_id: eventId,
+      event_id_type: "="
+    })
+    return res.result;
+  }
+
+  async getUsersByMerchant(merchantId: number, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJUser>("User", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      merchant_id: merchantId,
+      merchant_id_type: "=",
+      doc_status: DocStatus.SUBMIT,
+      doc_status_type: "="
+    })
+    return res.result.map((user) => this.populateUser(user));
+  }
+
+  async getUserByDocUser(docUserId: number) {
+    let res = await this.erp.getDocs<JJUser>("User", {
+      doc_user_id: docUserId,
+      doc_user_id_type: "="
+    })
+    return res.result.map((user) => this.populateUser(user))[0];
+  }
+
+  async getUserRoles() {
+    let res = await this.erp.getDocs<JJUserRole>("User Role");
+    return res.result;
+  }
+
+  async getUserRolesByMerchant() {
+    let roles = await this.getUserRoles();
+    return roles.filter((role) => role.code != UserRole.SYSTEM_ADMIN);
+  }
+
+  issueTickets(application: JJTicketDistributionApplication) {
+    return this.erp.postDoc("Ticket Distribution Application", application);
+  }
+
+  createUser(user: JJUser) {
+    return this.erp.postDoc("User", user, {
+      autoSubmit: true
     });
-
-    return res.result;
   }
 
+  updateUser(userId: number, user: Partial<JJUser>) {
+    return this.erp.putDoc("User", userId, user);
+  }
 
-  // async getLastestEvent() {
-  //   return await this.http.get<any>(`${ERP_API_URL}/docs/Event`, { params: { hasFk: true, status: 'Active', status_type: '=' } })
-  //     .pipe(
-  //       map(res => res.result[0])
-  //     ).toPromise();
-  // }
-
-  // async getLastEndedEvent() {
-  //   return await this.http.get<any>(`${ERP_API_URL}/docs/Event`, { params: { hasFk: true, status: 'Ended', status_type: '=', currentPage: 1, itemsPerPage: 1, sortBy: 'drawAt', sortType: 'desc' } })
-  //     .pipe(
-  //       map(res => res.result[0])
-  //     ).toPromise();
-  // }
-
-  // async getEndedEvents() {
-  //   return await this.http.get<any>(`${ERP_API_URL}/docs/Event`, { params: { hasFk: true, status: 'Ended', status_type: '=' } })
-  //     .pipe(
-  //       map(res => res.result)
-  //     ).toPromise();
-  // }
-
-  // async getWinners() {
-  //   return await this.http.get<any>(`${ERP_API_URL}/docs/Winner`, { params: { hasFk: true, status: 'Ended', status_type: '=' } })
-  //     .pipe(
-  //       map(res => res.result)
-  //     ).toPromise();
-  // }
-
-  // async issueTickets(ticketDistributionApplication) {
-  //   return await this.http.post<any>(`${ERP_API_URL}/docs/Ticket Distribution Application/null`, ticketDistributionApplication).toPromise();
-  // }
-
-  // async getMyMerchant() {
-  //   let docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-  //   let merchantId = docUser.user_access.find(ua => ua.access_table === 'merchant')?.access_val;
-  //   return await this.http.get<any>(`${ERP_API_URL}/module/Merchant/${merchantId}`)
-  //     .pipe(
-  //       map(res => res[0])
-  //     ).toPromise();
-  // }
+  private populateUser(user: JJUser) {
+    user.roleTranslation = this.utils.transformJSONStringtoCMSTranslation(user.translate?.role, user.role);
+    return user;
+  }
 }

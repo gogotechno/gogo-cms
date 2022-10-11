@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { JJUser } from '../jj-luckydraw.type';
 
 @Component({
   selector: 'app-me',
@@ -8,16 +9,30 @@ import { AuthService } from '../auth.service';
 })
 export class MePage implements OnInit {
 
-  me;
+  loaded: boolean;
+  me: JJUser;
 
   constructor(private auth: AuthService) { }
 
   async ngOnInit() {
-    // this.me = await this.auth.getMe();
+    await this.loadData();
   }
 
-  async onSignOut(event?) {
-    // await this.auth.signOut();
+  async loadData() {
+    this.loaded = false;
+    this.me = await this.auth.findMe();
+    console.log(this.me);
+    this.loaded = true;
+  }
+
+  async doRefresh(event: Event) {
+    let refresherEl = <HTMLIonRefresherElement>event.target;
+    await this.loadData();
+    refresherEl.complete();
+  }
+
+  async onSignOut(event?: Event) {
+    await this.auth.signOut();
   }
 
 }

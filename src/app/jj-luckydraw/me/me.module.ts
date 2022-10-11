@@ -8,6 +8,8 @@ import { MePageRoutingModule } from './me-routing.module';
 
 import { MePage } from './me.page';
 import { TranslateModule } from '@ngx-translate/core';
+import { SwsErpModule } from 'src/app/sws-erp.module';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -15,7 +17,9 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     MePageRoutingModule,
-    TranslateModule
+    TranslateModule,
+    CmsUIModule,
+    SwsErpModule
   ],
   declarations: [MePage]
 })

@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
 
         if (!this.auth.authenticated) {
             console.log("Not authenticated!");
-            this.router.navigateByUrl("/jj-luckydraw/sign-in", { skipLocationChange: true });
+            this.router.navigateByUrl("/jj-luckydraw/sign-in");
             return false;
         }
 

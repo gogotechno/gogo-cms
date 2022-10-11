@@ -30,6 +30,27 @@ export function timestr_to_date(time: string) {
 @Injectable({
     providedIn: 'root'
 })
+export class CmsUtils {
+
+    constructor(private translate: TranslateService) { }
+
+    transformJSONStringtoCMSTranslation(jsonString: string, defaultText?: string) {
+        try {
+            return JSON.parse(jsonString);
+        } catch (err) {
+            let lang = this.translate.currentLang;
+            let text = defaultText || jsonString;
+            return {
+                [lang]: text
+            }
+        }
+    }
+
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class AppUtils {
 
     constructor(
@@ -81,9 +102,7 @@ export class AppUtils {
      * Present loading
      */
     async presentLoading(message?: string) {
-        if (await this.getTopLoading()) {
-            return;
-        }
+        if (await this.getTopLoading()) return;
 
         message = message ? message : "_LOADING";
         let defaultOpts: LoadingOptions = {
@@ -103,9 +122,7 @@ export class AppUtils {
      * @returns Returns null if no loading presenting
      */
     async dismissLoading() {
-        if (!await this.getTopLoading()) {
-            return;
-        }
+        if (!await this.getTopLoading()) return;
 
         await this.loadingCtrl.dismiss();
     }
@@ -118,7 +135,7 @@ export class AppUtils {
         header = header ? header : "_CONFIRMATION";
         confirmBtnText = confirmBtnText ? confirmBtnText : "_CONFIRM";
         cancelBtnText = cancelBtnText ? cancelBtnText : "_CANCEL";
-        return new Promise(async (resolve) => {
+        return new Promise<boolean>(async (resolve) => {
             const confirm = await this.alertCtrl.create({
                 header: await this.translate.get(header).toPromise(),
                 message: await this.translate.get(message).toPromise(),

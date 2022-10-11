@@ -9,6 +9,7 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardPage } from './dashboard.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -17,8 +18,9 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     IonicModule,
     DashboardPageRoutingModule,
     TranslateModule,
-    SwsErpModule
+    SwsErpModule,
+    CmsUIModule
   ],
   declarations: [DashboardPage]
 })
-export class DashboardPageModule {}
+export class DashboardPageModule { }

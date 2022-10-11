@@ -6,6 +6,11 @@
     display: flex;
 }
 
+.d-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
 .d-flex-center {
     display: flex;
     align-items: center;
@@ -22,6 +27,14 @@
 
 .font-bold {
     font-weight: bold;
+}
+
+.font-large {
+    font-size: large;
+}
+
+.font-larger {
+    font-size: larger;
 }
 
 .font-medium {
@@ -59,4 +72,8 @@
 
 .color-black {
     color: #000000;
+}
+
+.shadow-none {
+    box-shadow: none;
 }

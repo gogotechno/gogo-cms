@@ -1,16 +1,16 @@
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { TranslateService } from "@ngx-translate/core";
 import { Observable, from, throwError } from "rxjs";
 import { catchError, finalize, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { AppUtils } from "./cms.util";
-import { AuthService } from "./jj-luckydraw/auth.service";
 import { SwsErpService } from "./sws-erp.service";
 
 @Injectable()
 export class SwsErpInterceptor implements HttpInterceptor {
 
-    constructor(private app: AppUtils, private erp: SwsErpService) { }
+    constructor(private app: AppUtils, private translate: TranslateService, private erp: SwsErpService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return from(this.handle(request, next));
@@ -22,26 +22,30 @@ export class SwsErpInterceptor implements HttpInterceptor {
             await this.app.presentLoading();
 
             let updatedRequest = request.clone(request);
-            if (!request.headers.get("Authorization") && this.erp.TOKEN) {
+            updatedRequest = updatedRequest.clone({
+                setParams: { lang: this.translate.currentLang }
+            })
+
+            if (!request.headers.get("Authorization") && this.erp.token) {
                 updatedRequest = updatedRequest.clone({
-                    setHeaders: { Authorization: `Bearer ${this.erp.TOKEN}` }
+                    setHeaders: { Authorization: `Bearer ${this.erp.token}` }
                 })
             }
 
             console.log("Before making api call : ", updatedRequest);
             return next.handle(updatedRequest).pipe(
                 tap(
-                    (event) => {
-                        if (event instanceof HttpResponse) {
-                            console.log("api call success :", event);
+                    (next) => {
+                        if (next instanceof HttpResponse) {
+                            console.log("api call success :", next);
                         }
                     },
-                    (error) => {
-                        console.error("api call error :", error);
-                        let header = "_UNKNOWN_ERROR";
+                    (err) => {
+                        console.error("api call error :", err);
+                        let header = "_ERROR";
                         let message = "_UNKNOWN_ERROR";
-                        if (error instanceof HttpErrorResponse) {
-                            message = error.error.message || error.message;
+                        if (err instanceof HttpErrorResponse) {
+                            message = err.error.message || err.error.error || err.message;
                         }
 
                         this.app.presentAlert(message, header);

@@ -11,16 +11,19 @@ export class ErpImagePipe implements PipeTransform {
         })
     }
 
-    transform(src: string) {
-        if (src.startsWith(`/${this.companyCode}`)) {
-            src = `${this.transformImgUrl()}${src}`;
-        }
+    transform(src: string, defaultImg?: string) {
+        let imgUrl = this.transformImgUrl();
+        if (!src) src = defaultImg || "/assets/image-placeholder.jpg";
+        if (this.uploaded(src)) src = `${imgUrl}${src}`;
         return src;
+    }
+
+    private uploaded(src: string) {
+        return src.startsWith(`/${this.companyCode}`);
     }
 
     private transformImgUrl() {
         let segment = environment.swsErp.apiUrl.split("/");
-        console.log(segment);
         return segment.filter((s) => s != "api").join("/");
     }
 }

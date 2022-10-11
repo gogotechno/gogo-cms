@@ -46,12 +46,12 @@ export class AppComponent implements OnInit {
     let found = this.router.url.split('/').find(s => s == 'cms-admin');
     if (!found) {
       let commands = [`/${this.cms.SITE.template}`];
-      if (this.pathName != "/") {
-        let paths = this.pathName.split("/").filter((path) => path && path != this.cms.SITE.template);
-        if (paths.length > 0) {
-          commands.push(...paths);
-        }
-      }
+      // if (this.pathName != "/") {
+      //   let paths = this.pathName.split("/").filter((path) => path && path != this.cms.SITE.template);
+      //   if (paths.length > 0) {
+      //     commands.push(...paths);
+      //   }
+      // }
 
       this.router.navigate(commands, { skipLocationChange: true });
     }
