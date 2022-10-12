@@ -57,6 +57,7 @@ export class UpdateMePage implements OnInit {
 
 const form: CmsForm = {
   code: "update-me",
+  submitButtonText: "_UPDATE",
   items: [
     {
       code: "firstName",

@@ -87,7 +87,7 @@ export interface CmsPage extends CmsDocument {
 export interface CmsForm extends CmsDocument {
     code: string,
     name?: CmsTranslation,
-    hideDefaultButtons?: boolean,
+    submitButtonText?: string,
     items: Array<CmsFormItem>
 }
 
@@ -98,9 +98,13 @@ export interface CmsFormItem extends CmsDocument {
     type: CmsFormItemType,
     dataType?: string,
     required?: boolean,
-    minimum?: number
-    options?: Array<CmsFormItemOptions>,
     hidden?: boolean,
+    options?: Array<CmsFormItemOptions>,
+    minimum?: number,
+    maximum?: number,
+    minimumLength?: number,
+    maximumLength?: number,
+    matchWith?: string[]
 }
 
 export type CmsFormItemType =

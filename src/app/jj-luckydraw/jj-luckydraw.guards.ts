@@ -5,8 +5,9 @@ import { JJLuckydrawService } from './jj-luckydraw.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private router: Router, private auth: AuthService, private lucky: JJLuckydrawService) { }
 
+    constructor(private router: Router, private auth: AuthService, private lucky: JJLuckydrawService) { }
+    
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
         if (!this.lucky.initialized) {
             await this.lucky.init();
@@ -28,6 +29,7 @@ export class AuthGuard implements CanActivate {
 
 @Injectable()
 export class SignInGuard implements CanActivate {
+
     constructor(private router: Router, private auth: AuthService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {

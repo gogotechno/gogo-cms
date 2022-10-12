@@ -63,6 +63,32 @@
     padding-bottom: var(--ion-padding-lg, 8px);
 }
 
+.ion-no-padding-top {
+    padding-top: 0;
+}
+
+.ion-no-padding-bottom {
+    padding-bottom: 0;
+}
+
+.ion-no-padding-start {
+    padding-left: 0;
+}
+
+.ion-no-padding-end {
+    padding-right: 0;
+}
+
+.ion-no-padding-vertical {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.ion-no-padding-horizontal {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .ion-margin-sm {
     margin: var(--ion-margin-sm, 8px);
 }
@@ -158,6 +184,22 @@
     .ion-padding-end-lg {
         padding-right: unset;
         padding-inline-end: var(--ion-padding-lg, 24px);
+    }
+
+    .ion-no-padding-start {
+        padding-left: unset;
+        padding-inline-start: 0;
+    }
+
+    .ion-no-padding-end {
+        padding-right: unset;
+        padding-inline-end: 0;
+    }
+
+    .ion-no-padding-horizontal {
+        padding-left: unset;
+        padding-right: unset;
+        padding-inline: 0;
     }
 
     .ion-margin-start-sm {

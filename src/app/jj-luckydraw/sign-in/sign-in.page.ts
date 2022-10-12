@@ -23,7 +23,7 @@ export class SignInPage implements OnInit {
 
   ngOnInit() {
     this.loaded = false;
-    
+
     this.form = form;
     this.value = {
       email: "",
@@ -54,6 +54,7 @@ interface SignIn {
 
 const form: CmsForm = {
   code: "sign-in",
+  submitButtonText: "_CONTINUE",
   items: [
     {
       code: "email",

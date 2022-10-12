@@ -7,17 +7,17 @@
   <ion-content>
     <ion-list>
       <ion-menu-toggle>
-        <ion-item routerLink="./dashboard">
+        <ion-item (click)="navigate('dashboard')">
           <ion-label>{{ "jj-luckydraw._DASHBOARD" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item routerLink="./tickets">
+        <ion-item (click)="navigate('tickets')">
           <ion-label>{{ "jj-luckydraw._TICKETS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item routerLink="./users">
+        <ion-item (click)="navigate('users')">
           <ion-label>{{ "jj-luckydraw._USERS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>

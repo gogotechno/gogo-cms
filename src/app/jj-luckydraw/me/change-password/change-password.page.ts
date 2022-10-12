@@ -3,6 +3,7 @@ import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../../auth.service';
+import { JJUser } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-change-password',
@@ -25,7 +26,7 @@ export class ChangePasswordPage implements OnInit {
     this.loaded = true;
   }
 
-  async onChangePassword(changePasswordDto: ChangePasswordDto) {
+  async onChangePassword(user: Partial<JJUser>) {
     let validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
@@ -33,21 +34,16 @@ export class ChangePasswordPage implements OnInit {
 
     let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_CHANGE_PASSWORD");
     if (confirm) {
-      await this.auth.updateMyPassword(changePasswordDto.old_password, changePasswordDto.new_password);
+      await this.auth.updateMyPassword(user.old_password, user.new_password);
       await this.app.presentAlert("jj-luckydraw._PASSWORD_UPDATED", "_SUCCESS");
     }
   }
 
 }
 
-interface ChangePasswordDto {
-  old_password: string,
-  new_password: string,
-  confirm_password: string
-}
-
 const form: CmsForm = {
   code: "update-me",
+  submitButtonText: "_UPDATE",
   items: [
     {
       code: "old_password",
@@ -77,7 +73,8 @@ const form: CmsForm = {
       },
       labelPosition: "stacked",
       type: "password",
-      required: true
+      required: true,
+      matchWith: ["new_password"]
     }
   ]
 }

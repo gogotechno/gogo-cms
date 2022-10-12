@@ -66,7 +66,8 @@ export interface JJTicketDistribution extends ErpDoc {
     billNo: string,
     application_id: number,
     tickets?: JJTicket[]
-    totalOfTickets?: number
+    totalOfTickets?: number,
+    distributedByPerson?: DocUser
 }
 
 export interface JJTicket extends ErpDoc {
@@ -74,7 +75,8 @@ export interface JJTicket extends ErpDoc {
     status: TicketStatus,
     event_id: number,
     merchant_id: number,
-    ticket_distribution_id: number
+    ticket_distribution_id: number,
+    statusTranslation?: CmsTranslation
 }
 
 export enum TicketStatus {
@@ -92,7 +94,9 @@ export interface JJUser extends ErpDoc {
     profilePicture?: string,
     doc_user_id?: number,
     roleTranslation?: CmsTranslation,
-    docUser?: DocUser
+    docUser?: DocUser,
+    old_password?: string,
+    new_password?: string
 }
 
 export interface JJUserRole extends ErpDoc {

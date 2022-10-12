@@ -187,7 +187,7 @@ export class SwsErpService {
    */
   public signOut() {
     let authState = this.authStateChange.getValue();
-    if (authState.status == "LOGGED_OUT") {
+    if (authState && authState.status == "LOGGED_OUT") {
       return;
     }
 

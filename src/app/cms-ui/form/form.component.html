@@ -54,8 +54,10 @@
     </ion-list>
 </ng-container>
 
-<ng-container *ngIf="!form.hideDefaultButtons">
-    <hr />
-    <ion-button (click)="onSubmit($event)" expand="block">{{ '_SUBMIT' | translate }}</ion-button>
-    <!-- <ion-button (click)="onPrint($event)" expand="block">{{ '_PRINT' | translate }}</ion-button> -->
-</ng-container>
+<hr />
+
+<ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
+    <ion-label>{{ (form.submitButtonText || '_SUBMIT') | translate }}</ion-label>
+</ion-button>
+
+<!-- <ion-button (click)="onPrint($event)" expand="block">{{ '_PRINT' | translate }}</ion-button> -->

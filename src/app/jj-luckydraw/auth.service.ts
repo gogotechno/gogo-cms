@@ -42,6 +42,10 @@ export class AuthService {
     })
   }
 
+  /**
+   * Process authentication initialization
+   * @returns Returns if initialized
+   */
   async init() {
     if (this.initialized) return;
 
@@ -57,6 +61,12 @@ export class AuthService {
     this.initialized = true;
   }
 
+  /**
+   * Sign in with email and password
+   * @param email User's email
+   * @param password User's password
+   * @param rememberMe Flag if user wish to keep logged-in
+   */
   async signInWithEmailAndPassword(email: string, password: string, rememberMe: boolean = true) {
     await this.erp.signInWithEmailAndPassword(email, password);
     await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
@@ -69,6 +79,10 @@ export class AuthService {
     this._AUTHENTICATED = true;
   }
 
+  /**
+   * Sign out logged-in credential
+   * @param silent Flag if user wish to sign out without confirmation
+   */
   async signOut(silent: boolean = false) {
     let confirm = silent;
     if (!confirm) {
@@ -85,6 +99,10 @@ export class AuthService {
     }
   }
 
+  /**
+   * Get current user's profile from SWS ERP and luckydraw
+   * @returns Returns user object
+   */
   async findMe() {
     let docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
     await this.erp.findMe(docUser.doc_id, true, true, true);
@@ -93,21 +111,36 @@ export class AuthService {
     return this._CURRENT_USER;
   }
 
+  /**
+   * Get current user's profile from luckydraw
+   * @returns Returns user object
+   */
   async findMyLuckyUser() {
     this._CURRENT_USER = await this.lucky.getUserByDocUser(this.erp.docUser.doc_id);
     this._CURRENT_USER.docUser = this.erp.docUser;
     return this._CURRENT_USER;
   }
 
+  /**
+   * Update current user's profile
+   * @param user User object
+   * @returns Returns update response from SWS ERP
+   */
   updateMyProfile(user: Partial<JJUser>) {
     return this.lucky.updateUser(this._CURRENT_USER.doc_id, user);
   }
 
+  /**
+   * Update current user's password
+   * @param oldPassword User's old password
+   * @param newPassword User's new password
+   * @returns Returns update response from SWS ERP
+   */
   updateMyPassword(oldPassword: string, newPassword: string) {
-    return this.erp.changePassword(this._CURRENT_USER.doc_id, {
+    return this.updateMyProfile({
       old_password: oldPassword,
       new_password: newPassword
-    }, "User");
+    })
   }
 
 }

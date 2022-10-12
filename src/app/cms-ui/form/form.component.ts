@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import _ from 'lodash';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
@@ -25,7 +25,9 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  matchingFields: { [key: string]: string[] };
+  cannotSubmit: boolean;
+  matchingFields: MatchingConfig;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +50,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       return;
     }
 
+    this.matchingFields = {};
     let controls = {};
     for (let item of this.form.items) {
       switch (item.type) {
@@ -61,6 +64,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
 
       let validators = [];
+
       if (item.required) {
         validators.push(Validators.required);
       }
@@ -69,8 +73,24 @@ export class FormComponent extends CmsComponent implements OnInit {
         validators.push(Validators.min(item.minimum));
       }
 
+      if (item.maximum) {
+        validators.push(Validators.max(item.maximum));
+      }
+
+      if (item.minimumLength) {
+        validators.push(Validators.minLength(item.minimumLength));
+      }
+
+      if (item.maximumLength) {
+        validators.push(Validators.maxLength(item.maximumLength));
+      }
+
       if (validators.length > 0) {
         controls[item.code].push(Validators.compose(validators));
+      }
+
+      if (item.matchWith?.length > 0) {
+        this.matchingFields[item.code] = item.matchWith;
       }
     }
 
@@ -85,7 +105,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       controls['updatedBy'] = [uid];
     }
 
-    this.formGroup = this.formBuilder.group(controls);
+    this.formGroup = this.formBuilder.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
   }
 
   onSubmit(event?: Event) {
@@ -114,37 +134,47 @@ export class FormComponent extends CmsComponent implements OnInit {
   async validateForm() {
     let validation: CmsFormValidation;
     if (this.formGroup.valid) {
-      validation = {
-        valid: true
-      };
+      validation = { valid: true };
       return validation;
     }
-
-    validation = {
-      valid: false,
-      errors: []
-    };
-
+    validation = { valid: false, errors: [] };
     let controls = this.formGroup.controls;
-    for (let control of Object.keys(controls)) {
-      let errors = controls[control].errors;
+    for (let controlKey of Object.keys(controls)) {
+      let errors = controls[controlKey].errors;
       if (errors) {
         for (let errorKey of Object.keys(errors)) {
           let error = errors[errorKey];
-          let field = this.form.items.find((i) => i.code == control);
+          let field = this.form.items.find((i) => i.code == controlKey);
           let label = this.cmsTranslate.transform(field.label);
           let messageKey: string;
           let messageParams = { label: label };
           switch (errorKey) {
+            case "required":
+              messageKey = "_IS_REQUIRED";
+              break;
             case "min":
               messageKey = "_REQUIRES_MINIMUM";
               messageParams["min"] = error.min;
               break;
-
-            case "required":
-              messageKey = "_IS_REQUIRED";
+            case "max":
+              messageKey = "_REQUIRES_MAXIMUM";
+              messageParams["max"] = error.min;
               break;
-
+            case "minlength":
+              messageKey = "_REQUIRES_MINIMUM_LENGTH";
+              messageParams["minLength"] = error.requiredLength;
+              break;
+            case "maxlength":
+              messageKey = "_REQUIRES_MAXIMUM_LENGTH";
+              messageParams["maxLength"] = error.requiredLength;
+              break;
+            case "notMatching":
+              messageKey = "_REQUIRES_MATCH_WITH";
+              messageParams["matchingFields"] = this.form.items
+                .filter((i) => error.fields.includes(i.code))
+                .map((f) => this.cmsTranslate.transform(f.label))
+                .join(", ");
+              break;
             default:
               messageKey = "_HAS_UNKNOWN_ERROR"
               break;
@@ -154,7 +184,6 @@ export class FormComponent extends CmsComponent implements OnInit {
         }
       }
     }
-
     return validation;
   }
 
@@ -164,7 +193,6 @@ export class FormComponent extends CmsComponent implements OnInit {
       let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + "</p>").join("");
       this.app.presentAlert(messages, "_ERROR");
     }
-
     return validation;
   }
 
@@ -182,7 +210,6 @@ export class FormComponent extends CmsComponent implements OnInit {
           delete cloned["updatedAt"];
           delete cloned["updatedBy"];
           break;
-
         default:
           break;
       }
@@ -190,9 +217,82 @@ export class FormComponent extends CmsComponent implements OnInit {
     return cloned;
   }
 
-  reset() {
+  resetForm() {
     this.formGroup.reset();
   }
 
+  markAsReadonly(key?: string) {
+    if (!key) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.get(key).disable();
+    }
+  }
+
+  markAsEditable(key?: string) {
+    if (!key) {
+      this.formGroup.enable();
+    } else {
+      this.formGroup.get(key).enable();
+    }
+  }
+
+  markAsNonSubmitable() {
+    this.cannotSubmit = true;
+  }
+
+  markAsSubmitable() {
+    this.cannotSubmit = false;
+  }
+
+}
+
+interface MatchingConfig {
+  [key: string]: string[]
+};
+
+class NeedMatching {
+  private _CONTROL: AbstractControl;
+  private _KEY: string;
+  get control() {
+    return this._CONTROL;
+  }
+  get key() {
+    return this._KEY;
+  }
+  constructor(control: AbstractControl, key: string) {
+    this._CONTROL = control.get(key);
+    this._KEY = key;
+  }
+}
+
+class CustomValidators {
+
+  static MatchValidator(config: MatchingConfig): ValidatorFn {
+    let allValid: boolean = true;
+    return (control: AbstractControl): ValidationErrors | null => {
+      for (let key of Object.keys(config)) {
+        let matchingFrom = control.get(key);
+        let needMatching = config[key].map((c) => new NeedMatching(control, c));
+        let notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
+        let allMatched = notMatching.length <= 0;
+        if (!allMatched) {
+          allValid = false;
+          matchingFrom.setErrors({ notMatching: { fields: notMatching.map((n) => n.key) } });
+        } else {
+          if (matchingFrom.errors) {
+            let keys = Object.keys(matchingFrom.errors);
+            if (keys.length > 0 && keys.includes("notMatching")) {
+              delete matchingFrom.errors["notMatching"];
+              if (keys.length == 1) {
+                matchingFrom.setErrors(null);
+              }
+            }
+          }
+        }
+      }
+      return null;
+    };
+  }
 
 }

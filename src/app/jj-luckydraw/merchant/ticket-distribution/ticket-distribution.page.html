@@ -1,0 +1,125 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/merchant/tickets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._TICKET_DISTRIBUTION" | translate }}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="details">
+        <ion-label>{{ "jj-luckydraw._DETAILS" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tickets">
+        <ion-label>{{ "jj-luckydraw._TICKETS" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded" [ngSwitch]="segment">
+          <ng-container *ngSwitchDefault>
+            <ion-list class="list-section">
+              <ion-card class="ion-no-margin shadow-none">
+                <ion-card-header class="ion-no-padding-vertical">
+                  <ion-grid class="ion-no-padding">
+                    <ion-row>
+                      <ion-col size="auto" class="ion-margin-end d-flex-center">
+                        <ion-icon name="ticket-outline" class="ticket-icon"></ion-icon>
+                      </ion-col>
+                      <ion-col class="d-flex-column ion-justify-content-center">
+                        <ion-card-subtitle>{{ "jj-luckydraw._TOTAL_OF_TICKETS" | translate }}</ion-card-subtitle>
+                        <ion-card-title>{{ ticketDistribution.totalOfTickets }}</ion-card-title>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-header>
+              </ion-card>
+            </ion-list>
+            <ion-list class="list-section">
+              <ion-card class="ion-no-margin shadow-none">
+                <ion-card-header class="ion-no-padding-vertical">
+                  <ion-grid class="ion-no-padding">
+                    <ion-row>
+                      <ion-col size="auto" class="ion-margin-end d-flex-center">
+                        <ion-icon name="receipt-outline" class="ticket-icon"></ion-icon>
+                      </ion-col>
+                      <ion-col class="d-flex-column ion-justify-content-center">
+                        <ion-card-subtitle>{{ "jj-luckydraw._BILL_NO" | translate }}</ion-card-subtitle>
+                        <ion-card-title>{{ ticketDistribution.billNo }}</ion-card-title>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
+                </ion-card-header>
+              </ion-card>
+            </ion-list>
+            <ion-list class="list-section" lines="none">
+              <ion-list-header>{{ "jj-luckydraw._DETAILS" | translate }}</ion-list-header>
+              <ion-item>
+                <ion-label>
+                  <p>{{ "jj-luckydraw._DISTRIBUTED_BY" | translate }}</p>
+                  <h3>{{ ticketDistribution.distributedByPerson.first_name
+                    | fullName: ticketDistribution.distributedByPerson.last_name }}</h3>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  <p>{{ "jj-luckydraw._DISTRIBUTED_AT" | translate }}</p>
+                  <h3>{{ ticketDistribution.distributedAt | date: "MM/dd/yy, h:mm a" }}</h3>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+            <ion-list class="list-section" lines="none">
+              <ion-list-header>{{ "jj-luckydraw._CUSTOMER_INFO" | translate }}</ion-list-header>
+              <ion-item>
+                <ion-label>
+                  <p>{{ "jj-luckydraw._FIRST_NAME" | translate }}</p>
+                  <h3>{{ ticketDistribution.customerFirstName}}</h3>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  <p>{{ "jj-luckydraw._LAST_NAME" | translate }}</p>
+                  <h3>{{ ticketDistribution.customerLastName}}</h3>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>
+                  <p>{{ "jj-luckydraw._CONTACT_NO" | translate }}</p>
+                  <h3>{{ ticketDistribution.customerContactNo}}</h3>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+          <ng-container *ngSwitchCase="'tickets'">
+            <ion-list>
+              <ion-item *ngFor="let ticket of tickets">
+                <ion-label>
+                  <h3 class="ticket-serial-no">{{ ticket.serialNo }}</h3>
+                </ion-label>
+                <ion-badge slot="end">{{ ticket.statusTranslation | cmsTranslate }}</ion-badge>
+              </ion-item>
+            </ion-list>
+            <ng-container *ngIf="tickets?.length > 0">
+              <ion-infinite-scroll *ngIf="!noMoreTickets" (ionInfinite)="loadMoreTickets($event)">
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+              <ion-list-header *ngIf="noMoreTickets" class="ion-no-padding">
+                <ion-label class="font-small ion-text-center">
+                  {{ "jj-luckydraw._NO_MORE_TICKETS" | translate }}
+                </ion-label>
+              </ion-list-header>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

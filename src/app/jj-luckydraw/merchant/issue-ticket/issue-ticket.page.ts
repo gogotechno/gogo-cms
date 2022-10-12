@@ -58,7 +58,7 @@ export class IssueTicketPage implements OnInit {
     if (confirm) {
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys("swserp", application));
       await this.app.presentAlert("jj-luckydraw._TICKETS_ISSUED", "_SUCCESS");
-      this.cmsForm.reset();
+      this.cmsForm.resetForm();
       this.success = true;
       this.onDismiss();
     }
@@ -72,6 +72,7 @@ export class IssueTicketPage implements OnInit {
 
 const form: CmsForm = {
   code: "ticket-distribution",
+  submitButtonText: "_CONFIRM",
   items: [
     {
       code: "merchant_id",

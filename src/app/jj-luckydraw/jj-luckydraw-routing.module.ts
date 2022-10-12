@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard, SignInGuard } from './jj-luckydraw.guards';
 
 import { JJLuckydrawPage } from './jj-luckydraw.page';
+import { MerchantPage } from './merchant/merchant.page';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'merchant',
         pathMatch: 'full'
       }
     ]
@@ -37,6 +38,16 @@ const routes: Routes = [
     path: 'sign-in',
     canActivate: [SignInGuard],
     loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)
+  },
+  {
+    path: 'merchant',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./merchant/merchant-children.module').then(m => m.MerchantChildrenModule)
+  },
+  {
+    path: 'me',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./me/me-children.module').then(m => m.MeChildrenModule)
   }
 ];
 
