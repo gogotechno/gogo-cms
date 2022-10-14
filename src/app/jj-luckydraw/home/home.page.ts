@@ -23,7 +23,6 @@ export class HomePage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.lastEndedEvent = await this.lucky.getLastEndedEvent();
-    console.log(this.lastEndedEvent);
     this.loaded = true;
   }
 

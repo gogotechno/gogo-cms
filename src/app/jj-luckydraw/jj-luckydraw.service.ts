@@ -57,10 +57,9 @@ export class JJLuckydrawService {
    * @returns Returns merchant's ID
    */
   async getMyMerchantId() {
-    // let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    // let access = docUser.user_access?.find((ua) => ua.access_table === "merchant");
-    // return access ? Number(access.access_val) : null;
-    return 1;
+    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    let access = docUser.user_access?.find((ua) => ua.access_table === "merchant");
+    return access ? Number(access.access_val) : null;
   }
 
   /**

@@ -21,7 +21,6 @@ export class MePage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.me = await this.auth.findMe();
-    console.log(this.me);
     this.loaded = true;
   }
 

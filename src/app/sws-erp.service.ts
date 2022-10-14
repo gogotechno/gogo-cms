@@ -105,16 +105,21 @@ export class SwsErpService {
    */
   public async findMe(id: number, withAccesses: boolean, withGroups: boolean, withPermissions: boolean) {
     this._DOC_USER = await this.findDocUser(id);
+
     if (withAccesses) {
-
+      let accesses = await this.getUserAccesses(id);
+      this._DOC_USER.user_access = accesses;
     }
-    if (withGroups) {
 
-    }
-    if (withPermissions) {
-
-    }
     return this._DOC_USER;
+  }
+
+  private async getUserAccesses(userId: number) {
+    let res = await this.getDocs<DocUserAccess>("Doc User Access", {
+      doc_user_id: this._DOC_USER.doc_id,
+      doc_user_id_type: "="
+    });
+    return res.result;
   }
 
   /**
