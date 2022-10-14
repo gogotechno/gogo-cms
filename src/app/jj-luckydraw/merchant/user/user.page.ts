@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm, CmsFormItemOptions } from 'src/app/cms.type';
+import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
+import { DocStatus } from 'src/app/sws-erp.type';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJUser } from '../../jj-luckydraw.type';
+import { UserOptionsComponent } from './user-options/user-options.component';
 
 @Component({
   selector: 'app-user',
@@ -22,29 +25,57 @@ export class UserPage implements OnInit {
   form: CmsForm;
   value: Partial<JJUser>;
 
-  constructor(private route: ActivatedRoute, private utils: CmsUtils, private app: AppUtils, private lucky: JJLuckydrawService) { }
+  editing: boolean;
+
+  get editable() {
+    return this.user?.doc_status == DocStatus.SUBMIT;
+  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private popoverCtrl: PopoverController,
+    private utils: CmsUtils,
+    private app: AppUtils,
+    private lucky: JJLuckydrawService
+  ) {
+    this.lucky.userChange.subscribe((ev) => {
+      if (ev?.beUpdated) {
+        this.loadData();
+      }
+    })
+  }
 
   async ngOnInit() {
     let params = this.route.snapshot.params;
     this.userId = params.id;
+    this.lucky.userChange.next({ currentUserId: this.userId });
     await this.loadData();
   }
 
   async loadData() {
     this.loaded = false;
+    this.editing = false;
     this.user = await this.lucky.getUserById(this.userId);
     this.form = form;
     await this.initForm();
     this.initValue();
     this.loaded = true;
-
     this.disableForm();
   }
 
-  disableForm() {
-    this.assertForm().then(() => {
-      this.cmsForm.markAsReadonly();
+  async enableForm() {
+    await this.assertForm().then(() => {
+      this.cmsForm.markAsEditable();
+      this.cmsForm.markAsSubmitable();
+      this.editing = true;
+    }).catch((err) => console.error(err));
+  }
+
+  async disableForm() {
+    await this.assertForm().then(() => {
+      this.cmsForm.markAsNonEditable();
       this.cmsForm.markAsNonSubmitable();
+      this.editing = false;
     }).catch((err) => console.error(err));
   }
 
@@ -72,7 +103,7 @@ export class UserPage implements OnInit {
     let roles = await this.lucky.getUserRolesByMerchant();
     let roleField = this.form.items.find((item) => item.code == "role");
     roleField.options = roles.map((role) => {
-      let item: CmsFormItemOptions = {
+      let item: CmsFormItemOption = {
         code: role.code,
         label: this.utils.transformJSONStringtoCMSTranslation(role.name)
       }
@@ -111,8 +142,23 @@ export class UserPage implements OnInit {
   }
 
   onEdit() {
-    this.cmsForm.markAsEditable();
-    this.cmsForm.markAsSubmitable();
+    if (this.editing) {
+      this.disableForm();
+      return;
+    }
+    this.enableForm();
+  }
+
+  async onMoreOptions(event?: Event) {
+    const popover = await this.popoverCtrl.create({
+      component: UserOptionsComponent,
+      componentProps: {
+        userId: this.userId,
+        user: this.user
+      },
+      event: event,
+    })
+    await popover.present();
   }
 
 }

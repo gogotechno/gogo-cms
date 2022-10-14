@@ -42,7 +42,7 @@ export class ChangePasswordPage implements OnInit {
 }
 
 const form: CmsForm = {
-  code: "update-me",
+  code: "change-password",
   submitButtonText: "_UPDATE",
   items: [
     {

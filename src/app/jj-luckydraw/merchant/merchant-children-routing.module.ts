@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'tickets',
+    path: 'ticket-distributions',
     children: [
       {
         path: 'ticket-distribution/:id',

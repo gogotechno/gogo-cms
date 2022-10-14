@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AppUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
@@ -25,6 +26,8 @@ export class AuthService {
 
   initialized: boolean = false;
 
+  authChange: BehaviorSubject<AuthEvent>;
+
   constructor(
     private http: HttpClient,
     private app: AppUtils,
@@ -33,6 +36,7 @@ export class AuthService {
     private storage: LocalStorageService,
     private router: Router
   ) {
+    this.authChange = new BehaviorSubject<AuthEvent>(null);
     this.erp.authStateChange.subscribe((ev) => {
       if (ev?.status == "LOGGED_OUT") {
         if (this._AUTHENTICATED) {
@@ -108,6 +112,7 @@ export class AuthService {
     await this.erp.findMe(docUser.doc_id, true, true, true);
     await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
     await this.findMyLuckyUser();
+    this.authChange.next({ user: this._CURRENT_USER });
     return this._CURRENT_USER;
   }
 
@@ -143,4 +148,8 @@ export class AuthService {
     })
   }
 
+}
+
+interface AuthEvent {
+  user: JJUser
 }

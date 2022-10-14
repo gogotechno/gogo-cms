@@ -10,6 +10,9 @@ import { UserPage } from './user.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { UserOptionsComponent } from './user-options/user-options.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { FullNamePipe } from 'src/app/cms-ui/cms.pipe';
 
 @NgModule({
   imports: [
@@ -21,6 +24,13 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     CmsUIModule,
     SwsErpModule
   ],
-  declarations: [UserPage]
+  declarations: [
+    UserPage,
+    UserOptionsComponent,
+    ResetPasswordComponent
+  ],
+  providers: [
+    FullNamePipe
+  ]
 })
-export class UserPageModule {}
+export class UserPageModule { }

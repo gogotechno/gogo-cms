@@ -18,7 +18,13 @@ export class UsersPage implements OnInit {
   users: JJUser[];
   noMoreUsers: boolean;
 
-  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) { }
+  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
+    this.lucky.usersChange.subscribe((ev) => {
+      if (ev?.beUpdated) {
+        this.loadData();
+      }
+    })
+  }
 
   async ngOnInit() {
     await this.loadData();
@@ -39,6 +45,7 @@ export class UsersPage implements OnInit {
     }
 
     this.users = await this.lucky.getUsersByMerchant(this.myMerchantId, this.userPagination);
+    this.noMoreUsers = this.users.length < this.userPagination.itemsPerPage;
   }
 
   async loadMoreUsers(event: Event) {
@@ -60,9 +67,7 @@ export class UsersPage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: CreateUserPage
     })
-
     await modal.present();
-
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
       this.loadData();

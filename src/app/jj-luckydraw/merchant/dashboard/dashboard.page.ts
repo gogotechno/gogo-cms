@@ -18,25 +18,41 @@ export class DashboardPage implements OnInit {
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) { }
 
   async ngOnInit() {
+    await this.loadData();
+  }
+
+  async loadData() {
     this.loaded = false;
-    this.merchant = await this.lucky.getMyMerchant();
+    this.merchant = await this.lucky.getMyMerchant(true);
     this.loaded = true;
+  }
+
+  async doRefresh(event: Event) {
+    let refresherEl = <HTMLIonRefresherElement>event.target;
+    await this.loadData();
+    refresherEl.complete();
   }
 
   async onCreateUser() {
     const modal = await this.modalCtrl.create({
       component: CreateUserPage
     })
-
     await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data?.success) {
+      this.lucky.usersChange.next({ beUpdated: true });
+    }
   }
 
   async onIssueTicket() {
     const modal = await this.modalCtrl.create({
       component: IssueTicketPage
     })
-
     await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data?.success) {
+      this.lucky.distributionsChange.next({ beUpdated: true });
+    }
   }
 
 }

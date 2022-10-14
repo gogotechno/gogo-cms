@@ -15,7 +15,8 @@ export const environment = {
   },
   swsErp: {
     // apiUrl: 'https://uat.erp.swstechno.com/api',
-    apiUrl: 'http://localhost:3000',
+    apiUrl: 'http://192.168.0.108:3000',
+    // apiUrl: 'http://localhost:3000',
     publicUrls: ['/login']
   },
   production: false

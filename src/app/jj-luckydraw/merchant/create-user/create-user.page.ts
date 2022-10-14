@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm, CmsFormItemOptions } from 'src/app/cms.type';
+import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJUser, JJMerchant, UserRole } from '../../jj-luckydraw.type';
@@ -39,7 +39,7 @@ export class CreateUserPage implements OnInit {
     let roles = await this.lucky.getUserRolesByMerchant();
     let roleField = this.form.items.find((item) => item.code == "role");
     roleField.options = roles.map((role) => {
-      let item: CmsFormItemOptions = {
+      let item: CmsFormItemOption = {
         code: role.code,
         label: this.utils.transformJSONStringtoCMSTranslation(role.name)
       }

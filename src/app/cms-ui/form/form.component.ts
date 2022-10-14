@@ -28,14 +28,13 @@ export class FormComponent extends CmsComponent implements OnInit {
   cannotSubmit: boolean;
   matchingFields: MatchingConfig;
 
-
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private datePipe: DatePipe,
+    private cmsTranslate: CmsTranslatePipe,
     private cms: CmsService,
     private admin: CmsAdminService,
     private translate: TranslateService,
-    private cmsTranslate: CmsTranslatePipe,
     private app: AppUtils
   ) {
     super();
@@ -105,7 +104,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       controls['updatedBy'] = [uid];
     }
 
-    this.formGroup = this.formBuilder.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
+    this.formGroup = this.fb.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
   }
 
   onSubmit(event?: Event) {
@@ -221,14 +220,6 @@ export class FormComponent extends CmsComponent implements OnInit {
     this.formGroup.reset();
   }
 
-  markAsReadonly(key?: string) {
-    if (!key) {
-      this.formGroup.disable();
-    } else {
-      this.formGroup.get(key).disable();
-    }
-  }
-
   markAsEditable(key?: string) {
     if (!key) {
       this.formGroup.enable();
@@ -237,12 +228,20 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
   }
 
-  markAsNonSubmitable() {
-    this.cannotSubmit = true;
+  markAsNonEditable(key?: string) {
+    if (!key) {
+      this.formGroup.disable();
+    } else {
+      this.formGroup.get(key).disable();
+    }
   }
 
   markAsSubmitable() {
     this.cannotSubmit = false;
+  }
+
+  markAsNonSubmitable() {
+    this.cannotSubmit = true;
   }
 
 }
@@ -269,7 +268,6 @@ class NeedMatching {
 class CustomValidators {
 
   static MatchValidator(config: MatchingConfig): ValidatorFn {
-    let allValid: boolean = true;
     return (control: AbstractControl): ValidationErrors | null => {
       for (let key of Object.keys(config)) {
         let matchingFrom = control.get(key);
@@ -277,7 +275,6 @@ class CustomValidators {
         let notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
         let allMatched = notMatching.length <= 0;
         if (!allMatched) {
-          allValid = false;
           matchingFrom.setErrors({ notMatching: { fields: notMatching.map((n) => n.key) } });
         } else {
           if (matchingFrom.errors) {

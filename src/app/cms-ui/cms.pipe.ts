@@ -59,7 +59,7 @@ export class FullNamePipe implements PipeTransform {
     constructor() { }
     transform(firstName: string, lastName: string, separator?: string) {
         let arr = [firstName];
-        if (lastName) arr.push(lastName);
+        arr.unshift(lastName || "");
         return arr.join(separator || " ");
     }
 }

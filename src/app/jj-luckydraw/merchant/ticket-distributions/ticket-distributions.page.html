@@ -5,6 +5,14 @@
     </ion-buttons>
     <ion-title>{{ "jj-luckydraw._TICKET_DISTRIBUTIONS" | translate }}</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [placeholder]="'jj-luckydraw._SEARCH_NAME_OR_CONTACT_NO' | translate" [debounce]="500" (ionChange)="onSearch($event)"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="onFilter()">
+        <ion-icon name="filter-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -14,42 +22,39 @@
         <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
-        <ion-header collapse="condense">
+        <!-- <ion-header collapse="condense">
           <ion-toolbar>
             <ion-title size="large">{{ "jj-luckydraw._TICKET_DISTRIBUTIONS" | translate }}</ion-title>
           </ion-toolbar>
-        </ion-header>
+        </ion-header> -->
         <ng-container *ngIf="loaded">
-          <!-- todo: add filter -->
           <ion-list>
-            <ion-list-header *ngIf="!ticketDistributions || ticketDistributions.length <= 0" class="ion-no-padding">
+            <ion-list-header *ngIf="!distributions || distributions.length <= 0" class="ion-no-padding">
               <ion-label class="font-small ion-text-center">
                 {{ "jj-luckydraw._NO_DISTRIBUTIONS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let ticketDistribution of ticketDistributions"
-              [routerLink]="['ticket-distribution', ticketDistribution.doc_id]">
+            <ion-item *ngFor="let distribution of distributions" [routerLink]="['ticket-distribution', distribution.doc_id]">
               <ion-label>
-                <h3>{{ ticketDistribution.customerFirstName | fullName: ticketDistribution.customerLastName }}</h3>
-                <h3>{{ ticketDistribution.customerContactNo }}</h3>
-                <p class="font-small">
-                  {{ "jj-luckydraw._DISTRIBUTED_AT" | translate }}&nbsp;:&nbsp;
-                  {{ ticketDistribution.distributedAt | date: "MM/dd/yy, h:mm a" }}
-                </p>
+                <h3>{{ distribution.customerFirstName | fullName: distribution.customerLastName }}</h3>
+                <h3>{{ distribution.customerContactNo }}</h3>
+                <p>{{ "jj-luckydraw._BILL_NO" | translate }}&nbsp;:&nbsp;{{ distribution.billNo }}</p>
+                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranlate }}</p>
+                <p>{{ "jj-luckydraw._DISTRIBUTED_AT" | translate }}&nbsp;:&nbsp;{{ distribution.distributedAt | date: "MM/dd/yy, h:mm a" }}</p>
               </ion-label>
               <ion-badge slot="end">
                 <div class="d-flex-column ion-padding-vertical-sm">
-                  <div class="font-large ion-margin-bottom-sm">{{ ticketDistribution.totalOfTickets }}</div>
+                  <div class="font-large ion-margin-bottom-sm">{{ distribution.totalOfTickets }}</div>
                   <div>{{ "jj-luckydraw._TICKETS" | translate }}</div>
                 </div>
               </ion-badge>
             </ion-item>
           </ion-list>
-          <ng-container *ngIf="ticketDistributions?.length > 0">
-            <ion-infinite-scroll *ngIf="!noMoreTicketDistributions" (ionInfinite)="loadMoreTicketDistributions($event)">
+          <ng-container *ngIf="distributions?.length > 0">
+            <ion-infinite-scroll *ngIf="!noMoreDistributions" (ionInfinite)="loadMoreTicketDistributions($event)">
               <ion-infinite-scroll-content></ion-infinite-scroll-content>
             </ion-infinite-scroll>
-            <ion-list-header *ngIf="noMoreTicketDistributions" class="ion-no-padding">
+            <ion-list-header *ngIf="noMoreDistributions" class="ion-no-padding">
               <ion-label class="font-small ion-text-center">
                 {{ "jj-luckydraw._NO_MORE_TICKET_DISTRIBUTIONS" | translate }}
               </ion-label>

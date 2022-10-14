@@ -43,6 +43,7 @@ export class TicketDistributionPage implements OnInit {
     }
 
     this.tickets = await this.lucky.getTicketsByTicketDistribution(this.ticketDistributionId, this.ticketPagination);
+    this.noMoreTickets = this.tickets.length < this.ticketPagination.itemsPerPage;
   }
 
   async loadMoreTickets(event: Event) {

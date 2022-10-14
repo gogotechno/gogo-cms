@@ -4,11 +4,12 @@
       <ion-back-button defaultHref="/jj-luckydraw/merchant/users"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj-luckydraw._USER" | translate }}</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons *ngIf="editable" slot="end">
       <ion-button (click)="onEdit()">
-        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        <ion-icon *ngIf="!this.editing" name="create-outline" slot="icon-only"></ion-icon>
+        <ion-icon *ngIf="this.editing" name="close-outline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button (click)="onMoreOptions($event)">
         <ion-icon name="ellipsis-vertical-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>

@@ -8,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class MerchantPage implements OnInit {
 
+  private readonly ROOT_PATH = "/jj-luckydraw/merchant";
+
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -30,7 +32,8 @@ export class MerchantPage implements OnInit {
    * This method will only run once after initialization.
    */
   defaultRouting() {
-    this.router.navigate(["/jj-luckydraw/merchant/users"]);
+    let navigateTo = this.router.url == this.ROOT_PATH ? `${this.ROOT_PATH}/dashboard` : this.router.url;
+    this.router.navigate([navigateTo]);
   }
 
   /**

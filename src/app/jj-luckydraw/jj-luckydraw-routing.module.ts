@@ -29,7 +29,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'merchant',
+        redirectTo: 'home',
         pathMatch: 'full'
       }
     ]

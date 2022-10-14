@@ -33,14 +33,16 @@ import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
 Quill.register('modules/imageHandler', ImageHandler);
 Quill.register('modules/videoHandler', VideoHandler);
 
-import { SwsErpInterceptor } from './sws-erp.interceptors';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { SWS_ERP_COMPANY } from './sws-erp.type';
-import { BehaviorSubject } from 'rxjs';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
 }
+
+import { SwsErpInterceptor } from './sws-erp.interceptors';
+import { SWS_ERP_COMPANY } from './sws-erp.type';
+
+import { BehaviorSubject } from 'rxjs';
 
 @NgModule({
   declarations: [AppComponent],

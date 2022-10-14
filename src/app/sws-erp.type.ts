@@ -13,6 +13,10 @@ export interface Pagination {
     currentPage: number
 }
 
+export interface Conditions {
+    [key: string]: string | number | boolean | Date
+}
+
 export interface AuthStateEvent {
     status: "LOGGED_IN" | "LOGGED_OUT"
 }

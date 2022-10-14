@@ -6,8 +6,8 @@ import { CmsService } from '../cms.service';
 import { AppUtils, CmsUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
-import { DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
-import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole } from './jj-luckydraw.type';
+import { Conditions, DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
+import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,10 @@ export class JJLuckydrawService {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
 
   initialized: boolean = false;
+
+  userChange: BehaviorSubject<UserEvent>;
+  usersChange: BehaviorSubject<OnChangeEvent>;
+  distributionsChange: BehaviorSubject<OnChangeEvent>;
 
   constructor(
     injector: Injector,
@@ -29,6 +33,9 @@ export class JJLuckydrawService {
     private utils: CmsUtils
   ) {
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
+    this.userChange = new BehaviorSubject<UserEvent>(null);
+    this.usersChange = new BehaviorSubject<OnChangeEvent>(null);
+    this.distributionsChange = new BehaviorSubject<OnChangeEvent>(null);
   }
 
   /**
@@ -60,9 +67,11 @@ export class JJLuckydrawService {
    * Get current user's merchant
    * @returns Returns merchant object
    */
-  async getMyMerchant() {
+  async getMyMerchant(withSummary: boolean = false) {
     let merchantId = await this.getMyMerchantId();
-    return this.erp.getDoc<JJMerchant>("Merchant", merchantId);
+    return this.erp.getDoc<JJMerchant>("Merchant", merchantId, {
+      withSummary: withSummary
+    });
   }
 
   /**
@@ -73,11 +82,10 @@ export class JJLuckydrawService {
     let res = await this.erp.getDocs<JJEvent>("Event", {
       itemsPerPage: 1,
       currentPage: 1,
-      hasFk: true,
       status: "ACTIVE",
       status_type: "=",
       sortBy: "startAt",
-      sortType: "asc"
+      sortType: "desc"
     })
     return res.result[0];
   }
@@ -90,13 +98,29 @@ export class JJLuckydrawService {
     let res = await this.erp.getDocs<JJEvent>("Event", {
       itemsPerPage: 1,
       currentPage: 1,
-      hasFk: true,
       status: "ENDED",
       status_type: "=",
       sortBy: "startAt",
-      sortType: "asc"
+      sortType: "desc",
+      withSummary: true
     });
     return res.result[0];
+  }
+
+  /**
+   * Get ended events
+   * @param pagination Pagination object
+   * @returns Returns ended events with pagination
+   */
+  async getEvents(conditions: Conditions, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJEvent>("Event", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: "startAt",
+      sortType: "desc",
+      ...conditions
+    })
+    return res.result;
   }
 
   /**
@@ -108,11 +132,28 @@ export class JJLuckydrawService {
     let res = await this.erp.getDocs<JJEvent>("Event", {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      hasFk: true,
       status: "ENDED",
-      status_type: "="
+      status_type: "=",
+      sortBy: "startAt",
+      sortType: "desc"
     })
     return res.result;
+  }
+
+  /**
+   * Get ticket distributions
+   * @param pagination Pagination object
+   * @returns Returns ticket distributions with pagination
+   */
+  async getTicketDistributions(conditions: Conditions, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJTicketDistribution>("Ticket Distribution", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: "distributedAt",
+      sortType: "desc",
+      ...conditions
+    })
+    return res.result.map((distribution) => this.populateTicketDistribution(distribution));
   }
 
   /**
@@ -288,8 +329,15 @@ export class JJLuckydrawService {
    * @returns Returns ticket distribution object with populated properties
    */
   private populateTicketDistribution(distribution: JJTicketDistribution) {
-
     return distribution;
   }
 
+}
+
+interface OnChangeEvent {
+  beUpdated?: boolean
+}
+
+interface UserEvent extends OnChangeEvent {
+  currentUserId: number
 }

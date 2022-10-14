@@ -14,7 +14,10 @@ export interface JJMerchant extends ErpDoc {
     postalCode: string,
     state: string,
     country: string,
-    code: string
+    code: string,
+    totalOfLatestTickets?: number,
+    totalOfTickets?: number,
+    totalOfWinners?: number
 }
 
 export interface JJEvent extends ErpDoc {
@@ -27,7 +30,11 @@ export interface JJEvent extends ErpDoc {
     startAt: Date,
     endAt?: Date,
     drawAt?: Date,
-    prizes: JJEventPrize[]
+    prizes?: JJEventPrize[],
+    winner?: JJWinner[],
+    drawingResult?: JJDrawingResult,
+    winningSummary?: WinningSummary[],
+    totalOfWinners?: number
 }
 
 export interface JJEventPrize extends ErpDoc {
@@ -43,6 +50,17 @@ export enum EventStatus {
     ACTIVE = "ACTIVE",
     INACTIVE = "INACTIVE",
     ENDED = "ENDED"
+}
+
+export interface JJDrawingResult extends ErpDoc {
+    event_id: number,
+    drewAt: Date,
+    drewBy: string
+}
+
+export interface WinningSummary {
+    prize: JJEventPrize,
+    winningNumbers: string[]
 }
 
 export interface JJTicketDistributionApplication extends ErpDoc {
@@ -67,7 +85,8 @@ export interface JJTicketDistribution extends ErpDoc {
     application_id: number,
     tickets?: JJTicket[]
     totalOfTickets?: number,
-    distributedByPerson?: DocUser
+    distributedByPerson?: DocUser,
+    event?: JJEvent
 }
 
 export interface JJTicket extends ErpDoc {
@@ -82,6 +101,20 @@ export interface JJTicket extends ErpDoc {
 export enum TicketStatus {
     VALID = "VALID",
     INVALID = "INVALID"
+}
+
+export interface JJWinner extends ErpDoc {
+    ticket_id: number,
+    prize_id: number,
+    quantity: number,
+    status: "PENDING" | "DELIVERED",
+    merchant_id?: number,
+    drawing_result_id?: number
+}
+
+export enum WinnerStatus {
+    PENDING = "PENDING",
+    DELIVERED = "DELIVERED"
 }
 
 export interface JJUser extends ErpDoc {

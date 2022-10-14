@@ -3,6 +3,13 @@
     height: 56px;
 }
 
+.list-section {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+
 .quick-actions {
     margin-left: 16px;
     margin-right: 16px;
@@ -26,6 +33,7 @@
 }
 
 .quick-actions ion-card-content {
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

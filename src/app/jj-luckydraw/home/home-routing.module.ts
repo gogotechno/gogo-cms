@@ -10,11 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'ended-events',
-    loadChildren: () => import('./ended-events/ended-events.module').then( m => m.EndedEventsPageModule)
-  },
-  {
-    path: 'event-detail',
-    loadChildren: () => import('./event-detail/event-detail.module').then( m => m.EventDetailPageModule)
+    loadChildren: () => import('./ended-events/ended-events.module').then(m => m.EndedEventsPageModule)
   }
 ];
 
@@ -22,4 +18,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HomePageRoutingModule {}
+export class HomePageRoutingModule { }

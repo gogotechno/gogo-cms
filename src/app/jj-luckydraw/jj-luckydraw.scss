@@ -84,7 +84,10 @@ ion-card {
     padding-top: var(--ion-padding, 16px);
     padding-bottom: var(--ion-padding, 16px);
     box-shadow: rgb(0 0 0 / 24%) 0px 1px 4px;
-    margin: var(--ion-margin, 16px);
+    margin-top: var(--ion-margin, 16px);
+    margin-bottom: var(--ion-margin, 16px);
+    margin-left: var(--ion-margin, 16px);
+    margin-right: var(--ion-margin, 16px);
 }
 
 .list-section.list-section-clear {
@@ -105,4 +108,34 @@ ion-card {
 
 .list-section ion-item {
     --background: transparent;
+}
+
+.default-icon {
+    width: 24px;
+    height: 24px;
+    padding: var(--ion-padding, 16px);
+    color: var(--ion-text-color, #000);
+    background-color: var(--default-icon-background);
+    border-radius: 50%;
+}
+
+.grid-summary {
+    padding: 0;
+
+    ion-col:first-of-type {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: var(--ion-margin, 16px);
+
+        ion-icon {
+            @extend .default-icon;
+        }
+    }
+
+    ion-col:last-of-type {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 }

@@ -4,11 +4,11 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ "jj-luckydraw._USERS" | translate }}</ion-title>
-    <ion-buttons slot="end">
+    <!-- <ion-buttons slot="end">
       <ion-button (click)="onCreateUser()">
-        <ion-label>{{ "jj-luckydraw._CREATE_NEW_USER" | translate }}</ion-label>
+        <ion-label>{{ "jj-luckydraw._CREATE_NEW_USER" | translate | uppercase }}</ion-label>
       </ion-button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
@@ -19,11 +19,11 @@
         <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
-        <ion-header collapse="condense">
+        <!-- <ion-header collapse="condense">
           <ion-toolbar>
             <ion-title size="large">{{ "jj-luckydraw._USERS" | translate }}</ion-title>
           </ion-toolbar>
-        </ion-header>
+        </ion-header> -->
         <ng-container *ngIf="loaded">
           <ion-list>
             <ion-list-header *ngIf="!users || users.length <= 0" class="ion-no-padding">
@@ -35,10 +35,7 @@
               <ion-label>
                 <h3>{{ user.firstName | fullName: user.lastName }}</h3>
                 <h3>{{ user.email }}</h3>
-                <p class="font-small">
-                  {{ "jj-luckydraw._CREATED_AT" | translate }}&nbsp;:&nbsp;
-                  {{ user.doc_createdDate | date: "MM/dd/yy, h:mm a" }}
-                </p>
+                <p>{{ "jj-luckydraw._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ user.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
               </ion-label>
               <ion-badge slot="end" class="role-badge">{{ user.roleTranslation | cmsTranslate }}</ion-badge>
             </ion-item>
@@ -57,4 +54,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="onCreateUser()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -1,0 +1,81 @@
+<ng-container *ngIf="formGroup">
+    <ion-list [formGroup]="formGroup">
+        <ng-container *ngFor="let item of form.items">
+            <ng-container *ngIf="!item.hidden">
+                <ng-container [ngSwitch]="item.type">
+
+                    <ng-container *ngSwitchCase="'date-between'">
+                        <ion-item lines="none">
+                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
+                        </ion-item>
+                        <div class="date-between">
+                            <ion-item>
+                                <ion-label position="stacked">{{ "_FROM_DATE" | translate }}</ion-label>
+                                <ion-input [type]="getDateBetweenInputType(item.dateType)"
+                                    [formControlName]="getDateBetweenFormControlName('from', item.code)"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="stacked">{{ "_TO_DATE" | translate }}</ion-label>
+                                <ion-input [type]="getDateBetweenInputType(item.dateType)"
+                                    [formControlName]="getDateBetweenFormControlName('to', item.code)"></ion-input>
+                            </ion-item>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'select'">
+                        <ion-item *ngIf="!item.searchable">
+                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-select [formControlName]="item.code" slot="end">
+                                <ion-select-option *ngFor="let option of item.options" [value]="option.code">
+                                    <ion-label>{{ option.label | cmsTranslate }}</ion-label>
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ng-container *ngIf="item.searchable">
+                            <cms-searchable-select [formControlName]="item.code" [filterItem]="item" 
+                                (filterItemChange)="onSearchableSelectFilterItemChange(item.code, $event)"></cms-searchable-select>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                        <ion-item [ngSwitch]="item.type">
+                            <ion-label [position]="item.labelPosition || 'fixed'">
+                                {{ item.label | cmsTranslate }}
+                            </ion-label>
+                            <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"></ion-input>
+                            <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"></ion-input>
+                            <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code"></ion-input>
+                            <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code"></ion-input>
+                            <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code"></ion-input>
+                            <cms-file-input *ngSwitchCase="'file'" [formControlName]="item.code"></cms-file-input>
+                            <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code"></cms-translation-input>
+                            <ion-input *ngSwitchDefault [formControlName]="item.code"></ion-input>
+                        </ion-item>
+                    </ng-container>
+
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </ion-list>
+</ng-container>
+
+<hr />
+
+<ion-grid>
+    <ion-row>
+        <ion-col>
+            <ion-button expand="block" fill="outline" (click)="onReset()">
+                <ion-label>{{ '_RESET' | translate }}</ion-label>
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button expand="block" (click)="onApply()">
+                <ion-label>{{ '_APPLY' | translate }}</ion-label>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+<!-- <ion-button (click)="onPrint($event)" expand="block">
+    <ion-label>{{ '_PRINT' | translate }}</ion-label>
+</ion-button> -->

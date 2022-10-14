@@ -33,12 +33,11 @@ export class SwsErpService {
   authStateChange: BehaviorSubject<AuthStateEvent>;
 
   constructor(injector: Injector, private _http: HttpClient) {
-    this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
-
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
     this.SWS_ERP_COMPANY_TOKEN.subscribe((companyCode) => {
       this.API_URL = `${environment.swsErp.apiUrl}/${companyCode}`;
     })
+    this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
   }
 
   /**

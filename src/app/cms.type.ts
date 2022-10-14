@@ -1,4 +1,5 @@
 import { Timestamp } from "@angular/fire/firestore"
+import { Pagination } from "./sws-erp.type"
 
 export interface CmsDocument {
     updatedAt?: Timestamp,
@@ -99,7 +100,7 @@ export interface CmsFormItem extends CmsDocument {
     dataType?: string,
     required?: boolean,
     hidden?: boolean,
-    options?: Array<CmsFormItemOptions>,
+    options?: Array<CmsFormItemOption>,
     minimum?: number,
     maximum?: number,
     minimumLength?: number,
@@ -107,14 +108,12 @@ export interface CmsFormItem extends CmsDocument {
     matchWith?: string[]
 }
 
-export type CmsFormItemType =
-    'text' | 'number' | 'cms-translate' | 'cms-translate-editor' | 'array' |
-    'email' | 'password' | 'checkbox' | 'select' | 'date' | 'time' | 'datetime'
-
-export interface CmsFormItemOptions {
+export interface CmsFormItemOption {
     code: string,
     label: CmsTranslation
 }
+
+export type CmsFormItemType = 'text' | 'number' | 'array' | 'email' | 'password' | 'checkbox' | 'select' | 'date' | 'time' | 'datetime' | 'cms-translate' | 'cms-translate-editor';
 
 export interface CmsFormValidation {
     valid: boolean,
@@ -125,6 +124,53 @@ export interface CmsFormValidationError {
     error: any,
     message: string
 }
+
+export interface CmsFilter {
+    items: Array<CmsFilterItem>
+}
+
+export interface CmsFilterItem {
+    code: string,
+    label: CmsTranslation,
+    labelPosition?: "fixed" | "floating" | "stacked",
+    type: CmsFilterItemType,
+    icon?: string,
+    img?: string,
+    required?: boolean,
+    hidden?: boolean,
+    multiple?: boolean,
+    operator?: Operator,
+    dateType?: 'date' | 'time' | 'datetime',
+    searchable?: boolean,
+    selectConfig?: {
+        labelFields: string[],
+        labelSeparator?: string,
+        codeFields: string[];
+        codeSeparator?: string,
+        noMoreText?: string;
+        emptyText?: string;
+        selectedItems?: any[];
+    },
+    selectHandler?: {
+        onLoad: OnSelectLoad,
+        onScrollToEnd: OnSelectScrollToEnd
+    },
+    options?: Array<CmsFilterItemOption>,
+}
+
+export type OnSelectLoad = () => Promise<[any[], Pagination]>;
+export type OnSelectScrollToEnd = (pagination: Pagination) => Promise<[any[], Pagination]>;
+
+export interface CmsFilterItemOption {
+    code: string,
+    label: CmsTranslation
+}
+
+export type CmsFilterItemType = 'text' | 'number' | 'checkbox' | 'radio' | 'select' | 'date' | 'time' | 'datetime' | 'date-between';
+
+export const OPERATORS = ["=", "!=", "<", "<=", ">", ">="] as const;
+export type OperatorTuple = typeof OPERATORS;
+export type Operator = OperatorTuple[number];
 
 export interface CmsSignInRequest extends CmsDocument {
     email: string,

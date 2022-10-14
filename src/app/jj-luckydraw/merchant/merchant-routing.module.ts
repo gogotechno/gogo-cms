@@ -13,8 +13,8 @@ const routes: Routes = [
         loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardPageModule)
       },
       {
-        path: 'tickets',
-        loadChildren: () => import('./tickets/tickets.module').then(m => m.TicketsPageModule)
+        path: 'ticket-distributions',
+        loadChildren: () => import('./ticket-distributions/ticket-distributions.module').then(m => m.TicketDistributionsPageModule)
       },
       {
         path: 'users',
