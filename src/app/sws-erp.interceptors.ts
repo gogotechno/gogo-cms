@@ -10,7 +10,7 @@ import { SwsErpService } from "./sws-erp.service";
 @Injectable()
 export class SwsErpInterceptor implements HttpInterceptor {
 
-    constructor(private app: AppUtils, private translate: TranslateService, private erp: SwsErpService) { }
+    constructor(private app: AppUtils, private erp: SwsErpService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return from(this.handle(request, next));
@@ -21,10 +21,9 @@ export class SwsErpInterceptor implements HttpInterceptor {
         if (request.url.substring(0, apiUrl.length) === apiUrl) {
             await this.app.presentLoading();
 
-            let updatedRequest = request.clone(request);
-            updatedRequest = updatedRequest.clone({
-                setParams: { lang: this.translate.currentLang }
-            })
+            let updatedRequest = request.clone({
+                setParams: { lang: this.erp.language }
+            });
 
             if (!request.headers.get("Authorization") && this.erp.token) {
                 updatedRequest = updatedRequest.clone({
@@ -40,19 +39,26 @@ export class SwsErpInterceptor implements HttpInterceptor {
                             console.log("api call success :", next);
                         }
                     },
-                    (err) => {
+                    async (err) => {
                         console.error("api call error :", err);
                         let header = "_ERROR";
                         let message = "_UNKNOWN_ERROR";
                         if (err instanceof HttpErrorResponse) {
                             message = err.error.message || err.error.error || err.message;
                         }
-
-                        this.app.presentAlert(message, header);
+                        if (this.isRefreshTokenExpiredError(err)) {
+                            message = "_YOUR_CREDENTIAL_IS_EXPIRED";
+                            this.erp.signOut();
+                        }
+                        if (!this.isAccessTokenExpiredError(err)) {
+                            await this.app.presentAlert(message, header);
+                        }
                     }
                 ),
                 catchError((err) => {
-                    //todo: refresh access token
+                    if (this.isAccessTokenExpiredError(err)) {
+                        return from(this.handleExpiredAccessToken(updatedRequest, next));
+                    }
                     return throwError(err);
                 }),
                 finalize(() => {
@@ -64,5 +70,20 @@ export class SwsErpInterceptor implements HttpInterceptor {
         return await next.handle(request).toPromise();
     }
 
+    private isAccessTokenExpiredError(err: any) {
+        return err instanceof HttpErrorResponse && err.status == 401 && err.error.message.startsWith("Token Expired");
+    }
+
+    private isRefreshTokenExpiredError(err: any) {
+        return err instanceof HttpErrorResponse && err.status == 500 && err.error.error.startsWith("jwt expired");
+    }
+
+    private async handleExpiredAccessToken(request: HttpRequest<any>, next: HttpHandler) {
+        await this.erp.generateAccessToken(this.erp.refreshToken);
+        let updatedRequest = request.clone({
+            setHeaders: { Authorization: `Bearer ${this.erp.token}` }
+        });
+        return next.handle(updatedRequest).toPromise();
+    }
 
 }

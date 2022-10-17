@@ -1,6 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{ "jj-luckydraw._HOME" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="ended-events">
+        <ion-label>{{ "jj-luckydraw._ENDED_EVENTS" | translate }}</ion-label>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,54 +17,7 @@
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
         <ng-container *ngIf="loaded">
-          <ion-card class="ion-margin-vertical-sm">
-            <ion-card-header>
-              <ion-card-subtitle>{{ "jj-luckydraw._LAST_EVENT" | translate }}</ion-card-subtitle>
-              <ion-card-title>{{ lastEndedEvent.name }}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-list class="list-section list-section-clear" lines="none">
-                <ion-item>
-                  <ion-label>
-                    <p>{{ "jj-luckydraw._TOTAL_OF_WINNERS" | translate }}</p>
-                    <h3>{{ lastEndedEvent.totalOfWinners }}</h3>
-                  </ion-label>
-                </ion-item>
-                <ion-item>
-                  <ion-label>
-                    <p>{{ "jj-luckydraw._DREW_AT" | translate }}</p>
-                    <h3>{{ lastEndedEvent.drawingResult.drewAt | date: "MM/dd/yy, h:mm a" }}</h3>
-                  </ion-label>
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-            <ion-card-content>
-              <ion-list class="list-section list-section-clear">
-                <ion-list-header class="ion-no-padding">
-                  <ion-label>{{ "jj-luckydraw._RESULT" | translate }}</ion-label>
-                </ion-list-header>
-                <ion-grid class="table">
-                  <ng-container *ngFor="let record of lastEndedEvent.winningSummary">
-                    <ion-row class="table-header">
-                      <ion-col>
-                        <h3 class="d-flex ion-align-items-center ion-justify-content-between">
-                          <span>{{ record.prize.name | erpTranlate }}</span>
-                          <span class="prize-worth">
-                            {{ "jj-luckydraw._WORTH" | translate }}&nbsp;:&nbsp;RM{{ record.prize.worth }}
-                          </span>
-                        </h3>
-                      </ion-col>
-                    </ion-row>
-                    <ion-row class="table-body">
-                      <ion-col size="4" sizeMd="3" sizeLg="2" *ngFor="let winningNumber of record.winningNumbers">
-                        <p>{{ winningNumber }}</p>
-                      </ion-col>
-                    </ion-row>
-                  </ng-container>
-                </ion-grid>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
+          <lucky-event-with-winning-summary [event]="lastEndedEvent"></lucky-event-with-winning-summary>
         </ng-container>
       </ion-col>
     </ion-row>

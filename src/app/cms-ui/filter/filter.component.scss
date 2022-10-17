@@ -9,3 +9,11 @@
         margin-right: var(--ion-margin-sm, 8px);
     }
 }
+
+.buttons {
+    padding: 0;
+
+    ion-col {
+        padding: 0;
+    }
+}

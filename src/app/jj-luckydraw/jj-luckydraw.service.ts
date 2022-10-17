@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { CmsService } from '../cms.service';
 import { AppUtils, CmsUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
 import { Conditions, DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
-import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner } from './jj-luckydraw.type';
+import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner, LANGUAGE_STORAGE_KEY } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,8 @@ export class JJLuckydrawService {
     private storage: LocalStorageService,
     private app: AppUtils,
     private cms: CmsService,
-    private utils: CmsUtils
+    private utils: CmsUtils,
+    private translate: TranslateService
   ) {
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
     this.userChange = new BehaviorSubject<UserEvent>(null);
@@ -49,7 +51,28 @@ export class JJLuckydrawService {
     this.app.loadTemplateTheme(this.cms.SITE.template);
     this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
 
+    let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
+    if (storedLang) {
+      await this.translate.use(storedLang).toPromise();
+    }
+
     this.initialized = true;
+  }
+
+  /**
+   * Get supported languages from GogoCMS site's attributes
+   * @returns Returns supported languages
+   */
+  async getSupportedLanguages() {
+    let attributes = await this.cms.getAttributes();
+    let attribute = attributes.find((a) => a.code == "languages");
+    return attribute && attribute.options.length > 0 ? attribute.options : [{
+      code: "en",
+      label: {
+        en: "English",
+        zh: "English"
+      }
+    }]
   }
 
   /**
@@ -68,9 +91,10 @@ export class JJLuckydrawService {
    */
   async getMyMerchant(withSummary: boolean = false) {
     let merchantId = await this.getMyMerchantId();
-    return this.erp.getDoc<JJMerchant>("Merchant", merchantId, {
+    let merchant = await this.erp.getDoc<JJMerchant>("Merchant", merchantId, {
       withSummary: withSummary
     });
+    return this.populateMerchant(merchant);
   }
 
   /**
@@ -134,9 +158,22 @@ export class JJLuckydrawService {
       status: "ENDED",
       status_type: "=",
       sortBy: "startAt",
-      sortType: "desc"
+      sortType: "desc",
+      withSummary: true
     })
     return res.result;
+  }
+
+  /**
+   * Get event by ID
+   * @param eventId Event's ID
+   * @returns Returns event object
+   */
+  async getEventById(eventId: number) {
+    let res = await this.erp.getDoc<JJEvent>("Event", eventId, {
+      withSummary: true
+    });
+    return res;
   }
 
   /**
@@ -329,6 +366,16 @@ export class JJLuckydrawService {
    */
   private populateTicketDistribution(distribution: JJTicketDistribution) {
     return distribution;
+  }
+
+  /**
+   * Populate merchant to map Gogo CMS usage
+   * @param merchant Merchant object
+   * @returns Returns merchant object with populated properties
+   */
+  private populateMerchant(merchant: JJMerchant) {
+    merchant.fullAddress = `${merchant.addressLine1}${merchant.addressLine2 ? ", " + merchant.addressLine2 : ""}, ${merchant.postalCode} ${merchant.city}, ${merchant.state} ${merchant.country}`;
+    return merchant;
   }
 
 }

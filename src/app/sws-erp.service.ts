@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,7 @@ export class SwsErpService {
   private _TOKEN: string;
   private _REFRESH_TOKEN: string;
   private _DOC_USER: DocUser;
+  private _LANGUAGE: string;
 
   get token() {
     return this._TOKEN;
@@ -30,14 +32,22 @@ export class SwsErpService {
     return this._DOC_USER;
   }
 
+  get language() {
+    return this._LANGUAGE;
+  }
+
   authStateChange: BehaviorSubject<AuthStateEvent>;
 
-  constructor(injector: Injector, private _http: HttpClient) {
+  constructor(injector: Injector, private _http: HttpClient, private translate: TranslateService) {
+    this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
+    this._LANGUAGE = this.translate.currentLang || this.translate.defaultLang || "en";
+    this.translate.onLangChange.subscribe((ev) => {
+      this._LANGUAGE = ev.lang;
+    })
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
     this.SWS_ERP_COMPANY_TOKEN.subscribe((companyCode) => {
       this.API_URL = `${environment.swsErp.apiUrl}/${companyCode}`;
     })
-    this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
   }
 
   /**
@@ -135,7 +145,9 @@ export class SwsErpService {
     this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
     this._DOC_USER = res.body.data;
-    this.authStateChange.next({ status: "LOGGED_IN" });
+    this.authStateChange.next({
+      status: "LOGGED_IN"
+    });
     return res;
   }
 
@@ -199,7 +211,9 @@ export class SwsErpService {
     this._TOKEN = null;
     this._DOC_USER = null;
 
-    this.authStateChange.next({ status: "LOGGED_OUT" });
+    this.authStateChange.next({
+      status: "LOGGED_OUT"
+    });
   }
 
 }

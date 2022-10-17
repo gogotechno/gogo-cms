@@ -48,7 +48,9 @@ export class UserPage implements OnInit {
   async ngOnInit() {
     let params = this.route.snapshot.params;
     this.userId = params.id;
-    this.lucky.userChange.next({ currentUserId: this.userId });
+    this.lucky.userChange.next({
+      currentUserId: this.userId
+    });
     await this.loadData();
   }
 

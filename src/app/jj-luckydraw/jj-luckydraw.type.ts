@@ -3,6 +3,8 @@ import { DocUser, ErpDoc } from "../sws-erp.type";
 
 export const COMPANY_CODE = "lucky";
 
+export const LANGUAGE_STORAGE_KEY = `${COMPANY_CODE}_LANGUAGE`;
+
 export interface JJMerchant extends ErpDoc {
     name: string,
     logo?: string,
@@ -17,7 +19,8 @@ export interface JJMerchant extends ErpDoc {
     code: string,
     totalOfLatestTickets?: number,
     totalOfTickets?: number,
-    totalOfWinners?: number
+    totalOfWinners?: number,
+    fullAddress?: string
 }
 
 export interface JJEvent extends ErpDoc {
@@ -140,4 +143,9 @@ export interface JJUserRole extends ErpDoc {
 export enum UserRole {
     SYSTEM_ADMIN = "SYSTEM_ADMIN",
     MERCHANT_ADMIN = "MERCHANT_ADMIN"
+}
+
+export interface JJLanguage {
+    code: string,
+    label: CmsTranslation
 }

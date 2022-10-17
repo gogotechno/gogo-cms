@@ -4,23 +4,22 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { EventDetailsPageRoutingModule } from './event-details-routing.module';
 
-import { HomePage } from './home.page';
+import { EventDetailsPage } from './event-details.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { JJLuckydrawUiModule } from '../jj-luckydraw-ui/jj-luckydraw-ui.module';
+import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
+    EventDetailsPageRoutingModule,
     TranslateModule,
-    SwsErpModule,
     JJLuckydrawUiModule
   ],
-  declarations: [HomePage]
+  declarations: [EventDetailsPage]
 })
-export class HomePageModule {}
+export class EventDetailsPageModule {}

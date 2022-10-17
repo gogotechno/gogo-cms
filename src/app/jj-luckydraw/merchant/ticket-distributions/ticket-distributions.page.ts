@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { CmsFilter } from 'src/app/cms.type';
+import { CmsFilter, Operator } from 'src/app/cms.type';
 import { Pagination } from 'src/app/sws-erp.type';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJTicketDistribution } from '../../jj-luckydraw.type';
@@ -19,7 +19,11 @@ export class TicketDistributionsPage implements OnInit {
   noMoreDistributions: boolean;
 
   distributionConditions: {
-    searchInput?: string
+    searchInput?: string,
+    event_id?: number,
+    event_id_type?: Operator,
+    distributedAt_from?: Date,
+    distributedAt_to?: Date
   }
 
   filter: CmsFilter;
@@ -85,6 +89,11 @@ export class TicketDistributionsPage implements OnInit {
   }
 
   async onFilter() {
+    this.distributionConditions = {
+      ...this.distributionConditions,
+      event_id_type: "="
+    }
+
     const modal = await this.modalCtrl.create({
       component: DistributionFilterComponent,
       componentProps: {
@@ -127,6 +136,15 @@ export class TicketDistributionsPage implements OnInit {
               return [events, pagination];
             }
           }
+        },
+        {
+          code: "event_id_type",
+          label: {
+            en: "Event's Operator",
+            zh: "抽奖活动符号"
+          },
+          type: "text",
+          hidden: true
         },
         {
           code: "distributedAt",

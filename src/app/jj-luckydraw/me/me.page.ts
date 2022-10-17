@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { AppUtils } from 'src/app/cms.util';
+import { LocalStorageService } from 'src/app/local-storage.service';
 import { AuthService } from '../auth.service';
-import { JJUser } from '../jj-luckydraw.type';
+import { JJLuckydrawService } from '../jj-luckydraw.service';
+import { JJLanguage, JJUser, LANGUAGE_STORAGE_KEY } from '../jj-luckydraw.type';
 
 @Component({
   selector: 'app-me',
@@ -12,7 +16,16 @@ export class MePage implements OnInit {
   loaded: boolean;
   me: JJUser;
 
-  constructor(private auth: AuthService) { }
+  currentLang: string;
+  languages: JJLanguage[];
+
+  constructor(
+    private auth: AuthService,
+    private lucky: JJLuckydrawService,
+    private translate: TranslateService,
+    private storage: LocalStorageService,
+    private app: AppUtils
+  ) { }
 
   async ngOnInit() {
     await this.loadData();
@@ -20,6 +33,9 @@ export class MePage implements OnInit {
 
   async loadData() {
     this.loaded = false;
+    let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
+    this.currentLang = storedLang || this.translate.currentLang;
+    this.languages = await this.lucky.getSupportedLanguages();
     this.me = await this.auth.findMe();
     this.loaded = true;
   }
@@ -32,6 +48,14 @@ export class MePage implements OnInit {
 
   async onSignOut(event?: Event) {
     await this.auth.signOut();
+  }
+
+  async onLanguageChange() {
+    await this.app.presentLoading();
+    await this.translate.use(this.currentLang).toPromise();
+    await this.storage.set(LANGUAGE_STORAGE_KEY, this.currentLang);
+    window.location.reload();
+    await this.app.dismissLoading();
   }
 
 }

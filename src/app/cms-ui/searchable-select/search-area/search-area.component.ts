@@ -45,6 +45,7 @@ export class SearchAreaComponent implements OnInit {
 
   async loadData() {
     this.loaded = false;
+    this.noMoreItems = false;
     let [items, pagination] = await this.onLoad();
     this.pagination = pagination;
     this.items = this.populateItems(items);

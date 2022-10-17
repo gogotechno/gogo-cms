@@ -40,7 +40,9 @@ export class DashboardPage implements OnInit {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
-      this.lucky.usersChange.next({ beUpdated: true });
+      this.lucky.usersChange.next({
+        beUpdated: true
+      });
     }
   }
 
@@ -51,7 +53,9 @@ export class DashboardPage implements OnInit {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
-      this.lucky.distributionsChange.next({ beUpdated: true });
+      this.lucky.distributionsChange.next({
+        beUpdated: true
+      });
     }
   }
 

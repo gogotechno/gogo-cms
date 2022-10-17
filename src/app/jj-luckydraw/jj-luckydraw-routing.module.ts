@@ -40,6 +40,11 @@ const routes: Routes = [
     loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInPageModule)
   },
   {
+    path: 'home',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./home/home-children.module').then(m => m.HomeChildrenModule)
+  },
+  {
     path: 'merchant',
     canActivate: [AuthGuard],
     loadChildren: () => import('./merchant/merchant-children.module').then(m => m.MerchantChildrenModule)

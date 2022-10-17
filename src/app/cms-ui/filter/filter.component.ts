@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { CmsFilter, CmsFilterItem } from 'src/app/cms.type';
 import _ from 'lodash';
 
@@ -43,7 +43,7 @@ export class FilterComponent implements OnInit {
 
   private loadControl(item: CmsFilterItem) {
     let control = new FormControl();
-    let validators = [];
+    let validators: ValidatorFn[] = [];
     if (item.required) validators.push(Validators.required);
     if (validators.length > 0) control.setValidators(validators);
     return control;

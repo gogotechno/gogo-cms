@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/merchant/dashboard"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._MERCHANT" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-avatar class="merchant-logo">
+            <ion-img [src]="merchant.logo | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
+          </ion-avatar>
+          <div class="merchant-header">
+            <p class="font-bold ion-text-center">{{ merchant.code | uppercase }}</p>
+            <h1 class="font-bold ion-text-center">{{ merchant.name }}</h1>
+          </div>
+          <ion-list class="list-section list-section-clear" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._DETAILS" | translate }}</ion-list-header>
+            <ion-item>
+              <ion-label>
+                <p>{{ "jj-luckydraw._ADDRESS" | translate }}</p>
+                <h3>{{ merchant.fullAddress || "-" }}</h3>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>{{ "jj-luckydraw._OFFICE_PHONE" | translate }}</p>
+                <h3>{{ merchant.officePhone || "-" }}</h3>
+              </ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                <p>{{ "jj-luckydraw._OFFICE_EMAIL" | translate }}</p>
+                <h3>{{ merchant.officeEmail || "-" }}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

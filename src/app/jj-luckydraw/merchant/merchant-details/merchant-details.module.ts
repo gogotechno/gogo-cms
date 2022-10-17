@@ -4,23 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { HomePageRoutingModule } from './home-routing.module';
+import { MerchantDetailsPageRoutingModule } from './merchant-details-routing.module';
 
-import { HomePage } from './home.page';
+import { MerchantDetailsPage } from './merchant-details.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { JJLuckydrawUiModule } from '../jj-luckydraw-ui/jj-luckydraw-ui.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule,
+    MerchantDetailsPageRoutingModule,
     TranslateModule,
-    SwsErpModule,
-    JJLuckydrawUiModule
+    SwsErpModule
   ],
-  declarations: [HomePage]
+  declarations: [MerchantDetailsPage]
 })
-export class HomePageModule {}
+export class MerchantDetailsPageModule {}

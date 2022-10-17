@@ -3,22 +3,46 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj-luckydraw/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>ended-events</ion-title>
+    <ion-title>{{ "jj-luckydraw._ENDED_EVENTS" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="events">
-    <ion-list *ngFor="let event of events">
-      <ion-item routerLink="./event-detail">
-        <ion-label>
-          <ion-text><b>{{ event.name }}</b></ion-text><br />
-          <ion-text><ion-chip *ngFor="let prize of event.prizes">{{ prize.name }}</ion-chip></ion-text>
-        </ion-label>
-        <ion-note slot="end">
-          <ion-text><small>{{ event.endAt | date }}</small></ion-text>
-        </ion-note>
-      </ion-item>
-    </ion-list>
-  </ng-container>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-list>
+            <ion-list-header *ngIf="!events|| events.length <= 0" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ "jj-luckydraw._NO_EVENTS_FOUND" | translate }}
+              </ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let event of events" [routerLink]="['event-details', event.doc_id]">
+              <ion-label>
+                <h3>{{ event.name }}</h3>
+                <p>
+                  {{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;
+                  {{ event.drawingResult.drewAt | date: "MM/dd/yy, h:mm a" }}
+                </p>
+              </ion-label>
+            </ion-item>
+            <ng-container *ngIf="events?.length > 0">
+              <ion-infinite-scroll *ngIf="!noMoreEvents" (ionInfinite)="loadMoreEvents($event)">
+                <ion-infinite-scroll-content></ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+              <ion-list-header *ngIf="noMoreEvents" class="ion-no-padding">
+                <ion-label class="font-small ion-text-center">
+                  {{ "jj-luckydraw._NO_MORE_EVENTS" | translate }}
+                </ion-label>
+              </ion-list-header>
+            </ng-container>
+          </ion-list>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

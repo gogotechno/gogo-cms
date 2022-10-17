@@ -3,6 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'dashboard',
+    children: [
+      {
+        path: 'merchant-details',
+        loadChildren: () => import('./merchant-details/merchant-details.module').then(m => m.MerchantDetailsPageModule)
+      }
+    ]
+  },
+  {
     path: 'ticket-distributions',
     children: [
       {

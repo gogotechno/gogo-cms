@@ -47,6 +47,7 @@
     "_NO_ITEMS_FOUND": "No items found",
     "_NO_MORE_ITEMS": "No more items",
     "_APPLY": "Apply",
+    "_YOUR_CREDENTIAL_IS_EXPIRED": "Your credential is expired",
     "winbox99": {
         "_LOGIN": "Login",
         "_GAMES": "Our Games",
@@ -101,7 +102,7 @@
     "jj-luckydraw": {
         "_SIGN_IN": "Sign In",
         "_HOME": "Home",
-        "_MERCHANT": "Merhcant",
+        "_MERCHANT": "Merchant",
         "_ADMIN": "Admin",
         "_ME": "Me",
         "_MENU": "Menu",
@@ -162,6 +163,14 @@
         "_RESULT": "Result",
         "_EVENT": "Event",
         "_SUMMARY_REPORT": "Summary",
-        "_TICKETS_FROM_ONGOING_EVENT": "{{ count }} tickets from ongoing event"
+        "_TICKETS_FROM_ONGOING_EVENT": "{{ count }} tickets from current event",
+        "_ADDRESS": "Address",
+        "_OFFICE_PHONE": "Office phone",
+        "_OFFICE_EMAIL": "Office email",
+        "_ENDED_EVENTS": "Ended Events",
+        "_NO_EVENTS_FOUND": "No events found",
+        "_NO_MORE_EVENTS": "No more events",
+        "_ENDED_AT": "Ended at",
+        "_PREFERENCE": "Preference"
     }
 }

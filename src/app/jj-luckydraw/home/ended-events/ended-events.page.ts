@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Pagination } from 'src/app/sws-erp.type';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
+import { JJEvent } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-ended-events',
@@ -8,16 +10,47 @@ import { JJLuckydrawService } from '../../jj-luckydraw.service';
 })
 export class EndedEventsPage implements OnInit {
 
-  events;
+  loaded: boolean;
+  eventPagination: Pagination;
+  events: JJEvent[];
+  noMoreEvents: boolean;
 
-  constructor(private jjLuckydraw: JJLuckydrawService) { }
+  constructor(private lucky: JJLuckydrawService) { }
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
   }
 
-  async loadData(event?) {
-    // this.events = await this.jjLuckydraw.getEndedEvents();
+  async loadData() {
+    this.loaded = false;
+    this.noMoreEvents = false;
+    await this.loadEvents();
+    this.loaded = true;
+  }
+
+  async loadEvents() {
+    this.eventPagination = {
+      itemsPerPage: 10,
+      currentPage: 1
+    }
+
+    this.events = await this.lucky.getEndedEvents(this.eventPagination);
+    this.noMoreEvents = this.events.length < this.eventPagination.itemsPerPage;
+  }
+
+  async loadMoreEvents(event: Event) {
+    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    this.eventPagination.currentPage += 1;
+    let events = await this.lucky.getEndedEvents(this.eventPagination);
+    this.events = [...this.events, ...events];
+    this.noMoreEvents = events.length <= 0;
+    infiniteScrollEl.complete();
+  }
+
+  async doRefresh(event: Event) {
+    let refresherEl = <HTMLIonRefresherElement>event.target;
+    await this.loadData();
+    refresherEl.complete();
   }
 
 }

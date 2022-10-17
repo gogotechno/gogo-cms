@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { EndedEventsPageRoutingModule } from './ended-events-routing.module';
 
 import { EndedEventsPage } from './ended-events.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EndedEventsPageRoutingModule
+    EndedEventsPageRoutingModule,
+    TranslateModule
   ],
   declarations: [EndedEventsPage]
 })

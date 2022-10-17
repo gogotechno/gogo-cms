@@ -1,7 +1,7 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj-luckydraw/merchant/tickets"></ion-back-button>
+      <ion-back-button defaultHref="/jj-luckydraw/merchant/ticket-distributions"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj-luckydraw._TICKET_DISTRIBUTION" | translate }}</ion-title>
   </ion-toolbar>
@@ -17,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-grid fixed>
     <ion-row>
       <ion-col>
@@ -26,7 +26,7 @@
         </ion-refresher>
         <ng-container *ngIf="loaded" [ngSwitch]="segment">
           <ng-container *ngSwitchDefault>
-            <ion-list class="list-section">
+            <ion-list class="list-section list-section-clear">
               <ion-card class="ion-no-margin shadow-none">
                 <ion-card-header class="ion-no-padding-vertical">
                   <ion-grid class="grid-summary">
@@ -43,7 +43,7 @@
                 </ion-card-header>
               </ion-card>
             </ion-list>
-            <ion-list class="list-section">
+            <ion-list class="list-section list-section-clear">
               <ion-card class="ion-no-margin shadow-none">
                 <ion-card-header class="ion-no-padding-vertical">
                   <ion-grid class="grid-summary">

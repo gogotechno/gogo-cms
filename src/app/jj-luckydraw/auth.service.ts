@@ -39,9 +39,7 @@ export class AuthService {
     this.authChange = new BehaviorSubject<AuthEvent>(null);
     this.erp.authStateChange.subscribe((ev) => {
       if (ev?.status == "LOGGED_OUT") {
-        if (this._AUTHENTICATED) {
-          this.signOut();
-        }
+        this.signOut(true);
       }
     })
   }
@@ -98,8 +96,14 @@ export class AuthService {
       await this.storage.remove(`${COMPANY_CODE}_DOC_USER`);
       this._AUTHENTICATED = false;
       this._CURRENT_USER = null;
-      this.erp.signOut();
       await this.router.navigateByUrl("/jj-luckydraw/sign-in", { replaceUrl: true });
+
+      let authState = this.erp.authStateChange.getValue();
+      if (!authState || authState.status != "LOGGED_OUT") {
+        this.erp.authStateChange.next({
+          status: "LOGGED_OUT"
+        })
+      }
     }
   }
 
@@ -112,7 +116,9 @@ export class AuthService {
     await this.erp.findMe(docUser.doc_id, true, true, true);
     await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
     await this.findMyLuckyUser();
-    this.authChange.next({ user: this._CURRENT_USER });
+    this.authChange.next({
+      user: this._CURRENT_USER
+    });
     return this._CURRENT_USER;
   }
 

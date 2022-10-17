@@ -88,26 +88,26 @@ ion-card {
     margin-bottom: var(--ion-margin, 16px);
     margin-left: var(--ion-margin, 16px);
     margin-right: var(--ion-margin, 16px);
-}
 
-.list-section.list-section-clear {
-    box-shadow: none;
-}
+    &.list-section-clear {
+        box-shadow: none;
+    }
 
-.list-section ion-list-header {
-    font-size: smaller;
-    text-transform: uppercase;
-    padding-top: var(--ion-padding-sm, 8px);
-    padding-bottom: var(--ion-padding, 16px);
-    min-height: unset;
-}
+    ion-list-header {
+        font-size: smaller;
+        text-transform: uppercase;
+        padding-top: var(--ion-padding-sm, 8px);
+        padding-bottom: var(--ion-padding, 16px);
+        min-height: unset;
 
-.list-section ion-list-header ion-label {
-    margin: 0;
-}
+        ion-label {
+            margin: 0;
+        }
+    }
 
-.list-section ion-item {
-    --background: transparent;
+    ion-item {
+        --background: transparent;
+    }
 }
 
 .default-icon {

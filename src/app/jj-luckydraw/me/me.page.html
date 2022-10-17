@@ -26,6 +26,18 @@
             </ion-item>
           </ion-list>
           <ion-list class="list-section" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._PREFERENCE" | translate }}</ion-list-header>
+            <ion-item>
+              <ion-icon slot="start" name="language"></ion-icon>
+              <ion-label>{{ "_LANGUAGE" | translate }}</ion-label>
+              <ion-select slot="end" [(ngModel)]="currentLang" (ionChange)="onLanguageChange()">
+                <ion-select-option *ngFor="let lang of languages" [value]="lang.code">
+                  <ion-label>{{ lang.label | cmsTranslate }}</ion-label>
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <ion-list class="list-section" lines="none">
             <ion-list-header>{{ "jj-luckydraw._USER_SETTINGS" | translate }}</ion-list-header>
             <ion-item detail routerLink="change-password">
               <ion-icon slot="start" name="lock-closed"></ion-icon>

@@ -13,6 +13,11 @@
     "_GOOD_AFTERNOON": "下午好",
     "_SUBMIT": "提交",
     "_IS_REQUIRED": "{{ label }}是必需的",
+    "_REQUIRES_MINIMUM": "{{ label }}所需最小值为{{ min }}",
+    "_REQUIRES_MAXIMUM": "{{ label }}所需最大值为{{ max }}",
+    "_REQUIRES_MINIMUM_LENGTH": "{{ label }}所需最小长度为{{ minLength }}",
+    "_REQUIRES_MAXIMUM_LENGTH": "{{ label }}所需最大长度为{{ maxLength }}",
+    "_REQUIRES_MATCH_WITH": "{{ label }}需要与{{ matchingFields }}匹配",
     "_HAS_UNKNOWN_ERROR": "{{ label }}有未知错误",
     "_INFORMATION": "信息",
     "_NEW": "新",
@@ -29,6 +34,20 @@
     "_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE": "请保存或提交以获取有效的上传路径",
     "_ERROR_WHILE_UPLOADING_FILE": "上传文件时出错",
     "_UNKNOWN_ERROR": "未知错误",
+    "_SUCCESS": "成功",
+    "_UPDATE": "更新",
+    "_CREATE": "创建",
+    "_CONTINUE": "继续",
+    "_RESET": "重置",
+    "_WARNING": "警告",
+    "_FILTER": "过滤器",
+    "_FROM_DATE": "从",
+    "_TO_DATE": "到",
+    "_PRINT": "打印",
+    "_NO_ITEMS_FOUND": "没有找到任何物品",
+    "_NO_MORE_ITEMS": "没有更多项目",
+    "_APPLY": "应用",
+    "_YOUR_CREDENTIAL_IS_EXPIRED": "您的身份凭证已过期",
     "winbox99": {
         "_LOGIN": "登录",
         "_GAMES": "我们的游戏",
@@ -71,6 +90,14 @@
         "_GUEST": "客人",
         "_GET_YOUR_FREE_GIFT_NOW": "立即获取您的免费礼物",
         "_ERROR_WHILE_PROCESSING_ACTIVATION": "处理激活时出错"
+    },
+    "teckguan": {
+        "_DASHBOARD": "仪表板",
+        "_YOUR_SHORTCUTS": "你的快捷键",
+        "_PRODUCT_CATEGORIES": "产品分类",
+        "_ALL_PRODUCTS": "所有产品",
+        "_ALL": "全部",
+        "_UNREAD": "未读"
     },
     "jj-luckydraw": {
         "_SIGN_IN": "登录",
@@ -136,6 +163,14 @@
         "_RESULT": "结果",
         "_EVENT": "活动",
         "_SUMMARY_REPORT": "总结",
-        "_TICKETS_FROM_ONGOING_EVENT": "{{ count }}张来自于正在进行的活动"
+        "_TICKETS_FROM_ONGOING_EVENT": "{{ count }}张来自于正在进行的活动",
+        "_ADDRESS": "地址",
+        "_OFFICE_PHONE": "办公电话",
+        "_OFFICE_EMAIL": "办公室邮箱",
+        "_ENDED_EVENTS": "已结束的活动",
+        "_NO_EVENTS_FOUND": "未找到活动",
+        "_NO_MORE_EVENTS": "活动已加载完毕",
+        "_ENDED_AT": "结束于",
+        "_PREFERENCE": "偏好"
     }
 }
