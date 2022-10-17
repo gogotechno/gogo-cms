@@ -28,6 +28,8 @@ export class TicketDistributionsPage implements OnInit {
 
   filter: CmsFilter;
 
+  myMerchantId: number;
+
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
     this.distributionConditions = {};
     this.lucky.distributionsChange.subscribe((ev) => {
@@ -45,6 +47,7 @@ export class TicketDistributionsPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.noMoreDistributions = false;
+    this.myMerchantId = await this.lucky.getMyMerchantId();
     await this.loadTicketDistributions();
     this.loaded = true;
   }
@@ -57,7 +60,12 @@ export class TicketDistributionsPage implements OnInit {
   }
 
   getTicketDistributions() {
-    return this.lucky.getTicketDistributions(this.distributionConditions, this.distributionPagination);
+    return this.lucky.getTicketDistributions({
+      ...this.distributionConditions,
+      event_id_type: "=",
+      merchant_id: this.myMerchantId,
+      merchant_id_type: "="
+    }, this.distributionPagination);
   }
 
   async loadTicketDistributions() {
@@ -89,11 +97,6 @@ export class TicketDistributionsPage implements OnInit {
   }
 
   async onFilter() {
-    this.distributionConditions = {
-      ...this.distributionConditions,
-      event_id_type: "="
-    }
-
     const modal = await this.modalCtrl.create({
       component: DistributionFilterComponent,
       componentProps: {
@@ -136,15 +139,6 @@ export class TicketDistributionsPage implements OnInit {
               return [events, pagination];
             }
           }
-        },
-        {
-          code: "event_id_type",
-          label: {
-            en: "Event's Operator",
-            zh: "抽奖活动符号"
-          },
-          type: "text",
-          hidden: true
         },
         {
           code: "distributedAt",
