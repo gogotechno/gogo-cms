@@ -26,14 +26,17 @@
           </ion-avatar>
           <div class="ion-margin-top-lg ion-padding-top-sm">
             <cms-form id="update-user-form" [form]="form" [value]="value" (submit)="onUpdateCustomer($event)"></cms-form>
-            <ion-button color="danger" expand="block" (click)="onResetPassword()">
+            <ion-button *ngIf="!passwordReset" color="danger" expand="block" (click)="onResetPassword()">
               <ion-label>{{ "jj-luckydraw._RESET_PASSWORD" | translate }}</ion-label>
-          </ion-button>
+            </ion-button>
+            <ion-button *ngIf="passwordReset" id="sms-btn" color="success" expand="block" (click)="smsTrigger.click()">
+              <ion-label>{{ "jj-luckydraw._SEND_PASSWORD" | translate }}</ion-label>
+              <a #smsTrigger [href]="smsText"></a>
+            </ion-button>
           </div>
         </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <app-sms [template]="'CUSTOMER_PASSWORD'"></app-sms>
 </ion-content>

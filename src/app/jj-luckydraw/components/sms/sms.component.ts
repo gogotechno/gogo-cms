@@ -32,12 +32,11 @@ export class SmsComponent implements OnInit {
   }
 
   setBody() {
-
     if (!this.value) return;
 
     switch (this.template) {
       case TemplateCode.CUSTOMER_PASSWORD:
-        this.body = `sms:${this.value.phone}&body=Your password is ${this.value.password}`;
+        this.body = `sms:${this.value.phone}?body=Your password is ${this.value.password}`;
         break;
     }
 

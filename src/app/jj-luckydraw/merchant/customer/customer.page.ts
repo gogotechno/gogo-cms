@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PopoverController } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { CmsUtils, AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
-import { SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCustomer, JJUser } from '../../jj-luckydraw.type';
+import { JJCustomer } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-customer',
@@ -17,7 +16,6 @@ import { JJCustomer, JJUser } from '../../jj-luckydraw.type';
 export class CustomerPage implements OnInit {
 
   @ViewChild(FormComponent) cmsForm: FormComponent;
-  @ViewChild(SmsComponent) smsComponent: SmsComponent;
 
   loaded: boolean;
   customerId: number;
@@ -28,6 +26,7 @@ export class CustomerPage implements OnInit {
 
   editing: boolean;
   smsText: string;
+  passwordReset: boolean;
 
   get editable() {
     return this.customer?.doc_status == DocStatus.SUBMIT;
@@ -38,7 +37,8 @@ export class CustomerPage implements OnInit {
     private popoverCtrl: PopoverController,
     private utils: CmsUtils,
     private app: AppUtils,
-    private lucky: JJLuckydrawService
+    private lucky: JJLuckydrawService,
+    private platform: Platform
   ) {
     this.lucky.customerChange.subscribe((ev) => {
       if (ev?.beUpdated) {
@@ -59,6 +59,7 @@ export class CustomerPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.editing = false;
+    this.passwordReset = false;
     this.customer = await this.lucky.getCustomerById(this.customerId);
     this.form = form;
     await this.initForm();
@@ -143,15 +144,16 @@ export class CustomerPage implements OnInit {
   }
 
   async onResetPassword(){
+
     let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_RESET_PASSWORD");
     if (confirm) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
       const phone = `${this.customer.phone.includes('+60')?'': '+6'}${this.customer.phone}`;
       await this.lucky.updateCustomer(this.customerId, {password: randomPassword});
-      this.smsComponent._body = {phone: phone, password: randomPassword};
       await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
+      this.smsText = `sms:${phone}${this.platform.is('android')?'?':'&'}body=Your password is ${randomPassword}`;
       this.disableForm();
-      this.smsComponent.send();
+      this.passwordReset = true;
     }
   }
 

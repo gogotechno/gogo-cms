@@ -190,6 +190,8 @@
         "_CUSTOMER": "客户详细",
         "_NO_MORE_CUSTOMERS": "没有更多客户",
         "_CONFIRM_TO_UPDATE_CUSTOMER": "确认建立客户?",
-        "_CUSTOMER_UPDATED": "客户资料已更新"
+        "_CUSTOMER_UPDATED": "客户资料已更新",
+        "_NO_CUSTOMERS_FOUND": "未能找到客户",
+        "_SEND_PASSWORD": "发送密码"
     }
 }

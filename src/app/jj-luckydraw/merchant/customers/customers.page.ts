@@ -23,11 +23,11 @@ export class CustomersPage implements OnInit {
 
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
     this.customerConditions = {};
-    this.lucky.customersChange.subscribe((ev) => {
-      if (ev?.beUpdated) {
-        this.loadData();
-      }
-    })
+    // this.lucky.customersChange.subscribe((ev) => {
+    //   if (ev?.beUpdated) {
+    //     this.loadData();
+    //   }
+    // })
   }
 
   async ngOnInit() {

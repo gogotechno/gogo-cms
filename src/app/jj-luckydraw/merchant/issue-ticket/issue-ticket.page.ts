@@ -63,10 +63,10 @@ export class IssueTicketPage implements OnInit {
       await this.getCustomerId(application);
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys("swserp", application));
       await this.app.presentAlert("jj-luckydraw._TICKETS_ISSUED", "_SUCCESS");
+      if(this.smsComponent._body) this.smsComponent.send();
       this.cmsForm.resetForm();
       this.success = true;
       this.onDismiss();
-      if(this.smsComponent._body) this.smsComponent.send();
     }
   }
 
