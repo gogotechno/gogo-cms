@@ -171,6 +171,25 @@
         "_NO_EVENTS_FOUND": "未找到活动",
         "_NO_MORE_EVENTS": "活动已加载完毕",
         "_ENDED_AT": "结束于",
-        "_PREFERENCE": "偏好"
+        "_PREFERENCE": "偏好",
+        "_NO_LATEST_ENDED_EVENTS_FOUND": "未找到最新的已结束活动",
+        "_INFORMATION": "资讯",
+        "_TICKET_HISTORY": "抽奖券历史",
+        "_REWARDS": "获奖历史",
+        "_REWARD": "获奖详细",
+        "_NO_MORE_REWARD": "获奖记录已加载完毕",
+        "_NO_REWARDS_FOUND": "未找到获奖记录",
+        "_PENDING": "待办中",
+        "_DELIVERED": "已交付",
+        "_SERIAL_NO": "序列号",
+        "_NAME": "名",
+        "_REWARD_NAME": "奖品名称",
+        "_STATUS": "状态",
+        "_SEARCH_SERIAL_NO": "搜索序列号",
+        "_CUSTOMERS": "客户列表",
+        "_CUSTOMER": "客户详细",
+        "_NO_MORE_CUSTOMERS": "没有更多客户",
+        "_CONFIRM_TO_UPDATE_CUSTOMER": "确认建立客户?",
+        "_CUSTOMER_UPDATED": "客户资料已更新"
     }
 }

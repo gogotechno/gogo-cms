@@ -58,7 +58,8 @@ export enum EventStatus {
 export interface JJDrawingResult extends ErpDoc {
     event_id: number,
     drewAt: Date,
-    drewBy: string
+    drewBy: string,
+    event?: JJEvent
 }
 
 export interface WinningSummary {
@@ -73,7 +74,8 @@ export interface JJTicketDistributionApplication extends ErpDoc {
     customerLastName: string,
     customerContactNo: string,
     billNo: string,
-    ticketCount: number
+    ticketCount: number,
+    customer_id: number
 }
 
 export interface JJTicketDistribution extends ErpDoc {
@@ -98,7 +100,9 @@ export interface JJTicket extends ErpDoc {
     event_id: number,
     merchant_id: number,
     ticket_distribution_id: number,
-    statusTranslation?: CmsTranslation
+    statusTranslation?: CmsTranslation,
+    event?: JJEvent,
+    ticket_distribution?: JJTicketDistribution
 }
 
 export enum TicketStatus {
@@ -112,7 +116,11 @@ export interface JJWinner extends ErpDoc {
     quantity: number,
     status: "PENDING" | "DELIVERED",
     merchant_id?: number,
-    drawing_result_id?: number
+    drawing_result_id?: number,
+    drawing_result?: JJDrawingResult,
+    merchant?: JJMerchant,
+    ticket?: JJTicket,
+    event_prize?: JJEventPrize
 }
 
 export enum WinnerStatus {
@@ -148,4 +156,17 @@ export enum UserRole {
 export interface JJLanguage {
     code: string,
     label: CmsTranslation
+}
+
+export interface JJCustomer extends ErpDoc {
+    firstName: string,
+    lastName: string,
+    phone: string,
+    password: string,
+    email?: string
+}
+
+export enum SystemUserRole {
+    MERCHANT = 'MERCHANT',
+    CUSTOMER = 'CUSTOMER'
 }

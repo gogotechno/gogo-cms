@@ -4,7 +4,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { AuthService } from '../auth.service';
 import { JJLuckydrawService } from '../jj-luckydraw.service';
-import { JJLanguage, JJUser, LANGUAGE_STORAGE_KEY } from '../jj-luckydraw.type';
+import { JJCustomer, JJLanguage, JJUser, LANGUAGE_STORAGE_KEY } from '../jj-luckydraw.type';
 
 @Component({
   selector: 'app-me',
@@ -14,7 +14,7 @@ import { JJLanguage, JJUser, LANGUAGE_STORAGE_KEY } from '../jj-luckydraw.type';
 export class MePage implements OnInit {
 
   loaded: boolean;
-  me: JJUser;
+  me: JJUser | JJCustomer;
 
   currentLang: string;
   languages: JJLanguage[];

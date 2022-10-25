@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('./merchant/merchant.module').then(m => m.MerchantPageModule)
       },
       {
+        path: 'customer',
+        loadChildren: () => import('./customer/customer.module').then(m => m.CustomerPageModule)
+      },
+      {
         path: 'admin',
         loadChildren: () => import('./admin/admin.module').then(m => m.AdminPageModule)
       },
@@ -48,6 +52,11 @@ const routes: Routes = [
     path: 'merchant',
     canActivate: [AuthGuard],
     loadChildren: () => import('./merchant/merchant-children.module').then(m => m.MerchantChildrenModule)
+  },
+  {
+    path: 'customer',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./customer/customer-children.module').then(m => m.CustomerChildrenModule)
   },
   {
     path: 'me',

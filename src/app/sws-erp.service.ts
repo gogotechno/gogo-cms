@@ -152,6 +152,24 @@ export class SwsErpService {
   }
 
   /**
+   * Sign in with customer credential
+   * @param email Customer's email
+   * @param password Customer's password
+   * @returns Returns with refresh token, access token and customer's profile
+   */
+   public async signInCustomer<T = any>(docType: string, email: string, password: string) {
+    const requestUrl = `${this.API_URL}/login/${docType}`;
+    const requestBody = { email: email, password: password };
+    let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
+    this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
+    this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
+    this.authStateChange.next({
+      status: "LOGGED_IN"
+    });
+    return res.body.data;
+  }
+
+  /**
    * Transform token into correct format
    * @param token Token response
    * @returns Transformed token
@@ -194,7 +212,7 @@ export class SwsErpService {
    * @returns Returns with updated id and extra data
    */
   public changePassword(userId: number, payload: ChangePasswordDto, userReference?: string) {
-    const requestUrl = `${this.API_URL}/users/password` + (userReference ? `/${userReference}` : "") + `/${userId}`;
+    const requestUrl = `${this.API_URL}/users/password/${userId}` + (userReference ? `/${userReference}` : "");
     return this._http.put<UpdateResponse>(requestUrl, payload).toPromise();
   }
 

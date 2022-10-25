@@ -40,8 +40,12 @@ export class SignInPage implements OnInit {
       return;
     }
 
-    await this.auth.signInWithEmailAndPassword(data.email, data.password, data.rememberMe);
-    this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
+    if(data.email.includes('@'))
+      await this.auth.signInWithEmailAndPassword(data.email, data.password, data.rememberMe);
+    else 
+      await this.auth.signInCustomer(data.email, data.password, data.rememberMe);
+    
+      this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
   }
 
 }

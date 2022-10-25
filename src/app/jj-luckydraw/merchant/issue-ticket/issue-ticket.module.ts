@@ -9,6 +9,7 @@ import { IssueTicketPageRoutingModule } from './issue-ticket-routing.module';
 import { IssueTicketPage } from './issue-ticket.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { ComponentsModule } from '../../components/components.module';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     IssueTicketPageRoutingModule,
     TranslateModule,
     ReactiveFormsModule,
-    CmsUIModule
+    CmsUIModule,
+    ComponentsModule
   ],
   declarations: [IssueTicketPage]
 })

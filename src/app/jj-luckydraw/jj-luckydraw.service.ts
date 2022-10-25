@@ -8,7 +8,7 @@ import { AppUtils, CmsUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
 import { Conditions, DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
-import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner, LANGUAGE_STORAGE_KEY } from './jj-luckydraw.type';
+import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner, LANGUAGE_STORAGE_KEY, JJCustomer } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,8 @@ export class JJLuckydrawService {
 
   userChange: BehaviorSubject<UserEvent>;
   usersChange: BehaviorSubject<OnChangeEvent>;
+  customerChange: BehaviorSubject<CustomerEvent>;
+  customersChange: BehaviorSubject<OnChangeEvent>;
   distributionsChange: BehaviorSubject<OnChangeEvent>;
 
   constructor(
@@ -38,6 +40,8 @@ export class JJLuckydrawService {
     this.userChange = new BehaviorSubject<UserEvent>(null);
     this.usersChange = new BehaviorSubject<OnChangeEvent>(null);
     this.distributionsChange = new BehaviorSubject<OnChangeEvent>(null);
+    this.customerChange = new BehaviorSubject<CustomerEvent>(null);
+    this.customersChange = new BehaviorSubject<OnChangeEvent>(null);
   }
 
   /**
@@ -253,6 +257,46 @@ export class JJLuckydrawService {
   }
 
   /**
+   * Get rewards
+   * @param pagination Pagination object
+   * @returns Returns ticket distributions from given event with pagination
+   */
+  async getRewards(conditions: Conditions, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJWinner>("Winner", {
+      hasPk: true,
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: "doc_createdDate",
+      sortType: "desc",
+      fromApp: true,
+      ...conditions
+    })
+    return res.result.map(res => {
+      res.drawing_result = res.drawing_result[0];
+      res.event_prize = res.event_prize[0];
+      res.ticket = res.ticket[0];
+      res.merchant = res.merchant[0];
+      res.drawing_result.event = res.drawing_result.event[0];
+      return res;
+    });
+  }
+
+  /**
+   * Get ticket distribution by ID
+   * @param id Ticket distribution's ID
+   * @returns Returns ticket distribution object
+   */
+  async getRewardById(id: number) {
+    let res = await this.erp.getDoc<JJWinner>("Winner", id, { hasPk: true });
+    res.ticket = res.ticket[0];
+    res.ticket.event = res.ticket.event[0];
+    res.ticket.ticket_distribution = res.ticket.ticket_distribution[0];
+    res.drawing_result = res.drawing_result[0];
+    res.event_prize = res.event_prize[0];
+    return res;
+  }
+
+  /**
    * Get users from given merchant
    * @param merchantId Merchant's ID
    * @param pagination Pagination object
@@ -340,6 +384,97 @@ export class JJLuckydrawService {
   }
 
   /**
+  * create new customer
+  * @param customer Customer's object
+  * @returns Returns create response from SWS ERP
+  */
+  createCustomer(customer: JJCustomer) {
+    return this.erp.postDoc("Customer", customer, { autoSubmit: true });
+  }
+
+  /**
+  * Sign in with customer credential
+  * @param phone Customer's phone
+  * @param password Customer's password
+  * @returns Returns customer's profile
+  */
+  signInCustomer(phone: string, password: string) {
+    return this.erp.signInCustomer<JJCustomer>('Customer', phone, password);
+  }
+
+  /**
+   * Get users from given merchant
+   * @param merchantId Merchant's ID
+   * @param pagination Pagination object
+   * @returns Returns users from given merchant with pagination
+   */
+  async getCustomers(conditions: Conditions, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      doc_status: DocStatus.SUBMIT,
+      doc_status_type: "=",
+      ...conditions
+    })
+    return res.result;
+  }
+
+  /**
+   * Get customer by customer's ID
+   * @param customerId Customer's ID
+   * @returns Returns customer object
+   */
+  async getCustomerById(customerId: number) {
+    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+      doc_id: customerId,
+      doc_id_type: "="
+    })
+    return res.result[0];
+  }
+
+  /**
+   * Get customer by customer's phone number
+   * @param phone Customer's phone number
+   * @returns Returns customer object
+   */
+  async getCustomerByPhone(phone: string) {
+    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+      phone: phone,
+      phone_type: "="
+    })
+    return res.result[0];
+  }
+
+  /**
+   * Get customer id
+   * @returns Returns customer id
+   */
+  async getCustomerId() {
+    const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
+    return customer.doc_id;
+  }
+
+  /**
+   * Update customer by ID
+   * @param customerId Customer ID
+   * @param user Update object
+   * @returns Returns update response from SWS ERP
+   */
+  updateCustomer(customerId: number, user: Partial<JJCustomer>) {
+    return this.erp.putDoc("Customer", customerId, user);
+  }
+
+  /**
+   * Change customer password
+   * @param customerId Customer ID
+   * @param user Update object
+   * @returns Returns update response from SWS ERP
+   */
+  changePassword(customerId: number, body: { old_password: string, new_password: string }) {
+    return this.erp.changePassword(customerId, body, 'Customer');
+  }
+
+  /**
    * Populate user to map Gogo CMS usage
    * @param user User object
    * @returns Returns user object with populated properties
@@ -386,4 +521,8 @@ interface OnChangeEvent {
 
 interface UserEvent extends OnChangeEvent {
   currentUserId: number
+}
+
+interface CustomerEvent extends OnChangeEvent {
+  currentCustomerId: number
 }

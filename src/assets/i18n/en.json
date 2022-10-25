@@ -171,6 +171,25 @@
         "_NO_EVENTS_FOUND": "No events found",
         "_NO_MORE_EVENTS": "No more events",
         "_ENDED_AT": "Ended at",
-        "_PREFERENCE": "Preference"
+        "_PREFERENCE": "Preference",
+        "_NO_LATEST_ENDED_EVENTS_FOUND": "No latest ended event found",
+        "_INFORMATION": "Info",
+        "_TICKET_HISTORY": "Ticket History",
+        "_REWARDS": "Rewards",
+        "_REWARD": "Reward",
+        "_NO_MORE_REWARD": "No more rewards",
+        "_NO_REWARDS_FOUND": "No rewards found",
+        "_PENDING": "Pending",
+        "_DELIVERED": "Delivered",
+        "_SERIAL_NO": "Serial No",
+        "_NAME": "Name",
+        "_REWARD_NAME": "Reward Name",
+        "_STATUS": "Status",
+        "_SEARCH_SERIAL_NO": "Search serial no",
+        "_CUSTOMERS": "Customers",
+        "_CUSTOMER": "Customer",
+        "_NO_MORE_CUSTOMERS": "No more customers",
+        "_CONFIRM_TO_UPDATE_CUSTOMER": "Confirm to update customer?",
+        "_CUSTOMER_UPDATED": "Customer updated"
     }
 }

@@ -1,4 +1,4 @@
-<ion-card class="ion-margin-vertical-sm event-card">
+<ion-card *ngIf="event" class="ion-margin-vertical-sm event-card">
   <ion-card-header>
     <ion-card-title>{{ event.name }}</ion-card-title>
   </ion-card-header>
@@ -40,6 +40,18 @@
           </ion-row>
         </ng-container>
       </ion-grid>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="!event" class="ion-margin-vertical-sm event-card">
+  <ion-card-content>
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="font-small ion-text-center">
+          {{ "jj-luckydraw._NO_LATEST_ENDED_EVENTS_FOUND" | translate }}
+        </ion-label>
+      </ion-list-header>
     </ion-list>
   </ion-card-content>
 </ion-card>

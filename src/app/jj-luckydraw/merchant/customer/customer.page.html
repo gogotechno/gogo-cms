@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/merchant/customers"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._CUSTOMER" | translate }}</ion-title>
+    <ion-buttons *ngIf="editable" slot="end">
+      <ion-button (click)="onEdit()">
+        <ion-icon *ngIf="!this.editing" name="create-outline" slot="icon-only"></ion-icon>
+        <ion-icon *ngIf="this.editing" name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-avatar class="profile-picture">
+            <ion-img [src]="customer?.profilePicture | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
+          </ion-avatar>
+          <div class="ion-margin-top-lg ion-padding-top-sm">
+            <cms-form id="update-user-form" [form]="form" [value]="value" (submit)="onUpdateCustomer($event)"></cms-form>
+            <ion-button color="danger" expand="block" (click)="onResetPassword()">
+              <ion-label>{{ "jj-luckydraw._RESET_PASSWORD" | translate }}</ion-label>
+          </ion-button>
+          </div>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <app-sms [template]="'CUSTOMER_PASSWORD'"></app-sms>
+</ion-content>

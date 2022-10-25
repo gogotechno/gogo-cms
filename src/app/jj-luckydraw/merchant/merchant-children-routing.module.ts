@@ -36,7 +36,16 @@ const routes: Routes = [
   {
     path: 'create-user',
     loadChildren: () => import('./create-user/create-user.module').then(m => m.CreateUserPageModule)
-  }
+  },
+  {
+    path: 'customers',
+    children: [
+      {
+        path: 'customer/:id',
+        loadChildren: () => import('./customer/customer.module').then(m => m.CustomerPageModule)
+      }
+    ]
+  },
 ];
 
 @NgModule({

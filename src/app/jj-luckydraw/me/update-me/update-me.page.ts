@@ -4,7 +4,7 @@ import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../../auth.service';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJUser } from '../../jj-luckydraw.type';
+import { JJCustomer, JJUser } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-update-me',
@@ -20,7 +20,7 @@ export class UpdateMePage implements OnInit {
   form: CmsForm;
   value: Partial<JJUser>;
 
-  me: JJUser;
+  me: JJUser | JJCustomer;
 
   constructor(private app: AppUtils, private auth: AuthService) { }
 

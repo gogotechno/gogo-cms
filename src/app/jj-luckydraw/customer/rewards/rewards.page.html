@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._REWARDS" | translate }}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [placeholder]="'jj-luckydraw._SEARCH_SERIAL_NO' | translate" [debounce]="500" (ionChange)="onSearch($event)"></ion-searchbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="onFilter()">
+        <ion-icon name="filter-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-list>
+            <ion-list-header *ngIf="!rewards || rewards.length <= 0" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ "jj-luckydraw._NO_REWARDS_FOUND" | translate }}
+              </ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let reward of rewards" [routerLink]="['reward', reward.doc_id]">
+              <ion-label>
+                <p>{{ "jj-luckydraw._SERIAL_NO" | translate }}&nbsp;:&nbsp;{{ reward.ticket.serialNo }}</p>
+                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.event.name | erpTranlate }}</p>
+                <p>{{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.drewAt | date: "MM/dd/yy, h:mm a" }}</p>
+              </ion-label>
+              <ion-badge slot="end" [color]="badgeColor(reward.status)">
+                <div class="d-flex-column ion-padding-vertical-sm">
+                  <div *ngIf="reward.status == 'PENDING'">{{ "jj-luckydraw._PENDING" | translate }}</div>
+                  <div *ngIf="reward.status == 'DELIVERED'">{{ "jj-luckydraw._DELIVERED" | translate }}</div>
+                </div>
+              </ion-badge>
+            </ion-item>
+          </ion-list>
+          <ng-container *ngIf="rewards?.length > 0">
+            <ion-infinite-scroll *ngIf="!noMoreRewards" (ionInfinite)="loadMoreRewards($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <ion-list-header *ngIf="noMoreRewards" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ "jj-luckydraw._NO_MORE_REWARD" | translate }}
+              </ion-label>
+            </ion-list-header>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

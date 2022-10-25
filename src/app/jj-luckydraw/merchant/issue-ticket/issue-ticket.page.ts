@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
+import { SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
@@ -14,6 +15,7 @@ import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-l
 export class IssueTicketPage implements OnInit {
 
   @ViewChild(FormComponent) cmsForm: FormComponent;
+  @ViewChild(SmsComponent) smsComponent: SmsComponent;
 
   loaded: boolean;
 
@@ -44,7 +46,8 @@ export class IssueTicketPage implements OnInit {
       customerLastName: "",
       customerContactNo: "",
       billNo: "",
-      ticketCount: 0
+      ticketCount: 0,
+      customer_id: 0
     }
   }
 
@@ -56,11 +59,39 @@ export class IssueTicketPage implements OnInit {
 
     let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS");
     if (confirm) {
+
+      await this.getCustomerId(application);
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys("swserp", application));
       await this.app.presentAlert("jj-luckydraw._TICKETS_ISSUED", "_SUCCESS");
       this.cmsForm.resetForm();
       this.success = true;
       this.onDismiss();
+      if(this.smsComponent._body) this.smsComponent.send();
+    }
+  }
+
+  async getCustomerId(application: JJTicketDistributionApplication){
+
+    const customer = await this.lucky.getCustomerByPhone(application.customerContactNo);
+
+    if (!customer) {
+
+      const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
+      const phone = `${application.customerContactNo.includes('+60')?'': '+6'}${application.customerContactNo}`;
+
+      const response = await this.lucky.createCustomer({
+        firstName: application.customerFirstName,
+        lastName: application.customerLastName,
+        phone: application.customerContactNo,
+        password: randomPassword
+      });
+      
+      this.smsComponent._body = {phone: phone, password: randomPassword};
+      this.lucky.customersChange.next({beUpdated: true});
+      application.customer_id = response.doc_id;
+
+    } else {
+      application.customer_id = customer.doc_id;
     }
   }
 
