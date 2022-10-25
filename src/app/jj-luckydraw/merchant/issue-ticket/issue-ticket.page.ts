@@ -60,7 +60,7 @@ export class IssueTicketPage implements OnInit {
     let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS");
     if (confirm) {
 
-      await this.getCustomerId(application);
+      await this.assignCustomerId(application);
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys("swserp", application));
       await this.app.presentAlert("jj-luckydraw._TICKETS_ISSUED", "_SUCCESS");
       if(this.smsComponent._body) this.smsComponent.send();
@@ -70,7 +70,7 @@ export class IssueTicketPage implements OnInit {
     }
   }
 
-  async getCustomerId(application: JJTicketDistributionApplication){
+  async assignCustomerId(application: JJTicketDistributionApplication){
 
     const customer = await this.lucky.getCustomerByPhone(application.customerContactNo);
 

@@ -5,6 +5,7 @@ import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { CmsUtils, AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
+import { SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJCustomer } from '../../jj-luckydraw.type';
 
@@ -16,6 +17,7 @@ import { JJCustomer } from '../../jj-luckydraw.type';
 export class CustomerPage implements OnInit {
 
   @ViewChild(FormComponent) cmsForm: FormComponent;
+  @ViewChild(SmsComponent) smsComponent: SmsComponent;
 
   loaded: boolean;
   customerId: number;
@@ -25,8 +27,6 @@ export class CustomerPage implements OnInit {
   value: Partial<JJCustomer>;
 
   editing: boolean;
-  smsText: string;
-  passwordReset: boolean;
 
   get editable() {
     return this.customer?.doc_status == DocStatus.SUBMIT;
@@ -59,7 +59,6 @@ export class CustomerPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.editing = false;
-    this.passwordReset = false;
     this.customer = await this.lucky.getCustomerById(this.customerId);
     this.form = form;
     await this.initForm();
@@ -150,10 +149,10 @@ export class CustomerPage implements OnInit {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
       const phone = `${this.customer.phone.includes('+60')?'': '+6'}${this.customer.phone}`;
       await this.lucky.updateCustomer(this.customerId, {password: randomPassword});
+      this.smsComponent._body = {phone: phone, password: randomPassword};
       await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
-      this.smsText = `sms:${phone}${this.platform.is('android')?'?':'&'}body=Your password is ${randomPassword}`;
       this.disableForm();
-      this.passwordReset = true;
+      this.smsComponent.send();
     }
   }
 

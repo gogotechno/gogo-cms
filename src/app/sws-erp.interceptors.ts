@@ -46,7 +46,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
                         if (err instanceof HttpErrorResponse) {
                             message = err.error.message || err.error.error || err.message;
                         }
-                        if (this.isRefreshTokenExpiredError(err)) {
+                        if (this.isRefreshTokenExpiredError(err) || this.isWrongAuthTokenError(err)) {
                             message = "_YOUR_CREDENTIAL_IS_EXPIRED";
                             this.erp.signOut();
                         }
@@ -72,6 +72,10 @@ export class SwsErpInterceptor implements HttpInterceptor {
 
     private isAccessTokenExpiredError(err: any) {
         return err instanceof HttpErrorResponse && err.status == 401 && err.error.message.startsWith("Token Expired");
+    }
+
+    private isWrongAuthTokenError(err: any) {
+        return err instanceof HttpErrorResponse && err.status == 401 && err.error.message.startsWith("Wrong authentication token");
     }
 
     private isRefreshTokenExpiredError(err: any) {

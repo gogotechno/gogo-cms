@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-sms',
@@ -11,7 +12,9 @@ export class SmsComponent implements OnInit {
   body: string;
   value: CustomerPassword;
 
-  constructor() { }
+  constructor(
+    private platform: Platform
+  ) { }
 
   set _body(value: CustomerPassword) {
     this.value = value;
@@ -36,7 +39,7 @@ export class SmsComponent implements OnInit {
 
     switch (this.template) {
       case TemplateCode.CUSTOMER_PASSWORD:
-        this.body = `sms:${this.value.phone}?body=Your password is ${this.value.password}`;
+        this.body = `sms:${this.value.phone}${this.platform.is('android')?'?':'&'}body=Your password is ${this.value.password}`;
         break;
     }
 

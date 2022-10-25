@@ -63,8 +63,8 @@ const form: CmsForm = {
     {
       code: "email",
       label: {
-        en: "Email",
-        zh: "电子邮件"
+        en: "Email / Phone",
+        zh: "电子邮件 / 手机号码"
       },
       type: "email",
       required: true
