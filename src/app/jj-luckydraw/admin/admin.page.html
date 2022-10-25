@@ -1,0 +1,22 @@
+<ion-menu contentId="admin-main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ "jj-luckydraw._MENU" | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item routerLink="./dashboard">
+          <ion-label>{{ 'jj-luckydraw._DASHBOARD' | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item routerLink="./dashboard">
+          <ion-label>{{ 'jj-luckydraw._MERCHANT' | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="admin-main"></ion-router-outlet>

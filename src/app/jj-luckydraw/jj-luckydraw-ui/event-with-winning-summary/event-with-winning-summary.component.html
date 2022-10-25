@@ -1,0 +1,57 @@
+<ion-card *ngIf="event" class="ion-margin-vertical-sm event-card">
+  <ion-card-header>
+    <ion-card-title>{{ event.name }}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list class="list-section list-section-clear" lines="none">
+      <ion-item>
+        <ion-label>
+          <p>{{ "jj-luckydraw._TOTAL_OF_WINNERS" | translate }}</p>
+          <h3>{{ event.totalOfWinners }}</h3>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <p>{{ "jj-luckydraw._DREW_AT" | translate }}</p>
+          <h3>{{ event.drawingResult.drewAt | date: "MM/dd/yy, h:mm a" }}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+  <ion-card-content class="ion-no-padding-top">
+    <ion-list class="list-section list-section-clear">
+      <ion-list-header class="ion-no-padding">
+        <ion-label>{{ "jj-luckydraw._RESULT" | translate }}</ion-label>
+      </ion-list-header>
+      <ion-grid class="table">
+        <ng-container *ngFor="let record of event.winningSummary">
+          <ion-row class="table-header">
+            <ion-col>
+              <h3>{{ record.prize.name | erpTranlate }}</h3>
+            </ion-col>
+          </ion-row>
+          <ion-row class="table-body">
+            <ion-col *ngIf="record.winningNumbers.length <= 0">
+              <p class="without-list-style">-</p>
+            </ion-col>
+            <ion-col size="12" *ngFor="let winningNumber of record.winningNumbers">
+              <p>{{ winningNumber }}</p>
+            </ion-col>
+          </ion-row>
+        </ng-container>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="!event" class="ion-margin-vertical-sm event-card">
+  <ion-card-content>
+    <ion-list>
+      <ion-list-header>
+        <ion-label class="font-small ion-text-center">
+          {{ "jj-luckydraw._NO_LATEST_ENDED_EVENTS_FOUND" | translate }}
+        </ion-label>
+      </ion-list-header>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

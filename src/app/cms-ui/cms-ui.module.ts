@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, SafeHtmlPipe } from './cms.pipe';
+import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, SafeHtmlPipe } from './cms.pipe';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent } from './accordion/accordion.component';
 import { FormComponent } from './form/form.component';
@@ -16,25 +16,42 @@ import { TranslationEditorInputComponent } from './translation-editor-input/tran
 import { FileInputComponent } from './file-input/file-input.component';
 import { ImageButtonComponent } from './image-button/image-button.component';
 import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
+import { FilterComponent } from './filter/filter.component';
+import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
+import { SearchAreaComponent } from './searchable-select/search-area/search-area.component';
 
+const components = [
+  ArrayInputComponent,
+  TranslationInputComponent,
+  TranslationEditorInputComponent,
+  FileInputComponent,
+  SearchAreaComponent
+]
 
+const exported_components = [
+  SlideshowComponent,
+  NavigationComponent,
+  AccordionComponent,
+  FormComponent,
+  ImageButtonComponent,
+  HtmlViewerComponent,
+  FilterComponent,
+  SearchableSelectComponent
+]
+
+const pipes = [
+  CmsTranslatePipe,
+  SafeHtmlPipe,
+  CssUrlPipe,
+  FirestoreDatePipe,
+  FullNamePipe
+]
 
 @NgModule({
   declarations: [
-    SlideshowComponent,
-    NavigationComponent,
-    AccordionComponent,
-    FormComponent,
-    TranslationInputComponent,
-    ArrayInputComponent,
-    TranslationEditorInputComponent,
-    FileInputComponent,
-    ImageButtonComponent,
-    HtmlViewerComponent,
-    CmsTranslatePipe,
-    SafeHtmlPipe,
-    CssUrlPipe,
-    FirestoreDatePipe,
+    ...components,
+    ...exported_components,
+    ...pipes
   ],
   imports: [
     CommonModule,
@@ -43,23 +60,15 @@ import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
     IonicModule,
     RouterModule,
     TranslateModule,
-    QuillModule,
+    QuillModule
   ],
   exports: [
-    SlideshowComponent,
-    NavigationComponent,
-    AccordionComponent,
-    FormComponent,
-    ImageButtonComponent,
-    HtmlViewerComponent,
-    CmsTranslatePipe,
-    SafeHtmlPipe,
-    CssUrlPipe,
-    FirestoreDatePipe,
+    ...exported_components,
+    ...pipes
   ],
   providers: [
     DatePipe,
-    CmsTranslatePipe,
+    CmsTranslatePipe
   ]
 })
 export class CmsUIModule { }

@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/customer/rewards"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._REWARD" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+        <ion-list class="list-section list-section-clear">
+          <ion-card class="ion-no-margin shadow-none">
+            <ion-card-header class="ion-no-padding-vertical">
+              <ion-grid class="grid-summary">
+                <ion-row>
+                  <ion-col size="auto">
+                    <ion-icon name="ticket-outline"></ion-icon>
+                  </ion-col>
+                  <ion-col>
+                    <ion-card-subtitle>{{ "jj-luckydraw._SERIAL_NO" | translate }}</ion-card-subtitle>
+                    <ion-card-title>{{ reward.ticket.serialNo }}</ion-card-title>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-card-header>
+          </ion-card>
+        </ion-list>
+        <ion-list class="list-section" lines="none">
+          <ion-list-header>{{ "jj-luckydraw._EVENT" | translate }}</ion-list-header>
+          <ion-item>
+            <ion-label>
+              <p>{{ "jj-luckydraw._NAME" | translate }}</p>
+              <h3>{{ reward.ticket.event.name }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>{{ "jj-luckydraw._DREW_AT" | translate }}</p>
+              <h3>{{ reward.drawing_result.drewAt | date: "MM/dd/yy, h:mm a" }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-list class="list-section" lines="none">
+          <ion-list-header>{{ "jj-luckydraw._DETAILS" | translate }}</ion-list-header>
+          <ion-item>
+            <ion-label>
+              <p>{{ "jj-luckydraw._REWARD_NAME" | translate }}</p>
+              <h3>{{ reward.event_prize.name }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>{{ "jj-luckydraw._WORTH" | translate }}</p>
+              <h3>{{ reward.event_prize.worth }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <p>{{ "jj-luckydraw._STATUS" | translate }}</p>
+              <h3>{{ reward.status }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

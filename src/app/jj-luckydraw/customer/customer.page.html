@@ -1,0 +1,22 @@
+<ion-menu contentId="customer-main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ "jj-luckydraw._MENU" | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('ticket-history')">
+          <ion-label>{{ "jj-luckydraw._TICKET_HISTORY" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('rewards')">
+          <ion-label>{{ "jj-luckydraw._REWARDS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="customer-main"></ion-router-outlet>

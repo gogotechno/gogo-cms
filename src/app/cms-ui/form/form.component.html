@@ -17,13 +17,13 @@
                     <ng-container *ngSwitchCase="'checkbox'">
                         <ion-item>
                             <ion-checkbox slot="start" [formControlName]="item.code"></ion-checkbox>
-                            <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
                         </ion-item>
                     </ng-container>
     
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
                             <ion-select slot="end" [formControlName]="item.code">
                                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                                     <ion-label>{{ option.label | cmsTranslate }}</ion-label>
@@ -34,7 +34,7 @@
         
                     <ng-container *ngSwitchDefault>
                         <ion-item>
-                            <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label [position]="item.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}</ion-label>
                             <ng-container [ngSwitch]="item.type">
                                 <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"></ion-input>
                                 <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"></ion-input>
@@ -56,5 +56,10 @@
 
 <hr />
 
-<ion-button (click)="onSubmit($event)" expand="block">{{ '_SUBMIT' | translate }}</ion-button>
-<!-- <ion-button (click)="onPrint($event)" expand="block">{{ '_PRINT' | translate }}</ion-button> -->
+<ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
+    <ion-label>{{ (form.submitButtonText || '_SUBMIT') | translate }}</ion-label>
+</ion-button>
+
+<!-- <ion-button (click)="onPrint($event)" expand="block">
+    <ion-label>{{ '_PRINT' | translate }}</ion-label>
+</ion-button> -->

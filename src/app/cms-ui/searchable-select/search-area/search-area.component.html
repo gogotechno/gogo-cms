@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ title | cmsTranslate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ng-container *ngIf="loaded">
+          <ion-list>
+            <ion-list-header *ngIf="!items || items.length <= 0" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ (emptyText || "_NO_ITEMS_FOUND") | translate }}
+              </ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let item of items" (click)="onItemClicked(item)">
+              <ion-checkbox slot="start" [checked]="item.selected"></ion-checkbox>
+              <ion-label>
+                <h3>{{ item.selectLabel || item }}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+          <ng-container *ngIf="items?.length > 0">
+            <ion-infinite-scroll *ngIf="!noMoreItems" (ionInfinite)="loadMoreItems($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <ion-list-header *ngIf="noMoreItems" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ (noMoreText || "_NO_MORE_ITEMS") | translate }}
+              </ion-label>
+            </ion-list-header>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

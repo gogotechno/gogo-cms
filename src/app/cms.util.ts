@@ -27,6 +27,37 @@ export function timestr_to_date(time: string) {
     return new Date(new Date().setHours(arr[0], arr[1]));
 }
 
+export function empty_object(obj: Object) {
+    return !obj || Object.keys(obj).length <= 0;
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class CmsUtils {
+
+    constructor(private translate: TranslateService) { }
+
+    /**
+     * Convert JSON string to CmsTranslation object
+     * @param jsonString JSON string
+     * @param defaultText Default text if conversion failed, use original JSON string if not provided
+     * @returns Returns converted CmsTranslation object
+     */
+    transformJSONStringtoCMSTranslation(jsonString: string, defaultText?: string) {
+        try {
+            return JSON.parse(jsonString);
+        } catch (err) {
+            let lang = this.translate.currentLang;
+            let text = defaultText || jsonString;
+            return {
+                [lang]: text
+            }
+        }
+    }
+
+}
+
 @Injectable({
     providedIn: 'root'
 })
@@ -62,33 +93,34 @@ export class AppUtils {
      * @param message Message text
      * @param header Header text
      */
-    async presentAlert(message: string, header?: string) {
+    async presentAlert(message: string, header?: string, options?: CmsAlertOptions) {
+        const defaultOpts: AlertOptions = { buttons: [await this.translate.get("_CONFIRM").toPromise()] }
         header = header ? header : "_INFORMATION";
-
-        let defaultOpts: AlertOptions = {
-            buttons: [await this.translate.get("_CONFIRM").toPromise()]
+        if (!options) {
+            options = defaultOpts;
+        } else {
+            if (!options.buttons) options.buttons = defaultOpts.buttons;
+            if (options.subHeader) options.subHeader = await this.translate.get(options.subHeader).toPromise();
         }
-
         const alert = await this.alertCtrl.create({
             header: await this.translate.get(header).toPromise(),
             message: await this.translate.get(message).toPromise(),
-            ...defaultOpts
+            ...options
         })
-
         await alert.present();
     }
 
     /**
      * Present loading
      */
-    async presentLoading() {
-        let defaultOpts: LoadingOptions = {
-            message: await this.translate.get("_LOADING").toPromise(),
-            spinner: "bubbles"
-        };
-
-        const loading = await this.loadingCtrl.create(defaultOpts);
-
+    async presentLoading(message?: string) {
+        if (await this.getTopLoading()) return;
+        message = message ? message : "_LOADING";
+        let defaultOpts: LoadingOptions = { spinner: "bubbles" };
+        const loading = await this.loadingCtrl.create({
+            message: await this.translate.get(message).toPromise(),
+            ...defaultOpts
+        });
         await loading.present();
     }
 
@@ -97,18 +129,36 @@ export class AppUtils {
      * @returns Returns null if no loading presenting
      */
     async dismissLoading() {
-        const isLoading = await this.loadingCtrl.getTop();
-        if (!isLoading) return;
-
+        if (!await this.getTopLoading()) return;
         await this.loadingCtrl.dismiss();
     }
 
-    async presentConfirm(message: string, header?: string, confirmBtnText?: string, cancelBtnText?: string) {
+    /**
+     * Get current top overlay of loading if exists
+     * @returns Returns the top overlay
+     */
+    async getTopLoading() {
+        return this.loadingCtrl.getTop();
+    }
+
+    /**
+     * Present confirm alert
+     * @param message Message
+     * @param header Header
+     * @param confirmBtnText Confirm button text, default is "Confirm" 
+     * @param cancelBtnText Cancel button text, default is "Cancel"
+     * @returns Returns a promise that resolves true or false
+     */
+    async presentConfirm(message: string, header?: string, confirmBtnText?: string, cancelBtnText?: string, options?: CmsConfirmOptions) {
         header = header ? header : "_CONFIRMATION";
         confirmBtnText = confirmBtnText ? confirmBtnText : "_CONFIRM";
         cancelBtnText = cancelBtnText ? cancelBtnText : "_CANCEL";
+        if (!options) {
 
-        return new Promise(async (resolve) => {
+        } else {
+            if (options.subHeader) options.subHeader = await this.translate.get(options.subHeader).toPromise();
+        }
+        return new Promise<boolean>(async (resolve) => {
             const confirm = await this.alertCtrl.create({
                 header: await this.translate.get(header).toPromise(),
                 message: await this.translate.get(message).toPromise(),
@@ -124,7 +174,8 @@ export class AppUtils {
                         id: "confirm-button",
                         handler: () => { resolve(true); }
                     }
-                ]
+                ],
+                ...options
             })
 
             await confirm.present();
@@ -132,3 +183,6 @@ export class AppUtils {
     }
 
 }
+
+interface CmsConfirmOptions extends Omit<AlertOptions, "header" | "message" | "buttons"> { };
+interface CmsAlertOptions extends Omit<AlertOptions, "header" | "message"> { }

@@ -1,0 +1,19 @@
+.date-between {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    ion-item {
+        width: 50%;
+        margin-left: var(--ion-margin-sm, 8px);
+        margin-right: var(--ion-margin-sm, 8px);
+    }
+}
+
+.buttons {
+    padding: 0;
+
+    ion-col {
+        padding: 0;
+    }
+}

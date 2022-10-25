@@ -37,6 +37,11 @@
                                 "input": "src/app/tastefully/tastefully.scss",
                                 "bundleName": "tastefully",
                                 "inject": false
+                            },
+                            {
+                                "input": "src/app/jj-luckydraw/jj-luckydraw.scss",
+                                "bundleName": "jj-luckydraw",
+                                "inject": false
                             }
                         ],
                         "scripts": [
