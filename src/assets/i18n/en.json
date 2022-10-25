@@ -192,6 +192,7 @@
         "_CONFIRM_TO_UPDATE_CUSTOMER": "Confirm to update customer?",
         "_CUSTOMER_UPDATED": "Customer updated",
         "_NO_CUSTOMERS_FOUND": "No customer found",
-        "_SEND_PASSWORD": "Send Password"
+        "_SEND_PASSWORD": "Send Password",
+        "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "Please use phone number login as customer"
     }
 }

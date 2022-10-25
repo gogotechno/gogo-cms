@@ -17,6 +17,7 @@
         <div class="ion-padding-vertical">
           <ng-container *ngIf="loaded">
             <cms-form [form]="form" [value]="value" (submit)="onSignIn($event)"></cms-form>
+            <ion-label class="font-small" color="danger">* {{ "jj-luckydraw._PLEASE_USE_PHONE_NUMER_LOGIN_IN" | translate }}</ion-label>
           </ng-container>
         </div>
       </ion-col>
