@@ -5,7 +5,7 @@ import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { CmsUtils, AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
-import { SmsComponent } from '../../components/sms/sms.component';
+import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJCustomer } from '../../jj-luckydraw.type';
 
@@ -15,6 +15,7 @@ import { JJCustomer } from '../../jj-luckydraw.type';
   styleUrls: ['./customer.page.scss'],
 })
 export class CustomerPage implements OnInit {
+  SmsTemplateCode = SmsTemplateCode;
 
   @ViewChild(FormComponent) cmsForm: FormComponent;
   @ViewChild(SmsComponent) smsComponent: SmsComponent;
@@ -32,6 +33,8 @@ export class CustomerPage implements OnInit {
     return this.customer?.doc_status == DocStatus.SUBMIT;
   }
 
+  profilePicture: string;
+
   constructor(
     private route: ActivatedRoute,
     private popoverCtrl: PopoverController,
@@ -44,14 +47,14 @@ export class CustomerPage implements OnInit {
       if (ev?.beUpdated) {
         this.loadData();
       }
-    })
+    });
   }
 
   async ngOnInit() {
     let params = this.route.snapshot.params;
     this.customerId = params.id;
     this.lucky.customerChange.next({
-      currentCustomerId: this.customerId
+      currentCustomerId: this.customerId,
     });
     await this.loadData();
   }
@@ -68,19 +71,23 @@ export class CustomerPage implements OnInit {
   }
 
   async enableForm() {
-    await this.assertForm().then(() => {
-      this.cmsForm.markAsEditable();
-      this.cmsForm.markAsSubmitable();
-      this.editing = true;
-    }).catch((err) => console.error(err));
+    await this.assertForm()
+      .then(() => {
+        this.cmsForm.markAsEditable();
+        this.cmsForm.markAsSubmitable();
+        this.editing = true;
+      })
+      .catch((err) => console.error(err));
   }
 
   async disableForm() {
-    await this.assertForm().then(() => {
-      this.cmsForm.markAsNonEditable();
-      this.cmsForm.markAsNonSubmitable();
-      this.editing = false;
-    }).catch((err) => console.error(err));
+    await this.assertForm()
+      .then(() => {
+        this.cmsForm.markAsNonEditable();
+        this.cmsForm.markAsNonSubmitable();
+        this.editing = false;
+      })
+      .catch((err) => console.error(err));
   }
 
   assertForm() {
@@ -90,7 +97,7 @@ export class CustomerPage implements OnInit {
       let interval = setInterval(() => {
         if (timeout > 3000) {
           clearInterval(interval);
-          reject("Assert form error: Timeout due to no response");
+          reject('Assert form error: Timeout due to no response');
           return;
         }
         if (this.cmsForm) {
@@ -100,18 +107,17 @@ export class CustomerPage implements OnInit {
         }
         timeout += cycle;
       }, cycle);
-    })
+    });
   }
 
-  async initForm() {
-  }
+  async initForm() {}
 
   initValue() {
     this.value = {
       firstName: this.customer.firstName,
       lastName: this.customer.lastName,
-      phone: this.customer.phone
-    }
+      phone: this.customer.phone,
+    };
   }
 
   async doRefresh(event: Event) {
@@ -126,10 +132,10 @@ export class CustomerPage implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER");
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER');
     if (confirm) {
-      await this.lucky.updateCustomer(this.customerId, this.cmsForm.removeUnusedKeys("swserp", customer));
-      await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
+      await this.lucky.updateCustomer(this.customerId, this.cmsForm.removeUnusedKeys('swserp', customer));
+      await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
       this.disableForm();
     }
   }
@@ -142,55 +148,53 @@ export class CustomerPage implements OnInit {
     this.enableForm();
   }
 
-  async onResetPassword(){
-
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_RESET_PASSWORD");
+  async onResetPassword() {
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      const phone = `${this.customer.phone.includes('+60')?'': '+6'}${this.customer.phone}`;
-      await this.lucky.updateCustomer(this.customerId, {password: randomPassword});
-      this.smsComponent._body = {phone: phone, password: randomPassword};
-      await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
+      const phone = `${this.customer.phone.includes('+60') ? '' : '+6'}${this.customer.phone}`;
+      await this.lucky.updateCustomer(this.customerId, { password: randomPassword });
+      this.smsComponent._body = { phone: phone, password: randomPassword };
+      await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
       this.disableForm();
       this.smsComponent.send();
     }
   }
-
 }
 
 const form: CmsForm = {
-  code: "create-user",
-  submitButtonText: "_UPDATE",
+  code: 'create-user',
+  submitButtonText: '_UPDATE',
   items: [
     {
-      code: "firstName",
+      code: 'firstName',
       label: {
-        en: "First Name",
-        zh: "名字"
+        en: 'First Name',
+        zh: '名字',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
     },
     {
-      code: "lastName",
+      code: 'lastName',
       label: {
-        en: "Last Name",
-        zh: "姓氏"
+        en: 'Last Name',
+        zh: '姓氏',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
     },
     {
-      code: "phone",
+      code: 'phone',
       label: {
-        en: "Phone Number",
-        zh: "手机号码"
+        en: 'Phone Number',
+        zh: '手机号码',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
-    }
-  ]
-}
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    },
+  ],
+};

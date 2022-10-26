@@ -11,9 +11,6 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-          <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
         <ng-container *ngIf="loaded">
         <ion-list class="list-section list-section-clear">
           <ion-card class="ion-no-margin shadow-none">

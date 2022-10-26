@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { SmsComponent } from '../../components/sms/sms.component';
+import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
@@ -13,6 +13,8 @@ import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-l
   styleUrls: ['./issue-ticket.page.scss'],
 })
 export class IssueTicketPage implements OnInit {
+  SmsTemplateCode = SmsTemplateCode;
+
   @ViewChild(FormComponent) cmsForm: FormComponent;
   @ViewChild(SmsComponent) smsComponent: SmsComponent;
 

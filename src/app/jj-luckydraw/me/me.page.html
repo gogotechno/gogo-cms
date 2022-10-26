@@ -13,7 +13,7 @@
         </ion-refresher>
         <ng-container *ngIf="loaded">
           <ion-avatar class="profile-picture">
-            <ion-img [src]="me.profilePicture | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
+            <ion-img [src]="profilePicture | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
           </ion-avatar>
           <div class="profile-header">
             <h1 class="font-bold ion-text-center">{{ me.firstName | fullName: me.lastName }}</h1>

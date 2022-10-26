@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 
 @Component({
@@ -7,14 +7,17 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./sms.component.scss'],
 })
 export class SmsComponent implements OnInit {
-  @Input() template: TemplateCode;
+  @Input() template: SmsTemplateCode;
 
   body: string;
-  value: CustomerPassword;
+  value: {
+    phone: string;
+    password: string;
+  };
 
   constructor(private platform: Platform) {}
 
-  set _body(value: CustomerPassword) {
+  set _body(value: { phone: string; password: string }) {
     this.value = value;
   }
 
@@ -35,7 +38,7 @@ export class SmsComponent implements OnInit {
     if (!this.value) return;
 
     switch (this.template) {
-      case TemplateCode.CUSTOMER_PASSWORD:
+      case SmsTemplateCode.CUSTOMER_PASSWORD:
         // prettier-ignore
         this.body = `sms:${this.value.phone}${this.platform.is('android')?'?':'&'}body=Your password is ${this.value.password}`;
         break;
@@ -43,11 +46,6 @@ export class SmsComponent implements OnInit {
   }
 }
 
-enum TemplateCode {
+export enum SmsTemplateCode {
   CUSTOMER_PASSWORD = 'CUSTOMER_PASSWORD',
-}
-
-interface CustomerPassword {
-  phone: string;
-  password: string;
 }

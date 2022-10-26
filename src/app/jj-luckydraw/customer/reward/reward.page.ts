@@ -9,12 +9,11 @@ import { JJWinner } from '../../jj-luckydraw.type';
   styleUrls: ['./reward.page.scss'],
 })
 export class RewardPage implements OnInit {
-
   loaded: boolean;
   rewardId: number;
   reward: JJWinner;
 
-  constructor(private route: ActivatedRoute, private lucky: JJLuckydrawService) { }
+  constructor(private route: ActivatedRoute, private lucky: JJLuckydrawService) {}
 
   async ngOnInit() {
     let params = this.route.snapshot.params;
@@ -25,8 +24,6 @@ export class RewardPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.reward = await this.lucky.getRewardById(this.rewardId);
-    console.log(this.reward)
     this.loaded = true;
   }
-
 }

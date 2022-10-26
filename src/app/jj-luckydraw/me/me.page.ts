@@ -12,12 +12,13 @@ import { JJCustomer, JJLanguage, JJUser, LANGUAGE_STORAGE_KEY } from '../jj-luck
   styleUrls: ['./me.page.scss'],
 })
 export class MePage implements OnInit {
-
   loaded: boolean;
   me: JJUser | JJCustomer;
 
   currentLang: string;
   languages: JJLanguage[];
+
+  profilePicture: string;
 
   constructor(
     private auth: AuthService,
@@ -25,7 +26,7 @@ export class MePage implements OnInit {
     private translate: TranslateService,
     private storage: LocalStorageService,
     private app: AppUtils
-  ) { }
+  ) {}
 
   async ngOnInit() {
     await this.loadData();
@@ -37,6 +38,9 @@ export class MePage implements OnInit {
     this.currentLang = storedLang || this.translate.currentLang;
     this.languages = await this.lucky.getSupportedLanguages();
     this.me = await this.auth.findMe();
+    if ('profilePicture' in this.me) {
+      this.profilePicture = this.me.profilePicture;
+    }
     this.loaded = true;
   }
 
@@ -57,5 +61,4 @@ export class MePage implements OnInit {
     window.location.reload();
     await this.app.dismissLoading();
   }
-
 }
