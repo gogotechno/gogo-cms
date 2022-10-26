@@ -9,10 +9,18 @@ export const MERCHANT_ROOT_PATH = '/jj-luckydraw/merchant';
   styleUrls: ['./merchant.page.scss'],
 })
 export class MerchantPage implements OnInit {
+  currentUrl: string;
+
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.defaultRouting();
+  }
+
+  ionViewWillEnter() {
+    if (this.currentUrl) {
+      this.navigate(this.currentUrl);
+    }
   }
 
   /**
@@ -33,6 +41,11 @@ export class MerchantPage implements OnInit {
   defaultRouting() {
     if (this.router.url == MERCHANT_ROOT_PATH) {
       this.navigate('dashboard');
+    } else {
+      let rootPaths = MERCHANT_ROOT_PATH.split('/');
+      let paths = this.router.url.split('/');
+      let pathsWithoutRoot = paths.filter((p) => !rootPaths.includes(p));
+      this.currentUrl = pathsWithoutRoot[0];
     }
   }
 
@@ -54,7 +67,8 @@ export class MerchantPage implements OnInit {
    * @param url Target URL
    */
   navigate(url: string) {
-    this.router.navigate(['/jj-luckydraw/merchant/', url], {
+    this.currentUrl = url;
+    this.router.navigate([MERCHANT_ROOT_PATH, url], {
       replaceUrl: true,
       relativeTo: this.route,
     });
