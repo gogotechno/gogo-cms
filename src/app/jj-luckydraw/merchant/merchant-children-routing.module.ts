@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+// prettier-ignore
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -50,6 +51,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class MerchantChildrenRoutingModule { }
+export class MerchantChildrenRoutingModule {}

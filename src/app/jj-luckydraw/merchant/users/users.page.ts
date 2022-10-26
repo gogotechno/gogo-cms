@@ -11,7 +11,6 @@ import { CreateUserPage } from '../create-user/create-user.page';
   styleUrls: ['./users.page.scss'],
 })
 export class UsersPage implements OnInit {
-
   loaded: boolean;
   myMerchantId: number;
   userPagination: Pagination;
@@ -19,11 +18,11 @@ export class UsersPage implements OnInit {
   noMoreUsers: boolean;
 
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
-    this.lucky.usersChange.subscribe((ev) => {
-      if (ev?.beUpdated) {
-        this.loadData();
-      }
-    })
+    // this.lucky.usersChange.subscribe((ev) => {
+    //   if (ev?.beUpdated) {
+    //     this.loadData();
+    //   }
+    // });
   }
 
   async ngOnInit() {
@@ -41,8 +40,8 @@ export class UsersPage implements OnInit {
   async loadUsers() {
     this.userPagination = {
       itemsPerPage: 10,
-      currentPage: 1
-    }
+      currentPage: 1,
+    };
 
     this.users = await this.lucky.getUsersByMerchant(this.myMerchantId, this.userPagination);
     this.noMoreUsers = this.users.length < this.userPagination.itemsPerPage;
@@ -65,13 +64,12 @@ export class UsersPage implements OnInit {
 
   async onCreateUser() {
     const modal = await this.modalCtrl.create({
-      component: CreateUserPage
-    })
+      component: CreateUserPage,
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
       this.loadData();
     }
   }
-
 }

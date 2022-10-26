@@ -11,18 +11,16 @@ import { CreateUserPage } from '../create-user/create-user.page';
   styleUrls: ['./customers.page.scss'],
 })
 export class CustomersPage implements OnInit {
-
   loaded: boolean;
   myMerchantId: number;
   customerPagination: Pagination;
   customers: JJCustomer[];
   noMoreCustomers: boolean;
   customerConditions: {
-    searchInput?: string
-  }
+    searchInput?: string;
+  };
 
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
-    this.customerConditions = {};
     // this.lucky.customersChange.subscribe((ev) => {
     //   if (ev?.beUpdated) {
     //     this.loadData();
@@ -31,6 +29,7 @@ export class CustomersPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.customerConditions = {};
     await this.loadData();
   }
 
@@ -49,9 +48,12 @@ export class CustomersPage implements OnInit {
   }
 
   getCustomers() {
-    return this.lucky.getCustomers({
-      ...this.customerConditions,
-    }, this.customerPagination);
+    return this.lucky.getCustomers(
+      {
+        ...this.customerConditions,
+      },
+      this.customerPagination
+    );
   }
 
   async loadMoreCustomers(event: Event) {
@@ -72,14 +74,14 @@ export class CustomersPage implements OnInit {
   async onSearch(event: Event) {
     let searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.customerConditions["searchInput"] = searchbarEl.value;
+    this.customerConditions['searchInput'] = searchbarEl.value;
     this.customers = await this.getCustomers();
   }
 
   resetPagination() {
     this.customerPagination = {
       itemsPerPage: 10,
-      currentPage: 1
-    }
+      currentPage: 1,
+    };
   }
 }

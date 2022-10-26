@@ -12,9 +12,7 @@ export class SmsComponent implements OnInit {
   body: string;
   value: CustomerPassword;
 
-  constructor(
-    private platform: Platform
-  ) { }
+  constructor(private platform: Platform) {}
 
   set _body(value: CustomerPassword) {
     this.value = value;
@@ -24,8 +22,7 @@ export class SmsComponent implements OnInit {
     return this.value;
   }
 
-  ngOnInit() { }
-
+  ngOnInit() {}
 
   send() {
     this.setBody();
@@ -39,19 +36,18 @@ export class SmsComponent implements OnInit {
 
     switch (this.template) {
       case TemplateCode.CUSTOMER_PASSWORD:
+        // prettier-ignore
         this.body = `sms:${this.value.phone}${this.platform.is('android')?'?':'&'}body=Your password is ${this.value.password}`;
         break;
     }
-
   }
-
 }
 
 enum TemplateCode {
-  CUSTOMER_PASSWORD = 'CUSTOMER_PASSWORD'
+  CUSTOMER_PASSWORD = 'CUSTOMER_PASSWORD',
 }
 
 interface CustomerPassword {
-  phone: string,
-  password: string
+  phone: string;
+  password: string;
 }

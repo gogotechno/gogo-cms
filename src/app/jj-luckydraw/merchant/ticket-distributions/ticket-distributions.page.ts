@@ -12,35 +12,34 @@ import { DistributionFilterComponent } from './distribution-filter/distribution-
   styleUrls: ['./ticket-distributions.page.scss'],
 })
 export class TicketDistributionsPage implements OnInit {
-
   loaded: boolean;
   distributionPagination: Pagination;
   distributions: JJTicketDistribution[];
   noMoreDistributions: boolean;
 
   distributionConditions: {
-    searchInput?: string,
-    event_id?: number,
-    event_id_type?: Operator,
-    distributedAt_from?: Date,
-    distributedAt_to?: Date
-  }
+    searchInput?: string;
+    event_id?: number;
+    event_id_type?: Operator;
+    distributedAt_from?: Date;
+    distributedAt_to?: Date;
+  };
 
   filter: CmsFilter;
 
   myMerchantId: number;
 
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
-    this.distributionConditions = {};
-    this.lucky.distributionsChange.subscribe((ev) => {
-      if (ev?.beUpdated) {
-        this.loadData();
-      }
-    })
+    // this.lucky.distributionsChange.subscribe(async (ev) => {
+    //   if (ev?.beUpdated) {
+    //     await this.loadData();
+    //   }
+    // });
   }
 
   async ngOnInit() {
     this.filter = this.filterInitialization;
+    this.distributionConditions = {};
     await this.loadData();
   }
 
@@ -55,17 +54,20 @@ export class TicketDistributionsPage implements OnInit {
   resetPagination() {
     this.distributionPagination = {
       itemsPerPage: 10,
-      currentPage: 1
-    }
+      currentPage: 1,
+    };
   }
 
   getTicketDistributions() {
-    return this.lucky.getTicketDistributions({
-      ...this.distributionConditions,
-      event_id_type: "=",
-      merchant_id: this.myMerchantId,
-      merchant_id_type: "="
-    }, this.distributionPagination);
+    return this.lucky.getTicketDistributions(
+      {
+        ...this.distributionConditions,
+        event_id_type: '=',
+        merchant_id: this.myMerchantId,
+        merchant_id_type: '=',
+      },
+      this.distributionPagination
+    );
   }
 
   async loadTicketDistributions() {
@@ -92,7 +94,7 @@ export class TicketDistributionsPage implements OnInit {
   async onSearch(event: Event) {
     let searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.distributionConditions["searchInput"] = searchbarEl.value;
+    this.distributionConditions['searchInput'] = searchbarEl.value;
     this.distributions = await this.getTicketDistributions();
   }
 
@@ -101,9 +103,9 @@ export class TicketDistributionsPage implements OnInit {
       component: DistributionFilterComponent,
       componentProps: {
         filter: this.filter,
-        conditions: this.distributionConditions
-      }
-    })
+        conditions: this.distributionConditions,
+      },
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.needRefresh) {
@@ -117,16 +119,16 @@ export class TicketDistributionsPage implements OnInit {
     return {
       items: [
         {
-          code: "event_id",
+          code: 'event_id',
           label: {
-            en: "Event",
-            zh: "抽奖活动"
+            en: 'Event',
+            zh: '抽奖活动',
           },
-          type: "select",
+          type: 'select',
           searchable: true,
           selectConfig: {
-            labelFields: ["name"],
-            codeFields: ["doc_id"]
+            labelFields: ['name'],
+            codeFields: ['doc_id'],
           },
           selectHandler: {
             onLoad: async () => {
@@ -137,19 +139,18 @@ export class TicketDistributionsPage implements OnInit {
             onScrollToEnd: async (pagination: Pagination) => {
               let events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
-            }
-          }
+            },
+          },
         },
         {
-          code: "distributedAt",
+          code: 'distributedAt',
           label: {
-            en: "Distributed At",
-            zh: "分发于"
+            en: 'Distributed At',
+            zh: '分发于',
           },
-          type: "date-between"
-        }
-      ]
-    }
+          type: 'date-between',
+        },
+      ],
+    };
   }
-
 }
