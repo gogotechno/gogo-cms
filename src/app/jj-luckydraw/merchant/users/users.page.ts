@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Pagination } from 'src/app/sws-erp.type';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
@@ -17,7 +18,7 @@ export class UsersPage implements OnInit {
   users: JJUser[];
   noMoreUsers: boolean;
 
-  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
+  constructor(private route: ActivatedRoute, private modalCtrl: ModalController, private lucky: JJLuckydrawService) {
     // this.lucky.usersChange.subscribe((ev) => {
     //   if (ev?.beUpdated) {
     //     this.loadData();
@@ -26,6 +27,12 @@ export class UsersPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.route.queryParams.subscribe((queryParam) => {
+      if (queryParam?.refresh) {
+        this.loadData();
+      }
+    });
+
     await this.loadData();
   }
 

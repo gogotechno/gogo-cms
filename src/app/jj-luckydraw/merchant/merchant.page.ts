@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+export const MERCHANT_ROOT_PATH = '/jj-luckydraw/merchant';
+
 @Component({
   selector: 'app-merchant',
   templateUrl: './merchant.page.html',
   styleUrls: ['./merchant.page.scss'],
 })
 export class MerchantPage implements OnInit {
-  private readonly ROOT_PATH = '/jj-luckydraw/merchant';
-
   constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
@@ -31,7 +31,7 @@ export class MerchantPage implements OnInit {
    * This method will only run once after initialization.
    */
   defaultRouting() {
-    if (this.router.url == this.ROOT_PATH) {
+    if (this.router.url == MERCHANT_ROOT_PATH) {
       this.navigate('dashboard');
     }
   }

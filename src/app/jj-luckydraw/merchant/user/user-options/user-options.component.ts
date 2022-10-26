@@ -16,7 +16,6 @@ import { UserPage } from '../user.page';
   styleUrls: ['./user-options.component.scss'],
 })
 export class UserOptionsComponent implements OnInit {
-
   userId: number;
   user: JJUser;
 
@@ -26,33 +25,33 @@ export class UserOptionsComponent implements OnInit {
     private fullName: FullNamePipe,
     private translate: TranslateService,
     private lucky: JJLuckydrawService
-  ) { }
+  ) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   async onResetPassword() {
     await this.popoverCtrl.dismiss();
     const popover = await this.popoverCtrl.create({
       component: ResetPasswordComponent,
-      componentProps: { userId: this.userId }
-    })
+      componentProps: { userId: this.userId },
+    });
     await popover.present();
   }
 
   async onRemoveUser() {
     await this.popoverCtrl.dismiss();
     let name = this.fullName.transform(this.user.firstName, this.user.lastName);
-    let message = await this.translate.get("jj-luckydraw._CONFIRM_TO_REMOVE_USER", { name: name }).toPromise();
-    let confirm = await this.app.presentConfirm(message, "_WARNING");
+    let message = await this.translate.get('jj-luckydraw._CONFIRM_TO_REMOVE_USER', { name: name }).toPromise();
+    let confirm = await this.app.presentConfirm(message, '_WARNING');
     if (confirm) {
       let updateForm = { doc_status: DocStatus.CANCEL };
       await this.lucky.updateUser(this.userId, updateForm);
-      await this.app.presentAlert("jj-luckydraw._USER_REMOVED", "_SUCCESS");
+      await this.app.presentAlert('jj-luckydraw._USER_REMOVED', '_SUCCESS');
       this.lucky.userChange.next({
         currentUserId: this.userId,
-        beUpdated: true
-      })
+        beUpdated: false,
+        beRemoved: true,
+      });
     }
   }
-
 }

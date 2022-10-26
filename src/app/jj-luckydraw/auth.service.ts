@@ -9,10 +9,9 @@ import { JJLuckydrawService } from './jj-luckydraw.service';
 import { COMPANY_CODE, JJCustomer, JJUser, SystemUserRole } from './jj-luckydraw.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private _AUTHENTICATED: boolean = false;
   private _CURRENT_USER: JJUser | JJCustomer;
   private _USER_ROLE: SystemUserRole;
@@ -43,10 +42,10 @@ export class AuthService {
   ) {
     this.authChange = new BehaviorSubject<AuthEvent>(null);
     this.erp.authStateChange.subscribe((ev) => {
-      if (ev?.status == "LOGGED_OUT") {
+      if (ev?.status == 'LOGGED_OUT') {
         this.signOut(true);
       }
-    })
+    });
   }
 
   /**
@@ -87,11 +86,11 @@ export class AuthService {
   }
 
   /**
- * Sign in with key and password
- * @param email Customer's phone
- * @param password Customer's password
- * @param rememberMe Flag if user wish to keep logged-in
- */
+   * Sign in with key and password
+   * @param email Customer's phone
+   * @param password Customer's password
+   * @param rememberMe Flag if user wish to keep logged-in
+   */
   async signInCustomer(email: string, password: string, rememberMe: boolean = true) {
     const customer = await this.erp.signInCustomer('Customer', email, password);
     await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, customer);
@@ -112,7 +111,7 @@ export class AuthService {
   async signOut(silent: boolean = false) {
     let confirm = silent;
     if (!confirm) {
-      confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_LOGOUT");
+      confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_LOGOUT');
     }
 
     if (confirm) {
@@ -122,13 +121,13 @@ export class AuthService {
       this._AUTHENTICATED = false;
       this._CURRENT_USER = null;
       this._USER_ROLE = null;
-      await this.router.navigateByUrl("/jj-luckydraw/sign-in", { replaceUrl: true });
+      await this.router.navigateByUrl('/jj-luckydraw/sign-in', { replaceUrl: true });
 
       let authState = this.erp.authStateChange.getValue();
-      if (!authState || authState.status != "LOGGED_OUT") {
+      if (!authState || authState.status != 'LOGGED_OUT') {
         this.erp.authStateChange.next({
-          status: "LOGGED_OUT"
-        })
+          status: 'LOGGED_OUT',
+        });
       }
     }
   }
@@ -147,7 +146,7 @@ export class AuthService {
       await this.findMyLuckyUser();
       this.authChange.next({
         user: this._CURRENT_USER,
-        role: 'USER'
+        role: 'USER',
       });
       return this._CURRENT_USER;
     }
@@ -157,7 +156,7 @@ export class AuthService {
       await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this._CURRENT_USER);
       this.authChange.next({
         user: this._CURRENT_USER,
-        role: 'CUSTOMER'
+        role: 'CUSTOMER',
       });
       return this._CURRENT_USER;
     }
@@ -181,7 +180,7 @@ export class AuthService {
    */
   updateMyProfile(user: Partial<JJUser | JJCustomer>) {
     const role = this.authChange.value.role;
-    switch(role){
+    switch (role) {
       case 'USER':
         return this.lucky.updateUser(this._CURRENT_USER.doc_id, user);
       case 'CUSTOMER':
@@ -197,16 +196,16 @@ export class AuthService {
    */
   updateMyPassword(oldPassword: string, newPassword: string) {
     const role = this.authChange.value.role;
-    switch(role){
+    switch (role) {
       case 'USER':
         return this.updateMyProfile({
           old_password: oldPassword,
-          new_password: newPassword
-        })
+          new_password: newPassword,
+        });
       case 'CUSTOMER':
         return this.lucky.changePassword(this._CURRENT_USER.doc_id, {
           old_password: oldPassword,
-          new_password: newPassword
+          new_password: newPassword,
         });
     }
   }
@@ -221,10 +220,9 @@ export class AuthService {
     this._USER_ROLE = SystemUserRole.CUSTOMER;
     return this._CURRENT_USER;
   }
-
 }
 
 interface AuthEvent {
-  user: JJUser | JJCustomer,
-  role: 'USER' | 'CUSTOMER'
+  user: JJUser | JJCustomer;
+  role: 'USER' | 'CUSTOMER';
 }

@@ -57,6 +57,10 @@ export class SwsErpInterceptor implements HttpInterceptor {
                 message = '_YOUR_CREDENTIAL_IS_EXPIRED';
                 this.erp.signOut();
               }
+              if (this.isUserNotFoundError(err)) {
+                message = '_YOUR_CREDENTIAL_IS_INVALID';
+                this.erp.signOut();
+              }
               if (!this.isAccessTokenExpiredError(err)) {
                 await this.app.presentAlert(message, header);
               }
@@ -82,6 +86,10 @@ export class SwsErpInterceptor implements HttpInterceptor {
     return err instanceof HttpErrorResponse && err.status == 401 && err.error.message.startsWith('Token Expired');
   }
 
+  private isRefreshTokenExpiredError(err: any) {
+    return err instanceof HttpErrorResponse && err.status == 500 && err.error.error.startsWith('jwt expired');
+  }
+
   private isWrongAuthTokenError(err: any) {
     return (
       err instanceof HttpErrorResponse &&
@@ -90,8 +98,8 @@ export class SwsErpInterceptor implements HttpInterceptor {
     );
   }
 
-  private isRefreshTokenExpiredError(err: any) {
-    return err instanceof HttpErrorResponse && err.status == 500 && err.error.error.startsWith('jwt expired');
+  private isUserNotFoundError(err: any) {
+    return err instanceof HttpErrorResponse && err.status == 409 && err.error.error.startsWith('User not found');
   }
 
   private async handleExpiredAccessToken(request: HttpRequest<any>, next: HttpHandler) {

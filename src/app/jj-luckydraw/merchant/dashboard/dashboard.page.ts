@@ -11,11 +11,10 @@ import { IssueTicketPage } from '../issue-ticket/issue-ticket.page';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-
   loaded: boolean;
   merchant: JJMerchant;
 
-  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) { }
+  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {}
 
   async ngOnInit() {
     await this.loadData();
@@ -35,28 +34,29 @@ export class DashboardPage implements OnInit {
 
   async onCreateUser() {
     const modal = await this.modalCtrl.create({
-      component: CreateUserPage
-    })
+      component: CreateUserPage,
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
-      this.lucky.usersChange.next({
-        beUpdated: true
-      });
+      // commented to fix users page keep loading after user creation issue
+      // this.lucky.usersChange.next({
+      //   beUpdated: true
+      // });
     }
   }
 
   async onIssueTicket() {
     const modal = await this.modalCtrl.create({
-      component: IssueTicketPage
-    })
+      component: IssueTicketPage,
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.success) {
-      this.lucky.distributionsChange.next({
-        beUpdated: true
-      });
+      // commented to fix tickets page keep loading after ticket distribution issue
+      // this.lucky.distributionsChange.next({
+      //   beUpdated: true,
+      // });
     }
   }
-
 }

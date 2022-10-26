@@ -90,10 +90,6 @@ export class IssueTicketPage implements OnInit {
         phone: phone,
         password: randomPassword,
       };
-
-      this.lucky.customersChange.next({
-        beUpdated: true,
-      });
     } else {
       application.customer_id = customer.doc_id;
     }

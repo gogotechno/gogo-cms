@@ -30,16 +30,16 @@ export class TicketHistoryPage implements OnInit {
   customerId: number;
 
   constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
-    this.distributionConditions = {};
-    this.lucky.distributionsChange.subscribe((ev) => {
-      if (ev?.beUpdated) {
-        this.loadData();
-      }
-    })
+    // this.lucky.distributionsChange.subscribe((ev) => {
+    //   if (ev?.beUpdated) {
+    //     this.loadData();
+    //   }
+    // })
   }
 
   async ngOnInit() {
     this.filter = this.filterInitialization;
+    this.distributionConditions = {};
     await this.loadData();
   }
 

@@ -12,29 +12,27 @@ import { TicketFilterComponent } from '../ticket-history/ticket-filter/ticket-fi
   styleUrls: ['./rewards.page.scss'],
 })
 export class RewardsPage implements OnInit {
-
   loaded: boolean;
   rewardPagination: Pagination;
   rewards: JJWinner[];
   noMoreRewards: boolean;
 
   rewardConditions: {
-    searchInput?: string,
-    event_id?: number,
-    event_id_type?: Operator,
-    distributedAt_from?: Date,
-    distributedAt_to?: Date
-  }
+    searchInput?: string;
+    event_id?: number;
+    event_id_type?: Operator;
+    distributedAt_from?: Date;
+    distributedAt_to?: Date;
+  };
 
   filter: CmsFilter;
   customerId: number;
 
-  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
-    this.rewardConditions = {};
-  }
+  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {}
 
   async ngOnInit() {
     this.filter = this.filterInitialization;
+    this.rewardConditions = {};
     await this.loadData();
   }
 
@@ -49,14 +47,17 @@ export class RewardsPage implements OnInit {
   resetPagination() {
     this.rewardPagination = {
       itemsPerPage: 10,
-      currentPage: 1
-    }
+      currentPage: 1,
+    };
   }
 
   getRewards() {
-    return this.lucky.getRewards({
-      ...this.rewardConditions,
-    }, this.rewardPagination);
+    return this.lucky.getRewards(
+      {
+        ...this.rewardConditions,
+      },
+      this.rewardPagination
+    );
   }
 
   async loadRewards() {
@@ -83,7 +84,7 @@ export class RewardsPage implements OnInit {
   async onSearch(event: Event) {
     let searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.rewardConditions["searchInput"] = searchbarEl.value;
+    this.rewardConditions['searchInput'] = searchbarEl.value;
     this.rewards = await this.getRewards();
   }
 
@@ -92,9 +93,9 @@ export class RewardsPage implements OnInit {
       component: TicketFilterComponent,
       componentProps: {
         filter: this.filter,
-        conditions: this.rewardConditions
-      }
-    })
+        conditions: this.rewardConditions,
+      },
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.needRefresh) {
@@ -108,16 +109,16 @@ export class RewardsPage implements OnInit {
     return {
       items: [
         {
-          code: "dr.event_id",
+          code: 'dr.event_id',
           label: {
-            en: "Event",
-            zh: "抽奖活动"
+            en: 'Event',
+            zh: '抽奖活动',
           },
-          type: "select",
+          type: 'select',
           searchable: true,
           selectConfig: {
-            labelFields: ["name"],
-            codeFields: ["doc_id"]
+            labelFields: ['name'],
+            codeFields: ['doc_id'],
           },
           selectHandler: {
             onLoad: async () => {
@@ -128,28 +129,27 @@ export class RewardsPage implements OnInit {
             onScrollToEnd: async (pagination: Pagination) => {
               let events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
-            }
-          }
+            },
+          },
         },
         {
-          code: "drewAt",
+          code: 'drewAt',
           label: {
-            en: "Drew At",
-            zh: "抽奖于"
+            en: 'Drew At',
+            zh: '抽奖于',
           },
-          type: "date-between"
-        }
-      ]
-    }
+          type: 'date-between',
+        },
+      ],
+    };
   }
 
-  badgeColor(status: 'PENDING' | 'DELIVERED'){
-    switch(status){
+  badgeColor(status: 'PENDING' | 'DELIVERED') {
+    switch (status) {
       case 'PENDING':
         return 'warning';
       case 'DELIVERED':
         return 'success';
     }
   }
-
 }
