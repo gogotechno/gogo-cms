@@ -99,7 +99,14 @@ export class SwsErpInterceptor implements HttpInterceptor {
   }
 
   private isUserNotFoundError(err: any) {
-    return err instanceof HttpErrorResponse && err.status == 409 && err.error.error.startsWith('User not found');
+    let isUserNotFoundMessage: boolean = false;
+    if (err.error.error) {
+      isUserNotFoundMessage = err.error.error.startsWith('User not found');
+    }
+    if (err.error.message) {
+      isUserNotFoundMessage = err.error.message.startsWith('User not found');
+    }
+    return err instanceof HttpErrorResponse && err.status == 409 && isUserNotFoundMessage;
   }
 
   private async handleExpiredAccessToken(request: HttpRequest<any>, next: HttpHandler) {
