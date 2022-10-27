@@ -6,7 +6,7 @@ import { AppUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
 import { JJLuckydrawService } from './jj-luckydraw.service';
-import { COMPANY_CODE, JJCustomer, JJUser, SystemUserRole } from './jj-luckydraw.type';
+import { COMPANY_CODE, JJAppUserRole, JJCustomer, JJUser } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ import { COMPANY_CODE, JJCustomer, JJUser, SystemUserRole } from './jj-luckydraw
 export class AuthService {
   private _AUTHENTICATED: boolean = false;
   private _CURRENT_USER: JJUser | JJCustomer;
-  private _USER_ROLE: SystemUserRole;
+  private _USER_ROLE: JJAppUserRole;
 
   get authenticated() {
     return this._AUTHENTICATED;
@@ -95,7 +95,7 @@ export class AuthService {
     const customer = await this.erp.signInCustomer('Customer', email, password);
     await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, customer);
     this._CURRENT_USER = customer;
-    this._USER_ROLE = SystemUserRole.CUSTOMER;
+    this._USER_ROLE = JJAppUserRole.CUSTOMER;
 
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.erp.refreshToken);
@@ -169,7 +169,7 @@ export class AuthService {
   async findMyLuckyUser() {
     this._CURRENT_USER = await this.lucky.getUserByDocUser(this.erp.docUser.doc_id);
     this._CURRENT_USER.docUser = this.erp.docUser;
-    this._USER_ROLE = SystemUserRole.MERCHANT;
+    this._USER_ROLE = JJAppUserRole.MERCHANT;
     return this._CURRENT_USER;
   }
 
@@ -217,7 +217,7 @@ export class AuthService {
   async findMyLuckyCustomer() {
     const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
     this._CURRENT_USER = await this.lucky.getCustomerById(customer.doc_id);
-    this._USER_ROLE = SystemUserRole.CUSTOMER;
+    this._USER_ROLE = JJAppUserRole.CUSTOMER;
     return this._CURRENT_USER;
   }
 }

@@ -1,11 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm } from 'src/app/cms.type';
+import { CmsForm, CmsFormItem, CmsFormItemOption } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJEvent, JJMerchant, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
+import { JJEvent, JJMerchant, JJProduct, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-issue-ticket',
@@ -25,18 +27,32 @@ export class IssueTicketPage implements OnInit {
 
   event: JJEvent;
   merchant: JJMerchant;
+  products: JJProduct[];
 
   success: boolean;
 
-  constructor(private app: AppUtils, private lucky: JJLuckydrawService, private modalCtrl: ModalController) {}
+  constructor(private router: Router, private app: AppUtils, private lucky: JJLuckydrawService, private modalCtrl: ModalController, private translate: TranslateService) { }
 
   async ngOnInit() {
     this.loaded = false;
     this.form = form;
+    await this.initForm();
     this.event = await this.lucky.getLastestEvent();
     this.merchant = await this.lucky.getMyMerchant();
     this.initValue();
     this.loaded = true;
+  }
+
+  async initForm() {
+    let products = await this.lucky.getProducts();
+    let productField = this.form.items.find((item) => item.code == 'product_id');
+    productField.options = products.map((product) => {
+      let item: CmsFormItemOption = {
+        code: product.doc_id.toString(),
+        label: product.nameTranslation,
+      };
+      return item;
+    });
   }
 
   initValue() {
@@ -49,6 +65,7 @@ export class IssueTicketPage implements OnInit {
       billNo: '',
       ticketCount: 0,
       customer_id: 0,
+      expense: 0
     };
   }
 
@@ -58,8 +75,11 @@ export class IssueTicketPage implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS');
+    const ticketCount = this.countTicket(application);
+    let confrmMsg = await this.translate.get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: ticketCount }).toPromise();
+    let confirm = await this.app.presentConfirm(confrmMsg);
     if (confirm) {
+      application.ticketCount = ticketCount;
       await this.assignCustomerId(application);
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys('swserp', application));
       await this.app.presentAlert('jj-luckydraw._TICKETS_ISSUED', '_SUCCESS');
@@ -72,11 +92,16 @@ export class IssueTicketPage implements OnInit {
     }
   }
 
+  countTicket(application: JJTicketDistributionApplication) {
+    const minSpend = this.event.minSpend || application.expense;
+    return Math.floor(application.expense / minSpend);
+  }
+
   async assignCustomerId(application: JJTicketDistributionApplication) {
     const customer = await this.lucky.getCustomerByPhone(application.customerContactNo);
     if (!customer) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      const phone = `${application.customerContactNo.includes('+60') ? '' : '+6'}${application.customerContactNo}`;
+      const phone = `${application.customerContactNo}`;
       const response = await this.lucky.createCustomer({
         firstName: application.customerFirstName,
         lastName: application.customerLastName,
@@ -98,6 +123,7 @@ export class IssueTicketPage implements OnInit {
   async onDismiss() {
     await this.modalCtrl.dismiss({ success: this.success });
   }
+
 }
 
 const form: CmsForm = {
@@ -132,7 +158,7 @@ const form: CmsForm = {
       },
       labelPosition: 'stacked',
       type: 'text',
-      required: true,
+      // required: true,
     },
     {
       code: 'customerLastName',
@@ -142,7 +168,7 @@ const form: CmsForm = {
       },
       labelPosition: 'stacked',
       type: 'text',
-      required: true,
+      // required: true,
     },
     {
       code: 'customerContactNo',
@@ -165,15 +191,35 @@ const form: CmsForm = {
       required: true,
     },
     {
-      code: 'ticketCount',
+      code: 'expense',
       label: {
-        en: 'Total of Tickets',
-        zh: '抽奖券总数',
+        en: 'Expenses Amount (RM)',
+        zh: '消费合计 (RM)',
       },
       labelPosition: 'stacked',
       type: 'number',
       required: true,
-      minimum: 1,
+      minimum: 0.1
     },
+    {
+      code: 'product_id',
+      label: {
+        en: 'Product',
+        zh: '产品',
+      },
+      labelPosition: 'stacked',
+      type: 'select'
+    },
+    // {
+    //   code: 'ticketCount',
+    //   label: {
+    //     en: 'Total of Tickets',
+    //     zh: '抽奖券总数',
+    //   },
+    //   labelPosition: 'stacked',
+    //   type: 'number',
+    //   required: true,
+    //   minimum: 1,
+    // },
   ],
 };

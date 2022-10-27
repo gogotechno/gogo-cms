@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Pagination } from 'src/app/sws-erp.type';
+import { AuthService } from '../../auth.service';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCustomer } from '../../jj-luckydraw.type';
+import { JJCustomer, JJUser } from '../../jj-luckydraw.type';
 import { CreateUserPage } from '../create-user/create-user.page';
 
 @Component({
@@ -12,6 +13,7 @@ import { CreateUserPage } from '../create-user/create-user.page';
 })
 export class CustomersPage implements OnInit {
   loaded: boolean;
+  me: JJUser | JJCustomer;
   myMerchantId: number;
   customerPagination: Pagination;
   customers: JJCustomer[];
@@ -20,7 +22,7 @@ export class CustomersPage implements OnInit {
     searchInput?: string;
   };
 
-  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController) {
+  constructor(private lucky: JJLuckydrawService, private modalCtrl: ModalController, private auth: AuthService) {
     // this.lucky.customersChange.subscribe((ev) => {
     //   if (ev?.beUpdated) {
     //     this.loadData();
@@ -29,6 +31,7 @@ export class CustomersPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.me = await this.auth.findMe();
     this.customerConditions = {};
     await this.loadData();
   }

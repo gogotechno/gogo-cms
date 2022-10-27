@@ -113,7 +113,7 @@
     "_USERS": "Users",
     "_CREATE_USER": "Create User",
     "_START_AT": "Start at",
-    "_CONFIRM_TO_ISSUE_TICKETS": "Confirm to issue tickets?",
+    "_CONFIRM_TO_ISSUE_TICKETS": "Confirm to issue {{count}} ticket(s)?",
     "_TICKETS_ISSUED": "Tickets issued",
     "_ONGOING_EVENT": "Ongoing Event",
     "_DISTRIBUTED_AT": "Distributed at",

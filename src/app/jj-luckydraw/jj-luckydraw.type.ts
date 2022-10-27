@@ -37,7 +37,8 @@ export interface JJEvent extends ErpDoc {
     winner?: JJWinner[],
     drawingResult?: JJDrawingResult,
     winningSummary?: WinningSummary[],
-    totalOfWinners?: number
+    totalOfWinners?: number,
+    minSpend: number
 }
 
 export interface JJEventPrize extends ErpDoc {
@@ -75,7 +76,8 @@ export interface JJTicketDistributionApplication extends ErpDoc {
     customerContactNo: string,
     billNo: string,
     ticketCount: number,
-    customer_id: number
+    customer_id: number,
+    expense: number
 }
 
 export interface JJTicketDistribution extends ErpDoc {
@@ -100,7 +102,7 @@ export interface JJTicket extends ErpDoc {
     event_id: number,
     merchant_id: number,
     ticket_distribution_id: number,
-    statusTranslation?: CmsTranslation,
+    statusTranslation?: `CmsTranslation`,
     event?: JJEvent,
     ticket_distribution?: JJTicketDistribution
 }
@@ -140,7 +142,8 @@ export interface JJUser extends ErpDoc {
     roleTranslation?: CmsTranslation,
     docUser?: DocUser,
     old_password?: string,
-    new_password?: string
+    new_password?: string,
+    phone?: string
 }
 
 export interface JJUserRole extends ErpDoc {
@@ -163,10 +166,17 @@ export interface JJCustomer extends ErpDoc {
     lastName: string,
     phone: string,
     password: string,
-    email?: string
+    email?: string,
+    role?: UserRole
 }
 
-export enum SystemUserRole {
+export enum JJAppUserRole {
     MERCHANT = 'MERCHANT',
     CUSTOMER = 'CUSTOMER'
+}
+
+export interface JJProduct extends ErpDoc{
+    code: string,
+    name: string,
+    nameTranslation?: CmsTranslation
 }

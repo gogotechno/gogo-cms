@@ -81,13 +81,13 @@
               <ion-item>
                 <ion-label>
                   <p>{{ "jj-luckydraw._FIRST_NAME" | translate }}</p>
-                  <h3>{{ ticketDistribution.customerFirstName}}</h3>
+                  <h3>{{ ticketDistribution.customerFirstName || '-'}}</h3>
                 </ion-label>
               </ion-item>
               <ion-item>
                 <ion-label>
                   <p>{{ "jj-luckydraw._LAST_NAME" | translate }}</p>
-                  <h3>{{ ticketDistribution.customerLastName}}</h3>
+                  <h3>{{ ticketDistribution.customerLastName || '-'}}</h3>
                 </ion-label>
               </ion-item>
               <ion-item>

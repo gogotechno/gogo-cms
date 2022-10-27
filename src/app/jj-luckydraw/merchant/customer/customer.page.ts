@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, PopoverController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
+import { CmsForm } from 'src/app/cms.type';
 import { CmsUtils, AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
+import { AuthService } from '../../auth.service';
 import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCustomer } from '../../jj-luckydraw.type';
+import { JJAppUserRole, JJCustomer, JJUserRole, UserRole } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-customer',
@@ -29,6 +29,8 @@ export class CustomerPage implements OnInit {
 
   editing: boolean;
 
+  role: string;
+
   get editable() {
     return this.customer?.doc_status == DocStatus.SUBMIT;
   }
@@ -37,11 +39,9 @@ export class CustomerPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private popoverCtrl: PopoverController,
-    private utils: CmsUtils,
     private app: AppUtils,
     private lucky: JJLuckydrawService,
-    private platform: Platform
+    private auth: AuthService
   ) {
     this.lucky.customerChange.subscribe((ev) => {
       if (ev?.beUpdated) {
@@ -51,6 +51,8 @@ export class CustomerPage implements OnInit {
   }
 
   async ngOnInit() {
+    const me = await this.auth.findMe();
+    this.role = me.role;
     let params = this.route.snapshot.params;
     this.customerId = params.id;
     this.lucky.customerChange.next({
@@ -63,7 +65,7 @@ export class CustomerPage implements OnInit {
     this.loaded = false;
     this.editing = false;
     this.customer = await this.lucky.getCustomerById(this.customerId);
-    this.form = form;
+    this.form = this.role == UserRole.MERCHANT_ADMIN? formWithoutPhone: form;
     await this.initForm();
     this.initValue();
     this.loaded = true;
@@ -152,7 +154,7 @@ export class CustomerPage implements OnInit {
     let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      const phone = `${this.customer.phone.includes('+60') ? '' : '+6'}${this.customer.phone}`;
+      const phone = `${this.customer.phone}`;
       await this.lucky.updateCustomer(this.customerId, { password: randomPassword });
       this.smsComponent._body = { phone: phone, password: randomPassword };
       await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
@@ -161,6 +163,33 @@ export class CustomerPage implements OnInit {
     }
   }
 }
+
+const formWithoutPhone: CmsForm = {
+  code: 'create-user',
+  submitButtonText: '_UPDATE',
+  items: [
+    {
+      code: 'firstName',
+      label: {
+        en: 'First Name',
+        zh: '名字',
+      },
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    },
+    {
+      code: 'lastName',
+      label: {
+        en: 'Last Name',
+        zh: '姓氏',
+      },
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    }
+  ],
+};
 
 const form: CmsForm = {
   code: 'create-user',
@@ -195,6 +224,6 @@ const form: CmsForm = {
       labelPosition: 'stacked',
       type: 'text',
       required: true,
-    },
+    }
   ],
 };

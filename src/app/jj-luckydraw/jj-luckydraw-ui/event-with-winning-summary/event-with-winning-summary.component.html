@@ -13,7 +13,7 @@
       <ion-item>
         <ion-label>
           <p>{{ "jj-luckydraw._DREW_AT" | translate }}</p>
-          <h3>{{ event.drawingResult.drewAt | date: "MM/dd/yy, h:mm a" }}</h3>
+          <h3>{{ event.drawingResult?.drewAt | date: "MM/dd/yy, h:mm a" }}</h3>
         </ion-label>
       </ion-item>
     </ion-list>

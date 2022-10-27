@@ -63,3 +63,13 @@ export class FullNamePipe implements PipeTransform {
         return arr.join(separator || " ");
     }
 }
+
+@Pipe({ name: "hiddenPhoneNumber" })
+export class HiddenPhoneNumberPipe implements PipeTransform {
+    constructor() { }
+    transform(phone: string, replaceString: string = '*', digitLeft: number = 4) {
+        if(!phone) return phone;
+        let strToBeReplace = phone.substring(0, phone.length - digitLeft);
+        return `${replaceString.repeat(strToBeReplace.length)}${phone.substring(strToBeReplace.length)}`;
+    }
+}

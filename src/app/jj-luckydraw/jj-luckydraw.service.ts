@@ -21,6 +21,7 @@ import {
   JJWinner,
   LANGUAGE_STORAGE_KEY,
   JJCustomer,
+  JJProduct,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -85,14 +86,14 @@ export class JJLuckydrawService {
     return attribute && attribute.options.length > 0
       ? attribute.options
       : [
-          {
-            code: 'en',
-            label: {
-              en: 'English',
-              zh: 'English',
-            },
+        {
+          code: 'en',
+          label: {
+            en: 'English',
+            zh: 'English',
           },
-        ];
+        },
+      ];
   }
 
   /**
@@ -491,6 +492,15 @@ export class JJLuckydrawService {
   }
 
   /**
+   * Get products
+   * @returns Returns product list
+   */
+  async getProducts() {
+    let res = await this.erp.getDocs<JJProduct>('Product');
+    return res.result.map((product) => this.populateProduct(product));
+  }
+
+  /**
    * Populate user to map Gogo CMS usage
    * @param user User object
    * @returns Returns user object with populated properties
@@ -528,6 +538,16 @@ export class JJLuckydrawService {
     // prettier-ignore
     merchant.fullAddress = `${merchant.addressLine1}${merchant.addressLine2 ? ", " + merchant.addressLine2 : ""}, ${merchant.postalCode} ${merchant.city}, ${merchant.state} ${merchant.country}`;
     return merchant;
+  }
+
+  /**
+   * Populate product to map Gogo CMS usage
+   * @param product Product object
+   * @returns Returns product object with populated properties
+   */
+  private populateProduct(product: JJProduct) {
+    product.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(product.translate?.name, product.name);
+    return product;
   }
 }
 

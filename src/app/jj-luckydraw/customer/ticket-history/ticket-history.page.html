@@ -28,7 +28,8 @@
             </ion-list-header>
             <ion-item *ngFor="let distribution of distributions" [routerLink]="['ticket-detail', distribution.doc_id]">
               <ion-label>
-                <h3>{{ distribution.customerFirstName | fullName: distribution.customerLastName }}</h3>
+                <h3 *ngIf="distribution.customerFirstName || distribution.customerLastName">{{ distribution.customerFirstName | fullName: distribution.customerLastName }}</h3>
+                <h3 *ngIf="!distribution.customerFirstName && !distribution.customerLastName">-</h3>
                 <h3>{{ distribution.customerContactNo }}</h3>
                 <p>{{ "jj-luckydraw._BILL_NO" | translate }}&nbsp;:&nbsp;{{ distribution.billNo }}</p>
                 <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranlate }}</p>

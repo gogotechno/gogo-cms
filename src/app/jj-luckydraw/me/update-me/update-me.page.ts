@@ -4,7 +4,7 @@ import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../../auth.service';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCustomer, JJUser } from '../../jj-luckydraw.type';
+import { JJAppUserRole, JJCustomer, JJUser } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-update-me',
@@ -18,29 +18,43 @@ export class UpdateMePage implements OnInit {
   loaded: boolean;
 
   form: CmsForm;
-  value: Partial<JJUser>;
+  value: Partial<JJUser> | Partial<JJCustomer>;
 
   me: JJUser | JJCustomer;
+  role: JJAppUserRole;
 
   constructor(private app: AppUtils, private auth: AuthService) { }
 
   async ngOnInit() {
     this.loaded = false;
-    this.form = form;
+    this.role = this.auth.userRole;
+    this.form = this.role == JJAppUserRole.MERCHANT? userForm: customerForm;
     this.me = await this.auth.findMe();
     this.initValue();
     this.loaded = true;
   }
 
   initValue() {
-    this.value = {
-      firstName: this.me.firstName,
-      lastName: this.me.lastName,
-      email: this.me.email
+    switch(this.role){
+      case JJAppUserRole.MERCHANT:
+        this.value = {
+          firstName: this.me.firstName,
+          lastName: this.me.lastName,
+          email: this.me.email
+        }
+        break;
+      case JJAppUserRole.CUSTOMER:
+        this.value = {
+          firstName: this.me.firstName,
+          lastName: this.me.lastName,
+          phone: this.me.phone
+        }
+        break;
     }
+
   }
 
-  async onUpdateMe(user?: Partial<JJUser>) {
+  async onUpdateMe(user?: Partial<JJUser>| Partial<JJCustomer>) {
     let validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
@@ -55,7 +69,7 @@ export class UpdateMePage implements OnInit {
 
 }
 
-const form: CmsForm = {
+const userForm: CmsForm = {
   code: "update-me",
   submitButtonText: "_UPDATE",
   items: [
@@ -84,6 +98,41 @@ const form: CmsForm = {
       label: {
         en: "Email",
         zh: "电子邮件"
+      },
+      labelPosition: "stacked",
+      type: "text",
+      required: true
+    }
+  ]
+}
+
+const customerForm: CmsForm = {
+  code: "update-me",
+  submitButtonText: "_UPDATE",
+  items: [
+    {
+      code: "firstName",
+      label: {
+        en: "First Name",
+        zh: "名字"
+      },
+      labelPosition: "stacked",
+      type: "text",
+    },
+    {
+      code: "lastName",
+      label: {
+        en: "Last Name",
+        zh: "姓氏"
+      },
+      labelPosition: "stacked",
+      type: "text",
+    },
+    {
+      code: "phone",
+      label: {
+        en: "Phone Number",
+        zh: "手机号码"
       },
       labelPosition: "stacked",
       type: "text",
