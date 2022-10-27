@@ -1,0 +1,51 @@
+:host {
+    --ion-color-primary: #021b79;
+    --ion-color-primary-rgb: 2, 27, 121;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #02186a;
+    --ion-color-primary-tint: #1b3286;
+}
+
+:host ::ng-deep cms-form {
+    --ion-color-primary: #021b79;
+    --ion-color-primary-rgb: 2, 27, 121;
+    --ion-color-primary-contrast: #ffffff;
+    --ion-color-primary-contrast-rgb: 255, 255, 255;
+    --ion-color-primary-shade: #02186a;
+    --ion-color-primary-tint: #1b3286;
+
+    ion-list {
+        background: transparent;
+        ion-item {
+            --background: transparent;
+
+            ion-label {
+                --color: white !important;
+            }
+
+            ion-input,
+            ion-select {
+                // --color: white;
+                --background: white;
+                --padding-start: 1rem !important;
+                --padding-end: 1rem;
+                border-radius: 8px;
+            }
+        }
+    }
+
+    ion-button {
+        // --background: orange;
+    }
+}
+
+ion-content {
+    --background: #0575e6; /* fallback for old browsers */
+    --background: -webkit-linear-gradient(to bottom, #021b79, #0575e6); /* Chrome 10-25, Safari 5.1-6 */
+    --background: linear-gradient(
+        to bottom,
+        #021b79,
+        #0575e6
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}

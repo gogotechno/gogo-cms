@@ -1,5 +1,5 @@
 <ng-container *ngIf="formGroup">
-    <ion-list [formGroup]="formGroup">
+    <ion-list [formGroup]="formGroup" [lines]="form.lines">
         <ng-container *ngFor="let item of form.items">
             <ng-container *ngIf="!item.hidden">
                 <ng-container [ngSwitch]="item.type">
@@ -23,8 +23,8 @@
     
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
-                            <ion-select slot="end" [formControlName]="item.code">
+                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-select [formControlName]="item.code">
                                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                                     <ion-label>{{ option.label | cmsTranslate }}</ion-label>
                                 </ion-select-option >
@@ -34,16 +34,16 @@
         
                     <ng-container *ngSwitchDefault>
                         <ion-item>
-                            <ion-label position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}</ion-label>
                             <ng-container [ngSwitch]="item.type">
-                                <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"></ion-input>
-                                <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"></ion-input>
-                                <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code"></ion-input>
-                                <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code"></ion-input>
-                                <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code"></ion-input>
+                                <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                                 <cms-file-input *ngSwitchCase="'file'" [formControlName]="item.code"></cms-file-input>
                                 <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code"></cms-translation-input>
-                                <ion-input *ngSwitchDefault [formControlName]="item.code"></ion-input>
+                                <ion-input *ngSwitchDefault [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                             </ng-container>
                         </ion-item>
                     </ng-container>

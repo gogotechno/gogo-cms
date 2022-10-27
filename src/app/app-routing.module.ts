@@ -24,7 +24,11 @@ const routes: Routes = [
   {
     path: 'teckguan',
     loadChildren: () => import('./teckguan/teckguan.module').then( m => m.TeckguanPageModule)
+  },  {
+    path: 'giver-form',
+    loadChildren: () => import('./giver-form/giver-form.module').then( m => m.GiverFormPageModule)
   },
+
 
 ];
 

@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ this.cmsForm?.name | cmsTranslate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <cms-form *ngIf="cmsForm" [form]="cmsForm" [value]="value" (submit)="onSubmit($event)"></cms-form>
+  
+  <ion-button fill="clear">{{ '_REGISTER_ALREADY' | translate }}</ion-button>
+
+  <form (submit)="null">
+    <ion-item>
+      <ion-label></ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+    <ion-button type="submit">{{ '_CHECK_NOW' | translate }}</ion-button>
+  </form>
+
+  
+  <ng-template #success>
+
+  </ng-template>
+
+
+</ion-content>

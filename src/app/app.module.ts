@@ -30,6 +30,7 @@ import ImageResize from 'quill-image-resize-module';
 Quill.register('modules/imageResize', ImageResize);
 
 import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
+import { NgxMaskModule } from 'ngx-mask';
 Quill.register('modules/imageHandler', ImageHandler);
 Quill.register('modules/videoHandler', VideoHandler);
 
@@ -70,7 +71,8 @@ Quill.register('modules/videoHandler', VideoHandler);
           ['link', 'image', 'video', 'formula']
         ]
       }
-    })
+    }),
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     {

@@ -89,7 +89,9 @@ export interface CmsPage extends CmsDocument {
 export interface CmsForm extends CmsDocument {
     code: string,
     name?: CmsTranslation,
-    items: Array<CmsFormItem>
+    items: Array<CmsFormItem>,
+    labelPosition?: "fixed" | "floating",
+    lines?: "full" | "inset" | "none" | undefined
 }
 
 export interface CmsFormItem extends CmsDocument {
@@ -100,6 +102,8 @@ export interface CmsFormItem extends CmsDocument {
     required?: boolean,
     options?: Array<CmsFormItemOptions>,
     hidden?: boolean,
+    placeholder?: CmsTranslation,
+    inputMask?: string
 }
 
 export type CmsFormItemType =

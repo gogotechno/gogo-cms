@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { MaskApplierService } from 'ngx-mask';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
@@ -22,7 +23,7 @@ export class FormComponent extends CmsComponent implements OnInit {
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
-
+  private _maskedItems = [];
   constructor(
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
@@ -30,6 +31,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     private admin: CmsAdminService,
     private translate: TranslateService,
     private cmsTranslate: CmsTranslatePipe,
+    private mask: MaskApplierService,
   ) {
     super();
   }
@@ -61,6 +63,10 @@ export class FormComponent extends CmsComponent implements OnInit {
       if (validators.length > 0) {
         controls[item.code].push(Validators.compose(validators));
       }
+
+      if (item.inputMask) {
+        this._maskedItems.push(item);
+      }
     }
 
     let uid = (await this.admin.currentUser)?.uid;
@@ -75,6 +81,16 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.formGroup = this.formBuilder.group(controls);
+
+    
+    // this.mask.prefix = '6';
+    this._maskedItems.forEach(item => {
+      let control = this.formGroup.get(item.code);
+      control.setValue(this.mask.applyMask(control.value, item.inputMask), { emitEvent: false });
+      control.valueChanges.subscribe(v => {
+        control.setValue(this.mask.applyMask(v, item.inputMask), { emitEvent: false });
+      });
+    });
   }
 
   onSubmit(event?: Event) {
