@@ -13,13 +13,13 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SiteGuardService } from './cms-ui/route-guards.service';
+import { SiteGuard } from './cms-ui/route-guards.service';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-
 const Parchment = Quill.import("parchment");
 const Block = Parchment.query("block");
 class NewBlock extends Block { };
@@ -33,6 +33,17 @@ import { VideoHandler, ImageHandler } from 'ngx-quill-upload';
 import { NgxMaskModule } from 'ngx-mask';
 Quill.register('modules/imageHandler', ImageHandler);
 Quill.register('modules/videoHandler', VideoHandler);
+
+import { IonicStorageModule } from '@ionic/storage-angular';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
+
+import { SwsErpInterceptor } from './sws-erp.interceptors';
+import { SWS_ERP_COMPANY } from './sws-erp.type';
+
+import { BehaviorSubject } from 'rxjs';
 
 @NgModule({
   declarations: [AppComponent],
@@ -72,6 +83,7 @@ Quill.register('modules/videoHandler', VideoHandler);
         ]
       }
     }),
+    IonicStorageModule.forRoot(),
     NgxMaskModule.forRoot(),
   ],
   providers: [
@@ -79,13 +91,17 @@ Quill.register('modules/videoHandler', VideoHandler);
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
     },
-    SiteGuardService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: SwsErpInterceptor,
+      multi: true
+    },
+    {
+      provide: SWS_ERP_COMPANY,
+      useValue: new BehaviorSubject<string>("default")
+    },
+    SiteGuard
   ],
-
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
-}

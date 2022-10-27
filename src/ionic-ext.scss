@@ -63,6 +63,32 @@
     padding-bottom: var(--ion-padding-lg, 8px);
 }
 
+.ion-no-padding-top {
+    padding-top: 0;
+}
+
+.ion-no-padding-bottom {
+    padding-bottom: 0;
+}
+
+.ion-no-padding-start {
+    padding-left: 0;
+}
+
+.ion-no-padding-end {
+    padding-right: 0;
+}
+
+.ion-no-padding-vertical {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.ion-no-padding-horizontal {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .ion-margin-sm {
     margin: var(--ion-margin-sm, 8px);
 }
@@ -83,6 +109,11 @@
     margin-right: var(--ion-margin-sm, 8px);
 }
 
+.ion-margin-vertical-sm {
+    margin-top: var(--ion-margin-sm, 8px);
+    margin-bottom: var(--ion-margin-sm, 8px);
+}
+
 .ion-margin-lg {
     margin: var(--ion-margin-lg, 24px);
 }
@@ -101,6 +132,11 @@
 
 .ion-margin-end-lg {
     margin-right: var(--ion-margin-lg, 24px);
+}
+
+.ion-margin-vertical-lg {
+    margin-top: var(--ion-margin-lg, 8px);
+    margin-bottom: var(--ion-margin-lg, 8px);
 }
 
 .ion-no-margin-top {
@@ -124,6 +160,11 @@
     margin-bottom: 0;
 }
 
+.ion-no-margin-horizontal {
+    margin-left: 0;
+    margin-right: 0;
+}
+
 @supports (margin-inline-start: 0) or (-webkit-margin-start: 0) {
     .ion-padding-start-sm {
         padding-left: unset;
@@ -143,6 +184,22 @@
     .ion-padding-end-lg {
         padding-right: unset;
         padding-inline-end: var(--ion-padding-lg, 24px);
+    }
+
+    .ion-no-padding-start {
+        padding-left: unset;
+        padding-inline-start: 0;
+    }
+
+    .ion-no-padding-end {
+        padding-right: unset;
+        padding-inline-end: 0;
+    }
+
+    .ion-no-padding-horizontal {
+        padding-left: unset;
+        padding-right: unset;
+        padding-inline: 0;
     }
 
     .ion-margin-start-sm {
@@ -171,7 +228,13 @@
     }
 
     .ion-no-margin-end {
-        margin-right: 0;
+        margin-right: unset;
         margin-inline-end: 0;
+    }
+
+    .ion-no-margin-horizontal {
+        margin-left: unset;
+        margin-right: unset;
+        margin-inline: 0;
     }
 }

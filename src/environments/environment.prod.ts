@@ -9,5 +9,9 @@ export const environment = {
     messagingSenderId: '725199808903',
     measurementId: 'G-HV244CX08S',
   },
+  swsErp: {
+    apiUrl: 'https://erp.swstechno.com/api',
+    publicUrls: ['/login']
+  },
   production: true
 };

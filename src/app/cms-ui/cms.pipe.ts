@@ -12,19 +12,19 @@ import { Timestamp } from "@angular/fire/firestore";
 })
 export class CmsTranslatePipe implements PipeTransform {
     constructor(private cms: CmsService, private translate: TranslateService) { }
-    transform(value: CmsTranslation): string {
+    transform(value: CmsTranslation | string) {
         try {
             let lang = this.cms.getCurrentLang();
             if (value[lang]) {
-                return value[lang] as string;
+                return value[lang];
             }
             let defaultLang = this.cms.getDefaultLang();
             if (value[defaultLang]) {
-                return value[defaultLang] as string;
+                return value[defaultLang];
             }
-            return value as string;
+            return value;
         } catch (error) {
-            return value as string;
+            return value;
         }
     }
 }
@@ -40,18 +40,26 @@ export class SafeHtmlPipe implements PipeTransform {
 @Pipe({ name: 'cssUrl' })
 export class CssUrlPipe implements PipeTransform {
     constructor() { }
-    transform(value: string) {
-        if (!value) {
-            value = "/assets/image-placeholder.jpg";
-        }
-        return `url(${value})`;
+    transform(src: string) {
+        if (!src) src = "/assets/image-placeholder.jpg";
+        return `url(${src})`;
     }
 }
 
 @Pipe({ name: 'firestoreDate' })
 export class FirestoreDatePipe implements PipeTransform {
     constructor(private date: DatePipe) { }
-    transform(value: Timestamp, format?: string) {
-        return this.date.transform(value.toDate(), format);
+    transform(timestamp: Timestamp, format?: string) {
+        return this.date.transform(timestamp.toDate(), format);
+    }
+}
+
+@Pipe({ name: "fullName" })
+export class FullNamePipe implements PipeTransform {
+    constructor() { }
+    transform(firstName: string, lastName: string, separator?: string) {
+        let arr = [firstName];
+        arr.unshift(lastName || "");
+        return arr.join(separator || " ");
     }
 }

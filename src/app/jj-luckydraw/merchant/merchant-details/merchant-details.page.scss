@@ -1,0 +1,21 @@
+.merchant-logo {
+    width: 120px;
+    height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.merchant-header {
+    margin-top: var(--ion-margin, 16px);
+    margin-bottom: var(--ion-margin, 16px);
+}
+
+.merchant-header h1,
+.merchant-header p {
+    margin-top: var(--ion-margin-sm, 8px);
+    margin-bottom: var(--ion-margin-sm, 8px);
+}
+
+.merchant-header p {
+    color: var(--ion-color-step-600, #666666);
+}

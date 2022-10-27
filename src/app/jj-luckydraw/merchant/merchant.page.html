@@ -1,0 +1,32 @@
+<ion-menu contentId="merchant-main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ "jj-luckydraw._MENU" | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('dashboard')">
+          <ion-label>{{ "jj-luckydraw._DASHBOARD" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('ticket-distributions')">
+          <ion-label>{{ "jj-luckydraw._TICKETS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('users')">
+          <ion-label>{{ "jj-luckydraw._USERS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item (click)="navigate('customers')">
+          <ion-label>{{ "jj-luckydraw._CUSTOMERS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="merchant-main"></ion-router-outlet>

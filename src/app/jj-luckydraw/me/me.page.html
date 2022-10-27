@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ "jj-luckydraw._ME" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-avatar class="profile-picture">
+            <ion-img [src]="me.profilePicture | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
+          </ion-avatar>
+          <div class="profile-header">
+            <h1 class="font-bold ion-text-center">{{ me.firstName | fullName: me.lastName }}</h1>
+          </div>
+          <ion-list class="list-section" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._USER_SETTINGS" | translate }}</ion-list-header>
+            <ion-item detail routerLink="update-me">
+              <ion-icon slot="start" name="pencil"></ion-icon>
+              <ion-label>{{ "jj-luckydraw._EDIT_PROFILE" | translate }}</ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-list class="list-section" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._PREFERENCE" | translate }}</ion-list-header>
+            <ion-item>
+              <ion-icon slot="start" name="language"></ion-icon>
+              <ion-label>{{ "_LANGUAGE" | translate }}</ion-label>
+              <ion-select slot="end" [(ngModel)]="currentLang" (ionChange)="onLanguageChange()">
+                <ion-select-option *ngFor="let lang of languages" [value]="lang.code">
+                  <ion-label>{{ lang.label | cmsTranslate }}</ion-label>
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <ion-list class="list-section" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._USER_SETTINGS" | translate }}</ion-list-header>
+            <ion-item detail routerLink="change-password">
+              <ion-icon slot="start" name="lock-closed"></ion-icon>
+              <ion-label>{{ "jj-luckydraw._CHANGE_PASSWORD" | translate }}</ion-label>
+            </ion-item>
+            <ion-item (click)="onSignOut()">
+              <ion-icon slot="start" name="log-out" color="danger"></ion-icon>
+              <ion-label color="danger">{{ "jj-luckydraw._LOGOUT" | translate }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
