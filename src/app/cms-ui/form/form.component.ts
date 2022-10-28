@@ -112,12 +112,13 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
-    
-    // this.mask.prefix = '6';
+  
     this._maskedItems.forEach(item => {
       let control = this.formGroup.get(item.code);
+      this.mask.prefix = item.inputPrefix || "";
       control.setValue(this.mask.applyMask(control.value, item.inputMask), { emitEvent: false });
       control.valueChanges.subscribe(v => {
+        this.mask.prefix = item.inputPrefix || "";
         control.setValue(this.mask.applyMask(v, item.inputMask), { emitEvent: false });
       });
     });

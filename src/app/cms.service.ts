@@ -94,6 +94,12 @@ export class CmsService {
 
     return this.firestore.doc<any>(`${collectionPath}/${id}`).valueChanges().pipe(
       take(1),
+      map(v => {
+        if (v === undefined) {
+          v = null;
+        }
+        return v;
+      })
     ).toPromise();
   }
 

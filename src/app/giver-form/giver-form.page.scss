@@ -19,15 +19,23 @@
         background: transparent;
         ion-item {
             --background: transparent;
+            --highlight-color-focused: white;
+            --highlight-color-valid: white;
+            --highlight-color-invalid: white;
+            --highlight-height: 0px;
+
+            ion-label.md {
+                margin-bottom: 8px;
+            }
 
             ion-label {
-                --color: white !important;
+                color: white !important;
             }
 
             ion-input,
             ion-select {
                 // --color: white;
-                --background: white;
+                background: white;
                 --padding-start: 1rem !important;
                 --padding-end: 1rem;
                 border-radius: 8px;

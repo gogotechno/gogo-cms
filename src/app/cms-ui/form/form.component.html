@@ -5,49 +5,92 @@
                 <ng-container [ngSwitch]="item.type">
 
                     <ng-container *ngSwitchCase="'array'">
-                        <ion-list-header>{{ item.label | cmsTranslate }}</ion-list-header>
-                        <cms-array-input [data-type]="item.dataType" [collection-path]="collectionPath" [formControlName]="item.code"></cms-array-input>
+                        <ion-list-header>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                                <sup>*</sup></ion-text>
+                        </ion-list-header>
+                        <cms-array-input [data-type]="item.dataType" [collection-path]="collectionPath"
+                            [formControlName]="item.code"></cms-array-input>
                     </ng-container>
-        
+
                     <ng-container *ngSwitchCase="'cms-translate-editor'">
-                        <ion-list-header>{{ item.label | cmsTranslate }}</ion-list-header>
-                        <cms-translation-editor-input [collection-path]="collectionPath" [formControlName]="item.code"></cms-translation-editor-input>
+                        <ion-list-header>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                                <sup>*</sup></ion-text>
+                        </ion-list-header>
+                        <cms-translation-editor-input [collection-path]="collectionPath" [formControlName]="item.code">
+                        </cms-translation-editor-input>
                     </ng-container>
-        
+
                     <ng-container *ngSwitchCase="'checkbox'">
                         <ion-item>
                             <ion-checkbox slot="start" [formControlName]="item.code"></ion-checkbox>
-                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                                    <sup>*</sup></ion-text>
+                            </ion-label>
                         </ion-item>
                     </ng-container>
-    
+
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
-                            <ion-select slot="end" [formControlName]="item.code">
+                            <ion-label>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                                    <sup>*</sup></ion-text>
+                            </ion-label>
+                            <ion-select slot="end" [formControlName]="item.code"
+                                [placeholder]="item.placeholder | cmsTranslate">
                                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                                     <ion-label>{{ option.label | cmsTranslate }}</ion-label>
-                                </ion-select-option >
+                                </ion-select-option>
                             </ion-select>
                         </ion-item>
                     </ng-container>
-        
+
+                    <ng-container *ngSwitchCase="'radio'">
+                        <ion-item>
+                            <ion-label position="stacked">{{ item.label | cmsTranslate }} <ion-text color="danger"
+                                    *ngIf="item.required"><sup>*</sup></ion-text>
+                            </ion-label>
+                            <ion-radio-group style="display: inline-flex;"[formControlName]="item.code">
+                                <ion-item *ngFor="let option of item.options">
+                                    <div>
+                                        <ion-radio style="display: inline-flex; vertical-align: middle; margin-right: 1rem;"  [value]="option.code" mode="md"></ion-radio>
+                                        <ion-label style="display: inline-flex; vertical-align: middle;">{{ option.label | cmsTranslate }}</ion-label>
+                                    </div>
+                                </ion-item>
+                            </ion-radio-group>
+                        </ion-item>
+                        <!-- <div>
+                                <ion-radio mode="md"></ion-radio>
+                                <ion-label>asdasd</ion-label>
+                            </div> -->
+                    </ng-container>
+
                     <ng-container *ngSwitchDefault>
                         <ion-item>
-                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}
+                                <ion-text color="danger" *ngIf="item.required"><sup>*</sup></ion-text>
+                            </ion-label>
                             <ng-container [ngSwitch]="item.type">
-                                <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
-                                <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
-                                <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
-                                <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
-                                <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'datetime'" type="datetime-local"
+                                    [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate">
+                                </ion-input>
+                                <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'phone'" type="tel" [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                                 <cms-file-input *ngSwitchCase="'file'" [formControlName]="item.code"></cms-file-input>
-                                <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code"></cms-translation-input>
-                                <ion-input *ngSwitchDefault [formControlName]="item.code" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                                <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code">
+                                </cms-translation-input>
+                                <ion-input *ngSwitchDefault [formControlName]="item.code"
+                                    [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                             </ng-container>
                         </ion-item>
                     </ng-container>
-                    
+
                 </ng-container>
             </ng-container>
         </ng-container>

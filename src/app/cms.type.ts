@@ -90,7 +90,7 @@ export interface CmsForm extends CmsDocument {
     name?: CmsTranslation,
     submitButtonText?: string,
     items: Array<CmsFormItem>,
-    labelPosition?: "fixed" | "floating",
+    labelPosition?: "fixed" | "floating" | "stacked" | undefined,
     lines?: "full" | "inset" | "none" | undefined,
 }
 
@@ -110,6 +110,7 @@ export interface CmsFormItem extends CmsDocument {
     matchWith?: string[],
     placeholder?: CmsTranslation,
     inputMask?: string,
+    inputPrefix?: string,
 }
 
 export interface CmsFormItemOption {
