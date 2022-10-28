@@ -75,10 +75,10 @@ export class GiverFormPage implements OnInit {
 
     if (doc) {
       let alert = await this.alertController.create({
-        message: await this.translate.get('_ALREADY_REGISTER').toPromise(),
+        message: await this.translate.get('giver-form._ALREADY_REGISTER').toPromise(),
         buttons: [
           {
-            text: await this.translate.get('_VIEW').toPromise(),
+            text: await this.translate.get('giver-form._VIEW').toPromise(),
             handler: () => {
               let inquiryFormData = {};
               inquiryFormData[this.cmsTable.codeField] = formData[this.cmsTable.codeField];
@@ -105,10 +105,10 @@ export class GiverFormPage implements OnInit {
     }
     let result = await this.cms.saveDocument(this.cmsTable, formData);
     let alert = await this.alertController.create({
-      message: await this.translate.get('_REGISTER_SUCCESS').toPromise(),
+      message: await this.translate.get('giver-form._REGISTER_SUCCESS').toPromise(),
       buttons: [
         {
-          text: await this.translate.get('_VIEW').toPromise(),
+          text: await this.translate.get('giver-form._VIEW').toPromise(),
           handler: () => {
             let inquiryFormData = {};
             inquiryFormData[this.cmsTable.codeField] = formData[this.cmsTable.codeField];
