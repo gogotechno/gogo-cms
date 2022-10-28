@@ -92,6 +92,7 @@ export interface CmsForm extends CmsDocument {
     items: Array<CmsFormItem>,
     labelPosition?: "fixed" | "floating" | "stacked" | undefined,
     lines?: "full" | "inset" | "none" | undefined,
+    cover?: string,
 }
 
 export interface CmsFormItem extends CmsDocument {

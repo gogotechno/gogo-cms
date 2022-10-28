@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { CmsTranslatePipe } from '../cms-ui/cms.pipe';
 import { FormComponent } from '../cms-ui/form/form.component';
 import { CmsService } from '../cms.service';
 import { CmsForm, CmsTable } from '../cms.type';
@@ -11,6 +13,7 @@ import { GiverService } from '../giver.service';
   selector: 'app-giver-form',
   templateUrl: './giver-form.page.html',
   styleUrls: ['./giver-form.page.scss'],
+  providers: [ CmsTranslatePipe ]
 })
 export class GiverFormPage implements OnInit {
 
@@ -24,22 +27,28 @@ export class GiverFormPage implements OnInit {
   inquiryForm: CmsForm;
   inquiryResult: any;
   value: any;
-  state: "register" | "inquiry" | "success" = "register";
+  state: "welcome" | "register" | "inquiry" | "success" = "welcome";
 
   constructor(private _route: ActivatedRoute,
     private cms: CmsService,
     private _giver: GiverService,
     private alertController: AlertController,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private title: Title,
+    private cmsTranslate: CmsTranslatePipe) { }
 
   async ngOnInit() {
-    // this.config.
-    // this.renderer.addClass(document., 'modal-open');
     this.formCode = this._route.snapshot.params.formCode;
     this.qrUrl = this._route.snapshot.queryParams.url;
     this.cmsForm = await this.cms.getForm(this.formCode);
     this.value = { machineLink: this.qrUrl };
     this.cmsTable = await this.cms.getTable(this.formCode);
+  
+    this.title.setTitle(this.cmsTranslate.transform(this.cmsForm.name));
+
+    if (this.cmsForm.cover) {
+      this.state = 'welcome';
+    }
 
     let idItem = this.cmsForm.items.find(item => item.code === this.cmsTable.codeField);
 
