@@ -70,7 +70,7 @@ export class CmsService {
     //   ).toPromise();
     // }
 
-    return this.firestore.collection<CmsTable>(`tables`).valueChanges().pipe(
+    return this.firestore.collection<CmsTable>(`tables`, ref => ref.where('site', 'in', [this.SITE.code, 'default'])).valueChanges().pipe(
       take(1),
     ).toPromise();
   }
@@ -94,6 +94,12 @@ export class CmsService {
 
     return this.firestore.doc<any>(`${collectionPath}/${id}`).valueChanges().pipe(
       take(1),
+      map(v => {
+        if (v === undefined) {
+          v = null;
+        }
+        return v;
+      })
     ).toPromise();
   }
 

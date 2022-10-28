@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ this.cmsForm?.name | cmsTranslate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="state === 'register'">
+    <cms-form #cmsFormComponent class="ios" *ngIf="cmsForm" [form]="cmsForm" [value]="value" (submit)="onSubmit($event)"></cms-form>
+    
+    <ion-button color="light" fill="clear" expand="block" (click)="onChangeState('inquiry')">{{ '_REGISTER_ALREADY' | translate }}</ion-button>
+  </ng-container>
+  
+  <ng-container *ngIf="state === 'inquiry'">
+    <cms-form #inquiryFormComponent *ngIf="inquiryForm" [form]="inquiryForm" (submit)="onInquiry($event)"></cms-form>
+    
+    <div class="ion-padding">
+      <ion-list *ngIf="inquiryResult">
+        <ng-container *ngFor="let item of cmsForm.items">
+        <ion-item *ngIf="!item.hidden">
+            <ion-label color="medium" position="fixed">{{ item.label | cmsTranslate }}</ion-label>
+            <ion-note color="dark" slot="end">{{ inquiryResult[item.code] }}</ion-note>
+          </ion-item>
+        </ng-container>
+        <ion-item>
+          <ion-label color="medium">{{ '_UPDATED_AT' | translate }}</ion-label>
+          <ion-note slot="end" color="dark">{{ inquiryResult.updatedAt | firestoreDate: 'dd/MM/yyyy h:mm a' }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium">{{ '_GIVER_STATUS' | translate }}</ion-label>
+          <ion-note slot="end" [color]="inquiryResult.machineDispenseStatus === 'SUCCESS' ? 'success' : 'danger'">{{ inquiryResult.machineDispenseStatus }}</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-label color="medium">{{ '_GIVER_MESSAGE' | translate }}</ion-label>
+          <ion-note slot="end" color="dark">{{ inquiryResult.machineMessage }}</ion-note>
+        </ion-item>
+        
+        <ion-button expand="block" size="small" *ngIf="inquiryResult !== 'SUCCESS'" (click)="onRetryMachine(inquiryResult, $event)">{{ '_MACHINE_RETRY' | translate }}</ion-button>
+        <!-- <ion-button expand="block" (click)="onReset($event)">{{ '_RESET' | translate }}</ion-button> -->
+      </ion-list>
+    </div>
+
+    <ng-container *ngIf="inquiryResult === null">
+      <div class="ion-padding ion-text-center">
+        <ion-text color="medium"><i>{{ '_NO_RECORD_FOUND' | translate }}</i></ion-text>
+      </div>
+    </ng-container>
+
+    <ion-button color="light" fill="clear" expand="block" (click)="onChangeState('register')">{{ '_REGISTER_NOW' | translate }}</ion-button>
+  </ng-container>
+
+</ion-content>

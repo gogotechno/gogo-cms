@@ -26,6 +26,10 @@ const routes: Routes = [
     loadChildren: () => import('./teckguan/teckguan.module').then(m => m.TeckguanPageModule)
   },
   {
+    path: 'giver-form',
+    loadChildren: () => import('./giver-form/giver-form.module').then( m => m.GiverFormPageModule)
+  },
+  {
     path: 'jj-luckydraw',
     loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then(m => m.JJLuckydrawPageModule),
     canActivate: [SiteGuard]
