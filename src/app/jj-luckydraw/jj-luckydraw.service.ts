@@ -8,13 +8,26 @@ import { AppUtils, CmsUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
 import { Conditions, DocStatus, DocUser, Pagination, SWS_ERP_COMPANY } from '../sws-erp.type';
-import { COMPANY_CODE, JJEvent, JJUser, JJUserRole, JJMerchant, JJTicket, JJTicketDistribution, JJTicketDistributionApplication, UserRole, JJWinner, LANGUAGE_STORAGE_KEY, JJCustomer } from './jj-luckydraw.type';
+import {
+  COMPANY_CODE,
+  JJEvent,
+  JJUser,
+  JJUserRole,
+  JJMerchant,
+  JJTicket,
+  JJTicketDistribution,
+  JJTicketDistributionApplication,
+  UserRole,
+  JJWinner,
+  LANGUAGE_STORAGE_KEY,
+  JJCustomer,
+  JJProduct,
+} from './jj-luckydraw.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class JJLuckydrawService {
-
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
 
   initialized: boolean = false;
@@ -51,7 +64,7 @@ export class JJLuckydrawService {
   async init() {
     if (this.initialized) return;
 
-    this.title.setTitle("JJ Lucky");
+    this.title.setTitle('JJ Lucky');
     this.app.loadTemplateTheme(this.cms.SITE.template);
     this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
 
@@ -69,14 +82,18 @@ export class JJLuckydrawService {
    */
   async getSupportedLanguages() {
     let attributes = await this.cms.getAttributes();
-    let attribute = attributes.find((a) => a.code == "languages");
-    return attribute && attribute.options.length > 0 ? attribute.options : [{
-      code: "en",
-      label: {
-        en: "English",
-        zh: "English"
-      }
-    }]
+    let attribute = attributes.find((a) => a.code == 'languages');
+    return attribute && attribute.options.length > 0
+      ? attribute.options
+      : [
+        {
+          code: 'en',
+          label: {
+            en: 'English',
+            zh: 'English',
+          },
+        },
+      ];
   }
 
   /**
@@ -85,7 +102,7 @@ export class JJLuckydrawService {
    */
   async getMyMerchantId() {
     let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let access = docUser.user_access?.find((ua) => ua.access_table === "merchant");
+    let access = docUser.user_access?.find((ua) => ua.access_table === 'merchant');
     return access ? Number(access.access_val) : null;
   }
 
@@ -95,8 +112,8 @@ export class JJLuckydrawService {
    */
   async getMyMerchant(withSummary: boolean = false) {
     let merchantId = await this.getMyMerchantId();
-    let merchant = await this.erp.getDoc<JJMerchant>("Merchant", merchantId, {
-      withSummary: withSummary
+    let merchant = await this.erp.getDoc<JJMerchant>('Merchant', merchantId, {
+      withSummary: withSummary,
     });
     return this.populateMerchant(merchant);
   }
@@ -106,14 +123,14 @@ export class JJLuckydrawService {
    * @returns Returns lastest events
    */
   async getLastestEvent() {
-    let res = await this.erp.getDocs<JJEvent>("Event", {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
       itemsPerPage: 1,
       currentPage: 1,
-      status: "ACTIVE",
-      status_type: "=",
-      sortBy: "startAt",
-      sortType: "desc"
-    })
+      status: 'ACTIVE',
+      status_type: '=',
+      sortBy: 'startAt',
+      sortType: 'desc',
+    });
     return res.result[0];
   }
 
@@ -122,14 +139,14 @@ export class JJLuckydrawService {
    * @returns Returns last ended events
    */
   async getLastEndedEvent() {
-    let res = await this.erp.getDocs<JJEvent>("Event", {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
       itemsPerPage: 1,
       currentPage: 1,
-      status: "ENDED",
-      status_type: "=",
-      sortBy: "startAt",
-      sortType: "desc",
-      withSummary: true
+      status: 'ENDED',
+      status_type: '=',
+      sortBy: 'startAt',
+      sortType: 'desc',
+      withSummary: true,
     });
     return res.result[0];
   }
@@ -140,13 +157,13 @@ export class JJLuckydrawService {
    * @returns Returns ended events with pagination
    */
   async getEvents(conditions: Conditions, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJEvent>("Event", {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: "startAt",
-      sortType: "desc",
-      ...conditions
-    })
+      sortBy: 'startAt',
+      sortType: 'desc',
+      ...conditions,
+    });
     return res.result;
   }
 
@@ -156,15 +173,15 @@ export class JJLuckydrawService {
    * @returns Returns ended events with pagination
    */
   async getEndedEvents(pagination: Pagination) {
-    let res = await this.erp.getDocs<JJEvent>("Event", {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      status: "ENDED",
-      status_type: "=",
-      sortBy: "startAt",
-      sortType: "desc",
-      withSummary: true
-    })
+      status: 'ENDED',
+      status_type: '=',
+      sortBy: 'startAt',
+      sortType: 'desc',
+      withSummary: true,
+    });
     return res.result;
   }
 
@@ -174,8 +191,8 @@ export class JJLuckydrawService {
    * @returns Returns event object
    */
   async getEventById(eventId: number) {
-    let res = await this.erp.getDoc<JJEvent>("Event", eventId, {
-      withSummary: true
+    let res = await this.erp.getDoc<JJEvent>('Event', eventId, {
+      withSummary: true,
     });
     return res;
   }
@@ -186,13 +203,13 @@ export class JJLuckydrawService {
    * @returns Returns ticket distributions with pagination
    */
   async getTicketDistributions(conditions: Conditions, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJTicketDistribution>("Ticket Distribution", {
+    let res = await this.erp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: "distributedAt",
-      sortType: "desc",
-      ...conditions
-    })
+      sortBy: 'distributedAt',
+      sortType: 'desc',
+      ...conditions,
+    });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
   }
 
@@ -203,14 +220,14 @@ export class JJLuckydrawService {
    * @returns Returns ticket distributions from given event with pagination
    */
   async getTicketDistributionsByEvent(eventId: number, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJTicketDistribution>("Ticket Distribution", {
+    let res = await this.erp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       event_id: eventId,
-      event_id_type: "=",
-      sortBy: "distributedAt",
-      sortType: "desc"
-    })
+      event_id_type: '=',
+      sortBy: 'distributedAt',
+      sortType: 'desc',
+    });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
   }
 
@@ -220,7 +237,7 @@ export class JJLuckydrawService {
    * @returns Returns ticket distribution object
    */
   async getTicketDistributionById(id: number) {
-    let res = await this.erp.getDoc<JJTicketDistribution>("Ticket Distribution", id);
+    let res = await this.erp.getDoc<JJTicketDistribution>('Ticket Distribution', id);
     return this.populateTicketDistribution(res);
   }
 
@@ -231,28 +248,28 @@ export class JJLuckydrawService {
    * @returns Returns tickets from given event with pagination
    */
   async getTicketsByEvent(eventId: number, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJTicket>("Ticket", {
+    let res = await this.erp.getDocs<JJTicket>('Ticket', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       event_id: eventId,
-      event_id_type: "="
-    })
+      event_id_type: '=',
+    });
     return res.result.map((ticket) => this.populateTicket(ticket));
   }
 
   /**
-  * Get tickets from given ticket distribution
-  * @param distributionId Ticket distribution's ID
-  * @param pagination Pagination object
-  * @returns Returns tickets from given ticket distribution with pagination
-  */
+   * Get tickets from given ticket distribution
+   * @param distributionId Ticket distribution's ID
+   * @param pagination Pagination object
+   * @returns Returns tickets from given ticket distribution with pagination
+   */
   async getTicketsByTicketDistribution(distributionId: number, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJTicket>("Ticket", {
+    let res = await this.erp.getDocs<JJTicket>('Ticket', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       ticket_distribution_id: distributionId,
-      ticket_distribution_id_type: "="
-    })
+      ticket_distribution_id_type: '=',
+    });
     return res.result.map((ticket) => this.populateTicket(ticket));
   }
 
@@ -262,16 +279,16 @@ export class JJLuckydrawService {
    * @returns Returns ticket distributions from given event with pagination
    */
   async getRewards(conditions: Conditions, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJWinner>("Winner", {
+    let res = await this.erp.getDocs<JJWinner>('Winner', {
       hasPk: true,
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: "doc_createdDate",
-      sortType: "desc",
+      sortBy: 'doc_createdDate',
+      sortType: 'desc',
       fromApp: true,
-      ...conditions
-    })
-    return res.result.map(res => {
+      ...conditions,
+    });
+    return res.result.map((res) => {
       res.drawing_result = res.drawing_result[0];
       res.event_prize = res.event_prize[0];
       res.ticket = res.ticket[0];
@@ -287,7 +304,7 @@ export class JJLuckydrawService {
    * @returns Returns ticket distribution object
    */
   async getRewardById(id: number) {
-    let res = await this.erp.getDoc<JJWinner>("Winner", id, { hasPk: true });
+    let res = await this.erp.getDoc<JJWinner>('Winner', id, { hasPk: true });
     res.ticket = res.ticket[0];
     res.ticket.event = res.ticket.event[0];
     res.ticket.ticket_distribution = res.ticket.ticket_distribution[0];
@@ -303,14 +320,14 @@ export class JJLuckydrawService {
    * @returns Returns users from given merchant with pagination
    */
   async getUsersByMerchant(merchantId: number, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJUser>("User", {
+    let res = await this.erp.getDocs<JJUser>('User', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       merchant_id: merchantId,
-      merchant_id_type: "=",
+      merchant_id_type: '=',
       doc_status: DocStatus.SUBMIT,
-      doc_status_type: "="
-    })
+      doc_status_type: '=',
+    });
     return res.result.map((user) => this.populateUser(user));
   }
 
@@ -320,10 +337,10 @@ export class JJLuckydrawService {
    * @returns Returns user object
    */
   async getUserByDocUser(docUserId: number) {
-    let res = await this.erp.getDocs<JJUser>("User", {
+    let res = await this.erp.getDocs<JJUser>('User', {
       doc_user_id: docUserId,
-      doc_user_id_type: "="
-    })
+      doc_user_id_type: '=',
+    });
     return res.result.map((user) => this.populateUser(user))[0];
   }
 
@@ -333,7 +350,7 @@ export class JJLuckydrawService {
    * @returns Returns user object
    */
   async getUserById(userId: number) {
-    let res = await this.erp.getDoc<JJUser>("User", userId);
+    let res = await this.erp.getDoc<JJUser>('User', userId);
     return this.populateUser(res);
   }
 
@@ -342,7 +359,7 @@ export class JJLuckydrawService {
    * @returns Returns all user roles
    */
   async getUserRoles() {
-    let res = await this.erp.getDocs<JJUserRole>("User Role");
+    let res = await this.erp.getDocs<JJUserRole>('User Role');
     return res.result;
   }
 
@@ -361,7 +378,7 @@ export class JJLuckydrawService {
    * @returns Returns create esponse from SWS ERP
    */
   issueTickets(application: JJTicketDistributionApplication) {
-    return this.erp.postDoc("Ticket Distribution Application", application);
+    return this.erp.postDoc('Ticket Distribution Application', application);
   }
 
   /**
@@ -370,7 +387,7 @@ export class JJLuckydrawService {
    * @returns Returns create response from SWS ERP
    */
   createUser(user: JJUser) {
-    return this.erp.postDoc("User", user, { autoSubmit: true });
+    return this.erp.postDoc('User', user, { autoSubmit: true });
   }
 
   /**
@@ -380,24 +397,24 @@ export class JJLuckydrawService {
    * @returns Returns update response from SWS ERP
    */
   updateUser(userId: number, user: Partial<JJUser>) {
-    return this.erp.putDoc("User", userId, user);
+    return this.erp.putDoc('User', userId, user);
   }
 
   /**
-  * create new customer
-  * @param customer Customer's object
-  * @returns Returns create response from SWS ERP
-  */
+   * create new customer
+   * @param customer Customer's object
+   * @returns Returns create response from SWS ERP
+   */
   createCustomer(customer: JJCustomer) {
-    return this.erp.postDoc("Customer", customer, { autoSubmit: true });
+    return this.erp.postDoc('Customer', customer, { autoSubmit: true });
   }
 
   /**
-  * Sign in with customer credential
-  * @param phone Customer's phone
-  * @param password Customer's password
-  * @returns Returns customer's profile
-  */
+   * Sign in with customer credential
+   * @param phone Customer's phone
+   * @param password Customer's password
+   * @returns Returns customer's profile
+   */
   signInCustomer(phone: string, password: string) {
     return this.erp.signInCustomer<JJCustomer>('Customer', phone, password);
   }
@@ -409,13 +426,13 @@ export class JJLuckydrawService {
    * @returns Returns users from given merchant with pagination
    */
   async getCustomers(conditions: Conditions, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+    let res = await this.erp.getDocs<JJCustomer>('Customer', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       doc_status: DocStatus.SUBMIT,
-      doc_status_type: "=",
-      ...conditions
-    })
+      doc_status_type: '=',
+      ...conditions,
+    });
     return res.result;
   }
 
@@ -425,10 +442,10 @@ export class JJLuckydrawService {
    * @returns Returns customer object
    */
   async getCustomerById(customerId: number) {
-    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+    let res = await this.erp.getDocs<JJCustomer>('Customer', {
       doc_id: customerId,
-      doc_id_type: "="
-    })
+      doc_id_type: '=',
+    });
     return res.result[0];
   }
 
@@ -438,10 +455,10 @@ export class JJLuckydrawService {
    * @returns Returns customer object
    */
   async getCustomerByPhone(phone: string) {
-    let res = await this.erp.getDocs<JJCustomer>("Customer", {
+    let res = await this.erp.getDocs<JJCustomer>('Customer', {
       phone: phone,
-      phone_type: "="
-    })
+      phone_type: '=',
+    });
     return res.result[0];
   }
 
@@ -461,7 +478,7 @@ export class JJLuckydrawService {
    * @returns Returns update response from SWS ERP
    */
   updateCustomer(customerId: number, user: Partial<JJCustomer>) {
-    return this.erp.putDoc("Customer", customerId, user);
+    return this.erp.putDoc('Customer', customerId, user);
   }
 
   /**
@@ -470,8 +487,17 @@ export class JJLuckydrawService {
    * @param user Update object
    * @returns Returns update response from SWS ERP
    */
-  changePassword(customerId: number, body: { old_password: string, new_password: string }) {
+  changePassword(customerId: number, body: { old_password: string; new_password: string }) {
     return this.erp.changePassword(customerId, body, 'Customer');
+  }
+
+  /**
+   * Get products
+   * @returns Returns product list
+   */
+  async getProducts() {
+    let res = await this.erp.getDocs<JJProduct>('Product');
+    return res.result.map((product) => this.populateProduct(product));
   }
 
   /**
@@ -509,20 +535,31 @@ export class JJLuckydrawService {
    * @returns Returns merchant object with populated properties
    */
   private populateMerchant(merchant: JJMerchant) {
+    // prettier-ignore
     merchant.fullAddress = `${merchant.addressLine1}${merchant.addressLine2 ? ", " + merchant.addressLine2 : ""}, ${merchant.postalCode} ${merchant.city}, ${merchant.state} ${merchant.country}`;
     return merchant;
   }
 
+  /**
+   * Populate product to map Gogo CMS usage
+   * @param product Product object
+   * @returns Returns product object with populated properties
+   */
+  private populateProduct(product: JJProduct) {
+    product.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(product.translate?.name, product.name);
+    return product;
+  }
 }
 
-interface OnChangeEvent {
-  beUpdated?: boolean
+export interface OnChangeEvent {
+  beUpdated?: boolean;
+  beRemoved?: boolean;
 }
 
-interface UserEvent extends OnChangeEvent {
-  currentUserId: number
+export interface UserEvent extends OnChangeEvent {
+  currentUserId: number;
 }
 
-interface CustomerEvent extends OnChangeEvent {
-  currentCustomerId: number
+export interface CustomerEvent extends OnChangeEvent {
+  currentCustomerId: number;
 }

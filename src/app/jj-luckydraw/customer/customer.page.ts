@@ -9,11 +9,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class CustomerPage implements OnInit {
 
   private readonly ROOT_PATH = "/jj-luckydraw/customer";
+  private activePage: string;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    this.defaultRouting();
+    // this.defaultRouting();
+  }
+
+  ionViewWillEnter(){
+    if(this.activePage) this.navigate(this.activePage);
+    else { this.activePage = 'ticket-history'; this.defaultRouting(); }
   }
 
   /**
@@ -54,6 +60,7 @@ export class CustomerPage implements OnInit {
    * @param url Target URL
    */
   navigate(url: string) {
+    this.activePage = url;
     this.router.navigate(['/jj-luckydraw/customer/', url], {
       replaceUrl: true,
       relativeTo: this.route

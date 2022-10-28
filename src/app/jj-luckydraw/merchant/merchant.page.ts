@@ -1,24 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
+export const MERCHANT_ROOT_PATH = '/jj-luckydraw/merchant';
+
 @Component({
   selector: 'app-merchant',
   templateUrl: './merchant.page.html',
   styleUrls: ['./merchant.page.scss'],
 })
 export class MerchantPage implements OnInit {
+  currentUrl: string;
 
-  private readonly ROOT_PATH = "/jj-luckydraw/merchant";
-
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.defaultRouting();
   }
 
+  ionViewWillEnter() {
+    if (this.currentUrl) {
+      this.navigate(this.currentUrl);
+    }
+  }
+
   /**
-   * Use this to navigate to root path. 
-   * 
+   * Use this to navigate to root path.
+   *
    * Instead of using root path in routing module like below example,
    * which will cause navigate to root path everytime switching page
    * ```
@@ -28,36 +35,42 @@ export class MerchantPage implements OnInit {
    *    pathMatch: 'full'
    * }
    * ```
-   * 
+   *
    * This method will only run once after initialization.
    */
   defaultRouting() {
-    let navigateTo = this.router.url == this.ROOT_PATH ? `${this.ROOT_PATH}/dashboard` : this.router.url;
-    this.router.navigate([navigateTo]);
+    if (this.router.url == MERCHANT_ROOT_PATH) {
+      this.navigate('dashboard');
+    } else {
+      let rootPaths = MERCHANT_ROOT_PATH.split('/');
+      let paths = this.router.url.split('/');
+      let pathsWithoutRoot = paths.filter((p) => !rootPaths.includes(p));
+      this.currentUrl = pathsWithoutRoot[0];
+    }
   }
 
   /**
    * Use this to switch navigation within menu item.
-   * 
+   *
    * routerLink do not work as expected.
    * ```
    * routerLink="./dashboard"
    * ```
-   * 
-   * The expected result is navigate to each page properly but the actual 
-   * result is the first navigation works and the continuous navigation do 
-   * not works, it keeps staying in same page. 
-   * 
+   *
+   * The expected result is navigate to each page properly but the actual
+   * result is the first navigation works and the continuous navigation do
+   * not works, it keeps staying in same page.
+   *
    * Probably is routing configuration issue but cannot find the root cause.
-   * This is a temporary solve, removed this if better solution found.
-   * 
+   * This is a temporary solve, remove this if better solution found.
+   *
    * @param url Target URL
    */
   navigate(url: string) {
-    this.router.navigate(['/jj-luckydraw/merchant/', url], {
+    this.currentUrl = url;
+    this.router.navigate([MERCHANT_ROOT_PATH, url], {
       replaceUrl: true,
-      relativeTo: this.route
+      relativeTo: this.route,
     });
   }
-
 }

@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Platform, PopoverController } from '@ionic/angular';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
+import { CmsForm } from 'src/app/cms.type';
 import { CmsUtils, AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
+import { AuthService } from '../../auth.service';
+import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCustomer } from '../../jj-luckydraw.type';
+import { JJAppUserRole, JJCustomer, JJUserRole, UserRole } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-customer',
@@ -14,8 +15,10 @@ import { JJCustomer } from '../../jj-luckydraw.type';
   styleUrls: ['./customer.page.scss'],
 })
 export class CustomerPage implements OnInit {
+  SmsTemplateCode = SmsTemplateCode;
 
   @ViewChild(FormComponent) cmsForm: FormComponent;
+  @ViewChild(SmsComponent) smsComponent: SmsComponent;
 
   loaded: boolean;
   customerId: number;
@@ -25,33 +28,35 @@ export class CustomerPage implements OnInit {
   value: Partial<JJCustomer>;
 
   editing: boolean;
-  smsText: string;
-  passwordReset: boolean;
+
+  role: string;
 
   get editable() {
     return this.customer?.doc_status == DocStatus.SUBMIT;
   }
 
+  profilePicture: string;
+
   constructor(
     private route: ActivatedRoute,
-    private popoverCtrl: PopoverController,
-    private utils: CmsUtils,
     private app: AppUtils,
     private lucky: JJLuckydrawService,
-    private platform: Platform
+    private auth: AuthService
   ) {
     this.lucky.customerChange.subscribe((ev) => {
       if (ev?.beUpdated) {
         this.loadData();
       }
-    })
+    });
   }
 
   async ngOnInit() {
+    const me = await this.auth.findMe();
+    this.role = me.role;
     let params = this.route.snapshot.params;
     this.customerId = params.id;
     this.lucky.customerChange.next({
-      currentCustomerId: this.customerId
+      currentCustomerId: this.customerId,
     });
     await this.loadData();
   }
@@ -59,9 +64,8 @@ export class CustomerPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.editing = false;
-    this.passwordReset = false;
     this.customer = await this.lucky.getCustomerById(this.customerId);
-    this.form = form;
+    this.form = this.role == UserRole.MERCHANT_ADMIN? formWithoutPhone: form;
     await this.initForm();
     this.initValue();
     this.loaded = true;
@@ -69,19 +73,23 @@ export class CustomerPage implements OnInit {
   }
 
   async enableForm() {
-    await this.assertForm().then(() => {
-      this.cmsForm.markAsEditable();
-      this.cmsForm.markAsSubmitable();
-      this.editing = true;
-    }).catch((err) => console.error(err));
+    await this.assertForm()
+      .then(() => {
+        this.cmsForm.markAsEditable();
+        this.cmsForm.markAsSubmitable();
+        this.editing = true;
+      })
+      .catch((err) => console.error(err));
   }
 
   async disableForm() {
-    await this.assertForm().then(() => {
-      this.cmsForm.markAsNonEditable();
-      this.cmsForm.markAsNonSubmitable();
-      this.editing = false;
-    }).catch((err) => console.error(err));
+    await this.assertForm()
+      .then(() => {
+        this.cmsForm.markAsNonEditable();
+        this.cmsForm.markAsNonSubmitable();
+        this.editing = false;
+      })
+      .catch((err) => console.error(err));
   }
 
   assertForm() {
@@ -91,7 +99,7 @@ export class CustomerPage implements OnInit {
       let interval = setInterval(() => {
         if (timeout > 3000) {
           clearInterval(interval);
-          reject("Assert form error: Timeout due to no response");
+          reject('Assert form error: Timeout due to no response');
           return;
         }
         if (this.cmsForm) {
@@ -101,18 +109,17 @@ export class CustomerPage implements OnInit {
         }
         timeout += cycle;
       }, cycle);
-    })
+    });
   }
 
-  async initForm() {
-  }
+  async initForm() {}
 
   initValue() {
     this.value = {
       firstName: this.customer.firstName,
       lastName: this.customer.lastName,
-      phone: this.customer.phone
-    }
+      phone: this.customer.phone,
+    };
   }
 
   async doRefresh(event: Event) {
@@ -127,10 +134,10 @@ export class CustomerPage implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER");
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER');
     if (confirm) {
-      await this.lucky.updateCustomer(this.customerId, this.cmsForm.removeUnusedKeys("swserp", customer));
-      await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
+      await this.lucky.updateCustomer(this.customerId, this.cmsForm.removeUnusedKeys('swserp', customer));
+      await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
       this.disableForm();
     }
   }
@@ -143,55 +150,80 @@ export class CustomerPage implements OnInit {
     this.enableForm();
   }
 
-  async onResetPassword(){
-
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_RESET_PASSWORD");
+  async onResetPassword() {
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      const phone = `${this.customer.phone.includes('+60')?'': '+6'}${this.customer.phone}`;
-      await this.lucky.updateCustomer(this.customerId, {password: randomPassword});
-      await this.app.presentAlert("jj-luckydraw._CUSTOMER_UPDATED", "_SUCCESS");
-      this.smsText = `sms:${phone}${this.platform.is('android')?'?':'&'}body=Your password is ${randomPassword}`;
+      const phone = `${this.customer.phone}`;
+      await this.lucky.updateCustomer(this.customerId, { password: randomPassword });
+      this.smsComponent._body = { phone: phone, password: randomPassword };
+      await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
       this.disableForm();
-      this.passwordReset = true;
+      this.smsComponent.send();
     }
   }
-
 }
 
-const form: CmsForm = {
-  code: "create-user",
-  submitButtonText: "_UPDATE",
+const formWithoutPhone: CmsForm = {
+  code: 'create-user',
+  submitButtonText: '_UPDATE',
   items: [
     {
-      code: "firstName",
+      code: 'firstName',
       label: {
-        en: "First Name",
-        zh: "名字"
+        en: 'First Name',
+        zh: '名字',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
     },
     {
-      code: "lastName",
+      code: 'lastName',
       label: {
-        en: "Last Name",
-        zh: "姓氏"
+        en: 'Last Name',
+        zh: '姓氏',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
-    },
-    {
-      code: "phone",
-      label: {
-        en: "Phone Number",
-        zh: "手机号码"
-      },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
     }
-  ]
-}
+  ],
+};
+
+const form: CmsForm = {
+  code: 'create-user',
+  submitButtonText: '_UPDATE',
+  items: [
+    {
+      code: 'firstName',
+      label: {
+        en: 'First Name',
+        zh: '名字',
+      },
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    },
+    {
+      code: 'lastName',
+      label: {
+        en: 'Last Name',
+        zh: '姓氏',
+      },
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    },
+    {
+      code: 'phone',
+      label: {
+        en: 'Phone Number',
+        zh: '手机号码',
+      },
+      labelPosition: 'stacked',
+      type: 'text',
+      required: true,
+    }
+  ],
+};

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, SafeHtmlPipe } from './cms.pipe';
+import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HiddenPhoneNumberPipe, SafeHtmlPipe } from './cms.pipe';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent } from './accordion/accordion.component';
 import { FormComponent } from './form/form.component';
@@ -44,7 +44,8 @@ const pipes = [
   SafeHtmlPipe,
   CssUrlPipe,
   FirestoreDatePipe,
-  FullNamePipe
+  FullNamePipe,
+  HiddenPhoneNumberPipe
 ]
 
 @NgModule({
