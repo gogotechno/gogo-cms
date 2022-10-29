@@ -6,7 +6,7 @@
 
 <ion-content class="ion-padding">
   <ng-container *ngIf="state === 'welcome'">
-    <div *ngIf="cmsForm" style="height: 100%; background-position: center; background-size: cover; position: relative;;" [style.background-image]="cmsForm.cover | cssUrl">
+    <div *ngIf="cmsForm" style="height: 100%; background-position: top; background-size: cover; position: relative;;" [style.background-image]="cmsForm.cover | cssUrl">
 
       <div style="position: absolute; bottom: 10%; width: 100%;">
         <ion-button expand="block" (click)="onChangeState('register')">{{ 'giver-form._REGISTER_NOW' | translate }}</ion-button>
