@@ -40,8 +40,8 @@ export class GiverFormPage implements OnInit {
   async ngOnInit() {
     this.formCode = this._route.snapshot.params.formCode;
     this.qrUrl = this._route.snapshot.queryParams.url;
-    this.cmsForm = await this.cms.getForm(this.formCode);
     this.value = { machineLink: this.qrUrl };
+    this.cmsForm = await this.cms.getForm(this.formCode);
     this.cmsTable = await this.cms.getTable(this.formCode);
   
     this.title.setTitle(this.cmsTranslate.transform(this.cmsForm.name));
