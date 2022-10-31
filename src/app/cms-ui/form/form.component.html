@@ -34,7 +34,7 @@
 
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
                                     <sup>*</sup>
                                 </ion-text>
                             </ion-label>

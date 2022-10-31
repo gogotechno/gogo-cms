@@ -132,6 +132,7 @@ export class IssueTicketPage implements OnInit {
 const form: CmsForm = {
   code: 'ticket-distribution',
   submitButtonText: '_CONFIRM',
+  labelPosition: 'stacked',
   items: [
     {
       code: 'merchant_id',
