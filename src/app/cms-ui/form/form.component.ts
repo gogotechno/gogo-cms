@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import { MaskApplierService } from 'ngx-mask';
 import _ from 'lodash';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
@@ -24,6 +25,7 @@ export class FormComponent extends CmsComponent implements OnInit {
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
+  private _maskedItems = [];
 
   cannotSubmit: boolean;
   matchingFields: MatchingConfig;
@@ -35,7 +37,8 @@ export class FormComponent extends CmsComponent implements OnInit {
     private cms: CmsService,
     private admin: CmsAdminService,
     private translate: TranslateService,
-    private app: AppUtils
+    private mask: MaskApplierService,
+    private app: AppUtils,
   ) {
     super();
   }
@@ -88,6 +91,10 @@ export class FormComponent extends CmsComponent implements OnInit {
         controls[item.code].push(Validators.compose(validators));
       }
 
+      if (item.inputMask) {
+        this._maskedItems.push(item);
+      }
+      
       if (item.matchWith?.length > 0) {
         this.matchingFields[item.code] = item.matchWith;
       }
@@ -105,6 +112,16 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
+  
+    this._maskedItems.forEach(item => {
+      let control = this.formGroup.get(item.code);
+      this.mask.prefix = item.inputPrefix || "";
+      control.setValue(this.mask.applyMask(control.value, item.inputMask), { emitEvent: false });
+      control.valueChanges.subscribe(v => {
+        this.mask.prefix = item.inputPrefix || "";
+        control.setValue(this.mask.applyMask(v, item.inputMask), { emitEvent: false });
+      });
+    });
   }
 
   onSubmit(event?: Event) {
