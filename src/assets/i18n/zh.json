@@ -194,6 +194,7 @@
     "_CUSTOMER_UPDATED": "客户资料已更新",
     "_NO_CUSTOMERS_FOUND": "未能找到客户",
     "_SEND_PASSWORD": "发送密码",
-    "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "客户请使用电话号码登录"
+    "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "客户请使用电话号码登录",
+    "_PRODUCT": "产品"
   }
 }

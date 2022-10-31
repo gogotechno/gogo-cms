@@ -93,7 +93,8 @@ export interface JJTicketDistribution extends ErpDoc {
     tickets?: JJTicket[]
     totalOfTickets?: number,
     distributedByPerson?: DocUser,
-    event?: JJEvent
+    event?: JJEvent,
+    product?: JJProduct
 }
 
 export interface JJTicket extends ErpDoc {

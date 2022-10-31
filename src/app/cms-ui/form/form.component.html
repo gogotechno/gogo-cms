@@ -23,7 +23,7 @@
     
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label>{{ item.label | cmsTranslate }}</ion-label>
+                            <ion-label [position]="item.labelPosition || 'fixed'">{{ item.label | cmsTranslate }}</ion-label>
                             <ion-select slot="end" [formControlName]="item.code">
                                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                                     <ion-label>{{ option.label | cmsTranslate }}</ion-label>

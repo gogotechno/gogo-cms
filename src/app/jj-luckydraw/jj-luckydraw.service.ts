@@ -526,6 +526,9 @@ export class JJLuckydrawService {
    * @returns Returns ticket distribution object with populated properties
    */
   private populateTicketDistribution(distribution: JJTicketDistribution) {
+    if (distribution.product) {
+      distribution.product = this.populateProduct(distribution.product);
+    }
     return distribution;
   }
 

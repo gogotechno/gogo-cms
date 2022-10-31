@@ -36,14 +36,17 @@ export class IssueTicketPage implements OnInit {
   async ngOnInit() {
     this.loaded = false;
     this.form = form;
-    await this.initForm();
     this.event = await this.lucky.getLastestEvent();
     this.merchant = await this.lucky.getMyMerchant();
+    await this.initForm();
     this.initValue();
     this.loaded = true;
   }
 
   async initForm() {
+    let expenseField = this.form.items.find((item) => item.code == 'expense');
+    if(this.event.minSpend) expenseField.minimum = Number(this.event.minSpend);
+
     let products = await this.lucky.getProducts();
     let productField = this.form.items.find((item) => item.code == 'product_id');
     productField.options = products.map((product) => {
@@ -199,7 +202,7 @@ const form: CmsForm = {
       labelPosition: 'stacked',
       type: 'number',
       required: true,
-      minimum: 0.1
+      minimum: 1
     },
     {
       code: 'product_id',
