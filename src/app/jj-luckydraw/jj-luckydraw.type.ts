@@ -38,7 +38,8 @@ export interface JJEvent extends ErpDoc {
     drawingResult?: JJDrawingResult,
     winningSummary?: WinningSummary[],
     totalOfWinners?: number,
-    minSpend: number
+    minSpend: number,
+    nameTranslation?: CmsTranslation
 }
 
 export interface JJEventPrize extends ErpDoc {
@@ -70,7 +71,7 @@ export interface WinningSummary {
 
 export interface JJTicketDistributionApplication extends ErpDoc {
     merchant_id: number,
-    event_id: number,
+    event_id: number | string,
     customerFirstName: string,
     customerLastName: string,
     customerContactNo: string,
