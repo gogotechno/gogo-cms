@@ -152,6 +152,20 @@ export class JJLuckydrawService {
   }
 
   /**
+   * Get last ended events
+   * @returns Returns last ended events
+   */
+  async getLastDrewEvent() {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
+      itemsPerPage: 1,
+      currentPage: 1,
+      lastDrew: true,
+      withSummary: true,
+    });
+    return res.result[0];
+  }
+
+  /**
    * Get ended events
    * @param pagination Pagination object
    * @returns Returns ended events with pagination
@@ -196,6 +210,7 @@ export class JJLuckydrawService {
       sortBy: 'startAt',
       sortType: 'desc',
       withSummary: true,
+      withoutResult: true
     });
     return res.result;
   }

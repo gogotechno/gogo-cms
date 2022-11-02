@@ -44,6 +44,7 @@ export class ChangePasswordPage implements OnInit {
 const form: CmsForm = {
   code: "change-password",
   submitButtonText: "_UPDATE",
+  labelPosition: 'stacked',
   items: [
     {
       code: "old_password",
