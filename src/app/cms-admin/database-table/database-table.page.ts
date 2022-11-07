@@ -1,24 +1,28 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
+import { CmsTranslatePipe, FirestoreDatePipe } from 'src/app/cms-ui/cms.pipe';
 import { CmsService } from 'src/app/cms.service';
-import { CmsAdminChildPage, CmsTable } from 'src/app/cms.type';
+import { CmsAdminChildPage, CmsForm, CmsTable } from 'src/app/cms.type';
+import {saveAs} from "file-saver";
+import { TranslatePipe } from '@ngx-translate/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-database-table',
   templateUrl: './database-table.page.html',
   styleUrls: ['./database-table.page.scss'],
-  providers: [CmsTranslatePipe]
+  providers: [CmsTranslatePipe, TranslatePipe, FirestoreDatePipe, DatePipe]
 })
 export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
 
   tableId: string;
   table: CmsTable;
+  form: CmsForm;
   list = [];
   selectMode = false;
   selectedItems = [];
 
-  constructor(private cms: CmsService, private route: ActivatedRoute, private cmsTranslate: CmsTranslatePipe) {
+  constructor(private cms: CmsService, private route: ActivatedRoute, private cmsTranslate: CmsTranslatePipe, private translate: TranslatePipe, private firestoreDate: FirestoreDatePipe, private date: DatePipe) {
     super();
   }
 
@@ -31,6 +35,7 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
     this.table = await this.cms.getTable(this.tableId);
     this.list = await this.cms.getTableData(this.table);
     this.title = this.cmsTranslate.transform(this.table.name);
+    this.form = await this.cms.getForm(this.tableId);
     console.log("List: ", this.list);
   }
 
@@ -67,6 +72,25 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
       this.selectedItems.splice(i, 1);
     }
     console.log(this.selectedItems);
+  }
+
+  export(list: any[]) {
+    let csv = "";
+    let headers = this.form.items.map(item => `"${this.cmsTranslate.transform(item.label)}"`);
+    headers.push(this.translate.transform('_UPDATED_AT'));
+    csv += headers.join(',') + '\n';
+    list.forEach(v => {
+      let values = [];
+      this.form.items.forEach(item => {
+        values.push(`"${v[item.code]}"`);
+      });
+      values.push(`"${this.firestoreDate.transform(v['updatedAt'], 'yyyy-MM-dd HH:mm:ss')}"`);
+      csv += values.join(',') + '\n';
+    });
+    let data: Blob = new Blob([csv], {
+      type: "text/csv;charset=utf-8"
+    });
+    saveAs(data, `${this.date.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')}-${this.cmsTranslate.transform(this.table.name)}.csv`);
   }
 
 }

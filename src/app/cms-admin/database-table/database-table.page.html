@@ -13,6 +13,8 @@
             <ng-container *ngIf="!selectMode">
                 <ion-button fill="outline" shape="round" color="primary" (click)="onSelectModeClick($event)">{{ '_SELECT' | translate }}</ion-button>
                 <ion-button fill="outline" shape="round" color="success" routerLink="new">{{ '_ADD' | translate }}</ion-button>
+                <ion-button *ngIf="list && form" fill="outline" shape="round" color="success" (click)="export(list)">{{ '_EXPORT' | translate }}</ion-button>
+
             </ng-container>
             <ng-container *ngIf="selectMode">
                 <ion-button fill="outline" shape="round" color="primary" (click)="onCancelSelectModeClick($event)">{{ '_CANCEL' | translate }}</ion-button>
