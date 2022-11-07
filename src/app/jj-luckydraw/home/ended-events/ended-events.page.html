@@ -26,7 +26,7 @@
                 <h3>{{ event.name }}</h3>
                 <p>
                   {{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;
-                  {{ event.drawingResult.drewAt | date: "MM/dd/yy, h:mm a" }}
+                  {{ (event.drawingResult?.drewAt | date: "MM/dd/yy, h:mm a") || '-' }}
                 </p>
               </ion-label>
             </ion-item>

@@ -152,6 +152,20 @@ export class JJLuckydrawService {
   }
 
   /**
+   * Get last ended events
+   * @returns Returns last ended events
+   */
+  async getLastDrewEvent() {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
+      itemsPerPage: 1,
+      currentPage: 1,
+      lastDrew: true,
+      withSummary: true,
+    });
+    return res.result[0];
+  }
+
+  /**
    * Get ended events
    * @param pagination Pagination object
    * @returns Returns ended events with pagination
@@ -168,6 +182,21 @@ export class JJLuckydrawService {
   }
 
   /**
+   * Get active merchant events
+   * @returns Returns active merchant events
+   */
+  async getActiveMerchantEvent() {
+    let res = await this.erp.getDocs<JJEvent>('Event', {
+      sortBy: 'startAt',
+      sortType: 'desc',
+      status: 'ACTIVE',
+      status_type: '=',
+      fromMerchant: true
+    });
+    return res.result.map(event => this.populateEvent(event));
+  }
+
+  /**
    * Get ended events
    * @param pagination Pagination object
    * @returns Returns ended events with pagination
@@ -181,6 +210,7 @@ export class JJLuckydrawService {
       sortBy: 'startAt',
       sortType: 'desc',
       withSummary: true,
+      withoutResult: true
     });
     return res.result;
   }
@@ -526,6 +556,12 @@ export class JJLuckydrawService {
    * @returns Returns ticket distribution object with populated properties
    */
   private populateTicketDistribution(distribution: JJTicketDistribution) {
+    if (distribution.product) {
+      distribution.product = this.populateProduct(distribution.product);
+    }
+    if (distribution.event) {
+      distribution.event = this.populateEvent(distribution.event);
+    }
     return distribution;
   }
 
@@ -548,6 +584,16 @@ export class JJLuckydrawService {
   private populateProduct(product: JJProduct) {
     product.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(product.translate?.name, product.name);
     return product;
+  }
+
+  /**
+   * Populate event to map Gogo CMS usage
+   * @param event Event object
+   * @returns Returns event object with populated properties
+   */
+  private populateEvent(event: JJEvent) {
+    event.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(event.translate?.name, event.name);
+    return event;
   }
 }
 

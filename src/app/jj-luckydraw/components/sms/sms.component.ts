@@ -42,11 +42,11 @@ export class SmsComponent implements OnInit {
     switch (this.template) {
       case SmsTemplateCode.CUSTOMER_NEW_PASSWORD:
         // prettier-ignore
-        this.body = `Thank you for your registration to LUCKY-DRAW. Please login to our website ${this.getPathUrl('jj-luckydraw/sign-in')} using given login detail -> Username: ${this.value.phone} Password: ${this.value.password}`;
+        this.body = `Thank you for your registration to LUCKY-DRAW.%0APlease login to our website %0A${this.getPathUrl('jj-luckydraw/sign-in')} using given login detail -> %0A%0AUsername: ${this.value.phone} %0APassword: ${this.value.password}`;
         break;
       case SmsTemplateCode.CUSTOMER_RESET_PASSWORD:
         // prettier-ignore
-        this.body = `We have received your reset password request. Please login to our website ${this.getPathUrl('jj-luckydraw/sign-in')} using given login detail -> Username: ${this.value.phone} Password: ${this.value.password}`;
+        this.body = `We have received your reset password request.%0APlease login to our website %0A${this.getPathUrl('jj-luckydraw/sign-in')} using given login detail -> %0A%0AUsername: ${this.value.phone} %0APassword: ${this.value.password}`;
         break;
     }
   }

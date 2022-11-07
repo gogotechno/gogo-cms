@@ -215,7 +215,8 @@
     "_CUSTOMER_UPDATED": "Customer updated",
     "_NO_CUSTOMERS_FOUND": "No customer found",
     "_SEND_PASSWORD": "Send Password",
-    "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "Please use phone number login as customer"
+    "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "Please use phone number login as customer",
+    "_PRODUCT": "Product"
   },
   "giver-form": {
     "_REGISTER_ALREADY": "Already register? Check now!",

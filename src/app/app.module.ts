@@ -49,7 +49,9 @@ import { BehaviorSubject } from 'rxjs';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+    scrollAssist: false,
+    scrollPadding: false }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,

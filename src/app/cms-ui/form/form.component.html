@@ -6,7 +6,8 @@
 
                     <ng-container *ngSwitchCase="'array'">
                         <ion-list-header>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
-                                <sup>*</sup></ion-text>
+                                <sup>*</sup>
+                            </ion-text>
                         </ion-list-header>
                         <cms-array-input [data-type]="item.dataType" [collection-path]="collectionPath"
                             [formControlName]="item.code"></cms-array-input>
@@ -14,7 +15,8 @@
 
                     <ng-container *ngSwitchCase="'cms-translate-editor'">
                         <ion-list-header>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
-                                <sup>*</sup></ion-text>
+                                <sup>*</sup>
+                            </ion-text>
                         </ion-list-header>
                         <cms-translation-editor-input [collection-path]="collectionPath" [formControlName]="item.code">
                         </cms-translation-editor-input>
@@ -24,15 +26,17 @@
                         <ion-item>
                             <ion-checkbox slot="start" [formControlName]="item.code"></ion-checkbox>
                             <ion-label>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
-                                    <sup>*</sup></ion-text>
+                                    <sup>*</sup>
+                                </ion-text>
                             </ion-label>
                         </ion-item>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'select'">
                         <ion-item>
-                            <ion-label>{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
-                                    <sup>*</sup></ion-text>
+                            <ion-label [position]="form.labelPosition || 'fixed'">{{ item.label | cmsTranslate }} <ion-text color="danger" *ngIf="item.required">
+                                    <sup>*</sup>
+                                </ion-text>
                             </ion-label>
                             <ion-select slot="end" [formControlName]="item.code"
                                 [placeholder]="item.placeholder | cmsTranslate">
@@ -48,11 +52,14 @@
                             <ion-label position="stacked">{{ item.label | cmsTranslate }} <ion-text color="danger"
                                     *ngIf="item.required"><sup>*</sup></ion-text>
                             </ion-label>
-                            <ion-radio-group style="display: inline-flex;"[formControlName]="item.code">
+                            <ion-radio-group style="display: inline-flex;" [formControlName]="item.code">
                                 <ion-item *ngFor="let option of item.options">
                                     <div>
-                                        <ion-radio style="display: inline-flex; vertical-align: middle; margin-right: 1rem;"  [value]="option.code" mode="md"></ion-radio>
-                                        <ion-label style="display: inline-flex; vertical-align: middle;">{{ option.label | cmsTranslate }}</ion-label>
+                                        <ion-radio
+                                            style="display: inline-flex; vertical-align: middle; margin-right: 1rem;"
+                                            [value]="option.code" mode="md"></ion-radio>
+                                        <ion-label style="display: inline-flex; vertical-align: middle;">{{ option.label
+                                            | cmsTranslate }}</ion-label>
                                     </div>
                                 </ion-item>
                             </ion-radio-group>
