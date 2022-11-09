@@ -4,4 +4,8 @@
 
 ion-item.stacked-select {
   --min-height: 68px;
+
+  ion-label {
+    align-self: baseline;
+  }
 }
