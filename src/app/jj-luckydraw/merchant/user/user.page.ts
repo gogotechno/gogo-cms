@@ -41,7 +41,7 @@ export class UserPage implements OnInit {
     private popoverCtrl: PopoverController,
     private utils: CmsUtils,
     private app: AppUtils,
-    private lucky: JJLuckydrawService
+    private lucky: JJLuckydrawService,
   ) {}
 
   async ngOnInit() {
@@ -209,7 +209,6 @@ const form: CmsForm = {
         en: 'Role',
         zh: '角色',
       },
-      labelPosition: 'stacked',
       type: 'select',
       required: true,
     },
@@ -219,7 +218,6 @@ const form: CmsForm = {
         en: 'First Name',
         zh: '名字',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -229,7 +227,6 @@ const form: CmsForm = {
         en: 'Last Name',
         zh: '姓氏',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -239,7 +236,6 @@ const form: CmsForm = {
         en: 'Email',
         zh: '电子邮件',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },

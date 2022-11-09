@@ -4,7 +4,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HiddenPhoneNumberPipe, SafeHtmlPipe } from './cms.pipe';
+import {
+  CmsTranslatePipe,
+  CssUrlPipe,
+  FirestoreDatePipe,
+  FullNamePipe,
+  HiddenPhoneNumberPipe,
+  SafeHtmlPipe,
+} from './cms.pipe';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent } from './accordion/accordion.component';
 import { FormComponent } from './form/form.component';
@@ -19,16 +26,19 @@ import { HtmlViewerComponent } from './html-viewer/html-viewer.component';
 import { FilterComponent } from './filter/filter.component';
 import { SearchableSelectComponent } from './searchable-select/searchable-select.component';
 import { SearchAreaComponent } from './searchable-select/search-area/search-area.component';
+import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
+import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 
 const components = [
   ArrayInputComponent,
   TranslationInputComponent,
   TranslationEditorInputComponent,
   FileInputComponent,
-  SearchAreaComponent
+  SearchAreaComponent,
+  ScannerComponent
 ]
 
-const exported_components = [
+const componentsToBeExported = [
   SlideshowComponent,
   NavigationComponent,
   AccordionComponent,
@@ -36,7 +46,8 @@ const exported_components = [
   ImageButtonComponent,
   HtmlViewerComponent,
   FilterComponent,
-  SearchableSelectComponent
+  SearchableSelectComponent,
+  BarcodeScannerComponent
 ]
 
 const pipes = [
@@ -51,7 +62,7 @@ const pipes = [
 @NgModule({
   declarations: [
     ...components,
-    ...exported_components,
+    ...componentsToBeExported,
     ...pipes
   ],
   imports: [
@@ -64,7 +75,7 @@ const pipes = [
     QuillModule
   ],
   exports: [
-    ...exported_components,
+    ...componentsToBeExported,
     ...pipes
   ],
   providers: [

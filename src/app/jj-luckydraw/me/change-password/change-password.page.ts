@@ -11,14 +11,13 @@ import { JJUser } from '../../jj-luckydraw.type';
   styleUrls: ['./change-password.page.scss'],
 })
 export class ChangePasswordPage implements OnInit {
-
   @ViewChild(FormComponent) cmsForm: FormComponent;
 
   loaded: boolean;
 
   form: CmsForm;
 
-  constructor(private app: AppUtils, private auth: AuthService) { }
+  constructor(private app: AppUtils, private auth: AuthService) {}
 
   ngOnInit() {
     this.loaded = false;
@@ -32,50 +31,46 @@ export class ChangePasswordPage implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_CHANGE_PASSWORD");
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CHANGE_PASSWORD');
     if (confirm) {
       await this.auth.updateMyPassword(user.old_password, user.new_password);
-      await this.app.presentAlert("jj-luckydraw._PASSWORD_UPDATED", "_SUCCESS");
+      await this.app.presentAlert('jj-luckydraw._PASSWORD_UPDATED', '_SUCCESS');
     }
   }
-
 }
 
 const form: CmsForm = {
-  code: "change-password",
-  submitButtonText: "_UPDATE",
+  code: 'change-password',
+  submitButtonText: '_UPDATE',
   labelPosition: 'stacked',
   items: [
     {
-      code: "old_password",
+      code: 'old_password',
       label: {
-        en: "Old Password",
-        zh: "旧密码"
+        en: 'Old Password',
+        zh: '旧密码',
       },
-      labelPosition: "stacked",
-      type: "password",
-      required: true
-    },
-    {
-      code: "new_password",
-      label: {
-        en: "New Password",
-        zh: "新密码"
-      },
-      labelPosition: "stacked",
-      type: "password",
-      required: true
-    },
-    {
-      code: "confirm_password",
-      label: {
-        en: "Confirm Password",
-        zh: "确认密码"
-      },
-      labelPosition: "stacked",
-      type: "password",
+      type: 'password',
       required: true,
-      matchWith: ["new_password"]
-    }
-  ]
-}
+    },
+    {
+      code: 'new_password',
+      label: {
+        en: 'New Password',
+        zh: '新密码',
+      },
+      type: 'password',
+      required: true,
+    },
+    {
+      code: 'confirm_password',
+      label: {
+        en: 'Confirm Password',
+        zh: '确认密码',
+      },
+      type: 'password',
+      required: true,
+      matchWith: ['new_password'],
+    },
+  ],
+};

@@ -18,7 +18,6 @@ import { CmsTranslatePipe } from '../cms.pipe';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent extends CmsComponent implements OnInit {
-
   @Input('form') form: CmsForm;
   @Input('value') value: { [key: string]: any };
   @Input('collection-path') collectionPath: string;
@@ -56,8 +55,12 @@ export class FormComponent extends CmsComponent implements OnInit {
     let controls = {};
     for (let item of this.form.items) {
       switch (item.type) {
-        case "datetime":
-          controls[item.code] = [this.value ? this.datePipe.transform((<Timestamp>this.value[item.code]).toDate(), "YYYY-MM-ddTHH:mm") : null];
+        case 'datetime':
+          controls[item.code] = [
+            this.value
+              ? this.datePipe.transform((<Timestamp>this.value[item.code]).toDate(), 'YYYY-MM-ddTHH:mm')
+              : null,
+          ];
           break;
 
         default:
@@ -94,7 +97,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       if (item.inputMask) {
         this._maskedItems.push(item);
       }
-      
+
       if (item.matchWith?.length > 0) {
         this.matchingFields[item.code] = item.matchWith;
       }
@@ -112,13 +115,13 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
-  
-    this._maskedItems.forEach(item => {
+
+    this._maskedItems.forEach((item) => {
       let control = this.formGroup.get(item.code);
-      this.mask.prefix = item.inputPrefix || "";
+      this.mask.prefix = item.inputPrefix || '';
       control.setValue(this.mask.applyMask(control.value, item.inputMask), { emitEvent: false });
-      control.valueChanges.subscribe(v => {
-        this.mask.prefix = item.inputPrefix || "";
+      control.valueChanges.subscribe((v) => {
+        this.mask.prefix = item.inputPrefix || '';
         control.setValue(this.mask.applyMask(v, item.inputMask), { emitEvent: false });
       });
     });
@@ -127,7 +130,7 @@ export class FormComponent extends CmsComponent implements OnInit {
   onSubmit(event?: Event) {
     let data = this.formGroup.value;
 
-    let datetimeItems = this.form.items.filter((item) => item.type == "datetime");
+    let datetimeItems = this.form.items.filter((item) => item.type == 'datetime');
     for (let item of datetimeItems) {
       data[item.code] = new Date(data[item.code]);
     }
@@ -165,34 +168,34 @@ export class FormComponent extends CmsComponent implements OnInit {
           let messageKey: string;
           let messageParams = { label: label };
           switch (errorKey) {
-            case "required":
-              messageKey = "_IS_REQUIRED";
+            case 'required':
+              messageKey = '_IS_REQUIRED';
               break;
-            case "min":
-              messageKey = "_REQUIRES_MINIMUM";
-              messageParams["min"] = error.min;
+            case 'min':
+              messageKey = '_REQUIRES_MINIMUM';
+              messageParams['min'] = error.min;
               break;
-            case "max":
-              messageKey = "_REQUIRES_MAXIMUM";
-              messageParams["max"] = error.min;
+            case 'max':
+              messageKey = '_REQUIRES_MAXIMUM';
+              messageParams['max'] = error.min;
               break;
-            case "minlength":
-              messageKey = "_REQUIRES_MINIMUM_LENGTH";
-              messageParams["minLength"] = error.requiredLength;
+            case 'minlength':
+              messageKey = '_REQUIRES_MINIMUM_LENGTH';
+              messageParams['minLength'] = error.requiredLength;
               break;
-            case "maxlength":
-              messageKey = "_REQUIRES_MAXIMUM_LENGTH";
-              messageParams["maxLength"] = error.requiredLength;
+            case 'maxlength':
+              messageKey = '_REQUIRES_MAXIMUM_LENGTH';
+              messageParams['maxLength'] = error.requiredLength;
               break;
-            case "notMatching":
-              messageKey = "_REQUIRES_MATCH_WITH";
-              messageParams["matchingFields"] = this.form.items
+            case 'notMatching':
+              messageKey = '_REQUIRES_MATCH_WITH';
+              messageParams['matchingFields'] = this.form.items
                 .filter((i) => error.fields.includes(i.code))
                 .map((f) => this.cmsTranslate.transform(f.label))
-                .join(", ");
+                .join(', ');
               break;
             default:
-              messageKey = "_HAS_UNKNOWN_ERROR"
+              messageKey = '_HAS_UNKNOWN_ERROR';
               break;
           }
           let message = await this.translate.get(messageKey, messageParams).toPromise();
@@ -206,13 +209,13 @@ export class FormComponent extends CmsComponent implements OnInit {
   async validateFormAndShowErrorMessages() {
     let validation = await this.validateForm();
     if (!validation.valid) {
-      let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + "</p>").join("");
-      this.app.presentAlert(messages, "_ERROR");
+      let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + '</p>').join('');
+      this.app.presentAlert(messages, '_ERROR');
     }
     return validation;
   }
 
-  removeUnusedKeys<T>(from: "swserp", source: T, keys?: string[]) {
+  removeUnusedKeys<T>(from: 'swserp', source: T, keys?: string[]) {
     let cloned = _.cloneDeep(source);
     if (keys?.length > 0) {
       for (let key of keys) {
@@ -220,11 +223,11 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
     } else {
       switch (from) {
-        case "swserp":
-          delete cloned["createdAt"];
-          delete cloned["createdBy"];
-          delete cloned["updatedAt"];
-          delete cloned["updatedBy"];
+        case 'swserp':
+          delete cloned['createdAt'];
+          delete cloned['createdBy'];
+          delete cloned['updatedAt'];
+          delete cloned['updatedBy'];
           break;
         default:
           break;
@@ -260,12 +263,11 @@ export class FormComponent extends CmsComponent implements OnInit {
   markAsNonSubmitable() {
     this.cannotSubmit = true;
   }
-
 }
 
 interface MatchingConfig {
-  [key: string]: string[]
-};
+  [key: string]: string[];
+}
 
 class NeedMatching {
   private _CONTROL: AbstractControl;
@@ -283,7 +285,6 @@ class NeedMatching {
 }
 
 class CustomValidators {
-
   static MatchValidator(config: MatchingConfig): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       for (let key of Object.keys(config)) {
@@ -296,8 +297,8 @@ class CustomValidators {
         } else {
           if (matchingFrom.errors) {
             let keys = Object.keys(matchingFrom.errors);
-            if (keys.length > 0 && keys.includes("notMatching")) {
-              delete matchingFrom.errors["notMatching"];
+            if (keys.length > 0 && keys.includes('notMatching')) {
+              delete matchingFrom.errors['notMatching'];
               if (keys.length == 1) {
                 matchingFrom.setErrors(null);
               }
@@ -308,5 +309,4 @@ class CustomValidators {
       return null;
     };
   }
-
 }

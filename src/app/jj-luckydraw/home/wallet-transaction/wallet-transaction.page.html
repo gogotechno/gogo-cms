@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/home/wallet/transactions"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-list class="list-section list-section-clear">
+            <ion-card class="ion-no-margin shadow-none">
+              <ion-card-header class="ion-no-padding-vertical">
+                <ion-grid class="grid-summary">
+                  <ion-row>
+                    <ion-col size="auto">
+                      <ion-icon *ngIf="transaction.amount > 0" name="add-outline"></ion-icon>
+                      <ion-icon *ngIf="transaction.amount < 0" name="remove-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col>
+                      <ion-card-subtitle>{{ "jj-luckydraw._AMOUNT" | translate }}</ion-card-subtitle>
+                      <ion-card-title>{{ transaction.amount }}</ion-card-title>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-header>
+            </ion-card>
+          </ion-list>
+          <ion-list class="list-section list-section-clear">
+            <ion-card class="ion-no-margin shadow-none">
+              <ion-card-header class="ion-no-padding-vertical">
+                <ion-grid class="grid-summary">
+                  <ion-row>
+                    <ion-col size="auto">
+                      <ion-icon name="receipt-outline"></ion-icon>
+                    </ion-col>
+                    <ion-col>
+                      <ion-card-subtitle>{{ "jj-luckydraw._REFERENCE_NO" | translate }}</ion-card-subtitle>
+                      <ion-card-title>{{ transaction.refNo }}</ion-card-title>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-card-header>
+            </ion-card>
+          </ion-list>
+          <ion-list class="list-section" lines="none">
+            <ion-list-header>{{ "jj-luckydraw._DETAILS" | translate }}</ion-list-header>
+            <ion-item>
+              <ion-label>
+                <p>{{ "jj-luckydraw._DESCRIPTION" | translate }}</p>
+                <h3>{{ transaction.description }}</h3>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngIf="transaction.reference1">
+              <ion-label>
+                <p>{{ "jj-luckydraw._REFERENCE_1" | translate }}</p>
+                <h3>{{ transaction.reference1 }}</h3>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngIf="transaction.reference2">
+              <ion-label>
+                <p>{{ "jj-luckydraw._REFERENCE_2" | translate }}</p>
+                <h3>{{ transaction.reference2 }}</h3>
+              </ion-label>
+            </ion-item>
+            <ion-item *ngIf="transaction.reference3">
+              <ion-label>
+                <p>{{ "jj-luckydraw._REFERENCE_3" | translate }}</p>
+                <h3>{{ transaction.reference3 }}</h3>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

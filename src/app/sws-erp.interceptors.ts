@@ -83,27 +83,27 @@ export class SwsErpInterceptor implements HttpInterceptor {
   }
 
   private isAccessTokenExpiredError(err: any) {
-    return err instanceof HttpErrorResponse && err.status == 401 && err.error.message.startsWith('Token Expired');
+    return err instanceof HttpErrorResponse && err.status == 401 && err.error?.message?.startsWith('Token Expired');
   }
 
   private isRefreshTokenExpiredError(err: any) {
-    return err instanceof HttpErrorResponse && err.status == 500 && err.error.error.startsWith('jwt expired');
+    return err instanceof HttpErrorResponse && err.status == 500 && err.error?.error?.startsWith('jwt expired');
   }
 
   private isWrongAuthTokenError(err: any) {
     return (
       err instanceof HttpErrorResponse &&
       err.status == 401 &&
-      err.error.message.startsWith('Wrong authentication token')
+      err.error?.message?.startsWith('Wrong authentication token')
     );
   }
 
   private isUserNotFoundError(err: any) {
     let isUserNotFoundMessage: boolean = false;
-    if (err.error.error) {
+    if (err.error?.error) {
       isUserNotFoundMessage = err.error.error.startsWith('User not found');
     }
-    if (err.error.message) {
+    if (err.error?.message) {
       isUserNotFoundMessage = err.error.message.startsWith('User not found');
     }
     return err instanceof HttpErrorResponse && err.status == 409 && isUserNotFoundMessage;

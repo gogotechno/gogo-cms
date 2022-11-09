@@ -1,0 +1,32 @@
+<ng-container *ngIf="loaded">
+  <ion-card class="ion-margin-vertical-sm">
+    <ion-card-header>
+      <ion-card-subtitle>{{ 'jj-luckydraw._BALANCE' | translate }}</ion-card-subtitle>
+      <ion-card-title>
+        <span>{{ 'RM' | translate }}</span>
+        <span>{{ wallet?.walletBalance || 0 | number: '1.2-2' }}</span>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col *ngIf="role == UserType.MERCHANT">
+            <ion-button expand="block" routerLink="wallet/capture">
+              <ion-icon name="scan" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col *ngIf="role == UserType.CUSTOMER">
+            <ion-button expand="block" routerLink="wallet/qr">
+              <ion-icon name="qr-code" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" routerLink="wallet/transactions">
+              <ion-icon name="list" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ng-container>

@@ -21,12 +21,12 @@
                 {{ "jj-luckydraw._NO_EVENTS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let event of events" [routerLink]="['event-details', event.doc_id]">
+            <ion-item *ngFor="let event of events" [routerLink]="[event.doc_id]">
               <ion-label>
                 <h3>{{ event.name }}</h3>
                 <p>
-                  {{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;
-                  {{ (event.drawingResult?.drewAt | date: "MM/dd/yy, h:mm a") || '-' }}
+                  <span>{{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;</span>
+                  <span>{{ (event.drawingResult?.drewAt | date: "MM/dd/yy, h:mm a") || '-' }}</span>
                 </p>
               </ion-label>
             </ion-item>

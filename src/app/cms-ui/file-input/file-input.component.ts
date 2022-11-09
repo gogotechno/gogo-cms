@@ -9,20 +9,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => FileInputComponent),
-      multi: true
-    }
+      multi: true,
+    },
   ],
 })
 export class FileInputComponent implements OnInit, ControlValueAccessor {
-
   value: string;
   disabled = false;
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   writeValue(obj: any): void {
     this.value = obj;

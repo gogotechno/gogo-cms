@@ -1,0 +1,12 @@
+<ion-item>
+  <ion-label [id]="id" [position]="labelPosition">
+    <span>{{ formItem.label | cmsTranslate }}</span>
+    <ion-text color="danger" *ngIf="formItem.required">
+      <sup>*</sup>
+    </ion-text>
+  </ion-label>
+  <ion-input [readonly]="true" [value]="value" [placeholder]="formItem.placeholder | cmsTranslate"></ion-input>
+  <ion-button slot="end" (click)="openScanner()">
+    <ion-icon name="scan-outline" slot="icon-only"></ion-icon>
+  </ion-button>
+</ion-item>

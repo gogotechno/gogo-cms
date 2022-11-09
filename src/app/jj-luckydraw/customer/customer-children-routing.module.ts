@@ -6,7 +6,7 @@ const routes: Routes = [
     path: 'ticket-history',
     children: [
       {
-        path: 'ticket-detail/:id',
+        path: ':id',
         loadChildren: () => import('./ticket-detail/ticket-detail.module').then(m => m.TicketDetailPageModule)
       }
     ]
@@ -15,7 +15,7 @@ const routes: Routes = [
     path: 'rewards',
     children: [
       {
-        path: 'reward/:id',
+        path: ':id',
         loadChildren: () => import('./reward/reward.module').then(m => m.RewardPageModule)
       }
     ]

@@ -12,7 +12,6 @@ import { JJUser, JJMerchant, UserRole } from '../../jj-luckydraw.type';
   styleUrls: ['./create-user.page.scss'],
 })
 export class CreateUserPage implements OnInit {
-
   @ViewChild(FormComponent) cmsForm: FormComponent;
 
   loaded: boolean;
@@ -24,7 +23,12 @@ export class CreateUserPage implements OnInit {
 
   success: boolean;
 
-  constructor(private utils: CmsUtils, private app: AppUtils, private lucky: JJLuckydrawService, private modalCtrl: ModalController) { }
+  constructor(
+    private utils: CmsUtils,
+    private app: AppUtils,
+    private lucky: JJLuckydrawService,
+    private modalCtrl: ModalController,
+  ) {}
 
   async ngOnInit() {
     this.loaded = false;
@@ -37,25 +41,25 @@ export class CreateUserPage implements OnInit {
 
   async initForm() {
     let roles = await this.lucky.getUserRolesByMerchant();
-    let roleField = this.form.items.find((item) => item.code == "role");
+    let roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles.map((role) => {
       let item: CmsFormItemOption = {
         code: role.code,
-        label: this.utils.transformJSONStringtoCMSTranslation(role.name)
-      }
+        label: this.utils.transformJSONStringtoCMSTranslation(role.name),
+      };
       return item;
-    })
+    });
   }
 
   initValue() {
     this.value = {
       merchant_id: this.merchant.doc_id,
       role: UserRole.MERCHANT_ADMIN,
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: ""
-    }
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    };
   }
 
   async onCreateUser(user: JJUser) {
@@ -64,10 +68,10 @@ export class CreateUserPage implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_CREATE_USER");
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CREATE_USER');
     if (confirm) {
-      await this.lucky.createUser(this.cmsForm.removeUnusedKeys("swserp", user));
-      await this.app.presentAlert("jj-luckydraw._USER_CREATED", "_SUCCESS");
+      await this.lucky.createUser(this.cmsForm.removeUnusedKeys('swserp', user));
+      await this.app.presentAlert('jj-luckydraw._USER_CREATED', '_SUCCESS');
       this.cmsForm.resetForm();
       this.success = true;
       this.onDismiss();
@@ -77,72 +81,66 @@ export class CreateUserPage implements OnInit {
   async onDismiss() {
     await this.modalCtrl.dismiss({ success: this.success });
   }
-
 }
 
 const form: CmsForm = {
-  code: "create-user",
-  submitButtonText: "_CREATE",
+  code: 'create-user',
+  submitButtonText: '_CREATE',
   items: [
     {
-      code: "merchant_id",
+      code: 'merchant_id',
       label: {
-        en: "Merchant",
-        zh: "商家"
+        en: 'Merchant',
+        zh: '商家',
       },
-      type: "number",
+      type: 'number',
       required: true,
-      hidden: true
+      hidden: true,
     },
     {
-      code: "role",
+      code: 'role',
       label: {
-        en: "Role",
-        zh: "角色"
+        en: 'Role',
+        zh: '角色',
       },
-      labelPosition: "stacked",
-      type: "select",
-      required: true
+      type: 'select',
+      required: true,
     },
     {
-      code: "firstName",
+      code: 'firstName',
       label: {
-        en: "First Name",
-        zh: "名字"
+        en: 'First Name',
+        zh: '名字',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      type: 'text',
+      required: true,
     },
     {
-      code: "lastName",
+      code: 'lastName',
       label: {
-        en: "Last Name",
-        zh: "姓氏"
+        en: 'Last Name',
+        zh: '姓氏',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      type: 'text',
+      required: true,
     },
     {
-      code: "email",
+      code: 'email',
       label: {
-        en: "Email",
-        zh: "电子邮件"
+        en: 'Email',
+        zh: '电子邮件',
       },
-      labelPosition: "stacked",
-      type: "text",
-      required: true
+      type: 'text',
+      required: true,
     },
     {
-      code: "password",
+      code: 'password',
       label: {
-        en: "Password",
-        zh: "密码"
+        en: 'Password',
+        zh: '密码',
       },
-      labelPosition: "stacked",
-      type: "password",
-      required: true
-    }
-  ]
-}
+      type: 'password',
+      required: true,
+    },
+  ],
+};

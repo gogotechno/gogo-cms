@@ -2,12 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
-import { CmsUtils, AppUtils } from 'src/app/cms.util';
+import { AppUtils } from 'src/app/cms.util';
 import { DocStatus } from 'src/app/sws-erp.type';
 import { AuthService } from '../../auth.service';
-import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
+import { SmsTemplateCode, SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJAppUserRole, JJCustomer, JJUserRole, UserRole } from '../../jj-luckydraw.type';
+import { JJCustomer, UserRole } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-customer',
@@ -41,7 +41,7 @@ export class CustomerPage implements OnInit {
     private route: ActivatedRoute,
     private app: AppUtils,
     private lucky: JJLuckydrawService,
-    private auth: AuthService
+    private auth: AuthService,
   ) {
     this.lucky.customerChange.subscribe((ev) => {
       if (ev?.beUpdated) {
@@ -65,7 +65,7 @@ export class CustomerPage implements OnInit {
     this.loaded = false;
     this.editing = false;
     this.customer = await this.lucky.getCustomerById(this.customerId);
-    this.form = this.role == UserRole.MERCHANT_ADMIN? formWithoutPhone: form;
+    this.form = this.role == UserRole.MERCHANT_ADMIN ? formWithoutPhone : form;
     await this.initForm();
     this.initValue();
     this.loaded = true;
@@ -156,9 +156,10 @@ export class CustomerPage implements OnInit {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
       const phone = `${this.customer.phone}`;
       await this.lucky.updateCustomer(this.customerId, { password: randomPassword });
-      this.smsComponent._body = { phone: phone, password: randomPassword };
       await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
-      this.disableForm();
+      await this.disableForm();
+      this.smsComponent.setReceiver(phone);
+      this.smsComponent.setData({ phone: phone, password: randomPassword });
       this.smsComponent.send();
     }
   }
@@ -174,7 +175,6 @@ const formWithoutPhone: CmsForm = {
         en: 'First Name',
         zh: '名字',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -184,10 +184,9 @@ const formWithoutPhone: CmsForm = {
         en: 'Last Name',
         zh: '姓氏',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
-    }
+    },
   ],
 };
 
@@ -201,7 +200,6 @@ const form: CmsForm = {
         en: 'First Name',
         zh: '名字',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -211,7 +209,6 @@ const form: CmsForm = {
         en: 'Last Name',
         zh: '姓氏',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -221,9 +218,8 @@ const form: CmsForm = {
         en: 'Phone Number',
         zh: '手机号码',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
-    }
+    },
   ],
 };

@@ -24,7 +24,7 @@
                 {{ "jj-luckydraw._NO_CUSTOMERS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let customer of customers" [routerLink]="['customer', customer.doc_id]">
+            <ion-item *ngFor="let customer of customers" [routerLink]="[customer.doc_id]">
               <ion-label>
                 <h3>{{ customer.firstName | fullName: customer.lastName }}</h3>
                 <h3 *ngIf="me?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hiddenPhoneNumber }}</h3>

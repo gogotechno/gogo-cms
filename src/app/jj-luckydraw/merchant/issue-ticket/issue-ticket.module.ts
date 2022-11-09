@@ -9,7 +9,7 @@ import { IssueTicketPageRoutingModule } from './issue-ticket-routing.module';
 import { IssueTicketPage } from './issue-ticket.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
-import { ComponentsModule } from '../../components/components.module';
+import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { ComponentsModule } from '../../components/components.module';
     TranslateModule,
     ReactiveFormsModule,
     CmsUIModule,
-    ComponentsModule
+    JJLuckydrawUiModule
   ],
   declarations: [IssueTicketPage]
 })

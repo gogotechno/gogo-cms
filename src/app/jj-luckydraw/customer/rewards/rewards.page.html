@@ -29,7 +29,7 @@
                 {{ "jj-luckydraw._NO_REWARDS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let reward of rewards" [routerLink]="['reward', reward.doc_id]">
+            <ion-item *ngFor="let reward of rewards" [routerLink]="[reward.doc_id]">
               <ion-label>
                 <p>{{ "jj-luckydraw._SERIAL_NO" | translate }}&nbsp;:&nbsp;{{ reward.ticket.serialNo }}</p>
                 <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.event.name | erpTranlate }}</p>

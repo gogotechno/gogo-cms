@@ -6,7 +6,7 @@ import { AppUtils } from '../cms.util';
 import { LocalStorageService } from '../local-storage.service';
 import { SwsErpService } from '../sws-erp.service';
 import { JJLuckydrawService } from './jj-luckydraw.service';
-import { COMPANY_CODE, JJAppUserRole, JJCustomer, JJUser } from './jj-luckydraw.type';
+import { COMPANY_CODE, UserType, JJCustomer, JJUser } from './jj-luckydraw.type';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ import { COMPANY_CODE, JJAppUserRole, JJCustomer, JJUser } from './jj-luckydraw.
 export class AuthService {
   private _AUTHENTICATED: boolean = false;
   private _CURRENT_USER: JJUser | JJCustomer;
-  private _USER_ROLE: JJAppUserRole;
+  private _USER_ROLE: UserType;
 
   get authenticated() {
     return this._AUTHENTICATED;
@@ -38,7 +38,7 @@ export class AuthService {
     private erp: SwsErpService,
     private lucky: JJLuckydrawService,
     private storage: LocalStorageService,
-    private router: Router
+    private router: Router,
   ) {
     this.authChange = new BehaviorSubject<AuthEvent>(null);
     this.erp.authStateChange.subscribe((ev) => {
@@ -95,7 +95,7 @@ export class AuthService {
     const customer = await this.erp.signInCustomer('Customer', email, password);
     await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, customer);
     this._CURRENT_USER = customer;
-    this._USER_ROLE = JJAppUserRole.CUSTOMER;
+    this._USER_ROLE = UserType.CUSTOMER;
 
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.erp.refreshToken);
@@ -144,22 +144,19 @@ export class AuthService {
       await this.erp.findMe(docUser.doc_id, true, true, true);
       await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
       await this.findMyLuckyUser();
-      this.authChange.next({
-        user: this._CURRENT_USER,
-        role: 'USER',
-      });
-      return this._CURRENT_USER;
     }
 
     if (customer) {
       await this.findMyLuckyCustomer();
       await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this._CURRENT_USER);
-      this.authChange.next({
-        user: this._CURRENT_USER,
-        role: 'CUSTOMER',
-      });
-      return this._CURRENT_USER;
     }
+
+    this.authChange.next({
+      user: this._CURRENT_USER,
+      role: this._USER_ROLE,
+    });
+
+    return this._CURRENT_USER;
   }
 
   /**
@@ -169,7 +166,7 @@ export class AuthService {
   async findMyLuckyUser() {
     this._CURRENT_USER = await this.lucky.getUserByDocUser(this.erp.docUser.doc_id);
     this._CURRENT_USER.docUser = this.erp.docUser;
-    this._USER_ROLE = JJAppUserRole.MERCHANT;
+    this._USER_ROLE = UserType.MERCHANT;
     return this._CURRENT_USER;
   }
 
@@ -179,11 +176,10 @@ export class AuthService {
    * @returns Returns update response from SWS ERP
    */
   updateMyProfile(user: Partial<JJUser | JJCustomer>) {
-    const role = this.authChange.value.role;
-    switch (role) {
-      case 'USER':
+    switch (this.userRole) {
+      case UserType.MERCHANT:
         return this.lucky.updateUser(this._CURRENT_USER.doc_id, user);
-      case 'CUSTOMER':
+      case UserType.CUSTOMER:
         return this.lucky.updateCustomer(this._CURRENT_USER.doc_id, user);
     }
   }
@@ -195,14 +191,13 @@ export class AuthService {
    * @returns Returns update response from SWS ERP
    */
   updateMyPassword(oldPassword: string, newPassword: string) {
-    const role = this.authChange.value.role;
-    switch (role) {
-      case 'USER':
+    switch (this.userRole) {
+      case UserType.MERCHANT:
         return this.updateMyProfile({
           old_password: oldPassword,
           new_password: newPassword,
         });
-      case 'CUSTOMER':
+      case UserType.CUSTOMER:
         return this.lucky.changePassword(this._CURRENT_USER.doc_id, {
           old_password: oldPassword,
           new_password: newPassword,
@@ -217,12 +212,12 @@ export class AuthService {
   async findMyLuckyCustomer() {
     const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
     this._CURRENT_USER = await this.lucky.getCustomerById(customer.doc_id);
-    this._USER_ROLE = JJAppUserRole.CUSTOMER;
+    this._USER_ROLE = UserType.CUSTOMER;
     return this._CURRENT_USER;
   }
 }
 
 interface AuthEvent {
   user: JJUser | JJCustomer;
-  role: 'USER' | 'CUSTOMER';
+  role: UserType;
 }

@@ -4,13 +4,27 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { SWS_ERP_COMPANY, GetOptions, Pageable, CreateResponse, UpdateResponse, FindUserResponse, GenerateAccessTokenResponse, GenerateRefreshTokenResponse, DocUser, AuthStateEvent, DocUserAccess, PostOptions, PutOptions, ChangePasswordDto } from './sws-erp.type';
+import {
+  SWS_ERP_COMPANY,
+  GetOptions,
+  Pageable,
+  CreateResponse,
+  UpdateResponse,
+  FindUserResponse,
+  GenerateAccessTokenResponse,
+  GenerateRefreshTokenResponse,
+  DocUser,
+  AuthStateEvent,
+  DocUserAccess,
+  PostOptions,
+  PutOptions,
+  ChangePasswordDto,
+} from './sws-erp.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SwsErpService {
-
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
 
   private API_URL: string;
@@ -40,14 +54,14 @@ export class SwsErpService {
 
   constructor(injector: Injector, private _http: HttpClient, private translate: TranslateService) {
     this.authStateChange = new BehaviorSubject<AuthStateEvent>(null);
-    this._LANGUAGE = this.translate.currentLang || this.translate.defaultLang || "en";
+    this._LANGUAGE = this.translate.currentLang || this.translate.defaultLang || 'en';
     this.translate.onLangChange.subscribe((ev) => {
       this._LANGUAGE = ev.lang;
-    })
+    });
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
     this.SWS_ERP_COMPANY_TOKEN.subscribe((companyCode) => {
       this.API_URL = `${environment.swsErp.apiUrl}/${companyCode}`;
-    })
+    });
   }
 
   /**
@@ -59,7 +73,10 @@ export class SwsErpService {
    */
   public getDoc<T = any>(docType: string, id: number, query: GetOptions = {}) {
     const requestUrl = `${this.API_URL}/module/${docType}/${id}`;
-    return this._http.get<T[]>(requestUrl, { params: query }).pipe(map((res) => res[0])).toPromise();
+    return this._http
+      .get<T[]>(requestUrl, { params: query })
+      .pipe(map((res) => res[0]))
+      .toPromise();
   }
 
   /**
@@ -105,7 +122,10 @@ export class SwsErpService {
    */
   public async findDocUser(id: number) {
     const requestUrl = `${this.API_URL}/users/${id}`;
-    return this._http.get<FindUserResponse>(requestUrl).pipe(map((res) => res.data)).toPromise();
+    return this._http
+      .get<FindUserResponse>(requestUrl)
+      .pipe(map((res) => res.data))
+      .toPromise();
   }
 
   /**
@@ -125,9 +145,9 @@ export class SwsErpService {
   }
 
   private async getUserAccesses(userId: number) {
-    let res = await this.getDocs<DocUserAccess>("Doc User Access", {
+    let res = await this.getDocs<DocUserAccess>('Doc User Access', {
       doc_user_id: this._DOC_USER.doc_id,
-      doc_user_id_type: "="
+      doc_user_id_type: '=',
     });
     return res.result;
   }
@@ -146,7 +166,7 @@ export class SwsErpService {
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
     this._DOC_USER = res.body.data;
     this.authStateChange.next({
-      status: "LOGGED_IN"
+      status: 'LOGGED_IN',
     });
     return res;
   }
@@ -157,14 +177,14 @@ export class SwsErpService {
    * @param password Customer's password
    * @returns Returns with refresh token, access token and customer's profile
    */
-   public async signInCustomer<T = any>(docType: string, email: string, password: string) {
+  public async signInCustomer<T = any>(docType: string, email: string, password: string) {
     const requestUrl = `${this.API_URL}/login/${docType}`;
     const requestBody = { email: email, password: password };
     let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
     this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
     this.authStateChange.next({
-      status: "LOGGED_IN"
+      status: 'LOGGED_IN',
     });
     return res.body.data;
   }
@@ -212,7 +232,7 @@ export class SwsErpService {
    * @returns Returns with updated id and extra data
    */
   public changePassword(userId: number, payload: ChangePasswordDto, userReference?: string) {
-    const requestUrl = `${this.API_URL}/users/password/${userId}` + (userReference ? `/${userReference}` : "");
+    const requestUrl = `${this.API_URL}/users/password/${userId}` + (userReference ? `/${userReference}` : '');
     return this._http.put<UpdateResponse>(requestUrl, payload).toPromise();
   }
 
@@ -221,7 +241,7 @@ export class SwsErpService {
    */
   public signOut() {
     let authState = this.authStateChange.getValue();
-    if (authState && authState.status == "LOGGED_OUT") {
+    if (authState && authState.status == 'LOGGED_OUT') {
       return;
     }
 
@@ -230,8 +250,7 @@ export class SwsErpService {
     this._DOC_USER = null;
 
     this.authStateChange.next({
-      status: "LOGGED_OUT"
+      status: 'LOGGED_OUT',
     });
   }
-
 }

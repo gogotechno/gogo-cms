@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { JJLuckydrawService } from './jj-luckydraw.service';
-import { JJAppUserRole } from './jj-luckydraw.type';
+import { UserType } from './jj-luckydraw.type';
 
 @Component({
   selector: 'app-jj-luckydraw',
@@ -9,15 +9,13 @@ import { JJAppUserRole } from './jj-luckydraw.type';
   styleUrls: ['./jj-luckydraw.page.scss'],
 })
 export class JJLuckydrawPage implements OnInit {
+  public role: UserType;
 
-  public role: JJAppUserRole;
-
-  constructor(private lucky: JJLuckydrawService, private auth: AuthService) { }
+  constructor(private lucky: JJLuckydrawService, private auth: AuthService) {}
 
   async ngOnInit() {
     await this.lucky.init();
     await this.auth.init();
     this.role = this.auth.userRole;
   }
-
 }

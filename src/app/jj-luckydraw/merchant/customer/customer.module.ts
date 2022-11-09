@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { FullNamePipe } from 'src/app/cms-ui/cms.pipe';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { ComponentsModule } from '../../components/components.module';
+import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { ComponentsModule } from '../../components/components.module';
     TranslateModule,
     CmsUIModule,
     SwsErpModule,
-    ComponentsModule
+    JJLuckydrawUiModule
   ],
   declarations: [CustomerPage],
   providers: [

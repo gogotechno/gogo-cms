@@ -1,12 +1,11 @@
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
-import { CmsForm, CmsFormItem, CmsFormItemOption } from 'src/app/cms.type';
+import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { SmsTemplateCode, SmsComponent } from '../../components/sms/sms.component';
+import { SmsTemplateCode, SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
 import { JJEvent, JJMerchant, JJProduct, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
@@ -32,7 +31,13 @@ export class IssueTicketPage implements OnInit {
 
   success: boolean;
 
-  constructor(private cmsTranslate: CmsTranslatePipe, private app: AppUtils, private lucky: JJLuckydrawService, private modalCtrl: ModalController, private translate: TranslateService) { }
+  constructor(
+    private cmsTranslate: CmsTranslatePipe,
+    private app: AppUtils,
+    private lucky: JJLuckydrawService,
+    private modalCtrl: ModalController,
+    private translate: TranslateService,
+  ) {}
 
   async ngOnInit() {
     this.loaded = false;
@@ -45,7 +50,6 @@ export class IssueTicketPage implements OnInit {
   }
 
   async initForm() {
-
     let products = await this.lucky.getProducts();
     let productField = this.form.items.find((item) => item.code == 'product_id');
     productField.options = products.map((product) => {
@@ -72,13 +76,16 @@ export class IssueTicketPage implements OnInit {
     this.value = {
       merchant_id: this.merchant?.doc_id,
       event_id: this.event?.doc_id.toString(),
+      customerContactNo: '',
       customerFirstName: '',
       customerLastName: '',
-      customerContactNo: '',
       billNo: '',
+      expense: 0,
+      paidAmount: 0,
+      paidPoint: 0,
+      product_id: null,
       ticketCount: 0,
       customer_id: 0,
-      expense: 0
     };
   }
 
@@ -88,20 +95,22 @@ export class IssueTicketPage implements OnInit {
       return;
     }
 
-    const ticketCount = await this.countTicket(application);
-    application.ticketCount = ticketCount;
-    if (!await this.validateForm(application)) return;
+    application.ticketCount = await this.countTicket(application);
+    let valid = await this.validateApplication(application);
+    if (!valid) {
+      return;
+    }
 
-    let confrmMsg = await this.translate.get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: ticketCount }).toPromise();
+    let confrmMsg = await this.translate
+      .get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: application.ticketCount })
+      .toPromise();
     let confirm = await this.app.presentConfirm(confrmMsg);
 
     if (confirm) {
       await this.assignCustomerId(application);
       await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys('swserp', application));
       await this.app.presentAlert('jj-luckydraw._TICKETS_ISSUED', '_SUCCESS');
-      if (this.smsComponent._body) {
-        this.smsComponent.send();
-      }
+      this.smsComponent.send();
       this.cmsForm.resetForm();
       this.success = true;
       this.onDismiss();
@@ -110,15 +119,20 @@ export class IssueTicketPage implements OnInit {
 
   async countTicket(application: JJTicketDistributionApplication) {
     this.event = await this.lucky.getEventById(Number(application.event_id));
-    const minSpend = this.event.minSpend || application.expense;
+    let minSpend = this.event.minSpend || application.expense;
     return Math.floor(application.expense / minSpend) || 0;
   }
 
-  async validateForm(application: JJTicketDistributionApplication) {
+  async validateApplication(application: JJTicketDistributionApplication) {
     if (application.ticketCount == 0) {
-      const expenseField = this.form.items.find((item) => item.code == 'expense');
-      let message = await this.translate.get("_REQUIRES_MINIMUM", { min: this.event.minSpend || '1', label: this.cmsTranslate.transform(expenseField.label) }).toPromise();
-      this.app.presentAlert("<p class='ion-no-margin'>" + message + "</p>", "_ERROR");
+      let expenseField = this.form.items.find((item) => item.code == 'expense');
+      let message = await this.translate
+        .get('_REQUIRES_MINIMUM', {
+          min: this.event.minSpend || '1',
+          label: this.cmsTranslate.transform(expenseField.label),
+        })
+        .toPromise();
+      this.app.presentAlert("<p class='ion-no-margin'>" + message + '</p>', '_ERROR');
       return false;
     }
     return true;
@@ -135,13 +149,9 @@ export class IssueTicketPage implements OnInit {
         phone: application.customerContactNo,
         password: randomPassword,
       });
-
+      this.smsComponent.setReceiver(phone);
+      this.smsComponent.setData({ phone: phone, password: randomPassword });
       application.customer_id = response.doc_id;
-
-      this.smsComponent._body = {
-        phone: phone,
-        password: randomPassword,
-      };
     } else {
       application.customer_id = customer.doc_id;
     }
@@ -150,7 +160,6 @@ export class IssueTicketPage implements OnInit {
   async onDismiss() {
     await this.modalCtrl.dismiss({ success: this.success });
   }
-
 }
 
 const form: CmsForm = {
@@ -176,27 +185,6 @@ const form: CmsForm = {
       },
       type: 'select',
       required: true,
-      // hidden: true,
-    },
-    {
-      code: 'customerFirstName',
-      label: {
-        en: 'Customer First Name',
-        zh: '客户名字',
-      },
-      labelPosition: 'stacked',
-      type: 'text',
-      // required: true,
-    },
-    {
-      code: 'customerLastName',
-      label: {
-        en: 'Customer Last Name',
-        zh: '客户姓氏',
-      },
-      labelPosition: 'stacked',
-      type: 'text',
-      // required: true,
     },
     {
       code: 'customerContactNo',
@@ -204,9 +192,24 @@ const form: CmsForm = {
         en: 'Customer Contact No',
         zh: '客户联络号码',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
+    },
+    {
+      code: 'customerFirstName',
+      label: {
+        en: 'Customer First Name',
+        zh: '客户名字',
+      },
+      type: 'text',
+    },
+    {
+      code: 'customerLastName',
+      label: {
+        en: 'Customer Last Name',
+        zh: '客户姓氏',
+      },
+      type: 'text',
     },
     {
       code: 'billNo',
@@ -214,7 +217,6 @@ const form: CmsForm = {
         en: 'Bill No',
         zh: '账单编号',
       },
-      labelPosition: 'stacked',
       type: 'text',
       required: true,
     },
@@ -224,18 +226,32 @@ const form: CmsForm = {
         en: 'Expenses Amount (RM)',
         zh: '消费合计 (RM)',
       },
-      labelPosition: 'stacked',
       type: 'number',
-      required: true
+      required: true,
     },
+    // {
+    //   code: 'paidAmount',
+    //   label: {
+    //     en: 'Paid Amount (RM)',
+    //     zh: '已付金额 (RM)',
+    //   },
+    //   type: 'number',
+    // },
+    // {
+    //   code: 'paidPoint',
+    //   label: {
+    //     en: 'Paid Point (P)',
+    //     zh: '已付点数 (分)',
+    //   },
+    //   type: 'number',
+    // },
     {
       code: 'product_id',
       label: {
         en: 'Product',
         zh: '产品',
       },
-      labelPosition: 'stacked',
-      type: 'select'
-    }
+      type: 'select',
+    },
   ],
 };

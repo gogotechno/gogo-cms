@@ -16,7 +16,9 @@
             <ion-img [src]="profilePicture | erpImg: '/assets/avatar-placeholder.png'"></ion-img>
           </ion-avatar>
           <div class="profile-header">
-            <h1 *ngIf="me.firstName || me.lastName" class="font-bold ion-text-center">{{ me.firstName | fullName: me.lastName }}</h1>
+            <h1 *ngIf="me.firstName || me.lastName" class="font-bold ion-text-center">
+              {{ me.firstName | fullName: me.lastName }}
+            </h1>
             <h1 *ngIf="!me.firstName && !me.lastName" class="font-bold ion-text-center">-</h1>
           </div>
           <ion-list class="list-section" lines="none">

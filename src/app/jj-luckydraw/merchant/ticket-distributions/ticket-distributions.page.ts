@@ -66,7 +66,7 @@ export class TicketDistributionsPage implements OnInit {
         merchant_id: this.myMerchantId,
         merchant_id_type: '=',
       },
-      this.distributionPagination
+      this.distributionPagination,
     );
   }
 
@@ -86,8 +86,8 @@ export class TicketDistributionsPage implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
+    let refresherEl = <HTMLIonRefresherElement>event.target;
     refresherEl.complete();
   }
 

@@ -29,7 +29,7 @@
                 {{ "jj-luckydraw._NO_DISTRIBUTIONS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let distribution of distributions" [routerLink]="['ticket-distribution', distribution.doc_id]">
+            <ion-item *ngFor="let distribution of distributions" [routerLink]="[distribution.doc_id]">
               <ion-label>
                 <h3 *ngIf="distribution.customerFirstName || distribution.customerLastName">{{ distribution.customerFirstName | fullName: distribution.customerLastName }}</h3>
                 <h3 *ngIf="!distribution.customerFirstName && !distribution.customerLastName">-</h3>

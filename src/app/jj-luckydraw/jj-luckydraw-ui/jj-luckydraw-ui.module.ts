@@ -6,27 +6,27 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { EventWithWinningSummaryComponent } from './event-with-winning-summary/event-with-winning-summary.component';
+import { LatestDrawComponent } from './latest-draw/latest-draw.component';
+import { WalletCardComponent } from './wallet-card/wallet-card.component';
+import { SmsComponent } from './sms/sms.component';
 
 const components = [
-  EventWithWinningSummaryComponent
-]
+  LatestDrawComponent, 
+  SmsComponent, 
+  WalletCardComponent
+];
 
 @NgModule({
-  declarations: [
-    ...components
-  ],
+  declarations: components,
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule,
-    TranslateModule,
-    CmsUIModule,
+    CommonModule, 
+    FormsModule, 
+    IonicModule, 
+    RouterModule, 
+    TranslateModule, 
+    CmsUIModule, 
     SwsErpModule
   ],
-  exports: [
-    ...components
-  ]
+  exports: components,
 })
-export class JJLuckydrawUiModule { }
+export class JJLuckydrawUiModule {}

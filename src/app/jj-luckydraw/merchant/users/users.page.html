@@ -21,7 +21,7 @@
                 {{ "jj-luckydraw._NO_USERS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let user of users" [routerLink]="['user', user.doc_id]">
+            <ion-item *ngFor="let user of users" [routerLink]="[user.doc_id]">
               <ion-label>
                 <h3>{{ user.firstName | fullName: user.lastName }}</h3>
                 <h3>{{ user.email }}</h3>

@@ -11,14 +11,13 @@ import { JJUser } from 'src/app/jj-luckydraw/jj-luckydraw.type';
   styleUrls: ['./reset-password.component.scss'],
 })
 export class ResetPasswordComponent implements OnInit {
-
   @ViewChild(FormComponent) cmsForm: FormComponent;
 
   userId: number;
 
   form: CmsForm;
 
-  constructor(private app: AppUtils, private lucky: JJLuckydrawService) { }
+  constructor(private app: AppUtils, private lucky: JJLuckydrawService) {}
 
   ngOnInit() {
     this.loadData();
@@ -34,39 +33,36 @@ export class ResetPasswordComponent implements OnInit {
       return;
     }
 
-    let confirm = await this.app.presentConfirm("jj-luckydraw._CONFIRM_TO_RESET_PASSWORD");
+    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       await this.lucky.updateUser(this.userId, { password: user.new_password });
-      await this.app.presentAlert("jj-luckydraw._PASSWORD_RESET", "_SUCCESS");
+      await this.app.presentAlert('jj-luckydraw._PASSWORD_RESET', '_SUCCESS');
     }
   }
-
 }
 
 const form: CmsForm = {
-  code: "reset-password",
-  submitButtonText: "_RESET",
+  code: 'reset-password',
+  submitButtonText: '_RESET',
   items: [
     {
-      code: "new_password",
+      code: 'new_password',
       label: {
-        en: "New Password",
-        zh: "新密码"
+        en: 'New Password',
+        zh: '新密码',
       },
-      labelPosition: "stacked",
-      type: "password",
-      required: true
+      type: 'password',
+      required: true,
     },
     {
-      code: "confirm_password",
+      code: 'confirm_password',
       label: {
-        en: "Confirm Password",
-        zh: "确认密码"
+        en: 'Confirm Password',
+        zh: '确认密码',
       },
-      labelPosition: "stacked",
-      type: "password",
+      type: 'password',
       required: true,
-      matchWith: ["new_password"]
-    }
-  ]
-}
+      matchWith: ['new_password'],
+    },
+  ],
+};

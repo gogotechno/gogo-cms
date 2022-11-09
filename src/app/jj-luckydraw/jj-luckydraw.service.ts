@@ -22,6 +22,9 @@ import {
   LANGUAGE_STORAGE_KEY,
   JJCustomer,
   JJProduct,
+  JJWalletTransaction,
+  JJWallet,
+  JJCapturePaymentRequest,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -47,7 +50,7 @@ export class JJLuckydrawService {
     private app: AppUtils,
     private cms: CmsService,
     private utils: CmsUtils,
-    private translate: TranslateService
+    private translate: TranslateService,
   ) {
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
     this.userChange = new BehaviorSubject<UserEvent>(null);
@@ -86,14 +89,14 @@ export class JJLuckydrawService {
     return attribute && attribute.options.length > 0
       ? attribute.options
       : [
-        {
-          code: 'en',
-          label: {
-            en: 'English',
-            zh: 'English',
+          {
+            code: 'en',
+            label: {
+              en: 'English',
+              zh: 'English',
+            },
           },
-        },
-      ];
+        ];
   }
 
   /**
@@ -102,7 +105,7 @@ export class JJLuckydrawService {
    */
   async getMyMerchantId() {
     let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let access = docUser.user_access?.find((ua) => ua.access_table === 'merchant');
+    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
     return access ? Number(access.access_val) : null;
   }
 
@@ -191,9 +194,9 @@ export class JJLuckydrawService {
       sortType: 'desc',
       status: 'ACTIVE',
       status_type: '=',
-      fromMerchant: true
+      fromMerchant: true,
     });
-    return res.result.map(event => this.populateEvent(event));
+    return res.result.map((event) => this.populateEvent(event));
   }
 
   /**
@@ -210,7 +213,7 @@ export class JJLuckydrawService {
       sortBy: 'startAt',
       sortType: 'desc',
       withSummary: true,
-      withoutResult: true
+      withoutResult: true,
     });
     return res.result;
   }
@@ -514,10 +517,16 @@ export class JJLuckydrawService {
   /**
    * Change customer password
    * @param customerId Customer ID
-   * @param user Update object
+   * @param body Update object
    * @returns Returns update response from SWS ERP
    */
-  changePassword(customerId: number, body: { old_password: string; new_password: string }) {
+  changePassword(
+    customerId: number,
+    body: {
+      old_password: string;
+      new_password: string;
+    },
+  ) {
     return this.erp.changePassword(customerId, body, 'Customer');
   }
 
@@ -528,6 +537,44 @@ export class JJLuckydrawService {
   async getProducts() {
     let res = await this.erp.getDocs<JJProduct>('Product');
     return res.result.map((product) => this.populateProduct(product));
+  }
+
+  createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+    return this.erp.postDoc('Capture Payment Request', request);
+  }
+
+  async getWalletByMerchantId(merchantId: number) {
+    let res = await this.erp.getDocs<JJWallet>('Wallet', { merchant_id: merchantId });
+    return res?.result?.length ? res.result[0] : null;
+  }
+
+  async getWalletTransactionByMerchantId(merchantId: number, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      merchant_id: merchantId,
+      merchant_id_type: '=',
+    });
+    return res.result;
+  }
+
+  async getWalletByCustomerId(customerId: number) {
+    let res = await this.erp.getDocs<JJWallet>('Wallet', { customer_id: customerId });
+    return res?.result?.length ? res.result[0] : null;
+  }
+
+  async getWalletTransactionByCustomerId(customerId: number, pagination: Pagination) {
+    let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      customer_id: customerId,
+      customer_id_type: '=',
+    });
+    return res.result;
+  }
+
+  getWalletTransactionById(transactionId: number) {
+    return this.erp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
   }
 
   /**
@@ -571,8 +618,13 @@ export class JJLuckydrawService {
    * @returns Returns merchant object with populated properties
    */
   private populateMerchant(merchant: JJMerchant) {
-    // prettier-ignore
-    merchant.fullAddress = `${merchant.addressLine1}${merchant.addressLine2 ? ", " + merchant.addressLine2 : ""}, ${merchant.postalCode} ${merchant.city}, ${merchant.state} ${merchant.country}`;
+    merchant.fullAddress =
+      `${merchant.addressLine1}` +
+      `${merchant.addressLine2 ? ', ' + merchant.addressLine2 : ''}, ` +
+      `${merchant.postalCode} ` +
+      `${merchant.city}, ` +
+      `${merchant.state} ` +
+      `${merchant.country}`;
     return merchant;
   }
 

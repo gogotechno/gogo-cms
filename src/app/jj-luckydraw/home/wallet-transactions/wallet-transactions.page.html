@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj-luckydraw/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ng-container *ngIf="loaded">
+          <ion-list>
+            <ion-list-header *ngIf="!transactions || transactions.length <= 0" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ "jj-luckydraw._NO_TRANSACTIONS_FOUND" | translate }}
+              </ion-label>
+            </ion-list-header>
+            <ion-item *ngFor="let transaction of transactions">
+              <ion-label>
+                <h3>{{ transaction.refNo }}</h3>
+                <p>{{ transaction.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
+                <p>{{ transaction.description }}</p>
+              </ion-label>
+              <ion-badge slot="end" [color]=" transaction.amount > 0 ? 'success' : 'danger'">
+                {{ transaction.amount }}
+              </ion-badge>
+            </ion-item>
+          </ion-list>
+          <ng-container *ngIf="transactions?.length > 0">
+            <ion-infinite-scroll *ngIf="!noMoreTransactions" (ionInfinite)="loadMoreTransactions($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <ion-list-header *ngIf="noMoreTransactions" class="ion-no-padding">
+              <ion-label class="font-small ion-text-center">
+                {{ "jj-luckydraw._NO_MORE_TRANSACTIONS" | translate }}
+              </ion-label>
+            </ion-list-header>
+          </ng-container>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

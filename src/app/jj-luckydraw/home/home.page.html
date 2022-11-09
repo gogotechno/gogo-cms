@@ -17,7 +17,10 @@
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
         <ng-container *ngIf="loaded">
-          <lucky-event-with-winning-summary [event]="lastEndedEvent"></lucky-event-with-winning-summary>
+          <lucky-wallet-card></lucky-wallet-card>
+          <div class="ion-margin-top">
+            <lucky-latest-draw [event]="lastEndedEvent"></lucky-latest-draw>
+          </div>
         </ng-container>
       </ion-col>
     </ion-row>
