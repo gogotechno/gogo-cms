@@ -23,7 +23,19 @@ const routes: Routes = [
       {
         path: 'customers',
         loadChildren: () => import('./customers/customers.module').then(m => m.CustomersPageModule)
-      }
+      },
+      {
+        path: 'transactions',
+        loadChildren: () => import('./wallet-transactions/wallet-transactions.module').then(m => m.WalletTransactionsPageModule)
+      },
+      {
+        path: 'capture',
+        loadChildren: () => import('./capture-payment/capture-payment.module').then(m => m.CapturePaymentPageModule)
+      },
+      {
+        path: 'qr',
+        loadChildren: () => import('./wallet-qr/wallet-qr.module').then(m => m.WalletQrPageModule)
+      },
     ]
   }
 ];

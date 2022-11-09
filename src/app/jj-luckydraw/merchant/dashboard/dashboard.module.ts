@@ -10,6 +10,7 @@ import { DashboardPage } from './dashboard.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { MerchantWalletCardComponent } from './merchant-wallet-card/merchant-wallet-card.component';
 
 @NgModule({
   imports: [
@@ -21,6 +22,6 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     SwsErpModule,
     CmsUIModule
   ],
-  declarations: [DashboardPage]
+  declarations: [DashboardPage, MerchantWalletCardComponent]
 })
 export class DashboardPageModule { }
