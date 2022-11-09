@@ -101,10 +101,10 @@ export class IssueTicketPage implements OnInit {
       return;
     }
 
-    let confrmMsg = await this.translate
+    let confirmMessage = await this.translate
       .get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: application.ticketCount })
       .toPromise();
-    let confirm = await this.app.presentConfirm(confrmMsg);
+    let confirm = await this.app.presentConfirm(confirmMessage);
 
     if (confirm) {
       await this.assignCustomerId(application);

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { CapturePaymentPageRoutingModule } from './capture-payment-routing.module';
-
 import { CapturePaymentPage } from './capture-payment.page';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
@@ -15,7 +14,9 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     CapturePaymentPageRoutingModule,
-    CmsUIModule
+    CmsUIModule,
+    JJLuckydrawUiModule,
+    SwsErpModule
   ],
   declarations: [CapturePaymentPage]
 })

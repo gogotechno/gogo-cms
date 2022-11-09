@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
+import { SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
+import { JJLuckydrawService } from '../../jj-luckydraw.service';
+import { JJCapturePaymentRequest, JJWallet } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-capture-payment',
@@ -7,14 +13,45 @@ import { CmsForm } from 'src/app/cms.type';
   styleUrls: ['./capture-payment.page.scss'],
 })
 export class CapturePaymentPage implements OnInit {
+  @ViewChild(FormComponent) cmsForm: FormComponent;
+  @ViewChild(SmsComponent) smsComponent: SmsComponent;
+
   loaded: boolean;
   form = form;
+  merchantId: number;
+  merchantWallet: JJWallet;
 
-  constructor() {}
+  constructor(private translate: TranslateService, private app: AppUtils, private lucky: JJLuckydrawService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.loadData();
+  }
+
+  async loadData() {
     this.loaded = false;
+    this.merchantId = await this.lucky.getMyMerchantId();
+    this.merchantWallet = await this.lucky.getWalletByMerchantId(this.merchantId);
     this.loaded = true;
+  }
+
+  async onSendRequest(request: JJCapturePaymentRequest) {
+    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    if (!validation.valid) {
+      return;
+    }
+
+    let confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_MAKE_PAYMENT').toPromise();
+    let confirm = await this.app.presentConfirm(confirmMessage);
+
+    if (confirm) {
+
+      // let customerWallet = await this.lucky.getWalletByNo(request.fromWallet);
+      // let phone = 
+      // await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
+      // await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
+      // this.smsComponent.send();
+      // this.cmsForm.resetForm();
+    }
   }
 }
 
@@ -34,8 +71,8 @@ const form: CmsForm = {
     {
       code: 'toWallet',
       label: {
-        en: '',
-        zh: '',
+        en: 'Wallet Account',
+        zh: '钱包账号',
       },
       type: 'text',
       required: true,

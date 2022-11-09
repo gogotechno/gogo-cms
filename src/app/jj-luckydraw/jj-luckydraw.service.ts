@@ -543,8 +543,19 @@ export class JJLuckydrawService {
     return this.erp.postDoc('Capture Payment Request', request);
   }
 
+  async getWalletByNo(walletNo: number) {
+    let res = await this.erp.getDocs<JJWallet>('Wallet', {
+      walletNo: walletNo,
+      walletNo_type: '=',
+    });
+    return res?.result?.length ? res.result[0] : null;
+  }
+
   async getWalletByMerchantId(merchantId: number) {
-    let res = await this.erp.getDocs<JJWallet>('Wallet', { merchant_id: merchantId });
+    let res = await this.erp.getDocs<JJWallet>('Wallet', {
+      merchant_id: merchantId,
+      merchant_id_type: '=',
+    });
     return res?.result?.length ? res.result[0] : null;
   }
 
@@ -559,7 +570,10 @@ export class JJLuckydrawService {
   }
 
   async getWalletByCustomerId(customerId: number) {
-    let res = await this.erp.getDocs<JJWallet>('Wallet', { customer_id: customerId });
+    let res = await this.erp.getDocs<JJWallet>('Wallet', {
+      customer_id: customerId,
+      customer_id_type: '=',
+    });
     return res?.result?.length ? res.result[0] : null;
   }
 
