@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/local-storage.service';
 import { AuthService } from '../../auth.service';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { UserType, JJWallet, WalletType } from '../../jj-luckydraw.type';
+import { UserType, JJWallet, WalletType, COMPANY_CODE } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'lucky-wallet-card',
@@ -13,27 +14,18 @@ export class WalletCardComponent implements OnInit {
 
   loaded: boolean;
   role: UserType;
-  merchantId: number;
-  customerId: number;
   wallet: JJWallet;
 
-  constructor(private auth: AuthService, private lucky: JJLuckydrawService) {}
+  constructor(private storage: LocalStorageService, private auth: AuthService, private lucky: JJLuckydrawService) {}
 
   async ngOnInit() {
-    this.loaded = false;
-    this.role = this.auth.userRole;
-    this.merchantId = await this.lucky.getMyMerchantId();
-    this.customerId = (await this.auth.findMe()).doc_id;
-    this.wallet = await this.loadWallet();
-    this.loaded = true;
+    await this.loadData();
   }
 
-  loadWallet() {
-    switch (this.role) {
-      case UserType.MERCHANT:
-        return this.lucky.getWalletByMerchantId(this.merchantId);
-      case UserType.CUSTOMER:
-        return this.lucky.getWalletByCustomerId(this.customerId);
-    }
+  async loadData() {
+    this.loaded = false;
+    this.role = this.auth.userRole;
+    this.wallet = await this.lucky.getMyWallet(this.role);
+    this.loaded = true;
   }
 }

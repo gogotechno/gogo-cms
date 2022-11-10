@@ -227,7 +227,9 @@
     "_DESCRIPTION": "Description",
     "_REFERENCE_1": "Reference 1",
     "_REFERENCE_2": "Reference 2",
-    "_REFERENCE_3": "Reference 3"
+    "_REFERENCE_3": "Reference 3",
+    "_CONFIRM_TO_MAKE_PAYMENT": "Confirm to make payment?",
+    "_PAYMENT_MADE": "Payment made"
   },
   "giver-form": {
     "_REGISTER_ALREADY": "Already register? Check now!",
