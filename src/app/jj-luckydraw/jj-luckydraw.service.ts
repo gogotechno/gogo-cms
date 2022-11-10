@@ -25,6 +25,7 @@ import {
   JJWalletTransaction,
   JJWallet,
   JJCapturePaymentRequest,
+  JJIssueMode,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -89,14 +90,14 @@ export class JJLuckydrawService {
     return attribute && attribute.options.length > 0
       ? attribute.options
       : [
-          {
-            code: 'en',
-            label: {
-              en: 'English',
-              zh: 'English',
-            },
+        {
+          code: 'en',
+          label: {
+            en: 'English',
+            zh: 'English',
           },
-        ];
+        },
+      ];
   }
 
   /**
@@ -589,6 +590,22 @@ export class JJLuckydrawService {
 
   getWalletTransactionById(transactionId: number) {
     return this.erp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
+  }
+
+  /**
+   * Calculate the total of free point
+   * @param eventId event id
+   * @returns Returns amount of point
+   */
+  async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.erp.getDocs('Point Rule', {
+      getActive: true,
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense
+    })
+    return res.result[0];
   }
 
   /**

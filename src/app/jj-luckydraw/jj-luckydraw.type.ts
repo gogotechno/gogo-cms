@@ -82,6 +82,9 @@ export interface JJTicketDistributionApplication extends ErpDoc {
   product_id: number;
   ticketCount: number;
   customer_id: number;
+  pointExpense: number;
+  usedPointRule?: string;
+  freePoint: number;
 }
 
 export interface JJTicketDistribution extends ErpDoc {
@@ -224,3 +227,18 @@ export interface JJCapturePaymentRequest {
   reference2: string;
   reference3: string;
 }
+
+export interface JJPointRule extends ErpDoc {
+    minimumSpend: number,
+    freePoint: number,
+    merchantDailyLimit: number,
+    eventDailyLimit: number,
+    validFrom: Date,
+    validTo: Date,
+    priotity: number,
+    isActive: boolean,
+    issueMode: JJIssueMode,
+    eventId: number
+}
+
+export type JJIssueMode = 'AMOUNT_PAID' | 'AMOUNT_POINT_PAID';
