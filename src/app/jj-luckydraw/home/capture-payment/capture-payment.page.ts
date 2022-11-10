@@ -122,5 +122,14 @@ const form: CmsForm = {
       },
       type: 'text',
     },
+    {
+      code: 'refNo',
+      label: {
+        en: 'Reference Number',
+        zh: '参考编号',
+      },
+      type: 'text',
+      hidden: true
+    },
   ],
 };

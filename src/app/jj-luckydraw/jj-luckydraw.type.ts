@@ -82,6 +82,9 @@ export interface JJTicketDistributionApplication extends ErpDoc {
   product_id: number;
   ticketCount: number;
   customer_id: number;
+  pointExpense: number;
+  usedPointRule?: string;
+  freePoint: number;
 }
 
 export interface JJTicketDistribution extends ErpDoc {
@@ -189,8 +192,8 @@ export interface JJProduct extends ErpDoc {
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
-  permissions: JJWalletPermission[];
-  walletBalance: number;
+  permissions?: JJWalletPermission[];
+  walletBalance?: number;
 }
 
 export enum WalletType {
@@ -225,3 +228,18 @@ export interface JJCapturePaymentRequest extends ErpDoc {
   reference3: string;
   customerWalletNo?: number;
 }
+
+export interface JJPointRule extends ErpDoc {
+    minimumSpend: number,
+    freePoint: number,
+    merchantDailyLimit: number,
+    eventDailyLimit: number,
+    validFrom: Date,
+    validTo: Date,
+    priotity: number,
+    isActive: boolean,
+    issueMode: JJIssueMode,
+    eventId: number
+}
+
+export type JJIssueMode = 'AMOUNT_PAID' | 'AMOUNT_POINT_PAID';

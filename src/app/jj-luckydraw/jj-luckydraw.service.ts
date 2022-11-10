@@ -25,7 +25,9 @@ import {
   JJWalletTransaction,
   JJWallet,
   JJCapturePaymentRequest,
+  JJIssueMode,
   UserType,
+  WalletType,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -90,14 +92,14 @@ export class JJLuckydrawService {
     return attribute && attribute.options.length > 0
       ? attribute.options
       : [
-          {
-            code: 'en',
-            label: {
-              en: 'English',
-              zh: 'English',
-            },
+        {
+          code: 'en',
+          label: {
+            en: 'English',
+            zh: 'English',
           },
-        ];
+        },
+      ];
   }
 
   /**
@@ -591,6 +593,42 @@ export class JJLuckydrawService {
 
   getWalletTransactionById(transactionId: number) {
     return this.erp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
+  }
+
+  /**
+   * Calculate the total of free point
+   * @param eventId event id
+   * @returns Returns amount of point
+   */
+  async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.erp.getDocs('Point Rule', {
+      getActive: true,
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense
+    })
+    return res.result[0];
+  }
+
+  async createMerchantWallet() {
+    const merchantId = await this.getMyMerchantId();
+    let walletPermission = await this.erp.getDocs('Wallet Permission', {merchantId: merchantId, merchantId_type: '='});
+    if (walletPermission.result.length == 0) {
+      let wallet: JJWallet = { walletNo: '', type: WalletType.MERCHANT };
+      let res = await this.erp.postDoc('Wallet', wallet);
+      await this.erp.postDoc('wallet Permission', { walletId: res.doc_id, merchantId: merchantId });
+    }
+  }
+
+  async createCustomerWallet() {
+    const customerId = await this.getCustomerId();
+    let walletPermission = await this.erp.getDocs('Wallet Permission', {customerId: customerId, customerId_type: '='});
+    if (walletPermission.result.length == 0) {
+      let wallet: JJWallet = { walletNo: '', type: WalletType.MERCHANT };
+      let res = await this.erp.postDoc('Wallet', wallet);
+      await this.erp.postDoc('wallet Permission', { walletId: res.doc_id, customerId: customerId });
+    }
   }
 
   /**

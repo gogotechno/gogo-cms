@@ -7,7 +7,7 @@ import { CmsForm, CmsFormItemOption } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { SmsTemplateCode, SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJEvent, JJMerchant, JJProduct, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
+import { JJEvent, JJMerchant, JJPointRule, JJProduct, JJTicketDistributionApplication } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-issue-ticket',
@@ -86,6 +86,8 @@ export class IssueTicketPage implements OnInit {
       product_id: null,
       ticketCount: 0,
       customer_id: 0,
+      pointExpense: 0,
+      freePoint: 0
     };
   }
 
@@ -101,8 +103,9 @@ export class IssueTicketPage implements OnInit {
       return;
     }
 
+    application = await this.calcFreePoint(application);
     let confirmMessage = await this.translate
-      .get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: application.ticketCount })
+      .get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', { count: application.ticketCount, point: application.freePoint })
       .toPromise();
     let confirm = await this.app.presentConfirm(confirmMessage);
 
@@ -121,6 +124,16 @@ export class IssueTicketPage implements OnInit {
     this.event = await this.lucky.getEventById(Number(application.event_id));
     let minSpend = this.event.minSpend || application.expense;
     return Math.floor(application.expense / minSpend) || 0;
+  }
+
+  async calcFreePoint(application: JJTicketDistributionApplication) {
+    const rule: JJPointRule = await this.lucky.getActivePointRule(Number(application.event_id), application.expense, application.pointExpense);
+    if (rule) {
+      application.usedPointRule = JSON.stringify(rule);
+      const totalSpend: number = rule.issueMode == 'AMOUNT_PAID'? (application.expense): (+application.expense + +application.pointExpense);
+      application.freePoint = rule.freePoint * (Math.floor(totalSpend / rule.minimumSpend)) || 0;
+    } else application.freePoint = 0;
+    return application;
   }
 
   async validateApplication(application: JJTicketDistributionApplication) {
@@ -228,6 +241,14 @@ const form: CmsForm = {
       },
       type: 'number',
       required: true,
+    },
+    {
+      code: 'pointExpense',
+      label: {
+        en: 'Point Expenses Amount',
+        zh: '消费积分',
+      },
+      type: 'number'
     },
     // {
     //   code: 'paidAmount',

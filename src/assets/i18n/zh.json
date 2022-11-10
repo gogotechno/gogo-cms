@@ -113,7 +113,7 @@
     "_USERS": "用户",
     "_CREATE_USER": "创建用户",
     "_START_AT": "开始于",
-    "_CONFIRM_TO_ISSUE_TICKETS": "确认分发{{count}}张抽奖券？",
+    "_CONFIRM_TO_ISSUE_TICKETS": "确认分发{{count}}张抽奖券与{{point}}点积分？",
     "_TICKETS_ISSUED": "抽奖券已分发",
     "_ONGOING_EVENT": "正在进行的活动",
     "_DISTRIBUTED_AT": "分发于",
