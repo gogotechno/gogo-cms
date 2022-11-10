@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj-luckydraw/home"></ion-back-button>
     </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._TRANSACTIONS" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -20,7 +21,7 @@
                 {{ "jj-luckydraw._NO_TRANSACTIONS_FOUND" | translate }}
               </ion-label>
             </ion-list-header>
-            <ion-item *ngFor="let transaction of transactions">
+            <ion-item *ngFor="let transaction of transactions" [routerLink]="[transaction.doc_id]">
               <ion-label>
                 <h3>{{ transaction.refNo }}</h3>
                 <p>{{ transaction.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>

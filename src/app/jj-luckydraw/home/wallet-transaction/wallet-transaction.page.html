@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj-luckydraw/home/wallet/transactions"></ion-back-button>
     </ion-buttons>
+    <ion-title>{{ "jj-luckydraw._TRANSACTION_DETAILS" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,14 +15,18 @@
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
         <ng-container *ngIf="loaded">
-          <ion-list class="list-section list-section-clear">
+          <ion-list class="list-section list-section-clear summary-card">
             <ion-card class="ion-no-margin shadow-none">
               <ion-card-header class="ion-no-padding-vertical">
                 <ion-grid class="grid-summary">
                   <ion-row>
                     <ion-col size="auto">
-                      <ion-icon *ngIf="transaction.amount > 0" name="add-outline"></ion-icon>
-                      <ion-icon *ngIf="transaction.amount < 0" name="remove-outline"></ion-icon>
+                      <ion-icon
+                        class="balance-icon"
+                        [class.is-add]="transaction.amount > 0"
+                        [class.is-remove]="transaction.amount < 0"
+                        [name]="transaction.amount > 0 ? 'add-outline' : 'remove-outline'"
+                      ></ion-icon>
                     </ion-col>
                     <ion-col>
                       <ion-card-subtitle>{{ "jj-luckydraw._AMOUNT" | translate }}</ion-card-subtitle>
@@ -32,7 +37,7 @@
               </ion-card-header>
             </ion-card>
           </ion-list>
-          <ion-list class="list-section list-section-clear">
+          <ion-list class="list-section list-section-clear summary-card">
             <ion-card class="ion-no-margin shadow-none">
               <ion-card-header class="ion-no-padding-vertical">
                 <ion-grid class="grid-summary">
@@ -54,7 +59,7 @@
             <ion-item>
               <ion-label>
                 <p>{{ "jj-luckydraw._DESCRIPTION" | translate }}</p>
-                <h3>{{ transaction.description }}</h3>
+                <h3>{{ transaction.description || "-" }}</h3>
               </ion-label>
             </ion-item>
             <ion-item *ngIf="transaction.reference1">

@@ -5,7 +5,7 @@ import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCapturePaymentRequest, JJWallet } from '../../jj-luckydraw.type';
+import { JJCapturePaymentRequest, JJCustomer, JJWallet } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-capture-payment',
@@ -44,13 +44,22 @@ export class CapturePaymentPage implements OnInit {
     let confirm = await this.app.presentConfirm(confirmMessage);
 
     if (confirm) {
-
-      // let customerWallet = await this.lucky.getWalletByNo(request.fromWallet);
-      // let phone = 
-      // await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
-      // await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
-      // this.smsComponent.send();
-      // this.cmsForm.resetForm();
+      let customerWallet = await this.lucky.getWalletByNo(request.customerWalletNo);
+      request.fromWallet = customerWallet.doc_id;
+      request.toWallet = this.merchantWallet.doc_id;
+      delete request.customerWalletNo;
+      let response = await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
+      await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
+      let createdRequest: JJCapturePaymentRequest = response.data.request;
+      let currentBalance: number = response.data.currentBalance;
+      let customer: JJCustomer = response.data.customer;
+      let smsBody =
+        `Thank you for using LUCKY-DRAW.%0A%0ABelow is your payment details:%0A` +
+        `Ref no: ${createdRequest.refNo}%0AAmount: ${createdRequest.amount}%0ACurrent Balance: ${currentBalance}`;
+      this.smsComponent.setBody(smsBody);
+      this.smsComponent.setReceiver(customer.phone);
+      this.smsComponent.send();
+      this.cmsForm.resetForm();
     }
   }
 }
@@ -58,25 +67,16 @@ export class CapturePaymentPage implements OnInit {
 const form: CmsForm = {
   code: 'capture-payment',
   labelPosition: 'stacked',
+  submitButtonText: 'jj-luckydraw._PAY',
   items: [
     {
-      code: 'fromWallet',
+      code: 'customerWalletNo',
       label: {
-        en: 'Wallet Account',
+        en: 'Wallet No',
         zh: '钱包账号',
       },
       type: 'barcode-scanner',
       required: true,
-    },
-    {
-      code: 'toWallet',
-      label: {
-        en: 'Wallet Account',
-        zh: '钱包账号',
-      },
-      type: 'text',
-      required: true,
-      hidden: true,
     },
     {
       code: 'amount',

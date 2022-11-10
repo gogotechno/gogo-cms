@@ -217,7 +217,7 @@ export interface JJWalletTransaction extends ErpDoc {
   reference3: string;
 }
 
-export interface JJCapturePaymentRequest {
+export interface JJCapturePaymentRequest extends ErpDoc {
   fromWallet: number;
   toWallet: number;
   amount: number;
@@ -226,6 +226,7 @@ export interface JJCapturePaymentRequest {
   reference1: string;
   reference2: string;
   reference3: string;
+  customerWalletNo?: number;
 }
 
 export interface JJPointRule extends ErpDoc {

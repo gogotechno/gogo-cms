@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Pagination } from 'src/app/sws-erp.type';
 import { AuthService } from '../../auth.service';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJWalletTransaction, UserType } from '../../jj-luckydraw.type';
+import { JJWallet, JJWalletTransaction, UserType } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-wallet-transactions',
@@ -14,8 +14,8 @@ export class WalletTransactionsPage implements OnInit {
   transactionPagination: Pagination;
   transactions: JJWalletTransaction[];
   noMoreTransactions: boolean;
-  merchantId: number;
-  customerId: number;
+  role: UserType;
+  wallet: JJWallet;
 
   constructor(private auth: AuthService, private lucky: JJLuckydrawService) {}
 
@@ -26,8 +26,8 @@ export class WalletTransactionsPage implements OnInit {
   async loadData() {
     this.loaded = false;
     this.noMoreTransactions = false;
-    this.merchantId = await this.lucky.getMyMerchantId();
-    this.customerId = (await this.auth.findMe()).doc_id;
+    this.role = this.auth.userRole;
+    this.wallet = await this.lucky.getMyWallet(this.role);
     await this.loadTransactions();
     this.loaded = true;
   }
@@ -40,12 +40,7 @@ export class WalletTransactionsPage implements OnInit {
   }
 
   async getTransactions() {
-    switch (this.auth.userRole) {
-      case UserType.MERCHANT:
-        return this.lucky.getWalletTransactionByMerchantId(this.merchantId, this.transactionPagination);
-      case UserType.CUSTOMER:
-        return this.lucky.getWalletTransactionByCustomerId(this.customerId, this.transactionPagination);
-    }
+    return this.lucky.getWalletTransactionsByWalletId(this.wallet.doc_id, this.transactionPagination);
   }
 
   async loadTransactions() {

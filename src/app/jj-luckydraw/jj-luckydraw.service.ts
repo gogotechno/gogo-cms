@@ -26,6 +26,7 @@ import {
   JJWallet,
   JJCapturePaymentRequest,
   JJIssueMode,
+  UserType,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -552,38 +553,39 @@ export class JJLuckydrawService {
     return res?.result?.length ? res.result[0] : null;
   }
 
-  async getWalletByMerchantId(merchantId: number) {
-    let res = await this.erp.getDocs<JJWallet>('Wallet', {
-      merchant_id: merchantId,
-      merchant_id_type: '=',
-    });
-    return res?.result?.length ? res.result[0] : null;
+  async getMyWallet(role: UserType) {
+    switch (role) {
+      case UserType.CUSTOMER:
+        let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
+        return this.getWalletByCustomerId(customer.doc_id);
+      default:
+        let merchantId = await this.getMyMerchantId();
+        return this.getWalletByMerchantId(merchantId);
+    }
   }
 
-  async getWalletTransactionByMerchantId(merchantId: number, pagination: Pagination) {
-    let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
-      itemsPerPage: pagination.itemsPerPage,
-      currentPage: pagination.currentPage,
-      merchant_id: merchantId,
-      merchant_id_type: '=',
+  async getWalletByMerchantId(merchantId: number) {
+    let res = await this.erp.getDocs<JJWallet>('Wallet', {
+      merchantId: merchantId,
+      merchantId_type: '=',
     });
-    return res.result;
+    return res?.result?.length ? res.result[0] : null;
   }
 
   async getWalletByCustomerId(customerId: number) {
     let res = await this.erp.getDocs<JJWallet>('Wallet', {
-      customer_id: customerId,
-      customer_id_type: '=',
+      customerId: customerId,
+      customerId_type: '=',
     });
     return res?.result?.length ? res.result[0] : null;
   }
 
-  async getWalletTransactionByCustomerId(customerId: number, pagination: Pagination) {
+  async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
     let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      customer_id: customerId,
-      customer_id_type: '=',
+      walletId: walletId,
+      walletId_type: '=',
     });
     return res.result;
   }

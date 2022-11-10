@@ -11,7 +11,7 @@
     <ion-row>
       <ion-col>
         <ng-container *ngIf="loaded">
-          <cms-form [form]="form"></cms-form>
+          <cms-form [form]="form" (submit)="onSendRequest($event)"></cms-form>
         </ng-container>
       </ion-col>
     </ion-row>
