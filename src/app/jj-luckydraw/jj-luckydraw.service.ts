@@ -43,6 +43,7 @@ export class JJLuckydrawService {
   customerChange: BehaviorSubject<CustomerEvent>;
   customersChange: BehaviorSubject<OnChangeEvent>;
   distributionsChange: BehaviorSubject<OnChangeEvent>;
+  // walletChange: BehaviorSubject<OnChangeEvent>;
 
   constructor(
     injector: Injector,
@@ -61,6 +62,7 @@ export class JJLuckydrawService {
     this.distributionsChange = new BehaviorSubject<OnChangeEvent>(null);
     this.customerChange = new BehaviorSubject<CustomerEvent>(null);
     this.customersChange = new BehaviorSubject<OnChangeEvent>(null);
+    this.walletChange = new BehaviorSubject<OnChangeEvent>(null);
   }
 
   /**
@@ -542,7 +544,13 @@ export class JJLuckydrawService {
     return res.result.map((product) => this.populateProduct(product));
   }
 
-  createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+  async createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+    // let res = await this.erp.postDoc('Capture Payment Request', request);
+    // this.walletChange.next({
+    //   beUpdated: true,
+    // });
+    // return res;
+
     return this.erp.postDoc('Capture Payment Request', request);
   }
 
@@ -583,6 +591,18 @@ export class JJLuckydrawService {
       customerId_type: '=',
     });
     return res?.result?.length ? res.result[0] : null;
+  }
+
+  updateWalletTransaction(transactionId: number, transaction: Partial<JJWalletTransaction>) {
+    return this.erp.putDoc('Wallet Transaction', transactionId, transaction);
+  }
+
+  async getWalletTransactionsByCapturePaymentRequest(requestRefNo: string) {
+    let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      reference3: requestRefNo,
+      reference3_type: '=',
+    });
+    return res.result;
   }
 
   async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {

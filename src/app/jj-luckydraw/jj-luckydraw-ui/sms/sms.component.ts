@@ -62,7 +62,7 @@ export class SmsComponent implements OnInit {
       case SmsTemplateCode.CAPTURE_PAYMENT:
         this.body = this.data
           ? `Thank you for using LUCKY-DRAW.%0A%0ABelow is your payment details:%0A` +
-            `Ref no: ${this.data.refNo}%0APaid Amount: ${this.data.amount}%0ACurrent Balance: ${this.data.currentBalance}`
+            `Ref no: ${this.data.refNo}%0AUsed Points: ${this.data.amount}%0ACurrent Balance: ${this.data.currentBalance}`
           : null;
         break;
       case SmsTemplateCode.TICKET_DISTRIBUTION:

@@ -55,7 +55,6 @@ export class IssueTicketPage implements OnInit {
     // this.event = await this.lucky.getLastestEvent();
     this.merchant = await this.lucky.getMyMerchant();
     await this.initForm();
-    this.initValue();
     this.loaded = true;
   }
 
@@ -80,6 +79,8 @@ export class IssueTicketPage implements OnInit {
       return item;
     });
     this.event = events[0];
+
+    this.initValue();
   }
 
   initValue() {
@@ -141,6 +142,15 @@ export class IssueTicketPage implements OnInit {
         await this.lucky.updateCapturePaymentRequest(captureRes.doc_id, {
           reference2: String(distributionRes.doc_id),
         });
+        let extras: CapturePaymentRequestExtras = captureRes.data;
+        let transactions = await this.lucky.getWalletTransactionsByCapturePaymentRequest(extras.request.refNo);
+        await Promise.all(
+          transactions.map(async (transaction) => {
+            await this.lucky.updateWalletTransaction(transaction.doc_id, {
+              reference2: String(distributionRes.doc_id),
+            });
+          }),
+        );
       }
 
       let buttons: AlertButton[] = [];

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import _ from 'lodash';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { JJLuckydrawService } from '../jj-luckydraw.service';
 import { JJEvent } from '../jj-luckydraw.type';
 
@@ -9,16 +11,33 @@ import { JJEvent } from '../jj-luckydraw.type';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-
   loaded: boolean;
-
   lastEndedEvent: JJEvent;
+  // destory$: Subject<boolean>;
+  // needRefresh: boolean;
 
-  constructor(private lucky: JJLuckydrawService) { }
+  constructor(private lucky: JJLuckydrawService) {
+    // this.destory$ = new Subject<boolean>();
+  }
 
   ngOnInit() {
+    // this.lucky.walletChange.pipe(takeUntil(this.destory$)).subscribe((ev) => {
+    //   this.needRefresh = ev?.beUpdated;
+    // });
     this.loadData();
   }
+
+  // ngOnDestroy() {
+  //   this.destory$.next(true);
+  //   this.destory$.complete();
+  // }
+
+  // ionViewWillEnter() {
+  //   if (this.needRefresh) {
+  //     this.loadData();
+  //     this.needRefresh = false;
+  //   }
+  // }
 
   async loadData() {
     this.loaded = false;
@@ -31,5 +50,4 @@ export class HomePage implements OnInit {
     await this.loadData();
     refresherEl.complete();
   }
-
 }
