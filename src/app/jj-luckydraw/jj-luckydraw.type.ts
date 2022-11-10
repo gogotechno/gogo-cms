@@ -192,8 +192,8 @@ export interface JJProduct extends ErpDoc {
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
-  permissions: JJWalletPermission[];
-  walletBalance: number;
+  permissions?: JJWalletPermission[];
+  walletBalance?: number;
 }
 
 export enum WalletType {

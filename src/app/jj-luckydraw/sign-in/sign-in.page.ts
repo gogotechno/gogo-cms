@@ -4,6 +4,7 @@ import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../auth.service';
+import { JJLuckydrawService } from '../jj-luckydraw.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,7 +20,7 @@ export class SignInPage implements OnInit {
   form: CmsForm;
   value: SignIn
 
-  constructor(private router: Router, private app: AppUtils, private auth: AuthService) { }
+  constructor(private router: Router, private app: AppUtils, private auth: AuthService, private lucky: JJLuckydrawService) { }
 
   ngOnInit() {
     this.loaded = false;
@@ -40,12 +41,16 @@ export class SignInPage implements OnInit {
       return;
     }
 
-    if(data.email.includes('@'))
+    if(data.email.includes('@')){
       await this.auth.signInWithEmailAndPassword(data.email, data.password, data.rememberMe);
-    else 
+      await this.lucky.createMerchantWallet();
+    }
+    else {
       await this.auth.signInCustomer(data.email, data.password, data.rememberMe);
-    
-      this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
+      await this.lucky.createCustomerWallet();
+    }
+
+    this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
   }
 
 }
