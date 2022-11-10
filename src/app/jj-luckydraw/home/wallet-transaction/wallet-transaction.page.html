@@ -24,7 +24,7 @@
                       <ion-icon
                         class="balance-icon"
                         [class.is-add]="transaction.amount > 0"
-                        [class.is-remove]="transaction.amount < 0"
+                        [class.is-remove]="transaction.amount <= 0"
                         [name]="transaction.amount > 0 ? 'add-outline' : 'remove-outline'"
                       ></ion-icon>
                     </ion-col>

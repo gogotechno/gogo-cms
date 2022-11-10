@@ -3,8 +3,9 @@
     <ion-card-header>
       <ion-card-subtitle>{{ 'jj-luckydraw._BALANCE' | translate }}</ion-card-subtitle>
       <ion-card-title>
-        <span>{{ 'RM' | translate }}</span>
-        <span>{{ wallet?.walletBalance || 0 | number: '1.2-2' }}</span>
+        <!-- <span>{{ 'RM' | translate }}</span> -->
+        <!-- <span>{{ wallet?.walletBalance || 0 | number: '1.2-2' }}</span> -->
+        <span>{{ 'jj-luckydraw._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance || 0 } }}</span>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content>
