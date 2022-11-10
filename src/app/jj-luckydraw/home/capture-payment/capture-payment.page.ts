@@ -5,7 +5,7 @@ import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCapturePaymentRequest, JJCustomer, JJWallet } from '../../jj-luckydraw.type';
+import { JJCapturePaymentRequest, JJCustomer, JJWallet, JJWalletTransaction } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-capture-payment',
@@ -51,13 +51,16 @@ export class CapturePaymentPage implements OnInit {
       let response = await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
       await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
       let createdRequest: JJCapturePaymentRequest = response.data.request;
-      let currentBalance: number = response.data.currentBalance;
-      let customer: JJCustomer = response.data.customer;
+      let customerInfo: {
+        customer: JJCustomer;
+        currentBalance: number;
+        transaction: JJWalletTransaction;
+      } = response.data.customerInfo;
       let smsBody =
         `Thank you for using LUCKY-DRAW.%0A%0ABelow is your payment details:%0A` +
-        `Ref no: ${createdRequest.refNo}%0AAmount: ${createdRequest.amount}%0ACurrent Balance: ${currentBalance}`;
+        `Ref no: ${customerInfo.transaction.refNo}%0AAmount: ${createdRequest.amount}%0ACurrent Balance: ${customerInfo.currentBalance}`;
       this.smsComponent.setBody(smsBody);
-      this.smsComponent.setReceiver(customer.phone);
+      this.smsComponent.setReceiver(customerInfo.customer.phone);
       this.smsComponent.send();
       this.cmsForm.resetForm();
     }
