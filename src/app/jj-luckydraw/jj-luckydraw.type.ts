@@ -77,8 +77,6 @@ export interface JJTicketDistributionApplication extends ErpDoc {
   customerContactNo: string;
   billNo: string;
   expense: number;
-  paidAmount: number;
-  paidPoint: number;
   product_id: number;
   ticketCount: number;
   customer_id: number;
@@ -203,8 +201,8 @@ export enum WalletType {
 
 export interface JJWalletPermission extends ErpDoc {
   walletId: number;
-  customerId: number;
-  merchantId: number;
+  customerId?: number;
+  merchantId?: number;
 }
 
 export interface JJWalletTransaction extends ErpDoc {
@@ -223,23 +221,35 @@ export interface JJCapturePaymentRequest extends ErpDoc {
   amount: number;
   refNo: string;
   description: string;
-  reference1: string;
-  reference2: string;
-  reference3: string;
+  reference1?: string;
+  reference2?: string;
+  reference3?: string;
   customerWalletNo?: number;
 }
 
 export interface JJPointRule extends ErpDoc {
-    minimumSpend: number,
-    freePoint: number,
-    merchantDailyLimit: number,
-    eventDailyLimit: number,
-    validFrom: Date,
-    validTo: Date,
-    priotity: number,
-    isActive: boolean,
-    issueMode: JJIssueMode,
-    eventId: number
+  minimumSpend: number;
+  freePoint: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: JJIssueMode;
+  eventId: number;
 }
 
-export type JJIssueMode = 'AMOUNT_PAID' | 'AMOUNT_POINT_PAID';
+export enum JJIssueMode {
+  AMOUNT_PAID = 'AMOUNT_PAID',
+  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
+}
+
+export interface CapturePaymentRequestExtras {
+  request: JJCapturePaymentRequest;
+  customerInfo: {
+    customer: JJCustomer;
+    currentBalance: number;
+    transaction: JJWalletTransaction;
+  };
+}

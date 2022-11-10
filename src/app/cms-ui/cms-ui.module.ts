@@ -80,7 +80,7 @@ const pipes = [
   ],
   providers: [
     DatePipe,
-    CmsTranslatePipe
+    ...pipes
   ]
 })
 export class CmsUIModule { }

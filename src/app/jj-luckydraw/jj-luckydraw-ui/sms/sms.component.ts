@@ -16,6 +16,10 @@ export class SmsComponent implements OnInit {
 
   ngOnInit() {}
 
+  setTemplate(template: SmsTemplateCode) {
+    this.template = template;
+  }
+
   setReceiver(phoneNumber: string) {
     this.receiver = phoneNumber;
   }
@@ -55,6 +59,18 @@ export class SmsComponent implements OnInit {
             `using given login detail -> %0A%0AUsername: ${this.data.phone} %0APassword: ${this.data.password}`
           : null;
         break;
+      case SmsTemplateCode.CAPTURE_PAYMENT:
+        this.body = this.data
+          ? `Thank you for using LUCKY-DRAW.%0A%0ABelow is your payment details:%0A` +
+            `Ref no: ${this.data.refNo}%0APaid Amount: ${this.data.amount}%0ACurrent Balance: ${this.data.currentBalance}`
+          : null;
+        break;
+      case SmsTemplateCode.TICKET_DISTRIBUTION:
+        this.body = this.data
+          ? `Thank you for using LUCKY-DRAW.%0A%0ABelow is your distribution details:%0A` +
+            `Total of tickets: ${this.data.ticketCount}%0AFree Points: ${this.data.freePoints}`
+          : null;
+        break;
       default:
         this.body = this.body;
         break;
@@ -69,4 +85,6 @@ export class SmsComponent implements OnInit {
 export enum SmsTemplateCode {
   CUSTOMER_NEW_PASSWORD = 'CUSTOMER_NEW_PASSWORD',
   CUSTOMER_RESET_PASSWORD = 'CUSTOMER_RESET_PASSWORD',
+  CAPTURE_PAYMENT = 'CAPTURE_PAYMENT',
+  TICKET_DISTRIBUTION = 'TICKET_DISTRIBUTION',
 }

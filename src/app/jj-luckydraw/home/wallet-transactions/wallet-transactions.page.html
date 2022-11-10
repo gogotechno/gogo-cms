@@ -28,7 +28,7 @@
                 <p>{{ transaction.description }}</p>
               </ion-label>
               <ion-badge slot="end" [color]=" transaction.amount > 0 ? 'success' : 'danger'">
-                {{ transaction.amount }}
+                {{ "jj-luckydraw._POINTS_WITH_COUNT" | translate: { count: transaction.amount } }}
               </ion-badge>
             </ion-item>
           </ion-list>

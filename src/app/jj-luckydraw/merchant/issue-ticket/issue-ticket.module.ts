@@ -20,8 +20,8 @@ import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.modul
     TranslateModule,
     ReactiveFormsModule,
     CmsUIModule,
-    JJLuckydrawUiModule
+    JJLuckydrawUiModule,
   ],
-  declarations: [IssueTicketPage]
+  declarations: [IssueTicketPage],
 })
 export class IssueTicketPageModule {}
