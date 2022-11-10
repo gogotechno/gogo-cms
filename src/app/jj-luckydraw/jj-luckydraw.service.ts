@@ -62,7 +62,7 @@ export class JJLuckydrawService {
     this.distributionsChange = new BehaviorSubject<OnChangeEvent>(null);
     this.customerChange = new BehaviorSubject<CustomerEvent>(null);
     this.customersChange = new BehaviorSubject<OnChangeEvent>(null);
-    this.walletChange = new BehaviorSubject<OnChangeEvent>(null);
+    // this.walletChange = new BehaviorSubject<OnChangeEvent>(null);
   }
 
   /**
