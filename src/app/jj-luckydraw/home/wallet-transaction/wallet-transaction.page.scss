@@ -1,0 +1,14 @@
+.summary-card {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.balance-icon.is-remove {
+  --background: var(--ion-color-danger);
+  --color: var(--ion-color-danger-contrast);
+}
+
+.balance-icon.is-add {
+  --background: var(--ion-color-success);
+  --color: var(--ion-color-success-contrast);
+}
