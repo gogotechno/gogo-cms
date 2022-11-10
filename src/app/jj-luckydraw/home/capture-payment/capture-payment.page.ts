@@ -67,6 +67,7 @@ export class CapturePaymentPage implements OnInit {
 const form: CmsForm = {
   code: 'capture-payment',
   labelPosition: 'stacked',
+  submitButtonText: 'jj-luckydraw._PAY',
   items: [
     {
       code: 'customerWalletNo',
