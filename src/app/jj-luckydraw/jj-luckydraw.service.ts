@@ -625,7 +625,7 @@ export class JJLuckydrawService {
     const customerId = await this.getCustomerId();
     let walletPermission = await this.erp.getDocs('Wallet Permission', {customerId: customerId, customerId_type: '='});
     if (walletPermission.result.length == 0) {
-      let wallet: JJWallet = { walletNo: '', type: WalletType.MERCHANT };
+      let wallet: JJWallet = { walletNo: '', type: WalletType.CUSTOMER };
       let res = await this.erp.postDoc('Wallet', wallet);
       await this.erp.postDoc('wallet Permission', { walletId: res.doc_id, customerId: customerId });
     }
