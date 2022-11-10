@@ -30,7 +30,9 @@
                     </ion-col>
                     <ion-col>
                       <ion-card-subtitle>{{ "jj-luckydraw._AMOUNT" | translate }}</ion-card-subtitle>
-                      <ion-card-title>{{ transaction.amount }}</ion-card-title>
+                      <ion-card-title>
+                        {{ "jj-luckydraw._POINTS_WITH_COUNT" | translate: { count: transaction.amount } }}
+                      </ion-card-title>
                     </ion-col>
                   </ion-row>
                 </ion-grid>
@@ -62,22 +64,22 @@
                 <h3>{{ transaction.description || "-" }}</h3>
               </ion-label>
             </ion-item>
-            <ion-item *ngIf="transaction.reference1">
+            <ion-item>
               <ion-label>
                 <p>{{ "jj-luckydraw._REFERENCE_1" | translate }}</p>
-                <h3>{{ transaction.reference1 }}</h3>
+                <h3>{{ transaction.reference1|| "-" }}</h3>
               </ion-label>
             </ion-item>
-            <ion-item *ngIf="transaction.reference2">
+            <ion-item>
               <ion-label>
                 <p>{{ "jj-luckydraw._REFERENCE_2" | translate }}</p>
-                <h3>{{ transaction.reference2 }}</h3>
+                <h3>{{ transaction.reference2|| "-" }}</h3>
               </ion-label>
             </ion-item>
-            <ion-item *ngIf="transaction.reference3">
+            <ion-item>
               <ion-label>
                 <p>{{ "jj-luckydraw._REFERENCE_3" | translate }}</p>
-                <h3>{{ transaction.reference3 }}</h3>
+                <h3>{{ transaction.reference3|| "-" }}</h3>
               </ion-label>
             </ion-item>
           </ion-list>

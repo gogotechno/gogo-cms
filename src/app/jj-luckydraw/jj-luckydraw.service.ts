@@ -25,9 +25,9 @@ import {
   JJWalletTransaction,
   JJWallet,
   JJCapturePaymentRequest,
-  JJIssueMode,
   UserType,
   WalletType,
+  JJPointRule,
 } from './jj-luckydraw.type';
 
 @Injectable({
@@ -43,6 +43,7 @@ export class JJLuckydrawService {
   customerChange: BehaviorSubject<CustomerEvent>;
   customersChange: BehaviorSubject<OnChangeEvent>;
   distributionsChange: BehaviorSubject<OnChangeEvent>;
+  // walletChange: BehaviorSubject<OnChangeEvent>;
 
   constructor(
     injector: Injector,
@@ -61,6 +62,7 @@ export class JJLuckydrawService {
     this.distributionsChange = new BehaviorSubject<OnChangeEvent>(null);
     this.customerChange = new BehaviorSubject<CustomerEvent>(null);
     this.customersChange = new BehaviorSubject<OnChangeEvent>(null);
+    // this.walletChange = new BehaviorSubject<OnChangeEvent>(null);
   }
 
   /**
@@ -92,14 +94,14 @@ export class JJLuckydrawService {
     return attribute && attribute.options.length > 0
       ? attribute.options
       : [
-        {
-          code: 'en',
-          label: {
-            en: 'English',
-            zh: 'English',
+          {
+            code: 'en',
+            label: {
+              en: 'English',
+              zh: 'English',
+            },
           },
-        },
-      ];
+        ];
   }
 
   /**
@@ -513,8 +515,8 @@ export class JJLuckydrawService {
    * @param user Update object
    * @returns Returns update response from SWS ERP
    */
-  updateCustomer(customerId: number, user: Partial<JJCustomer>) {
-    return this.erp.putDoc('Customer', customerId, user);
+  updateCustomer(customerId: number, customer: Partial<JJCustomer>) {
+    return this.erp.putDoc('Customer', customerId, customer);
   }
 
   /**
@@ -542,8 +544,18 @@ export class JJLuckydrawService {
     return res.result.map((product) => this.populateProduct(product));
   }
 
-  createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+  async createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+    // let res = await this.erp.postDoc('Capture Payment Request', request);
+    // this.walletChange.next({
+    //   beUpdated: true,
+    // });
+    // return res;
+
     return this.erp.postDoc('Capture Payment Request', request);
+  }
+
+  updateCapturePaymentRequest(requestId: number, request: Partial<JJCapturePaymentRequest>) {
+    return this.erp.putDoc('Capture Payment Request', requestId, request);
   }
 
   async getWalletByNo(walletNo: number) {
@@ -581,12 +593,26 @@ export class JJLuckydrawService {
     return res?.result?.length ? res.result[0] : null;
   }
 
+  updateWalletTransaction(transactionId: number, transaction: Partial<JJWalletTransaction>) {
+    return this.erp.putDoc('Wallet Transaction', transactionId, transaction);
+  }
+
+  async getWalletTransactionsByCapturePaymentRequest(requestRefNo: string) {
+    let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      reference3: requestRefNo,
+      reference3_type: '=',
+    });
+    return res.result;
+  }
+
   async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
     let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       walletId: walletId,
       walletId_type: '=',
+      sortBy: 'doc_createdDate',
+      sortType: 'desc',
     });
     return res.result;
   }
@@ -601,33 +627,51 @@ export class JJLuckydrawService {
    * @returns Returns amount of point
    */
   async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
-    let res = await this.erp.getDocs('Point Rule', {
+    let res = await this.erp.getDocs<JJPointRule>('Point Rule', {
       getActive: true,
       event_id: eventId,
       event_id_type: '=',
       amountExpense: amountExpense,
-      pointExpense: pointExpense
-    })
+      pointExpense: pointExpense,
+    });
     return res.result[0];
   }
 
   async createMerchantWallet() {
-    const merchantId = await this.getMyMerchantId();
-    let walletPermission = await this.erp.getDocs('Wallet Permission', {merchantId: merchantId, merchantId_type: '='});
-    if (walletPermission.result.length == 0) {
-      let wallet: JJWallet = { walletNo: '', type: WalletType.MERCHANT };
-      let res = await this.erp.postDoc('Wallet', wallet);
-      await this.erp.postDoc('wallet Permission', { walletId: res.doc_id, merchantId: merchantId });
+    let merchantId = await this.getMyMerchantId();
+    let permissions = await this.erp.getDocs('Wallet Permission', {
+      merchantId: merchantId,
+      merchantId_type: '=',
+    });
+    if (permissions.result.length == 0) {
+      let walletRes = await this.erp.postDoc('Wallet', {
+        walletNo: '',
+        type: WalletType.MERCHANT,
+      });
+      let permissionRes = await this.erp.postDoc('Wallet Permission', {
+        walletId: walletRes.doc_id,
+        merchantId: merchantId,
+      });
+      return permissionRes;
     }
   }
 
   async createCustomerWallet() {
-    const customerId = await this.getCustomerId();
-    let walletPermission = await this.erp.getDocs('Wallet Permission', {customerId: customerId, customerId_type: '='});
-    if (walletPermission.result.length == 0) {
-      let wallet: JJWallet = { walletNo: '', type: WalletType.CUSTOMER };
-      let res = await this.erp.postDoc('Wallet', wallet);
-      await this.erp.postDoc('wallet Permission', { walletId: res.doc_id, customerId: customerId });
+    let customerId = await this.getCustomerId();
+    let permissions = await this.erp.getDocs('Wallet Permission', {
+      customerId: customerId,
+      customerId_type: '=',
+    });
+    if (permissions.result.length == 0) {
+      let walletRes = await this.erp.postDoc('Wallet', {
+        walletNo: '',
+        type: WalletType.CUSTOMER,
+      });
+      let permissionRes = await this.erp.postDoc('Wallet Permission', {
+        walletId: walletRes.doc_id,
+        customerId: customerId,
+      });
+      return permissionRes;
     }
   }
 

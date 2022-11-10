@@ -3,9 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { SmsComponent } from '../../jj-luckydraw-ui/sms/sms.component';
+import { SmsComponent, SmsTemplateCode } from '../../jj-luckydraw-ui/sms/sms.component';
 import { JJLuckydrawService } from '../../jj-luckydraw.service';
-import { JJCapturePaymentRequest, JJCustomer, JJWallet, JJWalletTransaction } from '../../jj-luckydraw.type';
+import { CapturePaymentRequestExtras, JJCapturePaymentRequest, JJWallet } from '../../jj-luckydraw.type';
 
 @Component({
   selector: 'app-capture-payment',
@@ -15,7 +15,7 @@ import { JJCapturePaymentRequest, JJCustomer, JJWallet, JJWalletTransaction } fr
 export class CapturePaymentPage implements OnInit {
   @ViewChild(FormComponent) cmsForm: FormComponent;
   @ViewChild(SmsComponent) smsComponent: SmsComponent;
-
+  readonly SmsTemplateCode = SmsTemplateCode;
   loaded: boolean;
   form = form;
   merchantId: number;
@@ -42,25 +42,22 @@ export class CapturePaymentPage implements OnInit {
 
     let confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_MAKE_PAYMENT').toPromise();
     let confirm = await this.app.presentConfirm(confirmMessage);
-
     if (confirm) {
-      let customerWallet = await this.lucky.getWalletByNo(request.customerWalletNo);
+      let customerWalletNo = request.customerWalletNo;
+      let customerWallet = await this.lucky.getWalletByNo(customerWalletNo);
+      delete request.customerWalletNo;
       request.fromWallet = customerWallet.doc_id;
       request.toWallet = this.merchantWallet.doc_id;
-      delete request.customerWalletNo;
+      request.refNo = '';
       let response = await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
       await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
-      let createdRequest: JJCapturePaymentRequest = response.data.request;
-      let customerInfo: {
-        customer: JJCustomer;
-        currentBalance: number;
-        transaction: JJWalletTransaction;
-      } = response.data.customerInfo;
-      let smsBody =
-        `Thank you for using LUCKY-DRAW.%0A%0ABelow is your payment details:%0A` +
-        `Ref no: ${customerInfo.transaction.refNo}%0AAmount: ${createdRequest.amount}%0ACurrent Balance: ${customerInfo.currentBalance}`;
-      this.smsComponent.setBody(smsBody);
-      this.smsComponent.setReceiver(customerInfo.customer.phone);
+      let extras: CapturePaymentRequestExtras = response.data;
+      this.smsComponent.setReceiver(extras.customerInfo.customer.phone);
+      this.smsComponent.setData({
+        refNo: extras.customerInfo.transaction.refNo,
+        amount: String(extras.request.amount),
+        currentBalance: String(extras.customerInfo.customer.phone),
+      });
       this.smsComponent.send();
       this.cmsForm.resetForm();
     }
@@ -97,6 +94,7 @@ const form: CmsForm = {
         zh: '详情',
       },
       type: 'text',
+      required: true,
     },
     {
       code: 'reference1',
@@ -121,15 +119,6 @@ const form: CmsForm = {
         zh: '参考 3',
       },
       type: 'text',
-    },
-    {
-      code: 'refNo',
-      label: {
-        en: 'Reference Number',
-        zh: '参考编号',
-      },
-      type: 'text',
-      hidden: true
     },
   ],
 };

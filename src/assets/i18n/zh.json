@@ -49,6 +49,9 @@
   "_APPLY": "应用",
   "_YOUR_CREDENTIAL_IS_EXPIRED": "您的身份凭证已过期",
   "_YOUR_CREDENTIAL_IS_INVALID": "您的身份凭证是无效的",
+  "_UPDATED_AT": "更新于",
+  "_OR": "或",
+  "_CLOSE": "关闭",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",
@@ -213,6 +216,10 @@
     "_TRANSACTION_DETAILS": "交易详情",
     "_PAY": "支付",
     "_CAPTURE_PAYMENT": "付款",
-    "_QR_CODE": "二维码"
+    "_QR_CODE": "二维码",
+    "_POINTS_WITH_COUNT": "{{ count }}分",
+    "_SEND_DISTRIBUTON": "发送分发信息",
+    "_SEND PAYMENT": "发送付款信息",
+    "_NOTIFY_NEW CUSTOMER": "通知新客户"
   }
 }
