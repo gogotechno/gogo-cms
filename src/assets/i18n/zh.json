@@ -192,9 +192,26 @@
     "_NO_MORE_CUSTOMERS": "没有更多客户",
     "_CONFIRM_TO_UPDATE_CUSTOMER": "确认建立客户?",
     "_CUSTOMER_UPDATED": "客户资料已更新",
-    "_NO_CUSTOMERS_FOUND": "未能找到客户",
+    "_NO_CUSTOMERS_FOUND": "未找到客户",
     "_SEND_PASSWORD": "发送密码",
     "_PLEASE_USE_PHONE_NUMER_LOGIN_IN": "客户请使用电话号码登录",
-    "_PRODUCT": "产品"
+    "_PRODUCT": "产品",
+    "_BALANCE": "余额",
+    "_NO_TRANSACTIONS_FOUND": "未找到交易",
+    "_NO_MORE_TRANSACTIONS": "没有更多交易",
+    "_AMOUNT": "金额",
+    "_RECEIVE_FROM": "接收自",
+    "_TRANSFER_TO": "转移到",
+    "_REFERENCE_NO": "参考号",
+    "_DESCRIPTION": "描述",
+    "_REFERENCE_1": "参考 1",
+    "_REFERENCE_2": "参考 2",
+    "_REFERENCE_3": "参考 3",
+    "_CONFIRM_TO_MAKE_PAYMENT": "确认付款？",
+    "_PAYMENT_MADE": "已付款",
+    "_TRANSACTIONS": "交易",
+    "_TRANSACTION_DETAILS": "交易详情",
+    "_PAY": "支付",
+    "_CAPTURE_PAYMENT": "付款"
   }
 }

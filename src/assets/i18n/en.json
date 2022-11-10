@@ -232,7 +232,8 @@
     "_PAYMENT_MADE": "Payment made",
     "_TRANSACTIONS": "Transactions",
     "_TRANSACTION_DETAILS": "Transaction Details",
-    "_PAY": "Pay"
+    "_PAY": "Pay",
+    "_CAPTURE_PAYMENT": "Capture Payment"
   },
   "giver-form": {
     "_REGISTER_ALREADY": "Already register? Check now!",
