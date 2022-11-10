@@ -7,6 +7,7 @@ import { CapturePaymentPage } from './capture-payment.page';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     FormsModule,
     IonicModule,
     CapturePaymentPageRoutingModule,
+    TranslateModule,
     CmsUIModule,
     JJLuckydrawUiModule,
     SwsErpModule

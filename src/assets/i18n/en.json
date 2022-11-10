@@ -233,7 +233,8 @@
     "_TRANSACTIONS": "Transactions",
     "_TRANSACTION_DETAILS": "Transaction Details",
     "_PAY": "Pay",
-    "_CAPTURE_PAYMENT": "Capture Payment"
+    "_CAPTURE_PAYMENT": "Capture Payment",
+    "_QR_CODE": "QR Code"
   },
   "giver-form": {
     "_REGISTER_ALREADY": "Already register? Check now!",

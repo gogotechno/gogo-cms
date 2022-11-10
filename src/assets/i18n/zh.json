@@ -212,6 +212,7 @@
     "_TRANSACTIONS": "交易",
     "_TRANSACTION_DETAILS": "交易详情",
     "_PAY": "支付",
-    "_CAPTURE_PAYMENT": "付款"
+    "_CAPTURE_PAYMENT": "付款",
+    "_QR_CODE": "二维码"
   }
 }
