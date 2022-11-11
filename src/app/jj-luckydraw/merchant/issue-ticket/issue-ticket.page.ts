@@ -153,6 +153,8 @@ export class IssueTicketPage implements OnInit {
         );
       }
 
+      await this.app.dismissLoading();
+
       let buttons: AlertButton[] = [];
 
       if (captureRes) {

@@ -138,6 +138,12 @@
                 <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code">
                 </cms-translation-input>
                 <ion-input
+                  *ngSwitchCase="'number'"
+                  type="number"
+                  [formControlName]="item.code"
+                  [placeholder]="item.placeholder | cmsTranslate"
+                ></ion-input>
+                <ion-input
                   *ngSwitchDefault
                   [formControlName]="item.code"
                   [placeholder]="item.placeholder | cmsTranslate"
