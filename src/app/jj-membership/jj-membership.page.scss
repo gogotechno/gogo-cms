@@ -3,14 +3,12 @@ ion-header {
     height: 0px;
     background-image: none;
   }
-
-  ion-toolbar {
-    --border-width: 0px;
-    --background: var(--ion-item-background, #ffffff);
-  }
 }
 
 ion-toolbar {
+  --border-width: 0px;
+  --background: var(--ion-item-background, #ffffff);
+
   ion-button {
     --padding-start: 5px;
     --padding-end: 5px;
@@ -106,6 +104,9 @@ ion-item.account-item {
 .notifications-container {
   padding: 4px 0px;
   background-color: rgba(var(--ion-color-secondary-rgb), 0.6);
+  position: sticky;
+  top: 0px;
+  z-index: 1;
 }
 
 .notification {

@@ -12,7 +12,9 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+</ion-header>
 
+<ion-content [fullscreen]="true">
   <!-- Account -->
   <ion-toolbar class="account-toolbar">
     <ion-item slot="start" lines="none" class="account-item">
@@ -33,14 +35,12 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  
+
   <!-- Notifications -->
   <div class="notifications-container">
     <p class="notification">新游戏“JJ保卫萝卜”上线</p>
   </div>
-</ion-header>
 
-<ion-content [fullscreen]="true">
   <!-- Wallets -->
   <div class="wallets-container">
     <ion-card class="wallet" *ngFor="let i of [0,1,2]">
