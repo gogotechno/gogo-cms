@@ -115,7 +115,7 @@ ion-item.account-item {
   margin: 0px;
   color: #222428;
 
-  animation: notification-anim 5000ms linear infinite;
+  animation: notification-anim 7500ms linear infinite;
 }
 
 @keyframes notification-anim {
@@ -190,7 +190,7 @@ ion-slide.slide {
 
 ion-button.mini-program {
   flex: 0 1 25%;
-  margin: 8px 0px;
+  margin: 4px 0px;
   height: fit-content;
 
   div {
