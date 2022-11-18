@@ -35,8 +35,8 @@ const routes: Routes = [
     canActivate: [SiteGuard],
   },
   {
-    path: 'jj/membership',
-    loadChildren: () => import('./jj-membership/jj-membership.module').then((m) => m.JJMembershipPageModule),
+    path: 'jj',
+    loadChildren: () => import('./jj/jj.module').then((m) => m.JJPageModule),
   },
 ];
 

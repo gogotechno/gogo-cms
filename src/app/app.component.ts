@@ -10,15 +10,14 @@ import { LocalStorageService } from './local-storage.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
   pathName: string;
 
   constructor(
     private router: Router,
     private cms: CmsService,
     private translate: TranslateService,
-    private storage: LocalStorageService
-  ) { }
+    private storage: LocalStorageService,
+  ) {}
 
   ngOnInit() {
     this.pathName = window.location.pathname;
@@ -43,11 +42,11 @@ export class AppComponent implements OnInit {
       await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
 
-    let found = this.router.url.split('/').find(s => s == 'cms-admin');
+    let found = this.router.url.split('/').find((s) => s == 'cms-admin');
     if (!found) {
       let commands = [`/${this.cms.SITE.template}`];
-      if (this.pathName != "/") {
-        let paths = this.pathName.split("/").filter((path) => path && path != this.cms.SITE.template);
+      if (this.pathName != '/') {
+        let paths = this.pathName.split('/').filter((path) => path && path != this.cms.SITE.template);
         if (paths.length > 0) {
           commands.push(...paths);
         }

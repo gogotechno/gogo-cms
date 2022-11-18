@@ -44,8 +44,8 @@
                 "inject": false
               },
               {
-                "input": "src/app/jj-membership/jj-membership.scss",
-                "bundleName": "jj-membership",
+                "input": "src/app/jj/jj.scss",
+                "bundleName": "jj",
                 "inject": false
               }
             ],
