@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BonusPageRoutingModule } from './bonus-routing.module';
+import { RewardsPageRoutingModule } from './rewards-routing.module';
 
-import { BonusPage } from './bonus.page';
+import { RewardsPage } from './rewards.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BonusPageRoutingModule
+    RewardsPageRoutingModule
   ],
-  declarations: [BonusPage]
+  declarations: [RewardsPage]
 })
-export class BonusPageModule {}
+export class RewardsPageModule {}

@@ -12,8 +12,8 @@ const routes: Routes = [
         loadChildren: () => import('./modules/membership/membership.module').then((m) => m.MembershipPageModule),
       },
       {
-        path: 'bonus',
-        loadChildren: () => import('./modules/bonus/bonus.module').then((m) => m.BonusPageModule),
+        path: 'rewards',
+        loadChildren: () => import('./modules/rewards/rewards.module').then((m) => m.RewardsPageModule),
       },
       {
         path: '',
