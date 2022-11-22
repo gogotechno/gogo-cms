@@ -96,6 +96,11 @@
   padding-right: calc(var(--ion-padding) * 2);
 }
 
+.ion-padding-sm {
+  padding: calc(var(--ion-padding) / 2);
+  padding-right: calc(var(--ion-padding) * 2);
+}
+
 .ion-padding-vertical-sm {
   padding-top: calc(var(--ion-padding) / 2);
   padding-bottom: calc(var(--ion-padding) / 2);
@@ -147,6 +152,22 @@
 .color-orange {
   color: var(--ion-color-orange);
 }
+
+ion-slides.event {
+  .swiper-pagination {
+  bottom: calc(var(--ion-padding) * 2) !important;
+  }
+}
+
+.swiper-pagination-bullet {
+    background: pink;
+    opacity: 0.4;
+  }
+
+.swiper-pagination-bullet-active {
+  background: orange;
+}
+
 
 // Custom Configured Ionic Components
 ion-card {
