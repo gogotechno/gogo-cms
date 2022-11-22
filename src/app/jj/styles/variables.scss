@@ -65,4 +65,15 @@
   --ion-background-color: var(--ion-color-light);
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
+
+  --ion-border-radius: 8px;
+}
+
+// Custom Configured Ionic Components
+ion-card {
+  border-radius: var(--ion-border-radius);
+}
+
+ion-badge {
+  border-radius: var(--ion-border-radius);
 }
