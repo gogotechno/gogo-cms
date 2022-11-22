@@ -98,10 +98,11 @@
   padding-right: calc(var(--ion-padding) * 2);
 }
 
-ion-slides {
+ion-slides.event {
   .swiper-pagination {
   bottom: calc(var(--ion-padding) * 2) !important;
   }
+}
 
 .swiper-pagination-bullet {
     background: pink;
@@ -110,7 +111,6 @@ ion-slides {
 
 .swiper-pagination-bullet-active {
   background: orange;
-}
 }
 
 ion-text.orange {
