@@ -96,3 +96,22 @@
 .ion-padding-end-lg {
   padding-right: calc(var(--ion-padding) * 2);
 }
+
+ion-slides {
+  .swiper-pagination {
+  bottom: calc(var(--ion-padding) * 2) !important;
+  }
+
+.swiper-pagination-bullet {
+    background: pink;
+    opacity: 0.4;
+  }
+
+.swiper-pagination-bullet-active {
+  background: orange;
+}
+}
+
+ion-text.orange {
+  color: orange;
+}
