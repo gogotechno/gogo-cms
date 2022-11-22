@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CoreService } from 'src/app/jj/services/core.service';
 import { CountdownTimer, SharedComponent } from 'src/app/jj/shared';
 
 @Component({
@@ -7,10 +8,9 @@ import { CountdownTimer, SharedComponent } from 'src/app/jj/shared';
   styleUrls: ['./lucky-draw-activity.component.scss'],
 })
 export class LuckyDrawActivityComponent extends SharedComponent implements OnInit {
-
   countdownTimer: CountdownTimer;
 
-  constructor() {
+  constructor(private core: CoreService) {
     super();
     this.countdownTimer = {
       days: 0,
@@ -20,7 +20,12 @@ export class LuckyDrawActivityComponent extends SharedComponent implements OnIni
     };
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    // let res = await this.core.getOngoingEvents({
+    //   itemsPerPage: 10,
+    //   currentPage: 1,
+    // });
+
     this.startTimer();
   }
   startTimer() {

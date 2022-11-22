@@ -35,7 +35,9 @@ export class SwsErpService {
   private _LANGUAGE: string;
 
   get token() {
-    return this._TOKEN;
+    // TESTING ONLY
+    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsImRvY190eXBlIjpudWxsLCJjb21wYW55IjoibHVja3kiLCJpYXQiOjE2NjkxMDY2NTF9.OjCMbbyWratlButEpGsdgmInKG2QUzrjF_w3Y8i-f5k";
+    // return this._TOKEN;
   }
 
   get refreshToken() {
