@@ -66,13 +66,11 @@
   --ion-item-background: #ffffff;
   --ion-card-background: #ffffff;
 
-  --ion-border-radius: 8px;
   --ion-padding: 16px;
-}
+  --ion-border-radius: 8px;
 
-// .class {
-//   padding: var(--ion-padding-sm);
-// }
+  --ion-color-orange: #ffa500;
+}
 
 .ion-padding-sm {
   padding: calc(var(--ion-padding) / 2);
@@ -98,6 +96,63 @@
   padding-right: calc(var(--ion-padding) * 2);
 }
 
+.ion-padding-sm {
+  padding: calc(var(--ion-padding) / 2);
+  padding-right: calc(var(--ion-padding) * 2);
+}
+
+.ion-padding-vertical-sm {
+  padding-top: calc(var(--ion-padding) / 2);
+  padding-bottom: calc(var(--ion-padding) / 2);
+}
+
+.ion-padding-vertical-lg {
+  padding-top: calc(var(--ion-padding) * 2);
+  padding-bottom: calc(var(--ion-padding) * 2);
+}
+
+.ion-padding-horizontal-sm {
+  padding-left: calc(var(--ion-padding) / 2);
+  padding-right: calc(var(--ion-padding) / 2);
+}
+
+.ion-padding-horizontal-lg {
+  padding-left: calc(var(--ion-padding) * 2);
+  padding-right: calc(var(--ion-padding) * 2);
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.text-xs {
+  font-size: x-small;
+}
+
+.text-sm {
+  font-size: small;
+}
+
+.text-md {
+  font-size: medium;
+}
+
+.text-lg {
+  font-size: large;
+}
+
+.text-xl {
+  font-size: x-large;
+}
+
+.text-2xl {
+  font-size: xx-large;
+}
+
+.color-orange {
+  color: var(--ion-color-orange);
+}
+
 ion-slides.event {
   .swiper-pagination {
   bottom: calc(var(--ion-padding) * 2) !important;
@@ -113,9 +168,6 @@ ion-slides.event {
   background: orange;
 }
 
-ion-text.orange {
-  color: orange;
-}
 
 // Custom Configured Ionic Components
 ion-card {
