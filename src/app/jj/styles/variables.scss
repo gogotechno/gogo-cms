@@ -67,6 +67,54 @@
   --ion-card-background: #ffffff;
 
   --ion-border-radius: 8px;
+  --ion-padding: 16px;
+}
+
+// .class {
+//   padding: var(--ion-padding-sm);
+// }
+
+.ion-padding-sm {
+  padding: calc(var(--ion-padding) / 2);
+}
+
+.ion-padding-lg {
+  padding: calc(var(--ion-padding) * 2);
+}
+
+.ion-padding-start-sm {
+  padding-left: calc(var(--ion-padding) / 2);
+}
+
+.ion-padding-start-lg {
+  padding-left: calc(var(--ion-padding) * 2);
+}
+
+.ion-padding-end-sm {
+  padding-right: calc(var(--ion-padding) / 2);
+}
+
+.ion-padding-end-lg {
+  padding-right: calc(var(--ion-padding) * 2);
+}
+
+ion-slides {
+  .swiper-pagination {
+  bottom: calc(var(--ion-padding) * 2) !important;
+  }
+
+.swiper-pagination-bullet {
+    background: pink;
+    opacity: 0.4;
+  }
+
+.swiper-pagination-bullet-active {
+  background: orange;
+}
+}
+
+ion-text.orange {
+  color: orange;
 }
 
 // Custom Configured Ionic Components
