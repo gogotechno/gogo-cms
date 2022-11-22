@@ -1,6 +1,14 @@
 <div class="lucky-draw-container">
-  <h3 class="ion-margin-start" style="font-weight:bold">幸运星</h3>
-  
+  <h3 class="ion-margin-start" style="font-weight: bold">幸运星</h3>
+
+  <ion-slides>
+    <ion-slide *ngFor="let group of winnerGroup">
+      <div *ngFor="let winner of group">
+        {{ winner.doc_id }}
+      </div>
+    </ion-slide>
+  </ion-slides>
+
   <ion-slides pager="true">
     <!-- [options]="{ slidesPerView: true, loop: true}" -->
 
@@ -9,30 +17,30 @@
       <ion-grid>
         <ion-row>
           <ion-col size="3">
-            <img  class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (0)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 0" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (1)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 1" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (2)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 2" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (6)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 6" />
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (3)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 3" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (4)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 4" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (5)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 5" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (7)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 7" />
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -43,30 +51,30 @@
       <ion-grid>
         <ion-row>
           <ion-col size="3">
-            <img  class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (0)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 0" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (1)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 1" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (2)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 2" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (6)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 6" />
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (3)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 3" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (4)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 4" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (5)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 5" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (7)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 7" />
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -77,30 +85,30 @@
       <ion-grid>
         <ion-row>
           <ion-col size="3">
-            <img  class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (0)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 0" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + (1)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 1" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (2)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 2" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (6)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 6" />
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (3)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 3" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (4)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 4" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (5)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 5" />
           </ion-col>
           <ion-col size="3">
-            <img class="square fullImg"  [src]="'https://picsum.photos/1080/1920?random=' + (7)" />
+            <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 7" />
           </ion-col>
         </ion-row>
       </ion-grid>
