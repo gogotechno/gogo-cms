@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
-import { AppUtils } from 'src/app/cms.util';
 import { AuthService } from '../auth.service';
 import { JJLuckydrawService } from '../jj-luckydraw.service';
 
@@ -12,25 +11,24 @@ import { JJLuckydrawService } from '../jj-luckydraw.service';
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
-
   @ViewChild(FormComponent) cmsForm: FormComponent;
 
   loaded: boolean;
 
   form: CmsForm;
-  value: SignIn
+  value: SignIn;
 
-  constructor(private router: Router, private app: AppUtils, private auth: AuthService, private lucky: JJLuckydrawService) { }
+  constructor(private router: Router, private auth: AuthService, private lucky: JJLuckydrawService) {}
 
   ngOnInit() {
     this.loaded = false;
 
     this.form = form;
     this.value = {
-      email: "",
-      password: "",
-      rememberMe: true
-    }
+      email: '',
+      password: '',
+      rememberMe: true,
+    };
 
     this.loaded = true;
   }
@@ -41,55 +39,53 @@ export class SignInPage implements OnInit {
       return;
     }
 
-    if(data.email.includes('@')){
-      await this.auth.signInWithEmailAndPassword(data.email, data.password, data.rememberMe);
+    if (data.email.includes('@')) {
+      await this.auth.signInUser(data.email, data.password, data.rememberMe);
       await this.lucky.createMerchantWallet();
-    }
-    else {
+    } else {
       await this.auth.signInCustomer(data.email, data.password, data.rememberMe);
       await this.lucky.createCustomerWallet();
     }
 
     this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
   }
-
 }
 
 interface SignIn {
-  email: string,
-  password: string,
-  rememberMe: boolean
+  email: string;
+  password: string;
+  rememberMe: boolean;
 }
 
 const form: CmsForm = {
-  code: "sign-in",
-  submitButtonText: "_CONTINUE",
+  code: 'sign-in',
+  submitButtonText: '_CONTINUE',
   items: [
     {
-      code: "email",
+      code: 'email',
       label: {
-        en: "Username",
-        zh: "登录号"
+        en: 'Username',
+        zh: '登录号',
       },
-      type: "email",
-      required: true
+      type: 'email',
+      required: true,
     },
     {
-      code: "password",
+      code: 'password',
       label: {
-        en: "Password",
-        zh: "密码"
+        en: 'Password',
+        zh: '密码',
       },
-      type: "password",
-      required: true
+      type: 'password',
+      required: true,
     },
     {
-      code: "rememberMe",
+      code: 'rememberMe',
       label: {
-        en: "Remember Me",
-        zh: "记住我"
+        en: 'Remember Me',
+        zh: '记住我',
       },
-      type: "checkbox"
-    }
-  ]
-}
+      type: 'checkbox',
+    },
+  ],
+};

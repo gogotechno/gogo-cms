@@ -73,8 +73,8 @@ export class AuthService {
    * @param password User's password
    * @param rememberMe Flag if user wish to keep logged-in
    */
-  async signInWithEmailAndPassword(email: string, password: string, rememberMe: boolean = true) {
-    await this.erp.signInWithEmailAndPassword(email, password);
+  async signInUser(email: string, password: string, rememberMe: boolean = true) {
+    await this.erp.signInDocUser(email, password);
     await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
     await this.findMyLuckyUser();
 
@@ -92,9 +92,9 @@ export class AuthService {
    * @param rememberMe Flag if user wish to keep logged-in
    */
   async signInCustomer(email: string, password: string, rememberMe: boolean = true) {
-    const customer = await this.erp.signInCustomer('Customer', email, password);
-    await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, customer);
-    this._CURRENT_USER = customer;
+    await this.erp.signInUser('Customer', email, password);
+    await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this.erp.user);
+    this._CURRENT_USER = this.erp.user;
     this._USER_ROLE = UserType.CUSTOMER;
 
     if (rememberMe) {
@@ -141,7 +141,7 @@ export class AuthService {
     let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
 
     if (docUser) {
-      await this.erp.findMe(docUser.doc_id, true, true, true);
+      await this.erp.findMyDocUser(docUser.doc_id, true, true, true);
       await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.erp.docUser);
       await this.findMyLuckyUser();
     }

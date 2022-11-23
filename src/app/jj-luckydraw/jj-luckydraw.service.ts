@@ -454,7 +454,7 @@ export class JJLuckydrawService {
    * @returns Returns customer's profile
    */
   signInCustomer(phone: string, password: string) {
-    return this.erp.signInCustomer<JJCustomer>('Customer', phone, password);
+    return this.erp.signInUser('Customer', phone, password);
   }
 
   /**

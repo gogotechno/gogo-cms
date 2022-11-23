@@ -1,3 +1,52 @@
-<p>
-  event-card-summary works!
-</p>
+<ion-slides class="ion-padding-top">
+  <ion-slide>
+    <img src="./assets/lucky-draw.jpg" />
+  </ion-slide>
+</ion-slides>
+<div class="card-container">
+  <ion-card class="d-flex items-center justify-between">
+    <!-- <ion-card-content> -->
+          <ion-grid>
+            <ion-row>
+              <ion-col size="4.5">
+              <ion-text color="medium">活动结束倒数计时</ion-text>
+              </ion-col>
+              <ion-col size="7.5">
+              <ion-text color="medium">您获得了</ion-text>
+              </ion-col>
+            </ion-row>
+          <ion-row>
+            <ion-col size="4.5" class="content">
+              <ion-text color="dark" class="font-bold">
+                {{ countdownTimer.days | number: "2.0-0" }} : 
+                {{ countdownTimer.hours | number: "2.0-0" }} : 
+                {{ countdownTimer.minutes | number: "2.0-0" }} : 
+                {{ countdownTimer.seconds | number: "2.0-0" }}
+              </ion-text>
+              <ion-row>
+              <ion-text>
+                天  
+                时  
+                分  
+                秒
+              </ion-text>
+            </ion-row>
+            </ion-col>
+              
+            <ion-col size="2.5" class="content">
+              <ion-text color="dark" class="font-bold">RM50.00</ion-text>
+              <ion-text color="medium">礼码</ion-text>
+            </ion-col>      
+            <ion-col size="2.5" class="content">
+              <ion-text color="dark" class="font-bold">1张</ion-text>
+              <ion-text color="medium">抽奖券</ion-text>
+            </ion-col>
+            <ion-col size="2.5" class="content">
+              <ion-text color="dark" class="font-bold">1张</ion-text>
+              <ion-text color="medium">刮刮券</ion-text>
+            </ion-col>
+          </ion-row>
+      </ion-grid>
+    <!-- </ion-card-content> -->
+  </ion-card>
+</div>
