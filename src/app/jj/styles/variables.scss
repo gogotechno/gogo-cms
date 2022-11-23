@@ -153,22 +153,6 @@
   color: var(--ion-color-orange);
 }
 
-ion-slides.event {
-  .swiper-pagination {
-  bottom: calc(var(--ion-padding) * 2) !important;
-  }
-}
-
-.swiper-pagination-bullet {
-    background: pink;
-    opacity: 0.4;
-  }
-
-.swiper-pagination-bullet-active {
-  background: orange;
-}
-
-
 // Custom Configured Ionic Components
 ion-card {
   border-radius: var(--ion-border-radius);
