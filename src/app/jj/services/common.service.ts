@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
 import { CmsLanguage, CmsSiteAttributeOption } from 'src/app/cms.type';
+import { LocalStorageService } from 'src/app/local-storage.service';
+import { LANGUAGE_STORAGE_KEY } from '../typings';
 
 const DEFAULT_LANG: CmsSiteAttributeOption = {
   code: 'en',
@@ -13,7 +15,7 @@ const DEFAULT_LANG: CmsSiteAttributeOption = {
   providedIn: 'root',
 })
 export class CommonService {
-  constructor(private cms: CmsService, private translate: TranslateService) {}
+  constructor(private cms: CmsService, private translate: TranslateService, private storage: LocalStorageService) {}
 
   async getSupportedLanguages(): Promise<CmsLanguage[]> {
     let attributes = await this.cms.getAttributes();
@@ -23,5 +25,10 @@ export class CommonService {
       ...option,
       selected: option.code == this.translate.currentLang,
     }));
+  }
+
+  async setCurrentLanguage(langCode: string) {
+    await this.translate.use(langCode).toPromise();
+    await this.storage.set(LANGUAGE_STORAGE_KEY, langCode);
   }
 }

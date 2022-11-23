@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   async findMyLuckyUser() {
-    this._CURRENT_USER = await this.core.getUserByDocUser(this.swsErp.docUser.doc_id);
+    this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id);
     this._CURRENT_USER.docUser = this.swsErp.docUser;
     this._USER_TYPE = 'MERCHANT';
     return this._CURRENT_USER;

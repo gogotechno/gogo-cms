@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { CmsForm, CmsLanguage } from 'src/app/cms.type';
 import { AuthService, CommonService } from 'src/app/jj/services';
 import { PackageInfo, SharedComponent } from 'src/app/jj/shared';
@@ -16,9 +15,8 @@ export class LoginPage extends SharedComponent implements OnInit {
   languages: CmsLanguage[];
 
   constructor(
-    private common: CommonService,
     private auth: AuthService,
-    private translate: TranslateService,
+    private common: CommonService,
     private router: Router,
     private route: ActivatedRoute,
   ) {
@@ -31,7 +29,7 @@ export class LoginPage extends SharedComponent implements OnInit {
   }
 
   async onLanguageClick(lang: CmsLanguage) {
-    await this.translate.use(lang.code).toPromise();
+    await this.common.setCurrentLanguage(lang.code);
     this.languages.forEach((l) => (l.selected = l.code == lang.code));
   }
 
