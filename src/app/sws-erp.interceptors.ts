@@ -36,14 +36,15 @@ export class SwsErpInterceptor implements HttpInterceptor {
         });
       }
 
-      console.log('Before making api call : ', updatedRequest);
+      // console.log('Before making api call : ', updatedRequest);
+      
       return next
         .handle(updatedRequest)
         .pipe(
           tap(
             (next) => {
               if (next instanceof HttpResponse) {
-                console.log('api call success :', next);
+                // console.log('api call success :', next);
               }
             },
             async (err) => {
@@ -64,7 +65,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
               if (!this.isAccessTokenExpiredError(err)) {
                 await this.app.presentAlert(message, header);
               }
-            }
+            },
           ),
           catchError((err) => {
             if (this.isAccessTokenExpiredError(err)) {
@@ -74,7 +75,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
           }),
           finalize(() => {
             this.app.dismissLoading();
-          })
+          }),
         )
         .toPromise();
     }

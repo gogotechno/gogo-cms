@@ -13,13 +13,13 @@ const routes: Routes = [
   },
   {
     path: 'winbox99',
-    loadChildren: () => import('./winbox99/winbox99.module').then((m) => m.Winbox99PageModule),
     canActivate: [SiteGuard],
+    loadChildren: () => import('./winbox99/winbox99.module').then((m) => m.Winbox99PageModule),
   },
   {
     path: 'tastefully',
-    loadChildren: () => import('./tastefully/tastefully.module').then((m) => m.TastefullyPageModule),
     canActivate: [SiteGuard],
+    loadChildren: () => import('./tastefully/tastefully.module').then((m) => m.TastefullyPageModule),
   },
   {
     path: 'teckguan',
@@ -31,11 +31,12 @@ const routes: Routes = [
   },
   {
     path: 'jj-luckydraw',
-    loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then((m) => m.JJLuckydrawPageModule),
     canActivate: [SiteGuard],
+    loadChildren: () => import('./jj-luckydraw/jj-luckydraw.module').then((m) => m.JJLuckydrawPageModule),
   },
   {
     path: 'jj',
+    canActivate: [SiteGuard],
     loadChildren: () => import('./jj/jj.module').then((m) => m.JJPageModule),
   },
 ];

@@ -34,6 +34,10 @@ export interface CmsSiteAttributeOption {
   value: string;
 }
 
+export interface CmsLanguage extends CmsSiteAttributeOption {
+  selected: boolean;
+}
+
 export interface CmsNavigation extends CmsDocument {
   code: string;
   items: Array<CmsNavigationItem>;
@@ -89,6 +93,7 @@ export interface CmsForm extends CmsDocument {
   code: string;
   name?: CmsTranslation;
   submitButtonText?: string;
+  autoValidate?: boolean;
   items: Array<CmsFormItem>;
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
   lines?: 'full' | 'inset' | 'none' | undefined;

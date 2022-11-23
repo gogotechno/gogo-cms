@@ -13,16 +13,16 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
+        path: 'event-details',
+        loadChildren: () => import('./event-details/event-details.module').then((m) => m.EventDetailsPageModule),
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',
       },
     ],
-  },  {
-    path: 'event-details',
-    loadChildren: () => import('./event-details/event-details.module').then( m => m.EventDetailsPageModule)
   },
-
 ];
 
 @NgModule({
