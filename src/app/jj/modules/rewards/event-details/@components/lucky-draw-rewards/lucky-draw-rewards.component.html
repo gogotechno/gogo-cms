@@ -1,3 +1,89 @@
-<p>
-  lucky-draw-rewards works!
-</p>
+<ion-grid class='ion-no-margin ion-no-padding'>
+  <ion-row >
+    <ion-col>
+      <ion-card class='smallmargin'>
+        <ion-card-content class="smallpadding"  >
+          <div>
+            <ion-text color="dark" style="font-size: x-small;">抽奖倒计时</ion-text>
+          </div>
+          <div>
+            <ion-grid class="ion-no-padding">
+              <ion-row>
+                <ion-col >
+                  <ion-text  style="font-weight:bold;" color="dark">{{ countdownTimer.days | number: "2.0-0" }}</ion-text>
+                  <div class="stick">
+                    <ion-text  style="font-size:x-small;" color="medium">天</ion-text>
+                  </div>
+                </ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <p style="margin-left: 4px; margin-right: 4px;">:</p>
+                </ion-col>
+                <ion-col >
+                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.hours | number: "2.0-0" }}</ion-text>
+                  <div class="stick">
+                    <ion-text style="font-size:x-small;" color="medium" class="ion-text-center">时</ion-text>
+                  </div>
+                </ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <p style="margin-left: 4px; margin-right: 4px;">:</p>
+                </ion-col>
+                <ion-col>
+                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.minutes | number: "2.0-0" }}</ion-text>
+                  <div class="stick">
+                    <ion-text style="font-size:x-small;" color="medium">分</ion-text>
+                  </div>
+                </ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <p style="margin-left: 4px; margin-right: 4px;">:</p>
+                </ion-col>
+                <ion-col>
+                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.seconds | number: "2.0-0" }}</ion-text>
+                  <div class="stick">
+                    <ion-text style="font-size:x-small;" color="medium">秒</ion-text>
+                  </div>  
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </div>
+        </ion-card-content>  
+      </ion-card>
+    </ion-col>
+
+    <ion-col>
+      <ion-card class='smallmargin'>
+        <ion-card-content class="d-flex items-center ion-text-center" style="justify-content: space-between" >
+          <div>
+            <ion-text color="dark" style="font-size: x-small;">每消费</ion-text><br />
+            <ion-text color="dark" style="font-weight: 900;"><span style="font-size: x-small;">RM</span>50.00</ion-text>
+          </div>
+          <div>
+            <ion-text color="dark" style="font-size: x-small;">可获得抽奖券</ion-text><br />
+            <ion-text color="dark" style="font-weight: 900;">1张</ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+<div class="ion-margin-top">
+  <h4><ion-text color="dark" class="ion-margin-start:30px" style="font-weight: bold">奖品</ion-text></h4>
+</div>
+
+<ion-grid>
+  <ion-row>
+    <ion-col size="3">
+      <ion-badge size="big" >1份</ion-badge>
+      <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 0" />
+    </ion-col>
+    <ion-col size="3">
+      <ion-badge size="big" >1份</ion-badge>
+      <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 1" />
+    </ion-col>
+    <ion-col size="3">
+      <ion-badge size="big" >1份</ion-badge>
+      <img class="square fullImg" [src]="'https://picsum.photos/1080/1920?random=' + 2" />
+    </ion-col>
+  </ion-row>
+</ion-grid>
+  
