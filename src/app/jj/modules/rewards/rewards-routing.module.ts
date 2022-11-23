@@ -18,7 +18,11 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },  {
+    path: 'event-details',
+    loadChildren: () => import('./event-details/event-details.module').then( m => m.EventDetailsPageModule)
   },
+
 ];
 
 @NgModule({
