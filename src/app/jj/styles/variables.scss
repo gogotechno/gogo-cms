@@ -67,10 +67,26 @@
   --ion-card-background: #ffffff;
 
   --ion-padding: 16px;
+  --ion-margin: 16px;
+
   --ion-border-radius: 8px;
+  --ion-border-color: #d9d9d9;
 
   --ion-color-orange: #ffa500;
+
+  --ion-font-size-xs: 12px;
+  --ion-font-size-sm: 14px;
+  --ion-font-size: 16px;
+  --ion-font-size-lg: 18px;
+  --ion-font-size-xl: 20px;
+  --ion-font-size-2xl: 22px;
+
+  --ion-fab-button-size: 56px;
 }
+
+// -----------------------------------------------------------------------------------------------------
+// @ Padding
+// -----------------------------------------------------------------------------------------------------
 
 .ion-padding-sm {
   padding: calc(var(--ion-padding) / 2);
@@ -96,11 +112,6 @@
   padding-right: calc(var(--ion-padding) * 2);
 }
 
-.ion-padding-sm {
-  padding: calc(var(--ion-padding) / 2);
-  padding-right: calc(var(--ion-padding) * 2);
-}
-
 .ion-padding-vertical-sm {
   padding-top: calc(var(--ion-padding) / 2);
   padding-bottom: calc(var(--ion-padding) / 2);
@@ -121,43 +132,142 @@
   padding-right: calc(var(--ion-padding) * 2);
 }
 
-.font-bold {
+// -----------------------------------------------------------------------------------------------------
+// @ Margin
+// -----------------------------------------------------------------------------------------------------
+
+.ion-no-margin-top {
+  margin-top: 0;
+}
+
+.ion-no-margin-bottom {
+  margin-bottom: 0;
+}
+
+.ion-no-margin-start {
+  margin-left: 0;
+}
+
+.ion-no-margin-end {
+  margin-right: 0;
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Typography
+// -----------------------------------------------------------------------------------------------------
+
+.ion-font-bold {
   font-weight: bold;
 }
 
-.text-xs {
-  font-size: x-small;
+.ion-text-xs {
+  font-size: var(--ion-font-size-xs);
 }
 
-.text-sm {
-  font-size: small;
+.ion-text-sm {
+  font-size: var(--ion-font-size-sm);
 }
 
-.text-md {
-  font-size: medium;
+.ion-text-md {
+  font-size: var(--ion-font-size);
 }
 
-.text-lg {
-  font-size: large;
+.ion-text-lg {
+  font-size: var(--ion-font-size-lg);
 }
 
-.text-xl {
-  font-size: x-large;
+.ion-text-xl {
+  font-size: var(--ion-font-size-xl);
 }
 
-.text-2xl {
-  font-size: xx-large;
+.ion-text-2xl {
+  font-size: var(--ion-font-size-2xl);
 }
 
-.color-orange {
+// -----------------------------------------------------------------------------------------------------
+// @ Color
+// -----------------------------------------------------------------------------------------------------
+
+.ion-color-orange {
   color: var(--ion-color-orange);
 }
 
-// Custom Configured Ionic Components
+// -----------------------------------------------------------------------------------------------------
+// @ Component
+// -----------------------------------------------------------------------------------------------------
+
 ion-card {
   border-radius: var(--ion-border-radius);
 }
 
 ion-badge {
   border-radius: var(--ion-border-radius);
+}
+
+ion-button {
+  --border-radius: calc(var(--ion-border-radius) * 3);
+
+  height: 2.4em;
+}
+
+cms-form,
+.cms-form {
+  ion-list.list-ios,
+  ion-list.list-md {
+    --ion-item-background: transparent;
+
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  ion-item {
+    --background: transparent;
+    --padding-start: 0;
+    --border-width: 0;
+    --inner-padding-end: 0;
+    --inner-border-width: 0;
+    --min-height: 60px;
+
+    font-size: var(--ion-font-size-sm);
+  }
+
+  ion-item:not(.item-input) {
+    --min-height: 35px;
+
+    ion-checkbox[slot='start'] {
+      margin-right: calc(var(--ion-margin) / 2);
+    }
+
+    ion-label,
+    ion-checkbox[slot='start'] {
+      margin-top: calc(var(--ion-margin) / 6);
+      margin-bottom: calc(var(--ion-margin) / 6);
+    }
+  }
+
+  ion-label.label-stacked.sc-ion-label-md-h,
+  ion-label.label-stacked.sc-ion-label-ios-h {
+    transform: unset;
+    font-size: var(--ion-font-size-sm);
+    margin-top: calc(var(--ion-margin) / 4);
+    margin-bottom: calc(var(--ion-margin) / 6);
+    margin-right: calc(var(--ion-margin) / 3);
+  }
+
+  ion-input {
+    --min-height: 60px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--ion-border-color);
+  }
+
+  ion-checkbox {
+    --border-radius: 0px;
+  }
+
+  hr {
+    margin-top: calc(var(--ion-margin) / 4);
+    margin-bottom: calc(var(--ion-margin) / 4);
+  }
 }

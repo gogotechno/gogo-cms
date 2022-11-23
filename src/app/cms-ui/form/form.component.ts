@@ -127,12 +127,19 @@ export class FormComponent extends CmsComponent implements OnInit {
     });
   }
 
-  onSubmit(event?: Event) {
+  async onSubmit(event?: Event) {
     let data = this.formGroup.value;
 
     let datetimeItems = this.form.items.filter((item) => item.type == 'datetime');
     for (let item of datetimeItems) {
       data[item.code] = new Date(data[item.code]);
+    }
+
+    if (this.form.autoValidate) {
+      let validation = await this.validateFormAndShowErrorMessages();
+      if (!validation.valid) {
+        return;
+      }
     }
 
     this.submit.emit(data);

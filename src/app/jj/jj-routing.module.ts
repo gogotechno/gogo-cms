@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { InitGuard } from './guards';
 import { JJPage } from './jj.page';
 
 const routes: Routes = [
   {
     path: '',
     component: JJPage,
+    canActivate: [InitGuard],
     children: [
       {
         path: 'membership',

@@ -1,24 +1,70 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { AppUtils, CmsUtils } from 'src/app/cms.util';
+import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
-
-const COMPANY_CODE = 'lucky';
+import { COMPANY_CODE, JJCustomer, JJUser, LANGUAGE_STORAGE_KEY } from '../typings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoreService {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
+  private initialized: boolean = false;
 
-  constructor(injector: Injector, private http: HttpClient, private erp: SwsErpService) {
+  constructor(
+    injector: Injector,
+    private title: Title,
+    private appUtils: AppUtils,
+    private cmsUtils: CmsUtils,
+    private storage: LocalStorageService,
+    private translate: TranslateService,
+    private swsErp: SwsErpService,
+  ) {
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
-    this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
   }
 
+  async init() {
+    if (this.initialized) {
+      return;
+    }
+    this.title.setTitle('JJ Member');
+    this.appUtils.loadTemplateTheme('jj');
+    this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
+    let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
+    if (storedLang) {
+      await this.translate.use(storedLang).toPromise();
+    }
+    this.initialized = true;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ User
+  // -----------------------------------------------------------------------------------------------------
+
+  async getUserByDocUser(docUserId: number) {
+    let res = await this.swsErp.getDocs<JJUser>('User', { doc_user_id: docUserId, doc_user_id_type: '=' });
+    return res.result.map((user) => this.populateUser(user))[0];
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Customer
+  // -----------------------------------------------------------------------------------------------------
+
+  async getCustomerById(customerId: number) {
+    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId);
+    return res;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Event
+  // -----------------------------------------------------------------------------------------------------
+
   async getOngoingEvents(pagination: Pagination) {
-    let res = await this.erp.getDocs('Event', {
+    let res = await this.swsErp.getDocs('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       status: 'ACTIVE',
@@ -28,10 +74,19 @@ export class CoreService {
   }
 
   async getWinners(pagination: Pagination) {
-    let res = await this.erp.getDocs('Winner', {
+    let res = await this.swsErp.getDocs('Winner', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
     });
     return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Mapper
+  // -----------------------------------------------------------------------------------------------------
+
+  private populateUser(user: JJUser) {
+    user.roleTranslation = this.cmsUtils.transformJSONStringtoCMSTranslation(user.translate?.role, user.role);
+    return user;
   }
 }

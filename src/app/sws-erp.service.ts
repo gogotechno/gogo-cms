@@ -33,11 +33,10 @@ export class SwsErpService {
   private _REFRESH_TOKEN: string;
   private _DOC_USER: DocUser;
   private _LANGUAGE: string;
+  private _USER: any;
 
   get token() {
-    // TESTING ONLY
-    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDEsImRvY190eXBlIjpudWxsLCJjb21wYW55IjoibHVja3kiLCJpYXQiOjE2NjkxMDY2NTF9.OjCMbbyWratlButEpGsdgmInKG2QUzrjF_w3Y8i-f5k";
-    // return this._TOKEN;
+    return this._TOKEN;
   }
 
   get refreshToken() {
@@ -50,6 +49,10 @@ export class SwsErpService {
 
   get language() {
     return this._LANGUAGE;
+  }
+
+  get user() {
+    return this._USER;
   }
 
   authStateChange: BehaviorSubject<AuthStateEvent>;
@@ -131,19 +134,27 @@ export class SwsErpService {
   }
 
   /**
-   * Get current user's profile
-   * @param id User's ID
-   * @returns Returns user's profile
+   * Get current doc user's profile
+   * @param id Doc user's ID
+   * @returns Returns doc user's profile
    */
-  public async findMe(id: number, withAccesses: boolean, withGroups: boolean, withPermissions: boolean) {
+  public async findMyDocUser(id: number, withAccesses: boolean, withGroups: boolean, withPermissions: boolean) {
     this._DOC_USER = await this.findDocUser(id);
-
     if (withAccesses) {
       let accesses = await this.getUserAccesses(id);
       this._DOC_USER.user_access = accesses;
     }
-
     return this._DOC_USER;
+  }
+
+  /**
+   * Get current user's profile
+   * @param id User's ID
+   * @returns Returns user's profile
+   */
+  public async findMyUser(docType: string, id: number) {
+    this._USER = await this.getDoc(docType, id);
+    return this._USER;
   }
 
   private async getUserAccesses(userId: number) {
@@ -160,7 +171,7 @@ export class SwsErpService {
    * @param password User's password
    * @returns Returns with refresh token, access token and user's profile
    */
-  public async signInWithEmailAndPassword(email: string, password: string) {
+  public async signInDocUser(email: string, password: string) {
     const requestUrl = `${this.API_URL}/login`;
     const requestBody = { email: email, password: password };
     let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
@@ -174,21 +185,22 @@ export class SwsErpService {
   }
 
   /**
-   * Sign in with customer credential
-   * @param email Customer's email
-   * @param password Customer's password
-   * @returns Returns with refresh token, access token and customer's profile
+   * Sign in with user credential
+   * @param email User's email
+   * @param password User's password
+   * @returns Returns with refresh token, access token and user's profile
    */
-  public async signInCustomer<T = any>(docType: string, email: string, password: string) {
+  public async signInUser(docType: string, email: string, password: string) {
     const requestUrl = `${this.API_URL}/login/${docType}`;
     const requestBody = { email: email, password: password };
     let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
     this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
+    this._USER = res.body.data;
     this.authStateChange.next({
       status: 'LOGGED_IN',
     });
-    return res.body.data;
+    return res;
   }
 
   /**
@@ -246,11 +258,9 @@ export class SwsErpService {
     if (authState && authState.status == 'LOGGED_OUT') {
       return;
     }
-
     this._REFRESH_TOKEN = null;
     this._TOKEN = null;
     this._DOC_USER = null;
-
     this.authStateChange.next({
       status: 'LOGGED_OUT',
     });
