@@ -1,0 +1,25 @@
+.container {
+  padding: calc(var(--ion-padding) / 4) 0;
+  background-color: rgba(var(--ion-color-secondary-rgb), 0.6);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+p {
+  text-align: end;
+  font-size: var(--ion-font-xs);
+  margin: 0;
+  color: #222428;
+
+  animation: scrolling-anim 7500ms linear infinite;
+}
+
+@keyframes scrolling-anim {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
