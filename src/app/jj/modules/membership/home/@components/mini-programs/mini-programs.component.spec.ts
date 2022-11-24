@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { LuckyDrawActivityComponent } from './lucky-draw-activity.component';
+import { MiniProgramsComponent } from './mini-programs.component';
 
-describe('LuckyDrawActivityComponent', () => {
-  let component: LuckyDrawActivityComponent;
-  let fixture: ComponentFixture<LuckyDrawActivityComponent>;
+describe('MiniProgramsComponent', () => {
+  let component: MiniProgramsComponent;
+  let fixture: ComponentFixture<MiniProgramsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LuckyDrawActivityComponent ],
+      declarations: [ MiniProgramsComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LuckyDrawActivityComponent);
+    fixture = TestBed.createComponent(MiniProgramsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

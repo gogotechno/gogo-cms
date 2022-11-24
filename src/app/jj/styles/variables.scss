@@ -74,12 +74,16 @@
 
   --ion-color-orange: #ffa500;
 
-  --ion-font-size-xs: 12px;
-  --ion-font-size-sm: 14px;
-  --ion-font-size: 16px;
-  --ion-font-size-lg: 18px;
-  --ion-font-size-xl: 20px;
-  --ion-font-size-2xl: 22px;
+  --ion-font-xs: 12px;
+  --ion-font-sm: 14px;
+  --ion-font-md: 16px;
+  --ion-font-lg: 18px;
+  --ion-font-xl: 20px;
+  --ion-font-2xl: 24px;
+  --ion-font-3xl: 30px;
+  --ion-font-4xl: 36px;
+
+  --ion-font-bold: bold;
 
   --ion-fab-button-size: 56px;
 }
@@ -157,31 +161,31 @@
 // -----------------------------------------------------------------------------------------------------
 
 .ion-font-bold {
-  font-weight: bold;
+  font-weight: var(--ion-font-bold);
 }
 
 .ion-text-xs {
-  font-size: var(--ion-font-size-xs);
+  font-size: var(--ion-font-xs);
 }
 
 .ion-text-sm {
-  font-size: var(--ion-font-size-sm);
+  font-size: var(--ion-font-sm);
 }
 
 .ion-text-md {
-  font-size: var(--ion-font-size);
+  font-size: var(--ion-font-md);
 }
 
 .ion-text-lg {
-  font-size: var(--ion-font-size-lg);
+  font-size: var(--ion-font-lg);
 }
 
 .ion-text-xl {
-  font-size: var(--ion-font-size-xl);
+  font-size: var(--ion-font-xl);
 }
 
 .ion-text-2xl {
-  font-size: var(--ion-font-size-2xl);
+  font-size: var(--ion-font-2xl);
 }
 
 // -----------------------------------------------------------------------------------------------------
@@ -228,7 +232,7 @@ cms-form,
     --inner-border-width: 0;
     --min-height: 60px;
 
-    font-size: var(--ion-font-size-sm);
+    font-size: var(--ion-font-sm);
   }
 
   ion-item:not(.item-input) {
@@ -248,7 +252,7 @@ cms-form,
   ion-label.label-stacked.sc-ion-label-md-h,
   ion-label.label-stacked.sc-ion-label-ios-h {
     transform: unset;
-    font-size: var(--ion-font-size-sm);
+    font-size: var(--ion-font-sm);
     margin-top: calc(var(--ion-margin) / 4);
     margin-bottom: calc(var(--ion-margin) / 6);
     margin-right: calc(var(--ion-margin) / 3);

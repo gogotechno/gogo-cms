@@ -1,9 +1,18 @@
 <ion-card>
-  <p>最靠近您的门市</p>
-  <ion-card-content>
-    <ion-button slot="icon-only" shape="round"><ion-icon name="storefront"></ion-icon></ion-button>
-    <p>Shop</p>
-    <ion-button slot="icon-only" shape="round"><ion-icon name="locate"></ion-icon></ion-button>
-    <ion-button slot="icon-only" shape="round"><ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon></ion-button>
+  <ion-card-header class="ion-no-padding-bottom">最靠近您的门市</ion-card-header>
+  <ion-grid><ion-row><ion-col>
+  <ion-card-content class="ion-no-padding">
+    <ion-button slot="icon-only" shape="round" color="warning"><ion-icon name="storefront"></ion-icon></ion-button>
+    <ion-col>
+      <ion-row>
+      <ion-text color="dark" class="font-bold">Shop</ion-text>
+      </ion-row>
+      <ion-row>
+      <ion-text style="font-size:x-small" color="medium">距離XX公里</ion-text>
+      </ion-row>
+    </ion-col>
+    <ion-button slot="icon-only" shape="round" color="light"><ion-icon name="locate"></ion-icon></ion-button>
+    <ion-button slot="icon-only" shape="round" color="light"><ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon></ion-button>
   </ion-card-content>
+</ion-col></ion-row></ion-grid>
 </ion-card>

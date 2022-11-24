@@ -45,7 +45,7 @@ export class CoreService {
   // @ User
   // -----------------------------------------------------------------------------------------------------
 
-  async getUserByDocUser(docUserId: number) {
+  async getUserByDocUserId(docUserId: number) {
     let res = await this.swsErp.getDocs<JJUser>('User', { doc_user_id: docUserId, doc_user_id_type: '=' });
     return res.result.map((user) => this.populateUser(user))[0];
   }
