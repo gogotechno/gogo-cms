@@ -33,13 +33,17 @@
     </div>
     <ng-container *ngFor="let distribution of distributions; let index = index">
       <h3 class="title" *ngIf="showDistributionDate(index)">{{ distribution.distributedAt | date: "YYYY-MM-dd" }}</h3>
-      <ion-item [routerLink]="[distribution.doc_id]">
+      <ion-item [detail]="false" [routerLink]="[distribution.doc_id]">
         <ion-label slot="start">
           <h3>#{{ distribution.doc_id }}</h3>
           <p>{{ distribution.merchant.name }}</p>
           <p>{{ distribution.distributedAt | date: "HH:mm" }}</p>
         </ion-label>
-        <distribution-summary [distribution]="distribution"></distribution-summary>
+        <distribution-summary
+          [tickets]="distribution.totalOfSnwTickets"
+          [points]="distribution.freePoint"
+          [snwTickets]="distribution.totalOfSnwTickets"
+        ></distribution-summary>
       </ion-item>
     </ng-container>
   </ion-list>

@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { DetailsPageRoutingModule } from './details-routing.module';
 import { DetailsPage } from './details.page';
+import { DetailsComponentsModule } from './@components/details-components.module';
 import { SharedModule } from 'src/app/jj/shared';
-import { MyRewardsComponentsModule } from '../@components/my-rewards-components.module';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { RewardsComponentsModule } from '../../@components/rewards-components.module';
 
 @NgModule({
   imports: [
@@ -15,10 +16,11 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     DetailsPageRoutingModule,
+    DetailsComponentsModule,
     SharedModule,
-    MyRewardsComponentsModule,
     SwsErpModule,
     CmsUIModule,
+    RewardsComponentsModule,
   ],
   declarations: [DetailsPage],
 })

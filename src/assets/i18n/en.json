@@ -63,6 +63,10 @@
   "_CHANGE_PASSWORD": "Change password",
   "_EDIT_PROFILE": "Edit profile",
   "_VIEW_ALL": "View All",
+  "_DAYS_SHORT": "D",
+  "_HOURS_SHORT": "H",
+  "_MINUTES_SHORT": "M",
+  "_SECONDS_SHORT": "S",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -276,7 +280,7 @@
     "_JOINED_EVENTS": "Joined Events",
     "_TICKETS": "Tickets",
     "_POINTS": "Points",
-    "_SNW_TICKETS": "S&W Tickets",
+    "_SNW_TICKETS": "S&W",
     "_NO_DISTRIBUTIONS_FOUND": "No distributions found",
     "_NO_MORE_TICKET_DISTRIBUTIONS": "No more distributions",
     "_TICKET_DISTRIBUTION_DETAILS": "Ticket distribution details",
@@ -290,6 +294,8 @@
     "_EVENT": "Event",
     "_DISTRIBUTED_AT": "Distributed at",
     "_DISTRIBUTED_TO": "Distributed to",
-    "_DISTRIBUTED_BY": "Distributed by"
+    "_DISTRIBUTED_BY": "Distributed by",
+    "_EVENT_COUNTDOWN": "Remaining time",
+    "_YOU_HAVE_GAINED": "You have gained"
   }
 }

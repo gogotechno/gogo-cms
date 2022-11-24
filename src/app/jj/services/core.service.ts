@@ -118,6 +118,11 @@ export class CoreService {
     return events;
   }
 
+  async getEventById(eventId: number) {
+    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId);
+    return this.populateEvent(res);
+  }
+
   async getTicketDistributions(pagination: Pagination, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,

@@ -13,7 +13,11 @@
 <ion-content>
   <ng-container *ngIf="distribution">
     <ion-item lines="none" class="summary">
-      <distribution-summary [distribution]="distribution"></distribution-summary>
+      <distribution-summary
+        [tickets]="distribution.totalOfSnwTickets"
+        [points]="distribution.freePoint"
+        [snwTickets]="distribution.totalOfSnwTickets"
+      ></distribution-summary>
     </ion-item>
     <h3 class="title">{{ "jj._TICKET_DISTRIBUTION_DETAILS" | translate }}</h3>
     <ion-grid class="details">

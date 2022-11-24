@@ -1,0 +1,58 @@
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/rewards/home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-event-card-summary></app-event-card-summary>
+  <app-event-description></app-event-description>
+  <app-event-location></app-event-location>
+
+  <div class="ion-margin">
+    <ion-segment mode="ios" [(ngModel)]="segment">
+      <ion-segment-button value="luck-draw">
+        <ion-label style="font-weight: bold">幸运抽奖</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="gift-code">
+        <ion-label style="font-weight: bold">赠送礼码</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="gift-lottery">
+        <ion-label style="font-weight: bold">赠送刮刮卷</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div [ngSwitch]="segment">
+    <ion-card *ngSwitchCase="'luck-draw'" class="ion-no-margin transparent">
+      <ion-card-content class="items-center margin-start-only">
+        <app-lucky-draw-rewards></app-lucky-draw-rewards>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngSwitchCase="'gift-code'" class="ion-no-margin transparent">
+      <ion-card-content class="items-center margin-start-only">
+        <app-gift-code></app-gift-code>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngSwitchCase="'gift-lottery'" class="ion-no-margin transparent">
+      <ion-card-content class="items-center margin-start-only">
+        <app-gift-lottery></app-gift-lottery>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <event-card-summary></event-card-summary>
+  <event-description></event-description>
+</ion-content>
