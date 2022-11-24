@@ -1,5 +1,5 @@
 <div class="container">
-  <h3 class="section-title">{{ 'jj._LUCKY_DRAW_EVENTS' | translate }}</h3>
+  <h3 class="title">{{ 'jj._LUCKY_DRAW_EVENTS' | translate }}</h3>
   <ion-slides [options]="slideOpts">
     <ion-slide *ngFor="let event of events">
       <img [src]="event.thumbnailImage | erpImg" />

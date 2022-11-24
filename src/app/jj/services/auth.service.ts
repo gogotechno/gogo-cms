@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { DocUser } from 'src/app/sws-erp.type';
+import { DocUser, Pagination } from 'src/app/sws-erp.type';
 import { COMPANY_CODE, JJCustomer, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
@@ -96,11 +96,17 @@ export class AuthService {
     return this._CURRENT_USER;
   }
 
+  async findMyMerchantId() {
+    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
+    return access ? Number(access.access_val) : null;
+  }
+
   async findMyWallets() {
     let wallets: JJWallet[];
     switch (this._USER_TYPE) {
       case 'MERCHANT':
-        let merchantId = await this.getMyMerchantId();
+        let merchantId = await this.findMyMerchantId();
         wallets = await this.core.getWalletByMerchantId(merchantId);
         break;
       default:
@@ -109,12 +115,6 @@ export class AuthService {
         break;
     }
     return wallets;
-  }
-
-  async getMyMerchantId() {
-    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
-    return access ? Number(access.access_val) : null;
   }
 
   updateMe(payload: Partial<User>) {
@@ -128,22 +128,30 @@ export class AuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string) {
+    let requestBody = {
+      old_password: oldPassword,
+      new_password: newPassword,
+    };
     switch (this._USER_TYPE) {
       case 'MERCHANT':
-        return this.updateMe({
-          old_password: oldPassword,
-          new_password: newPassword,
-        });
+        return this.updateMe(requestBody);
       default:
-        let userId = this._CURRENT_USER.doc_id;
-        return this.swsErp.changePassword(
-          userId,
-          {
-            old_password: oldPassword,
-            new_password: newPassword,
-          },
-          'Customer',
-        );
+        let customerId = this._CURRENT_USER.doc_id;
+        return this.swsErp.changePassword(customerId, requestBody, 'Customer');
+    }
+  }
+
+  async findMyJoinedEvents(pagination: Pagination) {
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+        return [];
+      default:
+        let customerId = this._CURRENT_USER.doc_id;
+        let events = await this.core.getEvents(pagination, {
+          customerId: customerId,
+          customerId_type: '=',
+        });
+        return events;
     }
   }
 }

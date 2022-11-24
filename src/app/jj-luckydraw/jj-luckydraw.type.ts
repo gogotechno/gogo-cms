@@ -108,7 +108,7 @@ export interface JJTicket extends ErpDoc {
   event_id: number;
   merchant_id: number;
   ticket_distribution_id: number;
-  statusTranslation?: `CmsTranslation`;
+  statusTranslation?: CmsTranslation;
   event?: JJEvent;
   ticket_distribution?: JJTicketDistribution;
 }

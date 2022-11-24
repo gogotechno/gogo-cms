@@ -44,7 +44,7 @@ export class CmsUtils {
      * @param defaultText Default text if conversion failed, use original JSON string if not provided
      * @returns Returns converted CmsTranslation object
      */
-    transformJSONStringtoCMSTranslation(jsonString: string, defaultText?: string) {
+    parseCmsTranslation(jsonString: string, defaultText?: string) {
         try {
             return JSON.parse(jsonString);
         } catch (err) {

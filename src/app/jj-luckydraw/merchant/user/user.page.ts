@@ -132,7 +132,7 @@ export class UserPage implements OnInit {
     roleField.options = roles.map((role) => {
       let item: CmsFormItemOption = {
         code: role.code,
-        label: this.utils.transformJSONStringtoCMSTranslation(role.name),
+        label: this.utils.parseCmsTranslation(role.name),
       };
       return item;
     });

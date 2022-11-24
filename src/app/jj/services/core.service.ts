@@ -5,8 +5,17 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
-import { COMPANY_CODE, JJCustomer, JJEvent, JJUser, JJWallet, LANGUAGE_STORAGE_KEY } from '../typings';
+import { Conditions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import {
+  COMPANY_CODE,
+  JJCustomer,
+  JJEvent,
+  JJProduct,
+  JJTicketDistribution,
+  JJUser,
+  JJWallet,
+  LANGUAGE_STORAGE_KEY,
+} from '../typings';
 
 @Injectable({
   providedIn: 'root',
@@ -90,14 +99,35 @@ export class CoreService {
   // @ Event
   // -----------------------------------------------------------------------------------------------------
 
-  async getOngoingEvents(pagination: Pagination) {
+  async getEvents(pagination: Pagination, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  async getOngoingEvents(pagination: Pagination) {
+    let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
     });
-    return res.result;
+    return events;
+  }
+
+  async getTicketDistributions(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    return res.result.map((distribution) => this.populateTicketDistribution(distribution));
+  }
+
+  async getTicketDistributionById(distributionId: number) {
+    let res = await this.swsErp.getDoc<JJTicketDistribution>('Ticket Distribution', distributionId);
+    return res;
   }
 
   async getWinners(pagination: Pagination) {
@@ -113,7 +143,35 @@ export class CoreService {
   // -----------------------------------------------------------------------------------------------------
 
   private populateUser(user: JJUser) {
-    user.roleTranslation = this.cmsUtils.transformJSONStringtoCMSTranslation(user.translate?.role, user.role);
+    if (!user) {
+      return null;
+    }
+    user.roleTranslation = this.cmsUtils.parseCmsTranslation(user.translate?.role, user.role);
     return user;
+  }
+
+  private populateProduct(product: JJProduct) {
+    if (!product) {
+      return null;
+    }
+    product.nameTranslation = this.cmsUtils.parseCmsTranslation(product.translate?.name, product.name);
+    return product;
+  }
+
+  private populateEvent(event: JJEvent) {
+    if (!event) {
+      return null;
+    }
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(event.translate?.name, event.name);
+    return event;
+  }
+
+  private populateTicketDistribution(distribution: JJTicketDistribution) {
+    if (!distribution) {
+      return null;
+    }
+    distribution.product = this.populateProduct(distribution.product);
+    distribution.event = this.populateEvent(distribution.event);
+    return distribution;
   }
 }

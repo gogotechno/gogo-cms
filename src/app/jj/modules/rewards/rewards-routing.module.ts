@@ -17,8 +17,12 @@ const routes: Routes = [
         loadChildren: () => import('./event-details/event-details.module').then((m) => m.EventDetailsPageModule),
       },
       {
+        path: 'my-rewards',
+        loadChildren: () => import('./my-rewards/my-rewards.module').then((m) => m.MyRewardsPageModule),
+      },
+      {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'my-rewards',
         pathMatch: 'full',
       },
     ],

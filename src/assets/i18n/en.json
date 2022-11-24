@@ -62,6 +62,7 @@
   "_CHANGE_LANGUAGE": "Change language",
   "_CHANGE_PASSWORD": "Change password",
   "_EDIT_PROFILE": "Edit profile",
+  "_VIEW_ALL": "View All",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -268,6 +269,10 @@
     "_LUCKY_DRAW_EVENTS": "Lucky draw events",
     "_MY_DASHBOARD": "My Dashboard",
     "_CONFIRM_TO_UPDATE_PROFILE": "Confirm to update profile?",
-    "_PROFILE_UPDATED": "Profile updated"
+    "_PROFILE_UPDATED": "Profile updated",
+    "_MY_REWARDS": "My Rewards",
+    "_REWARDS": "Rewards",
+    "_PRIZES": "Prizes",
+    "_JOINED_EVENTS": "Joined Events"
   }
 }

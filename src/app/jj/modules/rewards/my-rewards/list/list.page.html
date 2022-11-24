@@ -1,0 +1,28 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-title>{{ "jj._MY_REWARDS" | translate }}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segmentCode">
+      <ion-segment-button *ngFor="let segmentButton of segmentButtons" [value]="segmentButton.code">
+        <ion-label>{{ segmentButton.label | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <h3 class="title">
+      <span>{{ "jj._JOINED_EVENTS" | translate }}</span>
+      <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button>
+    </h3>
+    <div class="events">
+      <ion-avatar *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
+        <ion-badge color="danger">99</ion-badge>
+        <ion-img src="https://picsum.photos/1920/1080"></ion-img>
+      </ion-avatar>
+    </div>
+  </div>
+  <div class="container"></div>
+</ion-content>

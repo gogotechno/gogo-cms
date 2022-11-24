@@ -52,7 +52,10 @@ export interface JJEvent extends ErpDoc {
   thumbnailImage: string;
   backgroundImage: string;
   merchant_id: number;
+
   prizes?: JJEventPrize[];
+
+  nameTranslation?: CmsTranslation;
 }
 
 export enum EventStatus {
@@ -88,4 +91,45 @@ export interface JJWalletPermission extends ErpDoc {
   walletId: number;
   customerId?: number;
   merchantId?: number;
+}
+
+export interface JJProduct extends ErpDoc {
+  code: string;
+  name: string;
+
+  nameTranslation?: CmsTranslation;
+}
+
+export interface JJTicketDistribution extends ErpDoc {
+  distributedAt: Date;
+  distributedBy: number;
+  customerFirstName: string;
+  customerLastName: string;
+  customerContactNo: string;
+  billNo: string;
+  event_id: number;
+  merchant_id: number;
+  application_id: number;
+
+  tickets?: JJTicket[];
+
+  event?: JJEvent;
+  product?: JJProduct;
+  totalOfTickets?: number;
+  distributedByPerson?: DocUser;
+}
+
+export interface JJTicket extends ErpDoc {
+  serialNo: string;
+  status: TicketStatus;
+  event_id: number;
+  merchant_id: number;
+  ticket_distribution_id: number;
+
+  statusTranslation?: CmsTranslation;
+}
+
+export enum TicketStatus {
+  VALID = 'VALID',
+  INVALID = 'INVALID',
 }

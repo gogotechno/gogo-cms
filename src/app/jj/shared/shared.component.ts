@@ -1,13 +1,21 @@
-import { default as packageJson } from '../../../../package.json';
+import { Pagination } from 'src/app/sws-erp.type';
 import { PackageInfo } from './shared.interface';
+import { default as packageJson } from '../../../../package.json';
 
 export class SharedComponent {
   constructor() {}
 
-  protected getPackageInfo() {
+  protected get defaultPage(): Pagination {
+    return {
+      itemsPerPage: 10,
+      currentPage: 1,
+    };
+  }
+
+  protected getPackageInfo(): PackageInfo {
     return {
       version: packageJson.version,
-    } as PackageInfo;
+    };
   }
 
   protected assertElement(id: string) {
