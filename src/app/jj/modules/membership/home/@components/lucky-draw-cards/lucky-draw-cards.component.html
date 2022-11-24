@@ -1,8 +1,8 @@
 <div class="container">
-  <h3 class="section-title">幸运抽奖活动</h3>
-  <ion-slides [options]="{ spaceBetween: 8, slidesPerView: 2.5 }">
-    <ion-slide *ngFor="let i of [0, 1, 2, 3]">
-      <img [src]="'https://picsum.photos/1080/1920?random=' + (i + 1)" />
+  <h3 class="section-title">{{ 'jj._LUCKY_DRAW_EVENTS' | translate }}</h3>
+  <ion-slides [options]="slideOpts">
+    <ion-slide *ngFor="let event of events">
+      <img [src]="event.thumbnailImage | erpImg" />
     </ion-slide>
   </ion-slides>
 </div>

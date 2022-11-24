@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/membership/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "_EDIT_PROFILE" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    <cms-form [form]="form" [value]="user" (submit)="onSubmit($event)"></cms-form>
+  </div>
+</ion-content>
