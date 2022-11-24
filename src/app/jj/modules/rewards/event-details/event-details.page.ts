@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventDetailsPage implements OnInit {
 
+  segment = "luck-draw"
+
   constructor() { }
 
   ngOnInit() {
