@@ -12,58 +12,71 @@
 <div class="card-container">
   <ion-card>
     <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col class="ion-no-padding" size="4" offset="0.5">
-            <ion-text style="font-size: x-small" color="medium">活动结束倒数计时</ion-text>
-          </ion-col>
-          <ion-col class="ion-no-padding" size="6" offset="0.5">
-            <ion-text style="font-size: x-small" color="medium">您获得了</ion-text>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="0.85" offset="0.5" class="content">
-            <ion-text color="dark" class="font-bold">{{ countdownTimer.days | number: '2.0-0' }}</ion-text>
-            <ion-text style="font-size: x-small" color="medium">天</ion-text>
-          </ion-col>
-          <ion-col size="0.2" class="content">
-            <ion-text color="dark" class="font-bold">:</ion-text>
-            <ion-text> </ion-text>
-          </ion-col>
-          <ion-col size="0.85" class="content">
-            <ion-text color="dark" class="font-bold">{{ countdownTimer.hours | number: '2.0-0' }}</ion-text>
-            <ion-text style="font-size: x-small" color="medium">时</ion-text>
-          </ion-col>
-          <ion-col size="0.2" class="content">
-            <ion-text color="dark" class="font-bold">:</ion-text>
-            <ion-text> </ion-text>
-          </ion-col>
-          <ion-col size="0.85" class="content">
-            <ion-text color="dark" class="font-bold">{{ countdownTimer.minutes | number: '2.0-0' }}</ion-text>
-            <ion-text style="font-size: x-small" color="medium">分</ion-text>
-          </ion-col>
-          <ion-col size="0.2" class="content">
-            <ion-text color="dark" class="font-bold">:</ion-text>
-            <ion-text> </ion-text>
-          </ion-col>
-          <ion-col size="0.85" class="content">
-            <ion-text color="dark" class="font-bold">{{ countdownTimer.seconds | number: '2.0-0' }}</ion-text>
-            <ion-text style="font-size: x-small" color="medium">秒</ion-text>
+      <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-grid>
+            <ion-col>
+              <ion-row>
+                <ion-text class="ion-text-xs" color="medium">活动结束倒数计时</ion-text>
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="2.2" class="content">
+                  <ion-text color="dark" class="font-bold">{{ countdownTimer.days | number: '2.0-0' }}</ion-text>
+                  <ion-text class="ion-text-xs" color="medium">天</ion-text>
+                </ion-col>
+                <ion-col size="1" class="content">
+                  <ion-text color="dark" class="font-bold">:</ion-text>
+                  <ion-text> </ion-text>
+                </ion-col>
+                <ion-col size="2.2" class="content">
+                  <ion-text color="dark" class="font-bold">{{ countdownTimer.hours | number: '2.0-0' }}</ion-text>
+                  <ion-text class="ion-text-xs" color="medium">时</ion-text>
+                </ion-col>
+                <ion-col size="1" class="content">
+                  <ion-text color="dark" class="font-bold">:</ion-text>
+                  <ion-text> </ion-text>
+                </ion-col>
+                <ion-col size="2.2" class="content">
+                  <ion-text color="dark" class="font-bold">{{ countdownTimer.minutes | number: '2.0-0' }}</ion-text>
+                  <ion-text class="ion-text-xs" color="medium">分</ion-text>
+                </ion-col>
+                <ion-col size="1" class="content">
+                  <ion-text color="dark" class="font-bold">:</ion-text>
+                  <ion-text> </ion-text>
+                </ion-col>
+                <ion-col size="2.2" class="content">
+                  <ion-text color="dark" class="font-bold">{{ countdownTimer.seconds | number: '2.0-0' }}</ion-text>
+                  <ion-text class="ion-text-xs" color="medium">秒</ion-text>
+                </ion-col>
+              </ion-row>
+
+            </ion-col>
+          </ion-grid>
+
+          <ion-grid>
+          <ion-col>
+            <ion-row>
+              <ion-text class="ion-text-xs" color="medium">您获得了</ion-text>
+            </ion-row>
           </ion-col>
 
-          <ion-col size="2" offset="0.5" class="content">
+          <ion-row>
+          <ion-col size="4" class="content">
             <ion-text color="dark" class="font-bold">RM50.00</ion-text>
-            <ion-text color="medium" style="font-size: x-small">礼码</ion-text>
+            <ion-text color="medium" class="ion-text-xs">礼码</ion-text>
           </ion-col>
-          <ion-col size="2" class="content">
+          <ion-col size="4" class="content">
             <ion-text color="dark" class="font-bold">1张</ion-text>
-            <ion-text color="medium" style="font-size: x-small">抽奖券</ion-text>
+            <ion-text color="medium" class="ion-text-xs">抽奖券</ion-text>
           </ion-col>
-          <ion-col size="2" class="content">
+          <ion-col size="4" class="content">
             <ion-text color="dark" class="font-bold">1张</ion-text>
-            <ion-text color="medium" style="font-size: x-small">刮刮券</ion-text>
+            <ion-text color="medium" class="ion-text-xs">刮刮券</ion-text>
           </ion-col>
-        </ion-row>
+          </ion-row>
+        </ion-grid>
+       </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
