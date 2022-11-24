@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { COMPANY_CODE, JJCustomer, User, UserType } from '../typings';
+import { DocUser } from 'src/app/sws-erp.type';
+import { COMPANY_CODE, JJCustomer, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable({
@@ -93,5 +94,56 @@ export class AuthService {
       await this.findMyLuckyCustomer(this.swsErp.user);
     }
     return this._CURRENT_USER;
+  }
+
+  async findMyWallets() {
+    let wallets: JJWallet[];
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+        let merchantId = await this.getMyMerchantId();
+        wallets = await this.core.getWalletByMerchantId(merchantId);
+        break;
+      default:
+        let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
+        wallets = await this.core.getWalletByCustomerId(customer.doc_id);
+        break;
+    }
+    return wallets;
+  }
+
+  async getMyMerchantId() {
+    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
+    return access ? Number(access.access_val) : null;
+  }
+
+  updateMe(payload: Partial<User>) {
+    let userId = this._CURRENT_USER.doc_id;
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+        return this.core.updateUser(userId, payload);
+      default:
+        return this.core.updateCustomer(userId, payload);
+    }
+  }
+
+  changePassword(oldPassword: string, newPassword: string) {
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+        return this.updateMe({
+          old_password: oldPassword,
+          new_password: newPassword,
+        });
+      default:
+        let userId = this._CURRENT_USER.doc_id;
+        return this.swsErp.changePassword(
+          userId,
+          {
+            old_password: oldPassword,
+            new_password: newPassword,
+          },
+          'Customer',
+        );
+    }
   }
 }

@@ -37,7 +37,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
       }
 
       // console.log('Before making api call : ', updatedRequest);
-      
+
       return next
         .handle(updatedRequest)
         .pipe(

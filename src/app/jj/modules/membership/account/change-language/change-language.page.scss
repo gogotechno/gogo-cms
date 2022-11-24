@@ -1,0 +1,8 @@
+ion-avatar ion-img {
+  object-fit: cover;
+  object-position: center;
+
+  &::part(image) {
+    transform: scale(1.5);
+  }
+}

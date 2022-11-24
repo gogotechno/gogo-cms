@@ -142,6 +142,10 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
     }
 
+    if (this.form.autoRemoveUnusedKeys) {
+      data = this.removeUnusedKeys(this.form.autoRemoveUnusedKeys, data);
+    }
+
     this.submit.emit(data);
   }
 

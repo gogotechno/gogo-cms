@@ -49,6 +49,8 @@ export interface JJEvent extends ErpDoc {
   startAt: Date;
   endAt: Date;
   drawAt: Date;
+  thumbnailImage: string;
+  backgroundImage: string;
   merchant_id: number;
   prizes?: JJEventPrize[];
 }

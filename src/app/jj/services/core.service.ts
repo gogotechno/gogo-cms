@@ -6,7 +6,7 @@ import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
-import { COMPANY_CODE, JJCustomer, JJEvent, JJUser, LANGUAGE_STORAGE_KEY } from '../typings';
+import { COMPANY_CODE, JJCustomer, JJEvent, JJUser, JJWallet, LANGUAGE_STORAGE_KEY } from '../typings';
 
 @Injectable({
   providedIn: 'root',
@@ -46,8 +46,23 @@ export class CoreService {
   // -----------------------------------------------------------------------------------------------------
 
   async getUserByDocUserId(docUserId: number) {
-    let res = await this.swsErp.getDocs<JJUser>('User', { doc_user_id: docUserId, doc_user_id_type: '=' });
+    let res = await this.swsErp.getDocs<JJUser>('User', {
+      doc_user_id: docUserId,
+      doc_user_id_type: '=',
+    });
     return res.result.map((user) => this.populateUser(user))[0];
+  }
+
+  async getWalletByMerchantId(merchantId: number) {
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+      merchantId: merchantId,
+      merchantId_type: '=',
+    });
+    return res.result;
+  }
+
+  updateUser(userId: number, user: Partial<JJUser>) {
+    return this.swsErp.putDoc('User', userId, user);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -57,6 +72,18 @@ export class CoreService {
   async getCustomerById(customerId: number) {
     let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId);
     return res;
+  }
+
+  async getWalletByCustomerId(customerId: number) {
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+      customerId: customerId,
+      customerId_type: '=',
+    });
+    return res.result;
+  }
+
+  updateCustomer(customerId: number, customer: Partial<JJCustomer>) {
+    return this.swsErp.putDoc('Customer', customerId, customer);
   }
 
   // -----------------------------------------------------------------------------------------------------

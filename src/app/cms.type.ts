@@ -94,6 +94,7 @@ export interface CmsForm extends CmsDocument {
   name?: CmsTranslation;
   submitButtonText?: string;
   autoValidate?: boolean;
+  autoRemoveUnusedKeys?: 'swserp';
   items: Array<CmsFormItem>;
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
   lines?: 'full' | 'inset' | 'none' | undefined;
