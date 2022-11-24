@@ -1,0 +1,22 @@
+ion-item {
+  --padding-start: calc(var(--ion-padding) / 2);
+  --inner-padding-end: 0;
+
+  ion-avatar,
+  ion-label {
+    margin-top: calc(var(--ion-margin) / 4);
+    margin-bottom: calc(var(--ion-margin) / 4);
+  }
+
+  ion-label {
+    p,
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    h3 {
+      font-weight: var(--ion-font-bold);
+    }
+  }
+}
