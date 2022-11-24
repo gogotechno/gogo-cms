@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MiniProgram } from 'src/app/jj/typings';
+import { HomeService } from '../../@services/home.service';
 
 @Component({
   selector: 'mini-programs',
@@ -6,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mini-programs.component.scss'],
 })
 export class MiniProgramsComponent implements OnInit {
-  constructor() {}
+  miniPrograms: MiniProgram[];
 
-  ngOnInit() {}
+  constructor(private home: HomeService) {}
+
+  ngOnInit() {
+    this.home.miniPrograms.subscribe((miniPrograms) => {
+      this.miniPrograms = miniPrograms;
+    });
+  }
 }

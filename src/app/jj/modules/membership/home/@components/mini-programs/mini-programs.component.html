@@ -1,8 +1,10 @@
 <div class="container">
-  <ion-button fill="clear" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
-    <div>
-      <ion-icon name="game-controller"></ion-icon>
-      <ion-label>JJ游戏</ion-label>
-    </div>
-  </ion-button>
+  <ng-container *ngFor="let miniProgram of miniPrograms">
+    <ion-button fill="clear" [routerLink]="miniProgram.link">
+      <ion-label>
+        <ion-icon [name]="miniProgram.icon"></ion-icon>
+        <h3>{{ miniProgram.name | erpTranlate }}</h3>
+      </ion-label>
+    </ion-button>
+  </ng-container>
 </div>

@@ -24,7 +24,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
   async handle(request: HttpRequest<any>, next: HttpHandler) {
     let apiUrl = environment.swsErp.apiUrl;
     if (request.url.substring(0, apiUrl.length) === apiUrl) {
-      await this.app.presentLoading();
+      // await this.app.presentLoading();
 
       let updatedRequest = request.clone({
         setParams: { lang: this.erp.language },
