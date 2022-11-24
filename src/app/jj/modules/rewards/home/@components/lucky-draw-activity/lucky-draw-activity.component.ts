@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import _ from 'lodash';
 import { CoreService } from 'src/app/jj/services/core.service';
 import { CountdownTimer, SharedComponent } from 'src/app/jj/shared';
 
@@ -9,6 +10,9 @@ import { CountdownTimer, SharedComponent } from 'src/app/jj/shared';
 })
 export class LuckyDrawActivityComponent extends SharedComponent implements OnInit {
   countdownTimer: CountdownTimer;
+
+  Events: any[];
+  EventGroup: any[][];
 
   constructor(private core: CoreService) {
     super();
@@ -21,12 +25,19 @@ export class LuckyDrawActivityComponent extends SharedComponent implements OnIni
   }
 
   async ngOnInit() {
-    // let res = await this.core.getOngoingEvents({
-    //   itemsPerPage: 10,
-    //   currentPage: 1,
-    // });
+    this.Events = await this.core.getOngoingEvents({
+      itemsPerPage: 10,
+      currentPage: 1,
+    });
 
-    this.startTimer();
+    console.log(this.Events);
+
+    // this.EventGroup = _.chunk(this.Events, 2);
+
+    // console.log(this.EventGroup);
+  
+
+  this.startTimer();
   }
   startTimer() {
     let endDate = new Date('2023-11-11');
