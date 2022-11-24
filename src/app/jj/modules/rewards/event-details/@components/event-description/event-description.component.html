@@ -1,16 +1,18 @@
 <div class="ion-margin">
-  <h4 class="ion-font-bold">Lucky Draw Event</h4>
-  <p id="description" class="ion-text-ellipsis">
+  <h4 class="ion-font-bold ion-no-margin">Lucky Draw Event</h4>
+  <p id="description" class="ion-text-ellipsis ion-no-margin">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus imperdiet, nulla et dictum interdum, nisi lorem
     egestas vitae scelerisque enim ligula venenatis dolor. Maecenas nisl est, ultrices nec congue eget, auctor vitae
     massa. Fusce luctus vestibulum augue ut aliquet. Nunc sagittis dictum nisi, sed ullamcorper ipsum dignissim ac. In
     at libero sed nunc venenatis imperdiet sed ornare turpis. Donec vitae dui eget tellus gravida venenatis. Integer
     fringilla congue eros non fermentum. Sed dapibus pulvinar nibh tempor porta.
   </p>
-  <ion-button *ngIf="canExpand" (click)="toggleMore()">
+  <div class="ion-text-center ion-no-margin">
+  <ion-button fill="clear" *ngIf="canExpand" (click)="toggleMore()">
     <ion-label>
       <span *ngIf="!expanded">Read more</span>
       <span *ngIf="expanded">Read less</span>
     </ion-label>
   </ion-button>
+</div>
 </div>

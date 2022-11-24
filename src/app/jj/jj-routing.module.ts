@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'membership',
+        redirectTo: 'rewards',
         pathMatch: 'full',
       },
     ],
@@ -31,3 +31,6 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class JJPageRoutingModule {}
+
+// 0127093406
+// ss123456
