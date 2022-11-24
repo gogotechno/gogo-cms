@@ -20,10 +20,10 @@ export class SummaryCardComponent implements OnInit {
       currentPage: 1,
     });
 
-    // console.log(this.winners);
+    console.log(this.winners);
 
-    // this.winnerGroup = _.chunk(this.winners, 8);
+    this.winnerGroup = _.chunk(this.winners, 8);
 
-    // console.log(this.winnerGroup);
+    console.log(this.winnerGroup);
   }
 }

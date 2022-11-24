@@ -1,5 +1,11 @@
 <div class="lucky-draw-container">
-  <h3 class="title ion-margin-start" style="font-weight: bold">幸运抽奖活动</h3>
+  <h3 class="title ion-margin-start">幸运抽奖活动</h3>
+
+  <ion-text *ngFor="let event of eventGroup">
+    <div>
+      {{ event.doc_id }}
+    </div>
+  </ion-text>
 
   <ion-slides pager="true">
     <ion-slide>

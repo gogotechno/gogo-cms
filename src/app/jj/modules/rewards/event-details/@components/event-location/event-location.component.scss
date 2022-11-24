@@ -1,8 +1,15 @@
 :host ::ng-deep ion-button.button-round {
-    --padding-start: 8px;
-    --padding-end: 8px;
+    --padding-start: 4px;
+    --padding-end: 4px;
   }
 
   ion-card-content {
     display: flex;
   }
+  
+  .margin-start-only{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 0;
+    margin-bottom: 0;
+}

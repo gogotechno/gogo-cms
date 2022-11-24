@@ -5,7 +5,7 @@ img {
 }
 
 .card-container {
-    margin-top: -60px;
+    margin-top: -54px;
 }
 
 ion-card {
@@ -18,10 +18,11 @@ ion-card {
       padding-left: calc(var(--ion-padding) / 2);
       padding-right: calc(var(--ion-padding) / 2);
     }
-    ion-col.content {
+    ion-col.content{
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;     
     }
+
   }
