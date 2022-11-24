@@ -6,9 +6,10 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { HomeComponentsModule } from './@components/home-components.module';
 import { HomeService } from './@services/home.service';
+import { SharedModule } from 'src/app/jj/shared';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, HomeComponentsModule],
+  imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule, SharedModule, HomeComponentsModule],
   declarations: [HomePage],
   providers: [HomeService],
 })

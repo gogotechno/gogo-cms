@@ -10,7 +10,7 @@
             <ion-grid class="ion-no-padding">
               <ion-row>
                 <ion-col >
-                  <ion-text  style="font-weight:bold;" color="dark">{{ countdownTimer.days | number: "2.0-0" }}</ion-text>
+                  <ion-text  class="ion-font-bold" color="dark">{{ countdownTimer.days | number: "2.0-0" }}</ion-text>
                   <div class="stick">
                     <ion-text  style="font-size:x-small;" color="medium">天</ion-text>
                   </div>
@@ -19,7 +19,7 @@
                   <p style="margin-left: 4px; margin-right: 4px;">:</p>
                 </ion-col>
                 <ion-col >
-                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.hours | number: "2.0-0" }}</ion-text>
+                  <ion-text class="ion-font-bold" color="dark">{{ countdownTimer.hours | number: "2.0-0" }}</ion-text>
                   <div class="stick">
                     <ion-text style="font-size:x-small;" color="medium" class="ion-text-center">时</ion-text>
                   </div>
@@ -28,7 +28,7 @@
                   <p style="margin-left: 4px; margin-right: 4px;">:</p>
                 </ion-col>
                 <ion-col>
-                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.minutes | number: "2.0-0" }}</ion-text>
+                  <ion-text class="ion-font-bold" color="dark">{{ countdownTimer.minutes | number: "2.0-0" }}</ion-text>
                   <div class="stick">
                     <ion-text style="font-size:x-small;" color="medium">分</ion-text>
                   </div>
@@ -37,7 +37,7 @@
                   <p style="margin-left: 4px; margin-right: 4px;">:</p>
                 </ion-col>
                 <ion-col>
-                  <ion-text style="font-weight:bold;" color="dark">{{ countdownTimer.seconds | number: "2.0-0" }}</ion-text>
+                  <ion-text class="ion-font-bold" color="dark">{{ countdownTimer.seconds | number: "2.0-0" }}</ion-text>
                   <div class="stick">
                     <ion-text style="font-size:x-small;" color="medium">秒</ion-text>
                   </div>  
@@ -66,8 +66,8 @@
   </ion-row>
 </ion-grid>
 
-<div class="ion-margin">
-  <h2><ion-text color="dark" class="ion-margin-start:30px" style="font-weight: bold">奖品</ion-text></h2>
+<div class="ion-margin-top">
+  <h4><ion-text color="dark" class="ion-margin-start ion-font-bold ion-text-xl" >奖品</ion-text></h4>
 </div>
 
 <ion-grid>

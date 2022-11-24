@@ -19,8 +19,12 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
+        path: 'account',
+        loadChildren: () => import('./account/account.module').then((m) => m.AccountPageModule),
+      },
+      {
         path: '',
-        redirectTo: 'login',
+        redirectTo: 'account',
         pathMatch: 'full',
       },
     ],

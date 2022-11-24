@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/membership/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "_CHANGE_LANGUAGE" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group [(ngModel)]="currentLangCode" (ionChange)="onLanguageChange($event)">
+      <ion-item *ngFor="let lang of languages">
+        <ion-avatar slot="start">
+          <ion-img [src]="lang.value"></ion-img>
+        </ion-avatar>
+        <ion-label><h3>{{ lang.label | cmsTranslate }}</h3></ion-label>
+        <ion-radio slot="end" mode="md" [value]="lang.code"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>

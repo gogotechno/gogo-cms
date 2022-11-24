@@ -1,8 +1,8 @@
 <div class="container">
-  <ion-card *ngFor="let i of [0, 1, 2]">
+  <ion-card *ngFor="let wallet of wallets">
     <ion-card-content>
-      <p>余额</p>
-      <h3>RM 99,999.00</h3>
+      <p>{{ "jj._BALANCE" | translate }}</p>
+      <h3>{{ wallet.walletBalance }}</h3>
     </ion-card-content>
   </ion-card>
 </div>
