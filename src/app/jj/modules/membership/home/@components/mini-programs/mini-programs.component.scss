@@ -13,19 +13,16 @@ ion-button {
   margin: calc(var(--ion-margin) / 4) 0;
   height: fit-content;
 
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: calc(var(--ion-padding) / 4);
+  ion-label {
+    white-space: normal;
+  }
 
-    ion-icon {
-      font-size: var(--ion-font-4xl);
-    }
+  ion-label ion-icon {
+    font-size: var(--ion-font-4xl);
+  }
 
-    ion-label {
-      font-size: var(--ion-font-xs);
-    }
+  ion-label h3 {
+    font-size: var(--ion-font-xs);
+    margin-bottom: 0;
   }
 }

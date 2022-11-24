@@ -6,7 +6,7 @@ import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
-import { COMPANY_CODE, JJCustomer, JJUser, LANGUAGE_STORAGE_KEY } from '../typings';
+import { COMPANY_CODE, JJCustomer, JJEvent, JJUser, LANGUAGE_STORAGE_KEY } from '../typings';
 
 @Injectable({
   providedIn: 'root',
@@ -64,7 +64,7 @@ export class CoreService {
   // -----------------------------------------------------------------------------------------------------
 
   async getOngoingEvents(pagination: Pagination) {
-    let res = await this.swsErp.getDocs('Event', {
+    let res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       status: 'ACTIVE',

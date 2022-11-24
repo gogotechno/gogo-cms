@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { COMPANY_CODE } from '../typings';
-import { JJCustomer, JJUser } from '../typings/interface';
+import { COMPANY_CODE, JJCustomer, User, UserType } from '../typings';
 import { CoreService } from './core.service';
-
-export type User = JJCustomer | JJUser;
-export type UserType = 'MERCHANT' | 'CUSTOMER';
 
 @Injectable({
   providedIn: 'root',
