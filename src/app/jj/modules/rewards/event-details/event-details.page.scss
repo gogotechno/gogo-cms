@@ -1,31 +1,32 @@
-ion-segment{
-    --background: transparent;
+ion-header {
+  &::after {
+    height: 0px;
+    background-image: none;
+  }
 
+  ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+  }
+}
+
+ion-content {
+  --padding-top: -56px;
+}
+
+ion-segment {
+  --background: transparent;
 }
 
 ion-segment-button {
-    --indicator-color: var(--ion-color-orange);
-  }
-  
-  /* Material Design styles */
-  ion-segment-button.md {
-    --color: #000;
-    --color-checked:  var(--ion-color-orange);
-  }
-  
-  /* iOS styles */
-  ion-segment-button.ios {
-    --color: var(--ion-color-orange);
-    --color-checked: #fff;
-    --border-radius: 30px;
-    --background-hover: transparent;
-    
-  }
+  --color: var(--ion-color-orange);
+  --color-checked: #fff;
+  --border-radius: 30px;
+  --background-hover: transparent;
+  --indicator-color: var(--ion-color-orange);
+  min-height: 20px;
+}
 
-  ion-card{
-  box-shadow:none !important
-  }
- 
-  ion-segment-button {
-    min-height: 20px;
-}  
+ion-card {
+  box-shadow: none;
+}

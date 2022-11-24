@@ -6,10 +6,13 @@ import { EventCardComponent } from './event-card/event-card.component';
 import { SummaryCardComponent } from './summary-card/summary-card.component';
 import { LuckyDrawActivityComponent } from './lucky-draw-activity/lucky-draw-activity.component';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { RouterModule } from '@angular/router';
+
+const components = [SummaryCardComponent, LuckyDrawActivityComponent, EventCardComponent];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, SwsErpModule],
-  exports: [SummaryCardComponent, LuckyDrawActivityComponent, EventCardComponent],
-  declarations: [SummaryCardComponent, LuckyDrawActivityComponent, EventCardComponent],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, SwsErpModule],
+  exports: components,
+  declarations: components,
 })
 export class HomeComponentsModule {}

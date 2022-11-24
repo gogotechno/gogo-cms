@@ -188,6 +188,20 @@
   font-size: var(--ion-font-2xl);
 }
 
+.ion-text-ellipsis {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  @supports (-webkit-line-clamp: 1) {
+    display: -webkit-box;
+    white-space: unset;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+}
+
 // -----------------------------------------------------------------------------------------------------
 // @ Color
 // -----------------------------------------------------------------------------------------------------

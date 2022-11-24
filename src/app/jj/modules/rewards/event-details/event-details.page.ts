@@ -6,12 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-details.page.scss'],
 })
 export class EventDetailsPage implements OnInit {
+  segment = 'luck-draw';
 
-  segment = "luck-draw"
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
