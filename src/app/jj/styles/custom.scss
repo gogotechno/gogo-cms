@@ -1,7 +1,7 @@
 .title {
   font-size: var(--ion-font-sm);
   font-weight: var(--ion-font-bold);
-  margin-top: 0;
+  margin-top: calc(var(--ion-margin) / 2);
   margin-bottom: calc(var(--ion-margin) / 2);
 
   display: flex;
@@ -17,11 +17,25 @@
   }
 }
 
+.note {
+  padding-right: var(--ion-padding);
+  padding-left: var(--ion-padding);
+
+  ion-label {
+    display: block;
+    text-align: center;
+    font-size: var(--ion-font-xs);
+    font-weight: var(--ion-font-bold);
+    margin-top: calc(var(--ion-margin) * 1.5);
+    margin-bottom: calc(var(--ion-margin) * 1.5);
+  }
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

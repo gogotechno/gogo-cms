@@ -10,7 +10,9 @@ import {
   COMPANY_CODE,
   JJCustomer,
   JJEvent,
+  JJMerchant,
   JJProduct,
+  JJTicket,
   JJTicketDistribution,
   JJUser,
   JJWallet,
@@ -127,7 +129,16 @@ export class CoreService {
 
   async getTicketDistributionById(distributionId: number) {
     let res = await this.swsErp.getDoc<JJTicketDistribution>('Ticket Distribution', distributionId);
-    return res;
+    return this.populateTicketDistribution(res);
+  }
+
+  async getTickets(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJTicket>('Ticket', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    return res.result;
   }
 
   async getWinners(pagination: Pagination) {
@@ -170,8 +181,28 @@ export class CoreService {
     if (!distribution) {
       return null;
     }
-    distribution.product = this.populateProduct(distribution.product);
     distribution.event = this.populateEvent(distribution.event);
+    distribution.merchant = this.populateMerchant(distribution.merchant);
+    distribution.product = this.populateProduct(distribution.product);
+    distribution.freePoint = distribution.freePoint || 0;
+    distribution.totalOfTickets = distribution.totalOfTickets || 0;
+    distribution.totalOfSnwTickets = distribution.totalOfSnwTickets || 0;
+    distribution.expense = distribution.expense || 0;
+    distribution.pointExpense = distribution.pointExpense || 0;
     return distribution;
+  }
+
+  private populateMerchant(merchant: JJMerchant) {
+    if (!merchant) {
+      return null;
+    }
+    merchant.fullAddress =
+      `${merchant.addressLine1}` +
+      `${merchant.addressLine2 ? ', ' + merchant.addressLine2 : ''}, ` +
+      `${merchant.postalCode} ` +
+      `${merchant.city}, ` +
+      `${merchant.state} ` +
+      `${merchant.country}`;
+    return merchant;
   }
 }

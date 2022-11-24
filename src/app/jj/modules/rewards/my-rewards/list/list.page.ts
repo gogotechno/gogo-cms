@@ -13,12 +13,12 @@ export class ListPage extends SharedComponent implements OnInit {
   segmentButtons = segmentButtons;
   segmentCode: SegmentCode = 'rewards';
 
-  eventPage: Pagination;
+  eventsPage: Pagination;
   eventsEnded: boolean;
   events: JJEvent[];
   selectedEvent: JJEvent;
 
-  distributionPage: Pagination;
+  distributionsPage: Pagination;
   distributionsEnded: boolean;
   distributions: JJTicketDistribution[];
 
@@ -27,23 +27,32 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.eventPage = this.distributionPage = this.defaultPage;
+    await this.loadData();
+  }
 
+  async loadData() {
+    this.eventsPage = this.distributionsPage = this.defaultPage;
     this.events = await this.getEvents();
-
     if (this.events.length) {
       this.selectedEvent = this.events[0];
       this.distributions = await this.getDistributions();
+      this.distributionsEnded = this.distributions.length < this.distributionsPage.itemsPerPage;
     }
   }
 
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
+
   async getEvents() {
-    let events = await this.auth.findMyJoinedEvents(this.eventPage);
+    let events = await this.auth.findMyJoinedEvents(this.eventsPage);
     return events;
   }
 
   async getDistributions() {
-    let distributions = await this.core.getTicketDistributions(this.distributionPage, {
+    let distributions = await this.core.getTicketDistributions(this.distributionsPage, {
       customer_id: this.auth.currentUser.doc_id,
       customer_id_type: '=',
       event_id: this.selectedEvent.doc_id,
@@ -53,27 +62,47 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async loadMoreEvents(event: Event) {
-    this.eventPage.currentPage += 1;
-    let incoming = await this.getEvents();
-    this.events = [...this.events, ...incoming];
-    this.eventsEnded = incoming.length <= 0;
-
-    (<HTMLIonInfiniteScrollElement>event.target).complete();
+    if (this.eventsEnded) {
+      return;
+    }
+    let el = <HTMLDivElement>event.target;
+    let target = el.scrollWidth - el.offsetWidth;
+    if (Math.ceil(el.scrollLeft) == target) {
+      this.eventsPage.currentPage += 1;
+      let incoming = await this.getEvents();
+      this.events = [...this.events, ...incoming];
+      this.eventsEnded = incoming.length <= 0;
+    }
   }
 
   async loadMoreDistributions(event: Event) {
-    this.distributionPage.currentPage += 1;
+    this.distributionsPage.currentPage += 1;
     let incoming = await this.getDistributions();
     this.distributions = [...this.distributions, ...incoming];
     this.distributionsEnded = incoming.length <= 0;
-
-    (<HTMLIonInfiniteScrollElement>event.target).complete();
+    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    scroller.complete();
   }
 
   async onEventClick(event: JJEvent) {
+    if (this.selectedEvent.doc_id == event.doc_id) {
+      return;
+    }
     this.selectedEvent = event;
-    this.distributionPage = this.defaultPage;
+    this.distributionsEnded = false;
+    this.distributionsPage = this.defaultPage;
     this.distributions = await this.getDistributions();
+  }
+
+  showDistributionDate(index: number) {
+    if (index == 0) {
+      return true;
+    }
+    let previous = this.distributions[index - 1];
+    let current = this.distributions[index];
+    let previousDate = new Date(previous.distributedAt).toDateString();
+    let currentDate = new Date(current.distributedAt).toDateString();
+    return previousDate != currentDate;
   }
 }
 

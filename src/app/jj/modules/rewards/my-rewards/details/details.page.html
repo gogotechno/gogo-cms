@@ -1,9 +1,70 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/rewards/my-rewards"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="distribution">
+      <span>#{{ distribution.doc_id }}</span><br />
+      <span>{{ distribution.merchant.name }}</span>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ng-container *ngIf="distribution">
+    <ion-item lines="none" class="summary">
+      <distribution-summary [distribution]="distribution"></distribution-summary>
+    </ion-item>
+    <h3 class="title">{{ "jj._TICKET_DISTRIBUTION_DETAILS" | translate }}</h3>
+    <ion-grid class="details">
+      <ion-row>
+        <ion-col size="auto">
+          <h3>{{ "jj._MERCHANT" | translate }}</h3>
+          <h3>{{ "jj._BILL_NO" | translate }}</h3>
+          <h3>{{ "jj._PRODUCT" | translate }}</h3>
+          <h3>{{ "jj._EXPENSE" | translate }}</h3>
+          <h3>{{ "jj._POINT_EXPENSE" | translate }}</h3>
+          <h3>{{ "jj._EVENT" | translate }}</h3>
+          <h3>{{ "jj._DISTRIBUTED_AT" | translate }}</h3>
+          <h3>{{ "jj._DISTRIBUTED_BY" | translate }}</h3>
+          <h3>{{ "jj._DISTRIBUTED_TO" | translate }}</h3>
+        </ion-col>
+        <ion-col>
+          <h3>{{ distribution.merchant.name }}</h3>
+          <h3>{{ distribution.billNo }}</h3>
+          <h3>
+            <span *ngIf="distribution.product">{{ distribution.product.doc_id }}</span>
+            <span *ngIf="!distribution.product">-</span>
+          </h3>
+          <h3>{{ distribution.expense }}</h3>
+          <h3>{{ distribution.pointExpense }}</h3>
+          <h3>{{ distribution.event.name | erpTranlate }}</h3>
+          <h3>{{ distribution.distributedAt | date: "YYYY/MM/dd h:mm aa" }}</h3>
+          <h3>
+            {{ distribution.distributedByPerson.first_name | fullName: distribution.distributedByPerson.last_name }}
+          </h3>
+          <h3>
+            <ng-container *ngIf="distribution.customer">
+              <span>{{ distribution.customer.phone }}&nbsp;</span>
+              <span>({{ distribution.customer.firstName | fullName: distribution.customer.lastName }})</span>
+            </ng-container>
+            <ng-container *ngIf="!distribution.customer">
+              <span>{{ distribution.customerContactNo }}&nbsp;</span>
+              <span>({{ distribution.customerFirstName | fullName: distribution.customerLastName }})</span>
+            </ng-container>
+          </h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ng-container *ngIf="distribution.totalOfTickets">
+      <h3 class="title">{{ "jj._TICKETS" | translate }}</h3>
+      <ticket *ngFor="let ticket of tickets" [ticket]="ticket"></ticket>
+      <ion-infinite-scroll *ngIf="!ticketsEnded" (ionInfinite)="loadMoreTickets($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <div *ngIf="ticketsEnded" class="note">
+        <ion-label>{{ "jj._NO_MORE_TICKETS" | translate }}</ion-label>
+      </div>
+    </ng-container>
+  </ng-container>
 </ion-content>

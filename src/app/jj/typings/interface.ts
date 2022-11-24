@@ -56,6 +56,8 @@ export interface JJEvent extends ErpDoc {
   prizes?: JJEventPrize[];
 
   nameTranslation?: CmsTranslation;
+
+  totalOfTickets?: number;
 }
 
 export enum EventStatus {
@@ -110,13 +112,24 @@ export interface JJTicketDistribution extends ErpDoc {
   event_id: number;
   merchant_id: number;
   application_id: number;
+  customer_id: number;
+
+  freePoint: number;
 
   tickets?: JJTicket[];
 
-  event?: JJEvent;
-  product?: JJProduct;
-  totalOfTickets?: number;
   distributedByPerson?: DocUser;
+  merchant?: JJMerchant;
+  event?: JJEvent;
+  customer?: JJCustomer;
+
+  totalOfTickets?: number;
+  totalOfSnwTickets?: number;
+
+  product?: JJProduct;
+
+  expense?: number;
+  pointExpense?: number;
 }
 
 export interface JJTicket extends ErpDoc {
@@ -132,4 +145,23 @@ export interface JJTicket extends ErpDoc {
 export enum TicketStatus {
   VALID = 'VALID',
   INVALID = 'INVALID',
+}
+
+export interface JJMerchant extends ErpDoc {
+  code: string;
+  name: string;
+  logo?: string;
+  officePhone: string;
+  officeEmail: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  postalCode: string;
+  state: string;
+  country: string;
+
+  totalOfLatestTickets?: number;
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+  fullAddress?: string;
 }

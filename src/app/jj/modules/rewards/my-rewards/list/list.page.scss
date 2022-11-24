@@ -1,4 +1,4 @@
-.container {
+.events-container {
   padding: 0 calc(var(--ion-padding) / 2);
   margin: calc(var(--ion-margin) / 2) 0;
 }
@@ -30,6 +30,36 @@
       top: 0;
       right: 0;
       font-size: calc(var(--ion-font-xs) - 3px);
+    }
+  }
+}
+
+.distributions {
+  background: transparent;
+
+  .title {
+    padding-left: calc(var(--ion-padding) / 1.5);
+  }
+
+  ion-item {
+    --padding-start: calc(var(--ion-padding) / 1.5);
+    --padding-end: calc(var(--ion-padding) / 1.5);
+    --inner-padding-end: 0;
+
+    ion-label[slot='start'] {
+      flex-basis: 25%;
+      flex-shrink: 1;
+      flex-grow: 0;
+      margin-top: calc(var(--ion-margin) / 2);
+      margin-bottom: calc(var(--ion-margin) / 2);
+
+      h3 {
+        font-weight: var(--ion-font-bold);
+      }
+
+      p {
+        font-size: var(--ion-font-xs);
+      }
     }
   }
 }

@@ -273,6 +273,23 @@
     "_MY_REWARDS": "My Rewards",
     "_REWARDS": "Rewards",
     "_PRIZES": "Prizes",
-    "_JOINED_EVENTS": "Joined Events"
+    "_JOINED_EVENTS": "Joined Events",
+    "_TICKETS": "Tickets",
+    "_POINTS": "Points",
+    "_SNW_TICKETS": "S&W Tickets",
+    "_NO_DISTRIBUTIONS_FOUND": "No distributions found",
+    "_NO_MORE_TICKET_DISTRIBUTIONS": "No more distributions",
+    "_TICKET_DISTRIBUTION_DETAILS": "Ticket distribution details",
+    "_MERCHANT": "Merchant",
+    "_BILL_NO": "Bill no",
+    "_PRODUCT": "Product",
+    "_EXPENSE": "Consumed Amount",
+    "_POINT_EXPENSE": "Consumed Points",
+    "_SERIAL_NO": "Serial No",
+    "_NO_MORE_TICKETS": "No more tickets",
+    "_EVENT": "Event",
+    "_DISTRIBUTED_AT": "Distributed at",
+    "_DISTRIBUTED_TO": "Distributed to",
+    "_DISTRIBUTED_BY": "Distributed by"
   }
 }
