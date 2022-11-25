@@ -55,7 +55,7 @@ const form: CmsForm = {
   items: [
     {
       code: 'email',
-      label: { en: 'Username', zh: '登录号' },
+      label: { en: 'Phone No.', zh: '手机号' },
       type: 'text',
       required: true,
     },

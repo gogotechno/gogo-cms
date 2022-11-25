@@ -8,14 +8,19 @@ import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
   COMPANY_CODE,
+  JJCapturePaymentRequest,
   JJCustomer,
   JJEvent,
   JJMerchant,
+  JJPointRule,
   JJProduct,
+  JJScratchAndWinRule,
   JJTicket,
   JJTicketDistribution,
+  JJTicketDistributionApplication,
   JJUser,
   JJWallet,
+  JJWalletTransaction,
   LANGUAGE_STORAGE_KEY,
 } from '../typings';
 
@@ -64,7 +69,7 @@ export class CoreService {
     return res.result.map((user) => this.populateUser(user))[0];
   }
 
-  async getWalletByMerchantId(merchantId: number) {
+  async getWalletsByMerchantId(merchantId: number) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       merchantId: merchantId,
       merchantId_type: '=',
@@ -85,7 +90,15 @@ export class CoreService {
     return res;
   }
 
-  async getWalletByCustomerId(customerId: number) {
+  async getCustomerByPhone(phone: string) {
+    let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
+      phone: phone,
+      phone_type: '=',
+    });
+    return res.result[0];
+  }
+
+  async getWalletsByCustomerId(customerId: number) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       customerId: customerId,
       customerId_type: '=',
@@ -93,8 +106,38 @@ export class CoreService {
     return res.result;
   }
 
+  createCustomer(customer: JJCustomer) {
+    return this.swsErp.postDoc('Customer', customer, {
+      autoSubmit: true,
+    });
+  }
+
   updateCustomer(customerId: number, customer: Partial<JJCustomer>) {
     return this.swsErp.putDoc('Customer', customerId, customer);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Wallet
+  // -----------------------------------------------------------------------------------------------------
+
+  createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+    return this.swsErp.postDoc('Capture Payment Request', request);
+  }
+
+  updateCapturePaymentRequest(requestId: number, request: Partial<JJCapturePaymentRequest>) {
+    return this.swsErp.putDoc('Capture Payment Request', requestId, request);
+  }
+
+  async getWalletTransactionsByCapturePaymentRequest(requestRefNo: string) {
+    let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      reference3: requestRefNo,
+      reference3_type: '=',
+    });
+    return res.result;
+  }
+
+  updateWalletTransaction(transactionId: number, transaction: Partial<JJWalletTransaction>) {
+    return this.swsErp.putDoc('Wallet Transaction', transactionId, transaction);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -117,6 +160,39 @@ export class CoreService {
       hasFk: true,
     });
     return events;
+  }
+
+  async getMerchantEvents() {
+    let res = await this.swsErp.getDocs<JJEvent>('Event', {
+      status: 'ACTIVE',
+      status_type: '=',
+      sortBy: 'startAt',
+      sortType: 'desc',
+      fromMerchant: true,
+    });
+    return res.result.map((event) => this.populateEvent(event));
+  }
+
+  async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.swsErp.getDocs<JJPointRule>('Point Rule', {
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense,
+      getActive: true,
+    });
+    return res.result[0];
+  }
+
+  async getActiveSnwRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.swsErp.getDocs<JJScratchAndWinRule>('Scratch And Win Rule', {
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense,
+      getActive: true,
+    });
+    return res.result[0];
   }
 
   async getEventById(eventId: number, conditions: Conditions = {}) {
@@ -155,6 +231,19 @@ export class CoreService {
       currentPage: pagination.currentPage,
     });
     return res.result;
+  }
+
+  issueTickets(application: JJTicketDistributionApplication) {
+    return this.swsErp.postDoc('Ticket Distribution Application', application);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Merchant
+  // -----------------------------------------------------------------------------------------------------
+
+  async getProducts() {
+    let res = await this.swsErp.getDocs<JJProduct>('Product');
+    return res.result.map((product) => this.populateProduct(product));
   }
 
   // -----------------------------------------------------------------------------------------------------

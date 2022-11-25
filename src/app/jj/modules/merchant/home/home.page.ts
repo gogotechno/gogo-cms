@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/jj/services';
 import { JJMerchant } from 'src/app/jj/typings';
+import { IssueTicketPage } from '../issue-ticket/issue-ticket.page';
 
 @Component({
   selector: 'app-home',
@@ -35,9 +36,9 @@ export class HomePage implements OnInit {
   }
 
   async onIssueTicket() {
-    // const modal = await this.modalCtrl.create({
-    //   component: IssueTicketPage,
-    // });
-    // await modal.present();
+    const modal = await this.modalCtrl.create({
+      component: IssueTicketPage,
+    });
+    await modal.present();
   }
 }

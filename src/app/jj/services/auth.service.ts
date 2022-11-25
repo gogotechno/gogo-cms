@@ -107,11 +107,11 @@ export class AuthService {
     switch (this._USER_TYPE) {
       case 'MERCHANT':
         let merchantId = await this.findMyMerchantId();
-        wallets = await this.core.getWalletByMerchantId(merchantId);
+        wallets = await this.core.getWalletsByMerchantId(merchantId);
         break;
       default:
         let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
-        wallets = await this.core.getWalletByCustomerId(customer.doc_id);
+        wallets = await this.core.getWalletsByCustomerId(customer.doc_id);
         break;
     }
     return wallets;

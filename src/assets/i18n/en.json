@@ -314,6 +314,7 @@
     "_ISSUE_TICKETS": "Issue Tickets",
     "_TOTAL_OF_TICKETS": "Total of tickets",
     "_TOTAL_OF_WINNERS": "Total of winners",
-    "_SUMMARY_REPORT": "Summary"
+    "_SUMMARY_REPORT": "Summary",
+    "_CONFIRM_TO_ISSUE_TICKETS": "Confirm to issue {{ count }} ticket(s), {{ point }} points and {{ snwCount }} S&W ticket(s)?"
   }
 }
