@@ -73,7 +73,6 @@
   --ion-border-color: #d9d9d9;
 
   --ion-color-orange: #ffa500;
-
   --ion-color-note: var(--ion-color-step-350, #a6a6a6);
 
   --ion-font-xs: 12px;
@@ -220,6 +219,10 @@
   color: var(--ion-color-orange);
 }
 
+.ion-color-note {
+  color: var(--ion-color-note);
+}
+
 // -----------------------------------------------------------------------------------------------------
 // @ Component
 // -----------------------------------------------------------------------------------------------------
@@ -232,7 +235,8 @@ ion-header.header-ios {
   }
 }
 
-ion-card {
+ion-card.card-content-md,
+ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
 }
 

@@ -75,6 +75,9 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
+
+  // TO ADD
+  thumbnailImage: string;
 }
 
 export interface JJWallet extends ErpDoc {

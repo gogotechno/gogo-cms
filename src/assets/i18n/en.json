@@ -301,6 +301,9 @@
     "_DISTANCE_AWAY": "{{ distance }} away",
     "_LUCKY_DRAW": "Lucky Draw",
     "_POINTS_GIVEAWAY": "Points Giveaway",
-    "_SNW_GIVEAWAY": "S&W Giveaway"
+    "_SNW_GIVEAWAY": "S&W Giveaway",
+    "_LUCKY_DRAWS": "Lucky Draws",
+    "_OWNED_TICKETS": "Owned {{ count }}",
+    "_ODDS_OF_WINNING": "Chance"
   }
 }

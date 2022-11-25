@@ -114,6 +114,7 @@ export class CoreService {
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
+      hasFk: true,
     });
     return events;
   }
