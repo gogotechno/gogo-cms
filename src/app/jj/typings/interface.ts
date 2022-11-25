@@ -178,6 +178,7 @@ export interface JJWinner extends ErpDoc {
   merchant_id?: number;
   drawing_result_id?: number;
 
+  prize?: JJEventPrize;
   ticket?: JJTicket;
   merchant?: JJMerchant;
 }

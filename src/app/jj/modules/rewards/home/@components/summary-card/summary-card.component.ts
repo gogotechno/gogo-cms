@@ -13,7 +13,7 @@ export class SummaryCardComponent implements OnInit {
   winners: JJWinner[];
   winnerGroups: JJWinner[][];
 
-  constructor(private home: HomeService) {}
+  constructor(private home: HomeService) { }
 
   async ngOnInit() {
     this.home.winners.subscribe((winners) => {
