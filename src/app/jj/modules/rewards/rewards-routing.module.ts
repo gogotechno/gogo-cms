@@ -22,8 +22,6 @@ const routes: Routes = [
       },
       {
         path: '',
-        // redirectTo: 'my-rewards/57',
-        // redirectTo: 'events/31',
         redirectTo: 'home',
         pathMatch: 'full',
       },

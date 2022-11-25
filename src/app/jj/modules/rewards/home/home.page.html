@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-header-clear">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj"></ion-back-button>
@@ -6,7 +6,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <event-card></event-card>
   <lucky-draws></lucky-draws>
   <summary-card></summary-card>
