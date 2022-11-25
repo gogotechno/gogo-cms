@@ -19,7 +19,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'rewards',
+        redirectTo: 'membership',
         pathMatch: 'full',
       },
     ],

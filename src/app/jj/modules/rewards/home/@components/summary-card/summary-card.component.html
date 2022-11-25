@@ -1,13 +1,13 @@
 <div class="lucky-draw-container">
   <h3 class="ion-margin-start ion-text-xl ion-font-bold">幸运星</h3>
 
-  <ion-slides>
-    <ion-slide *ngFor="let group of winnerGroup">
-      <div *ngFor="let winner of group">
+  <!-- <ion-slides>
+    <ion-slide *ngFor="let winners of winnerGroups">
+      <div *ngFor="let winner of winners">
         {{ winner.doc_id }}
       </div>
     </ion-slide>
-  </ion-slides>
+  </ion-slides> -->
 
   <ion-slides pager="true">
     <!-- [options]="{ slidesPerView: true, loop: true}" -->

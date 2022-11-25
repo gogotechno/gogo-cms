@@ -149,6 +149,18 @@ export enum TicketStatus {
   INVALID = 'INVALID',
 }
 
+export interface JJWinner extends ErpDoc {
+  quantity: number;
+  status: 'PENDING' | 'DELIVERED';
+  prize_id: number;
+  ticket_id: number;
+  merchant_id?: number;
+  drawing_result_id?: number;
+
+  ticket?: JJTicket;
+  merchant?: JJMerchant;
+}
+
 export interface JJMerchant extends ErpDoc {
   code: string;
   name: string;
