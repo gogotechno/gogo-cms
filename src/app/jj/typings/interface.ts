@@ -53,9 +53,14 @@ export interface JJEvent extends ErpDoc {
   drawAt: Date;
   thumbnailImage: string;
   backgroundImage: string;
+  minSpend: number;
   merchant_id: number;
 
+  merchant?: JJMerchant;
   prizes?: JJEventPrize[];
+  pointRules?: JJPointRule[];
+
+  totalOfTickets?: number;
 
   nameTranslation?: CmsTranslation;
 }
@@ -73,6 +78,8 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
+
+  thumbnailImage: string;
 }
 
 export interface JJWallet extends ErpDoc {
@@ -103,6 +110,24 @@ export interface JJProduct extends ErpDoc {
   nameTranslation?: CmsTranslation;
 }
 
+export interface JJTicketDistributionApplication extends ErpDoc {
+  customerFirstName: string;
+  customerLastName: string;
+  customerContactNo: string;
+  billNo: string;
+  expense: number;
+  pointExpense: number;
+  ticketCount: number;
+  freePoint: number;
+  usedPointRule?: string;
+  freeSnwTickets: number;
+  usedSnwRule?: string;
+  product_id: number;
+  event_id: number;
+  merchant_id: number;
+  customer_id: number;
+}
+
 export interface JJTicketDistribution extends ErpDoc {
   distributedAt: Date;
   distributedBy: number;
@@ -113,13 +138,24 @@ export interface JJTicketDistribution extends ErpDoc {
   event_id: number;
   merchant_id: number;
   application_id: number;
+  customer_id: number;
+
+  freePoint: number;
 
   tickets?: JJTicket[];
 
-  event?: JJEvent;
-  product?: JJProduct;
-  totalOfTickets?: number;
   distributedByPerson?: DocUser;
+  merchant?: JJMerchant;
+  event?: JJEvent;
+  customer?: JJCustomer;
+
+  totalOfTickets?: number;
+  totalOfSnwTickets?: number;
+
+  product?: JJProduct;
+
+  expense?: number;
+  pointExpense?: number;
 }
 
 export interface JJTicket extends ErpDoc {
@@ -135,4 +171,98 @@ export interface JJTicket extends ErpDoc {
 export enum TicketStatus {
   VALID = 'VALID',
   INVALID = 'INVALID',
+}
+
+export interface JJWinner extends ErpDoc {
+  quantity: number;
+  status: 'PENDING' | 'DELIVERED';
+  prize_id: number;
+  ticket_id: number;
+  merchant_id?: number;
+  drawing_result_id?: number;
+
+  prize?: JJEventPrize;
+  ticket?: JJTicket;
+  merchant?: JJMerchant;
+}
+
+export interface JJMerchant extends ErpDoc {
+  code: string;
+  name: string;
+  logo?: string;
+  officePhone: string;
+  officeEmail: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  postalCode: string;
+  state: string;
+  country: string;
+
+  totalOfLatestTickets?: number;
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+  fullAddress?: string;
+}
+
+export interface JJPointRule extends ErpDoc {
+  minimumSpend: number;
+  freePoint: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: IssueMode;
+  eventId: number;
+}
+
+export interface JJScratchAndWinRule extends ErpDoc {
+  minimumSpend: number;
+  freeTickets: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: IssueMode;
+  eventId: number;
+}
+
+export enum IssueMode {
+  AMOUNT_PAID = 'AMOUNT_PAID',
+  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
+}
+
+export interface JJWalletTransaction extends ErpDoc {
+  walletId: number;
+  refNo: string;
+  amount: number;
+  description: string;
+  reference1: string;
+  reference2: string;
+  reference3: string;
+}
+
+export interface JJCapturePaymentRequest extends ErpDoc {
+  fromWallet: number;
+  toWallet: number;
+  amount: number;
+  refNo: string;
+  description: string;
+  reference1?: string;
+  reference2?: string;
+  reference3?: string;
+  fromWalletNo?: number;
+}
+
+export interface CapturePaymentRequestExtras {
+  request: JJCapturePaymentRequest;
+  customerInfo: {
+    customer: JJCustomer;
+    currentBalance: number;
+    transaction: JJWalletTransaction;
+  };
 }

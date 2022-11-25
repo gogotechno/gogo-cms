@@ -1,0 +1,47 @@
+// ion-header {
+//   &::after {
+//     height: 0px;
+//     background-image: none;
+//   }
+
+//   ion-toolbar {
+//     --background: transparent;
+//     --border-width: 0;
+//   }
+// }
+
+// ion-content {
+//   --padding-top: -56px;
+// }
+
+// ion-segment {
+//   --background: transparent;
+// }
+
+// ion-segment-button {
+//   --color: var(--ion-color-orange);
+//   --color-checked: #fff;
+//   --border-radius: 30px;
+//   --background-hover: transparent;
+//   --indicator-color: var(--ion-color-orange);
+//   min-height: 20px;
+// }
+
+// ion-card {
+//   box-shadow: none;
+// }
+
+// .transparent {
+//   background-color: transparent !important;
+// }
+
+// .margin-start-only {
+//   margin-left: 0;
+//   margin-right: 0;
+//   margin-top: -5%;
+//   margin-bottom: 0;
+// }
+
+ion-content {
+  --padding-top: -44px;
+}

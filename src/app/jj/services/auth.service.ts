@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { DocUser, Pagination } from 'src/app/sws-erp.type';
-import { COMPANY_CODE, JJCustomer, JJWallet, User, UserType } from '../typings';
+import { COMPANY_CODE, JJCustomer, JJMerchant, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable({
@@ -107,11 +107,11 @@ export class AuthService {
     switch (this._USER_TYPE) {
       case 'MERCHANT':
         let merchantId = await this.findMyMerchantId();
-        wallets = await this.core.getWalletByMerchantId(merchantId);
+        wallets = await this.core.getWalletsByMerchantId(merchantId);
         break;
       default:
         let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
-        wallets = await this.core.getWalletByCustomerId(customer.doc_id);
+        wallets = await this.core.getWalletsByCustomerId(customer.doc_id);
         break;
     }
     return wallets;
@@ -153,5 +153,13 @@ export class AuthService {
         });
         return events;
     }
+  }
+
+  async findMyMerchant() {
+    let merchantId = await this.findMyMerchantId();
+    let merchant = await this.swsErp.getDoc<JJMerchant>('Merchant', merchantId, {
+      withSummary: true,
+    });
+    return this.core.populateMerchant(merchant);
   }
 }

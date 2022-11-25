@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
-  padding: 0 calc(var(--ion-padding) * 1.5);
+  padding: calc(var(--ion-padding) / 2) calc(var(--ion-padding) * 1.5);
   margin: calc(var(--ion-margin) / 2) 0;
   background-color: var(--ion-item-background, #ffffff);
 }

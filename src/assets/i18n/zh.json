@@ -63,6 +63,10 @@
   "_CHANGE_PASSWORD": "更改密码",
   "_EDIT_PROFILE": "更改个人资料",
   "_VIEW_ALL": "查看全部",
+  "_DAYS_SHORT": "天",
+  "_HOURS_SHORT": "时",
+  "_MINUTES_SHORT": "分",
+  "_SECONDS_SHORT": "秒",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",

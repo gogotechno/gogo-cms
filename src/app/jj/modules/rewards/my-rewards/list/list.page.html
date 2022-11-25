@@ -1,5 +1,8 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/rewards"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{ "jj._MY_REWARDS" | translate }}</ion-title>
   </ion-toolbar>
   <ion-toolbar>
@@ -12,17 +15,44 @@
 </ion-header>
 
 <ion-content>
-  <div class="container">
+  <div class="events-container">
     <h3 class="title">
       <span>{{ "jj._JOINED_EVENTS" | translate }}</span>
       <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button>
     </h3>
-    <div class="events">
-      <ion-avatar *ngFor="let i of [1,2,3,4,5,6,7,8,9,10,11,12]">
-        <ion-badge color="danger">99</ion-badge>
+    <div class="events" (scroll)="loadMoreEvents($event)">
+      <ion-avatar *ngFor="let event of events" (click)="onEventClick(event)">
+        <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
         <ion-img src="https://picsum.photos/1920/1080"></ion-img>
       </ion-avatar>
     </div>
   </div>
-  <div class="container"></div>
+  <ion-list lines="full" class="distributions">
+    <div *ngIf="!distributions?.length" class="note">
+      <ion-label>{{ "jj._NO_DISTRIBUTIONS_FOUND" | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let distribution of distributions; let index = index">
+      <h3 class="title" *ngIf="showDistributionDate(index)">{{ distribution.distributedAt | date: "YYYY-MM-dd" }}</h3>
+      <ion-item [detail]="false" [routerLink]="[distribution.doc_id]">
+        <ion-label slot="start">
+          <h3>#{{ distribution.doc_id }}</h3>
+          <p>{{ distribution.merchant.name }}</p>
+          <p>{{ distribution.distributedAt | date: "HH:mm" }}</p>
+        </ion-label>
+        <distribution-summary
+          [tickets]="distribution.totalOfSnwTickets"
+          [points]="distribution.freePoint"
+          [snwTickets]="distribution.totalOfSnwTickets"
+        ></distribution-summary>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  <ng-container *ngIf="distributions?.length">
+    <ion-infinite-scroll *ngIf="!distributionsEnded" (ionInfinite)="loadMoreDistributions($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="distributionsEnded" class="note">
+      <ion-label>{{ "jj._NO_MORE_TICKET_DISTRIBUTIONS" | translate }}</ion-label>
+    </div>
+  </ng-container>
 </ion-content>

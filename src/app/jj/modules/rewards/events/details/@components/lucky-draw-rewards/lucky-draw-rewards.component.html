@@ -1,0 +1,39 @@
+<div class="container">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+            <p>{{ 'jj._DRAW_COUNTDOWN' | translate }}</p>
+            <countdown-timer [endDate]="event?.endAt"></countdown-timer>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-content class="has-grid">
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <p>{{ 'jj._PER_CONSUMPTION' | translate }}</p>
+                  <h3>{{ event?.minSpend }}</h3>
+                </ion-col>
+                <ion-col size="6">
+                  <p>{{ 'jj._CAN_GAIN_TICKETS' | translate }}</p>
+                  <h3>{{ 1 }}</h3>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <h3 class="title">{{ 'jj._PRIZES' | translate }}</h3>
+  <div class="prizes">
+    <div *ngFor="let prize of event?.prizes">
+      <ion-img [src]="prize.thumbnailImage | erpImg"> </ion-img>
+      <ion-badge>{{ prize.quantity }}</ion-badge>
+    </div>
+  </div>
+</div>

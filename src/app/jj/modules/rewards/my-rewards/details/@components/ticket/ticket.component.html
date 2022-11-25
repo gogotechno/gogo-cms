@@ -1,0 +1,15 @@
+<div class="container">
+  <ion-card>
+    <ion-card-content>
+      <p>{{ 'jj._SERIAL_NO' | translate }}</p>
+      <h3>{{ ticket.serialNo }}</h3>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-content>
+      <h3>
+        <ion-text [color]="statusColor">{{ ticket.status }}</ion-text>
+      </h3>
+    </ion-card-content>
+  </ion-card>
+</div>

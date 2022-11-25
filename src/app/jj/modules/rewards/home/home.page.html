@@ -1,5 +1,13 @@
-<ion-content>
-  <app-event-card></app-event-card>
-  <app-lucky-draw-activity></app-lucky-draw-activity>
-  <app-summary-card></app-summary-card>
+<ion-header class="ion-header-clear">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <event-card></event-card>
+  <lucky-draws></lucky-draws>
+  <summary-card></summary-card>
 </ion-content>

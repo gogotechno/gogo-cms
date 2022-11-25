@@ -1,0 +1,67 @@
+.container > ion-grid {
+  padding: 0;
+
+  & > ion-row > ion-col {
+    padding: 0;
+
+    &:not(:last-of-type) {
+      padding-right: calc(var(--ion-padding) / 2);
+    }
+  }
+}
+
+ion-card {
+  --color: var(--ion-color-dark);
+
+  margin: 0;
+  height: 100%;
+  box-shadow: none;
+
+  ion-card-content {
+    padding-top: calc(var(--ion-padding) / 2);
+    padding-bottom: calc(var(--ion-padding) / 2);
+    padding-right: var(--ion-padding);
+    padding-left: var(--ion-padding);
+
+    height: 100%;
+    text-align: center;
+
+    h3 {
+      font-weight: var(--ion-font-bold);
+    }
+
+    ion-grid,
+    ion-row,
+    ion-col {
+      padding: 0;
+    }
+
+    &.has-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.prizes {
+  display: grid;
+  gap: calc(var(--ion-padding) / 2);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  div {
+    position: relative;
+    // padding-bottom: 8%;
+  }
+
+  ion-img {
+    object-fit: cover;
+    object-position: center;
+  }
+
+  ion-badge {
+    position: absolute;
+    top: calc(var(--ion-padding) / 2);
+    right: calc(var(--ion-padding) / 2);
+  }
+}

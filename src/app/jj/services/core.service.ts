@@ -8,12 +8,19 @@ import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
   COMPANY_CODE,
+  JJCapturePaymentRequest,
   JJCustomer,
   JJEvent,
+  JJMerchant,
+  JJPointRule,
   JJProduct,
+  JJScratchAndWinRule,
+  JJTicket,
   JJTicketDistribution,
+  JJTicketDistributionApplication,
   JJUser,
   JJWallet,
+  JJWalletTransaction,
   LANGUAGE_STORAGE_KEY,
 } from '../typings';
 
@@ -62,7 +69,7 @@ export class CoreService {
     return res.result.map((user) => this.populateUser(user))[0];
   }
 
-  async getWalletByMerchantId(merchantId: number) {
+  async getWalletsByMerchantId(merchantId: number) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       merchantId: merchantId,
       merchantId_type: '=',
@@ -83,7 +90,15 @@ export class CoreService {
     return res;
   }
 
-  async getWalletByCustomerId(customerId: number) {
+  async getCustomerByPhone(phone: string) {
+    let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
+      phone: phone,
+      phone_type: '=',
+    });
+    return res.result[0];
+  }
+
+  async getWalletsByCustomerId(customerId: number) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       customerId: customerId,
       customerId_type: '=',
@@ -91,8 +106,38 @@ export class CoreService {
     return res.result;
   }
 
+  createCustomer(customer: JJCustomer) {
+    return this.swsErp.postDoc('Customer', customer, {
+      autoSubmit: true,
+    });
+  }
+
   updateCustomer(customerId: number, customer: Partial<JJCustomer>) {
     return this.swsErp.putDoc('Customer', customerId, customer);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Wallet
+  // -----------------------------------------------------------------------------------------------------
+
+  createCapturePaymentRequest(request: JJCapturePaymentRequest) {
+    return this.swsErp.postDoc('Capture Payment Request', request);
+  }
+
+  updateCapturePaymentRequest(requestId: number, request: Partial<JJCapturePaymentRequest>) {
+    return this.swsErp.putDoc('Capture Payment Request', requestId, request);
+  }
+
+  async getWalletTransactionsByCapturePaymentRequest(requestRefNo: string) {
+    let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      reference3: requestRefNo,
+      reference3_type: '=',
+    });
+    return res.result;
+  }
+
+  updateWalletTransaction(transactionId: number, transaction: Partial<JJWalletTransaction>) {
+    return this.swsErp.putDoc('Wallet Transaction', transactionId, transaction);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -112,8 +157,49 @@ export class CoreService {
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
+      hasFk: true,
     });
     return events;
+  }
+
+  async getMerchantEvents() {
+    let res = await this.swsErp.getDocs<JJEvent>('Event', {
+      status: 'ACTIVE',
+      status_type: '=',
+      sortBy: 'startAt',
+      sortType: 'desc',
+      fromMerchant: true,
+    });
+    return res.result.map((event) => this.populateEvent(event));
+  }
+
+  async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.swsErp.getDocs<JJPointRule>('Point Rule', {
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense,
+      getActive: true,
+    });
+    return res.result[0];
+  }
+
+  async getActiveSnwRule(eventId: number, amountExpense: number, pointExpense: number) {
+    let res = await this.swsErp.getDocs<JJScratchAndWinRule>('Scratch And Win Rule', {
+      event_id: eventId,
+      event_id_type: '=',
+      amountExpense: amountExpense,
+      pointExpense: pointExpense,
+      getActive: true,
+    });
+    return res.result[0];
+  }
+
+  async getEventById(eventId: number, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, {
+      hasFk: true,
+    });
+    return this.populateEvent(res);
   }
 
   async getTicketDistributions(pagination: Pagination, conditions: Conditions = {}) {
@@ -127,7 +213,16 @@ export class CoreService {
 
   async getTicketDistributionById(distributionId: number) {
     let res = await this.swsErp.getDoc<JJTicketDistribution>('Ticket Distribution', distributionId);
-    return res;
+    return this.populateTicketDistribution(res);
+  }
+
+  async getTickets(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJTicket>('Ticket', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    return res.result;
   }
 
   async getWinners(pagination: Pagination) {
@@ -138,11 +233,24 @@ export class CoreService {
     return res.result;
   }
 
+  issueTickets(application: JJTicketDistributionApplication) {
+    return this.swsErp.postDoc('Ticket Distribution Application', application);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Merchant
+  // -----------------------------------------------------------------------------------------------------
+
+  async getProducts() {
+    let res = await this.swsErp.getDocs<JJProduct>('Product');
+    return res.result.map((product) => this.populateProduct(product));
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
 
-  private populateUser(user: JJUser) {
+  populateUser(user: JJUser) {
     if (!user) {
       return null;
     }
@@ -150,7 +258,7 @@ export class CoreService {
     return user;
   }
 
-  private populateProduct(product: JJProduct) {
+  populateProduct(product: JJProduct) {
     if (!product) {
       return null;
     }
@@ -158,7 +266,7 @@ export class CoreService {
     return product;
   }
 
-  private populateEvent(event: JJEvent) {
+  populateEvent(event: JJEvent) {
     if (!event) {
       return null;
     }
@@ -166,12 +274,32 @@ export class CoreService {
     return event;
   }
 
-  private populateTicketDistribution(distribution: JJTicketDistribution) {
+  populateTicketDistribution(distribution: JJTicketDistribution) {
     if (!distribution) {
       return null;
     }
-    distribution.product = this.populateProduct(distribution.product);
     distribution.event = this.populateEvent(distribution.event);
+    distribution.merchant = this.populateMerchant(distribution.merchant);
+    distribution.product = this.populateProduct(distribution.product);
+    distribution.freePoint = distribution.freePoint || 0;
+    distribution.totalOfTickets = distribution.totalOfTickets || 0;
+    distribution.totalOfSnwTickets = distribution.totalOfSnwTickets || 0;
+    distribution.expense = distribution.expense || 0;
+    distribution.pointExpense = distribution.pointExpense || 0;
     return distribution;
+  }
+
+  populateMerchant(merchant: JJMerchant) {
+    if (!merchant) {
+      return null;
+    }
+    merchant.fullAddress =
+      `${merchant.addressLine1}` +
+      `${merchant.addressLine2 ? ', ' + merchant.addressLine2 : ''}, ` +
+      `${merchant.postalCode} ` +
+      `${merchant.city}, ` +
+      `${merchant.state} ` +
+      `${merchant.country}`;
+    return merchant;
   }
 }

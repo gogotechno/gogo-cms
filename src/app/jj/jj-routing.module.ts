@@ -19,7 +19,11 @@ const routes: Routes = [
       },
       {
         path: 'wallets',
-        loadChildren: () => import('./modules/wallets/wallets.module').then(m => m.WalletsPageModule)
+        loadChildren: () => import('./modules/wallets/wallets.module').then(m => m.WalletsPageModule),
+      },
+      {
+        path: 'merchant',
+        loadChildren: () => import('./modules/merchant/merchant.module').then((m) => m.MerchantPageModule),
       },
       {
         path: '',

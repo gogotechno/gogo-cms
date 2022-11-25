@@ -13,8 +13,8 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'event-details',
-        loadChildren: () => import('./event-details/event-details.module').then((m) => m.EventDetailsPageModule),
+        path: 'events',
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
       },
       {
         path: 'my-rewards',
@@ -22,7 +22,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'my-rewards',
+        redirectTo: 'events/35',
         pathMatch: 'full',
       },
     ],
