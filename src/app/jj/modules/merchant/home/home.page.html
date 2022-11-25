@@ -28,13 +28,13 @@
     </ion-card-header>
   </ion-card>
   <div class="actions">
-    <ion-card>
+    <ion-card (click)="onCreateUser()">
       <ion-card-content>
         <ion-icon name="person-add-outline"></ion-icon>
         <ion-label>{{ "jj._CREATE_USER" | translate }}</ion-label>
       </ion-card-content>
     </ion-card>
-    <ion-card>
+    <ion-card (click)="onIssueTicket()">
       <ion-card-content>
         <ion-icon name="ticket-outline"></ion-icon>
         <ion-label>{{ "jj._ISSUE_TICKETS" | translate }}</ion-label>

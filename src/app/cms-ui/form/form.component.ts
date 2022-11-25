@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -24,10 +24,11 @@ export class FormComponent extends CmsComponent implements OnInit {
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
-  private _maskedItems = [];
 
   cannotSubmit: boolean;
   matchingFields: MatchingConfig;
+
+  private _maskedItems = [];
 
   constructor(
     private fb: FormBuilder,
@@ -273,6 +274,10 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   markAsNonSubmitable() {
     this.cannotSubmit = true;
+  }
+
+  patchValue(value: { [key: string]: any }) {
+    this.formGroup.patchValue(value);
   }
 }
 

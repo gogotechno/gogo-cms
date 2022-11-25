@@ -21,6 +21,10 @@ const routes: Routes = [
         loadChildren: () => import('./issue-ticket/issue-ticket.module').then((m) => m.IssueTicketPageModule),
       },
       {
+        path: 'create-user',
+        loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
+      },
+      {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full',

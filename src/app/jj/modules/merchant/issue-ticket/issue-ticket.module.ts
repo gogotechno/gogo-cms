@@ -1,15 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
 import { IssueTicketPageRoutingModule } from './issue-ticket-routing.module';
-
 import { IssueTicketPage } from './issue-ticket.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/jj/shared';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
-// import { JJLuckydrawUiModule } from '../../jj-luckydraw-ui/jj-luckydraw-ui.module';
+import { JJComponentsModule } from '../../@components/jj-components.module';
 
 @NgModule({
   imports: [
@@ -17,10 +14,9 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     IssueTicketPageRoutingModule,
-    TranslateModule,
-    ReactiveFormsModule,
+    SharedModule,
     CmsUIModule,
-    // JJLuckydrawUiModule,
+    JJComponentsModule,
   ],
   declarations: [IssueTicketPage],
 })

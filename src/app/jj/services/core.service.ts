@@ -19,6 +19,7 @@ import {
   JJTicketDistribution,
   JJTicketDistributionApplication,
   JJUser,
+  JJUserRole,
   JJWallet,
   JJWalletTransaction,
   LANGUAGE_STORAGE_KEY,
@@ -57,6 +58,11 @@ export class CoreService {
     this.initialized = true;
   }
 
+  async getUserRoles() {
+    let res = await this.swsErp.getDocs<JJUserRole>('User Role');
+    return res.result;
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ User
   // -----------------------------------------------------------------------------------------------------
@@ -75,6 +81,12 @@ export class CoreService {
       merchantId_type: '=',
     });
     return res.result;
+  }
+
+  createUser(user: JJUser) {
+    return this.swsErp.postDoc('User', user, {
+      autoSubmit: true,
+    });
   }
 
   updateUser(userId: number, user: Partial<JJUser>) {

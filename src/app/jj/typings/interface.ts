@@ -18,6 +18,11 @@ export interface JJCustomer extends ErpDoc {
   password: string;
 }
 
+export interface JJUserRole extends ErpDoc {
+  code: UserRole;
+  name: string;
+}
+
 export interface JJUser extends ErpDoc {
   firstName: string;
   lastName: string;
