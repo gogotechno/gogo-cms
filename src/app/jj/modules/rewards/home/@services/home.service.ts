@@ -23,8 +23,8 @@ export class HomeService {
 
   async init() {
     const [events, winners] = await Promise.all([
-      this.core.getOngoingEvents({ itemsPerPage: 10, currentPage: 10 }),
-      this.core.getWinners({ itemsPerPage: 10, currentPage: 10 }),
+      this.core.getOngoingEvents({ itemsPerPage: 10, currentPage: 1 }),
+      this.core.getWinners({ itemsPerPage: 32, currentPage: 1 }),
     ]);
 
     this._ONGOING_EVENTS.next(events);

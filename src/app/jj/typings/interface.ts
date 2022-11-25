@@ -75,6 +75,8 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
+
+  thumbnailImage: string;
 }
 
 export interface JJWallet extends ErpDoc {
@@ -157,6 +159,7 @@ export interface JJWinner extends ErpDoc {
   merchant_id?: number;
   drawing_result_id?: number;
 
+  prize?: JJEventPrize;
   ticket?: JJTicket;
   merchant?: JJMerchant;
 }
