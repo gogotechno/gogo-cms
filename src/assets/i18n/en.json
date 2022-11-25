@@ -295,12 +295,25 @@
     "_DISTRIBUTED_AT": "Distributed at",
     "_DISTRIBUTED_TO": "Distributed to",
     "_DISTRIBUTED_BY": "Distributed by",
-    "_EVENT_COUNTDOWN": "Remaining time",
+    "_EVENT_COUNTDOWN": "Event end at",
     "_YOU_HAVE_GAINED": "You have gained",
     "_NEAREST_MERCHANT": "Nearest merchant",
     "_DISTANCE_AWAY": "{{ distance }} away",
     "_LUCKY_DRAW": "Lucky Draw",
     "_POINTS_GIVEAWAY": "Points Giveaway",
-    "_SNW_GIVEAWAY": "S&W Giveaway"
+    "_SNW_GIVEAWAY": "S&W Giveaway",
+    "_LUCKY_DRAWS": "Lucky Draws",
+    "_OWNED_TICKETS": "Owned {{ count }}",
+    "_ODDS_OF_WINNING": "Chance",
+    "_DRAW_COUNTDOWN": "Draw start at",
+    "_PER_CONSUMPTION": "Per",
+    "_CAN_GAIN_TICKETS": "Tickets",
+    "_CAN_GAIN_POINTS": "Points",
+    "_CAN_GAIN_SNW_TICKETS": "S&W Tickets",
+    "_CREATE_USER": "Create User",
+    "_ISSUE_TICKETS": "Issue Tickets",
+    "_TOTAL_OF_TICKETS": "Total of tickets",
+    "_TOTAL_OF_WINNERS": "Total of winners",
+    "_SUMMARY_REPORT": "Summary"
   }
 }

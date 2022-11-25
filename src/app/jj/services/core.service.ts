@@ -114,6 +114,7 @@ export class CoreService {
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
+      hasFk: true,
     });
     return events;
   }
@@ -160,7 +161,7 @@ export class CoreService {
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
 
-  private populateUser(user: JJUser) {
+  populateUser(user: JJUser) {
     if (!user) {
       return null;
     }
@@ -168,7 +169,7 @@ export class CoreService {
     return user;
   }
 
-  private populateProduct(product: JJProduct) {
+  populateProduct(product: JJProduct) {
     if (!product) {
       return null;
     }
@@ -176,7 +177,7 @@ export class CoreService {
     return product;
   }
 
-  private populateEvent(event: JJEvent) {
+  populateEvent(event: JJEvent) {
     if (!event) {
       return null;
     }
@@ -184,7 +185,7 @@ export class CoreService {
     return event;
   }
 
-  private populateTicketDistribution(distribution: JJTicketDistribution) {
+  populateTicketDistribution(distribution: JJTicketDistribution) {
     if (!distribution) {
       return null;
     }
@@ -199,7 +200,7 @@ export class CoreService {
     return distribution;
   }
 
-  private populateMerchant(merchant: JJMerchant) {
+  populateMerchant(merchant: JJMerchant) {
     if (!merchant) {
       return null;
     }

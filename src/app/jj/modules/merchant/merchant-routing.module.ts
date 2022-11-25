@@ -1,28 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { RewardsPage } from './rewards.page';
+import { MerchantPage } from './merchant.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: RewardsPage,
+    component: MerchantPage,
     children: [
       {
         path: 'home',
         loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'events',
-        loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
-      },
-      {
-        path: 'my-rewards',
-        loadChildren: () => import('./my-rewards/my-rewards.module').then((m) => m.MyRewardsPageModule),
-      },
-      {
         path: '',
-        redirectTo: 'events/35',
+        redirectTo: 'home',
         pathMatch: 'full',
       },
     ],
@@ -33,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class RewardsPageRoutingModule {}
+export class MerchantPageRoutingModule {}

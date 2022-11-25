@@ -5,7 +5,7 @@ import { JJWinner } from 'src/app/jj/typings';
 import { HomeService } from '../../@services/home.service';
 
 @Component({
-  selector: 'app-summary-card',
+  selector: 'summary-card',
   templateUrl: './summary-card.component.html',
   styleUrls: ['./summary-card.component.scss'],
 })

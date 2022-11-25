@@ -1,3 +1,7 @@
+.container {
+  padding-bottom: calc(var(--ion-padding) / 2);
+}
+
 ion-img {
   width: 100%;
   height: 200px;
@@ -6,7 +10,6 @@ ion-img {
 
 .card-container {
   margin-top: -37px;
-  padding-bottom: calc(var(--ion-padding) / 2);
 }
 
 ion-card {
@@ -44,16 +47,6 @@ ion-card {
       color: var(--ion-color-note);
       font-size: var(--ion-font-xs);
     }
-  }
-}
-
-:host ::ng-deep countdown-timer ion-col {
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 0;
-
-  &:last-of-type {
-    padding-right: 0;
   }
 }
 

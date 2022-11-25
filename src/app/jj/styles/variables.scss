@@ -73,7 +73,6 @@
   --ion-border-color: #d9d9d9;
 
   --ion-color-orange: #ffa500;
-
   --ion-color-note: var(--ion-color-step-350, #a6a6a6);
 
   --ion-font-xs: 12px;
@@ -220,6 +219,10 @@
   color: var(--ion-color-orange);
 }
 
+.ion-color-note {
+  color: var(--ion-color-note);
+}
+
 // -----------------------------------------------------------------------------------------------------
 // @ Component
 // -----------------------------------------------------------------------------------------------------
@@ -230,10 +233,29 @@ ion-header.header-ios {
     height: 0px;
     background-image: none;
   }
+
+  &.ion-header-clear ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+  }
 }
 
-ion-card {
+ion-card.card-clear {
+  box-shadow: none;
+  background: transparent;
+}
+
+ion-card.card-content-md,
+ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
+}
+
+ion-icon.icon-fill {
+  padding: calc(var(--ion-padding) / 2);
+  width: var(--ion-fab-button-size);
+  height: var(--ion-fab-button-size);
+  background: var(--ion-color-light);
+  color: var(--ion-color-dark);
 }
 
 ion-badge {

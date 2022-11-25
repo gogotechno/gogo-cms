@@ -51,15 +51,16 @@ export interface JJEvent extends ErpDoc {
   drawAt: Date;
   thumbnailImage: string;
   backgroundImage: string;
+  minSpend: number;
   merchant_id: number;
 
+  merchant?: JJMerchant;
   prizes?: JJEventPrize[];
-
-  nameTranslation?: CmsTranslation;
+  pointRules?: JJPointRule[];
 
   totalOfTickets?: number;
 
-  merchant?: JJMerchant;
+  nameTranslation?: CmsTranslation;
 }
 
 export enum EventStatus {
@@ -181,4 +182,22 @@ export interface JJMerchant extends ErpDoc {
   totalOfTickets?: number;
   totalOfWinners?: number;
   fullAddress?: string;
+}
+
+export interface JJPointRule extends ErpDoc {
+  minimumSpend: number;
+  freePoint: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: IssueMode;
+  eventId: number;
+}
+
+export enum IssueMode {
+  AMOUNT_PAID = 'AMOUNT_PAID',
+  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
 }
