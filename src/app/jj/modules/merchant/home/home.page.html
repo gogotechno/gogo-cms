@@ -1,0 +1,80 @@
+<ion-header class="ion-header-clear">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-card>
+    <ion-card-header>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card-subtitle>{{ merchant?.code }}</ion-card-subtitle>
+            <ion-card-title>{{ merchant?.name }}</ion-card-title>
+          </ion-col>
+          <ion-col size="auto">
+            <ion-avatar class="logo">
+              <ion-img [src]="merchant?.logo | erpImg"></ion-img>
+            </ion-avatar>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+  </ion-card>
+  <div class="actions">
+    <ion-card>
+      <ion-card-content>
+        <ion-icon name="person-add-outline"></ion-icon>
+        <ion-label>{{ "jj._CREATE_USER" | translate }}</ion-label>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <ion-icon name="ticket-outline"></ion-icon>
+        <ion-label>{{ "jj._ISSUE_TICKETS" | translate }}</ion-label>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div class="summary">
+    <h3 class="title">{{ "jj._SUMMARY_REPORT" | translate }}</h3>
+    <ion-card class="card-clear">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="auto">
+              <ion-icon class="icon-fill" name="ticket-outline"></ion-icon>
+            </ion-col>
+            <ion-col>
+              <ion-card-subtitle>{{ "jj._TOTAL_OF_TICKETS" | translate }}</ion-card-subtitle>
+              <ion-card-title>{{ merchant?.totalOfTickets }}</ion-card-title>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <ion-card class="card-clear">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="auto">
+              <ion-icon class="icon-fill" name="trophy-outline"></ion-icon>
+            </ion-col>
+            <ion-col>
+              <ion-card-subtitle>{{ "jj._TOTAL_OF_WINNERS" | translate }}</ion-card-subtitle>
+              <ion-card-title>{{ merchant?.totalOfWinners }}</ion-card-title>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

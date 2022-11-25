@@ -45,8 +45,8 @@ ion-card {
 }
 
 .prizes {
-  gap: 8px;
   display: grid;
+  gap: calc(var(--ion-padding) / 2);
   grid-template-columns: repeat(4, minmax(0, 1fr));
 
   div {

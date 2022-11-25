@@ -18,8 +18,12 @@ const routes: Routes = [
         loadChildren: () => import('./modules/rewards/rewards.module').then((m) => m.RewardsPageModule),
       },
       {
+        path: 'merchant',
+        loadChildren: () => import('./modules/merchant/merchant.module').then((m) => m.MerchantPageModule),
+      },
+      {
         path: '',
-        redirectTo: 'rewards',
+        redirectTo: 'membership',
         pathMatch: 'full',
       },
     ],

@@ -240,9 +240,22 @@ ion-header.header-ios {
   }
 }
 
+ion-card.card-clear {
+  box-shadow: none;
+  background: transparent;
+}
+
 ion-card.card-content-md,
 ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
+}
+
+ion-icon.icon-fill {
+  padding: calc(var(--ion-padding) / 2);
+  width: var(--ion-fab-button-size);
+  height: var(--ion-fab-button-size);
+  background: var(--ion-color-light);
+  color: var(--ion-color-dark);
 }
 
 ion-badge {

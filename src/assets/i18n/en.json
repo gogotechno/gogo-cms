@@ -309,6 +309,11 @@
     "_PER_CONSUMPTION": "Per",
     "_CAN_GAIN_TICKETS": "Tickets",
     "_CAN_GAIN_POINTS": "Points",
-    "_CAN_GAIN_SNW_TICKETS": "S&W Tickets"
+    "_CAN_GAIN_SNW_TICKETS": "S&W Tickets",
+    "_CREATE_USER": "Create User",
+    "_ISSUE_TICKETS": "Issue Tickets",
+    "_TOTAL_OF_TICKETS": "Total of tickets",
+    "_TOTAL_OF_WINNERS": "Total of winners",
+    "_SUMMARY_REPORT": "Summary"
   }
 }
