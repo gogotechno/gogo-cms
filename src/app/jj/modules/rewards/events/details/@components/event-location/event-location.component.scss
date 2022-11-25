@@ -1,15 +1,51 @@
-:host ::ng-deep ion-button.button-round {
-    --padding-start: 4px;
-    --padding-end: 4px;
-  }
+ion-card {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: calc(var(--ion-margin) / 2);
+  margin-left: calc(var(--ion-margin) / 2);
 
   ion-card-content {
-    display: flex;
+    padding-top: calc(var(--ion-padding) / 4);
+    padding-bottom: calc(var(--ion-padding) / 4);
+    padding-right: calc(var(--ion-padding) / 2);
+    padding-left: calc(var(--ion-padding) / 2);
   }
-  
-  .margin-start-only{
-    margin-left: 5%;
-    margin-right: 5%;
+
+  .title {
     margin-top: 0;
-    margin-bottom: 0;
+    margin-bottom: calc(var(--ion-margin) / 4);
+  }
+}
+
+ion-item {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+
+  ion-button[slot='start'] {
+    margin-right: calc(var(--ion-margin) / 2);
+  }
+
+  ion-button[slot='end'] {
+    margin-right: 0;
+    margin-left: calc(var(--ion-margin) / 2);
+  }
+
+  ion-button[slot='start'],
+  ion-button[slot='end'] {
+    width: calc(var(--ion-fab-button-size) / 1.5);
+    height: calc(var(--ion-fab-button-size) / 1.5);
+  }
+
+  ion-label {
+    margin-top: calc(var(--ion-margin) / 4);
+    margin-bottom: calc(var(--ion-margin) / 4);
+
+    h3 {
+      font-weight: var(--ion-font-bold);
+    }
+
+    p {
+      font-size: var(--ion-font-xs);
+    }
+  }
 }

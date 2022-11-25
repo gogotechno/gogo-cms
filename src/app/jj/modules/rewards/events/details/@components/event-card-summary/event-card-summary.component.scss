@@ -5,15 +5,16 @@ ion-img {
 }
 
 .card-container {
-  margin-top: -43px;
+  margin-top: -37px;
+  padding-bottom: calc(var(--ion-padding) / 2);
 }
 
 ion-card {
   --color: var(--ion-color-dark);
 
   z-index: 1;
-  margin-top: calc(var(--ion-margin) / 4);
-  margin-bottom: calc(var(--ion-margin) / 2);
+  margin-top: 0;
+  margin-bottom: 0;
   margin-right: calc(var(--ion-margin) / 2);
   margin-left: calc(var(--ion-margin) / 2);
 

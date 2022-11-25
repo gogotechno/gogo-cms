@@ -1,28 +1,20 @@
-<ion-card class="margin-start-only">
-  <ion-card-header class="ion-no-padding-bottom">最靠近您的门市</ion-card-header>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-card-content class="ion-no-padding">
-          <ion-button shape="round" color="warning">
-            <ion-icon slot="icon-only" name="storefront"></ion-icon>
-          </ion-button>
-          <ion-col>
-            <ion-row>
-              <ion-text color="dark" class="font-bold">Shop</ion-text>
-            </ion-row>
-            <ion-row>
-              <ion-text class="ion-text-xs" color="medium">距离XX公里</ion-text>
-            </ion-row>
-          </ion-col>
-          <ion-button shape="round" color="light">
-            <ion-icon slot="icon-only" name="locate"></ion-icon>
-          </ion-button>
-          <ion-button shape="round" color="light">
-            <ion-icon slot="icon-only" name="ellipsis-horizontal-circle-outline"></ion-icon>
-          </ion-button>
-        </ion-card-content>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-card>
+  <ion-card-content>
+    <h3 class="title">{{ 'jj._NEAREST_MERCHANT' | translate }}</h3>
+    <ion-item lines="none">
+      <ion-button slot="start">
+        <ion-icon slot="icon-only" name="storefront"></ion-icon>
+      </ion-button>
+      <ion-label>
+        <h3>{{ event?.merchant?.name }}</h3>
+        <p>{{ 'jj._DISTANCE_AWAY' | translate: { distance: '10KM' } }}</p>
+      </ion-label>
+      <ion-button slot="end" color="light">
+        <ion-icon slot="icon-only" name="locate"></ion-icon>
+      </ion-button>
+      <ion-button slot="end" color="light">
+        <ion-icon slot="icon-only" name="ellipsis-horizontal-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-card-content>
 </ion-card>

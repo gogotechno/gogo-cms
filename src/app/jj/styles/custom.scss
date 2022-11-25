@@ -1,4 +1,6 @@
-.title {
+.title,
+.card-content-md .title,
+.card-content-ios .title {
   font-size: var(--ion-font-sm);
   font-weight: var(--ion-font-bold);
   margin-top: calc(var(--ion-margin) / 2);

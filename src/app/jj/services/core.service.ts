@@ -118,8 +118,10 @@ export class CoreService {
     return events;
   }
 
-  async getEventById(eventId: number) {
-    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId);
+  async getEventById(eventId: number, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, {
+      hasFk: true,
+    });
     return this.populateEvent(res);
   }
 

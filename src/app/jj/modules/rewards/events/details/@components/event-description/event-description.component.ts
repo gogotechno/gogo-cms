@@ -20,7 +20,6 @@ export class EventDescriptionComponent extends SharedComponent implements OnInit
   async ngOnInit() {
     this.details.event.subscribe(async (event) => {
       this.event = event;
-      console.log(this.event);
       if (this.event) {
         let descriptionEl = await this.assertElement('description');
         this.canExpand = descriptionEl.scrollHeight > descriptionEl.clientHeight;

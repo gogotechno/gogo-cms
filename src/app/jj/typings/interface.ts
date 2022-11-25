@@ -58,6 +58,8 @@ export interface JJEvent extends ErpDoc {
   nameTranslation?: CmsTranslation;
 
   totalOfTickets?: number;
+
+  merchant?: JJMerchant;
 }
 
 export enum EventStatus {

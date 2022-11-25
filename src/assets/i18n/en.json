@@ -296,6 +296,11 @@
     "_DISTRIBUTED_TO": "Distributed to",
     "_DISTRIBUTED_BY": "Distributed by",
     "_EVENT_COUNTDOWN": "Remaining time",
-    "_YOU_HAVE_GAINED": "You have gained"
+    "_YOU_HAVE_GAINED": "You have gained",
+    "_NEAREST_MERCHANT": "Nearest merchant",
+    "_DISTANCE_AWAY": "{{ distance }} away",
+    "_LUCKY_DRAW": "Lucky Draw",
+    "_POINTS_GIVEAWAY": "Points Giveaway",
+    "_SNW_GIVEAWAY": "S&W Giveaway"
   }
 }

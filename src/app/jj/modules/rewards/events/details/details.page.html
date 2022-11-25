@@ -55,4 +55,18 @@
 <ion-content [fullscreen]="true">
   <event-card-summary></event-card-summary>
   <event-description></event-description>
+  <event-location></event-location>
+  <ion-toolbar>
+    <ion-segment>
+      <ion-segment-button>
+        <ion-label>{{ "jj._LUCKY_DRAW" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button>
+        <ion-label>{{ "jj._POINTS_GIVEAWAY" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button>
+        <ion-label>{{ "jj._SNW_GIVEAWAY" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-content>
