@@ -2,7 +2,7 @@
   <h3 class="title">{{ 'jj._LUCKY_DRAWS' | translate }}</h3>
   <ion-slides [pager]="true">
     <ion-slide class="lucky-draw" *ngFor="let event of events">
-      <ion-card>
+      <ion-card [routerLink]="['../events', event.doc_id]">
         <ion-badge>{{ 'jj._OWNED_TICKETS' | translate: { count: 99 } }}</ion-badge>
         <img class="event-background" [src]="event.backgroundImage | erpImg" />
         <ion-card-content>

@@ -1,3 +1,12 @@
+ion-title {
+  line-height: var(--ion-font-md);
+
+  span:last-of-type {
+    font-weight: normal;
+    font-size: var(--ion-font-xs);
+  }
+}
+
 .summary {
   --padding-start: calc(var(--ion-padding) * 1.5);
   --padding-end: calc(var(--ion-padding) * 1.5);

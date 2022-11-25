@@ -1,19 +1,21 @@
-<ion-img [src]="event?.backgroundImage | erpImg"></ion-img>
-<div class="card-container">
-  <ion-card>
-    <ion-card-content>
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <h3>{{ 'jj._EVENT_COUNTDOWN' | translate }}</h3>
-            <countdown-timer [timer]="timer"></countdown-timer>
-          </ion-col>
-          <ion-col>
-            <h3>{{ 'jj._YOU_HAVE_GAINED' | translate }}</h3>
-            <distribution-summary [tickets]="10" [points]="100" [snwTickets]="30"></distribution-summary>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+<div class="container">
+  <ion-img [src]="event?.backgroundImage | erpImg"></ion-img>
+  <div class="card-container">
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <h3>{{ 'jj._EVENT_COUNTDOWN' | translate }}</h3>
+              <countdown-timer [timer]="timer"></countdown-timer>
+            </ion-col>
+            <ion-col>
+              <h3>{{ 'jj._YOU_HAVE_GAINED' | translate }}</h3>
+              <distribution-summary [tickets]="10" [points]="100" [snwTickets]="30"></distribution-summary>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </div>

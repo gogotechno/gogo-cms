@@ -8,7 +8,7 @@ import { DetailsService } from './@services/details.service';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
-  // segment = 'luck-draw';
+  segment: 'draw' | 'points' | 'snw' = 'draw';
 
   constructor(private route: ActivatedRoute, private details: DetailsService) {}
 
