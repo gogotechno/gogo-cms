@@ -5,6 +5,8 @@ export interface MiniProgram {
   name: string;
   icon: string;
   link: string;
+  primaryColor?: string;
+  primaryLightColor?: string;
 }
 
 export type User = JJCustomer | JJUser;
@@ -76,10 +78,11 @@ export interface JJEventPrize extends ErpDoc {
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
-
   walletBalance?: number;
-
   permissions?: JJWalletPermission[];
+  icon?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
 }
 
 export enum WalletType {

@@ -18,6 +18,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/rewards/rewards.module').then((m) => m.RewardsPageModule),
       },
       {
+        path: 'wallets',
+        loadChildren: () => import('./modules/wallets/wallets.module').then(m => m.WalletsPageModule)
+      },
+      {
         path: '',
         redirectTo: 'membership',
         pathMatch: 'full',
@@ -30,4 +34,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class JJPageRoutingModule {}
+export class JJPageRoutingModule { }
