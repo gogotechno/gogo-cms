@@ -29,8 +29,9 @@ export class ErpImagePipe implements PipeTransform {
   }
 
   private transformImgUrl() {
-    let segment = environment.swsErp.apiUrl.split('/');
-    return segment.filter((s) => s != 'api').join('/');
+    return environment.swsErp.apiUrl;
+    // let segment = environment.swsErp.apiUrl.split('/');
+    // return segment.filter((s) => s != 'api').join('/');
   }
 }
 

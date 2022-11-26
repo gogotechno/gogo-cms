@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SummaryCardComponent } from './summary-card.component';
+import { SummaryCardComponent } from './winners.component';
 
 describe('SummaryCardComponent', () => {
   let component: SummaryCardComponent;

@@ -26,6 +26,9 @@ export interface JJCustomer extends ErpDoc {
   email: string;
   phone: string;
   password: string;
+
+  totalOfTickets?: number;
+  totalOfWinners?: number;
 }
 
 export interface JJUserRole extends ErpDoc {

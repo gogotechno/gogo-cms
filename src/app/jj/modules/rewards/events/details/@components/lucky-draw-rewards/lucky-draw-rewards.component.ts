@@ -15,7 +15,6 @@ export class LuckyDrawRewardsComponent implements OnInit {
   async ngOnInit() {
     this.details.event.subscribe((event) => {
       this.event = event;
-      console.log(this.event);
     });
   }
 }
