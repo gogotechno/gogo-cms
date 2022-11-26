@@ -5,8 +5,7 @@ export interface MiniProgram {
   name: string;
   icon: string;
   link: string;
-  primaryColor?: string;
-  primaryLightColor?: string;
+  colors?: any;
 }
 
 export type User = JJCustomer | JJUser;
