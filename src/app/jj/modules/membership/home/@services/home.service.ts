@@ -75,5 +75,21 @@ const MINI_PROGRAMS: MiniProgram[] = [
     }),
     icon: 'storefront',
     link: '/jj/merchant',
+    colors: {
+      "primary": '#70AD47',
+      "primary-light": '#E2F0D9',
+    }
+  },
+  {
+    name: JSON.stringify({
+      en: 'JJ Admin',
+      zh: 'JJ管理员',
+    }),
+    icon: 'tv',
+    link: '/jj/admin',
+    colors: {
+      "primary": '#FF0000',
+      "primary-light": '#FFC9C9',
+    }
   },
 ];
