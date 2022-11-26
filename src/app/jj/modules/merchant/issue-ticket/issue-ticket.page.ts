@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertButton, ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
-import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import {
   CapturePaymentRequestExtras,
   IssueMode,
@@ -13,7 +12,6 @@ import {
   JJMerchant,
   JJTicketDistributionApplication,
 } from 'src/app/jj/typings';
-import { SmsComponent, SmsTemplateCode } from '../../@components/sms/sms.component';
 
 @Component({
   selector: 'app-issue-ticket',
@@ -21,16 +19,11 @@ import { SmsComponent, SmsTemplateCode } from '../../@components/sms/sms.compone
   styleUrls: ['./issue-ticket.page.scss'],
 })
 export class IssueTicketPage implements OnInit {
-  @ViewChild(FormComponent) formComponent: FormComponent;
-  @ViewChild(SmsComponent) smsComponent: SmsComponent;
-
   form: CmsForm;
-
+  value: Partial<JJTicketDistributionApplication>;
   event: JJEvent;
   merchant: JJMerchant;
-
   success: boolean;
-
   customer: {
     phone: string;
     password?: string;
@@ -43,12 +36,11 @@ export class IssueTicketPage implements OnInit {
     private modalCtrl: ModalController,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
   ) {}
 
   async ngOnInit() {
     this.form = form;
-    this.merchant = await this.auth.findMyMerchant();
-
     await this.initForm();
   }
 
@@ -69,7 +61,9 @@ export class IssueTicketPage implements OnInit {
 
     this.event = events[0];
 
-    this.formComponent.patchValue({
+    this.merchant = await this.auth.findMyMerchant();
+
+    this.value = {
       merchant_id: this.merchant?.doc_id,
       event_id: this.event?.doc_id,
       customerContactNo: null,
@@ -78,7 +72,7 @@ export class IssueTicketPage implements OnInit {
       expense: 0,
       pointExpense: 0,
       product_id: null,
-    });
+    };
   }
 
   async onDismiss() {
@@ -113,14 +107,11 @@ export class IssueTicketPage implements OnInit {
         buttons.push({
           text: await this.translate.get('jj._SEND_PAYMENT').toPromise(),
           handler: () => {
-            this.smsComponent.setTemplate(SmsTemplateCode.CAPTURE_PAYMENT);
-            this.smsComponent.setReceiver(paymentInfo.customerInfo.customer.phone);
-            this.smsComponent.setData({
+            this.common.sendSms(paymentInfo.customerInfo.customer.phone, 'CAPTURE_PAYMENT', {
               refNo: paymentInfo.customerInfo.transaction.refNo,
-              amount: String(paymentInfo.request.amount),
-              currentBalance: String(paymentInfo.customerInfo.currentBalance),
+              amount: paymentInfo.request.amount,
+              currentBalance: paymentInfo.customerInfo.currentBalance,
             });
-            this.smsComponent.send();
             return false;
           },
         });
@@ -130,13 +121,10 @@ export class IssueTicketPage implements OnInit {
         buttons.push({
           text: await this.translate.get('jj._NOTIFY_NEW_CUSTOMER').toPromise(),
           handler: () => {
-            this.smsComponent.setTemplate(SmsTemplateCode.CUSTOMER_NEW_PASSWORD);
-            this.smsComponent.setReceiver(this.customer.phone);
-            this.smsComponent.setData({
+            this.common.sendSms(this.customer.phone, 'CUSTOMER_NEW_PASSWORD', {
               phone: this.customer.phone,
               password: this.customer.password,
             });
-            this.smsComponent.send();
             return false;
           },
         });
@@ -147,14 +135,11 @@ export class IssueTicketPage implements OnInit {
           {
             text: await this.translate.get('jj._SEND_DISTRIBUTON').toPromise(),
             handler: () => {
-              this.smsComponent.setTemplate(SmsTemplateCode.TICKET_DISTRIBUTION);
-              this.smsComponent.setReceiver(this.customer.phone);
-              this.smsComponent.setData({
-                ticketCount: String(application.ticketCount),
-                freePoints: String(application.freePoint),
-                freeSnwTickets: String(application.freeSnwTickets),
+              this.common.sendSms(this.customer.phone, 'TICKET_DISTRIBUTION', {
+                ticketCount: application.ticketCount,
+                freePoints: application.freePoint,
+                freeSnwTickets: application.freeSnwTickets,
               });
-              this.smsComponent.send();
               return false;
             },
           },
@@ -163,7 +148,6 @@ export class IssueTicketPage implements OnInit {
             text: await this.translate.get('_CLOSE').toPromise(),
             role: 'cancel',
             handler: () => {
-              this.formComponent.resetForm();
               this.customer = null;
               this.success = true;
               this.onDismiss();

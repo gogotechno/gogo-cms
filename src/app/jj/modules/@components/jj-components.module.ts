@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/jj/shared';
-import { SmsComponent } from './sms/sms.component';
 
-const components = [SmsComponent];
+const components = [];
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SharedModule],

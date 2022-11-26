@@ -13,9 +13,8 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <cms-form [form]="form" (submit)="onIssueTicket($event)"></cms-form>
+        <cms-form [form]="form" [value]="value" (submit)="onIssueTicket($event)"></cms-form>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <sms></sms>
 </ion-content>

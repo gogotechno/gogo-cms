@@ -1,6 +1,16 @@
 import { CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 
+export interface LiteralObject {
+  [key: string]: any;
+}
+
+export type SmsTemplateCode =
+  | 'CUSTOMER_NEW_PASSWORD'
+  | 'CUSTOMER_RESET_PASSWORD'
+  | 'CAPTURE_PAYMENT'
+  | 'TICKET_DISTRIBUTION';
+
 export interface MiniProgram {
   name: string;
   icon: string;

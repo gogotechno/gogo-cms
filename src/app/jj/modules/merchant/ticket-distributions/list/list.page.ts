@@ -75,9 +75,9 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async onSearch(event: Event) {
-    let searchbarEl = <HTMLIonSearchbarElement>event.target;
+    let searchbar = <HTMLIonSearchbarElement>event.target;
     this.distributionsPage = this.defaultPage;
-    this.distributionsConditions['searchInput'] = searchbarEl.value;
+    this.distributionsConditions['searchInput'] = searchbar.value;
     this.distributions = await this.getTicketDistributions();
   }
 

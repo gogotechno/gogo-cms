@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormComponent } from 'src/app/cms-ui/form/form.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { AuthService, CoreService } from 'src/app/jj/services';
@@ -12,10 +11,8 @@ import { JJMerchant, JJUser, UserRole } from 'src/app/jj/typings';
   styleUrls: ['./create-user.page.scss'],
 })
 export class CreateUserPage implements OnInit {
-  @ViewChild(FormComponent) formComponent: FormComponent;
-
   form: CmsForm;
-  value: JJUser;
+  user: Partial<JJUser>;
   merchant: JJMerchant;
   success: boolean;
 
@@ -29,8 +26,6 @@ export class CreateUserPage implements OnInit {
 
   async ngOnInit() {
     this.form = form;
-
-    this.merchant = await this.auth.findMyMerchant();
     let roles = await this.core.getUserRoles();
     let roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles
@@ -40,14 +35,16 @@ export class CreateUserPage implements OnInit {
         label: this.cmsUtils.parseCmsTranslation(role.name),
       }));
 
-    this.formComponent.patchValue({
+    this.merchant = await this.auth.findMyMerchant();
+
+    this.user = {
       merchant_id: this.merchant.doc_id,
       role: UserRole.MERCHANT_ADMIN,
       firstName: '',
       lastName: '',
       email: '',
       password: '',
-    });
+    };
   }
 
   async onCreateUser(user: JJUser) {
@@ -55,7 +52,6 @@ export class CreateUserPage implements OnInit {
     if (confirm) {
       await this.core.createUser(user);
       await this.appUtils.presentAlert('jj._USER_CREATED', '_SUCCESS');
-      this.formComponent.resetForm();
       this.success = true;
       this.onDismiss();
     }
