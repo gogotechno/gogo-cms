@@ -55,6 +55,10 @@ const MINI_PROGRAMS: MiniProgram[] = [
     }),
     icon: 'gift',
     link: '/jj/rewards',
+    colors: {
+      "primary": '#FFC000',
+      "primary-light": '#FFF2CC',
+    }
   },
   {
     name: JSON.stringify({
