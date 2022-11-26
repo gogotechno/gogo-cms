@@ -13,12 +13,30 @@ ion-card {
   min-width: 144px;
   max-width: 144px;
   box-shadow: none;
+  position: relative;
 
   ion-card-content {
     padding: calc(var(--ion-padding) / 2) calc(var(--ion-padding) / 1.5);
 
+    p,
+    h3 {
+      margin: 0;
+      line-height: 1;
+    }
+
+    p {
+      font-size: var(--ion-font-sm);
+    }
+
     h3 {
       font-weight: var(--ion-font-bold);
     }
+  }
+
+  ion-icon {
+    position: absolute;
+    font-size: var(--ion-font-2xl, 24px);
+    bottom: calc(var(--ion-padding) / 2);
+    right: calc(var(--ion-padding) / 1.5);
   }
 }

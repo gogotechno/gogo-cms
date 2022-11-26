@@ -55,14 +55,15 @@ export interface JJEvent extends ErpDoc {
   backgroundImage: string;
   minSpend: number;
   merchant_id: number;
-
   merchant?: JJMerchant;
   prizes?: JJEventPrize[];
   pointRules?: JJPointRule[];
-
   totalOfTickets?: number;
-
   nameTranslation?: CmsTranslation;
+  /**
+   * Use in app control
+   */
+  _status: string;
 }
 
 export enum EventStatus {
@@ -78,7 +79,6 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
-
   thumbnailImage: string;
 }
 

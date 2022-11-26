@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent } from 'src/app/jj/typings';
 import { HomeService } from '../../@services/home.service';
@@ -9,15 +9,15 @@ import { HomeService } from '../../@services/home.service';
   styleUrls: ['./lucky-draws.component.scss'],
 })
 export class LuckyDrawsComponent extends SharedComponent implements OnInit {
-  events: JJEvent[];
+  @Input() events: JJEvent[];
 
   constructor(private home: HomeService) {
     super();
   }
 
   ngOnInit() {
-    this.home.ongoingEvents.subscribe((events) => {
-      this.events = events;
-    });
+    // this.home.ongoingEvents.subscribe((events) => {
+    //   this.events = events;
+    // });
   }
 }

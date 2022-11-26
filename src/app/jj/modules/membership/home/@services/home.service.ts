@@ -62,7 +62,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
       zh: 'JJ钱包',
     }),
     icon: 'wallet',
-    link: '/jj/wallet',
+    link: '/jj/wallets',
   },
   {
     name: JSON.stringify({

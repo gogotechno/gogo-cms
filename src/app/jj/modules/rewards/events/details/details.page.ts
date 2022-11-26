@@ -10,7 +10,7 @@ import { DetailsService } from './@services/details.service';
 export class DetailsPage implements OnInit {
   segment: 'draw' | 'points' | 'snw' = 'draw';
 
-  constructor(private route: ActivatedRoute, private details: DetailsService) {}
+  constructor(private route: ActivatedRoute, private details: DetailsService) { }
 
   ngOnInit() {
     let params = this.route.snapshot.params;

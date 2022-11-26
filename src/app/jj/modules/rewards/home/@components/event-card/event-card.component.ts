@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-card.component.scss'],
 })
 export class EventCardComponent implements OnInit {
-  constructor() {}
+  constructor() { }
 
-  async ngOnInit() {}
+  async ngOnInit() { }
 }
