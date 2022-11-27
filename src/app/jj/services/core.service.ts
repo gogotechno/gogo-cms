@@ -219,11 +219,18 @@ export class CoreService {
     return res.result.map((event) => this.populateEvent(event));
   }
 
-  async getOngoingEvents(pagination: Pagination) {
+  async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
+    let conditions: Conditions = {};
+    if (options['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+    }
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
       hasFk: true,
+      ...conditions,
     });
     return events;
   }

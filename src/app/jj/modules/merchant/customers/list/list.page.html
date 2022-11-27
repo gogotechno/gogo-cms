@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
+      <ion-button routerLink="/jj/membership">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{ "jj._CUSTOMERS" | translate }}</ion-title>
@@ -30,7 +33,9 @@
               <h3>{{ customer.firstName | fullName: customer.lastName }}</h3>
               <h3 *ngIf="currentUser?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hideText }}</h3>
               <h3 *ngIf="currentUser?.role == 'SYSTEM_ADMIN'">{{ customer.phone }}</h3>
-              <p>{{ "jj._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ customer.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
+              <p>
+                {{ "jj._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ customer.doc_createdDate | date: "MM/dd/yy, h:mm a" }}
+              </p>
             </ion-label>
           </ion-item>
         </ion-list>

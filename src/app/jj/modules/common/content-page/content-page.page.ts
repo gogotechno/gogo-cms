@@ -18,7 +18,6 @@ export class ContentPagePage implements OnInit {
     let params = this.route.snapshot.params;
     this.contentPageId = params['id'];
     await this.loadData();
-    console.log(this.contentPage);
   }
 
   async loadData() {
