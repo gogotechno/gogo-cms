@@ -77,8 +77,17 @@ export interface JJEvent extends ErpDoc {
   pointRules?: JJPointRule[];
 
   totalOfTickets?: number;
+  totalOfWinners?: number;
+
+  drawingResult?: JJDrawingResult;
+  drewAt?: Date;
 
   nameTranslation?: CmsTranslation;
+
+  winningSummary: {
+    prize: JJEventPrize;
+    winningNumbers: string[];
+  }[];
 }
 
 export enum EventStatus {
@@ -98,6 +107,14 @@ export interface JJEventPrize extends ErpDoc {
   thumbnailImage: string;
 }
 
+export interface JJDrawingResult extends ErpDoc {
+  drewAt: Date;
+  drewBy: string;
+  event_id: number;
+
+  event?: JJEvent;
+}
+
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
@@ -110,6 +127,7 @@ export interface JJWallet extends ErpDoc {
 export enum WalletType {
   CUSTOMER = 'CUSTOMER',
   MERCHANT = 'MERCHANT',
+  SNW = 'SNW',
 }
 
 export interface JJWalletPermission extends ErpDoc {
@@ -259,6 +277,8 @@ export interface JJWalletTransaction extends ErpDoc {
   reference1: string;
   reference2: string;
   reference3: string;
+
+  amountText: string;
 }
 
 export interface JJCapturePaymentRequest extends ErpDoc {

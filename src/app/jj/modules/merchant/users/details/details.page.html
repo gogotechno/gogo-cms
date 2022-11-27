@@ -19,10 +19,12 @@
         <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
-        <ion-avatar>
-          <ion-img src="/assets/avatar-placeholder.png"></ion-img>
-        </ion-avatar>
-        <cms-form [form]="form" [value]="user" (submit)="onUpdate($event)"></cms-form>
+        <div class="ion-padding-sm">
+          <ion-avatar>
+            <ion-img src="/assets/avatar-placeholder.png"></ion-img>
+          </ion-avatar>
+          <cms-form [form]="form" [value]="user" (submit)="onUpdate($event)"></cms-form>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

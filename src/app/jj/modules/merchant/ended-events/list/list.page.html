@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._ENDED_EVENTS" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ion-list>
+          <div *ngIf="!events?.length">
+            <ion-label> {{ "jj._NO_EVENTS_FOUND" | translate }} </ion-label>
+          </div>
+          <ion-item *ngFor="let event of events" [routerLink]="[event.doc_id]">
+            <ion-label>
+              <h3>{{ event.name }}</h3>
+              <p>{{ "jj._DREW_AT" | translate }}&nbsp;:&nbsp;{{ (event.drewAt | date: "MM/dd/yy, h:mm a") || '-' }}</p>
+            </ion-label>
+          </ion-item>
+          <ng-container *ngIf="events?.length > 0">
+            <ion-infinite-scroll *ngIf="!eventsEnded" (ionInfinite)="loadMoreEvents($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <div *ngIf="eventsEnded" class="note">
+              <ion-label> {{ "jj._NO_MORE_EVENTS" | translate }} </ion-label>
+            </div>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

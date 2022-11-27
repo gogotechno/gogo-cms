@@ -1,0 +1,16 @@
+<ion-list>
+  <div *ngIf="!tickets?.length" class="note">
+    <ion-label>{{ 'jj._NO_TICKETS_FOUND' | translate }}</ion-label>
+  </div>
+  <ion-item *ngFor="let ticket of tickets">
+    <ion-label>{{ ticket.serialNo }}</ion-label>
+  </ion-item>
+</ion-list>
+<ng-container *ngIf="tickets?.length">
+  <ion-infinite-scroll *ngIf="!ticketsEnded" (ionInfinite)="loadMoreTickets($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <div *ngIf="ticketsEnded" class="note">
+    <ion-label>{{ 'jj._NO_MORE_TICKETS' | translate }}</ion-label>
+  </div>
+</ng-container>

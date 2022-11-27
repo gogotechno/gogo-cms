@@ -5,7 +5,7 @@ import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJTicketDistribution } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
-import { ListFilterComponent } from './list-filter/list-filter.component';
+import { ListFilterComponent } from './@components/list-filter/list-filter.component';
 
 @Component({
   selector: 'app-list',
@@ -49,6 +49,8 @@ export class ListPage extends SharedComponent implements OnInit {
       merchant_id: this.merchantId,
       merchant_id_type: '=',
       event_id_type: '=',
+      sortBy: 'distributedAt',
+      sortType: 'desc',
       ...this.distributionsConditions,
     });
   }
@@ -100,6 +102,7 @@ export class ListPage extends SharedComponent implements OnInit {
 
   get _filter(): CmsFilter {
     return {
+      labelPosition: 'stacked',
       items: [
         {
           code: 'event_id',

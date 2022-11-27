@@ -17,6 +17,14 @@ const routes: Routes = [
         loadChildren: () => import('./ticket-distributions/ticket-distributions.module').then((m) => m.TicketDistributionsPageModule),
       },
       {
+        path: 'wallet-transactions',
+        loadChildren: () => import('./wallet-transactions/wallet-transactions.module').then((m) => m.WalletTransactionsPageModule),
+      },
+      {
+        path: 'ended-events',
+        loadChildren: () => import('./ended-events/ended-events.module').then((m) => m.EndedEventsPageModule),
+      },
+      {
         path: 'users',
         loadChildren: () => import('./users/users.module').then((m) => m.UsersPageModule),
       },

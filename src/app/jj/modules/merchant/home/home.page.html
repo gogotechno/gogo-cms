@@ -27,50 +27,60 @@
       </ion-grid>
     </ion-card-header>
   </ion-card>
-  <div class="actions">
-    <ion-card (click)="onCreateUser()">
-      <ion-card-content>
-        <ion-icon name="person-add-outline"></ion-icon>
-        <ion-label>{{ "jj._CREATE_USER" | translate }}</ion-label>
-      </ion-card-content>
-    </ion-card>
-    <ion-card (click)="onIssueTicket()">
-      <ion-card-content>
-        <ion-icon name="ticket-outline"></ion-icon>
-        <ion-label>{{ "jj._ISSUE_TICKETS" | translate }}</ion-label>
-      </ion-card-content>
-    </ion-card>
-  </div>
+  <ion-card class="actions">
+    <ion-card-content>
+      <ion-card (click)="onCreateUser()">
+        <ion-card-content>
+          <ion-icon name="person-add-outline"></ion-icon>
+          <ion-label>{{ "jj._CREATE_USER" | translate }}</ion-label>
+        </ion-card-content>
+      </ion-card>
+      <ion-card (click)="onIssueTicket()">
+        <ion-card-content>
+          <ion-icon name="ticket-outline"></ion-icon>
+          <ion-label>{{ "jj._ISSUE_TICKETS" | translate }}</ion-label>
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="wallet">
+    <ion-card-header>
+      <ion-card-subtitle>{{ 'jj._BALANCE' | translate }}</ion-card-subtitle>
+      <ion-card-title>{{ 'jj._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance } }}</ion-card-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="block" (click)="onCapturePayment()">
+              <ion-icon name="scan" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="block" routerLink="../wallet-transactions">
+              <ion-icon name="list" slot="icon-only"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+  </ion-card>
   <div class="summary">
     <h3 class="title">{{ "jj._SUMMARY_REPORT" | translate }}</h3>
     <ion-card class="card-clear">
       <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="auto">
-              <ion-icon class="icon-fill" name="ticket-outline"></ion-icon>
-            </ion-col>
-            <ion-col>
-              <ion-card-subtitle>{{ "jj._TOTAL_OF_TICKETS" | translate }}</ion-card-subtitle>
-              <ion-card-title>{{ merchant?.totalOfTickets }}</ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-icon class="icon-fill" name="ticket-outline"></ion-icon>
+        <div>
+          <ion-card-subtitle>{{ "jj._TOTAL_OF_TICKETS" | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ merchant?.totalOfTickets }}</ion-card-title>
+        </div>
       </ion-card-content>
     </ion-card>
     <ion-card class="card-clear">
       <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="auto">
-              <ion-icon class="icon-fill" name="trophy-outline"></ion-icon>
-            </ion-col>
-            <ion-col>
-              <ion-card-subtitle>{{ "jj._TOTAL_OF_WINNERS" | translate }}</ion-card-subtitle>
-              <ion-card-title>{{ merchant?.totalOfWinners }}</ion-card-title>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        <ion-icon class="icon-fill" name="trophy-outline"></ion-icon>
+        <div>
+          <ion-card-subtitle>{{ "jj._TOTAL_OF_WINNERS" | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ merchant?.totalOfWinners }}</ion-card-title>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>

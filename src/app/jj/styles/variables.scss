@@ -249,14 +249,28 @@ ion-header.header-ios {
   }
 }
 
+ion-grid.grid-fixed {
+  padding: 0;
+
+  ion-col {
+    padding: 0;
+  }
+}
+
+ion-list.list-md,
+ion-list.list-ios {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 ion-card.card-content-md,
 ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
+}
 
-  &.card-clear {
-    box-shadow: none;
-    background: transparent;
-  }
+ion-card.card-clear {
+  box-shadow: none;
+  background: transparent;
 }
 
 ion-badge {
@@ -270,7 +284,9 @@ ion-button {
 }
 
 cms-form,
-.cms-form {
+cms-filter,
+.cms-form,
+.cms-filter {
   .list-md,
   .list-ios {
     --ion-item-background: transparent;

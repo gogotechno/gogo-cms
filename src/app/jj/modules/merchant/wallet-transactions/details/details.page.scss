@@ -1,0 +1,18 @@
+.title {
+  font-size: var(--ion-font-4xl);
+  padding-left: calc(var(--ion-padding) / 2);
+}
+
+ion-item {
+  --padding-start: calc(var(--ion-padding) / 2);
+  --padding-end: calc(var(--ion-padding) / 2);
+  --inner-padding-end: 0;
+
+  ion-label {
+    color: var(--ion-color-note);
+  }
+
+  ion-input {
+    text-align: end;
+  }
+}

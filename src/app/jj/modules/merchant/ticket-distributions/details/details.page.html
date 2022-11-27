@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj/merchant/ticket-distributions"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ "jj._TICKET_DISTRIBUTION" | translate }}</ion-title>
+    <ion-title>{{ "jj._TICKET_DISTRIBUTION_DETAILS" | translate }}</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <ion-segment [(ngModel)]="segment">
@@ -24,6 +24,10 @@
         <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
+        <div [ngSwitch]="segment">
+          <distribution-details *ngSwitchCase="'details'"></distribution-details>
+          <tickets *ngSwitchCase="'tickets'"></tickets>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

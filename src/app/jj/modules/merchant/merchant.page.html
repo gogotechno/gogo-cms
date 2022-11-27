@@ -26,6 +26,11 @@
           <ion-label>{{ "jj._CUSTOMERS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'ended-events']">
+          <ion-label>{{ "jj._ENDED_EVENTS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
     </ion-list>
   </ion-content>
 </ion-menu>

@@ -9,7 +9,6 @@ import _ from 'lodash';
   styleUrls: ['./filter.component.scss'],
 })
 export class FilterComponent implements OnInit {
-
   @Input('form') form: CmsFilter;
   @Input('value') value: { [key: string]: any };
   @Output('submit') submit = new EventEmitter<any>();
@@ -17,7 +16,7 @@ export class FilterComponent implements OnInit {
 
   formGroup: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.loadData();
@@ -28,9 +27,9 @@ export class FilterComponent implements OnInit {
     this.formGroup = this.fb.group({});
     for (let item of this.form.items) {
       switch (item.type) {
-        case "date-between":
-          this.formGroup.setControl(this.getDateBetweenFormControlName("from", item.code), this.loadControl(item));
-          this.formGroup.setControl(this.getDateBetweenFormControlName("to", item.code), this.loadControl(item));
+        case 'date-between':
+          this.formGroup.setControl(this.getDateBetweenFormControlName('from', item.code), this.loadControl(item));
+          this.formGroup.setControl(this.getDateBetweenFormControlName('to', item.code), this.loadControl(item));
           break;
         default:
           this.formGroup.setControl(item.code, this.loadControl(item));
@@ -44,8 +43,12 @@ export class FilterComponent implements OnInit {
   private loadControl(item: CmsFilterItem) {
     let control = new FormControl();
     let validators: ValidatorFn[] = [];
-    if (item.required) validators.push(Validators.required);
-    if (validators.length > 0) control.setValidators(validators);
+    if (item.required) {
+      validators.push(Validators.required);
+    }
+    if (validators.length > 0) {
+      control.setValidators(validators);
+    }
     return control;
   }
 
@@ -54,18 +57,18 @@ export class FilterComponent implements OnInit {
     this.form.items[index] = item;
   }
 
-  getDateBetweenFormControlName(type: "from" | "to", code: string) {
+  getDateBetweenFormControlName(type: 'from' | 'to', code: string) {
     return `${code}_${type}`;
   }
 
-  getDateBetweenInputType(type: "date" | "time" | "datetime") {
+  getDateBetweenInputType(type: 'date' | 'time' | 'datetime') {
     switch (type) {
-      case "time":
-        return "time";
-      case "datetime":
-        return "datetime-local";
+      case 'time':
+        return 'time';
+      case 'datetime':
+        return 'datetime-local';
       default:
-        return "date";
+        return 'date';
     }
   }
 
@@ -84,13 +87,14 @@ export class FilterComponent implements OnInit {
 
   resetForm() {
     this.formGroup.reset();
-    this.form.items.filter((i) => i.type == "select" && i.searchable).forEach((i) => i.selectConfig.selectedItems = []);
+    this.form.items
+      .filter((i) => i.type == 'select' && i.searchable)
+      .forEach((i) => (i.selectConfig.selectedItems = []));
   }
 
   removeEmptyKeys<T>(source: T) {
     let cloned = _.cloneDeep(source);
-    Object.keys(cloned).forEach((key) => !cloned[key] ? delete cloned[key] : cloned[key]);
+    Object.keys(cloned).forEach((key) => (!cloned[key] ? delete cloned[key] : cloned[key]));
     return cloned;
   }
-
 }

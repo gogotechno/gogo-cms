@@ -37,7 +37,6 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    console.log('loadData');
     this.usersPage = this.defaultPage;
     this.merchantId = await this.auth.findMyMerchantId();
     this.users = await this.getUsers();

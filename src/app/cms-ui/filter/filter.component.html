@@ -1,5 +1,5 @@
 <ng-container *ngIf="formGroup">
-  <ion-list [formGroup]="formGroup">
+  <ion-list [formGroup]="formGroup" [lines]="form.lines">
     <ng-container *ngFor="let item of form.items">
       <ng-container *ngIf="!item.hidden">
         <ng-container [ngSwitch]="item.type">
@@ -27,7 +27,7 @@
 
           <ng-container *ngSwitchCase="'select'">
             <ion-item *ngIf="!item.searchable">
-              <ion-label>{{ item.label | cmsTranslate }}</ion-label>
+              <ion-label [position]="form.labelPosition">{{ item.label | cmsTranslate }}</ion-label>
               <ion-select [formControlName]="item.code" slot="end">
                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                   <ion-label>{{ option.label | cmsTranslate }}</ion-label>
@@ -45,9 +45,7 @@
 
           <ng-container *ngSwitchDefault>
             <ion-item [ngSwitch]="item.type">
-              <ion-label [position]="item.labelPosition || 'fixed'">
-                {{ item.label | cmsTranslate }}
-              </ion-label>
+              <ion-label [position]="form.labelPosition">{{ item.label | cmsTranslate }}</ion-label>
               <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code"></ion-input>
               <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code"></ion-input>
               <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code"></ion-input>

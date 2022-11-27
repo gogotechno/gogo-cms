@@ -4,9 +4,12 @@ ion-button {
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 0px;
+  margin-left: calc(var(--ion-margin) / 2);
 
   @supports (margin-inline-start: 0) or (-webkit-margin-start: 0) {
     margin-right: unset;
+    margin-left: unset;
     margin-inline-end: 0px;
+    margin-inline-start: calc(var(--ion-margin) / 2);
   }
 }
