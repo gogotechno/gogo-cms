@@ -289,10 +289,9 @@ cms-filter,
 .cms-filter {
   .list-md,
   .list-ios {
-    --ion-item-background: transparent;
-
     padding-top: 0;
     padding-bottom: 0;
+    background: transparent;
   }
 
   ion-item {
@@ -337,7 +336,7 @@ cms-filter,
     border-color: var(--ion-border-color);
   }
 
-  .item-label-stacked .sc-ion-label-md-h,
+  .item-label-stacked .sc-ion-input-md-h,
   .item-label-stacked .sc-ion-input-ios-h {
     --padding-start: 10px;
   }
@@ -364,5 +363,11 @@ cms-filter,
     position: absolute;
     bottom: 0;
     left: 0;
+  }
+
+  ion-input.sc-ion-input-md-h,
+  ion-input.sc-ion-input-ios-h,
+  ion-select {
+    background-color: var(--ion-item-background, #fff);
   }
 }

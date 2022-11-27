@@ -40,9 +40,7 @@ export class HomeService {
 
   async init() {
     const [events, winners, customer] = await Promise.all([
-      this.core.getOngoingEvents(this.eventsPage, {
-        withLocation: true,
-      }),
+      this.core.getOngoingEvents(this.eventsPage, { withLocation: true }),
       this.core.getWinners(this.winnersPage),
       this.auth.findMe(),
     ]);

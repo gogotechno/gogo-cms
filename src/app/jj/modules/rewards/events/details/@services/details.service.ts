@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CoreService } from 'src/app/jj/services';
+import { AuthService, CoreService } from 'src/app/jj/services';
 import { JJEvent } from 'src/app/jj/typings';
 
 @Injectable()
@@ -12,15 +12,18 @@ export class DetailsService {
     return this._EVENT.asObservable();
   }
 
-  constructor(private core: CoreService) {
+  constructor(private auth: AuthService, private core: CoreService) {
     this._EVENT = new BehaviorSubject<JJEvent>(null);
   }
 
   async init() {
+    let currentUser = this.auth.currentUser;
+
     const [event] = await Promise.all([
       this.core.getEventById(this.eventId, {
         hasFk: true,
         withLocation: true,
+        customerId: currentUser.doc_id,
       }),
     ]);
 
