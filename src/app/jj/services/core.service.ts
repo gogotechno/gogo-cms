@@ -8,13 +8,16 @@ import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
   COMPANY_CODE,
+  JJAnnouncement,
   JJCapturePaymentRequest,
+  JJContentPage,
   JJCustomer,
   JJEvent,
   JJMerchant,
   JJPointRule,
   JJProduct,
   JJScratchAndWinRule,
+  JJSlideshow,
   JJTicket,
   JJTicketDistribution,
   JJTicketDistributionApplication,
@@ -293,6 +296,40 @@ export class CoreService {
   }
 
   // -----------------------------------------------------------------------------------------------------
+  // @ Content
+  // -----------------------------------------------------------------------------------------------------
+
+  async getSlideshowByCode(code: string) {
+    let res = await this.swsErp.getDocs<JJSlideshow>('Slideshow', {
+      code: code,
+      code_type: '=',
+      isActive: 1,
+      isActive_type: '=',
+    });
+    return res.result.map((slideshow) => this.populateSlideshow(slideshow))[0];
+  }
+
+  async getAnnouncements() {
+    let res = await this.swsErp.getDocs<JJAnnouncement>('Announcement', {
+      isActive: 1,
+      isActive_type: '=',
+    });
+    return res.result;
+  }
+
+  async getContentPagesByGroupCode(groupCode: string) {
+    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
+      groupCode: groupCode,
+    });
+    return res.result;
+  }
+
+  async getContentPageById(pageId: number) {
+    let res = await this.swsErp.getDoc<JJContentPage>('Content Page', pageId);
+    return res;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
 
@@ -347,5 +384,20 @@ export class CoreService {
       `${merchant.state} ` +
       `${merchant.country}`;
     return merchant;
+  }
+
+  populateSlideshow(slideshow: JJSlideshow) {
+    if (!slideshow) {
+      return null;
+    }
+
+    if (slideshow.items?.length) {
+      slideshow.items = slideshow.items.map((item) => {
+        item.messageTranslation = this.cmsUtils.parseCmsTranslation(item.message, item.message);
+        return item;
+      });
+    }
+
+    return slideshow;
   }
 }

@@ -1,18 +1,22 @@
 .container {
   padding: calc(var(--ion-padding) / 4) 0;
   background-color: rgba(var(--ion-color-secondary-rgb), 0.6);
+  z-index: 99;
   position: sticky;
   top: 0;
-  z-index: 99;
+}
+
+.inner-container {
+  // display: flex;
+  // width: max-content;
+  animation: scrolling-anim 7500ms linear infinite;
 }
 
 p {
-  text-align: end;
-  font-size: var(--ion-font-xs);
   margin: 0;
-  color: #222428;
-
-  animation: scrolling-anim 7500ms linear infinite;
+  text-align: end;
+  color: var(--ion-color-dark);
+  font-size: var(--ion-font-xs);
 }
 
 @keyframes scrolling-anim {
@@ -20,6 +24,6 @@ p {
     transform: translateX(-100%);
   }
   100% {
-    transform: translateX(100%);
+    transform: translate(100%);
   }
 }

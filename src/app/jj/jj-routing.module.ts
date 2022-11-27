@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('./modules/merchant/merchant.module').then((m) => m.MerchantPageModule),
       },
       {
+        path: 'common',
+        loadChildren: () => import('./modules/common/common.module').then((m) => m.CommonPageModule),
+      },
+      {
         path: '',
         redirectTo: 'membership',
         pathMatch: 'full',

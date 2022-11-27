@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ contentPage?.title }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <cms-html-viewer [html]="contentPage?.content"></cms-html-viewer>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -281,3 +281,38 @@ export interface CapturePaymentRequestExtras {
     transaction: JJWalletTransaction;
   };
 }
+
+export interface JJSlideshow extends ErpDoc {
+  code: string;
+  title: string;
+  isActive: boolean;
+  items: JJSlideshowItem[];
+}
+
+export interface JJSlideshowItem extends ErpDoc {
+  message: string;
+  content: string;
+  backgroundImage: string;
+  isActive: boolean;
+  sequence: number;
+
+  messageTranslation?: CmsTranslation;
+}
+
+export interface JJAnnouncement extends ErpDoc {
+  title: string;
+  message: string;
+  content: string;
+  isActive: boolean;
+  validFrom: Date;
+  validTo: Date;
+  sequence: number;
+}
+
+export interface JJContentPage extends ErpDoc {
+  code: string;
+  title: string;
+  content: string;
+  icon: string;
+  isActive: boolean;
+}

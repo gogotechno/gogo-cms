@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { JJAnnouncement, JJSlideshow } from 'src/app/jj/typings';
+import { HomeService } from '../../@services/home.service';
 
 @Component({
   selector: 'news-ticker',
@@ -6,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./news-ticker.component.scss'],
 })
 export class NewsTickerComponent implements OnInit {
-  constructor() {}
+  announcements: JJAnnouncement[];
 
-  ngOnInit() {}
+  constructor(private home: HomeService) {}
+
+  ngOnInit() {
+    this.home.announcements.subscribe((announcements) => {
+      this.announcements = announcements;
+    });
+  }
 }

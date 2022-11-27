@@ -1,3 +1,7 @@
 <div class="container">
-  <p>新游戏“JJ保卫萝卜”上线</p>
+  <div class="inner-container">
+    <ng-container *ngFor="let announcement of announcements">
+      <p>{{ announcement.message }}</p>
+    </ng-container>
+  </div>
 </div>
