@@ -6,6 +6,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -14,8 +15,9 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     IonicModule,
     HomePageRoutingModule,
     SharedModule,
-    SwsErpModule
+    SwsErpModule,
+    CmsUIModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
 })
 export class HomePageModule {}

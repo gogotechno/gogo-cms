@@ -17,8 +17,12 @@ const routes: Routes = [
         loadChildren: () => import('./ticket-distributions/ticket-distributions.module').then((m) => m.TicketDistributionsPageModule),
       },
       {
-        path: 'issue-ticket',
-        loadChildren: () => import('./issue-ticket/issue-ticket.module').then((m) => m.IssueTicketPageModule),
+        path: 'users',
+        loadChildren: () => import('./users/users.module').then((m) => m.UsersPageModule),
+      },
+      {
+        path: 'customers',
+        loadChildren: () => import('./customers/customers.module').then((m) => m.CustomersPageModule),
       },
       {
         path: '',
@@ -26,6 +30,14 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: 'issue-ticket',
+    loadChildren: () => import('./issue-ticket/issue-ticket.module').then((m) => m.IssueTicketPageModule),
+  },
+  {
+    path: 'create-user',
+    loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
 ];
 

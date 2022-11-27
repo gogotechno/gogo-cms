@@ -18,15 +18,22 @@ export class SharedComponent {
     };
   }
 
-  protected assertElement(id: string) {
-    return new Promise<HTMLElement>((resolve) => {
+  protected assertElement(id: string, duration: number = 100) {
+    return new Promise<HTMLElement>((resolve, reject) => {
+      let timeout = 0;
       let interval = setInterval(() => {
+        if (timeout > 3000) {
+          clearInterval(interval);
+          reject(`Assert [${id}] error: Timeout due to no response`);
+          return;
+        }
         let el = document.getElementById(id);
         if (el) {
           clearInterval(interval);
           resolve(el);
         }
-      }, 100);
+        timeout += duration;
+      }, duration);
     });
   }
 

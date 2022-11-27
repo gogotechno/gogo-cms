@@ -1,9 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/merchant/ticket-distributions"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._TICKET_DISTRIBUTION" | translate }}</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="details">
+        <ion-label>{{ "jj._DETAILS" | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="tickets">
+        <ion-label>{{ "jj._TICKETS" | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

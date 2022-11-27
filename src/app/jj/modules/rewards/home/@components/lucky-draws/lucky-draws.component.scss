@@ -13,7 +13,7 @@ ion-slides:not(.prizes) {
 }
 
 ion-slide.lucky-draw {
-  padding-bottom: 40px;
+  padding-bottom: 34px;
 }
 
 ion-slides.prizes {
@@ -40,16 +40,13 @@ ion-card {
 
   img {
     width: 100%;
+    height: 100px;
     display: block;
     object-fit: cover;
     object-position: center;
 
     &.event-background {
       height: 150px;
-    }
-
-    &.prize-thumbnail {
-      height: 100%;
     }
   }
 
@@ -61,16 +58,18 @@ ion-card {
       padding: 0;
     }
 
+    ion-col:not(:first-of-type) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
     ion-col:not(:last-of-type) {
       padding-right: calc(var(--ion-padding) / 2);
     }
 
     ion-col:last-of-type {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-
       :is(p, h3) {
         text-align: center;
         margin-top: 0;

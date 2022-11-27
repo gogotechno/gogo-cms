@@ -22,7 +22,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/jj/rewards/home',
+        redirectTo: 'home',
         pathMatch: 'full',
       },
     ],

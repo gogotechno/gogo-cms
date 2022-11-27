@@ -289,22 +289,14 @@ ion-header.header-ios {
   }
 }
 
-ion-card.card-clear {
-  box-shadow: none;
-  background: transparent;
-}
-
 ion-card.card-content-md,
 ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
-}
 
-ion-icon.icon-fill {
-  padding: calc(var(--ion-padding) / 2);
-  width: var(--ion-fab-button-size);
-  height: var(--ion-fab-button-size);
-  background: var(--ion-color-light);
-  color: var(--ion-color-dark);
+  &.card-clear {
+    box-shadow: none;
+    background: transparent;
+  }
 }
 
 ion-badge {
@@ -312,15 +304,15 @@ ion-badge {
 }
 
 ion-button {
-  --border-radius: calc(var(--ion-border-radius) * 3);
-
   height: 2.4em;
+
+  --border-radius: calc(var(--ion-border-radius) * 3);
 }
 
 cms-form,
 .cms-form {
-  ion-list.list-ios,
-  ion-list.list-md {
+  .list-md,
+  .list-ios {
     --ion-item-background: transparent;
 
     padding-top: 0;
@@ -352,8 +344,8 @@ cms-form,
     }
   }
 
-  ion-label.label-stacked.sc-ion-label-md-h,
-  ion-label.label-stacked.sc-ion-label-ios-h {
+  .label-stacked.sc-ion-label-md-h,
+  .label-stacked.sc-ion-label-ios-h {
     transform: unset;
     font-size: var(--ion-font-sm);
     margin-top: calc(var(--ion-margin) / 4);
@@ -369,6 +361,11 @@ cms-form,
     border-color: var(--ion-border-color);
   }
 
+  .item-label-stacked .sc-ion-label-md-h,
+  .item-label-stacked .sc-ion-input-ios-h {
+    --padding-start: 10px;
+  }
+
   ion-checkbox {
     --border-radius: 0px;
   }
@@ -376,5 +373,20 @@ cms-form,
   hr {
     margin-top: calc(var(--ion-margin) / 4);
     margin-bottom: calc(var(--ion-margin) / 4);
+  }
+
+  ion-item.stacked-select ion-select[slot='end'] {
+    --padding-start: 10px;
+
+    width: 100%;
+    max-width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--ion-border-color);
+    margin-right: 0;
+    margin-left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 }

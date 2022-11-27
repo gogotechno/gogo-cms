@@ -67,12 +67,14 @@ export class FullNamePipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'hiddenPhoneNumber' })
-export class HiddenPhoneNumberPipe implements PipeTransform {
+@Pipe({ name: 'hideText' })
+export class HideTextPipe implements PipeTransform {
   constructor() {}
-  transform(phone: string, replaceString: string = '*', digitLeft: number = 4) {
-    if (!phone) return phone;
-    let strToBeReplace = phone.substring(0, phone.length - digitLeft);
-    return `${replaceString.repeat(strToBeReplace.length)}${phone.substring(strToBeReplace.length)}`;
+  transform(text: string, replaceString: string = '*', digitLeft: number = 4) {
+    if (!text) {
+      return '-';
+    }
+    let toBeReplaced = text.substring(0, text.length - digitLeft);
+    return `${replaceString.repeat(toBeReplaced.length)}${text.substring(toBeReplaced.length)}`;
   }
 }

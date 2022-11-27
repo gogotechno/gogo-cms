@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
   COMPANY_CODE,
   JJCapturePaymentRequest,
@@ -19,6 +19,7 @@ import {
   JJTicketDistribution,
   JJTicketDistributionApplication,
   JJUser,
+  JJUserRole,
   JJWallet,
   JJWalletTransaction,
   LANGUAGE_STORAGE_KEY,
@@ -57,16 +58,44 @@ export class CoreService {
     this.initialized = true;
   }
 
+  async getUserRoles() {
+    let res = await this.swsErp.getDocs<JJUserRole>('User Role');
+    return res.result;
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ User
   // -----------------------------------------------------------------------------------------------------
 
-  async getUserByDocUserId(docUserId: number) {
+  async getUsers(pagination: Pagination, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs<JJUser>('User', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      doc_status: DocStatus.SUBMIT,
+      doc_status_type: '=',
+      ...conditions,
+    });
+    return res.result.map((user) => this.populateUser(user));
+  }
+
+  async getUserById(userId: number) {
+    let res = await this.swsErp.getDoc<JJUser>('User', userId);
+    return res;
+  }
+
+  async getUserByDocUserId(docUserId: number) {
+    let page: Pagination = {
+      itemsPerPage: 1,
+      currentPage: 1,
+    };
+
+    let conditions: Conditions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
-    });
-    return res.result.map((user) => this.populateUser(user))[0];
+    };
+
+    let res = await this.getUsers(page, conditions);
+    return res[0];
   }
 
   async getWalletsByMerchantId(merchantId: number) {
@@ -77,6 +106,12 @@ export class CoreService {
     return res.result;
   }
 
+  createUser(user: JJUser) {
+    return this.swsErp.postDoc('User', user, {
+      autoSubmit: true,
+    });
+  }
+
   updateUser(userId: number, user: Partial<JJUser>) {
     return this.swsErp.putDoc('User', userId, user);
   }
@@ -84,6 +119,17 @@ export class CoreService {
   // -----------------------------------------------------------------------------------------------------
   // @ Customer
   // -----------------------------------------------------------------------------------------------------
+
+  async getCustomers(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      doc_status: DocStatus.SUBMIT,
+      doc_status_type: '=',
+      ...conditions,
+    });
+    return res.result;
+  }
 
   async getCustomerById(customerId: number) {
     let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId);

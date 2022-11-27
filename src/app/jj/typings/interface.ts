@@ -1,6 +1,16 @@
 import { CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 
+export interface LiteralObject {
+  [key: string]: any;
+}
+
+export type SmsTemplateCode =
+  | 'CUSTOMER_NEW_PASSWORD'
+  | 'CUSTOMER_RESET_PASSWORD'
+  | 'CAPTURE_PAYMENT'
+  | 'TICKET_DISTRIBUTION';
+
 export interface MiniProgram {
   name: string;
   icon: string;
@@ -17,6 +27,14 @@ export interface JJCustomer extends ErpDoc {
   email: string;
   phone: string;
   password: string;
+
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+}
+
+export interface JJUserRole extends ErpDoc {
+  code: UserRole;
+  name: string;
 }
 
 export interface JJUser extends ErpDoc {

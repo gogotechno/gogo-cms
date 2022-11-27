@@ -6,10 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./merchant.page.scss'],
 })
 export class MerchantPage implements OnInit {
+  path = '/jj/merchant/';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

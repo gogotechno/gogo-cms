@@ -27,7 +27,7 @@
             <ion-item *ngFor="let customer of customers" [routerLink]="[customer.doc_id]">
               <ion-label>
                 <h3>{{ customer.firstName | fullName: customer.lastName }}</h3>
-                <h3 *ngIf="me?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hiddenPhoneNumber }}</h3>
+                <h3 *ngIf="me?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hideText }}</h3>
                 <h3 *ngIf="me?.role == 'SYSTEM_ADMIN'">{{ customer.phone }}</h3>
                 <p>{{ "jj-luckydraw._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ customer.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
               </ion-label>
