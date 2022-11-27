@@ -21,7 +21,9 @@ export class DetailsPage implements OnInit {
   }
 
   async loadData() {
-    this.event = await this.core.getEventById(this.eventId);
+    this.event = await this.core.getEventById(this.eventId, {
+      withSummary: true,
+    });
   }
 
   async doRefresh(event: Event) {

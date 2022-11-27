@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CoreService } from 'src/app/jj/services';
-import { JJEvent, JJEventPrize } from 'src/app/jj/typings';
+import { JJEvent } from 'src/app/jj/typings';
 
 @Injectable()
 export class DetailsService {
@@ -17,7 +17,12 @@ export class DetailsService {
   }
 
   async init() {
-    const [event] = await Promise.all([this.core.getEventById(this.eventId)]);
+    const [event] = await Promise.all([
+      this.core.getEventById(this.eventId, {
+        hasFk: true,
+        withLocation: true,
+      }),
+    ]);
 
     this._EVENT.next(event);
   }

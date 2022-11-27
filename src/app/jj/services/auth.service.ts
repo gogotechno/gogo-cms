@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { DocUser, Pagination } from 'src/app/sws-erp.type';
@@ -26,7 +28,21 @@ export class AuthService {
     return this._USER_TYPE;
   }
 
-  constructor(private storage: LocalStorageService, private swsErp: SwsErpService, private core: CoreService) {}
+  constructor(
+    private router: Router,
+    private storage: LocalStorageService,
+    private swsErp: SwsErpService,
+    private appUtils: AppUtils,
+    private core: CoreService,
+  ) {
+    this.swsErp.authStateChange.subscribe((event) => {
+      if (event?.status == 'LOGGED_OUT') {
+        this.signOut({
+          silent: true,
+        });
+      }
+    });
+  }
 
   async init() {
     if (this.initialized) {
@@ -61,6 +77,31 @@ export class AuthService {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
     }
     this._AUTHENTICATED = true;
+  }
+
+  async signOut(options: { silent: boolean } = { silent: false }) {
+    let confirm = options.silent;
+    if (!confirm) {
+      confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_LOGOUT');
+    }
+    if (confirm) {
+      await this.storage.remove(`${COMPANY_CODE}_REFRESH_TOKEN`);
+      await this.storage.remove(`${COMPANY_CODE}_DOC_USER`);
+      await this.storage.remove(`${COMPANY_CODE}_CUSTOMER`);
+      this._AUTHENTICATED = false;
+      this._CURRENT_USER = null;
+      this._USER_TYPE = null;
+      await this.router.navigate(['/jj/membership/login'], {
+        replaceUrl: true,
+      });
+
+      let authState = this.swsErp.authStateChange.getValue();
+      if (!authState || authState.status != 'LOGGED_OUT') {
+        this.swsErp.authStateChange.next({
+          status: 'LOGGED_OUT',
+        });
+      }
+    }
   }
 
   async findMyLuckyUser() {

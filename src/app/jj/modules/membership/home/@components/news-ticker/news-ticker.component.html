@@ -1,7 +1,14 @@
 <div class="container">
   <div class="inner-container">
-    <ng-container *ngFor="let announcement of announcements">
-      <p>{{ announcement.message }}</p>
-    </ng-container>
+    <p
+      *ngFor="let announcement of announcements; let index = index"
+      [id]="'message-' + index"
+      [class.animated]="index == 0"
+      [style.--sequence]="index"
+      [style.--length]="announcement.message.length"
+      (animationend)="onAnimEnd(index)"
+    >
+      {{ announcement.message }}
+    </p>
   </div>
 </div>

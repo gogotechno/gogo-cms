@@ -1,11 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Geolocation } from '@capacitor/geolocation';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
   COMPANY_CODE,
   JJAnnouncement,
@@ -260,11 +261,14 @@ export class CoreService {
     return res.result[0];
   }
 
-  async getEventById(eventId: number) {
-    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, {
-      hasFk: true,
-      withSummary: true,
-    });
+  async getEventById(eventId: number, conditions: Conditions = {}) {
+    if (conditions['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
     return this.populateEvent(res);
   }
 
@@ -310,6 +314,22 @@ export class CoreService {
   async getProducts() {
     let res = await this.swsErp.getDocs<JJProduct>('Product');
     return res.result.map((product) => this.populateProduct(product));
+  }
+
+  async getMerchants(pagination: Pagination, conditions: Conditions = {}) {
+    if (conditions['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    console.log(res);
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------

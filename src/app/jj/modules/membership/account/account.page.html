@@ -33,7 +33,7 @@
   </ion-list>
 
   <ion-list lines="none">
-    <ion-item class="logout-item">
+    <ion-item class="logout-item" (click)="onLogout()">
       <ion-icon slot="start" name="log-out"></ion-icon>
       <ion-label><h3>{{ "_LOGOUT" | translate }}</h3></ion-label>
     </ion-item>

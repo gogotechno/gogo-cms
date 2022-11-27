@@ -367,6 +367,7 @@
     "_EVENT_NAME": "Event name",
     "_CUSTOMER_NAME": "Customer name",
     "_CUSTOMER_CONTACT_NO": "Customer contact no.",
-    "_NO_TICKETS_FOUND": "No tickets found"
+    "_NO_TICKETS_FOUND": "No tickets found",
+    "_CONFIRM_TO_LOGOUT": "Confirm to logout?"
   }
 }
