@@ -8,6 +8,7 @@ import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
+  AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
   JJCapturePaymentRequest,
@@ -87,7 +88,7 @@ export class CoreService {
     return res;
   }
 
-  async getUserByDocUserId(docUserId: number) {
+  async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
     let page: Pagination = {
       itemsPerPage: 1,
       currentPage: 1,
@@ -96,6 +97,7 @@ export class CoreService {
     let conditions: Conditions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
+      ...accountOptions,
     };
 
     let res = await this.getUsers(page, conditions);
@@ -135,8 +137,10 @@ export class CoreService {
     return res.result;
   }
 
-  async getCustomerById(customerId: number) {
-    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId);
+  async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
+    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
+      ...accountOptions,
+    });
     return res;
   }
 

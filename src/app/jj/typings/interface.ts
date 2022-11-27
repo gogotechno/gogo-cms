@@ -17,6 +17,10 @@ export interface MiniProgram {
   link: string;
 }
 
+export interface AccountOptions {
+  checkWallet?: boolean;
+}
+
 export type User = JJCustomer | JJUser;
 export type UserType = 'MERCHANT' | 'CUSTOMER';
 

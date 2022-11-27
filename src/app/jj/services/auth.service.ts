@@ -4,7 +4,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { DocUser, Pagination } from 'src/app/sws-erp.type';
-import { COMPANY_CODE, JJCustomer, JJMerchant, JJWallet, User, UserType } from '../typings';
+import { AccountOptions, COMPANY_CODE, JJCustomer, JJMerchant, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class AuthService {
       await this.swsErp.generateRefreshToken(refreshToken);
       await this.swsErp.generateAccessToken(this.swsErp.refreshToken);
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
-      await this.findMe();
+      await this.findMe({ checkWallet: true });
       this._AUTHENTICATED = true;
     }
     this.initialized = true;
@@ -62,7 +62,7 @@ export class AuthService {
   async signInUser(email: string, password: string, rememberMe: boolean = true) {
     await this.swsErp.signInDocUser(email, password);
     await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.swsErp.docUser);
-    await this.findMyLuckyUser();
+    await this.findMyLuckyUser({ checkWallet: true });
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
     }
@@ -72,7 +72,7 @@ export class AuthService {
   async signInCustomer(email: string, password: string, rememberMe: boolean = true) {
     await this.swsErp.signInUser('Customer', email, password);
     await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this.swsErp.user);
-    await this.findMyLuckyCustomer(this.swsErp.user);
+    await this.findMyLuckyCustomer({ checkWallet: true });
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
     }
@@ -104,44 +104,39 @@ export class AuthService {
     }
   }
 
-  async findMyLuckyUser() {
-    this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id);
+  async findMyLuckyUser(options: AccountOptions = {}) {
+    this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id, options);
     this._CURRENT_USER.docUser = this.swsErp.docUser;
     this._USER_TYPE = 'MERCHANT';
     return this._CURRENT_USER;
   }
 
-  async findMyLuckyCustomer(customer?: JJCustomer) {
-    if (!customer) {
-      let storedCustomer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
-      customer = await this.core.getCustomerById(storedCustomer.doc_id);
-    }
-    this._CURRENT_USER = customer;
+  async findMyLuckyCustomer(options: AccountOptions = {}) {
+    this._CURRENT_USER = await this.core.getCustomerById(this.swsErp.user.doc_id, options);
     this._USER_TYPE = 'CUSTOMER';
     return this._CURRENT_USER;
   }
 
-  async findMe() {
+  async findMe(options: AccountOptions = {}) {
     let docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
     let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
     if (docUser) {
       await this.swsErp.findMyDocUser(docUser.doc_id, true, true, true);
       await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.swsErp.docUser);
-      await this.findMyLuckyUser();
+      await this.findMyLuckyUser(options);
     }
     if (customer) {
       await this.swsErp.findMyUser('Customer', customer.doc_id);
       await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this.swsErp.user);
-      await this.findMyLuckyCustomer(this.swsErp.user);
+      await this.findMyLuckyCustomer(options);
     }
     return this._CURRENT_USER;
   }
 
   async findMyMerchantId() {
-    return 1;
-    // let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    // let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
-    // return access ? Number(access.access_val) : null;
+    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
+    return access ? Number(access.access_val) : null;
   }
 
   async findMyWallets() {
