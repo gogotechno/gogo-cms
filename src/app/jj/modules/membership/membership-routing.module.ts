@@ -9,14 +9,14 @@ const routes: Routes = [
     component: MembershipPage,
     children: [
       {
+        path: '',
+        canActivate: [AuthGuard],
+        loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+      },
+      {
         path: 'login',
         canActivate: [PublicGuard],
         loadChildren: () => import('./login/login.module').then((m) => m.LoginPageModule),
-      },
-      {
-        path: 'home',
-        canActivate: [AuthGuard],
-        loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
         path: 'account',
@@ -24,7 +24,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: '/jj/',
         pathMatch: 'full',
       },
     ],

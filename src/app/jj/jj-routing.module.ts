@@ -10,7 +10,7 @@ const routes: Routes = [
     canActivate: [InitGuard],
     children: [
       {
-        path: 'membership',
+        path: '',
         loadChildren: () => import('./modules/membership/membership.module').then((m) => m.MembershipPageModule),
       },
       {
@@ -31,7 +31,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'membership',
+        redirectTo: '/jj',
         pathMatch: 'full',
       },
     ],
