@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService, CoreService } from 'src/app/jj/services';
-import { JJEvent, JJWallet, MiniProgram, User } from 'src/app/jj/typings';
+import { SharedComponent } from 'src/app/jj/shared';
+import { JJAnnouncement, JJEvent, JJSlideshow, JJWallet, MiniProgram, User } from 'src/app/jj/typings';
 
 @Injectable()
-export class HomeService {
+export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
   private _ONGOING_EVENTS: BehaviorSubject<JJEvent[]>;
   private _MINI_PROGRAMS: BehaviorSubject<MiniProgram[]>;
+  private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
+  private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
 
   get user() {
     return this._USER.asObservable();
@@ -26,24 +29,39 @@ export class HomeService {
     return this._MINI_PROGRAMS.asObservable();
   }
 
+  get announcements() {
+    return this._ANNOUNCEMENTS.asObservable();
+  }
+
+  get slideshow() {
+    return this._SLIDESHOW.asObservable();
+  }
+
   constructor(private auth: AuthService, private core: CoreService) {
+    super();
     this._USER = new BehaviorSubject<User>(null);
     this._WALLETS = new BehaviorSubject<JJWallet[]>(null);
     this._ONGOING_EVENTS = new BehaviorSubject<JJEvent[]>(null);
     this._MINI_PROGRAMS = new BehaviorSubject<MiniProgram[]>(null);
+    this._ANNOUNCEMENTS = new BehaviorSubject<JJAnnouncement[]>(null);
+    this._SLIDESHOW = new BehaviorSubject<JJSlideshow>(null);
   }
 
   async init() {
-    const [user, wallets, ongoingEvents] = await Promise.all([
+    const [user, wallets, ongoingEvents, announcements, slideshow] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
-      this.core.getOngoingEvents({ currentPage: 1, itemsPerPage: 10 }),
+      this.core.getOngoingEvents(this.defaultPage),
+      this.core.getAnnouncements(),
+      this.core.getSlideshowByCode('HOME_SLIDESHOW'),
     ]);
 
     this._USER.next(user);
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
     this._MINI_PROGRAMS.next(MINI_PROGRAMS);
+    this._ANNOUNCEMENTS.next(announcements);
+    this._SLIDESHOW.next(slideshow);
   }
 }
 

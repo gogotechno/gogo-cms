@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { JJSlideshow, JJSlideshowItem } from 'src/app/jj/typings';
+import { HomeService } from '../../@services/home.service';
 
 @Component({
   selector: 'slideshow',
@@ -6,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./slideshow.component.scss'],
 })
 export class SlideshowComponent implements OnInit {
-  constructor() {}
+  slideshow: JJSlideshow;
+  slideshowItems: JJSlideshowItem[];
 
-  ngOnInit() {}
+  constructor(private home: HomeService) {}
+
+  ngOnInit() {
+    this.home.slideshow.subscribe((slideshow) => {
+      this.slideshow = slideshow;
+      if (this.slideshow) {
+        this.slideshowItems = this.slideshow.items;
+      }
+    });
+  }
 }

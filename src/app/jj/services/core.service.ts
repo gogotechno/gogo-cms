@@ -1,20 +1,25 @@
 import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Geolocation } from '@capacitor/geolocation';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import {
+  AccountOptions,
   COMPANY_CODE,
+  JJAnnouncement,
   JJCapturePaymentRequest,
+  JJContentPage,
   JJCustomer,
   JJEvent,
   JJMerchant,
   JJPointRule,
   JJProduct,
   JJScratchAndWinRule,
+  JJSlideshow,
   JJTicket,
   JJTicketDistribution,
   JJTicketDistributionApplication,
@@ -83,7 +88,7 @@ export class CoreService {
     return res;
   }
 
-  async getUserByDocUserId(docUserId: number) {
+  async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
     let page: Pagination = {
       itemsPerPage: 1,
       currentPage: 1,
@@ -92,6 +97,7 @@ export class CoreService {
     let conditions: Conditions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
+      ...accountOptions,
     };
 
     let res = await this.getUsers(page, conditions);
@@ -131,8 +137,10 @@ export class CoreService {
     return res.result;
   }
 
-  async getCustomerById(customerId: number) {
-    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId);
+  async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
+    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
+      ...accountOptions,
+    });
     return res;
   }
 
@@ -170,20 +178,36 @@ export class CoreService {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
-  updateCapturePaymentRequest(requestId: number, request: Partial<JJCapturePaymentRequest>) {
-    return this.swsErp.putDoc('Capture Payment Request', requestId, request);
-  }
-
-  async getWalletTransactionsByCapturePaymentRequest(requestRefNo: string) {
-    let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
-      reference3: requestRefNo,
-      reference3_type: '=',
+  async getWalletByNo(walletNo: number) {
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+      walletNo: walletNo,
+      walletNo_type: '=',
     });
-    return res.result;
+    return res.result[0];
   }
 
-  updateWalletTransaction(transactionId: number, transaction: Partial<JJWalletTransaction>) {
-    return this.swsErp.putDoc('Wallet Transaction', transactionId, transaction);
+  async getWalletTransactions(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    return res.result.map((transaction) => this.populateWalletTransaction(transaction));
+  }
+
+  async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
+    let res = await this.getWalletTransactions(pagination, {
+      walletId: walletId,
+      walletId_type: '=',
+      sortBy: 'doc_createdDate',
+      sortType: 'desc',
+    });
+    return res;
+  }
+
+  async getWalletTransactionById(transactionId: number) {
+    let res = await this.swsErp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
+    return this.populateWalletTransaction(res);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -196,14 +220,21 @@ export class CoreService {
       currentPage: pagination.currentPage,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((event) => this.populateEvent(event));
   }
 
-  async getOngoingEvents(pagination: Pagination) {
+  async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
+    let conditions: Conditions = {};
+    if (options['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+    }
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
       hasFk: true,
+      ...conditions,
     });
     return events;
   }
@@ -242,9 +273,13 @@ export class CoreService {
   }
 
   async getEventById(eventId: number, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, {
-      hasFk: true,
-    });
+    if (conditions['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
     return this.populateEvent(res);
   }
 
@@ -292,6 +327,56 @@ export class CoreService {
     return res.result.map((product) => this.populateProduct(product));
   }
 
+  async getMerchants(pagination: Pagination, conditions: Conditions = {}) {
+    if (conditions['withLocation']) {
+      let coordinates = await Geolocation.getCurrentPosition();
+      conditions['longitude'] = coordinates.coords.longitude;
+      conditions['latitude'] = coordinates.coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      ...conditions,
+    });
+    console.log(res);
+    return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Content
+  // -----------------------------------------------------------------------------------------------------
+
+  async getSlideshowByCode(code: string) {
+    let res = await this.swsErp.getDocs<JJSlideshow>('Slideshow', {
+      code: code,
+      code_type: '=',
+      isActive: 1,
+      isActive_type: '=',
+    });
+    return res.result.map((slideshow) => this.populateSlideshow(slideshow))[0];
+  }
+
+  async getAnnouncements() {
+    let res = await this.swsErp.getDocs<JJAnnouncement>('Announcement', {
+      isActive: 1,
+      isActive_type: '=',
+    });
+    return res.result;
+  }
+
+  async getContentPagesByGroupCode(groupCode: string) {
+    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
+      groupCode: groupCode,
+    });
+    return res.result;
+  }
+
+  async getContentPageById(pageId: number) {
+    let res = await this.swsErp.getDoc<JJContentPage>('Content Page', pageId);
+    return res;
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
@@ -308,7 +393,10 @@ export class CoreService {
     if (!product) {
       return null;
     }
-    product.nameTranslation = this.cmsUtils.parseCmsTranslation(product.translate?.name, product.name);
+    product.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      product.translate ? product.translate.name : product.name,
+      product.name,
+    );
     return product;
   }
 
@@ -316,7 +404,11 @@ export class CoreService {
     if (!event) {
       return null;
     }
-    event.nameTranslation = this.cmsUtils.parseCmsTranslation(event.translate?.name, event.name);
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      event.translate ? event.translate.name : event.name,
+      event.name,
+    );
+    event.drewAt = event.drawingResult?.drewAt;
     return event;
   }
 
@@ -347,5 +439,30 @@ export class CoreService {
       `${merchant.state} ` +
       `${merchant.country}`;
     return merchant;
+  }
+
+  populateSlideshow(slideshow: JJSlideshow) {
+    if (!slideshow) {
+      return null;
+    }
+
+    if (slideshow.items?.length) {
+      slideshow.items = slideshow.items.map((item) => {
+        item.messageTranslation = this.cmsUtils.parseCmsTranslation(item.message, item.message);
+        return item;
+      });
+    }
+
+    return slideshow;
+  }
+
+  populateWalletTransaction(transaction: JJWalletTransaction) {
+    if (!transaction) {
+      return null;
+    }
+
+    transaction.amountText = transaction.amount > 0 ? `+${transaction.amount}` : `${transaction.amount}`;
+
+    return transaction;
   }
 }

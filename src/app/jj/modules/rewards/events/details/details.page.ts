@@ -12,9 +12,9 @@ export class DetailsPage implements OnInit {
 
   constructor(private route: ActivatedRoute, private details: DetailsService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     let params = this.route.snapshot.params;
     this.details.eventId = params['id'];
-    this.details.init();
+    await this.details.init();
   }
 }

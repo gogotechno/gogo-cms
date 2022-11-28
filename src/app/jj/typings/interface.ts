@@ -18,6 +18,10 @@ export interface MiniProgram {
   colors?: any;
 }
 
+export interface AccountOptions {
+  checkWallet?: boolean;
+}
+
 export type User = JJCustomer | JJUser;
 export type UserType = 'MERCHANT' | 'CUSTOMER';
 
@@ -77,6 +81,13 @@ export interface JJEvent extends ErpDoc {
   pointRules?: JJPointRule[];
   totalOfTickets?: number;
   nameTranslation?: CmsTranslation;
+  totalOfWinners?: number;
+  drawingResult?: JJDrawingResult;
+  drewAt?: Date;
+  winningSummary: {
+    prize: JJEventPrize;
+    winningNumbers: string[];
+  }[];
   /**
    * Use in app control
    */
@@ -99,6 +110,14 @@ export interface JJEventPrize extends ErpDoc {
   thumbnailImage: string;
 }
 
+export interface JJDrawingResult extends ErpDoc {
+  drewAt: Date;
+  drewBy: string;
+  event_id: number;
+
+  event?: JJEvent;
+}
+
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
@@ -112,6 +131,7 @@ export interface JJWallet extends ErpDoc {
 export enum WalletType {
   CUSTOMER = 'CUSTOMER',
   MERCHANT = 'MERCHANT',
+  SNW = 'SNW',
 }
 
 export interface JJWalletPermission extends ErpDoc {
@@ -261,6 +281,8 @@ export interface JJWalletTransaction extends ErpDoc {
   reference1: string;
   reference2: string;
   reference3: string;
+
+  amountText: string;
 }
 
 export interface JJCapturePaymentRequest extends ErpDoc {
@@ -282,4 +304,39 @@ export interface CapturePaymentRequestExtras {
     currentBalance: number;
     transaction: JJWalletTransaction;
   };
+}
+
+export interface JJSlideshow extends ErpDoc {
+  code: string;
+  title: string;
+  isActive: boolean;
+  items: JJSlideshowItem[];
+}
+
+export interface JJSlideshowItem extends ErpDoc {
+  message: string;
+  content: string;
+  backgroundImage: string;
+  isActive: boolean;
+  sequence: number;
+
+  messageTranslation?: CmsTranslation;
+}
+
+export interface JJAnnouncement extends ErpDoc {
+  title: string;
+  message: string;
+  content: string;
+  isActive: boolean;
+  validFrom: Date;
+  validTo: Date;
+  sequence: number;
+}
+
+export interface JJContentPage extends ErpDoc {
+  code: string;
+  title: string;
+  content: string;
+  icon: string;
+  isActive: boolean;
 }

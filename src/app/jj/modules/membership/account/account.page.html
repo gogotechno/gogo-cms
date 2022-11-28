@@ -26,14 +26,14 @@
   </ion-list>
 
   <ion-list lines="none">
-    <ion-item>
-      <ion-icon slot="start" name="help-circle"></ion-icon>
-      <ion-label><h3>{{ "_HELP_CENTER" | translate }}</h3></ion-label>
+    <ion-item *ngFor="let contentPage of contentPages" [routerLink]="['/jj/common/content-page', contentPage.doc_id]">
+      <ion-icon slot="start" [name]="contentPage.icon || 'document'"></ion-icon>
+      <ion-label><h3>{{ contentPage.title }}</h3></ion-label>
     </ion-item>
   </ion-list>
 
   <ion-list lines="none">
-    <ion-item class="logout-item">
+    <ion-item class="logout-item" (click)="onLogout()">
       <ion-icon slot="start" name="log-out"></ion-icon>
       <ion-label><h3>{{ "_LOGOUT" | translate }}</h3></ion-label>
     </ion-item>

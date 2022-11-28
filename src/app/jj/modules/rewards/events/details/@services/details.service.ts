@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { CoreService } from 'src/app/jj/services';
-import { JJEvent, JJEventPrize } from 'src/app/jj/typings';
+import { AuthService, CoreService } from 'src/app/jj/services';
+import { JJEvent } from 'src/app/jj/typings';
 
 @Injectable()
 export class DetailsService {
@@ -12,12 +12,20 @@ export class DetailsService {
     return this._EVENT.asObservable();
   }
 
-  constructor(private core: CoreService) {
+  constructor(private auth: AuthService, private core: CoreService) {
     this._EVENT = new BehaviorSubject<JJEvent>(null);
   }
 
   async init() {
-    const [event] = await Promise.all([this.core.getEventById(this.eventId)]);
+    let currentUser = this.auth.currentUser;
+
+    const [event] = await Promise.all([
+      this.core.getEventById(this.eventId, {
+        hasFk: true,
+        withLocation: true,
+        customerId: currentUser.doc_id,
+      }),
+    ]);
 
     this._EVENT.next(event);
   }

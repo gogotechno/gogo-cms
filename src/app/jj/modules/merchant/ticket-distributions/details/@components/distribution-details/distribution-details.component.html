@@ -1,0 +1,43 @@
+<ion-list lines="full">
+  <ion-item>
+    <ion-label>{{ 'jj._TOTAL_OF_TICKETS' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.totalOfTickets"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._BILL_NO' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.billNo"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._DISTRIBUTED_BY' | translate }}</ion-label>
+    <ion-input
+      [readonly]="true"
+      [value]="distribution?.distributedByPerson.first_name | fullName: distribution?.distributedByPerson.last_name"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._DISTRIBUTED_AT' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.distributedAt | date: 'MM/dd/yy, h:mm a'"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._EVENT' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.event.nameTranslation | cmsTranslate"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._PRODUCT' | translate }}</ion-label>
+    <ion-input
+      [readonly]="true"
+      [value]="distribution?.product ? (distribution?.product.nameTranslation | cmsTranslate) : '-'"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._CUSTOMER_NAME' | translate }}</ion-label>
+    <ion-input
+      [readonly]="true"
+      [value]="distribution?.customerFirstName | fullName: distribution?.customerLastName"
+    ></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._CUSTOMER_CONTACT_NO' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.customerContactNo || '-'"></ion-input>
+  </ion-item>
+</ion-list>
