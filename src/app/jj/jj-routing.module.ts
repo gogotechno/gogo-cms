@@ -31,7 +31,15 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'scratch-and-win',
+    loadChildren: () => import('./modules/scratch-and-win/scratch-and-win.module').then( m => m.ScratchAndWinPageModule)
+  },
+
 ];
 
 @NgModule({
