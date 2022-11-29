@@ -20,5 +20,6 @@ export class ChangeLanguagePage implements OnInit {
 
   async onLanguageChange(event: Event) {
     await this.common.setCurrentLanguage(this.currentLangCode);
+    window.location.reload();
   }
 }

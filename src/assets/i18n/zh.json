@@ -2,6 +2,7 @@
   "en": "English",
   "zh": "简体中文",
   "ms": "Bahasa Malaysia",
+  "_HOME": "主页",
   "_LANGUAGE": "语言",
   "_DATABASES": "数据库",
   "_SELECT": "选择",
@@ -245,6 +246,7 @@
     "_BALANCE": "余额",
     "_LUCKY_DRAW_EVENTS": "幸运抽奖活动",
     "_MY_DASHBOARD": "我的帐号",
+    "_MY_ACCOUNT": "我的帐号",
     "_CONFIRM_TO_UPDATE_PROFILE": "确认更新个人资料？",
     "_PROFILE_UPDATED": "个人资料已更新",
     "_MY_REWARDS": "我的奖励",
@@ -358,6 +360,7 @@
     "_NO_MORE_NOTIFICATIONS": "已无通知",
     "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "没有钱包可以用于支付",
     "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "此钱包不能用于支付",
-    "_NO_WINNERS_FOUND": "未产生得奖者"
+    "_NO_WINNERS_FOUND": "未产生得奖者",
+    "_NOTIFICATIONS": "通知"
   }
 }

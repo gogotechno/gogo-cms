@@ -9,7 +9,7 @@
         <h3>{{ event?.merchant?.name }}</h3>
         <p>{{ 'jj._DISTANCE_AWAY' | translate: { distance: event?.distance + 'KM' } }}</p>
       </ion-label>
-      <ion-button slot="end" color="light">
+      <ion-button slot="end" color="light" (click)="openLocation()">
         <ion-icon slot="icon-only" name="locate"></ion-icon>
       </ion-button>
       <!-- <ion-button slot="end" color="light">

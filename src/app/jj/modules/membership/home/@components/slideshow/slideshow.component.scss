@@ -12,18 +12,10 @@ ion-slide img {
   border-radius: var(--ion-border-radius);
 }
 
-ion-slides:not(.prizes) {
-  overflow: visible;
-}
-
-:host ::ng-deep ion-slides.lucky-draws .swiper-pagination {
+:host ::ng-deep ion-slides .swiper-pagination {
   bottom: 0;
 }
 
-ion-slide.lucky-draw {
-  padding-bottom: calc(var(--ion-padding) * 2);
-}
-
-ion-slides.prizes {
-  height: 100%;
+ion-slide {
+  padding-bottom: calc(var(--ion-padding) * 1.5);
 }

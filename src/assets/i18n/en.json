@@ -2,6 +2,7 @@
   "en": "English",
   "zh": "简体中文",
   "ms": "Bahasa Malaysia",
+  "_HOME": "Home",
   "_LANGUAGE": "Language",
   "_DATABASES": "Databases",
   "_SELECT": "Select",
@@ -390,6 +391,7 @@
     "_NO_MORE_NOTIFICATIONS": "No more notifications",
     "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "No wallet can be used for payment",
     "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "This wallet cannot be used for payment",
-    "_NO_WINNERS_FOUND": "No Winners Found"
+    "_NO_WINNERS_FOUND": "No Winners Found",
+    "_NOTIFICATIONS": "Notifications"
   }
 }
