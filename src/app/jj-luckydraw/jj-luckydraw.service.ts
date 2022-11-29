@@ -681,7 +681,7 @@ export class JJLuckydrawService {
    * @returns Returns user object with populated properties
    */
   private populateUser(user: JJUser) {
-    user.roleTranslation = this.utils.transformJSONStringtoCMSTranslation(user.translate?.role, user.role);
+    user.roleTranslation = this.utils.parseCmsTranslation(user.translate?.role, user.role);
     return user;
   }
 
@@ -691,7 +691,7 @@ export class JJLuckydrawService {
    * @returns Returns ticket object with populated properties
    */
   private populateTicket(ticket: JJTicket) {
-    ticket.statusTranslation = this.utils.transformJSONStringtoCMSTranslation(ticket.translate?.status, ticket.status);
+    ticket.statusTranslation = this.utils.parseCmsTranslation(ticket.translate?.status, ticket.status);
     return ticket;
   }
 
@@ -732,7 +732,7 @@ export class JJLuckydrawService {
    * @returns Returns product object with populated properties
    */
   private populateProduct(product: JJProduct) {
-    product.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(product.translate?.name, product.name);
+    product.nameTranslation = this.utils.parseCmsTranslation(product.translate?.name, product.name);
     return product;
   }
 
@@ -742,7 +742,7 @@ export class JJLuckydrawService {
    * @returns Returns event object with populated properties
    */
   private populateEvent(event: JJEvent) {
-    event.nameTranslation = this.utils.transformJSONStringtoCMSTranslation(event.translate?.name, event.name);
+    event.nameTranslation = this.utils.parseCmsTranslation(event.translate?.name, event.name);
     return event;
   }
 }

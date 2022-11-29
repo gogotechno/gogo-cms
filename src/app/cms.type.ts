@@ -150,13 +150,14 @@ export interface CmsFormValidationError {
 }
 
 export interface CmsFilter {
+  labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
+  lines?: 'full' | 'inset' | 'none' | undefined;
   items: Array<CmsFilterItem>;
 }
 
 export interface CmsFilterItem {
   code: string;
   label: CmsTranslation;
-  labelPosition?: 'fixed' | 'floating' | 'stacked';
   type: CmsFilterItemType;
   icon?: string;
   img?: string;

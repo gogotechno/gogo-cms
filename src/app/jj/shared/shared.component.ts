@@ -1,24 +1,39 @@
-import { default as packageJson } from '../../../../package.json';
+import { Pagination } from 'src/app/sws-erp.type';
 import { PackageInfo } from './shared.interface';
+import { default as packageJson } from '../../../../package.json';
 
 export class SharedComponent {
   constructor() {}
 
-  protected getPackageInfo() {
+  protected get defaultPage(): Pagination {
     return {
-      version: packageJson.version,
-    } as PackageInfo;
+      itemsPerPage: 10,
+      currentPage: 1,
+    };
   }
 
-  protected assertElement(id: string) {
-    return new Promise<HTMLElement>((resolve) => {
+  protected getPackageInfo(): PackageInfo {
+    return {
+      version: packageJson.version,
+    };
+  }
+
+  protected assertElement(id: string, duration: number = 100) {
+    return new Promise<HTMLElement>((resolve, reject) => {
+      let timeout = 0;
       let interval = setInterval(() => {
+        if (timeout > 3000) {
+          clearInterval(interval);
+          reject(`Assert [${id}] error: Timeout due to no response`);
+          return;
+        }
         let el = document.getElementById(id);
         if (el) {
           clearInterval(interval);
           resolve(el);
         }
-      }, 100);
+        timeout += duration;
+      }, duration);
     });
   }
 

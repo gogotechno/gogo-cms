@@ -1,10 +1,24 @@
 import { CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 
+export interface LiteralObject {
+  [key: string]: any;
+}
+
+export type SmsTemplateCode =
+  | 'CUSTOMER_NEW_PASSWORD'
+  | 'CUSTOMER_RESET_PASSWORD'
+  | 'CAPTURE_PAYMENT'
+  | 'TICKET_DISTRIBUTION';
+
 export interface MiniProgram {
   name: string;
   icon: string;
   link: string;
+}
+
+export interface AccountOptions {
+  checkWallet?: boolean;
 }
 
 export type User = JJCustomer | JJUser;
@@ -16,6 +30,14 @@ export interface JJCustomer extends ErpDoc {
   email: string;
   phone: string;
   password: string;
+
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+}
+
+export interface JJUserRole extends ErpDoc {
+  code: UserRole;
+  name: string;
 }
 
 export interface JJUser extends ErpDoc {
@@ -51,8 +73,25 @@ export interface JJEvent extends ErpDoc {
   drawAt: Date;
   thumbnailImage: string;
   backgroundImage: string;
+  minSpend: number;
   merchant_id: number;
+
+  merchant?: JJMerchant;
   prizes?: JJEventPrize[];
+  pointRules?: JJPointRule[];
+
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+
+  drawingResult?: JJDrawingResult;
+  drewAt?: Date;
+
+  nameTranslation?: CmsTranslation;
+
+  winningSummary: {
+    prize: JJEventPrize;
+    winningNumbers: string[];
+  }[];
 }
 
 export enum EventStatus {
@@ -68,6 +107,16 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
+
+  thumbnailImage: string;
+}
+
+export interface JJDrawingResult extends ErpDoc {
+  drewAt: Date;
+  drewBy: string;
+  event_id: number;
+
+  event?: JJEvent;
 }
 
 export interface JJWallet extends ErpDoc {
@@ -82,10 +131,212 @@ export interface JJWallet extends ErpDoc {
 export enum WalletType {
   CUSTOMER = 'CUSTOMER',
   MERCHANT = 'MERCHANT',
+  SNW = 'SNW',
 }
 
 export interface JJWalletPermission extends ErpDoc {
   walletId: number;
   customerId?: number;
   merchantId?: number;
+}
+
+export interface JJProduct extends ErpDoc {
+  code: string;
+  name: string;
+
+  nameTranslation?: CmsTranslation;
+}
+
+export interface JJTicketDistributionApplication extends ErpDoc {
+  customerFirstName: string;
+  customerLastName: string;
+  customerContactNo: string;
+  billNo: string;
+  expense: number;
+  pointExpense: number;
+  ticketCount: number;
+  freePoint: number;
+  usedPointRule?: string;
+  freeSnwTickets: number;
+  usedSnwRule?: string;
+  product_id: number;
+  event_id: number;
+  merchant_id: number;
+  customer_id: number;
+}
+
+export interface JJTicketDistribution extends ErpDoc {
+  distributedAt: Date;
+  distributedBy: number;
+  customerFirstName: string;
+  customerLastName: string;
+  customerContactNo: string;
+  billNo: string;
+  event_id: number;
+  merchant_id: number;
+  application_id: number;
+  customer_id: number;
+
+  freePoint: number;
+
+  tickets?: JJTicket[];
+
+  distributedByPerson?: DocUser;
+  merchant?: JJMerchant;
+  event?: JJEvent;
+  customer?: JJCustomer;
+
+  totalOfTickets?: number;
+  totalOfSnwTickets?: number;
+
+  product?: JJProduct;
+
+  expense?: number;
+  pointExpense?: number;
+}
+
+export interface JJTicket extends ErpDoc {
+  serialNo: string;
+  status: TicketStatus;
+  event_id: number;
+  merchant_id: number;
+  ticket_distribution_id: number;
+
+  statusTranslation?: CmsTranslation;
+}
+
+export enum TicketStatus {
+  VALID = 'VALID',
+  INVALID = 'INVALID',
+}
+
+export interface JJWinner extends ErpDoc {
+  quantity: number;
+  status: 'PENDING' | 'DELIVERED';
+  prize_id: number;
+  ticket_id: number;
+  merchant_id?: number;
+  drawing_result_id?: number;
+
+  prize?: JJEventPrize;
+  ticket?: JJTicket;
+  merchant?: JJMerchant;
+}
+
+export interface JJMerchant extends ErpDoc {
+  code: string;
+  name: string;
+  logo?: string;
+  officePhone: string;
+  officeEmail: string;
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  postalCode: string;
+  state: string;
+  country: string;
+
+  totalOfLatestTickets?: number;
+  totalOfTickets?: number;
+  totalOfWinners?: number;
+  fullAddress?: string;
+}
+
+export interface JJPointRule extends ErpDoc {
+  minimumSpend: number;
+  freePoint: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: IssueMode;
+  eventId: number;
+}
+
+export interface JJScratchAndWinRule extends ErpDoc {
+  minimumSpend: number;
+  freeTickets: number;
+  merchantDailyLimit: number;
+  eventDailyLimit: number;
+  validFrom: Date;
+  validTo: Date;
+  priotity: number;
+  isActive: boolean;
+  issueMode: IssueMode;
+  eventId: number;
+}
+
+export enum IssueMode {
+  AMOUNT_PAID = 'AMOUNT_PAID',
+  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
+}
+
+export interface JJWalletTransaction extends ErpDoc {
+  walletId: number;
+  refNo: string;
+  amount: number;
+  description: string;
+  reference1: string;
+  reference2: string;
+  reference3: string;
+
+  amountText: string;
+}
+
+export interface JJCapturePaymentRequest extends ErpDoc {
+  fromWallet: number;
+  toWallet: number;
+  amount: number;
+  refNo: string;
+  description: string;
+  reference1?: string;
+  reference2?: string;
+  reference3?: string;
+  fromWalletNo?: number;
+}
+
+export interface CapturePaymentRequestExtras {
+  request: JJCapturePaymentRequest;
+  customerInfo: {
+    customer: JJCustomer;
+    currentBalance: number;
+    transaction: JJWalletTransaction;
+  };
+}
+
+export interface JJSlideshow extends ErpDoc {
+  code: string;
+  title: string;
+  isActive: boolean;
+  items: JJSlideshowItem[];
+}
+
+export interface JJSlideshowItem extends ErpDoc {
+  message: string;
+  content: string;
+  backgroundImage: string;
+  isActive: boolean;
+  sequence: number;
+
+  messageTranslation?: CmsTranslation;
+}
+
+export interface JJAnnouncement extends ErpDoc {
+  title: string;
+  message: string;
+  content: string;
+  isActive: boolean;
+  validFrom: Date;
+  validTo: Date;
+  sequence: number;
+}
+
+export interface JJContentPage extends ErpDoc {
+  code: string;
+  title: string;
+  content: string;
+  icon: string;
+  isActive: boolean;
 }

@@ -4,14 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import {
-  CmsTranslatePipe,
-  CssUrlPipe,
-  FirestoreDatePipe,
-  FullNamePipe,
-  HiddenPhoneNumberPipe,
-  SafeHtmlPipe,
-} from './cms.pipe';
+import { CmsTranslatePipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HideTextPipe, SafeHtmlPipe } from './cms.pipe';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent } from './accordion/accordion.component';
 import { FormComponent } from './form/form.component';
@@ -35,8 +28,8 @@ const components = [
   TranslationEditorInputComponent,
   FileInputComponent,
   SearchAreaComponent,
-  ScannerComponent
-]
+  ScannerComponent,
+];
 
 const componentsToBeExported = [
   SlideshowComponent,
@@ -47,40 +40,15 @@ const componentsToBeExported = [
   HtmlViewerComponent,
   FilterComponent,
   SearchableSelectComponent,
-  BarcodeScannerComponent
-]
+  BarcodeScannerComponent,
+];
 
-const pipes = [
-  CmsTranslatePipe,
-  SafeHtmlPipe,
-  CssUrlPipe,
-  FirestoreDatePipe,
-  FullNamePipe,
-  HiddenPhoneNumberPipe
-]
+const pipes = [CmsTranslatePipe, SafeHtmlPipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HideTextPipe];
 
 @NgModule({
-  declarations: [
-    ...components,
-    ...componentsToBeExported,
-    ...pipes
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RouterModule,
-    TranslateModule,
-    QuillModule
-  ],
-  exports: [
-    ...componentsToBeExported,
-    ...pipes
-  ],
-  providers: [
-    DatePipe,
-    ...pipes
-  ]
+  declarations: [...components, ...componentsToBeExported, ...pipes],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, RouterModule, TranslateModule, QuillModule],
+  exports: [...componentsToBeExported, ...pipes],
+  providers: [DatePipe, ...pipes],
 })
-export class CmsUIModule { }
+export class CmsUIModule {}

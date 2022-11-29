@@ -1,0 +1,18 @@
+.title {
+  padding-left: calc(var(--ion-padding) / 2);
+}
+
+ion-slides ion-slide {
+  padding-bottom: 34px;
+}
+
+ion-grid {
+  padding: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}

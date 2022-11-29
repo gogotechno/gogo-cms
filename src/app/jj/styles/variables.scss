@@ -73,6 +73,7 @@
   --ion-border-color: #d9d9d9;
 
   --ion-color-orange: #ffa500;
+  --ion-color-note: var(--ion-color-step-350, #a6a6a6);
 
   --ion-font-xs: 12px;
   --ion-font-sm: 14px;
@@ -218,6 +219,19 @@
   color: var(--ion-color-orange);
 }
 
+.ion-color-note {
+  color: var(--ion-color-note);
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Flex
+// -----------------------------------------------------------------------------------------------------
+
+.ion-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 // -----------------------------------------------------------------------------------------------------
 // @ Component
 // -----------------------------------------------------------------------------------------------------
@@ -228,10 +242,35 @@ ion-header.header-ios {
     height: 0px;
     background-image: none;
   }
+
+  &.ion-header-clear ion-toolbar {
+    --background: transparent;
+    --border-width: 0;
+  }
 }
 
-ion-card {
+ion-grid.grid-fixed {
+  padding: 0;
+
+  ion-col {
+    padding: 0;
+  }
+}
+
+ion-list.list-md,
+ion-list.list-ios {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+ion-card.card-content-md,
+ion-card.card-content-ios {
   border-radius: var(--ion-border-radius);
+}
+
+ion-card.card-clear {
+  box-shadow: none;
+  background: transparent;
 }
 
 ion-badge {
@@ -239,19 +278,20 @@ ion-badge {
 }
 
 ion-button {
-  --border-radius: calc(var(--ion-border-radius) * 3);
-
   height: 2.4em;
+
+  --border-radius: calc(var(--ion-border-radius) * 3);
 }
 
 cms-form,
-.cms-form {
-  ion-list.list-ios,
-  ion-list.list-md {
-    --ion-item-background: transparent;
-
+cms-filter,
+.cms-form,
+.cms-filter {
+  .list-md,
+  .list-ios {
     padding-top: 0;
     padding-bottom: 0;
+    background: transparent;
   }
 
   ion-item {
@@ -279,8 +319,8 @@ cms-form,
     }
   }
 
-  ion-label.label-stacked.sc-ion-label-md-h,
-  ion-label.label-stacked.sc-ion-label-ios-h {
+  .label-stacked.sc-ion-label-md-h,
+  .label-stacked.sc-ion-label-ios-h {
     transform: unset;
     font-size: var(--ion-font-sm);
     margin-top: calc(var(--ion-margin) / 4);
@@ -296,6 +336,11 @@ cms-form,
     border-color: var(--ion-border-color);
   }
 
+  .item-label-stacked .sc-ion-input-md-h,
+  .item-label-stacked .sc-ion-input-ios-h {
+    --padding-start: 10px;
+  }
+
   ion-checkbox {
     --border-radius: 0px;
   }
@@ -303,5 +348,26 @@ cms-form,
   hr {
     margin-top: calc(var(--ion-margin) / 4);
     margin-bottom: calc(var(--ion-margin) / 4);
+  }
+
+  ion-item.stacked-select ion-select[slot='end'] {
+    --padding-start: 10px;
+
+    width: 100%;
+    max-width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: var(--ion-border-color);
+    margin-right: 0;
+    margin-left: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  ion-input.sc-ion-input-md-h,
+  ion-input.sc-ion-input-ios-h,
+  ion-select {
+    background-color: var(--ion-item-background, #fff);
   }
 }

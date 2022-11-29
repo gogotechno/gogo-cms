@@ -3,11 +3,7 @@
   margin: calc(var(--ion-margin) / 2) 0;
   display: flex;
   overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  white-space: nowrap;
 }
 
 ion-card {

@@ -1,1 +1,43 @@
+.title,
+.card-content-md .title,
+.card-content-ios .title {
+  font-size: var(--ion-font-sm);
+  font-weight: var(--ion-font-bold);
+  margin-top: calc(var(--ion-margin) / 2);
+  margin-bottom: calc(var(--ion-margin) / 2);
 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  ion-button {
+    margin: 0;
+    height: fit-content;
+    --padding-top: calc(var(--ion-padding) / 5);
+    --padding-bottom: calc(var(--ion-padding) / 5);
+    font-size: var(--ion-font-sm);
+  }
+}
+
+.note {
+  padding-right: var(--ion-padding);
+  padding-left: var(--ion-padding);
+
+  ion-label {
+    display: block;
+    text-align: center;
+    font-size: var(--ion-font-xs);
+    font-weight: var(--ion-font-bold);
+    margin-top: calc(var(--ion-margin) * 1.5);
+    margin-bottom: calc(var(--ion-margin) * 1.5);
+  }
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
-import { CmsForm, CmsFormItem, CmsFormValidation } from 'src/app/cms.type';
+import { CmsForm, CmsFormItem, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
 
@@ -24,10 +24,11 @@ export class FormComponent extends CmsComponent implements OnInit {
   @Output('submit') submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
-  private _maskedItems = [];
 
   cannotSubmit: boolean;
   matchingFields: MatchingConfig;
+
+  private maskedItems = [];
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +41,12 @@ export class FormComponent extends CmsComponent implements OnInit {
     private app: AppUtils,
   ) {
     super();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['value'] && this.formGroup) {
+      this.formGroup.patchValue(changes['value'].currentValue);
+    }
   }
 
   ngOnInit() {
@@ -56,11 +63,12 @@ export class FormComponent extends CmsComponent implements OnInit {
     for (let item of this.form.items) {
       switch (item.type) {
         case 'datetime':
-          controls[item.code] = [
-            this.value
-              ? this.datePipe.transform((<Timestamp>this.value[item.code]).toDate(), 'YYYY-MM-ddTHH:mm')
-              : null,
-          ];
+          let value = null;
+          if (this.value) {
+            let datetime = (<Timestamp>this.value[item.code]).toDate();
+            value = this.datePipe.transform(datetime, 'YYYY-MM-ddTHH:mm');
+          }
+          controls[item.code] = [value];
           break;
 
         default:
@@ -95,7 +103,7 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
 
       if (item.inputMask) {
-        this._maskedItems.push(item);
+        this.maskedItems.push(item);
       }
 
       if (item.matchWith?.length > 0) {
@@ -114,15 +122,17 @@ export class FormComponent extends CmsComponent implements OnInit {
       controls['updatedBy'] = [uid];
     }
 
-    this.formGroup = this.fb.group(controls, { validators: CustomValidators.MatchValidator(this.matchingFields) });
+    this.formGroup = this.fb.group(controls, {
+      validators: CustomValidators.MatchValidator(this.matchingFields),
+    });
 
-    this._maskedItems.forEach((item) => {
+    this.maskedItems.forEach((item) => {
       let control = this.formGroup.get(item.code);
-      this.mask.prefix = item.inputPrefix || '';
-      control.setValue(this.mask.applyMask(control.value, item.inputMask), { emitEvent: false });
-      control.valueChanges.subscribe((v) => {
+      control.valueChanges.subscribe((value) => {
         this.mask.prefix = item.inputPrefix || '';
-        control.setValue(this.mask.applyMask(v, item.inputMask), { emitEvent: false });
+        control.setValue(this.mask.applyMask(value, item.inputMask), {
+          emitEvent: false,
+        });
       });
     });
   }
@@ -161,13 +171,11 @@ export class FormComponent extends CmsComponent implements OnInit {
     return this.cms.getForm(item.dataType);
   }
 
-  async validateForm() {
-    let validation: CmsFormValidation;
+  async validateForm(): Promise<CmsFormValidation> {
     if (this.formGroup.valid) {
-      validation = { valid: true };
-      return validation;
+      return { valid: true };
     }
-    validation = { valid: false, errors: [] };
+    let validationErrors: CmsFormValidationError[] = [];
     let controls = this.formGroup.controls;
     for (let controlKey of Object.keys(controls)) {
       let errors = controls[controlKey].errors;
@@ -210,11 +218,17 @@ export class FormComponent extends CmsComponent implements OnInit {
               break;
           }
           let message = await this.translate.get(messageKey, messageParams).toPromise();
-          validation.errors.push({ error: errors, message: message });
+          validationErrors.push({
+            error: errors,
+            message: message,
+          });
         }
       }
     }
-    return validation;
+    return {
+      valid: false,
+      errors: validationErrors,
+    };
   }
 
   async validateFormAndShowErrorMessages() {

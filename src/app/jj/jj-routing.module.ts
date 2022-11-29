@@ -18,8 +18,16 @@ const routes: Routes = [
         loadChildren: () => import('./modules/rewards/rewards.module').then((m) => m.RewardsPageModule),
       },
       {
+        path: 'merchant',
+        loadChildren: () => import('./modules/merchant/merchant.module').then((m) => m.MerchantPageModule),
+      },
+      {
+        path: 'common',
+        loadChildren: () => import('./modules/common/common.module').then((m) => m.CommonPageModule),
+      },
+      {
         path: '',
-        redirectTo: 'rewards',
+        redirectTo: 'membership',
         pathMatch: 'full',
       },
     ],
@@ -31,6 +39,3 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class JJPageRoutingModule {}
-
-// 0127093406
-// ss123456

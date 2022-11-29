@@ -1,0 +1,38 @@
+.container {
+  display: flex;
+}
+
+ion-card {
+  --color: var(--ion-color-dark);
+
+  margin: calc(var(--ion-margin) / 4);
+  border-radius: calc(var(--ion-border-radius) * 1.5);
+
+  ion-card-content {
+    height: 100%;
+
+    p {
+      font-size: var(--ion-font-xs);
+    }
+
+    h3 {
+      font-weight: var(--ion-font-bold);
+    }
+  }
+}
+
+ion-card:first-of-type {
+  width: 70%;
+  margin-right: 0;
+}
+
+ion-card:last-of-type {
+  width: 30%;
+  margin-left: calc(var(--ion-margin) / 6);
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

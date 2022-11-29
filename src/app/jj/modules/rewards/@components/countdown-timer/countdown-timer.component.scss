@@ -1,0 +1,25 @@
+ion-grid {
+  padding: 0;
+}
+
+ion-col {
+  text-align: center;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+
+  &:last-of-type {
+    padding-right: 0;
+  }
+}
+
+h3 {
+  margin-bottom: 0;
+  font-size: var(--ion-font-sm);
+  font-weight: var(--ion-font-bold);
+}
+
+p {
+  color: var(--ion-color-note);
+  font-size: var(--ion-font-xs);
+}

@@ -46,10 +46,3 @@ ion-toolbar ion-button {
     font-size: calc(var(--ion-font-xs) - 3px);
   }
 }
-
-:host ::ng-deep .section-title {
-  font-size: var(--ion-font-sm);
-  font-weight: var(--ion-font-bold);
-  margin-top: 0;
-  margin-bottom: calc(var(--ion-margin) / 2);
-}

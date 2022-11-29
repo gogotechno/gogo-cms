@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/jj/membership">
+        <ion-icon slot="icon-only" name="home"></ion-icon>
+      </ion-button>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._USERS" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ion-list>
+          <div *ngIf="!users?.length" class="note">
+            <ion-label> {{ "jj._NO_USERS_FOUND" | translate }} </ion-label>
+          </div>
+          <ion-item *ngFor="let user of users" [routerLink]="[user.doc_id]">
+            <ion-label>
+              <h3>{{ user.firstName | fullName: user.lastName }}</h3>
+              <h3>{{ user.email }}</h3>
+              <p>
+                <span>{{ "jj._CREATED_AT" | translate }}&nbsp;:&nbsp;</span>
+                <span>{{ user.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</span>
+              </p>
+            </ion-label>
+            <!-- <ion-badge slot="end">{{ user.roleTranslation | cmsTranslate }}</ion-badge> -->
+          </ion-item>
+        </ion-list>
+        <ng-container *ngIf="users?.length">
+          <ion-infinite-scroll *ngIf="!usersEnded" (ionInfinite)="loadMoreUsers($event)">
+            <ion-infinite-scroll-content></ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+          <div *ngIf="usersEnded" class="note">
+            <ion-label>{{ "jj._NO_MORE_USERS" | translate }}</ion-label>
+          </div>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

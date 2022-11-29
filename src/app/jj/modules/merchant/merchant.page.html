@@ -1,0 +1,37 @@
+<ion-menu contentId="merchant">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>{{ "_MENU" | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'home']">
+          <ion-label>{{ "_DASHBOARD" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'ticket-distributions']">
+          <ion-label>{{ "jj._TICKETS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'users']">
+          <ion-label>{{ "jj._USERS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'customers']">
+          <ion-label>{{ "jj._CUSTOMERS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+      <ion-menu-toggle>
+        <ion-item [routerLink]="[path, 'ended-events']">
+          <ion-label>{{ "jj._ENDED_EVENTS" | translate }}</ion-label>
+        </ion-item>
+      </ion-menu-toggle>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet id="merchant"></ion-router-outlet>

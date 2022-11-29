@@ -13,8 +13,12 @@ const routes: Routes = [
         loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'event-details',
-        loadChildren: () => import('./event-details/event-details.module').then((m) => m.EventDetailsPageModule),
+        path: 'events',
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
+      },
+      {
+        path: 'my-rewards',
+        loadChildren: () => import('./my-rewards/my-rewards.module').then((m) => m.MyRewardsPageModule),
       },
       {
         path: '',

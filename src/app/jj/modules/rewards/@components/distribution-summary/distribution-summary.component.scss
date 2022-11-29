@@ -1,0 +1,29 @@
+.container {
+  padding: calc(var(--ion-padding) / 2);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-align: center;
+
+    span {
+      display: block;
+      margin-top: calc(var(--ion-margin) / 8);
+      margin-bottom: calc(var(--ion-margin) / 8);
+
+      &:first-of-type {
+        font-size: var(--ion-font-sm);
+        font-weight: var(--ion-font-bold);
+      }
+
+      &:last-of-type {
+        color: var(--ion-color-note);
+        font-size: var(--ion-font-xs);
+      }
+    }
+  }
+}
