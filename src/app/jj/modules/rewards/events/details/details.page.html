@@ -10,25 +10,32 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <event-summary></event-summary>
-  <event-description></event-description>
-  <event-location></event-location>
-  <ion-toolbar>
-    <ion-segment [(ngModel)]="segment" mode="ios">
-      <ion-segment-button value="draw">
-        <ion-label>{{ "jj._LUCKY_DRAW" | translate }}</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="points" *ngIf="event?.pointRules?.length">
-        <ion-label>{{ "jj._POINTS_GIVEAWAY" | translate }}</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="snw" *ngIf="event?.scratchAndWinRules?.length">
-        <ion-label>{{ "jj._SNW_GIVEAWAY" | translate }}</ion-label>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-  <div [ngSwitch]="segment" class="ion-padding-horizontal-sm">
-    <gift-code *ngSwitchCase="'points'"></gift-code>
-    <gift-lottery *ngSwitchCase="'snw'"></gift-lottery>
-    <lucky-draw-rewards *ngSwitchDefault></lucky-draw-rewards>
-  </div>
+  <ng-container *ngIf="event; else loading">
+    <event-summary></event-summary>
+    <event-description></event-description>
+    <event-location></event-location>
+    <ion-toolbar>
+      <ion-segment [(ngModel)]="segment" mode="ios">
+        <ion-segment-button value="draw">
+          <ion-label>{{ "jj._LUCKY_DRAW" | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="points" *ngIf="event?.pointRules?.length">
+          <ion-label>{{ "jj._POINTS_GIVEAWAY" | translate }}</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="snw" *ngIf="event?.scratchAndWinRules?.length">
+          <ion-label>{{ "jj._SNW_GIVEAWAY" | translate }}</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+    <div [ngSwitch]="segment" class="ion-padding-horizontal-sm">
+      <gift-code *ngSwitchCase="'points'"></gift-code>
+      <gift-lottery *ngSwitchCase="'snw'"></gift-lottery>
+      <lucky-draw-rewards *ngSwitchDefault></lucky-draw-rewards>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="loading">
+      <ion-skeleton-text></ion-skeleton-text>
+    </div>
+  </ng-template>
 </ion-content>

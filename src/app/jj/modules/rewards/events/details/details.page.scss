@@ -15,3 +15,7 @@ ion-segment-button {
 ion-content {
   --padding-top: calc(var(--offset-top) * -1);
 }
+
+.loading {
+  height: 200px;
+}
