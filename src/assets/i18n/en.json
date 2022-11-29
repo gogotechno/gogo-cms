@@ -276,6 +276,7 @@
     "_BALANCE": "Balance",
     "_LUCKY_DRAW_EVENTS": "Lucky draw events",
     "_MY_DASHBOARD": "My Dashboard",
+    "_MY_ACCOUNT": "My Account",
     "_CONFIRM_TO_UPDATE_PROFILE": "Confirm to update profile?",
     "_PROFILE_UPDATED": "Profile updated",
     "_MY_REWARDS": "My Rewards",
@@ -388,6 +389,7 @@
     "_NO_NOTIFICATIONS_FOUND": "No notifications found",
     "_NO_MORE_NOTIFICATIONS": "No more notifications",
     "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "No wallet can be used for payment",
-    "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "This wallet cannot be used for payment"
+    "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "This wallet cannot be used for payment",
+    "_NO_WINNERS_FOUND": "No Winners Found"
   }
 }
