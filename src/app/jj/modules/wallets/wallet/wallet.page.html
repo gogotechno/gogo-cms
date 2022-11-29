@@ -13,7 +13,7 @@
     <div id="wallet-summary" class="ion-padding">
       <ion-text class="label">{{ wallet.type | translate }}</ion-text><br />
       <ion-text class="content">{{ wallet.walletNo }}</ion-text><br />
-      <ion-text class="label">{{ '_BALANCE' | translate }}</ion-text><br />
+      <ion-text class="label">{{ 'jj._BALANCE' | translate }}</ion-text><br />
       <ion-text class="balance">
         <jj-currency [currency]="displayCurrency" [value]="wallet.walletBalance"></jj-currency>
       </ion-text>
@@ -21,7 +21,7 @@
     </div>
 
     <ion-button routerLink="./transactions" expand="block" fill="clear">
-      {{ '_TRANSACTIONS' | translate }}
+      {{ 'jj._TRANSACTIONS' | translate }}
       <ion-icon color="primary-light" name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-button>
 

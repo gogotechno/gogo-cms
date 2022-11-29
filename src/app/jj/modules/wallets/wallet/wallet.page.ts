@@ -19,38 +19,38 @@ export class WalletPage implements OnInit {
   actions = [
     {
       type: 'modal',
-      nameKey: '_DEPOSIT',
-      icon: 'sign-in',
+      nameKey: 'jj._DEPOSIT',
+      icon: 'enter-outline',
       active: true
     },
     {
       type: 'modal',
-      nameKey: '_WITHDRAW',
-      icon: 'sign-out',
+      nameKey: 'jj._WITHDRAW',
+      icon: 'exit-outline',
       active: true
     },
     {
       type: 'modal',
-      nameKey: '_TRANSFER',
-      icon: 'qr-code',
+      nameKey: 'jj._TRANSFER',
+      icon: 'arrow-redo-outline',
       active: true
     },
     {
       type: 'modal',
-      nameKey: '_STATEMENT',
-      icon: 'document-text',
+      nameKey: 'jj._STATEMENT',
+      icon: 'document-text-outline',
       active: true
     },
     {
       type: 'modal',
-      nameKey: '_PIN',
-      icon: 'keypad',
+      nameKey: 'jj._PIN',
+      icon: 'keypad-outline',
       active: true
     },
     {
       type: 'modal',
-      nameKey: '_QR_CODE',
-      icon: 'qr-code',
+      nameKey: 'jj._QR_CODE',
+      icon: 'qr-code-outline',
       active: true
     },
   ];
