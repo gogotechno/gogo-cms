@@ -79,12 +79,16 @@ export interface JJEvent extends ErpDoc {
   merchant?: JJMerchant;
   prizes?: JJEventPrize[];
   pointRules?: JJPointRule[];
-  totalOfTickets?: number;
+  distance?: number;
   nameTranslation?: CmsTranslation;
+  totalOfTickets?: number;
   totalOfWinners?: number;
+  totalOfGainedTickets?: number;
+  totalOfGainedPoints?: number;
+  totalOfGainedSnwTickets?: number;
   drawingResult?: JJDrawingResult;
   drewAt?: Date;
-  winningSummary: {
+  winningSummary?: {
     prize: JJEventPrize;
     winningNumbers: string[];
   }[];
@@ -240,6 +244,7 @@ export interface JJMerchant extends ErpDoc {
   totalOfTickets?: number;
   totalOfWinners?: number;
   fullAddress?: string;
+  distance?: number;
 }
 
 export interface JJPointRule extends ErpDoc {

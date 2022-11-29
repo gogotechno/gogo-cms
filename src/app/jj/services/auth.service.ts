@@ -91,7 +91,7 @@ export class AuthService {
       this._AUTHENTICATED = false;
       this._CURRENT_USER = null;
       this._USER_TYPE = null;
-      await this.router.navigate(['/jj/membership/login'], {
+      await this.router.navigate(['/jj/login'], {
         replaceUrl: true,
       });
 

@@ -1,13 +1,7 @@
 <div class="container">
   <ion-slides [pager]="true">
-    <ion-slide>
-      <img src="./assets/jj/lucky-draw/lucky-draw-01.jpg" />
-    </ion-slide>
-    <ion-slide>
-      <img src="./assets/jj/lucky-draw/lucky-draw-02.jpg" />
-    </ion-slide>
-    <ion-slide>
-      <img src="./assets/jj/lucky-draw/lucky-draw-03.jpg" />
+    <ion-slide *ngFor="let item of slideshow?.items">
+      <img [src]="item.backgroundImage | erpImg" />
     </ion-slide>
   </ion-slides>
   <div class="card-container">
@@ -16,15 +10,15 @@
         <ion-grid>
           <ion-row>
             <ion-col>
-              <p>Vouchers</p>
-              <h3>9,999Pcs</h3>
+              <p>{{ 'jj._TICKETS' | translate }}</p>
+              <h3>{{ customer?.totalOfTickets }}</h3>
             </ion-col>
             <ion-col>
-              <p>Jackpot</p>
-              <h3>1</h3>
+              <p>{{ 'jj._JACKPOT' | translate }}</p>
+              <h3>{{ customer?.totalOfWinners }}</h3>
             </ion-col>
             <ion-col>
-              <ion-button size="small" fill="clear" routerLink="../my-rewards">
+              <ion-button size="small" fill="clear" routerLink="my-rewards">
                 <ion-label>{{ '_VIEW_ALL' | translate }}</ion-label>
               </ion-button>
             </ion-col>

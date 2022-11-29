@@ -16,8 +16,8 @@ export class LuckyDrawsComponent extends SharedComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.home.ongoingEvents.subscribe((events) => {
-    //   this.events = events;
-    // });
+    this.home.ongoingEvents.subscribe((events) => {
+      this.events = events;
+    });
   }
 }

@@ -2,8 +2,8 @@
   <h3 class="title">{{ 'jj._LUCKY_DRAWS' | translate }}</h3>
   <ion-slides [pager]="true">
     <ion-slide class="lucky-draw" *ngFor="let event of events">
-      <ion-card [routerLink]="['../events', event.doc_id]">
-        <ion-badge>{{ 'jj._OWNED_TICKETS' | translate: { count: 99 } }}</ion-badge>
+      <ion-card [routerLink]="['events', event.doc_id]">
+        <!-- <ion-badge>{{ 'jj._OWNED_TICKETS' | translate: { count: 99 } }}</ion-badge> -->
         <img class="event-background" [src]="event.backgroundImage | erpImg" />
         <ion-card-content>
           <ion-grid>
@@ -20,9 +20,9 @@
                 <lucky-draw-countdown [event]="event"></lucky-draw-countdown>
               </ion-col>
               <ion-col size="3.5">
-                <p class="ion-color-note">{{ 'jj._ODDS_OF_WINNING' | translate }}</p>
-                <h3>4.56%</h3>
-                <p>{{ 'jj._DISTANCE_AWAY' | translate: { distance: '2.9KM' } }}</p>
+                <!-- <p class="ion-color-note">{{ 'jj._ODDS_OF_WINNING' | translate }}</p> -->
+                <!-- <h3>4.56%</h3> -->
+                <p *ngIf="event.distance">{{ 'jj._DISTANCE_AWAY' | translate: { distance: event.distance + 'KM' } }}</p>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -33,27 +33,27 @@
 </div>
 
 <ng-template #loading>
-<h3 class="title">
-  <ion-skeleton-text animated="true" style="width: 8em;"></ion-skeleton-text>
-</h3>
-<ion-card>
-  <ion-skeleton-text style="width: 100%; height: 150px; margin: 0;" animated="true"></ion-skeleton-text>
-  <ion-card-content>
-    <ion-grid>
-      <ion-row>
-        <ion-col size="3.5">
-          <ion-skeleton-text style="width: 100%; height: 100%; margin: 0;" animated="true"></ion-skeleton-text>
-        </ion-col>
-        <ion-col size="5">
-          <ion-skeleton-text style="width: 100%; height: 100%; margin: 0;" animated="true"></ion-skeleton-text>
-        </ion-col>
-        <ion-col size="3.5">
-          <ion-skeleton-text style="width: 3em; margin: 0;" animated="true"></ion-skeleton-text>
-          <ion-skeleton-text style="width: 3em; margin: 0;" animated="true"></ion-skeleton-text>
-          <ion-skeleton-text style="width: 3em; margin: 0;" animated="true"></ion-skeleton-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-card-content>
-</ion-card>
+  <h3 class="title">
+    <ion-skeleton-text animated="true" style="width: 8em"></ion-skeleton-text>
+  </h3>
+  <ion-card>
+    <ion-skeleton-text style="width: 100%; height: 150px; margin: 0" animated="true"></ion-skeleton-text>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3.5">
+            <ion-skeleton-text style="width: 100%; height: 100%; margin: 0" animated="true"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="5">
+            <ion-skeleton-text style="width: 100%; height: 100%; margin: 0" animated="true"></ion-skeleton-text>
+          </ion-col>
+          <ion-col size="3.5">
+            <ion-skeleton-text style="width: 3em; margin: 0" animated="true"></ion-skeleton-text>
+            <ion-skeleton-text style="width: 3em; margin: 0" animated="true"></ion-skeleton-text>
+            <ion-skeleton-text style="width: 3em; margin: 0" animated="true"></ion-skeleton-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ng-template>

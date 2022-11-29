@@ -1,12 +1,15 @@
 <div class="container">
   <h3 class="ion-font-bold ion-text-xl">{{ event?.name }}</h3>
-  <p id="description" class="ion-text-ellipsis ion-text-sm">{{ event?.description }}</p>
+  <!-- <p id="description" class="ion-text-ellipsis ion-text-sm" [innerHTML]="event?.description"></p> -->
+  <div class="ql-container">
+    <div id="description" class="ql-editor ion-text-ellipsis" [innerHTML]="event?.description"></div>
+  </div>
   <div *ngIf="canExpand" class="ion-text-center button-container" [class.expanded]="expanded">
     <div></div>
     <ion-button fill="clear" size="small" (click)="toggleMore()">
       <ion-label>
-        <span *ngIf="!expanded">查看更多</span>
-        <span *ngIf="expanded">收起全文</span>
+        <span *ngIf="!expanded">{{ 'jj._VIEW_MORE' | translate }}</span>
+        <span *ngIf="expanded">{{ 'jj._COLLAPSE' | translate }}</span>
       </ion-label>
     </ion-button>
   </div>

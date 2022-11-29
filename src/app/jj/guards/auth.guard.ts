@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
   canActivate() {
     if (!this.auth.authenticated) {
-      this.router.navigateByUrl('/jj/membership/login');
+      this.router.navigateByUrl('/jj/login');
       return false;
     }
     return true;
@@ -23,7 +23,7 @@ export class PublicGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
   canActivate() {
     if (this.auth.authenticated) {
-      this.router.navigateByUrl('/jj/membership/home', {
+      this.router.navigateByUrl('/jj', {
         replaceUrl: true,
       });
       return false;

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button routerLink="/jj/membership">
+      <ion-button routerLink="/jj">
         <ion-icon slot="icon-only" name="home"></ion-icon>
       </ion-button>
       <ion-menu-button></ion-menu-button>
@@ -18,7 +18,7 @@
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
         <ion-list>
-          <div *ngIf="!events?.length">
+          <div *ngIf="!events?.length" class="note">
             <ion-label> {{ "jj._NO_EVENTS_FOUND" | translate }} </ion-label>
           </div>
           <ion-item *ngFor="let event of events" [routerLink]="[event.doc_id]">
