@@ -92,4 +92,11 @@ export class CommonService {
         return '';
     }
   }
+
+  async searchGoogleMap(query: string) {
+    query = query.replace('&', '%26');
+    let encoded = encodeURI(query);
+    let url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
+    window.open(url);
+  }
 }

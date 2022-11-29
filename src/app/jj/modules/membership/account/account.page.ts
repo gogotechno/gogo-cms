@@ -21,6 +21,10 @@ export class AccountPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.account.destroy();
+  }
+
   async onLogout() {
     await this.auth.signOut();
   }

@@ -1,41 +1,42 @@
 #wallet-summary {
-    background-color: var(--ion-color-primary);
-    color: white;
-    position: relative;
+  background-color: var(--ion-color-primary);
+  color: white;
+  position: relative;
 
-    .label {
-        font-size: small;
-    }
+  .label {
+    font-size: small;
+  }
 
-    .content {
-        font-size: large;
-    }
-    
-    .balance {
-        font-weight: bold;
-        font-size: larger;
-    }
+  .content {
+    font-size: large;
+  }
 
-    .icon {
-        font-size: xx-large;
-        position: absolute;
-        right: var(--ion-padding, 16px);
-        bottom: var(--ion-padding, 16px);
-        // right: 0;
-        // bottom: 0;
-    }
+  .balance {
+    font-weight: bold;
+    font-size: larger;
+  }
+
+  .icon {
+    font-size: xx-large;
+    position: absolute;
+    right: var(--ion-padding, 16px);
+    bottom: var(--ion-padding, 16px);
+  }
 }
 
 .wallet-action {
-    background-color: var(--ion-color-primary-light);
-    text-align: center;
-    color: var(--ion-color-primary);
-    padding: var(--ion-padding, 16px);
-    border-radius: var(--ion-border-radius, 8px);
-    .icon {
-        font-size: xx-large;
-    }
-    .label {
-        font-size: small;
-    }
+  background-color: var(--ion-color-primary-light);
+  text-align: center;
+  color: var(--ion-color-primary);
+  padding: var(--ion-padding, 16px);
+  border-radius: var(--ion-border-radius, 8px);
+  .icon {
+    font-size: xx-large;
+  }
+  .label {
+    font-size: small;
+  }
+  &.inactive {
+    opacity: 0.4;
+  }
 }

@@ -1,6 +1,6 @@
 <div class="container">
-  <ion-slides [options]="{ spaceBetween: 8 }">
-    <ion-slide class="slide" *ngFor="let item of slideshowItems">
+  <ion-slides [pager]="true" [options]="{ spaceBetween: 8 }">
+    <ion-slide *ngFor="let item of slideshowItems">
       <img [src]="item.backgroundImage | erpImg" />
     </ion-slide>
   </ion-slides>

@@ -11,3 +11,11 @@ ion-slide img {
   object-position: center;
   border-radius: var(--ion-border-radius);
 }
+
+:host ::ng-deep ion-slides .swiper-pagination {
+  bottom: 0;
+}
+
+ion-slide {
+  padding-bottom: calc(var(--ion-padding) * 1.5);
+}

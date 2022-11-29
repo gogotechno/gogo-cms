@@ -7,9 +7,21 @@ import { HomeService } from './@services/home.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  notifications: number = 0;
+
   constructor(private home: HomeService) {}
 
-  ngOnInit() {
-    this.home.init();
+  async ngOnInit() {
+    await this.home.init();
+  }
+
+  ngOnDestroy() {
+    this.home.destroy();
+  }
+
+  async doRefresh(event: Event) {
+    await this.home.init();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
   }
 }

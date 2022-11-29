@@ -289,6 +289,10 @@ ion-header.header-ios {
   }
 }
 
+ion-content.ion-content-clear {
+  --background: transparent;
+}
+
 ion-grid.grid-fixed {
   padding: 0;
 
@@ -348,12 +352,12 @@ cms-filter,
   ion-item:not(.item-input) {
     --min-height: 35px;
 
-    ion-checkbox[slot="start"] {
+    ion-checkbox[slot='start'] {
       margin-right: calc(var(--ion-margin) / 2);
     }
 
     ion-label,
-    ion-checkbox[slot="start"] {
+    ion-checkbox[slot='start'] {
       margin-top: calc(var(--ion-margin) / 6);
       margin-bottom: calc(var(--ion-margin) / 6);
     }

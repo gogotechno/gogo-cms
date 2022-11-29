@@ -30,6 +30,7 @@ import {
   JJWalletTransaction,
   JJWinner,
   LANGUAGE_STORAGE_KEY,
+  WalletType,
 } from '../typings';
 
 @Injectable({
@@ -113,7 +114,7 @@ export class CoreService {
       merchantId: merchantId,
       merchantId_type: '=',
     });
-    return res.result;
+    return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
   createUser(user: JJUser) {
@@ -163,7 +164,7 @@ export class CoreService {
       customerId: customerId,
       customerId_type: '=',
     });
-    return res.result;
+    return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
   createCustomer(customer: JJCustomer) {
@@ -189,7 +190,7 @@ export class CoreService {
       walletNo: walletNo,
       walletNo_type: '=',
     });
-    return res.result[0];
+    return res.result.map((wallet) => this.populateWallet(wallet))[0];
   }
 
   async getWalletTransactions(pagination: Pagination, conditions: Conditions = {}) {
@@ -507,5 +508,32 @@ export class CoreService {
     winner.prize = this.populateEventPrize(winner.prize);
     winner.merchant = this.populateMerchant(winner.merchant);
     return winner;
+  }
+
+  populateWallet(wallet: JJWallet) {
+    if (!wallet) {
+      return null;
+    }
+
+    switch (wallet.type) {
+      case WalletType.SNW:
+        wallet.icon = 'gift';
+        wallet.colors = {
+          primary: '#FFC000',
+          'primary-light': '#FFF2CC',
+        };
+        break;
+      case WalletType.MERCHANT:
+        wallet.icon = 'business';
+        wallet.colors = {
+          primary: '#70AD47',
+          'primary-light': '#E2F0D9',
+        };
+      default:
+        wallet.icon = 'wallet';
+        break;
+    }
+
+    return wallet;
   }
 }
