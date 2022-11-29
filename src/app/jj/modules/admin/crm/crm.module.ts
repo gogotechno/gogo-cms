@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CrmPageRoutingModule } from './crm-routing.module';
 
 import { CrmPage } from './crm.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CrmPageRoutingModule
+    CrmPageRoutingModule,
+    TranslateModule,
   ],
   declarations: [CrmPage]
 })

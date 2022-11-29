@@ -10,10 +10,15 @@ export class AdminPage implements OnInit {
 
   modules = [
     {
+      name: 'Sales',
+      icon: 'star',
+      link: '/jj/admin/modules/sales'
+    },
+    {
       name: 'CRM',
       icon: 'star',
       link: '/jj/admin/crm'
-    }
+    },
   ]
 
   constructor(private router: Router) { }

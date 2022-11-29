@@ -41,7 +41,7 @@ export class LoginPage extends SharedComponent implements OnInit {
       await this.auth.signInCustomer(data.email, data.password, data.rememberMe);
       // create wallet
     }
-    await this.router.navigate(['../home'], {
+    await this.router.navigate(['/jj'], {
       relativeTo: this.route,
     });
   }

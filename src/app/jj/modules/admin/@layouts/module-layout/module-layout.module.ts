@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { AdminPageRoutingModule } from './admin-routing.module';
+import { ModuleLayoutPageRoutingModule } from './module-layout-routing.module';
 
-import { AdminPage } from './admin.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { ModuleLayoutPage } from './module-layout.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AdminPageRoutingModule,
-    TranslateModule,
+    ModuleLayoutPageRoutingModule
   ],
-  declarations: [AdminPage]
+  declarations: [ModuleLayoutPage]
 })
-export class AdminPageModule {}
+export class ModuleLayoutPageModule {}
