@@ -68,6 +68,9 @@
   "_MINUTES_SHORT": "M",
   "_SECONDS_SHORT": "S",
   "_MENU": "Menu",
+  "_ALL_LOADED": "All Loaded",
+  "_BACK": "Back",
+  "_MODULES": "Modules",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -371,6 +374,15 @@
     "_CONFIRM_TO_LOGOUT": "Confirm to logout?",
     "_JACKPOT": "Jackpot",
     "_VIEW_MORE": "View more",
-    "_COLLAPSE": "Collapse"
+    "_COLLAPSE": "Collapse",
+    "_DEPOSIT": "Deposit",
+    "_WITHDRAW": "Withdraw",
+    "_TRANSFER": "Transfer",
+    "_STATEMENT": "Statement",
+    "_PIN": "PIN",
+    "_QR_CODE": "QR Code",
+    "_WALLETS": "Wallets",
+    "_TOTAL_ASSETS": "Total Assets",
+    "_ALL_WALLETS": "All Wallets"
   }
 }
