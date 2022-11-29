@@ -32,9 +32,9 @@ export class LuckyDrawActivityComponent extends SharedComponent implements OnIni
 
     console.log(this.Events);
 
-    // this.EventGroup = _.chunk(this.Events, 2);
+    this.EventGroup = _.chunk(this.Events, 1);
 
-    // console.log(this.EventGroup);
+    console.log(this.EventGroup);
   
 
   this.startTimer();

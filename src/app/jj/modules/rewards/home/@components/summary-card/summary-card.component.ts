@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CoreService } from 'src/app/jj/services/core.service';
 import * as _ from 'lodash';
 
+
 @Component({
   selector: 'app-summary-card',
   templateUrl: './summary-card.component.html',
