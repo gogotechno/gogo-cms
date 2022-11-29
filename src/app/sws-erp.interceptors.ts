@@ -24,7 +24,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
   async handle(request: HttpRequest<any>, next: HttpHandler) {
     let apiUrl = environment.swsErp.apiUrl;
     if (request.url.substring(0, apiUrl.length) === apiUrl) {
-      // await this.app.presentLoading();
+      await this.app.presentLoading();
 
       let updatedRequest = request.clone({
         setParams: { lang: this.erp.language },
@@ -36,7 +36,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
         });
       }
 
-      // console.log('Before making api call : ', updatedRequest);
+      console.log('Before making api call : ', updatedRequest);
 
       return next
         .handle(updatedRequest)
@@ -44,7 +44,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
           tap(
             (next) => {
               if (next instanceof HttpResponse) {
-                // console.log('api call success :', next);
+                console.log('api call success :', next);
               }
             },
             async (err) => {
@@ -73,8 +73,8 @@ export class SwsErpInterceptor implements HttpInterceptor {
             }
             return throwError(err);
           }),
-          finalize(() => {
-            this.app.dismissLoading();
+          finalize(async () => {
+            await this.app.dismissLoading();
           }),
         )
         .toPromise();

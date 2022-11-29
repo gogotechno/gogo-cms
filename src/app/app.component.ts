@@ -51,7 +51,9 @@ export class AppComponent implements OnInit {
           commands.push(...paths);
         }
       }
-      this.router.navigate(commands);
+      this.router.navigate(commands, {
+        skipLocationChange: true,
+      });
     }
   }
 }
