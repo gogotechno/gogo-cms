@@ -558,7 +558,7 @@ export class JJLuckydrawService {
     return this.erp.putDoc('Capture Payment Request', requestId, request);
   }
 
-  async getWalletByNo(walletNo: number) {
+  async getWalletByNo(walletNo: string) {
     let res = await this.erp.getDocs<JJWallet>('Wallet', {
       walletNo: walletNo,
       walletNo_type: '=',

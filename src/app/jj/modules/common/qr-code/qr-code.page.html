@@ -1,0 +1,25 @@
+<ion-header class="ion-header-clear">
+  <ion-toolbar>
+    <ion-title>{{ "jj-luckydraw._QR_CODE" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-content-clear">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col class="container">
+        <ion-card>
+          <ion-card-content>
+            <h3>{{ title || qrData }}</h3>
+            <qrcode [qrdata]="qrData" [width]="288" [errorCorrectionLevel]="'M'"></qrcode>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

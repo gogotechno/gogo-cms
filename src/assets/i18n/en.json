@@ -386,6 +386,8 @@
     "_TOTAL_ASSETS": "Total Assets",
     "_ALL_WALLETS": "All Wallets",
     "_NO_NOTIFICATIONS_FOUND": "No notifications found",
-    "_NO_MORE_NOTIFICATIONS": "No more notifications"
+    "_NO_MORE_NOTIFICATIONS": "No more notifications",
+    "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "No wallet can be used for payment",
+    "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "This wallet cannot be used for payment"
   }
 }

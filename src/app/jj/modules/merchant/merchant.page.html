@@ -5,33 +5,44 @@
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <ion-list>
+    <ion-list lines="full">
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path]">
+        <ion-item [routerLink]="[path]" [replaceUrl]="true">
           <ion-label>{{ "_DASHBOARD" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path, 'ticket-distributions']">
+        <ion-item [routerLink]="[path, 'ticket-distributions']" [replaceUrl]="true">
           <ion-label>{{ "jj._TICKETS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path, 'users']">
+        <ion-item [routerLink]="[path, 'users']" [replaceUrl]="true">
           <ion-label>{{ "jj._USERS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path, 'customers']">
+        <ion-item [routerLink]="[path, 'customers']" [replaceUrl]="true">
           <ion-label>{{ "jj._CUSTOMERS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path, 'ended-events']">
+        <ion-item [routerLink]="[path, 'ended-events']" [replaceUrl]="true">
           <ion-label>{{ "jj._ENDED_EVENTS" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
     </ion-list>
   </ion-content>
+  <ion-footer>
+    <ion-toolbar>
+      <ion-list lines="full">
+        <ion-menu-toggle>
+          <ion-item routerLink="/jj" [replaceUrl]="true">
+            <ion-label>{{ "_HOME" | translate }}</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-toolbar>
+  </ion-footer>
 </ion-menu>
 <ion-router-outlet id="merchant-content"></ion-router-outlet>

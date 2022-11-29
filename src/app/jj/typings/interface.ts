@@ -130,8 +130,7 @@ export interface JJWallet extends ErpDoc {
   walletBalance?: number;
   permissions?: JJWalletPermission[];
   icon?: string;
-  primaryColor?: string;
-  secondaryColor?: string;
+  colors?: any;
 }
 
 export enum WalletType {

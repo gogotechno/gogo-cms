@@ -41,3 +41,7 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+.qrcode-modal {
+  --background: rgba(0, 0, 0, 0.85);
+}

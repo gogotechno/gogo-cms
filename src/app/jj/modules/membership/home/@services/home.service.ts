@@ -63,6 +63,15 @@ export class HomeService extends SharedComponent {
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
   }
+
+  destroy() {
+    this._USER.next(null);
+    this._WALLETS.next(null);
+    this._ONGOING_EVENTS.next(null);
+    this._MINI_PROGRAMS.next(null);
+    this._ANNOUNCEMENTS.next(null);
+    this._SLIDESHOW.next(null);
+  }
 }
 
 const MINI_PROGRAMS: MiniProgram[] = [

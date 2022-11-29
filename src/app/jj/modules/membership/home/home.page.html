@@ -3,7 +3,7 @@
     <ion-img slot="start" src="/assets/logo-placeholder.png"></ion-img>
     <ion-buttons slot="end" class="round">
       <ion-button routerLink="notifications">
-        <!-- <ion-badge color="danger">99</ion-badge> -->
+        <ion-badge color="danger" *ngIf="notifications > 0">{{ notifications }}</ion-badge>
         <ion-icon name="notifications" slot="icon-only"></ion-icon>
       </ion-button>
       <ion-button>
@@ -14,6 +14,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
   <account-bar></account-bar>
   <news-ticker></news-ticker>
   <wallet-cards></wallet-cards>

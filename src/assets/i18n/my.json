@@ -185,6 +185,8 @@
     "_TOTAL_ASSETS": "Total Assets",
     "_ALL_WALLETS": "All Wallets",
     "_NO_NOTIFICATIONS_FOUND": "No notifications found",
-    "_NO_MORE_NOTIFICATIONS": "No more notifications"
+    "_NO_MORE_NOTIFICATIONS": "No more notifications",
+    "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "Tiada dompet boleh digunakan untuk pembayaran",
+    "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "Dompet ini tidak boleh digunakan untuk pembayaran"
   }
 }
