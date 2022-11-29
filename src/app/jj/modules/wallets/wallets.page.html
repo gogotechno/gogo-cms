@@ -1,9 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj"></ion-back-button>
+      <ion-back-button icon="home" text="" defaultHref="/jj"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ '_WALLETS' | translate }}</ion-title>
+    <ion-title>{{ 'jj._WALLETS' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,18 +16,25 @@
     <div class="wallets-summary-card ion-padding">
       <ion-text class="balance">
         <jj-currency [currency]="displayCurrency" [value]="totalAssetsBalance"></jj-currency>
-      </ion-text><br />
-      <ion-text class="label">{{ '_TOTAL_ASSETS' | translate }}</ion-text>
+      </ion-text>
+      <br />
+      <ion-text class="label">{{ 'jj._TOTAL_ASSETS' | translate }}</ion-text>
     </div>
 
     <ion-list>
-      <ion-list-header>{{ '_ALL_WALLETS' | translate }}</ion-list-header>
+      <ion-list-header>{{ 'jj._ALL_WALLETS' | translate }}</ion-list-header>
 
       <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" routerLink="{{ wallet.walletNo }}">
-        <ion-avatar class="d-flex-center"
-          [style.background-color]="wallet.secondaryColor || 'var(--ion-color-primary-light)'" slot="start">
-          <ion-icon [name]="wallet.icon || 'wallet'" [style.color]="wallet.primaryColor || 'var(--ion-color-primary)'"
-            [style.font-size]="'x-large'"></ion-icon>
+        <ion-avatar
+          class="d-flex-center"
+          [style.background-color]="wallet.secondaryColor || 'var(--ion-color-primary-light)'"
+          slot="start"
+        >
+          <ion-icon
+            [name]="wallet.icon || 'wallet'"
+            [style.color]="wallet.primaryColor || 'var(--ion-color-primary)'"
+            [style.font-size]="'x-large'"
+          ></ion-icon>
         </ion-avatar>
         <div class="ion-padding-vertical-sm">
           <ion-text class="type">{{ wallet.type }}</ion-text><br />
@@ -49,18 +56,18 @@
   </ng-container>
 
   <ng-template #loading>
-    <div class="wallets-summary-card ion-padding" style="text-align: center;">
+    <div class="wallets-summary-card ion-padding" style="text-align: center">
       <ion-text class="balance">
-        <ion-skeleton-text style="width: 10em;" animated="true"></ion-skeleton-text>
+        <ion-skeleton-text style="width: 10em" animated="true"></ion-skeleton-text>
       </ion-text>
       <ion-text class="label">
-        <ion-skeleton-text style="width: 8em; line-height: var(--ion-font-lg);" animated="true"></ion-skeleton-text>
+        <ion-skeleton-text style="width: 8em; line-height: var(--ion-font-lg)" animated="true"></ion-skeleton-text>
       </ion-text>
     </div>
 
     <ion-list>
       <ion-list-header>
-        <ion-skeleton-text animated="true" style="width: 5em; line-height: var(--ion-font-sm);"></ion-skeleton-text>
+        <ion-skeleton-text animated="true" style="width: 5em; line-height: var(--ion-font-sm)"></ion-skeleton-text>
       </ion-list-header>
 
       <ion-item detail="true" class="wallet-item" lines="full" *ngFor="let wallet of [1,1,1]">
@@ -69,19 +76,18 @@
         </ion-avatar>
         <div class="ion-padding-vertical-sm">
           <ion-text class="type">
-            <ion-skeleton-text animated="true" style="width: 4em; line-height: var(--ion-font-md);"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 4em; line-height: var(--ion-font-md)"></ion-skeleton-text>
           </ion-text>
           <ion-text class="no">
-            <ion-skeleton-text animated="true" style="width: 8em;"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 8em"></ion-skeleton-text>
           </ion-text>
         </div>
         <div slot="end">
           <ion-text class="balance">
-            <ion-skeleton-text animated="true" style="width: 4em; line-height: var(--ion-font-md);"></ion-skeleton-text>
+            <ion-skeleton-text animated="true" style="width: 4em; line-height: var(--ion-font-md)"></ion-skeleton-text>
           </ion-text>
         </div>
       </ion-item>
     </ion-list>
   </ng-template>
-
 </ion-content>

@@ -8,7 +8,7 @@ import { HomeService } from '../../@services/home.service';
   templateUrl: './winners.component.html',
   styleUrls: ['./winners.component.scss'],
 })
-export class SummaryCardComponent implements OnInit {
+export class WinnersComponent implements OnInit {
   @Input() winners: JJWinner[];
   winnerGroups: JJWinner[][];
 

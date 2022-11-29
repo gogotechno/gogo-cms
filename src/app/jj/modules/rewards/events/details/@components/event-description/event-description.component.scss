@@ -17,9 +17,11 @@ p {
 
 .button-container {
   position: relative;
-  margin-top: calc(var(--ion-padding) * -1.5);
+  padding-top: var(--ion-padding);
+  margin-top: calc(var(--ion-margin) * -1);
 
   &.expanded {
+    padding-top: 0;
     margin-top: 0;
   }
 
@@ -36,4 +38,9 @@ p {
   ion-button {
     margin: 0;
   }
+}
+
+.ql-editor {
+  padding: 0;
+  white-space: normal;
 }

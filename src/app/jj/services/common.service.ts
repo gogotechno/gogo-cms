@@ -60,7 +60,7 @@ export class CommonService {
         return (
           `Thank you for your registration to LUCKY-DRAW.%0A%0A` +
           `Please login to our website using given login detail:%0A` +
-          `Website: ${window.location.origin}/jj/membership/login%0A` +
+          `Website: ${window.location.origin}/jj/login%0A` +
           `Username: ${data.phone} %0A` +
           `Password: ${data.password}`
         );
@@ -68,7 +68,7 @@ export class CommonService {
         return (
           `We have received your reset password request.%0A%0A` +
           `Please login to our website using given login detail:%0A` +
-          `Website: ${window.location.origin}/jj/membership/login%0A` +
+          `Website: ${window.location.origin}/jj/login%0A` +
           `Username: ${data.phone} %0A` +
           `Password: ${data.password}`
         );

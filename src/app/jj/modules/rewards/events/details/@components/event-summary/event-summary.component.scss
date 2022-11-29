@@ -33,9 +33,11 @@ ion-card {
     }
 
     ion-col {
+      padding-right: calc(var(--ion-padding) / 2);
+      padding-left: calc(var(--ion-padding) / 2);
+
       &:first-of-type {
         flex-basis: 45%;
-        padding-right: var(--ion-padding);
       }
 
       &:last-of-type {

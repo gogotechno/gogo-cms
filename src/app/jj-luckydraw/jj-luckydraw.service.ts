@@ -137,7 +137,7 @@ export class JJLuckydrawService {
       status: 'ACTIVE',
       status_type: '=',
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
     });
     return res.result[0];
   }
@@ -153,7 +153,7 @@ export class JJLuckydrawService {
       status: 'ENDED',
       status_type: '=',
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       withSummary: true,
     });
     return res.result[0];
@@ -183,7 +183,7 @@ export class JJLuckydrawService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       ...conditions,
     });
     return res.result;
@@ -196,7 +196,7 @@ export class JJLuckydrawService {
   async getActiveMerchantEvent() {
     let res = await this.erp.getDocs<JJEvent>('Event', {
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       status: 'ACTIVE',
       status_type: '=',
       fromMerchant: true,
@@ -216,7 +216,7 @@ export class JJLuckydrawService {
       status: 'ENDED',
       status_type: '=',
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       withSummary: true,
       withoutResult: true,
     });
@@ -245,7 +245,7 @@ export class JJLuckydrawService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: 'distributedAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       ...conditions,
     });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
@@ -264,7 +264,7 @@ export class JJLuckydrawService {
       event_id: eventId,
       event_id_type: '=',
       sortBy: 'distributedAt',
-      sortType: 'desc',
+      sortType: 'DESC',
     });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
   }
@@ -322,7 +322,7 @@ export class JJLuckydrawService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: 'doc_createdDate',
-      sortType: 'desc',
+      sortType: 'DESC',
       fromApp: true,
       ...conditions,
     });
@@ -612,7 +612,7 @@ export class JJLuckydrawService {
       walletId: walletId,
       walletId_type: '=',
       sortBy: 'doc_createdDate',
-      sortType: 'desc',
+      sortType: 'DESC',
     });
     return res.result;
   }

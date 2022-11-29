@@ -4,11 +4,11 @@ import { JJEvent } from 'src/app/jj/typings';
 import { DetailsService } from '../../@services/details.service';
 
 @Component({
-  selector: 'event-card-summary',
-  templateUrl: './event-card-summary.component.html',
-  styleUrls: ['./event-card-summary.component.scss'],
+  selector: 'event-summary',
+  templateUrl: './event-summary.component.html',
+  styleUrls: ['./event-summary.component.scss'],
 })
-export class EventCardSummaryComponent extends SharedComponent implements OnInit {
+export class EventSummaryComponent extends SharedComponent implements OnInit {
   event: JJEvent;
   timer: CountdownTimer;
 

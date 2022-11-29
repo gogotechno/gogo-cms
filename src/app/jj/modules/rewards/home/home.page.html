@@ -1,13 +1,16 @@
 <ion-header class="ion-header-clear">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj"></ion-back-button>
+      <ion-back-button defaultHref="/jj" icon="home" text=""></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <event-card></event-card>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <summary-card></summary-card>
   <lucky-draws></lucky-draws>
   <winners></winners>
 </ion-content>

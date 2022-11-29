@@ -1,7 +1,31 @@
-// ion-card.smallmargin{
-//     margin-left: 3%;
-//     margin-right: 3%;
-//     margin-top: 5%;
-//     margin-bottom: 5% !important;
-//     width: 100%
-// }
+ion-card {
+  --color: var(--ion-color-dark);
+
+  margin: 0;
+  box-shadow: none;
+
+  ion-card-content {
+    padding-top: calc(var(--ion-padding) / 2);
+    padding-bottom: calc(var(--ion-padding) / 2);
+    padding-right: var(--ion-padding);
+    padding-left: var(--ion-padding);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    h3 {
+      font-weight: var(--ion-font-bold);
+    }
+
+    ion-grid,
+    ion-row,
+    ion-col {
+      padding: 0;
+    }
+
+    ion-col {
+      text-align: center;
+    }
+  }
+}

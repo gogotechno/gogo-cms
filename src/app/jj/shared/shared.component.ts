@@ -9,6 +9,8 @@ export class SharedComponent {
     return {
       itemsPerPage: 10,
       currentPage: 1,
+      sortBy: 'doc_id',
+      sortOrder: 'DESC',
     };
   }
 

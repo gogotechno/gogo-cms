@@ -11,6 +11,8 @@ export interface ChangePasswordDto {
 export interface Pagination {
   itemsPerPage: number;
   currentPage: number;
+  sortBy?: string;
+  sortOrder?: 'ASC' | 'DESC';
 }
 
 export interface Conditions {
@@ -55,7 +57,7 @@ export interface GetOptions {
   itemsPerPage?: number;
   currentPage?: number;
   sortBy?: string;
-  sortType?: 'asc' | 'desc';
+  sortType?: 'ASC' | 'DESC';
   hasPk?: boolean;
   hasFk?: boolean;
   [key: string]: any;

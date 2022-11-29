@@ -1,4 +1,4 @@
-<ion-menu contentId="merchant">
+<ion-menu contentId="merchant-content">
   <ion-header>
     <ion-toolbar>
       <ion-title>{{ "_MENU" | translate }}</ion-title>
@@ -7,7 +7,7 @@
   <ion-content>
     <ion-list>
       <ion-menu-toggle>
-        <ion-item [routerLink]="[path, 'home']">
+        <ion-item [routerLink]="[path]">
           <ion-label>{{ "_DASHBOARD" | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
@@ -34,4 +34,4 @@
     </ion-list>
   </ion-content>
 </ion-menu>
-<ion-router-outlet id="merchant"></ion-router-outlet>
+<ion-router-outlet id="merchant-content"></ion-router-outlet>

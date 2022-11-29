@@ -9,7 +9,21 @@ import { HomeService } from './@services/home.service';
 export class HomePage implements OnInit {
   constructor(private home: HomeService) {}
 
-  ngOnInit() {
-    this.home.init();
+  async ngOnInit() {
+    await this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.home.destroy();
+  }
+
+  async loadData() {
+    await this.home.init();
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
   }
 }

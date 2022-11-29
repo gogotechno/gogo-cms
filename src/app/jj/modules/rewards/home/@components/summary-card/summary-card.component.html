@@ -1,0 +1,37 @@
+<div class="container">
+  <ion-slides [pager]="true" *ngIf="slideshow; else loading">
+    <ion-slide *ngFor="let item of slideshow?.items">
+      <img [src]="item.backgroundImage | erpImg" />
+    </ion-slide>
+  </ion-slides>
+
+  <ng-template #loading>
+    <div class="loading">
+      <ion-skeleton-text></ion-skeleton-text>
+    </div>
+  </ng-template>
+
+  <div class="card-container" *ngIf="customer">
+    <ion-card>
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p>{{ 'jj._TICKETS' | translate }}</p>
+              <h3>{{ customer?.totalOfTickets }}</h3>
+            </ion-col>
+            <ion-col>
+              <p>{{ 'jj._JACKPOT' | translate }}</p>
+              <h3>{{ customer?.totalOfWinners }}</h3>
+            </ion-col>
+            <ion-col>
+              <ion-button size="small" fill="clear" routerLink="my-rewards">
+                <ion-label>{{ '_VIEW_ALL' | translate }}</ion-label>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</div>

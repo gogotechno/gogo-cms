@@ -3,22 +3,22 @@
     <ion-row>
       <ion-col>
         <ng-container [ngSwitch]="event._status">
-          <ion-card *ngSwitchCase="'DRAWING'" (click)="openLuckyDrawResult($event)">
+          <ion-card *ngSwitchCase="'DRAWING'">
             <ion-card-content>
               <ion-text></ion-text><br />
-              <ion-text>{{ '_DRAWING' | translate }}</ion-text>
+              <ion-text>{{ 'jj._DRAWING' | translate }}</ion-text>
             </ion-card-content>
           </ion-card>
-          <ion-card *ngSwitchCase="'RESULT'">
+          <ion-card *ngSwitchCase="'RESULT'" (click)="openLuckyDrawResult($event)">
             <ion-card-content>
               <ion-text></ion-text><br />
-              <ion-text>{{ '_RESULT' | translate }}</ion-text>
+              <ion-text>{{ 'jj._RESULT' | translate }}</ion-text>
             </ion-card-content>
           </ion-card>
           <ion-card *ngSwitchDefault>
             <ion-card-content>
               <p>{{ 'jj._DRAW_COUNTDOWN' | translate }}</p>
-              <countdown-timer [endDate]="event?.endAt"></countdown-timer>
+              <countdown-timer [endDate]="event?.drawAt"></countdown-timer>
             </ion-card-content>
           </ion-card>
         </ng-container>
@@ -34,7 +34,7 @@
                 </ion-col>
                 <ion-col size="6">
                   <p>{{ 'jj._CAN_GAIN_TICKETS' | translate }}</p>
-                  <h3>{{ 1 }}</h3>
+                  <h3>1</h3>
                 </ion-col>
               </ion-row>
             </ion-grid>
@@ -45,7 +45,7 @@
   </ion-grid>
   <h3 class="title">{{ 'jj._PRIZES' | translate }}</h3>
   <div class="prizes">
-    <div class="ion-activatable ripple-parent rounded-rectangle" (click)="openPrize(prize)" *ngFor="let prize of event?.prizes">
+    <div class="ion-activatable ripple-parent" *ngFor="let prize of event?.prizes" (click)="openPrize(prize)">
       <ion-img [src]="prize.thumbnailImage | erpImg"> </ion-img>
       <ion-badge>{{ prize.quantity }}</ion-badge>
       <ion-ripple-effect></ion-ripple-effect>

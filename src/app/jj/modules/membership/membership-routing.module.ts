@@ -23,9 +23,8 @@ const routes: Routes = [
         loadChildren: () => import('./account/account.module').then((m) => m.AccountPageModule),
       },
       {
-        path: '',
-        redirectTo: '/jj/',
-        pathMatch: 'full',
+        path: 'notifications',
+        loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsPageModule),
       },
     ],
   },
