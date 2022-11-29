@@ -15,6 +15,20 @@ export class DetailsPage implements OnInit {
   async ngOnInit() {
     let params = this.route.snapshot.params;
     this.details.eventId = params['id'];
+    await this.loadData();
+  }
+
+  ngOnDestroy() {
+    this.details.destroy();
+  }
+
+  async loadData() {
     await this.details.init();
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
   }
 }

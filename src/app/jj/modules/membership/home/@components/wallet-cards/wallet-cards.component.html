@@ -1,8 +1,22 @@
-<div class="container">
-  <ion-card *ngFor="let wallet of wallets">
+<div *ngIf="wallets; else loading" class="container">
+  <ion-card *ngFor="let wallet of wallets" routerLink="/jj/wallets/{{wallet.walletNo}}">
     <ion-card-content>
       <p>{{ "jj._BALANCE" | translate }}</p>
-      <h3>{{ wallet.walletBalance }}</h3>
+      <!-- <h3>{{ wallet.walletBalance }}</h3> -->
+      <h3><jj-currency [value]="wallet.walletBalance"></jj-currency></h3>
     </ion-card-content>
+    <ion-icon [name]="wallet.icon || 'wallet'"></ion-icon>
   </ion-card>
 </div>
+
+<ng-template #loading>
+  <div class="container">
+    <ion-card *ngFor="let i of [1,1,1]">
+      <ion-card-content style="position: relative;">
+        <ion-skeleton-text [animated]="true" style="width: 4em"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 4em"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 24px; height: 24px; position: absolute; bottom: calc(var(--ion-padding) / 2); right: calc(var(--ion-padding) / 1.5); margin: 0;"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ng-template>

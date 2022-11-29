@@ -43,5 +43,5 @@
 // }
 
 ion-content {
-  --padding-top: -44px;
+  --padding-top: calc(var(--offset-top) * -1);
 }

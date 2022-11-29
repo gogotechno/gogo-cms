@@ -13,4 +13,4 @@ import { SharedModule } from 'src/app/jj/shared';
   declarations: [DetailsPage],
   providers: [DetailsService],
 })
-export class DetailsPageModule {}
+export class DetailsPageModule { }

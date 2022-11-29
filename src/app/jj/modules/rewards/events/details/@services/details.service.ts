@@ -29,4 +29,9 @@ export class DetailsService {
 
     this._EVENT.next(event);
   }
+
+  destroy() {
+    this.eventId = null;
+    this._EVENT.next(null);
+  }
 }

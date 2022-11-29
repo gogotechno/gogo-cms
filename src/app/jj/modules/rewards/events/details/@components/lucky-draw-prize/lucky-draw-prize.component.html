@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="close($event)">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container" *ngIf="prize">
+    <ion-img [src]="prize.thumbnailImage | erpImg"></ion-img>
+
+    <hr />
+
+    <ion-list id="prize-list">
+      <ion-list-header>
+        <div>
+          <ion-text class="prize-name">{{ prize.name }}</ion-text><br />
+          <ion-text class="prize-worth">{{ '_WORTH' | translate }} RM{{ prize.worth | number: '1.2-2' }}</ion-text>
+        </div>
+      </ion-list-header>
+
+      <ion-item *ngFor="let p of [].constructor(prize.quantity); let i = index">
+        <ion-text slot="start">{{ (i + 1) | number }}</ion-text>
+
+        <ion-thumbnail slot="end">
+          <img src="" alt="" />
+        </ion-thumbnail>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

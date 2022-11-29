@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import _ from 'lodash';
+import { Component, Input, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { JJWinner } from 'src/app/jj/typings';
 import { HomeService } from '../../@services/home.service';
 
@@ -8,8 +8,8 @@ import { HomeService } from '../../@services/home.service';
   templateUrl: './winners.component.html',
   styleUrls: ['./winners.component.scss'],
 })
-export class SummaryCardComponent implements OnInit {
-  winners: JJWinner[];
+export class WinnersComponent implements OnInit {
+  @Input() winners: JJWinner[];
   winnerGroups: JJWinner[][];
 
   constructor(private home: HomeService) {}

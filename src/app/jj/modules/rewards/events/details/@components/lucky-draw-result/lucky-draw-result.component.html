@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button slot="icon-only" (click)="close($event)">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container" *ngIf="event">
+    <ion-img [src]="event?.backgroundImage | erpImg"></ion-img>
+    <div class="card-container">
+      <ion-card>
+        <ion-card-content>
+          <h2>{{ event.name }}</h2>
+          <table>
+            <tr>
+              <th>{{ '_RESULT_REF_NO' }}: </th>
+              <td></td>
+            </tr>
+            <tr>
+              <th>{{ '_DRAW_AT' }}: </th>
+              <td>{{ event.drawAt | date: 'd/M/yyyy hh:mm:ss a' }}</td>
+            </tr>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <hr />
+
+    <ion-list id="prize-list">
+      <ng-container *ngFor="let prize of event.prizes">
+        <ion-list-header>
+          <div>
+            <ion-text class="prize-name">{{ prize.name }}</ion-text><br />
+            <ion-text class="prize-worth">{{ '_WORTH' | translate }} RM{{ prize.worth | number: '1.2-2' }}</ion-text>
+          </div>
+        </ion-list-header>
+  
+        <ion-item *ngFor="let p of [].constructor(prize.quantity); let i = index">
+          <ion-text slot="start">{{ (i + 1) | number }}</ion-text>
+
+          <ion-thumbnail slot="end">
+            <img src="" alt="" />
+          </ion-thumbnail>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+  </div>
+</ion-content>

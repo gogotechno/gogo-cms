@@ -10,12 +10,16 @@ const routes: Routes = [
     canActivate: [InitGuard],
     children: [
       {
-        path: 'membership',
+        path: '',
         loadChildren: () => import('./modules/membership/membership.module').then((m) => m.MembershipPageModule),
       },
       {
         path: 'rewards',
         loadChildren: () => import('./modules/rewards/rewards.module').then((m) => m.RewardsPageModule),
+      },
+      {
+        path: 'wallets',
+        loadChildren: () => import('./modules/wallets/wallets.module').then((m) => m.WalletsPageModule),
       },
       {
         path: 'merchant',
@@ -25,12 +29,15 @@ const routes: Routes = [
         path: 'common',
         loadChildren: () => import('./modules/common/common.module').then((m) => m.CommonPageModule),
       },
-      {
-        path: '',
-        redirectTo: 'membership',
-        pathMatch: 'full',
-      },
     ],
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminPageModule),
+  },
+  {
+    path: 'scratch-and-win',
+    loadChildren: () => import('./modules/scratch-and-win/scratch-and-win.module').then((m) => m.ScratchAndWinPageModule),
   },
 ];
 

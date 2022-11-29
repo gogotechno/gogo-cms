@@ -73,6 +73,10 @@ const MINI_PROGRAMS: MiniProgram[] = [
     }),
     icon: 'gift',
     link: '/jj/rewards',
+    colors: {
+      "primary": '#FFC000',
+      "primary-light": '#FFF2CC',
+    }
   },
   {
     name: JSON.stringify({
@@ -80,7 +84,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
       zh: 'JJ钱包',
     }),
     icon: 'wallet',
-    link: '/jj/wallet',
+    link: '/jj/wallets',
   },
   {
     name: JSON.stringify({
@@ -89,5 +93,21 @@ const MINI_PROGRAMS: MiniProgram[] = [
     }),
     icon: 'storefront',
     link: '/jj/merchant',
+    colors: {
+      "primary": '#70AD47',
+      "primary-light": '#E2F0D9',
+    }
+  },
+  {
+    name: JSON.stringify({
+      en: 'JJ Admin',
+      zh: 'JJ管理员',
+    }),
+    icon: 'tv',
+    link: '/jj/admin',
+    colors: {
+      "primary": '#FF0000',
+      "primary-light": '#FFC9C9',
+    }
   },
 ];

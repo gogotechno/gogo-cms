@@ -36,12 +36,10 @@ export class LoginPage extends SharedComponent implements OnInit {
   async onLogin(data?: LoginDto) {
     if (data.email.includes('@')) {
       await this.auth.signInUser(data.email, data.password, data.rememberMe);
-      // create wallet
     } else {
       await this.auth.signInCustomer(data.email, data.password, data.rememberMe);
-      // create wallet
     }
-    await this.router.navigate(['../home'], {
+    await this.router.navigate(['/jj'], {
       relativeTo: this.route,
     });
   }

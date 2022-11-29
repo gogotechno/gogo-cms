@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EventCardComponent } from './event-card.component';
+import { ScratchAndWinPage } from './scratch-and-win.page';
 
-describe('EventCardComponent', () => {
-  let component: EventCardComponent;
-  let fixture: ComponentFixture<EventCardComponent>;
+describe('ScratchAndWinPage', () => {
+  let component: ScratchAndWinPage;
+  let fixture: ComponentFixture<ScratchAndWinPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventCardComponent ],
+      declarations: [ ScratchAndWinPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EventCardComponent);
+    fixture = TestBed.createComponent(ScratchAndWinPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -15,6 +15,7 @@ export interface MiniProgram {
   name: string;
   icon: string;
   link: string;
+  colors?: any;
 }
 
 export interface AccountOptions {
@@ -75,23 +76,26 @@ export interface JJEvent extends ErpDoc {
   backgroundImage: string;
   minSpend: number;
   merchant_id: number;
-
   merchant?: JJMerchant;
   prizes?: JJEventPrize[];
   pointRules?: JJPointRule[];
-
+  distance?: number;
+  nameTranslation?: CmsTranslation;
   totalOfTickets?: number;
   totalOfWinners?: number;
-
+  totalOfGainedTickets?: number;
+  totalOfGainedPoints?: number;
+  totalOfGainedSnwTickets?: number;
   drawingResult?: JJDrawingResult;
   drewAt?: Date;
-
-  nameTranslation?: CmsTranslation;
-
-  winningSummary: {
+  winningSummary?: {
     prize: JJEventPrize;
     winningNumbers: string[];
   }[];
+  /**
+   * Use in app control
+   */
+  _status: string;
 }
 
 export enum EventStatus {
@@ -107,7 +111,6 @@ export interface JJEventPrize extends ErpDoc {
   quantity: number;
   level: number;
   event_id: number;
-
   thumbnailImage: string;
 }
 
@@ -122,10 +125,11 @@ export interface JJDrawingResult extends ErpDoc {
 export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
-
   walletBalance?: number;
-
   permissions?: JJWalletPermission[];
+  icon?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
 }
 
 export enum WalletType {
@@ -240,6 +244,7 @@ export interface JJMerchant extends ErpDoc {
   totalOfTickets?: number;
   totalOfWinners?: number;
   fullAddress?: string;
+  distance?: number;
 }
 
 export interface JJPointRule extends ErpDoc {

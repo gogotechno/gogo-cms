@@ -1,30 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { CoreService } from 'src/app/jj/services/core.service';
-import * as _ from 'lodash';
-
+import { forkJoin } from 'rxjs';
+import { JJCustomer, JJSlideshow } from 'src/app/jj/typings';
+import { HomeService } from '../../@services/home.service';
 
 @Component({
-  selector: 'app-summary-card',
+  selector: 'summary-card',
   templateUrl: './summary-card.component.html',
   styleUrls: ['./summary-card.component.scss'],
 })
 export class SummaryCardComponent implements OnInit {
-  // TODO: add typed interface
-  winners: any[];
-  winnerGroup: any[][];
+  customer: JJCustomer;
+  slideshow: JJSlideshow;
 
-  constructor(private core: CoreService) {}
+  constructor(private home: HomeService) {}
 
-  async ngOnInit() {
-    this.winners = await this.core.getWinners({
-      itemsPerPage: 32,
-      currentPage: 1,
+  ngOnInit() {
+    this.home.customer.subscribe((customer) => {
+      this.customer = customer;
     });
 
-    console.log(this.winners);
-
-    this.winnerGroup = _.chunk(this.winners, 8);
-
-    console.log(this.winnerGroup);
+    this.home.slideshow.subscribe((slideshow) => {
+      this.slideshow = slideshow;
+    });
   }
 }

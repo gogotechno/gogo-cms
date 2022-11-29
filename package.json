@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "npx ionic serve --external",
+    "dev": "npm i && npx ionic serve --external",
     "deploy": "npm run build && npx firebase deploy"
   },
   "private": true,
@@ -38,6 +38,7 @@
     "file-saver": "^2.0.5",
     "html5-qrcode": "^2.2.8",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "ngx-countdown": "^14.0.0",
     "ngx-mask": "^14.2.3",
     "ngx-quill": "^16.2.1",

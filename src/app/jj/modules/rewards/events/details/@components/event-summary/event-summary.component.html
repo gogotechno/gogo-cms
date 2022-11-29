@@ -11,7 +11,11 @@
             </ion-col>
             <ion-col>
               <h3>{{ 'jj._YOU_HAVE_GAINED' | translate }}</h3>
-              <distribution-summary [tickets]="10" [points]="100" [snwTickets]="30"></distribution-summary>
+              <distribution-summary
+                [tickets]="event?.totalOfGainedTickets"
+                [points]="event?.totalOfGainedPoints"
+                [snwTickets]="event?.totalOfGainedSnwTickets"
+              ></distribution-summary>
             </ion-col>
           </ion-row>
         </ion-grid>

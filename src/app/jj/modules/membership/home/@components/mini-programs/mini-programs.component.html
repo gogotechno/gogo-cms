@@ -1,10 +1,16 @@
 <div class="container">
-  <ng-container *ngFor="let miniProgram of miniPrograms">
-    <ion-button fill="clear" [routerLink]="miniProgram.link">
-      <ion-label>
-        <ion-icon [name]="miniProgram.icon"></ion-icon>
-        <h3>{{ miniProgram.name | erpTranlate }}</h3>
-      </ion-label>
-    </ion-button>
-  </ng-container>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="3" *ngFor="let miniProgram of miniPrograms">
+        <div class="mini-program ion-activatable ripple-parent circle" [routerLink]="miniProgram.link">
+          <ion-icon class="mini-program-icon" [name]="miniProgram.icon"
+            [style.color]="miniProgram.colors ? miniProgram.colors['primary'] : 'var(--ion-color-primary)'"
+            [style.background-color]="miniProgram.colors ? miniProgram.colors['primary-light'] : 'var(--ion-color-primary-light)'">
+          </ion-icon>
+          <h3 class="mini-program-name">{{ miniProgram.name | erpTranlate }}</h3>
+          <ion-ripple-effect></ion-ripple-effect>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </div>

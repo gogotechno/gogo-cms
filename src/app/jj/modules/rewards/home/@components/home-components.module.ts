@@ -7,12 +7,12 @@ import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { RewardsComponentsModule } from '../../@components/rewards-components.module';
-import { EventCardComponent } from './event-card/event-card.component';
-import { SummaryCardComponent } from './winners/winners.component';
-import { LuckyDrawsComponent } from './lucky-draws/lucky-draws.component';
 import { LuckyDrawCountdownComponent } from './lucky-draw-countdown/lucky-draw-countdown.component';
+import { LuckyDrawsComponent } from './lucky-draws/lucky-draws.component';
+import { SummaryCardComponent } from './summary-card/summary-card.component';
+import { WinnersComponent } from './winners/winners.component';
 
-const components = [SummaryCardComponent, LuckyDrawCountdownComponent, LuckyDrawsComponent, EventCardComponent];
+const components = [LuckyDrawCountdownComponent, LuckyDrawsComponent, SummaryCardComponent, WinnersComponent];
 
 @NgModule({
   imports: [

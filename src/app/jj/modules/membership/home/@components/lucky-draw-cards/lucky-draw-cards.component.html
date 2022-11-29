@@ -1,8 +1,22 @@
-<div class="container">
+<div class="container" *ngIf="events; else loading">
   <h3 class="title">{{ 'jj._LUCKY_DRAW_EVENTS' | translate }}</h3>
   <ion-slides [options]="slideOpts">
-    <ion-slide *ngFor="let event of events">
-      <img [src]="event.thumbnailImage | erpImg" />
+    <ion-slide class="ion-activatable ripple-parent" [style.background-image]="event.thumbnailImage | erpImg | cssUrl"
+      *ngFor="let event of events" routerLink="/jj/rewards/events/{{event.doc_id}}">
+      <ion-ripple-effect></ion-ripple-effect>
     </ion-slide>
   </ion-slides>
 </div>
+
+<ng-template #loading>
+  <div class="container">
+    <h3 class="title">
+      <ion-skeleton-text animated="true" style="width: 8em;"></ion-skeleton-text>
+    </h3>
+    <ion-slides [options]="slideOpts">
+      <ion-slide *ngFor="let i of [1]">
+        <ion-skeleton-text animated="true" style="border-radius: var(--ion-border-radius);"></ion-skeleton-text>
+      </ion-slide>
+    </ion-slides>
+  </div>
+</ng-template>
