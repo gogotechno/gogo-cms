@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button icon="home-outline" defaultHref="/jj"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ '_WALLETS' | translate }}</ion-title>
+    <ion-title>{{ 'jj._WALLETS' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,11 +17,11 @@
       <ion-text class="balance">
         <jj-currency [currency]="displayCurrency" [value]="totalAssetsBalance"></jj-currency>
       </ion-text><br />
-      <ion-text class="label">{{ '_TOTAL_ASSETS' | translate }}</ion-text>
+      <ion-text class="label">{{ 'jj._TOTAL_ASSETS' | translate }}</ion-text>
     </div>
 
     <ion-list>
-      <ion-list-header>{{ '_ALL_WALLETS' | translate }}</ion-list-header>
+      <ion-list-header>{{ 'jj._ALL_WALLETS' | translate }}</ion-list-header>
 
       <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" routerLink="{{ wallet.walletNo }}">
         <ion-avatar class="d-flex-center"
