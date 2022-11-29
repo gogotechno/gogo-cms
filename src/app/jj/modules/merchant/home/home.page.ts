@@ -15,10 +15,10 @@ export class HomePage implements OnInit {
   merchant: JJMerchant;
   wallet: JJWallet;
 
-  constructor(private auth: AuthService, private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private auth: AuthService) {}
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    await this.loadData();
   }
 
   async loadData() {

@@ -6,7 +6,12 @@ import { JJPageRoutingModule } from './jj-routing.module';
 import { JJPage } from './jj.page';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, JJPageRoutingModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    IonicModule, 
+    JJPageRoutingModule
+  ],
   declarations: [JJPage],
 })
 export class JJPageModule {}

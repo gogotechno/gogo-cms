@@ -1,10 +1,17 @@
 <div class="container">
-  <ion-slides [pager]="true">
+  <ion-slides [pager]="true" *ngIf="slideshow; else loading">
     <ion-slide *ngFor="let item of slideshow?.items">
       <img [src]="item.backgroundImage | erpImg" />
     </ion-slide>
   </ion-slides>
-  <div class="card-container">
+
+  <ng-template #loading>
+    <div class="loading">
+      <ion-skeleton-text></ion-skeleton-text>
+    </div>
+  </ng-template>
+
+  <div class="card-container" *ngIf="customer">
     <ion-card>
       <ion-card-content>
         <ion-grid>

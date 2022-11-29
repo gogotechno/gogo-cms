@@ -14,9 +14,9 @@
   <ng-container *ngIf="distribution">
     <ion-item lines="none" class="summary">
       <distribution-summary
-        [tickets]="distribution.totalOfSnwTickets"
+        [tickets]="distribution.totalOfTickets"
         [points]="distribution.freePoint"
-        [snwTickets]="distribution.totalOfSnwTickets"
+        [snwTickets]="distribution.freeSnwTickets"
       ></distribution-summary>
     </ion-item>
     <h3 class="title">{{ "jj._TICKET_DISTRIBUTION_DETAILS" | translate }}</h3>

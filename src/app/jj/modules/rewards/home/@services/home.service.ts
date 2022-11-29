@@ -58,4 +58,11 @@ export class HomeService extends SharedComponent {
     this._CUSTOMER.next(<JJCustomer>customer);
     this._SLIDESHOW.next(slideshow);
   }
+
+  destroy() {
+    this._ONGOING_EVENTS.next(null);
+    this._WINNERS.next(null);
+    this._CUSTOMER.next(null);
+    this._SLIDESHOW.next(null);
+  }
 }

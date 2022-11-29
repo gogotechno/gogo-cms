@@ -79,7 +79,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -135,7 +135,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -197,7 +197,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     return res.result.map((transaction) => this.populateWalletTransaction(transaction));
@@ -227,7 +227,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     return res.result.map((event) => this.populateEvent(event));
@@ -298,7 +298,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
@@ -314,7 +314,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     return res.result;
@@ -325,7 +325,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     return res.result.map((winner) => this.populateWinner(winner));
@@ -355,7 +355,7 @@ export class CoreService {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder|| null,
+      sortType: pagination.sortOrder || null,
       ...conditions,
     });
     console.log(res);
@@ -440,7 +440,7 @@ export class CoreService {
     distribution.product = this.populateProduct(distribution.product);
     distribution.freePoint = distribution.freePoint || 0;
     distribution.totalOfTickets = distribution.totalOfTickets || 0;
-    distribution.totalOfSnwTickets = distribution.totalOfSnwTickets || 0;
+    distribution.freeSnwTickets = distribution.freeSnwTickets || 0;
     distribution.expense = distribution.expense || 0;
     distribution.pointExpense = distribution.pointExpense || 0;
     return distribution;

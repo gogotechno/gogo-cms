@@ -13,6 +13,10 @@ export class HomePage implements OnInit {
     await this.loadData();
   }
 
+  ngOnDestroy() {
+    this.home.destroy();
+  }
+
   async loadData() {
     await this.home.init();
   }

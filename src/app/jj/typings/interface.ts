@@ -183,8 +183,6 @@ export interface JJTicketDistribution extends ErpDoc {
   application_id: number;
   customer_id: number;
 
-  freePoint: number;
-
   tickets?: JJTicket[];
 
   distributedByPerson?: DocUser;
@@ -193,12 +191,14 @@ export interface JJTicketDistribution extends ErpDoc {
   customer?: JJCustomer;
 
   totalOfTickets?: number;
-  totalOfSnwTickets?: number;
 
   product?: JJProduct;
 
   expense?: number;
   pointExpense?: number;
+
+  freePoint?: number;
+  freeSnwTickets?: number;
 }
 
 export interface JJTicket extends ErpDoc {
