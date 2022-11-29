@@ -185,8 +185,8 @@ export class AuthService {
       default:
         let customerId = this._CURRENT_USER.doc_id;
         let events = await this.core.getEvents(pagination, {
+          isJoined: true,
           customerId: customerId,
-          customerId_type: '=',
         });
         return events;
     }

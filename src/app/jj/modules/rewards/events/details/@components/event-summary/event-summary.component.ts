@@ -25,7 +25,6 @@ export class EventSummaryComponent extends SharedComponent implements OnInit {
   ngOnInit() {
     this.details.event.subscribe((event) => {
       this.event = event;
-      console.log(this.event);
       if (this.event) {
         this.startTimer();
       }

@@ -307,7 +307,7 @@
     "_OWNED_TICKETS": "Owned {{ count }}",
     "_ODDS_OF_WINNING": "Chance",
     "_DRAW_COUNTDOWN": "Draw start at",
-    "_PER_CONSUMPTION": "Per",
+    "_PER_CONSUMPTION": "Per Consump.",
     "_CAN_GAIN_TICKETS": "Tickets",
     "_CAN_GAIN_POINTS": "Points",
     "_CAN_GAIN_SNW_TICKETS": "S&W Tickets",
@@ -371,6 +371,7 @@
     "_CONFIRM_TO_LOGOUT": "Confirm to logout?",
     "_JACKPOT": "Jackpot",
     "_VIEW_MORE": "View more",
-    "_COLLAPSE": "Collapse"
+    "_COLLAPSE": "Collapse",
+    "_WORTH": "Worth"
   }
 }

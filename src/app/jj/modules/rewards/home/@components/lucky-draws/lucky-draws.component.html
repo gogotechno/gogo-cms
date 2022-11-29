@@ -1,6 +1,6 @@
 <div class="container" *ngIf="events; else loading">
   <h3 class="title">{{ 'jj._LUCKY_DRAWS' | translate }}</h3>
-  <ion-slides [pager]="true">
+  <ion-slides [pager]="true" class="lucky-draws">
     <ion-slide class="lucky-draw" *ngFor="let event of events">
       <ion-card [routerLink]="['events', event.doc_id]">
         <!-- <ion-badge>{{ 'jj._OWNED_TICKETS' | translate: { count: 99 } }}</ion-badge> -->

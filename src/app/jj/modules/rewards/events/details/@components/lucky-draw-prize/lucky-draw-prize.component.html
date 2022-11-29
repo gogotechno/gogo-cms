@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button slot="icon-only" (click)="close($event)">
+      <ion-button slot="icon-only" (click)="onDismiss($event)">
         <ion-icon name="close"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -11,24 +11,41 @@
 <ion-content [fullscreen]="true">
   <div class="container" *ngIf="prize">
     <ion-img [src]="prize.thumbnailImage | erpImg"></ion-img>
-
-    <hr />
-
     <ion-list id="prize-list">
       <ion-list-header>
-        <div>
-          <ion-text class="prize-name">{{ prize.name }}</ion-text><br />
-          <ion-text class="prize-worth">{{ '_WORTH' | translate }} RM{{ prize.worth | number: '1.2-2' }}</ion-text>
-        </div>
+        <ion-label>
+          <p class="prize-name">{{ prize.name }}</p>
+          <p class="prize-worth">{{ 'jj._WORTH' | translate }}&nbsp;RM{{ prize.worth | number: '1.2-2' }}</p>
+        </ion-label>
       </ion-list-header>
-
-      <ion-item *ngFor="let p of [].constructor(prize.quantity); let i = index">
-        <ion-text slot="start">{{ (i + 1) | number }}</ion-text>
-
+      <div *ngIf="!winners?.length" class="note">
+        <ion-label>{{ 'jj._NO_WINNERS_FOUND' | translate }}</ion-label>
+      </div>
+      <ion-item *ngFor="let winner of winners; let i = index">
+        <ion-text slot="start">{{ i + 1 | number }}</ion-text>
+        <ion-label>
+          <h3 class="ticket-no">{{ winner.ticket.serialNo }}</h3>
+          <p class="merchant-name">
+            <span *ngIf="winner.merchant">{{ winner.merchant.name }}</span>
+            <span *ngIf="!winner.merchant">-</span>
+          </p>
+          <p *ngIf="winner.customer" class="customer-name">
+            {{ winner.customer.firstName | fullName: winner.customer.lastName | hideText }}&nbsp;|&nbsp;
+            {{ winner.customer.phone | hideText }}
+          </p>
+        </ion-label>
         <ion-thumbnail slot="end">
-          <img src="" alt="" />
+          <img [src]="winner.prize.thumbnailImage | erpImg" />
         </ion-thumbnail>
       </ion-item>
     </ion-list>
+    <ng-container *ngIf="winners?.length">
+      <ion-infinite-scroll *ngIf="!winnersEnded" (ionInfinite)="loadMoreWinners($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <div *ngIf="winnersEnded" class="note">
+        <ion-label>{{ 'jj._NO_MORE_WINNERS' | translate }}</ion-label>
+      </div>
+    </ng-container>
   </div>
 </ion-content>

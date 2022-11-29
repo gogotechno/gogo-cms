@@ -6,7 +6,7 @@
     <ion-title>{{ "jj._MY_REWARDS" | translate }}</ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-segment [(ngModel)]="segmentCode">
+    <ion-segment [(ngModel)]="segmentCode" (ionChange)="onSegmentChange($event)">
       <ion-segment-button *ngFor="let segmentButton of segmentButtons" [value]="segmentButton.code">
         <ion-label>{{ segmentButton.label | translate }}</ion-label>
       </ion-segment-button>
@@ -15,44 +15,93 @@
 </ion-header>
 
 <ion-content>
-  <div class="events-container">
-    <h3 class="title">
-      <span>{{ "jj._JOINED_EVENTS" | translate }}</span>
-      <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button>
-    </h3>
-    <div class="events" (scroll)="loadMoreEvents($event)">
-      <ion-avatar *ngFor="let event of events" (click)="onEventClick(event)">
-        <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
-        <ion-img src="https://picsum.photos/1920/1080"></ion-img>
-      </ion-avatar>
-    </div>
-  </div>
-  <ion-list lines="full" class="distributions">
-    <div *ngIf="!distributions?.length" class="note">
-      <ion-label>{{ "jj._NO_DISTRIBUTIONS_FOUND" | translate }}</ion-label>
-    </div>
-    <ng-container *ngFor="let distribution of distributions; let index = index">
-      <h3 class="title" *ngIf="showDistributionDate(index)">{{ distribution.distributedAt | date: "YYYY-MM-dd" }}</h3>
-      <ion-item [detail]="false" [routerLink]="[distribution.doc_id]">
-        <ion-label slot="start">
-          <h3>#{{ distribution.doc_id }}</h3>
-          <p>{{ distribution.merchant.name }}</p>
-          <p>{{ distribution.distributedAt | date: "HH:mm" }}</p>
-        </ion-label>
-        <distribution-summary
-          [tickets]="distribution.totalOfSnwTickets"
-          [points]="distribution.freePoint"
-          [snwTickets]="distribution.totalOfSnwTickets"
-        ></distribution-summary>
-      </ion-item>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ng-container [ngSwitch]="segmentCode">
+    <ng-container *ngSwitchCase="'rewards'">
+      <div class="events-container">
+        <h3 class="title">
+          <span>{{ "jj._JOINED_EVENTS" | translate }}</span>
+          <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button>
+        </h3>
+        <div class="events" (scroll)="loadMoreEvents($event)">
+          <ion-avatar *ngFor="let event of events" (click)="onEventClick(event)">
+            <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
+            <ion-img [src]="event.backgroundImage | erpImg"></ion-img>
+          </ion-avatar>
+          <div class="loading" *ngIf="distributionsLoading">
+            <ion-spinner></ion-spinner>
+          </div>
+        </div>
+      </div>
+      <ion-list lines="full" class="distributions">
+        <div *ngIf="!distributions?.length" class="note">
+          <ion-label>{{ "jj._NO_DISTRIBUTIONS_FOUND" | translate }}</ion-label>
+        </div>
+        <ng-container *ngFor="let distribution of distributions; let index = index">
+          <h3 class="title" *ngIf="showDistributionDate(index)">
+            {{ distribution.distributedAt | date: "YYYY-MM-dd" }}
+          </h3>
+          <ion-item [detail]="false" [routerLink]="[distribution.doc_id]">
+            <ion-label slot="start">
+              <h3>#{{ distribution.doc_id }}</h3>
+              <p>
+                <span *ngIf="distribution.merchant">{{ distribution.merchant.name }}</span>
+                <span *ngIf="!distribution.merchant">-</span>
+              </p>
+              <p>{{ distribution.distributedAt | date: "HH:mm" }}</p>
+            </ion-label>
+            <distribution-summary
+              slot="end"
+              [tickets]="distribution.totalOfSnwTickets"
+              [points]="distribution.freePoint"
+              [snwTickets]="distribution.totalOfSnwTickets"
+            ></distribution-summary>
+          </ion-item>
+        </ng-container>
+      </ion-list>
+      <ng-container *ngIf="distributions?.length">
+        <ion-infinite-scroll *ngIf="!distributionsEnded" (ionInfinite)="loadMoreDistributions($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        <div *ngIf="distributionsEnded" class="note">
+          <ion-label>{{ "jj._NO_MORE_TICKET_DISTRIBUTIONS" | translate }}</ion-label>
+        </div>
+      </ng-container>
     </ng-container>
-  </ion-list>
-  <ng-container *ngIf="distributions?.length">
-    <ion-infinite-scroll *ngIf="!distributionsEnded" (ionInfinite)="loadMoreDistributions($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <div *ngIf="distributionsEnded" class="note">
-      <ion-label>{{ "jj._NO_MORE_TICKET_DISTRIBUTIONS" | translate }}</ion-label>
-    </div>
+
+    <ng-container *ngSwitchCase="'prizes'">
+      <ion-list lines="full" class="winners">
+        <div *ngIf="!distributions?.length" class="note">
+          <ion-label>{{ "jj._NO_PRIZES_FOUND" | translate }}</ion-label>
+        </div>
+        <ion-item *ngFor="let winner of winners" [detail]="false">
+          <ion-label>
+            <h3 class="ticket-no">
+              {{ winner.ticket.serialNo }}
+              <ion-chip [color]="getWinnerStatusColor(winner.status)">{{ winner.status }}</ion-chip>
+            </h3>
+            <p>{{ winner.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
+            <p>
+              <span *ngIf="winner.merchant">{{ winner.merchant.nameTranslation | cmsTranslate }}</span>
+              <span *ngIf="!winner.merchant">-</span>
+              <span *ngIf="winner.event">&nbsp;|&nbsp;{{ winner.event.nameTranslation | cmsTranslate }} </span>
+            </p>
+          </ion-label>
+          <ion-thumbnail slot="end">
+            <ion-img [src]="winner.prize.thumbnailImage | erpImg"></ion-img>
+          </ion-thumbnail>
+        </ion-item>
+      </ion-list>
+      <ng-container *ngIf="winners?.length">
+        <ion-infinite-scroll *ngIf="!winnersEnded" (ionInfinite)="loadMoreWinners($event)">
+          <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        <div *ngIf="winnersEnded" class="note">
+          <ion-label>{{ "jj._NO_MORE_PRIZES" | translate }}</ion-label>
+        </div>
+      </ng-container>
+    </ng-container>
   </ng-container>
 </ion-content>

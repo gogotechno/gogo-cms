@@ -79,6 +79,7 @@ export interface JJEvent extends ErpDoc {
   merchant?: JJMerchant;
   prizes?: JJEventPrize[];
   pointRules?: JJPointRule[];
+  scratchAndWinRules?: JJScratchAndWinRule[];
   distance?: number;
   nameTranslation?: CmsTranslation;
   totalOfTickets?: number;
@@ -112,6 +113,7 @@ export interface JJEventPrize extends ErpDoc {
   level: number;
   event_id: number;
   thumbnailImage: string;
+  nameTranslation: CmsTranslation;
 }
 
 export interface JJDrawingResult extends ErpDoc {
@@ -221,10 +223,13 @@ export interface JJWinner extends ErpDoc {
   ticket_id: number;
   merchant_id?: number;
   drawing_result_id?: number;
+  event_id: number;
 
   prize?: JJEventPrize;
   ticket?: JJTicket;
   merchant?: JJMerchant;
+  customer?: JJCustomer;
+  event?: JJEvent;
 }
 
 export interface JJMerchant extends ErpDoc {
@@ -245,6 +250,7 @@ export interface JJMerchant extends ErpDoc {
   totalOfWinners?: number;
   fullAddress?: string;
   distance?: number;
+  nameTranslation?: CmsTranslation;
 }
 
 export interface JJPointRule extends ErpDoc {

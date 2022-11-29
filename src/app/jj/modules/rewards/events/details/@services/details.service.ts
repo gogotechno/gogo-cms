@@ -23,6 +23,7 @@ export class DetailsService {
       this.core.getEventById(this.eventId, {
         hasFk: true,
         withLocation: true,
+        withSummary: true,
         customerId: currentUser.doc_id,
       }),
     ]);

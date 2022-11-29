@@ -1,82 +1,94 @@
 ion-header {
-    ion-toolbar {
-        --background: transparent;
+  ion-toolbar {
+    --background: transparent;
 
-        ion-buttons {
-            ion-button.md {
-                width: 32px;
-            }
-            ion-button {
-                background-color: var(--ion-color-light);
-                border-radius: 50%;
-                box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
-            }
-        }
+    ion-buttons {
+      ion-button.md {
+        width: 32px;
+      }
+      ion-button {
+        background-color: var(--ion-color-light);
+        border-radius: 50%;
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+      }
     }
+  }
 }
 
 .container {
-    padding-bottom: calc(var(--ion-padding) / 2);
-    margin-top: calc(var(--offset-top, 56px) * -1);
+  padding-bottom: calc(var(--ion-padding) / 2);
+  margin-top: calc(var(--offset-top, 56px) * -1);
 
-    ion-img {
-        width: 100%;
-        height: 200px;
-        object-fit: cover;
-    }
+  ion-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
 
-    .card-container {
-        margin-top: -37px;
-    }
+  .card-container {
+    margin-top: -37px;
+  }
 
-    ion-card {
-        z-index: 1;
-        margin-top: 0;
-        margin-bottom: 0;
-        margin-right: calc(var(--ion-margin) / 2);
-        margin-left: calc(var(--ion-margin) / 2);
+  ion-card {
+    z-index: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: calc(var(--ion-margin) / 2);
+    margin-left: calc(var(--ion-margin) / 2);
 
-        ion-card-content {
-            color: black;
-            padding-top: calc(var(--ion-padding) / 2);
-            padding-bottom: calc(var(--ion-padding) / 2);
-            padding-right: var(--ion-padding);
-            padding-left: var(--ion-padding);
+    ion-card-content {
+      color: black;
+      padding-top: calc(var(--ion-padding) / 2);
+      padding-bottom: calc(var(--ion-padding) / 2);
+      padding-right: var(--ion-padding);
+      padding-left: var(--ion-padding);
 
-            h3 {
-                color: var(--ion-color-note);
-                font-size: var(--ion-font-xs);
-            }
+      h3 {
+        color: var(--ion-color-note);
+        font-size: var(--ion-font-xs);
+      }
 
-            table {
-                tr th,
-                tr td {
-                    font-size: var(--ion-font-sm);
-                    font-weight: normal;
-                }
-                tr th {
-                    text-align: right;
-                }
-            }
+      table {
+        tr th,
+        tr td {
+          font-size: var(--ion-font-sm);
+          font-weight: normal;
         }
+        tr th {
+          text-align: right;
+        }
+      }
     }
+  }
 }
 
 #prize-list {
-    ion-list-header {
-        --background: var(--ion-color-light);
-        .prize-name,
-        .prize-worth {
-            line-height: 1;
-        }
-        .prize-name {
-            font-size: var(--ion-font-sm);
-            font-weight: bold;
-        }
-
-        .prize-worth {
-            font-size: var(--ion-font-xs);
-            font-weight: normal;
-        }
+  ion-list-header,
+  ion-item {
+    ion-label p {
+      color: var(--ion-color-dark);
     }
+  }
+  ion-list-header {
+    --background: var(--ion-color-light);
+    min-height: auto;
+    ion-label {
+      margin-top: var(--ion-margin);
+      margin-bottom: var(--ion-margin);
+    }
+    .prize-name {
+      font-size: var(--ion-font-sm);
+      font-weight: bold;
+    }
+    .prize-worth {
+      font-size: var(--ion-font-xs);
+      font-weight: normal;
+    }
+  }
+  ion-item {
+    .ticket-no {
+      font-size: var(--ion-font-2xl);
+      font-weight: var(--ion-font-bold);
+    }
+  }
 }

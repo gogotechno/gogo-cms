@@ -14,6 +14,8 @@ ion-card {
   .title {
     margin-top: 0;
     margin-bottom: calc(var(--ion-margin) / 4);
+    font-size: var(--ion-font-xs);
+    font-weight: normal;
   }
 }
 

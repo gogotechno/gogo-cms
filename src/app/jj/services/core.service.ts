@@ -15,6 +15,7 @@ import {
   JJContentPage,
   JJCustomer,
   JJEvent,
+  JJEventPrize,
   JJMerchant,
   JJPointRule,
   JJProduct,
@@ -27,6 +28,7 @@ import {
   JJUserRole,
   JJWallet,
   JJWalletTransaction,
+  JJWinner,
   LANGUAGE_STORAGE_KEY,
 } from '../typings';
 
@@ -76,6 +78,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJUser>('User', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -130,6 +134,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -190,6 +196,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       ...conditions,
     });
     return res.result.map((transaction) => this.populateWalletTransaction(transaction));
@@ -218,6 +226,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       ...conditions,
     });
     return res.result.map((event) => this.populateEvent(event));
@@ -244,7 +254,7 @@ export class CoreService {
       status: 'ACTIVE',
       status_type: '=',
       sortBy: 'startAt',
-      sortType: 'desc',
+      sortType: 'DESC',
       fromMerchant: true,
     });
     return res.result.map((event) => this.populateEvent(event));
@@ -287,6 +297,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       ...conditions,
     });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
@@ -301,17 +313,22 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJTicket>('Ticket', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       ...conditions,
     });
     return res.result;
   }
 
-  async getWinners(pagination: Pagination) {
+  async getWinners(pagination: Pagination, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs('Winner', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
+      ...conditions,
     });
-    return res.result;
+    return res.result.map((winner) => this.populateWinner(winner));
   }
 
   issueTickets(application: JJTicketDistributionApplication) {
@@ -337,6 +354,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy || null,
+      sortType: pagination.sortOrder|| null,
       ...conditions,
     });
     console.log(res);
@@ -438,6 +457,10 @@ export class CoreService {
       `${merchant.city}, ` +
       `${merchant.state} ` +
       `${merchant.country}`;
+    merchant.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      merchant.translate ? merchant.translate.name : merchant.name,
+      merchant.name,
+    );
     return merchant;
   }
 
@@ -462,7 +485,27 @@ export class CoreService {
     }
 
     transaction.amountText = transaction.amount > 0 ? `+${transaction.amount}` : `${transaction.amount}`;
-
     return transaction;
+  }
+
+  populateEventPrize(prize: JJEventPrize) {
+    if (!prize) {
+      return null;
+    }
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      prize.translate ? prize.translate.name : prize.name,
+      prize.name,
+    );
+    return prize;
+  }
+
+  populateWinner(winner: JJWinner) {
+    if (!winner) {
+      return null;
+    }
+    winner.event = this.populateEvent(winner.event);
+    winner.prize = this.populateEventPrize(winner.prize);
+    winner.merchant = this.populateMerchant(winner.merchant);
+    return winner;
   }
 }

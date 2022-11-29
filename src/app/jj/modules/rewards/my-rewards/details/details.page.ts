@@ -36,7 +36,6 @@ export class DetailsPage extends SharedComponent implements OnInit {
 
   async loadData() {
     this.distribution = await this.core.getTicketDistributionById(this.distributionId);
-    console.log(this.distribution);
     this.ticketsPage = this.defaultPage;
     this.tickets = await this.getTickets();
     this.ticketsEnded = this.tickets.length < this.ticketsPage.itemsPerPage;

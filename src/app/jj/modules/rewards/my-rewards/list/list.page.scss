@@ -9,9 +9,19 @@
   white-space: nowrap;
   gap: calc(var(--ion-margin) / 4);
 
-  ion-avatar {
+  ion-avatar,
+  .loading {
     min-width: var(--ion-fab-button-size);
     min-height: var(--ion-fab-button-size);
+  }
+
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ion-avatar {
     position: relative;
 
     ion-badge {
@@ -34,6 +44,7 @@
   }
 }
 
+.winners,
 .distributions {
   background: transparent;
 
@@ -46,10 +57,7 @@
     --padding-end: calc(var(--ion-padding) / 1.5);
     --inner-padding-end: 0;
 
-    ion-label[slot='start'] {
-      flex-basis: 25%;
-      flex-shrink: 1;
-      flex-grow: 0;
+    ion-label {
       margin-top: calc(var(--ion-margin) / 2);
       margin-bottom: calc(var(--ion-margin) / 2);
 
@@ -59,6 +67,19 @@
 
       p {
         font-size: var(--ion-font-xs);
+      }
+
+      .ticket-no {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        ion-chip {
+          height: auto;
+          font-size: var(--ion-font-xs);
+          padding: calc(var(--ion-padding) / 4) calc(var(--ion-padding) / 2);
+          margin: 0;
+        }
       }
     }
   }

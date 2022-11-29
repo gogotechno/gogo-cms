@@ -18,10 +18,10 @@
       <ion-segment-button value="draw">
         <ion-label>{{ "jj._LUCKY_DRAW" | translate }}</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="points">
+      <ion-segment-button value="points" *ngIf="event?.pointRules?.length">
         <ion-label>{{ "jj._POINTS_GIVEAWAY" | translate }}</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="snw">
+      <ion-segment-button value="snw" *ngIf="event?.scratchAndWinRules?.length">
         <ion-label>{{ "jj._SNW_GIVEAWAY" | translate }}</ion-label>
       </ion-segment-button>
     </ion-segment>

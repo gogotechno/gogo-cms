@@ -1,6 +1,6 @@
 .container {
   padding-top: calc(var(--ion-padding) / 2);
-  padding-bottom: calc(var(--ion-padding) / 2);
+  padding-bottom: 0;
 }
 
 .title {
@@ -12,8 +12,12 @@ ion-slides:not(.prizes) {
   overflow: visible;
 }
 
+:host ::ng-deep ion-slides.lucky-draws .swiper-pagination {
+  bottom: 0;
+}
+
 ion-slide.lucky-draw {
-  padding-bottom: 34px;
+  padding-bottom: calc(var(--ion-padding) * 1.5);
 }
 
 ion-slides.prizes {

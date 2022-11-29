@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import dayjs from 'dayjs';
 import { JJEvent, JJEventPrize } from 'src/app/jj/typings';
 import { DetailsService } from '../../@services/details.service';
 import { LuckyDrawPrizeComponent } from '../lucky-draw-prize/lucky-draw-prize.component';
@@ -12,53 +13,47 @@ import { LuckyDrawResultComponent } from '../lucky-draw-result/lucky-draw-result
 })
 export class LuckyDrawRewardsComponent implements OnInit {
   event: JJEvent;
-  presentingElement;
   resultModal: HTMLIonModalElement;
   prizeModal: HTMLIonModalElement;
 
-  constructor(
-    private details: DetailsService,
-    private modalController: ModalController
-  ) { }
+  constructor(private details: DetailsService, private modalController: ModalController) {}
 
   async ngOnInit() {
     this.details.event.subscribe(async (event) => {
       this.event = event;
       if (this.event) {
-        this.event['_status'] = 'COUNTDOWN';
-        if (this.event.drawAt !== null) {
-          this.event['_status'] = 'RESULT';
-        } else {
-          this.event['_status'] = 'DRAWING';
+        this.event['_status'] = this.event.drewAt ? 'RESULT' : 'DRAWING';
+        if (this.event.drawAt && dayjs().isBefore(this.event.drawAt)) {
+          this.event['_status'] = 'COUNTDOWN';
         }
       }
-      console.log(this.event);
     });
-    this.presentingElement = document.querySelector('app-rewards.ion-page');
   }
 
   /**
    * Open lucky draw result in modal
    */
-  async openLuckyDrawResult(event?) {
+  async openLuckyDrawResult(event?: Event) {
     this.resultModal = await this.modalController.create({
       component: LuckyDrawResultComponent,
-      presentingElement: this.presentingElement,
-      componentProps: {event: this.event},
+      componentProps: {
+        event: this.event,
+      },
     });
     await this.resultModal.present();
   }
 
   /**
    * Open prize in modal
-   * @param prize 
-   * @param event 
+   * @param prize
+   * @param event
    */
-  async openPrize(prize: JJEventPrize, event?) {
+  async openPrize(prize: JJEventPrize, event?: Event) {
     this.prizeModal = await this.modalController.create({
       component: LuckyDrawPrizeComponent,
-      presentingElement: this.presentingElement,
-      componentProps: {prize: prize}
+      componentProps: {
+        prize: prize,
+      },
     });
     await this.prizeModal.present();
   }
