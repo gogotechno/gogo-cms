@@ -384,6 +384,8 @@
     "_QR_CODE": "QR Code",
     "_WALLETS": "Wallets",
     "_TOTAL_ASSETS": "Total Assets",
-    "_ALL_WALLETS": "All Wallets"
+    "_ALL_WALLETS": "All Wallets",
+    "_NO_NOTIFICATIONS_FOUND": "No notifications found",
+    "_NO_MORE_NOTIFICATIONS": "No more notifications"
   }
 }
