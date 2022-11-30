@@ -4,8 +4,24 @@
     <ion-input [readonly]="true" [value]="distribution?.totalOfTickets"></ion-input>
   </ion-item>
   <ion-item>
+    <ion-label>{{ 'jj._TOTAL_OF_POINTS' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.freePoint"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._TOTAL_OF_SNW_TICKETS' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.freeSnwTickets"></ion-input>
+  </ion-item>
+  <ion-item>
     <ion-label>{{ 'jj._BILL_NO' | translate }}</ion-label>
     <ion-input [readonly]="true" [value]="distribution?.billNo"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._EXPENSE' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.expense | number: '1.2-2'"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>{{ 'jj._POINT_EXPENSE' | translate }}</ion-label>
+    <ion-input [readonly]="true" [value]="distribution?.pointExpense"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>{{ 'jj._DISTRIBUTED_BY' | translate }}</ion-label>

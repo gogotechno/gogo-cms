@@ -55,7 +55,7 @@ export class IssueTicketPage implements OnInit {
     let events = await this.core.getMerchantEvents();
     let eventField = this.form.items.find((item) => item.code == 'event_id');
     eventField.options = events.map((event) => ({
-      code: event.doc_id.toString(),
+      code: String(event.doc_id),
       label: event.nameTranslation,
     }));
 
@@ -64,8 +64,8 @@ export class IssueTicketPage implements OnInit {
     this.merchant = await this.auth.findMyMerchant();
 
     this.value = {
-      merchant_id: this.merchant?.doc_id,
-      event_id: this.event?.doc_id,
+      merchant_id: this.merchant ? String(this.merchant.doc_id) : null,
+      event_id: this.event ? String(this.event.doc_id) : null,
       customerContactNo: null,
       customerFirstName: null,
       customerLastName: null,
@@ -160,7 +160,7 @@ export class IssueTicketPage implements OnInit {
   }
 
   async countTicket(application: JJTicketDistributionApplication) {
-    this.event = await this.core.getEventById(application.event_id);
+    this.event = await this.core.getEventById(Number(application.event_id));
     let minSpend = this.event.minSpend || application.expense;
     application.ticketCount = Math.floor(application.expense / minSpend) || 0;
     return application;
@@ -171,7 +171,11 @@ export class IssueTicketPage implements OnInit {
   }
 
   async countFreePoint(application: JJTicketDistributionApplication) {
-    let rule = await this.core.getActivePointRule(application.event_id, application.expense, application.pointExpense);
+    let rule = await this.core.getActivePointRule(
+      Number(application.event_id),
+      application.expense,
+      application.pointExpense,
+    );
     if (rule) {
       let totalSpend = this.getTotalSpend(application, rule.issueMode);
       application.freePoint = rule.freePoint * Math.floor(totalSpend / rule.minimumSpend) || 0;
@@ -183,7 +187,11 @@ export class IssueTicketPage implements OnInit {
   }
 
   async countFreeSnwTickets(application: JJTicketDistributionApplication) {
-    let rule = await this.core.getActiveSnwRule(application.event_id, application.expense, application.pointExpense);
+    let rule = await this.core.getActiveSnwRule(
+      Number(application.event_id),
+      application.expense,
+      application.pointExpense,
+    );
     if (rule) {
       let totalSpend = this.getTotalSpend(application, rule.issueMode);
       application.freeSnwTickets = rule.freeTickets * Math.floor(totalSpend / rule.minimumSpend) || 0;

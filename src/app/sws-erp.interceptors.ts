@@ -23,66 +23,64 @@ export class SwsErpInterceptor implements HttpInterceptor {
 
   async handle(request: HttpRequest<any>, next: HttpHandler) {
     let apiUrl = environment.swsErp.apiUrl;
-    if (request.url.substring(0, apiUrl.length) === apiUrl) {
-      // await this.app.presentLoading();
-      this.app.requestChange.next(1);
-
-      let updatedRequest = request.clone({
-        setParams: { lang: this.erp.language },
-      });
-
-      if (!request.headers.get('Authorization') && this.erp.token) {
-        updatedRequest = updatedRequest.clone({
-          setHeaders: { Authorization: `Bearer ${this.erp.token}` },
-        });
-      }
-
-      console.log('Before making api call : ', updatedRequest);
-
-      return next
-        .handle(updatedRequest)
-        .pipe(
-          tap(
-            (next) => {
-              if (next instanceof HttpResponse) {
-                console.log('api call success :', next);
-              }
-            },
-            async (err) => {
-              console.error('api call error :', err);
-              let header = '_ERROR';
-              let message = '_UNKNOWN_ERROR';
-              if (err instanceof HttpErrorResponse) {
-                message = err.error.message || err.error.error || err.message;
-              }
-              if (this.isRefreshTokenExpiredError(err) || this.isWrongAuthTokenError(err)) {
-                message = '_YOUR_CREDENTIAL_IS_EXPIRED';
-                this.erp.signOut();
-              }
-              if (this.isUserNotFoundError(err)) {
-                message = '_YOUR_CREDENTIAL_IS_INVALID';
-                this.erp.signOut();
-              }
-              if (!this.isAccessTokenExpiredError(err)) {
-                await this.app.presentAlert(message, header);
-              }
-            },
-          ),
-          catchError((err) => {
-            if (this.isAccessTokenExpiredError(err)) {
-              return from(this.handleExpiredAccessToken(updatedRequest, next));
-            }
-            return throwError(err);
-          }),
-          finalize(async () => {
-            // await this.app.dismissLoading();
-            this.app.requestChange.next(-1);
-          }),
-        )
-        .toPromise();
+    if (request.url.substring(0, apiUrl.length) !== apiUrl) {
+      return await next.handle(request).toPromise();
     }
 
-    return await next.handle(request).toPromise();
+    this.app.requestChange.next(1);
+
+    let updatedRequest = request.clone({
+      setParams: { lang: this.erp.language },
+    });
+
+    if (!request.headers.get('Authorization') && this.erp.token) {
+      updatedRequest = updatedRequest.clone({
+        setHeaders: { Authorization: `Bearer ${this.erp.token}` },
+      });
+    }
+
+    console.log('Before making api call :', updatedRequest);
+
+    return next
+      .handle(updatedRequest)
+      .pipe(
+        tap(
+          (next) => {
+            if (next instanceof HttpResponse) {
+              console.log('api call success :', next);
+            }
+          },
+          async (err) => {
+            console.error('api call error :', err);
+            let header = '_ERROR';
+            let message = '_UNKNOWN_ERROR';
+            if (err instanceof HttpErrorResponse) {
+              message = err.error.message || err.error.error || err.message;
+            }
+            if (this.isRefreshTokenExpiredError(err) || this.isWrongAuthTokenError(err)) {
+              message = '_YOUR_CREDENTIAL_IS_EXPIRED';
+              this.erp.signOut();
+            }
+            if (this.isUserNotFoundError(err)) {
+              message = '_YOUR_CREDENTIAL_IS_INVALID';
+              this.erp.signOut();
+            }
+            if (!this.isAccessTokenExpiredError(err)) {
+              await this.app.presentAlert(message, header);
+            }
+          },
+        ),
+        catchError((err) => {
+          if (this.isAccessTokenExpiredError(err)) {
+            return from(this.handleExpiredAccessToken(updatedRequest, next));
+          }
+          return throwError(err);
+        }),
+        finalize(async () => {
+          this.app.requestChange.next(-1);
+        }),
+      )
+      .toPromise();
   }
 
   private isAccessTokenExpiredError(err: any) {

@@ -15,12 +15,16 @@
 }
 
 p {
+  --offset-end: 0px;
+  --base-duration: 0ms;
+  --anim-duration: calc(var(--length) * var(--base-duration));
+
   margin: 0;
   text-align: end;
   white-space: nowrap;
   width: max-content;
   min-width: 100%;
-  transform: translate(100%);
+  transform: translate(-100%);
   color: var(--ion-color-dark);
   font-size: var(--ion-font-xs);
   position: absolute;
@@ -28,16 +32,16 @@ p {
 
 p.animated {
   animation-name: scrolling-anim;
-  animation-duration: calc(var(--length) * 2000ms);
+  animation-duration: var(--anim-duration);
   animation-timing-function: linear;
   animation-iteration-count: 1;
 }
 
 @keyframes scrolling-anim {
   0% {
-    transform: translateX(-100%);
+    transform: translate(calc(0% + var(--offset-end)));
   }
   100% {
-    transform: translate(100%);
+    transform: translate(-100%);
   }
 }

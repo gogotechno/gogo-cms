@@ -34,8 +34,8 @@ ion-item {
 
   ion-button[slot='start'],
   ion-button[slot='end'] {
-    width: calc(var(--ion-fab-button-size) / 1.5);
-    height: calc(var(--ion-fab-button-size) / 1.5);
+    width: calc(var(--ion-fab-size) / 1.5);
+    height: calc(var(--ion-fab-size) / 1.5);
   }
 
   ion-label {

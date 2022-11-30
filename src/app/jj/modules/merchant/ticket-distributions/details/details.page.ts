@@ -25,6 +25,10 @@ export class DetailsPage extends SharedComponent implements OnInit {
     await this.details.init();
   }
 
+  ngOnDestroy() {
+    this.details.destroy();
+  }
+
   async doRefresh(event: Event) {
     await this.details.init();
     let refresher = <HTMLIonRefresherElement>event.target;

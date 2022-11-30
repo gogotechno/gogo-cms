@@ -40,7 +40,7 @@
             <span *ngIf="distribution.product">{{ distribution.product.doc_id }}</span>
             <span *ngIf="!distribution.product">-</span>
           </h3>
-          <h3>{{ distribution.expense }}</h3>
+          <h3>{{ distribution.expense | number: '1.2-2' }}</h3>
           <h3>{{ distribution.pointExpense }}</h3>
           <h3>{{ distribution.event.name | erpTranlate }}</h3>
           <h3>{{ distribution.distributedAt | date: "YYYY/MM/dd h:mm aa" }}</h3>

@@ -4,19 +4,17 @@
       <ion-col>
         <ng-container [ngSwitch]="event._status">
           <ion-card *ngSwitchCase="'DRAWING'">
-            <ion-card-content>
-              <ion-text></ion-text><br />
-              <ion-text>{{ 'jj._DRAWING' | translate }}</ion-text>
+            <ion-card-content class="flex-card-content">
+              <p>{{ 'jj._DRAWING' | translate }}</p>
             </ion-card-content>
           </ion-card>
           <ion-card *ngSwitchCase="'RESULT'" (click)="openLuckyDrawResult($event)">
-            <ion-card-content>
-              <ion-text></ion-text><br />
-              <ion-text>{{ 'jj._RESULT' | translate }}</ion-text>
+            <ion-card-content class="flex-card-content">
+              <p>{{ 'jj._RESULT' | translate }}</p>
             </ion-card-content>
           </ion-card>
           <ion-card *ngSwitchDefault>
-            <ion-card-content>
+            <ion-card-content class="ion-text-center">
               <p>{{ 'jj._DRAW_COUNTDOWN' | translate }}</p>
               <countdown-timer [endDate]="event?.drawAt"></countdown-timer>
             </ion-card-content>
@@ -25,7 +23,7 @@
       </ion-col>
       <ion-col>
         <ion-card>
-          <ion-card-content class="has-grid">
+          <ion-card-content class="flex-card-content">
             <ion-grid>
               <ion-row>
                 <ion-col size="6">

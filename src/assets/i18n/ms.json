@@ -50,7 +50,7 @@
   "_APPLY": "Permohonan",
   "_YOUR_CREDENTIAL_IS_EXPIRED": "Kelayakan identiti anda telah tamat tempoh",
   "_YOUR_CREDENTIAL_IS_INVALID": "Kelayakan identiti anda tidak sah",
-  "_UPDATED_AT": "Dikemas kini pada",
+  "_UPDATED_AT_WITH_DATE": "Dikemas kini pada {{ date }}",
   "_OR": "or",
   "_CLOSE": "Tutup",
   "_LOGIN": "Log masuk",
@@ -69,7 +69,7 @@
   "_MINUTES_SHORT": "Minit",
   "_SECONDS_SHORT": "Saat",
   "_MENU": "Menu",
-  "_ALL_LOADED": "Semua Dimuatkan",
+  "_ALL_LOADED": "Semua dimuatkan",
   "_BACK": "Kembali",
   "_MODULES": "Modul",
   "jj": {
@@ -120,7 +120,7 @@
     "_TOTAL_OF_TICKETS": "Jumlah tiket",
     "_TOTAL_OF_WINNERS": "Jumlah pemenang",
     "_SUMMARY_REPORT": "Ringkasan",
-    "_CONFIRM_TO_ISSUE_TICKETS": "Sahkan untuk mengeluarkan {{ count }} tiket(s), {{ point }} points and {{ snwCount }} S&W ticket(s)?",
+    "_CONFIRM_TO_ISSUE_TICKETS": "Sahkan untuk mengeluarkan {{ count }} tiket(s), {{ point }} mata(s) and {{ snwCount }} S&W tiket(s)?",
     "_TICKET_DISTRIBUTIONS": "Pengedaran Tiket",
     "_TICKET_DISTRIBUTION": "Pengagihan Tiket",
     "_SEARCH_NAME_OR_CONTACT_NO": "Cari nama atau no kenalan",
@@ -190,7 +190,17 @@
     "_NO_MORE_NOTIFICATIONS": "Tiada pemberitahuan lagi",
     "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "Tiada dompet boleh digunakan untuk pembayaran",
     "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "Dompet ini tidak boleh digunakan untuk pembayaran",
-    "_NO_WINNERS_FOUND": "Tiada Pemenang Ditemui",
-    "_NOTIFICATIONS": "Pemberitahuan"
+    "_NO_WINNERS_FOUND": "Tiada pemenang ditemui",
+    "_NO_MORE_WINNERS": "Tiada pemenang lagi",
+    "_NOTIFICATIONS": "Pemberitahuan",
+    "_RESULT_REF_NO": "No. Rujukan Keputusan",
+    "_NO_PRIZES_FOUND": "Tiada hadiah ditemui",
+    "_NO_MORE_PRIZES": "Tiada hadiah",
+    "_TOTAL_OF_POINTS": "Jumlah bilangan mata",
+    "_TOTAL_OF_SNW_TICKETS": "Jumlah bilangan tiket S&W",
+    "_TICKETS_ISSUED": "Tiket undian telah diedarkan",
+    "_SEND_DISTRIBUTON": "Hantar maklumat pengedaran",
+    "_SEND_PAYMENT": "Hantar maklumat pembayaran",
+    "_NOTIFY_NEW_CUSTOMER": "Beritahu pelanggan baharu"
   }
 }

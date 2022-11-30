@@ -30,7 +30,7 @@
           <div
             class="wallet-action ion-activatable ripple-parent"
             [class.inactive]="!action.active"
-            (click)="openQrCode()"
+            (click)="onActionClick(action)"
           >
             <ion-icon class="icon" [name]="action.icon"></ion-icon><br />
             <ion-text class="label">{{ action.nameKey | translate }}</ion-text>

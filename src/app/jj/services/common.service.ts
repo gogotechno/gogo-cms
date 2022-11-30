@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Geolocation } from '@capacitor/geolocation';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
@@ -86,7 +87,7 @@ export class CommonService {
           `Below is your distribution details:%0A` +
           `Total of tickets: ${data.ticketCount}%0A` +
           `Free Points: ${data.freePoints}%0A` +
-          `Free S&W Tickets: ${data.freeSnwTickets}`
+          `Free S%26W Tickets: ${data.freeSnwTickets}`
         );
       default:
         return '';
@@ -98,5 +99,29 @@ export class CommonService {
     let encoded = encodeURI(query);
     let url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
     window.open(url);
+  }
+
+  async getCurrentPosition() {
+    try {
+      let position = await Geolocation.getCurrentPosition();
+      return position;
+    } catch (err) {
+      console.error('Error getting location: ', err);
+      return null;
+    }
+  }
+
+  async getCurrentCoords() {
+    let lat: number = null;
+    let lng: number = null;
+    let position = await this.getCurrentPosition();
+    if (position) {
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;
+    }
+    return {
+      latitude: lat,
+      longitude: lng,
+    };
   }
 }

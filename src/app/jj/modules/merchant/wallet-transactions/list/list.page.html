@@ -1,43 +1,57 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/merchant"></ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ "jj._TRANSACTIONS" | translate }}</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="transactions-content">
+  <ion-header>
+    <menu-header></menu-header>
+  </ion-header>
+  <ion-content>
+    <menu-content></menu-content>
+  </ion-content>
+  <ion-footer>
+    <menu-footer></menu-footer>
+  </ion-footer>
+</ion-menu>
 
-<ion-content>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col>
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-          <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-        <ion-list>
-          <div *ngIf="!transactions?.length" class="note">
-            <ion-label> {{ "jj._NO_TRANSACTIONS_FOUND" | translate }} </ion-label>
-          </div>
-          <ion-item *ngFor="let transaction of transactions" [detail]="false" [routerLink]="[transaction.doc_id]">
-            <ion-label>
-              <h3>{{ transaction.refNo }}</h3>
-              <p>{{ transaction.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
-              <p>{{ transaction.description }}</p>
-            </ion-label>
-            <ion-chip slot="end" [outline]="true" [color]=" transaction.amount > 0 ? 'success' : 'danger'">
-              {{ "jj._POINTS_WITH_COUNT" | translate: { count: transaction.amountText } }}
-            </ion-chip>
-          </ion-item>
-        </ion-list>
-        <ng-container *ngIf="transactions?.length">
-          <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
-            <ion-infinite-scroll-content></ion-infinite-scroll-content>
-          </ion-infinite-scroll>
-          <div *ngIf="transactionsEnded" class="note">
-            <ion-label> {{ "jj._NO_MORE_TRANSACTIONS" | translate }} </ion-label>
-          </div>
-        </ng-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+<div class="ion-page" id="transactions-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/jj/merchant"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ "jj._TRANSACTIONS" | translate }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+          </ion-refresher>
+          <ion-list>
+            <div *ngIf="!transactions?.length" class="note">
+              <ion-label> {{ "jj._NO_TRANSACTIONS_FOUND" | translate }} </ion-label>
+            </div>
+            <ion-item *ngFor="let transaction of transactions" [detail]="false" [routerLink]="[transaction.doc_id]">
+              <ion-label>
+                <h3>{{ transaction.refNo }}</h3>
+                <p>{{ transaction.doc_createdDate | date: "MM/dd/yy, h:mm a" }}</p>
+                <p>{{ transaction.description }}</p>
+              </ion-label>
+              <ion-chip slot="end" [outline]="true" [color]=" transaction.amount > 0 ? 'success' : 'danger'">
+                {{ "jj._POINTS_WITH_COUNT" | translate: { count: transaction.amountText } }}
+              </ion-chip>
+            </ion-item>
+          </ion-list>
+          <ng-container *ngIf="transactions?.length">
+            <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <div *ngIf="transactionsEnded" class="note">
+              <ion-label> {{ "jj._NO_MORE_TRANSACTIONS" | translate }} </ion-label>
+            </div>
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</div>

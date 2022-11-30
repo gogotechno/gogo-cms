@@ -165,8 +165,8 @@ export interface JJTicketDistributionApplication extends ErpDoc {
   freeSnwTickets: number;
   usedSnwRule?: string;
   product_id: number;
-  event_id: number;
-  merchant_id: number;
+  event_id: number | string;
+  merchant_id: number | string;
   customer_id: number;
 }
 

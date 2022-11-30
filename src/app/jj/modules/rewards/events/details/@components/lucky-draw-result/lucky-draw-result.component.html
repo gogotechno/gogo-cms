@@ -17,18 +17,21 @@
           <h2>{{ event.name }}</h2>
           <table>
             <tr>
-              <th>{{ '_RESULT_REF_NO' }}&nbsp;:&nbsp;</th>
+              <th>{{ 'jj._RESULT_REF_NO' | translate }}&nbsp;:&nbsp;</th>
               <td>{{ result.doc_id }}</td>
             </tr>
             <tr>
-              <th>{{ '_DRAW_AT' }}&nbsp;:&nbsp;</th>
-              <td>{{ event.drawAt | date: 'd/M/yyyy hh:mm:ss a' }}</td>
+              <th>{{ 'jj._DREW_AT' | translate }}&nbsp;:&nbsp;</th>
+              <td>{{ event.drewAt | date: 'd/M/yyyy hh:mm:ss a' }}</td>
             </tr>
           </table>
         </ion-card-content>
       </ion-card>
     </div>
     <ion-list id="prize-list">
+      <div *ngIf="!prizeGroups?.length" class="note">
+        <ion-label>{{ 'jj._NO_WINNERS_FOUND' | translate }}</ion-label>
+      </div>
       <ng-container *ngFor="let group of prizeGroups">
         <ion-list-header>
           <ion-label>

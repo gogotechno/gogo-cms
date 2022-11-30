@@ -64,6 +64,9 @@ export class AppUtils {
   requestCount: number;
   requestChange: BehaviorSubject<number>;
 
+  loadingQueue: number[];
+  loadingChange: BehaviorSubject<boolean>;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private alertCtrl: AlertController,
@@ -72,13 +75,30 @@ export class AppUtils {
   ) {
     this.requestCount = 0;
     this.requestChange = new BehaviorSubject(0);
+
+    this.loadingQueue = [];
+    this.loadingChange = new BehaviorSubject(false);
+
     this.requestChange.subscribe(async (count) => {
       let previousCount = this.requestCount;
       this.requestCount += count;
-      if (previousCount == 0 && this.requestCount == 1) {
-        await this.presentLoading();
+      if (this.requestCount > previousCount) {
+        this.loadingQueue.push(1);
+        if (!this.loadingChange.getValue()) {
+          this.loadingChange.next(true);
+        }
+      } else {
+        this.loadingQueue.splice(0, 1);
+        if (!this.loadingQueue.length) {
+          this.loadingChange.next(false);
+        }
       }
-      if (previousCount == 1 && this.requestCount == 0) {
+    });
+
+    this.loadingChange.subscribe(async (canShow) => {
+      if (canShow) {
+        await this.presentLoading();
+      } else {
         await this.dismissLoading();
       }
     });

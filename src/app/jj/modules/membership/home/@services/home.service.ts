@@ -48,7 +48,7 @@ export class HomeService extends SharedComponent {
     return this._SLIDESHOW.asObservable();
   }
 
-  constructor(private swsErp: SwsErpService, private auth: AuthService, private core: CoreService) {
+  constructor(private auth: AuthService, private core: CoreService) {
     super();
     this._USER = new BehaviorSubject<User>(null);
     this._WALLETS = new BehaviorSubject<JJWallet[]>(null);
@@ -57,7 +57,10 @@ export class HomeService extends SharedComponent {
     this._ANNOUNCEMENTS = new BehaviorSubject<JJAnnouncement[]>(null);
     this._SLIDESHOW = new BehaviorSubject<JJSlideshow>(null);
 
-    this.swsErp.authStateChange.subscribe((event) => {
+    this.auth.authStateChange.subscribe(async (event) => {
+      if (event?.status == 'LOGGED_IN' && !this._USER.getValue()) {
+        await this.init();
+      }
       if (event?.status == 'LOGGED_OUT') {
         this.destroy();
       }
@@ -152,6 +155,14 @@ const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
       primary: '#70AD47',
       'primary-light': '#E2F0D9',
     },
+  },
+  {
+    name: JSON.stringify({
+      en: 'JJ Wallet',
+      zh: 'JJ钱包',
+    }),
+    icon: 'wallet',
+    link: '/jj/wallets',
   },
 ];
 

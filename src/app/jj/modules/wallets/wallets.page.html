@@ -50,7 +50,7 @@
     <div *ngIf="updatedAt" class="ion-padding ion-text-center">
       <ion-text color="medium">
         <small>{{ '_ALL_LOADED' | translate }}</small><br />
-        <small>{{'_UPDATED_AT' | translate: {date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a')} }}</small>
+        <small>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</small>
       </ion-text>
     </div>
   </ng-container>

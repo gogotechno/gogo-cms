@@ -101,9 +101,7 @@ export class DetailsPage implements OnInit {
         await this.appUtils.presentAlert('jj._USER_REMOVED', '_SUCCESS');
         await this.router.navigate(['/jj/merchant/users'], {
           replaceUrl: true,
-          queryParams: {
-            refresh: true,
-          },
+          queryParams: { refresh: true },
         });
       }
     }
