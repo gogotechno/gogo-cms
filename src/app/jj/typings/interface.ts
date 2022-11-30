@@ -366,3 +366,19 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   scratchPlaceholderImage: string;
   distance: string;
 }
+
+export interface JJScratchAndWinEventPrize extends ErpDoc {
+  name: string;
+  description: string;
+  thumbnailImage: string;
+  worth: number;
+  scratch_and_win_event_id: number;
+}
+
+export interface JJScratchHistory extends ErpDoc {
+  customer_id: number;
+  prize_id: number;
+  scratchedAt: Date;
+
+  prize?: JJScratchAndWinEventPrize;
+}
