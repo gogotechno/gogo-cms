@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
 import { AlertController, AlertOptions, LoadingController, LoadingOptions } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
 
 export function array_move(arr: Array<any>, old_index: number, new_index: number) {
   if (new_index >= arr.length) {
@@ -60,12 +61,28 @@ export class CmsUtils {
   providedIn: 'root',
 })
 export class AppUtils {
+  requestCount: number;
+  requestChange: BehaviorSubject<number>;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     private translate: TranslateService,
-  ) {}
+  ) {
+    this.requestCount = 0;
+    this.requestChange = new BehaviorSubject(0);
+    this.requestChange.subscribe(async (count) => {
+      let previousCount = this.requestCount;
+      this.requestCount += count;
+      if (previousCount == 0 && this.requestCount == 1) {
+        await this.presentLoading();
+      }
+      if (previousCount == 1 && this.requestCount == 0) {
+        await this.dismissLoading();
+      }
+    });
+  }
 
   /**
    * Load template theme
