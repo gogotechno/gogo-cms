@@ -1,9 +1,30 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>scratch-history</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/scratch-and-win"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center ion-no-padding">
+      <img *ngIf="event.logo" [src]="event.logo | erpImg" style="width: 100px; height: 50px" class="head-img"/>
+      <div *ngIf="!event.logo">{{ event.name }}</div>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  
+  <ion-list lines="full" class="histories">
+    <ng-container *ngFor="let history of histories; let index = index">
+      <h3 class="title" *ngIf="showRecordDate(index)">
+        {{ history.scratchedAt | date: "MM-dd-YYYY" }}
+      </h3>
+      <ion-item [detail]="false">
+        <ion-label>
+          <div>{{ history.prize.name }}</div>
+          <p>{{ history.scratchedAt | date: "HH:mm" }}</p>
+        </ion-label>
+        <ion-thumbnail slot="end">
+          <img [src]="history.prize.thumbnailImage | erpImg" />
+        </ion-thumbnail>
+      </ion-item>
+    </ng-container>
+  </ion-list>
 </ion-content>

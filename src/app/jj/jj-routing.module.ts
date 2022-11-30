@@ -29,15 +29,15 @@ const routes: Routes = [
         path: 'common',
         loadChildren: () => import('./modules/common/common.module').then((m) => m.CommonPageModule),
       },
+      {
+        path: 'scratch-and-win',
+        loadChildren: () => import('./modules/scratch-and-win/scratch-and-win.module').then((m) => m.ScratchAndWinPageModule),
+      },
     ],
   },
   {
     path: 'admin',
     loadChildren: () => import('./modules/admin/admin.module').then((m) => m.AdminPageModule),
-  },
-  {
-    path: 'scratch-and-win',
-    loadChildren: () => import('./modules/scratch-and-win/scratch-and-win.module').then((m) => m.ScratchAndWinPageModule),
   },
 ];
 

@@ -1,0 +1,35 @@
+.histories {
+    background: transparent;
+
+
+    ion-item {
+        --padding-start: calc(var(--ion-padding) / 1.5);
+        --padding-end: calc(var(--ion-padding) / 1.5);
+        --inner-padding-end: 0;
+
+        ion-label {
+            margin-top: calc(var(--ion-margin) / 2);
+            margin-bottom: calc(var(--ion-margin) / 2);
+            div {
+                font-weight: var(--ion-font-bold);
+            }
+        
+            p {
+                font-size: var(--ion-font-xs);
+            }
+        }
+
+    }
+    h3 {
+        font-weight: var(--ion-font-bold);
+    }
+
+}
+
+// .toolbar {
+//     --background: var(--ion-color-nocol);
+//   }
+
+.head-img {
+    object-fit: cover;
+  }
