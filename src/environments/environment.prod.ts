@@ -11,7 +11,7 @@ export const environment = {
   },
   swsErp: {
     apiUrl: 'https://uat.erp.swstechno.com/api',
-    publicUrls: ['/login']
+    publicUrls: ['/login'],
   },
-  production: true
+  production: true,
 };

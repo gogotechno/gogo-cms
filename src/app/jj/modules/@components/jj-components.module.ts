@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/jj/shared';
+import { JJCurrency } from './jj-currency/jj-currency.component';
 
-const components = [];
+const components = [JJCurrency];
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SharedModule],

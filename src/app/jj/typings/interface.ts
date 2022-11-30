@@ -350,3 +350,15 @@ export interface JJContentPage extends ErpDoc {
   icon: string;
   isActive: boolean;
 }
+
+export interface JJScratchAndWinEvent extends ErpDoc {
+  name: string;
+  highlight: string;
+  description: string;
+  tnc: string;
+  status: EventStatus;
+  startAt: Date;
+  endAt: Date;
+  thumbnailImage: string;
+  backgroundImage: string;
+}
