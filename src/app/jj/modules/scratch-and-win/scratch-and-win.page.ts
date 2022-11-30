@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CountdownTimer, SharedComponent } from '../../shared';
 import { EventStatus, JJScratchAndWinEvent } from '../../typings';
 
 @Component({
@@ -6,25 +7,59 @@ import { EventStatus, JJScratchAndWinEvent } from '../../typings';
   templateUrl: './scratch-and-win.page.html',
   styleUrls: ['./scratch-and-win.page.scss'],
 })
-export class ScratchAndWinPage implements OnInit {
-  
+export class ScratchAndWinPage extends SharedComponent implements OnInit {
+  timer: CountdownTimer;
+
   event: JJScratchAndWinEvent = {
-    name: '',
+    name: '2023农历新年刮刮乐',
     highlight: '',
-    description: '',
-    tnc: '',
+    description: '龙镇手机店',
+    tnc: '条规与条款',
     status: EventStatus.ACTIVE,
     startAt: undefined,
     endAt: undefined,
-    logo: 'https://cdn.shopify.com/app-store/listing_images/c6f8970d63d49bc8a5992dec76e3145e/banner/COG-5aX0lu8CEAE=.jpg',
-    coverImage: '',
-    backgroundImage: '',
-    scratchBackgroundImage: '',
-    scratchPlaceholderImage: '',
-    distance: '',
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6VlOskx6ulEWYRLIUCL7cVNQjH9-1u7u5YA&usqp=CAU',
+    coverImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwM-V7-pw_qvfRzyXygdmg_7BrUdFjqEVRRIWfr08kwfdMPIlNNdTRXaDu-iNWO5O4rzk&usqp=CAU',
+    backgroundImage: 'https://c4.wallpaperflare.com/wallpaper/298/976/941/texture-spots-purple-background-wallpaper-preview.jpg',
+    scratchBackgroundImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLkOamLTTnVpKGvquzQiZUEzvlalHp1JLcapjO9Qq8qQ&s',
+    scratchPlaceholderImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZe-4nVoJaHkaxcQ8sqZYzu7QX1PxWj0_PnA&usqp=CAU',
+    distance: '距离2.9公里',
   };
 
-  constructor() {}
+  constructor() {
+    super();
+    this.timer = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // this.details.event.subscribe((event) => {
+    //   this.events = event;
+    //   if (this.event) {
+    //     this.startTimer();
+    //   }
+    // });
+  }
+
+  startTimer() {
+    let endDate = new Date(this.event.endAt);
+    let interval: number = 1000;
+    let timer = setInterval(() => {
+      let { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
+      if (time > 0) {
+        this.timer = {
+          days: days,
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+        };
+      } else {
+        clearInterval(timer);
+      }
+    }, interval);
+  }
 }

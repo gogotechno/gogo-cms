@@ -1,9 +1,57 @@
-<ion-header>
+<ion-header class="ion-header-clear">
   <ion-toolbar>
-    <ion-title>scratch-and-win</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj" icon="arrow-back" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="ticket">
+        </ion-icon>
+        <ion-label> 9,999张</ion-label>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="gift"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<app-jj-news-ticker></app-jj-news-ticker>
 
-<ion-content>
-  <img [src]="event.logo | erpImg" />
+
+<ion-content  [fullscreen]="true">
+  <div class="container">
+    <ion-img [src]="event.logo | erpImg" ></ion-img>
+    <div class="centered"><div class="font-bold">{{event.name}}</div>{{event.distance}}</div>
+   
+    <div class="card-container">
+      <ion-card>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-icon name="time"></ion-icon>
+                <h3>{{ 'jj._EVENT_COUNTDOWN' | translate }}</h3>
+                <countdown-timer [timer]="timer"></countdown-timer>
+              </ion-col>
+              <ion-col>
+                <h3>抽奖机会</h3>
+                <h3 class="font-bold">100次</h3>
+                <h3>每次消费1张刮刮卷</h3>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+  <div class="container2">
+    <ion-img class="backgroundImg" [src]="event.backgroundImage | erpImg" ></ion-img>
+    <ion-img class="coverImage" [src]="event.coverImage | erpImg" ></ion-img>
+    <ion-img class="scratchBackgroundImage" [src]="event.scratchBackgroundImage | erpImg" ></ion-img>
+    <ion-img class="scratchPlaceholderImage1" [src]="event.scratchPlaceholderImage | erpImg" ></ion-img>
+    <ion-img class="scratchPlaceholderImage2" [src]="event.scratchPlaceholderImage | erpImg" ></ion-img>
+    <ion-img class="scratchPlaceholderImage3" [src]="event.scratchPlaceholderImage | erpImg" ></ion-img>
+    <div class="centered2"><div>活动由<span class="font-bold">{{event.description}}</span></div>{{event.tnc}}</div>
+  </div>
+
 </ion-content>

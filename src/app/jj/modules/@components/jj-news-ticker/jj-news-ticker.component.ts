@@ -11,4 +11,5 @@ export class JjNewsTickerComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  
 }

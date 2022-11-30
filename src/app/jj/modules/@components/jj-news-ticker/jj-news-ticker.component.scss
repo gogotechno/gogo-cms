@@ -1,0 +1,44 @@
+.container {
+    z-index: 99;
+    background-color: rgba(var(--ion-color-secondary-rgb), 0.6);
+    height: calc(var(--ion-font-xs) + calc(var(--ion-padding) / 4) + calc(var(--ion-padding) / 4));
+    position: sticky;
+    top: 0;
+  }
+  
+  .inner-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  p {
+    margin: 0;
+    text-align: end;
+    white-space: nowrap;
+    width: max-content;
+    min-width: 100%;
+    transform: translate(100%);
+    color: var(--ion-color-dark);
+    font-size: var(--ion-font-xs);
+    position: absolute;
+  }
+  
+  p.animated {
+    animation-name: scrolling-anim;
+    animation-duration: calc(var(--length) * 2000ms);
+    animation-timing-function: linear;
+    animation-iteration-count: 1;
+  }
+  
+  @keyframes scrolling-anim {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translate(100%);
+    }
+  }
+  

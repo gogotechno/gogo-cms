@@ -1,0 +1,139 @@
+
+
+.container {
+    padding-bottom: calc(var(--ion-padding) / 2);
+    position: relative;
+    text-align: center;
+  }
+
+  
+  .card-container {
+    margin-top: -37px;
+  }
+  
+  ion-card {
+    --color: var(--ion-color-dark);
+  
+    z-index: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-right: calc(var(--ion-margin) / 2);
+    margin-left: calc(var(--ion-margin) / 2);
+  
+    ion-card-content {
+      padding-top: calc(var(--ion-padding) / 2);
+      padding-bottom: calc(var(--ion-padding) / 2);
+      padding-right: var(--ion-padding);
+      padding-left: var(--ion-padding);
+  
+      ion-grid,
+      ion-col {
+        padding: 0;
+      }
+  
+      ion-col {
+        padding-right: calc(var(--ion-padding) / 2);
+        padding-left: calc(var(--ion-padding) / 2);
+  
+        &:first-of-type {
+          flex-basis: 45%;
+        }
+  
+        &:last-of-type {
+          flex-basis: 55%;
+        }
+      }
+  
+      h3 {
+        color: var(--ion-color-note);
+        font-size: var(--ion-font-xs);
+      }
+    }
+  }
+
+  /* Centered event.name */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: -37px;
+    color: white;
+  }
+  
+  :host ::ng-deep distribution-summary .container {
+    padding: 0;
+  }
+
+  .container2 {
+    position: relative;
+  }
+
+  .backgroundImg{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+  }
+
+  .coverImage{
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    height: 70px;
+    width: 150px;
+    top: 25px;
+    left: 30%;
+    z-index: 3;
+  }
+
+  .scratchBackgroundImage{
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    height: 250px;
+    width: 310px;
+    top: 45px;
+    left: 9%;
+    z-index: 2;
+    border-radius:10%;
+  }
+
+  .scratchPlaceholderImage1{
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    height: 70px;
+    width: 70px;
+    top: 150px;
+    left: 15%;
+    z-index: 3;
+  }
+
+  .scratchPlaceholderImage2{
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    height: 70px;
+    width: 70px;
+    top: 150px;
+    left: 40%;
+    z-index: 3;
+  }
+
+  .scratchPlaceholderImage3{
+    position: absolute;
+    object-position: center;
+    object-fit: cover;
+    height: 70px;
+    width: 70px;
+    top: 150px;
+    left: 65%;
+    z-index: 3;
+  }
+
+  .centered2 {
+    position: absolute;
+    top: 350px;;
+    left: 50%;
+  }
