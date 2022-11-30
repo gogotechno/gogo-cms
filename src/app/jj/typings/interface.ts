@@ -359,6 +359,10 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   status: EventStatus;
   startAt: Date;
   endAt: Date;
-  thumbnailImage: string;
+  logo: string;
+  coverImage: string;
   backgroundImage: string;
+  scratchBackgroundImage: string;
+  scratchPlaceholderImage: string;
+  distance: string;
 }

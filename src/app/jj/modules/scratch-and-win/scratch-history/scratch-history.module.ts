@@ -4,23 +4,23 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ScratchAndWinPageRoutingModule } from './scratch-and-win-routing.module';
+import { ScratchHistoryPageRoutingModule } from './scratch-history-routing.module';
 
-import { ScratchAndWinPage } from './scratch-and-win.page';
-import { SwsErpModule } from 'src/app/sws-erp.module';
-import { SharedModule } from '../../shared';
+import { ScratchHistoryPage } from './scratch-history.page';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { SharedModule } from 'src/app/jj/shared';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ScratchAndWinPageRoutingModule,
+    ScratchHistoryPageRoutingModule,
     SharedModule,
     SwsErpModule,
     CmsUIModule
   ],
-  declarations: [ScratchAndWinPage]
+  declarations: [ScratchHistoryPage]
 })
-export class ScratchAndWinPageModule {}
+export class ScratchHistoryPageModule {}

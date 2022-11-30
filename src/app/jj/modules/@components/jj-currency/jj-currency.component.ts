@@ -6,7 +6,7 @@ import { Currency } from '../../wallets/wallets.types';
   templateUrl: './jj-currency.component.html',
   styleUrls: ['./jj-currency.component.scss'],
 })
-export class JJCurrency implements OnInit {
+export class JJCurrencyComponent implements OnInit {
   @Input() currency: Currency;
   @Input() value: number;
   numberFormat: string;
