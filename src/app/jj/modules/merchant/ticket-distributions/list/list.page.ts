@@ -106,7 +106,7 @@ export class ListPage extends SharedComponent implements OnInit {
       items: [
         {
           code: 'event_id',
-          label: { en: 'Event', zh: '抽奖活动' },
+          label: { en: 'Event', zh: '抽奖活动', ms: 'Acara' },
           type: 'select',
           searchable: true,
           selectConfig: {
@@ -127,7 +127,7 @@ export class ListPage extends SharedComponent implements OnInit {
         },
         {
           code: 'distributedAt',
-          label: { en: 'Distributed At', zh: '分发于' },
+          label: { en: 'Distributed At', zh: '分发于', ms: 'Diedarkan Di' },
           type: 'date-between',
         },
       ],

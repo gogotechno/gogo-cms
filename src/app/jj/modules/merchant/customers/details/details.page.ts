@@ -78,6 +78,7 @@ const merchantForm: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
+        ms: 'Nama Pertama'
       },
       type: 'text',
       required: true,
@@ -87,6 +88,7 @@ const merchantForm: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
+        ms: 'Nama Terakhir'
       },
       type: 'text',
       required: true,
@@ -106,6 +108,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
+        ms: 'Nama Pertama'
       },
       type: 'text',
       required: true,
@@ -115,6 +118,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
+        ms: 'Nama Terakhir'
       },
       type: 'text',
       required: true,
@@ -124,6 +128,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'Phone Number',
         zh: '手机号码',
+        ms: 'Nombor Telefon'
       },
       type: 'text',
       required: true,

@@ -10,7 +10,7 @@ import { LANGUAGE_STORAGE_KEY, LiteralObject, SmsTemplateCode } from '../typings
 
 const DEFAULT_LANG: CmsSiteAttributeOption = {
   code: 'en',
-  label: { en: 'English', zh: 'English' },
+  label: { en: 'English', zh: 'English', ms: 'English' },
   value: null,
 };
 

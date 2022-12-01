@@ -48,6 +48,7 @@ const form: CmsForm = {
       label: {
         en: 'New Password',
         zh: '新密码',
+        ms: 'Kata Laluan Baharu'
       },
       type: 'password',
       required: true,
@@ -57,6 +58,7 @@ const form: CmsForm = {
       label: {
         en: 'Confirm Password',
         zh: '确认密码',
+        ms: 'Mengesahkan Kata Laluan'
       },
       type: 'password',
       required: true,

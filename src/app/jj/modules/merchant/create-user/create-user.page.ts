@@ -76,6 +76,7 @@ const form: CmsForm = {
       label: {
         en: 'Merchant',
         zh: '商家',
+        ms: 'Pedagang'
       },
       type: 'number',
       required: true,
@@ -86,6 +87,7 @@ const form: CmsForm = {
       label: {
         en: 'Role',
         zh: '角色',
+        ms: 'Peranan'
       },
       type: 'select',
       required: true,
@@ -95,6 +97,7 @@ const form: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
+        ms: 'Nama Pertama'
       },
       type: 'text',
       required: true,
@@ -104,6 +107,7 @@ const form: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
+        ms: 'Nama Terakhir'
       },
       type: 'text',
       required: true,
@@ -113,6 +117,7 @@ const form: CmsForm = {
       label: {
         en: 'Email',
         zh: '电子邮件',
+        ms: 'Emel'
       },
       type: 'text',
       required: true,
@@ -122,6 +127,7 @@ const form: CmsForm = {
       label: {
         en: 'Password',
         zh: '密码',
+        ms: 'Kata Laluan'
       },
       type: 'password',
       required: true,

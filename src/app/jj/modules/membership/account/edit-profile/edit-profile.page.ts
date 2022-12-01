@@ -41,19 +41,19 @@ const userForm: CmsForm = {
   items: [
     {
       code: 'firstName',
-      label: { en: 'First Name', zh: '名字' },
+      label: { en: 'First Name', zh: '名字', ms: 'Nama Pertama' },
       type: 'text',
       required: true,
     },
     {
       code: 'lastName',
-      label: { en: 'Last Name', zh: '姓氏' },
+      label: { en: 'Last Name', zh: '姓氏', ms: 'Nama Terakhir' },
       type: 'text',
       required: true,
     },
     {
       code: 'email',
-      label: { en: 'Email', zh: '电子邮件' },
+      label: { en: 'Email', zh: '电子邮件', ms: 'Emel' },
       type: 'text',
       required: true,
     },
@@ -69,17 +69,17 @@ const customerform: CmsForm = {
   items: [
     {
       code: 'firstName',
-      label: { en: 'First Name', zh: '名字' },
+      label: { en: 'First Name', zh: '名字', ms: 'Nama Pertama' },
       type: 'text',
     },
     {
       code: 'lastName',
-      label: { en: 'Last Name', zh: '姓氏' },
+      label: { en: 'Last Name', zh: '姓氏', ms: 'Nama Terakhir' },
       type: 'text',
     },
     {
       code: 'phone',
-      label: { en: 'Phone Number', zh: '手机号码' },
+      label: { en: 'Phone Number', zh: '手机号码', ms: 'Nombor Telefon' },
       type: 'text',
       required: true,
     },
