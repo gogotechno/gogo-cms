@@ -5,6 +5,8 @@ ion-toolbar {
 
 ion-toolbar ion-img {
   height: 32px;
+  object-fit: contain;
+  object-position: left;
 }
 
 ion-toolbar ion-button {

@@ -402,6 +402,7 @@
     "_TICKETS_ISSUED": "Tickets issued",
     "_SEND_DISTRIBUTON": "Send Distributon",
     "_SEND_PAYMENT": "Send Payment",
-    "_NOTIFY_NEW_CUSTOMER": "Notify New Customer"
+    "_NOTIFY_NEW_CUSTOMER": "Notify New Customer",
+    "_CONFIRM_TO_CHANGE_PASSWORD": "Confirm to change password?"
   }
 }
