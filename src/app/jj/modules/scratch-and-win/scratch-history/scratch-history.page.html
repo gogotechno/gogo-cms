@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/jj/scratch-and-win"></ion-back-button>
     </ion-buttons>
     <ion-title class="ion-text-center ion-no-padding">
-      <img *ngIf="event.logo" [src]="event.logo | erpImg" style="width: 100px; height: 50px" class="head-img"/>
+      <img *ngIf="event.logo" [src]="event.logo | erpImg" style="width: 100px; height: 50px" class="head-img" />
       <div *ngIf="!event.logo">{{ event.name }}</div>
     </ion-title>
   </ion-toolbar>

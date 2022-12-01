@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { CountdownTimer, SharedComponent } from '../../shared';
 import { EventStatus, JJScratchAndWinEvent } from '../../typings';
+import { ScratchResultComponent } from './@components/scratch-result/scratch-result.component';
 
 @Component({
   selector: 'app-scratch-and-win',
@@ -33,7 +35,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     "Message four"
   ]
 
-  constructor() {
+  constructor(private modalCtrl: ModalController) {
     super();
     this.timer = {
       days: 0,
@@ -63,5 +65,13 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
         clearInterval(timer);
       }
     }, interval);
+  }
+
+  async onTesting() {
+    const modal = await this.modalCtrl.create({
+      component: ScratchResultComponent
+    })
+
+    await modal.present();
   }
 }

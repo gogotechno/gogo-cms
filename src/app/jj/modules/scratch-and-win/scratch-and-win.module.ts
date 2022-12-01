@@ -9,6 +9,7 @@ import { ScratchAndWinPage } from './scratch-and-win.page';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { SharedModule } from '../../shared';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { ScratchAndWinComponentsModule } from './@components/scratch-and-win-components.module';
 
 @NgModule({
   imports: [
@@ -16,8 +17,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     ScratchAndWinPageRoutingModule,
-    JJComponentsModule,
-    RewardsComponentsModule,
+    ScratchAndWinComponentsModule,
     SharedModule,
     SwsErpModule,
     CmsUIModule
