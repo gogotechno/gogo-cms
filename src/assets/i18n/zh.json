@@ -372,6 +372,7 @@
     "_SEND_DISTRIBUTON": "发送分发信息",
     "_SEND_PAYMENT": "发送付款信息",
     "_NOTIFY_NEW_CUSTOMER": "通知新客户",
-    "_CONFIRM_TO_CHANGE_PASSWORD": "确认修改密码？"
+    "_CONFIRM_TO_CHANGE_PASSWORD": "确认修改密码？",
+    "_DRAWING": "抽奖中"
   }
 }

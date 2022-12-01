@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { JJUser } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
-import { DocStatus, Pagination } from 'src/app/sws-erp.type';
+import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
   selector: 'app-list',
@@ -19,6 +20,7 @@ export class ListPage extends SharedComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private menuCtrl: MenuController,
     private auth: AuthService,
     private core: CoreService,
   ) {
@@ -34,6 +36,11 @@ export class ListPage extends SharedComponent implements OnInit {
     });
 
     await this.loadData();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 
   async loadData() {

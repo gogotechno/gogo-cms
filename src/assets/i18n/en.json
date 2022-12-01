@@ -403,6 +403,7 @@
     "_SEND_DISTRIBUTON": "Send Distributon",
     "_SEND_PAYMENT": "Send Payment",
     "_NOTIFY_NEW_CUSTOMER": "Notify New Customer",
-    "_CONFIRM_TO_CHANGE_PASSWORD": "Confirm to change password?"
+    "_CONFIRM_TO_CHANGE_PASSWORD": "Confirm to change password?",
+    "_DRAWING": "Drawing"
   }
 }

@@ -202,6 +202,7 @@
     "_SEND_DISTRIBUTON": "Hantar maklumat pengedaran",
     "_SEND_PAYMENT": "Hantar maklumat pembayaran",
     "_NOTIFY_NEW_CUSTOMER": "Beritahu pelanggan baharu",
-    "_CONFIRM_TO_CHANGE_PASSWORD": "Sahkan untuk menukar kata laluan?"
+    "_CONFIRM_TO_CHANGE_PASSWORD": "Sahkan untuk menukar kata laluan?",
+    "_DRAWING": "Memproses"
   }
 }

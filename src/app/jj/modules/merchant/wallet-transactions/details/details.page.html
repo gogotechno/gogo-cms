@@ -14,33 +14,35 @@
         <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
           <ion-refresher-content></ion-refresher-content>
         </ion-refresher>
-        <h3 class="title">
-          <ion-text [color]=" transaction?.amount > 0 ? 'success' : 'danger'">
-            {{ "jj._POINTS_WITH_COUNT" | translate: { count: transaction?.amountText } }}
-          </ion-text>
-        </h3>
-        <ion-list lines="full">
-          <ion-item>
-            <ion-label>{{ "jj._REFERENCE_NO" | translate }}</ion-label>
-            <ion-input [readonly]="true" [value]="transaction?.refNo"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>{{ "jj._DESCRIPTION" | translate }}</ion-label>
-            <ion-input [readonly]="true" [value]="transaction?.description"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>{{ "jj._REFERENCE_1" | translate }}</ion-label>
-            <ion-input [readonly]="true" [value]="transaction?.reference1"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>{{ "jj._REFERENCE_2" | translate }}</ion-label>
-            <ion-input [readonly]="true" [value]="transaction?.reference2"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label>{{ "jj._REFERENCE_3" | translate }}</ion-label>
-            <ion-input [readonly]="true" [value]="transaction?.reference3"></ion-input>
-          </ion-item>
-        </ion-list>
+        <ng-container *ngIf="transaction">
+          <h3 class="title">
+            <ion-text [color]=" transaction?.amount > 0 ? 'success' : 'danger'">
+              {{ "jj._POINTS_WITH_COUNT" | translate: { count: transaction?.amountText } }}
+            </ion-text>
+          </h3>
+          <ion-list lines="full">
+            <ion-item>
+              <ion-label>{{ "jj._REFERENCE_NO" | translate }}</ion-label>
+              <ion-input [readonly]="true" [value]="transaction?.refNo"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{ "jj._DESCRIPTION" | translate }}</ion-label>
+              <ion-input [readonly]="true" [value]="transaction?.description"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{ "jj._REFERENCE_1" | translate }}</ion-label>
+              <ion-input [readonly]="true" [value]="transaction?.reference1"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{ "jj._REFERENCE_2" | translate }}</ion-label>
+              <ion-input [readonly]="true" [value]="transaction?.reference2"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>{{ "jj._REFERENCE_3" | translate }}</ion-label>
+              <ion-input [readonly]="true" [value]="transaction?.reference3"></ion-input>
+            </ion-item>
+          </ion-list>
+        </ng-container>
       </ion-col>
     </ion-row>
   </ion-grid>
