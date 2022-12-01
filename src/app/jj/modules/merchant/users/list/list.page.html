@@ -35,7 +35,9 @@
               <ion-label>
                 <h3 class="user-name">
                   <span>{{ user.firstName | fullName: user.lastName }}</span>
-                  <ion-chip>{{ user.roleTranslation | cmsTranslate }}</ion-chip>
+                  <ion-chip>
+                    <p>{{ user.roleTranslation | cmsTranslate }}</p>
+                  </ion-chip>
                 </h3>
                 <h3>{{ user.email }}</h3>
                 <p>
