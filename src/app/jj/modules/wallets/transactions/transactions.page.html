@@ -5,12 +5,12 @@
     </ion-buttons>
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
-      <h2 class="header-subtitle">{{ wallet.type }} &aacute; <jj-currency [value]="wallet.walletBalance"></jj-currency>
+      <h2 class="header-subtitle">
+        {{ wallet.type }}&nbsp;@&nbsp;<jj-currency [value]="wallet.walletBalance"></jj-currency>
       </h2>
     </div>
   </ion-toolbar>
-  <ion-buttons slot="end">
-  </ion-buttons>
+  <ion-buttons slot="end"> </ion-buttons>
 </ion-header>
 
 <ion-content>
@@ -18,8 +18,6 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-
-  <!-- <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="300"> -->
   <ion-list>
     <ng-container *ngFor="let date of dates">
       <ion-list-header>{{ date }} </ion-list-header>
@@ -36,7 +34,7 @@
       </ion-item>
     </ng-container>
   </ion-list>
-  <ion-infinite-scroll  (ionInfinite)="loadData(false, $event)">
+  <ion-infinite-scroll (ionInfinite)="loadData(false, $event)">
     <ion-infinite-scroll-content loadingText="{{ '_LOADING' | translate }}"></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 
@@ -46,5 +44,4 @@
       <small>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</small>
     </ion-text>
   </div>
-  <!-- </cdk-virtual-scroll-viewport> -->
 </ion-content>
