@@ -12,6 +12,7 @@
             margin-bottom: calc(var(--ion-margin) / 2);
             div {
                 font-weight: var(--ion-font-bold);
+                font-size: var(--ion-font-sm);
             }
         
             p {
@@ -25,10 +26,6 @@
     }
 
 }
-
-// .toolbar {
-//     --background: var(--ion-color-nocol);
-//   }
 
 .head-img {
     object-fit: cover;

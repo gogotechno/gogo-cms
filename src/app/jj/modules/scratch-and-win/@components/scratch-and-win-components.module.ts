@@ -19,6 +19,7 @@ const components = [ScratchPrizesComponent, ScratchResultComponent];
     SwsErpModule,
     CmsUIModule
   ],
+  exports: components,
   declarations: components,
 })
 export class ScratchAndWinComponentsModule {}
