@@ -32,19 +32,31 @@ const form: CmsForm = {
   items: [
     {
       code: 'oldPassword',
-      label: { en: 'Old Password', zh: '旧密码', ms: 'Kata Laluan Lama' },
+      label: {
+        en: 'Old Password',
+        zh: '旧密码',
+        ms: 'Kata Laluan Lama',
+      },
       type: 'password',
       required: true,
     },
     {
       code: 'newPassword',
-      label: { en: 'New Password', zh: '新密码', ms: 'Kata Laluan Baharu' },
+      label: {
+        en: 'New Password',
+        zh: '新密码',
+        ms: 'Kata Laluan Baharu',
+      },
       type: 'password',
       required: true,
     },
     {
       code: 'confirmPassword',
-      label: { en: 'Confirm Password', zh: '确认密码', ms: 'Tukar Kata Laluan' },
+      label: {
+        en: 'Confirm Password',
+        zh: '确认密码',
+        ms: 'Tukar Kata Laluan',
+      },
       type: 'password',
       required: true,
       matchWith: ['newPassword'],
