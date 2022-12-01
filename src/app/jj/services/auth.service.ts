@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { DocUser, Pagination } from 'src/app/sws-erp.type';
-import { AccountOptions, COMPANY_CODE, JJCustomer, JJMerchant, JJWallet, User, UserType } from '../typings';
+import { AuthStateEvent, DocUser, Pagination } from 'src/app/sws-erp.type';
+import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable({
@@ -15,6 +16,8 @@ export class AuthService {
   private _CURRENT_USER: User;
   private _USER_TYPE: UserType;
   private initialized: boolean = false;
+
+  authStateChange: BehaviorSubject<AuthStateEvent>;
 
   get authenticated() {
     return this._AUTHENTICATED;
@@ -35,11 +38,10 @@ export class AuthService {
     private appUtils: AppUtils,
     private core: CoreService,
   ) {
+    this.authStateChange = new BehaviorSubject(null);
     this.swsErp.authStateChange.subscribe((event) => {
       if (event?.status == 'LOGGED_OUT') {
-        this.signOut({
-          silent: true,
-        });
+        this.signOut({ silent: true });
       }
     });
   }
@@ -54,6 +56,7 @@ export class AuthService {
       await this.swsErp.generateAccessToken(this.swsErp.refreshToken);
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
       await this.findMe({ checkWallet: true });
+      this.authStateChange.next({ status: 'LOGGED_IN' });
       this._AUTHENTICATED = true;
     }
     this.initialized = true;
@@ -66,6 +69,7 @@ export class AuthService {
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
     }
+    this.authStateChange.next({ status: 'LOGGED_IN' });
     this._AUTHENTICATED = true;
   }
 
@@ -76,6 +80,7 @@ export class AuthService {
     if (rememberMe) {
       await this.storage.set(`${COMPANY_CODE}_REFRESH_TOKEN`, this.swsErp.refreshToken);
     }
+    this.authStateChange.next({ status: 'LOGGED_IN' });
     this._AUTHENTICATED = true;
   }
 
@@ -91,16 +96,14 @@ export class AuthService {
       this._AUTHENTICATED = false;
       this._CURRENT_USER = null;
       this._USER_TYPE = null;
-      await this.router.navigate(['/jj/login'], {
-        replaceUrl: true,
-      });
+      await this.router.navigate(['/jj/login']);
 
       let authState = this.swsErp.authStateChange.getValue();
       if (!authState || authState.status != 'LOGGED_OUT') {
-        this.swsErp.authStateChange.next({
-          status: 'LOGGED_OUT',
-        });
+        this.swsErp.authStateChange.next({ status: 'LOGGED_OUT' });
       }
+
+      this.authStateChange.next({ status: 'LOGGED_OUT' });
     }
   }
 

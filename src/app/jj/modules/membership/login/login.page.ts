@@ -11,6 +11,7 @@ import { PackageInfo, SharedComponent } from 'src/app/jj/shared';
 })
 export class LoginPage extends SharedComponent implements OnInit {
   form = form;
+  value: LoginDto;
   packageInfo: PackageInfo;
   languages: CmsLanguage[];
 
@@ -26,6 +27,14 @@ export class LoginPage extends SharedComponent implements OnInit {
   async ngOnInit() {
     this.packageInfo = this.getPackageInfo();
     this.languages = await this.common.getSupportedLanguages();
+  }
+
+  ionViewWillEnter() {
+    this.value = {
+      email: null,
+      password: null,
+      rememberMe: true,
+    };
   }
 
   async onLanguageClick(lang: CmsLanguage) {

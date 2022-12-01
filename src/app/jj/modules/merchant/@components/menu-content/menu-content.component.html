@@ -1,0 +1,17 @@
+<ion-list lines="full">
+  <ion-item [routerLink]="['/jj/merchant']" [replaceUrl]="true">
+    <ion-label>{{ '_DASHBOARD' | translate }}</ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['/jj/merchant', 'ticket-distributions']" [replaceUrl]="true">
+    <ion-label>{{ 'jj._TICKETS' | translate }}</ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['/jj/merchant', 'users']" [replaceUrl]="true">
+    <ion-label>{{ 'jj._USERS' | translate }}</ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['/jj/merchant', 'customers']" [replaceUrl]="true">
+    <ion-label>{{ 'jj._CUSTOMERS' | translate }}</ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['/jj/merchant', 'ended-events']" [replaceUrl]="true">
+    <ion-label>{{ 'jj._ENDED_EVENTS' | translate }}</ion-label>
+  </ion-item>
+</ion-list>

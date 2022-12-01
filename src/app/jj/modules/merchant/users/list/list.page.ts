@@ -26,12 +26,12 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    // this.route.queryParams.subscribe(async (queryParams) => {
-    //   if (queryParams?.refresh) {
-    //     await this.loadData();
-    //     await this.router.navigate([]);
-    //   }
-    // });
+    this.route.queryParams.subscribe(async (queryParams) => {
+      if (queryParams['refresh']) {
+        await this.loadData();
+        await this.router.navigate([]);
+      }
+    });
 
     await this.loadData();
   }

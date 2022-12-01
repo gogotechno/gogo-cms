@@ -4,6 +4,7 @@
   </div>
   <ion-item *ngFor="let ticket of tickets">
     <ion-label>{{ ticket.serialNo }}</ion-label>
+    <ion-badge [color]="getTicketStatusColor(ticket)">{{ ticket.status }}</ion-badge>
   </ion-item>
 </ion-list>
 <ng-container *ngIf="tickets?.length">

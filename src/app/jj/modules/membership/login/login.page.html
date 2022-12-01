@@ -1,7 +1,7 @@
 <ion-content>
   <ion-img class="logo" src="/assets/logo-placeholder-2.png"></ion-img>
   <div class="ion-padding-horizontal ion-padding-bottom">
-    <cms-form [form]="form" [value]="{ rememberMe: true }" (submit)="onLogin($event)"></cms-form>
+    <cms-form [form]="form" [value]="value" (submit)="onLogin($event)"></cms-form>
     <div class="cms-form">
       <ion-list>
         <ion-item>

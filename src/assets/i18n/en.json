@@ -50,7 +50,7 @@
   "_APPLY": "Apply",
   "_YOUR_CREDENTIAL_IS_EXPIRED": "Your credential is expired",
   "_YOUR_CREDENTIAL_IS_INVALID": "Your credential is invalid",
-  "_UPDATED_AT": "Updated At",
+  "_UPDATED_AT_WITH_DATE": "Updated At {{ date }}",
   "_OR": "or",
   "_CLOSE": "Close",
   "_LOGIN": "Login",
@@ -69,7 +69,7 @@
   "_MINUTES_SHORT": "M",
   "_SECONDS_SHORT": "S",
   "_MENU": "Menu",
-  "_ALL_LOADED": "All Loaded",
+  "_ALL_LOADED": "All loaded",
   "_BACK": "Back",
   "_MODULES": "Modules",
   "winbox99": {
@@ -391,7 +391,17 @@
     "_NO_MORE_NOTIFICATIONS": "No more notifications",
     "_NO_WALLET_CAN_BE_USED_FOR_PAYMENT": "No wallet can be used for payment",
     "_THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT": "This wallet cannot be used for payment",
-    "_NO_WINNERS_FOUND": "No Winners Found",
-    "_NOTIFICATIONS": "Notifications"
+    "_NO_WINNERS_FOUND": "No winners found",
+    "_NO_MORE_WINNERS": "No more winners",
+    "_NOTIFICATIONS": "Notifications",
+    "_RESULT_REF_NO": "Result Ref No.",
+    "_NO_PRIZES_FOUND": "No prizes found",
+    "_NO_MORE_PRIZES": "No more prizes",
+    "_TOTAL_OF_POINTS": "Total of points",
+    "_TOTAL_OF_SNW_TICKETS": "Total of S&W tickets",
+    "_TICKETS_ISSUED": "Tickets issued",
+    "_SEND_DISTRIBUTON": "Send Distributon",
+    "_SEND_PAYMENT": "Send Payment",
+    "_NOTIFY_NEW_CUSTOMER": "Notify New Customer"
   }
 }

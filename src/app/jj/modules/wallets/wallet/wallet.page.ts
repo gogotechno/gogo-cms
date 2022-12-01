@@ -13,55 +13,16 @@ import { Currency } from '../wallets.types';
   styleUrls: ['./wallet.page.scss'],
 })
 export class WalletPage implements OnInit {
+  private _walletNo: string;
+
+  wallet: JJWallet;
+  actions = actions;
   displayCurrency: Currency = {
     code: 'MYR',
     displaySymbol: 'RM',
     precision: 2,
     symbolPosition: 'start',
   };
-
-  actions = [
-    {
-      type: 'modal',
-      nameKey: 'jj._DEPOSIT',
-      icon: 'enter-outline',
-      active: false,
-    },
-    {
-      type: 'modal',
-      nameKey: 'jj._WITHDRAW',
-      icon: 'exit-outline',
-      active: false,
-    },
-    {
-      type: 'modal',
-      nameKey: 'jj._TRANSFER',
-      icon: 'arrow-redo-outline',
-      active: false,
-    },
-    {
-      type: 'modal',
-      nameKey: 'jj._STATEMENT',
-      icon: 'document-text-outline',
-      active: false,
-    },
-    {
-      type: 'modal',
-      nameKey: 'jj._PIN',
-      icon: 'keypad-outline',
-      active: false,
-    },
-    {
-      type: 'modal',
-      nameKey: 'jj._QR_CODE',
-      icon: 'qr-code-outline',
-      active: true,
-    },
-  ];
-
-  private _walletNo: string;
-
-  wallet: JJWallet;
 
   constructor(
     route: ActivatedRoute,
@@ -78,6 +39,17 @@ export class WalletPage implements OnInit {
 
   async loadData(event?: Event) {
     this.wallet = await this.jj.getWalletByNo(this._walletNo);
+  }
+
+  onActionClick(action: WalletAction) {
+    if (!action.active) {
+      return;
+    }
+
+    switch (action.code) {
+      default:
+        return this.openQrCode();
+    }
   }
 
   async openQrCode() {
@@ -97,3 +69,56 @@ export class WalletPage implements OnInit {
     await modal.present();
   }
 }
+
+interface WalletAction {
+  type: 'modal';
+  nameKey: string;
+  icon: string;
+  code: string;
+  active: boolean;
+}
+
+const actions: WalletAction[] = [
+  {
+    type: 'modal',
+    nameKey: 'jj._DEPOSIT',
+    icon: 'enter-outline',
+    code: 'DEPOSIT',
+    active: false,
+  },
+  {
+    type: 'modal',
+    nameKey: 'jj._WITHDRAW',
+    icon: 'exit-outline',
+    code: 'WITHDRAW',
+    active: false,
+  },
+  {
+    type: 'modal',
+    nameKey: 'jj._TRANSFER',
+    icon: 'arrow-redo-outline',
+    code: 'TRANSFER',
+    active: false,
+  },
+  {
+    type: 'modal',
+    nameKey: 'jj._STATEMENT',
+    icon: 'document-text-outline',
+    code: 'STATEMENT',
+    active: false,
+  },
+  {
+    type: 'modal',
+    nameKey: 'jj._PIN',
+    icon: 'keypad-outline',
+    code: 'PIN',
+    active: false,
+  },
+  {
+    type: 'modal',
+    nameKey: 'jj._QR_CODE',
+    icon: 'qr-code-outline',
+    code: 'QR_CODE',
+    active: true,
+  },
+];

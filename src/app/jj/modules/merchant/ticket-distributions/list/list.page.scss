@@ -1,0 +1,10 @@
+ion-item ion-chip {
+  width: 85%;
+  margin-top: 2px;
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  border-radius: calc(var(--ion-border-radius) / 2);
+  justify-content: space-around;
+  align-items: baseline;
+}

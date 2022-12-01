@@ -1,38 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { MerchantPage } from './merchant.page';
-
 const routes: Routes = [
   {
     path: '',
-    component: MerchantPage,
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
-      },
-      {
-        path: 'ticket-distributions',
-        loadChildren: () => import('./ticket-distributions/ticket-distributions.module').then((m) => m.TicketDistributionsPageModule),
-      },
-      {
-        path: 'wallet-transactions',
-        loadChildren: () => import('./wallet-transactions/wallet-transactions.module').then((m) => m.WalletTransactionsPageModule),
-      },
-      {
-        path: 'ended-events',
-        loadChildren: () => import('./ended-events/ended-events.module').then((m) => m.EndedEventsPageModule),
-      },
-      {
-        path: 'users',
-        loadChildren: () => import('./users/users.module').then((m) => m.UsersPageModule),
-      },
-      {
-        path: 'customers',
-        loadChildren: () => import('./customers/customers.module').then((m) => m.CustomersPageModule),
-      },
-    ],
+    loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
+  },
+  {
+    path: 'ticket-distributions',
+    loadChildren: () => import('./ticket-distributions/ticket-distributions.module').then((m) => m.TicketDistributionsPageModule),
+  },
+  {
+    path: 'wallet-transactions',
+    loadChildren: () => import('./wallet-transactions/wallet-transactions.module').then((m) => m.WalletTransactionsPageModule),
+  },
+  {
+    path: 'ended-events',
+    loadChildren: () => import('./ended-events/ended-events.module').then((m) => m.EndedEventsPageModule),
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./users/users.module').then((m) => m.UsersPageModule),
+  },
+  {
+    path: 'customers',
+    loadChildren: () => import('./customers/customers.module').then((m) => m.CustomersPageModule),
   },
   {
     path: 'issue-ticket',

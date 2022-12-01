@@ -1,3 +1,7 @@
+.container {
+  padding-bottom: calc(var(--ion-padding) / 2);
+}
+
 .title {
   padding-left: calc(var(--ion-padding) / 2);
 }
