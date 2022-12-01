@@ -16,15 +16,22 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     description: '龙镇手机店',
     tnc: '条规与条款',
     status: EventStatus.ACTIVE,
-    startAt: undefined,
-    endAt: undefined,
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6VlOskx6ulEWYRLIUCL7cVNQjH9-1u7u5YA&usqp=CAU',
-    coverImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwM-V7-pw_qvfRzyXygdmg_7BrUdFjqEVRRIWfr08kwfdMPIlNNdTRXaDu-iNWO5O4rzk&usqp=CAU',
+    startAt: new Date(),
+    endAt: new Date("2022-12-30"),
+    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwM-V7-pw_qvfRzyXygdmg_7BrUdFjqEVRRIWfr08kwfdMPIlNNdTRXaDu-iNWO5O4rzk&usqp=CAU',
+    coverImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6VlOskx6ulEWYRLIUCL7cVNQjH9-1u7u5YA&usqp=CAU',
     backgroundImage: 'https://c4.wallpaperflare.com/wallpaper/298/976/941/texture-spots-purple-background-wallpaper-preview.jpg',
     scratchBackgroundImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLkOamLTTnVpKGvquzQiZUEzvlalHp1JLcapjO9Qq8qQ&s',
     scratchPlaceholderImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZe-4nVoJaHkaxcQ8sqZYzu7QX1PxWj0_PnA&usqp=CAU',
     distance: '距离2.9公里',
   };
+  
+  messages: string[] = [
+    "Message one",
+    "Message two",
+    "Message three",
+    "Message four"
+  ]
 
   constructor() {
     super();
@@ -37,12 +44,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.details.event.subscribe((event) => {
-    //   this.events = event;
-    //   if (this.event) {
-    //     this.startTimer();
-    //   }
-    // });
+    this.startTimer();
   }
 
   startTimer() {

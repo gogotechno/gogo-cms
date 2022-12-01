@@ -1,14 +1,18 @@
-<div class="container">
+<div id="messages-container" class="container">
   <div class="inner-container">
     <p
-      *ngFor="let announcement of announcements; let index = index"
+      *ngFor="let message of messages; let index = index"
       [id]="'message-' + index"
-      [class.animated]="index == 0"
       [style.--sequence]="index"
-      [style.--length]="announcement.message.length"
+      [style.--length]="message.length"
       (animationend)="onAnimEnd(index)"
     >
-      {{ announcement.message }}
+      <span>{{ message }}</span>
     </p>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-label class="view-more">9,999张</ion-label>
+      </ion-button>
+    </ion-buttons>
   </div>
 </div>
