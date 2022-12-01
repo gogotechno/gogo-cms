@@ -293,6 +293,11 @@ ion-content.ion-content-clear {
   --background: transparent;
 }
 
+ion-back-button.ios.back-button-has-icon-only {
+  min-width: 48px;
+  height: 48px;
+}
+
 ion-grid.grid-fixed {
   padding: 0;
 
