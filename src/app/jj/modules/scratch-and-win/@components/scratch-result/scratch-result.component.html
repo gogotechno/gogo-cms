@@ -1,23 +1,11 @@
-<ion-header color="danger">
-  <ion-toolbar>
-    <ion-buttons slot="end">
-      <ion-button (click)="OnClosing()">
-        <ion-icon name="close-circle" size="large"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content [style.--background]="event.backgroundImage | erpImg | cssUrl">
-  <img [src]="event.logo | erpImg" style="width: 200px; height: 100px" />
-  <ion-list>
-    <ion-item color="dark" *ngFor="let prize of prizes">
-      <ion-thumbnail slot="start">
-        <img [src]="prize.thumbnailImage | erpImg" />
-      </ion-thumbnail>
-      <ion-label>
-        <h3>{{ prize.name }}</h3>
-        <p>{{ prize.description }} RM{{ prize.worth }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+    <img [src]="event.logo | erpImg" style="width: 100%; height: 60px" />
+    <div *ngFor="let prize of prizes">
+        <img class="center" [src]="prize.thumbnailImage | erpImg" style="width: 150px; height: 150px" /><br />
+        <ion-label>
+          <ion-text class="text-center">You have Earned</ion-text>
+          <h3 class="text-center">RM{{ prize.worth }} Voucher</h3>
+        </ion-label>
+      </div> <br />
+  <ion-button class="center" color="light" (click)="OnClosing()">Confirm</ion-button>
 </ion-content>

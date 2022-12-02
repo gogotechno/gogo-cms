@@ -1,3 +1,23 @@
-<p>
-  scratch-prizes works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar class="clear">
+    <ion-buttons slot="end">
+      <ion-button (click)="OnClosing()">
+        <ion-icon name="close-circle" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [style.--background]="event.backgroundImage | erpImg | cssUrl">
+  <ion-list>
+    <img [src]="event.logo | erpImg" style="width: 200px; height: 100px" class="center" />
+    <ion-item color="dark" *ngFor="let prize of prizes">
+      <ion-thumbnail slot="start">
+        <img [src]="prize.thumbnailImage | erpImg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ prize.name }}</h3>
+        <p>{{ prize.description }} RM{{ prize.worth }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
