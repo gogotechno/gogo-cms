@@ -1,33 +1,29 @@
 <ion-header class="ion-header-clear">
-  <ion-toolbar class="toolbar-container">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj" icon="arrow-back" text=""></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button fill="solid" shape="round">
+      <ion-button fill="solid" shape="round" routerLink="scratch-history">
         <ion-icon name="ticket"></ion-icon>
         <ion-label>9,999张</ion-label>
       </ion-button>
-      <ion-button fill="solid" color="light" shape="round">
+      <ion-button fill="solid" color="light" shape="round" (click)="openPrizes()">
         <ion-icon slot="icon-only" name="gift"></ion-icon>
       </ion-button>
-      <ion-buttons (click)="onTesting()">
-        <ion-label>TESTING</ion-label>
-      </ion-buttons>
     </ion-buttons>
   </ion-toolbar>
   <jj-news-ticker [messages]="messages"></jj-news-ticker>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <ion-img [src]="event.logo | erpImg"></ion-img>
-    <div class="centered">
-      <div class="font-bold">{{event.name}}</div>
-      {{event.distance}}
-    </div>
-
-    <div class="card-container">
+  <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
+  <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">
+    <div class="inner-container">
+      <div class="ion-text-center ion-padding">
+        <ion-text class="ion-font-bold">{{ event.name }}</ion-text><br />
+        <ion-text>{{ event.distance }}</ion-text>
+      </div>
       <ion-card>
         <ion-card-content>
           <ion-grid>
@@ -39,25 +35,35 @@
               </ion-col>
               <ion-col>
                 <h3>抽奖机会</h3>
-                <h3 style="color: black; font-weight: bold">100次</h3>
-                <h3 style="color: black">每次消费1张刮刮卷</h3>
+                <h3>100次</h3>
+                <h3>每次消费1张刮刮卷</h3>
               </ion-col>
             </ion-row>
           </ion-grid>
         </ion-card-content>
       </ion-card>
+      <div class="scratch-card" [style.background-image]="event.coverImage | erpImg | cssUrl">
+        <ion-img class="event-logo" [src]="event.logo | erpImg"></ion-img>
+        <ion-grid class="scratch-area">
+          <ion-row>
+            <ion-col>
+              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
+            </ion-col>
+            <ion-col>
+              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
     </div>
-  </div>
-  <div class="container2">
-    <ion-img class="backgroundImg" [src]="event.backgroundImage | erpImg"></ion-img>
-    <ion-img class="coverImage" [src]="event.coverImage | erpImg"></ion-img>
-    <ion-img class="scratchBackgroundImage" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
-    <ion-img class="scratchPlaceholderImage1" [src]="event.scratchPlaceholderImage | erpImg"></ion-img>
-    <ion-img class="scratchPlaceholderImage2" [src]="event.scratchPlaceholderImage | erpImg"></ion-img>
-    <ion-img class="scratchPlaceholderImage3" [src]="event.scratchPlaceholderImage | erpImg"></ion-img>
-    <div class="centered2">
-      <div>活动由<span class="font-bold">{{event.description}}</span></div>
-      {{event.tnc}}
+    <div class="footer-container">
+      <ion-note>
+        <span>活动由龙镇手机店主办</span><br />
+        <span><u>条款与条规</u></span>
+      </ion-note>
     </div>
   </div>
 </ion-content>
