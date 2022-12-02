@@ -13,7 +13,7 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <jj-news-ticker [messages]="messages"></jj-news-ticker>
+  <jj-news-ticker (click)="openResult()" [messages]="messages"></jj-news-ticker>
 </ion-header>
 
 <ion-content [fullscreen]="true">
