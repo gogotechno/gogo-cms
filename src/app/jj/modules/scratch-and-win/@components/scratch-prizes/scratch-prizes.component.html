@@ -1,23 +1,35 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-header-clear">
   <ion-toolbar class="clear">
     <ion-buttons slot="end">
-      <ion-button (click)="OnClosing()">
-        <ion-icon name="close-circle" size="large"></ion-icon>
+      <ion-button (click)="onDismiss()">
+        <ion-icon name="close" size="large"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" [style.--background]="event.backgroundImage | erpImg | cssUrl">
+<ion-content [fullscreen]="true" [style.--background]="'center / cover ' + (event?.backgroundImage | erpImg | cssUrl)">
+  <ion-img class="event-logo" [src]="event?.logo | erpImg"></ion-img>
   <ion-list>
-    <img [src]="event.logo | erpImg" style="width: 200px; height: 100px" class="center" />
-    <ion-item color="dark" *ngFor="let prize of prizes">
+    <div *ngIf="!prizes?.length" class="note">
+      <ion-label>{{ 'jj._NO_PRIZES_FOUND' | translate }}</ion-label>
+    </div>
+    <ion-item *ngFor="let prize of prizes">
       <ion-thumbnail slot="start">
         <img [src]="prize.thumbnailImage | erpImg" />
       </ion-thumbnail>
       <ion-label>
         <h3>{{ prize.name }}</h3>
-        <p>{{ prize.description }} RM{{ prize.worth }}</p>
+        <!-- DEMO ONLY -->
+        <p>{{ 'jj._WORTH_VALUE' | translate : { worth: 1 } }}</p>
       </ion-label>
     </ion-item>
   </ion-list>
+  <ng-container *ngIf="prizes?.length">
+    <ion-infinite-scroll *ngIf="!prizesEnded" (ionInfinite)="loadMorePrizes($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="prizesEnded" class="note">
+      <ion-label>{{ 'jj._NO_MORE_PRIZES' | translate }}</ion-label>
+    </div>
+  </ng-container>
 </ion-content>

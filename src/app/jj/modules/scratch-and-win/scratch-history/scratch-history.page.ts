@@ -22,7 +22,7 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.eventId = 1;
+    this.eventId = 1; //DEMO ONLY
     await this.loadData();
   }
 
