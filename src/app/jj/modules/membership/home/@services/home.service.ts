@@ -125,6 +125,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Reward',
       zh: 'JJ福利',
+      ms: 'JJ Ganjaran'
     }),
     icon: 'gift',
     link: '/jj/rewards',
@@ -137,6 +138,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Wallet',
       zh: 'JJ钱包',
+      ms: 'JJ Dompet'
     }),
     icon: 'wallet',
     link: '/jj/wallets',
@@ -148,6 +150,7 @@ const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Merchant',
       zh: 'JJ门市',
+      ms: 'JJ Pedagang'
     }),
     icon: 'storefront',
     link: '/jj/merchant',
@@ -160,6 +163,7 @@ const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Wallet',
       zh: 'JJ钱包',
+      ms: 'JJ Dompet'
     }),
     icon: 'wallet',
     link: '/jj/wallets',
@@ -171,6 +175,7 @@ const SYSTEM_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Admin',
       zh: 'JJ管理员',
+      ms: 'JJ Pentadbir'
     }),
     icon: 'tv',
     link: '/jj/admin',

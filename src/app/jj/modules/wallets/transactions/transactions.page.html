@@ -5,24 +5,23 @@
     </ion-buttons>
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
-      <h2 class="header-subtitle">{{ wallet.type }} &aacute; <jj-currency [value]="wallet.walletBalance"></jj-currency>
+      <h2 class="header-subtitle">
+        {{ wallet.type }}&nbsp;@&nbsp;<jj-currency [value]="wallet.walletBalance"></jj-currency>
       </h2>
     </div>
   </ion-toolbar>
-  <ion-buttons slot="end">
-  </ion-buttons>
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="loadData(true, $event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-
-  <!-- <cdk-virtual-scroll-viewport class="ion-content-scroll-host" itemSize="300"> -->
   <ion-list>
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>{{ 'jj._NO_TRANSACTIONS_FOUND' | translate }}</ion-label>
+    </div>
     <ng-container *ngFor="let date of dates">
-      <ion-list-header>{{ date }} </ion-list-header>
+      <ion-list-header>{{ date }}</ion-list-header>
       <ion-item lines="full" class="transaction" *ngFor="let transaction of transactions[date]">
         <div class="ion-padding-vertical-sm">
           <ion-text class="description">{{ transaction.description || '-' }}</ion-text><br />
@@ -30,21 +29,25 @@
           <ion-text class="reference2">{{ transaction.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
         </div>
         <div slot="end">
-          <jj-currency [value]="transaction.amount" [style.color]="transaction.amount < 0 ? 'red' : 'green'">
-          </jj-currency>
+          <jj-currency
+            [value]="transaction.amount"
+            [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
+          ></jj-currency>
         </div>
       </ion-item>
     </ng-container>
   </ion-list>
-  <ion-infinite-scroll  (ionInfinite)="loadData(false, $event)">
-    <ion-infinite-scroll-content loadingText="{{ '_LOADING' | translate }}"></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
-  <div *ngIf="updatedAt" class="ion-padding ion-text-center">
-    <ion-text color="medium">
-      <small>{{ '_ALL_LOADED' | translate }}</small><br />
-      <small>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</small>
-    </ion-text>
-  </div>
-  <!-- </cdk-virtual-scroll-viewport> -->
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="transactionsEnded" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container>
 </ion-content>

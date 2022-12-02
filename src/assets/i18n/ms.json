@@ -173,7 +173,7 @@
     "_CUSTOMER_CONTACT_NO": "No kenalan pelanggan.",
     "_NO_TICKETS_FOUND": "Tiada tiket ditemui",
     "_CONFIRM_TO_LOGOUT": "Sahkan untuk log keluar?",
-    "_JACKPOT": "Jackpot",
+    "_JACKPOT": "Menang",
     "_VIEW_MORE": "Lihat lagi",
     "_COLLAPSE": "Runtuh",
     "_WORTH": "Berbaloi",
@@ -201,6 +201,8 @@
     "_TICKETS_ISSUED": "Tiket undian telah diedarkan",
     "_SEND_DISTRIBUTON": "Hantar maklumat pengedaran",
     "_SEND_PAYMENT": "Hantar maklumat pembayaran",
-    "_NOTIFY_NEW_CUSTOMER": "Beritahu pelanggan baharu"
+    "_NOTIFY_NEW_CUSTOMER": "Beritahu pelanggan baharu",
+    "_CONFIRM_TO_CHANGE_PASSWORD": "Sahkan untuk menukar kata laluan?",
+    "_DRAWING": "Memproses"
   }
 }

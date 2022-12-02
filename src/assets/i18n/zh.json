@@ -343,7 +343,7 @@
     "_CUSTOMER_CONTACT_NO": "客户电话号码",
     "_NO_TICKETS_FOUND": "未找到抽奖券",
     "_CONFIRM_TO_LOGOUT": "确认登出？",
-    "_JACKPOT": "中奖人数",
+    "_JACKPOT": "中奖数",
     "_VIEW_MORE": "查看更多",
     "_COLLAPSE": "收起",
     "_WORTH": "价值",
@@ -371,6 +371,8 @@
     "_TICKETS_ISSUED": "抽奖券已分发",
     "_SEND_DISTRIBUTON": "发送分发信息",
     "_SEND_PAYMENT": "发送付款信息",
-    "_NOTIFY_NEW_CUSTOMER": "通知新客户"
+    "_NOTIFY_NEW_CUSTOMER": "通知新客户",
+    "_CONFIRM_TO_CHANGE_PASSWORD": "确认修改密码？",
+    "_DRAWING": "抽奖中"
   }
 }

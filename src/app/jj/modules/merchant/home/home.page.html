@@ -14,7 +14,9 @@
   <ion-header class="ion-header-clear">
     <ion-toolbar>
       <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
+        <ion-button (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>

@@ -62,19 +62,31 @@ const form: CmsForm = {
   items: [
     {
       code: 'email',
-      label: { en: 'Phone No.', zh: '手机号' },
+      label: {
+        en: 'Phone No.',
+        zh: '手机号',
+        ms: 'Nombor Telefon',
+      },
       type: 'text',
       required: true,
     },
     {
       code: 'password',
-      label: { en: 'Password', zh: '密码' },
+      label: {
+        en: 'Password',
+        zh: '密码',
+        ms: 'Kata Laluan',
+      },
       type: 'password',
       required: true,
     },
     {
       code: 'rememberMe',
-      label: { en: 'Remember Me', zh: '记住我' },
+      label: {
+        en: 'Remember Me',
+        zh: '记住我',
+        ms: 'Ingat Saya',
+      },
       type: 'checkbox',
     },
   ],
