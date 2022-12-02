@@ -18,6 +18,8 @@ import { ScratchAndWinComponentsModule } from './@components/scratch-and-win-com
     IonicModule,
     ScratchAndWinPageRoutingModule,
     ScratchAndWinComponentsModule,
+    RewardsComponentsModule,
+    JJComponentsModule,
     SharedModule,
     SwsErpModule,
     CmsUIModule
