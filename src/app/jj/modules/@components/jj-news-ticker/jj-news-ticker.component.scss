@@ -7,11 +7,12 @@
 }
 
 .inner-container {
-  height: 100%;
+  height: 160%;
   width: 100%;
   display: flex;
   align-items: center;
   position: relative;
+  background-color: #CBC3E3 ;
 }
 
 p {
@@ -28,6 +29,7 @@ p {
   color: var(--ion-color-dark);
   font-size: var(--ion-font-xs);
   position: absolute;
+  color:blueviolet;
 }
 
 p.animated {
@@ -50,5 +52,10 @@ p.animated {
 .view-more{
   font-weight: bold;
   text-decoration: underline;
-  color: white;
+  color:blueviolet;
+}
+
+.end{
+  margin-left: 70%;
+  position: absolute;
 }
