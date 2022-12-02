@@ -19,7 +19,10 @@ import {
   JJMerchant,
   JJPointRule,
   JJProduct,
+  JJScratchAndWinEvent,
+  JJScratchAndWinPrize,
   JJScratchAndWinRule,
+  JJScratchRequest,
   JJSlideshow,
   JJTicket,
   JJTicketDistribution,
@@ -397,6 +400,41 @@ export class CoreService extends SharedComponent {
   }
 
   // -----------------------------------------------------------------------------------------------------
+  // @ Scratch and Win Event
+  // -----------------------------------------------------------------------------------------------------
+
+  createScratchRequest(request: JJScratchRequest) {
+    return this.swsErp.postDoc('Scratch Request', request);
+  }
+
+  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result.map((request) => this.populateScratchRequest(request));
+  }
+
+  async getScratchAndWinEventById(eventId: number) {
+    let res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId);
+    return res;
+  }
+
+  async getScratchAndWinPrizes(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJScratchAndWinPrize>('Scratch And Win Prize', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
 
@@ -534,5 +572,24 @@ export class CoreService extends SharedComponent {
     }
 
     return wallet;
+  }
+
+  populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {
+    if (!prize) {
+      return null;
+    }
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      prize.translate ? prize.translate.name : prize.name,
+      prize.name,
+    );
+    return prize;
+  }
+
+  populateScratchRequest(request: JJScratchRequest) {
+    if (!request) {
+      return null;
+    }
+    request.prize = this.populateScratchAndWinPrize(request.prize);
+    return request;
   }
 }

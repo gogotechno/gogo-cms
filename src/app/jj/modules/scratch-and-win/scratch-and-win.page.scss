@@ -1,5 +1,32 @@
 ion-header ion-toolbar {
   --background: rgba(var(--ion-color-secondary-rgb), 0.6);
+
+  ion-button {
+    height: 40px;
+
+    &:not(.button-has-icon-only) {
+      border-radius: 20px;
+      background: var(--ion-color-secondary);
+    }
+
+    &.button-has-icon-only {
+      width: 40px;
+      --padding-start: 0px;
+      --padding-end: 0px;
+    }
+
+    ion-icon {
+      padding: 4px;
+      border-radius: 50%;
+      background: var(--ion-color-light);
+    }
+
+    ion-label {
+      font-size: var(--ion-font-sm);
+      margin-right: calc(var(--ion-margin) / 4);
+      margin-left: calc(var(--ion-margin) / 4);
+    }
+  }
 }
 
 ion-content {
@@ -18,19 +45,19 @@ div {
 }
 
 .cover-image {
-  height: 35vh;
+  height: 28vh;
 }
 
 .background-image {
-  height: 65vh;
+  height: 72vh;
   position: relative;
 }
 
 .inner-container {
   position: absolute;
-  top: -19vh;
-  left: 2%;
-  width: 95%;
+  top: -14vh;
+  left: 0;
+  width: 100%;
   text-align: center;
 }
 
@@ -44,10 +71,7 @@ ion-card {
   margin-left: calc(var(--ion-margin) / 2);
 
   ion-card-content {
-    padding-top: calc(var(--ion-padding) / 2);
-    padding-bottom: calc(var(--ion-padding) / 2);
-    padding-right: var(--ion-padding);
-    padding-left: var(--ion-padding);
+    padding: var(--ion-padding);
 
     ion-grid,
     ion-col {
@@ -57,10 +81,23 @@ ion-card {
     ion-col {
       padding-right: calc(var(--ion-padding) / 2);
       padding-left: calc(var(--ion-padding) / 2);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
     }
 
-    h3 {
+    p {
       color: var(--ion-color-note);
+      font-size: var(--ion-font-xs);
+    }
+
+    .lottery-count {
+      font-weight: var(--ion-font-bold);
+    }
+
+    .lottery-price {
       font-size: var(--ion-font-xs);
     }
   }

@@ -1,5 +1,5 @@
 import { Pagination } from 'src/app/sws-erp.type';
-import { PackageInfo } from './shared.interface';
+import { CountdownTimer, PackageInfo } from './shared.interface';
 import { default as packageJson } from '../../../../package.json';
 
 export class SharedComponent {
@@ -11,6 +11,15 @@ export class SharedComponent {
       currentPage: 1,
       sortBy: 'doc_id',
       sortOrder: 'DESC',
+    };
+  }
+
+  protected get defaultTimer(): CountdownTimer {
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
     };
   }
 

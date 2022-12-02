@@ -4,69 +4,70 @@
       <ion-back-button defaultHref="/jj" icon="arrow-back" text=""></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button fill="solid" shape="round" routerLink="scratch-history">
+      <ion-button *ngIf="wallet" routerLink="scratch-history">
         <ion-icon name="ticket"></ion-icon>
-        <ion-label>9,999张</ion-label>
+        <ion-label>{{ wallet.walletBalance }}</ion-label>
       </ion-button>
-      <ion-button fill="solid" color="light" shape="round" (click)="openPrizes()">
+      <ion-button (click)="openPrizes()">
         <ion-icon slot="icon-only" name="gift"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <jj-news-ticker [messages]="messages"></jj-news-ticker>
+  <ng-container *ngIf="messages">
+    <jj-news-ticker [messages]="messages"></jj-news-ticker>
+  </ng-container>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
-  <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">
-    <div class="inner-container">
-      <div class="ion-text-center ion-padding">
-        <ion-text class="ion-font-bold" color="light">{{ event.name }}</ion-text><br />
-        <ion-text color="light">{{ event.distance }}</ion-text>
-    </div>
-    <br />
-      <ion-card>
-        <ion-card-content>
-          <ion-grid>
+<ion-content [fullscreen]="true" [style.--offset-top]="messages ? '74px' : '54px'">
+  <ng-container *ngIf="event">
+    <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
+    <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">
+      <div class="inner-container">
+        <div class="ion-text-center ion-padding">
+          <ion-text class="ion-font-bold" color="light">{{ event.name }}</ion-text>
+          <ng-container *ngIf="event.distance">
+            <br />
+            <ion-text color="light">{{ event.distance }}</ion-text>
+          </ng-container>
+        </div>
+        <ion-card>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="auto">
+                  <ion-icon name="time" size="large"></ion-icon>
+                </ion-col>
+                <ion-col>
+                  <countdown-timer [timer]="timer"></countdown-timer>
+                </ion-col>
+                <ion-col>
+                  <p>{{ "jj._LOTTERY_CHANCE" | translate }}</p>
+                  <h3 class="lottery-count">{{ "jj._LOTTERY_COUNT" | translate: { count: totalChance } }}</h3>
+                  <h3 class="lottery-price">
+                    {{ "jj._CONSUMPTION_PER_SCRATCH" | translate: { price: event.pricePerScratch } }}
+                  </h3>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+        <div class="scratch-card" [style.background-image]="event.cardBackgroundImage | erpImg | cssUrl">
+          <ion-img class="event-logo" [src]="event.logo | erpImg"></ion-img>
+          <ion-grid class="scratch-area">
             <ion-row>
-              <ion-col size="2" style="margin-top: 10px;">
-                <ion-icon name="time" size="large" style="color:blueviolet"></ion-icon>
-              </ion-col>
-              <ion-col style="margin-top: 10px;">
-                <countdown-timer [timer]="timer"></countdown-timer>
-              </ion-col>
-              <ion-col>
-                <h3>抽奖机会</h3>
-                <h3 style="font-weight:bold; color:black;">100次</h3>
-                <h3 style="color:black;">每次消费1张刮刮卷</h3>
+              <ion-col (click)="onScratch()" *ngFor="let i of [1, 2, 3]">
+                <ion-img class="scratch-area-placeholder" [src]="event.scratchAreaPlaceholderImage | erpImg"></ion-img>
               </ion-col>
             </ion-row>
           </ion-grid>
-        </ion-card-content>
-      </ion-card>
-      <br />
-      <div class="scratch-card" [style.background-image]="event.coverImage | erpImg | cssUrl">
-        <ion-img class="event-logo" [src]="event.logo | erpImg"></ion-img>
-        <ion-grid class="scratch-area">
-          <ion-row>
-            <ion-col>
-              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
-            </ion-col>
-            <ion-col>
-              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
-            </ion-col>
-            <ion-col>
-              <ion-img class="scratch-area-placeholder" [src]="event.scratchBackgroundImage | erpImg"></ion-img>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+        </div>
+      </div>
+      <!-- <div class="footer-container">
+        <ion-note class="ion-text-sm">
+          <span>活动由<span class="ion-font-bold">龙镇手机店</span>主办</span><br />
+          <span><u>条款与条规</u></span>
+        </ion-note>
+      </div> -->
     </div>
-  </div>
-    <div class="footer-container">
-      <ion-note class="ion-text-sm">
-        <span>活动由<span class="ion-font-bold">龙镇手机店</span>主办</span><br />
-        <span><u>条款与条规</u></span>
-      </ion-note>
-    </div>
-  </div>
+  </ng-container>
 </ion-content>

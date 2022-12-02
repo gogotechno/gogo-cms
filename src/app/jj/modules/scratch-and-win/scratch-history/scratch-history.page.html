@@ -1,30 +1,39 @@
-<ion-header class="ion-no-border">
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj/scratch-and-win"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center ion-no-padding">
-      <img *ngIf="event.logo" [src]="event.logo | erpImg" style="width: 100px; height: 50px" class="head-img" />
-      <div *ngIf="!event.logo">{{ event.name }}</div>
-    </ion-title>
+    <div *ngIf="event?.logo" class="event-logo">
+      <ion-img [src]="event.logo | erpImg"></ion-img>
+    </div>
+    <ion-title *ngIf="!event?.logo">{{ event?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list lines="full" class="histories">
-    <ng-container *ngFor="let history of histories; let index = index">
-      <h3 class="title" *ngIf="showRecordDate(index)">
-        {{ history.scratchedAt | date: "MM-dd-YYYY" }}
-      </h3>
+  <ion-list lines="full">
+    <div *ngIf="!requests?.length" class="note">
+      <ion-label>{{ 'jj._NO_HISTORY_FOUND' | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let request of requests; let index = index">
+      <h3 class="title" *ngIf="showRequestDate(index)">{{ request.doc_createdDate | date: "MM-dd-YYYY" }}</h3>
       <ion-item [detail]="false">
         <ion-label>
-          <div>{{ history.prize.name }}</div>
-          <p>{{ history.scratchedAt | date: "HH:mm" }}</p>
+          <h3>{{ request.prize.nameTranslation | cmsTranslate }}</h3>
+          <p>{{ request.doc_createdDate | date: "HH:mm" }}</p>
         </ion-label>
         <ion-thumbnail slot="end">
-          <img [src]="history.prize.thumbnailImage | erpImg" />
+          <img [src]="request.prize.thumbnailImage | erpImg" />
         </ion-thumbnail>
       </ion-item>
     </ng-container>
   </ion-list>
+  <ng-container *ngIf="requests?.length">
+    <ion-infinite-scroll *ngIf="!requestsEnded" (ionInfinite)="loadMoreRequests($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="requestsEnded" class="note">
+      <ion-label>{{ "jj._NO_MORE_HISTORY" | translate }}</ion-label>
+    </div>
+  </ng-container>
 </ion-content>

@@ -404,6 +404,10 @@
     "_SEND_PAYMENT": "Send Payment",
     "_NOTIFY_NEW_CUSTOMER": "Notify New Customer",
     "_CONFIRM_TO_CHANGE_PASSWORD": "Confirm to change password?",
-    "_DRAWING": "Drawing"
+    "_DRAWING": "Drawing",
+    "_SNW_WINNER_ANNOUNCEMENT": "Congratulate {{ name }} for winning {{ prize }}",
+    "_LOTTERY_CHANCE": "Chance",
+    "_LOTTERY_COUNT": "{{ count }} times",
+    "_CONSUMPTION_PER_SCRATCH": "{{ price }} per scratch"
   }
 }
