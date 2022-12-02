@@ -5,7 +5,14 @@ import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms
 import { Pagination } from 'src/app/sws-erp.type';
 import { AuthService, CoreService } from '../../services';
 import { CountdownTimer, SharedComponent } from '../../shared';
-import { JJScratchAndWinEvent, JJScratchRequest, JJWallet, ScratchRequestExtras, WalletType } from '../../typings';
+import {
+  JJScratchAndWinEvent,
+  JJScratchAndWinPrize,
+  JJScratchRequest,
+  JJWallet,
+  ScratchRequestExtras,
+  WalletType,
+} from '../../typings';
 import { ScratchPrizesComponent } from './@components/scratch-prizes/scratch-prizes.component';
 import { ScratchResultComponent } from './@components/scratch-result/scratch-result.component';
 
@@ -33,6 +40,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     private core: CoreService,
   ) {
     super();
+    this.totalChance = 0;
     this.timer = this.defaultTimer;
   }
 
@@ -106,14 +114,20 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       component: ScratchPrizesComponent,
       componentProps: {
         eventId: this.eventId,
+        event: this.event,
       },
     });
     await modal.present();
   }
 
-  async openResult() {
+  async openResult(prize: JJScratchAndWinPrize) {
     const modal = await this.modalCtrl.create({
       component: ScratchResultComponent,
+      componentProps: {
+        eventId: this.eventId,
+        event: this.event,
+        prize: prize,
+      },
       cssClass: 'scratch-result-modal',
     });
     await modal.present();
@@ -131,7 +145,6 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     let res = await this.core.createScratchRequest(request);
     let extras: ScratchRequestExtras = res.data;
 
-    if (extras['prize']) {
-    }
+    await this.openResult(extras.prize);
   }
 }

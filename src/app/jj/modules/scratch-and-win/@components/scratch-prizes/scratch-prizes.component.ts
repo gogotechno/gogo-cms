@@ -27,7 +27,7 @@ export class ScratchPrizesComponent extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    this.event = await this.core.getScratchAndWinEventById(this.eventId);
+    // this.event = await this.core.getScratchAndWinEventById(this.eventId);
     this.prizesPage = this.defaultPage;
     this.prizes = await this.getPrizes();
     this.prizesEnded = this.prizes.length < this.prizesPage.itemsPerPage;

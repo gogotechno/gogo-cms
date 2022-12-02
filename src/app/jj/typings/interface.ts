@@ -375,7 +375,6 @@ export interface JJScratchAndWinEvent extends ErpDoc {
 
 export interface JJScratchAndWinPrize extends ErpDoc {
   name: string;
-  description: string; //missing in backend
   worth: number; //missing in backend
   thumbnailImage: string;
   backgroundImage: string;

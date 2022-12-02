@@ -9,7 +9,7 @@
 </ion-header>
 <ion-content [fullscreen]="true" [style.--background]="'center / cover ' + (event?.backgroundImage | erpImg | cssUrl)">
   <ion-img class="event-logo" [src]="event?.logo | erpImg"></ion-img>
-  <ion-list>
+  <ion-list lines="none">
     <div *ngIf="!prizes?.length" class="note">
       <ion-label>{{ 'jj._NO_PRIZES_FOUND' | translate }}</ion-label>
     </div>

@@ -1,42 +1,66 @@
-.background {
-    --ion-background-color: gold;
-}
-
 ion-content {
-    --ion-background-color: gold;
+  --background: transparent;
 }
 
+.congratulation-image {
+  width: 80%;
+  height: 30vh;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+}
 
-.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+.prize-image {
+  width: 20vh;
+  height: 20vh;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+.inner-container {
+  width: 100%;
+  text-align: center;
+}
+
+.container {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ion-border-radius);
+  background: var(--ion-background-color, #fff);
+  z-index: -1;
+}
+
+.message {
+  text-align: center;
+  margin-top: var(--ion-margin);
+  margin-bottom: var(--ion-margin);
+
+  p,
+  h3 {
+    margin-top: calc(var(--ion-margin) / 4);
+    margin-bottom: calc(var(--ion-margin) / 4);
   }
 
-.text-center {
-    display: flex;
-    justify-content: center;
+  h3 {
+    font-weight: var(--ion-font-bold);
+    font-size: var(--ion-font-md);
+  }
+
+  p {
+    font-size: var(--ion-font-xs);
+  }
 }
 
-  ion-item {
-        margin: calc(var(--ion-margin) / 2) var(--ion-margin);
-
-        --padding-start: calc(var(--ion-padding) / 1.5);
-        --padding-end: calc(var(--ion-padding) / 1.5);
-        --inner-padding-end: 0;
-
-        ion-label {
-            margin-top: calc(var(--ion-margin) / 2);
-            margin-bottom: calc(var(--ion-margin) / 2);
-
-        }
-    }
-    h3 {
-        font-weight: var(--ion-font-bold);
-        font-size: var(--ion-font-md);
-    }
-
-    p {
-        font-size: var(--ion-font-xs);
-    }
+ion-button {
+  --padding-start: calc(var(--ion-padding) * 2.5);
+  --padding-end: calc(var(--ion-padding) * 2.5);
+}

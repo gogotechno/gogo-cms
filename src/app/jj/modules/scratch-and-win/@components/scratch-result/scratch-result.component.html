@@ -1,11 +1,13 @@
-<ion-content [style.--background]="event.backgroundImage | erpImg | cssUrl">
-    <img [src]="event.logo | erpImg" style="width: 100%; height: 60px" />
-    <div *ngFor="let prize of prizes">
-        <img class="center" [src]="prize.thumbnailImage | erpImg" style="width: 150px; height: 150px" /><br />
-        <ion-label>
-          <ion-text class="text-center">You have Earned</ion-text>
-          <h3 class="text-center">RM{{ prize.worth }} Voucher</h3>
-        </ion-label>
-      </div> <br />
-  <ion-button class="center" color="light" (click)="OnClosing()">Confirm</ion-button>
+<ion-content>
+  <img class="congratulation-image" [src]="event?.congratulationImage | erpImg" />
+  <div class="container">
+    <div class="inner-container">
+      <img class="prize-image" [src]="prize?.thumbnailImage | erpImg" />
+      <div class="message">
+        <p>{{ event?.congratulationMessage }}</p>
+        <h3>{{ prize?.nameTranslation | cmsTranslate }}</h3>
+      </div>
+      <ion-button (click)="onDismiss()">Confirm</ion-button>
+    </div>
+  </div>
 </ion-content>
