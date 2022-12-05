@@ -81,6 +81,7 @@ ion-button {
   ion-label {
     color: var(--color);
     text-decoration: underline;
+    text-transform: capitalize;
     font-weight: var(--ion-font-bold);
   }
 }

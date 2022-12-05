@@ -23,7 +23,7 @@
   </ng-container>
 </ion-header>
 
-<ion-content [fullscreen]="true" [style.--offset-top]="messages ? '66px' : '46px'">
+<ion-content [fullscreen]="true" [style.--offset-top]="contentOffsetTop">
   <ng-container *ngIf="event">
     <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
     <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">

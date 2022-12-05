@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
 import { GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
@@ -35,7 +35,16 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
   buttons = buttons;
 
+  get contentOffsetTop() {
+    let offset = this.platform.is('ios') ? 46 : 56;
+    if (this.messages) {
+      offset = offset + 20;
+    }
+    return `${offset}px`;
+  }
+
   constructor(
+    private platform: Platform,
     private router: Router,
     private route: ActivatedRoute,
     private modalCtrl: ModalController,

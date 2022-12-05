@@ -9,7 +9,9 @@
         <p>{{ event?.congratulationMessage }}</p>
         <h3>{{ prize?.nameTranslation | cmsTranslate }}</h3>
       </div>
-      <ion-button (click)="onDismiss()">Confirm</ion-button>
+      <ion-button (click)="onDismiss()">
+        <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+      </ion-button>
     </div>
   </div>
 </ion-content>

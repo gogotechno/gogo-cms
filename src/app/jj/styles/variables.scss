@@ -310,7 +310,8 @@ ion-back-button.filled-back-button {
   }
 }
 
-ion-button.filled-button {
+ion-button.filled-button,
+.sc-ion-buttons-md-s ion-button.filled-button {
   height: 40px;
 
   &:not(.button-has-icon-only) {
@@ -319,9 +320,9 @@ ion-button.filled-button {
   }
 
   &.button-has-icon-only {
-    width: 40px;
     --padding-start: 0px;
     --padding-end: 0px;
+    width: 40px;
   }
 
   ion-icon,
