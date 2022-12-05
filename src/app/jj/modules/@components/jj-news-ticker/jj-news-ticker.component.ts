@@ -23,16 +23,16 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
+    if (this.buttons) {
+      this.startButtons = this.buttons.filter((b) => b.slot == 'start');
+      this.endButtons = this.buttons.filter((b) => b.slot == 'end');
+    }
+
     if (!this.prefix) {
       throw new Error('Please provide a prefix to prevent duplication');
     }
 
     await this.startAnim();
-
-    if (this.buttons) {
-      this.startButtons = this.buttons.filter((b) => b.slot == 'start');
-      this.endButtons = this.buttons.filter((b) => b.slot == 'end');
-    }
   }
 
   async startAnim() {
