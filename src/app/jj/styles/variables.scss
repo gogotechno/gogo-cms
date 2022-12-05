@@ -302,7 +302,6 @@ ion-back-button.ios.back-button-has-icon-only {
 }
 
 ion-back-button.filled-back-button {
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
   &::part(icon) {
     width: 36px;
     height: 36px;
@@ -313,7 +312,6 @@ ion-back-button.filled-back-button {
 
 ion-button.filled-button {
   height: 40px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
 
   &:not(.button-has-icon-only) {
     border-radius: 20px;
