@@ -159,7 +159,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       await this.openResult(extras['prize']);
     }
 
-    await this.getWallet();
+    await Promise.all([this.getWallet(), this.getLatestWinners()]);
   }
 
   async onTickerButtonClick(code: string) {
