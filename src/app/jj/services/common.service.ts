@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Browser } from '@capacitor/browser';
 import { Geolocation } from '@capacitor/geolocation';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,7 +8,7 @@ import { CmsService } from 'src/app/cms.service';
 import { CmsLanguage, CmsSiteAttributeOption } from 'src/app/cms.type';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { LANGUAGE_STORAGE_KEY, LiteralObject, SmsTemplateCode } from '../typings';
+import { JJFab, LANGUAGE_STORAGE_KEY, LiteralObject, SmsTemplateCode } from '../typings';
 
 const DEFAULT_LANG: CmsSiteAttributeOption = {
   code: 'en',
@@ -24,6 +26,7 @@ const DEFAULT_LANG: CmsSiteAttributeOption = {
 export class CommonService {
   constructor(
     private platform: Platform,
+    private router: Router,
     private translate: TranslateService,
     private storage: LocalStorageService,
     private cms: CmsService,
@@ -102,7 +105,9 @@ export class CommonService {
     query = query.replace('&', '%26');
     let encoded = encodeURI(query);
     let url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
-    window.open(url);
+    await Browser.open({
+      url: url,
+    });
   }
 
   async getCurrentPosition() {
@@ -127,5 +132,18 @@ export class CommonService {
       latitude: lat,
       longitude: lng,
     };
+  }
+
+  async navigateFabUrl(fab: JJFab) {
+    if (!fab || !fab.url) {
+      return;
+    }
+    if (fab.url.startsWith('http')) {
+      await Browser.open({
+        url: fab.url,
+      });
+      return;
+    }
+    await this.router.navigateByUrl(fab.url);
   }
 }

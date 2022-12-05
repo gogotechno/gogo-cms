@@ -48,3 +48,10 @@ ion-toolbar ion-button {
     font-size: calc(var(--ion-font-xs) - 3px);
   }
 }
+
+ion-fab-button ion-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

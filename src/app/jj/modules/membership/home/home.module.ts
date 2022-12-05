@@ -8,6 +8,7 @@ import { JJComponentsModule } from '../../@components/jj-components.module';
 import { HomeComponentsModule } from './@components/home-components.module';
 import { HomeService } from './@services/home.service';
 import { SharedModule } from 'src/app/jj/shared';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { SharedModule } from 'src/app/jj/shared';
     JJComponentsModule,
     HomeComponentsModule,
     SharedModule,
+    SwsErpModule
   ],
   declarations: [HomePage],
   providers: [HomeService],

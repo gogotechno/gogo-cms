@@ -27,15 +27,26 @@ export class SwsErpInterceptor implements HttpInterceptor {
       return await next.handle(request).toPromise();
     }
 
-    this.app.requestChange.next(1);
+    let skipLoading = request.headers.get('SkipLoading');
+    if (skipLoading) {
+      request = request.clone({
+        headers: request.headers.delete('SkipLoading'),
+      });
+    } else {
+      this.app.requestChange.next(1);
+    }
 
     let updatedRequest = request.clone({
-      setParams: { lang: this.erp.language },
+      setParams: {
+        lang: this.erp.language,
+      },
     });
 
     if (!request.headers.get('Authorization') && this.erp.token) {
       updatedRequest = updatedRequest.clone({
-        setHeaders: { Authorization: `Bearer ${this.erp.token}` },
+        setHeaders: {
+          Authorization: `Bearer ${this.erp.token}`,
+        },
       });
     }
 

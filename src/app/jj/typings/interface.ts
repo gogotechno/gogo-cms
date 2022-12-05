@@ -351,6 +351,14 @@ export interface JJContentPage extends ErpDoc {
   isActive: boolean;
 }
 
+export interface JJFab extends ErpDoc {
+  code: string;
+  title: string;
+  icon: string;
+  url: string;
+  isActive: boolean;
+}
+
 export interface JJScratchAndWinEvent extends ErpDoc {
   name: string;
   startAt: Date;

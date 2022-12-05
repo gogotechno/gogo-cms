@@ -72,7 +72,7 @@
       <div class="footer-container">
         <ion-note class="ion-text-xs">
           <span>{{ "jj._EVENT_ORGANIZED_BY" | translate: { name: event.merchant.name } }}</span><br />
-          <span><u>{{ "jj._TERM_AND_CONDITIONS" | translate }}</u></span>
+          <span (click)="openTnc()"><u>{{ "jj._TERM_AND_CONDITIONS" | translate }}</u></span>
         </ion-note>
       </div>
     </div>

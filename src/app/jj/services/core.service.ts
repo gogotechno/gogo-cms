@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetExtraOptions, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -16,6 +16,7 @@ import {
   JJCustomer,
   JJEvent,
   JJEventPrize,
+  JJFab,
   JJMerchant,
   JJPointRule,
   JJProduct,
@@ -110,11 +111,12 @@ export class CoreService extends SharedComponent {
     return res[0];
   }
 
-  async getWalletsByMerchantId(merchantId: number) {
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+  async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       merchantId: merchantId,
       merchantId_type: '=',
-    });
+    };
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -160,11 +162,12 @@ export class CoreService extends SharedComponent {
     return res.result[0];
   }
 
-  async getWalletsByCustomerId(customerId: number) {
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+  async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       customerId: customerId,
       customerId_type: '=',
-    });
+    };
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -399,6 +402,13 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
+  async getFabsByGroupCode(groupCode: string) {
+    let res = await this.swsErp.getDocs<JJFab>('FAB', {
+      groupCode: groupCode,
+    });
+    return res.result;
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Scratch and Win Event
   // -----------------------------------------------------------------------------------------------------
@@ -407,14 +417,15 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request);
   }
 
-  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', {
+  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
       sortType: pagination.sortOrder,
       ...conditions,
-    });
+    };
+    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query, options);
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/jj/services';
+import { JJFab } from 'src/app/jj/typings';
 import { HomeService } from './@services/home.service';
 
 @Component({
@@ -9,8 +11,9 @@ import { HomeService } from './@services/home.service';
 export class HomePage implements OnInit {
   notifications: number = 0;
   messages: string[];
+  fabs: JJFab[];
 
-  constructor(private home: HomeService) {}
+  constructor(private common: CommonService, private home: HomeService) {}
 
   async ngOnInit() {
     await this.home.init();
@@ -19,6 +22,10 @@ export class HomePage implements OnInit {
       if (announcements) {
         this.messages = announcements.map((announcement) => announcement.message);
       }
+    });
+
+    this.home.fabs.subscribe((fabs) => {
+      this.fabs = fabs;
     });
   }
 
@@ -30,5 +37,9 @@ export class HomePage implements OnInit {
     await this.home.init();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
+  }
+
+  async onFabClick(fab: JJFab) {
+    await this.common.navigateFabUrl(fab);
   }
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { AuthStateEvent, DocUser, Pagination } from 'src/app/sws-erp.type';
+import { AuthStateEvent, DocUser, GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
 import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
@@ -142,16 +142,16 @@ export class AuthService {
     return access ? Number(access.access_val) : null;
   }
 
-  async findMyWallets() {
+  async findMyWallets(options: GetExtraOptions = {}) {
     let wallets: JJWallet[];
     switch (this._USER_TYPE) {
       case 'MERCHANT':
         let merchantId = await this.findMyMerchantId();
-        wallets = await this.core.getWalletsByMerchantId(merchantId);
+        wallets = await this.core.getWalletsByMerchantId(merchantId, options);
         break;
       default:
         let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
-        wallets = await this.core.getWalletsByCustomerId(customer.doc_id);
+        wallets = await this.core.getWalletsByCustomerId(customer.doc_id, options);
         break;
     }
     return wallets;

@@ -24,7 +24,7 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     let params = this.route.snapshot.params;
-    this.eventId = params['eventId'];
+    this.eventId = params['id'];
     await this.loadData();
   }
 
