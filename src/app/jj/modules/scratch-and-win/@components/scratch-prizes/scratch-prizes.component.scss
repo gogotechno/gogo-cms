@@ -45,3 +45,10 @@ ion-list {
     }
   }
 }
+
+.prize-worth {
+  font-size: var(--ion-font-xs);
+  jj-currency {
+    --symbol-size: var(--ion-font-xs);
+  }
+}

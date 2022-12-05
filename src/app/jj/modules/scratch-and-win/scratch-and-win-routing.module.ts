@@ -9,7 +9,7 @@ const routes: Routes = [
     component: ScratchAndWinPage,
   },
   {
-    path: 'scratch-history',
+    path: ':eventId/scratch-history',
     loadChildren: () => import('./scratch-history/scratch-history.module').then((m) => m.ScratchHistoryPageModule),
   },
 ];

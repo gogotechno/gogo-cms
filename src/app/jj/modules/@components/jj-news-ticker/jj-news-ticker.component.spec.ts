@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { JjNewsTickerComponent } from './jj-news-ticker.component';
+import { JJNewsTickerComponent } from './jj-news-ticker.component';
 
-describe('JjNewsTickerComponent', () => {
-  let component: JjNewsTickerComponent;
-  let fixture: ComponentFixture<JjNewsTickerComponent>;
+describe('JJNewsTickerComponent', () => {
+  let component: JJNewsTickerComponent;
+  let fixture: ComponentFixture<JJNewsTickerComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ JjNewsTickerComponent ],
+      declarations: [ JJNewsTickerComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(JjNewsTickerComponent);
+    fixture = TestBed.createComponent(JJNewsTickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

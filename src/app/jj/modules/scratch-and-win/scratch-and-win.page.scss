@@ -23,14 +23,15 @@ ion-header ion-toolbar {
 
     ion-label {
       font-size: var(--ion-font-sm);
-      margin-right: calc(var(--ion-margin) / 4);
-      margin-left: calc(var(--ion-margin) / 4);
+      margin-right: calc(var(--ion-margin) / 2);
+      margin-left: calc(var(--ion-margin) / 2);
     }
   }
 }
 
 ion-content {
   --padding-top: calc(var(--offset-top) * -1);
+  --overflow: hidden;
 }
 
 img,
@@ -55,7 +56,7 @@ div {
 
 .inner-container {
   position: absolute;
-  top: -14vh;
+  top: -16vh;
   left: 0;
   width: 100%;
   text-align: center;
@@ -160,4 +161,10 @@ ion-card {
   text-align: center;
   position: absolute;
   bottom: 0;
+  padding-bottom: var(--ion-padding);
+}
+
+jj-news-ticker {
+  --background: var(--ion-color-secondary);
+  --color: var(--ion-color-primary);
 }

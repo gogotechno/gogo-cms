@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SharedComponent } from 'src/app/jj/shared';
 
 @Component({
@@ -6,21 +6,44 @@ import { SharedComponent } from 'src/app/jj/shared';
   templateUrl: './jj-news-ticker.component.html',
   styleUrls: ['./jj-news-ticker.component.scss'],
 })
-export class JjNewsTickerComponent extends SharedComponent implements OnInit {
+export class JJNewsTickerComponent extends SharedComponent implements OnInit {
+  @Input('prefix') prefix: string;
   @Input('messages') messages: string[];
+  @Input('buttons') buttons: TickerButton[];
+
+  @Output('onButtonClick') buttonClick: EventEmitter<string>;
+
+  animatedStarted: boolean;
+  startButtons: TickerButton[];
+  endButtons: TickerButton[];
 
   constructor() {
     super();
+    this.buttonClick = new EventEmitter<string>();
   }
 
   async ngOnInit() {
-    if (this.messages) {
-      let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
-
-      firstEl.style.setProperty('--offset-end', this.getOffsetEnd(container, firstEl));
-      firstEl.style.setProperty('--base-duration', this.getBaseDuration(firstEl));
-      firstEl.classList.add('animated');
+    if (!this.prefix) {
+      throw new Error('Please provide a prefix to prevent duplication');
     }
+
+    await this.startAnim();
+
+    if (this.buttons) {
+      this.startButtons = this.buttons.filter((b) => b.slot == 'start');
+      this.endButtons = this.buttons.filter((b) => b.slot == 'end');
+    }
+  }
+
+  async startAnim() {
+    if (!this.messages && this.animatedStarted) {
+      return;
+    }
+    let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
+    firstEl.style.setProperty('--offset-end', this.getOffsetEnd(container, firstEl));
+    firstEl.style.setProperty('--base-duration', this.getBaseDuration(firstEl));
+    firstEl.classList.add('animated');
+    this.animatedStarted = true;
   }
 
   async onAnimEnd(index: number) {
@@ -30,7 +53,6 @@ export class JjNewsTickerComponent extends SharedComponent implements OnInit {
       this.getMessageEl(nextIndex),
       this.getContainerEl(),
     ]);
-
     nextEl.style.setProperty('--offset-end', this.getOffsetEnd(container, nextEl));
     nextEl.style.setProperty('--base-duration', this.getBaseDuration(nextEl));
     currentEl.classList.remove('animated');
@@ -38,11 +60,11 @@ export class JjNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   getMessageEl(index: number) {
-    return this.assertElement(`message-${index}`);
+    return this.assertElement(`${this.prefix}-message-${index}`);
   }
 
   getContainerEl() {
-    return this.assertElement('messages-container');
+    return this.assertElement(`${this.prefix}-messages-container`);
   }
 
   getOffsetEnd(container: HTMLElement, message: HTMLElement) {
@@ -65,4 +87,14 @@ export class JjNewsTickerComponent extends SharedComponent implements OnInit {
     }
     return `${duration}ms`;
   }
+
+  onButtonClick(button: TickerButton) {
+    this.buttonClick.emit(button.code);
+  }
+}
+
+export interface TickerButton {
+  slot: 'start' | 'end';
+  code: string;
+  label: string;
 }

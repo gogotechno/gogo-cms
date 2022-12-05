@@ -4,6 +4,7 @@ import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJScratchAndWinEvent, JJScratchAndWinPrize } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
+import { Currency } from '../../../wallets/wallets.types';
 
 @Component({
   selector: 'app-scratch-prizes',
@@ -17,18 +18,27 @@ export class ScratchPrizesComponent extends SharedComponent implements OnInit {
   prizesEnded: boolean;
   prizes: JJScratchAndWinPrize[];
 
+  displayCurrency: Currency = {
+    code: 'MYR',
+    displaySymbol: 'RM',
+    precision: 2,
+    symbolPosition: 'start',
+  };
+
   constructor(private modalCtrl: ModalController, private core: CoreService) {
     super();
   }
 
   async ngOnInit() {
-    this.eventId = 1; //DEMO ONLY
     await this.loadData();
   }
 
   async loadData() {
-    // this.event = await this.core.getScratchAndWinEventById(this.eventId);
-    this.prizesPage = this.defaultPage;
+    this.prizesPage = {
+      ...this.defaultPage,
+      sortBy: 'worth',
+    };
+
     this.prizes = await this.getPrizes();
     this.prizesEnded = this.prizes.length < this.prizesPage.itemsPerPage;
   }

@@ -19,8 +19,10 @@
       </ion-thumbnail>
       <ion-label>
         <h3>{{ prize.name }}</h3>
-        <!-- DEMO ONLY -->
-        <p>{{ 'jj._WORTH_VALUE' | translate : { worth: 1 } }}</p>
+        <p class="prize-worth">
+          {{ 'jj._WORTH' | translate }}&nbsp;
+          <jj-currency [currency]="displayCurrency" [value]="prize.worth"></jj-currency>
+        </p>
       </ion-label>
     </ion-item>
   </ion-list>

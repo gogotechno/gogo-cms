@@ -11,8 +11,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <account-bar></account-bar>
-  <news-ticker></news-ticker>
+  <!-- <news-ticker></news-ticker> -->
+  <jj-news-ticker [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
   <wallet-cards></wallet-cards>
   <slideshow></slideshow>
   <mini-programs></mini-programs>

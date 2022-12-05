@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJScratchAndWinEvent, JJScratchRequest } from 'src/app/jj/typings';
@@ -17,12 +18,13 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   requestsEnded: boolean;
   requests: JJScratchRequest[];
 
-  constructor(private auth: AuthService, private core: CoreService) {
+  constructor(private route: ActivatedRoute, private auth: AuthService, private core: CoreService) {
     super();
   }
 
   async ngOnInit() {
-    this.eventId = 1; //DEMO ONLY
+    let params = this.route.snapshot.params;
+    this.eventId = params['eventId'];
     await this.loadData();
   }
 

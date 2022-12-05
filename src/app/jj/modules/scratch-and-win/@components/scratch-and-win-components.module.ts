@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { JJComponentsModule } from '../../@components/jj-components.module';
 import { ScratchPrizesComponent } from './scratch-prizes/scratch-prizes.component';
 import { ScratchResultComponent } from './scratch-result/scratch-result.component';
 
@@ -17,7 +18,8 @@ const components = [ScratchPrizesComponent, ScratchResultComponent];
     IonicModule, 
     SharedModule,
     SwsErpModule,
-    CmsUIModule
+    CmsUIModule,
+    JJComponentsModule
   ],
   exports: components,
   declarations: components,

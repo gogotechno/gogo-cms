@@ -367,9 +367,11 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   congratulationMessage: string;
   thankYouImage: string;
   thankYouMessage: string;
+  merchant_id: number;
 
   prizes?: JJScratchAndWinPrize[];
 
+  merchant?: JJMerchant;
   distance?: number;
 }
 

@@ -1,18 +1,18 @@
-<div id="messages-container" class="container">
+<div [id]="prefix + '-messages-container'" class="container">
   <div class="inner-container">
     <p
       *ngFor="let message of messages; let index = index"
-      [id]="'message-' + index"
+      [id]="prefix + '-message-' + index"
       [style.--sequence]="index"
       [style.--length]="message.length"
       (animationend)="onAnimEnd(index)"
     >
       <span>{{ message }}</span>
     </p>
-    <!-- <ion-buttons class="end">
-      <ion-button>
-        <ion-label class="view-more">查看游戏记录</ion-label>
+    <div class="end-buttons">
+      <ion-button *ngFor="let button of endButtons" (click)="onButtonClick(button)" size="small" fill="clear">
+        <ion-label>{{ button.label | translate }}</ion-label>
       </ion-button>
-    </ion-buttons> -->
+    </div>
   </div>
 </div>

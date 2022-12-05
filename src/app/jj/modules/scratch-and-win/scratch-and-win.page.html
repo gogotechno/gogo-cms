@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/jj" icon="arrow-back" text=""></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button *ngIf="wallet" routerLink="scratch-history">
+      <ion-button *ngIf="wallet">
         <ion-icon name="ticket"></ion-icon>
         <ion-label>{{ wallet.walletBalance }}</ion-label>
       </ion-button>
@@ -14,7 +14,12 @@
     </ion-buttons>
   </ion-toolbar>
   <ng-container *ngIf="messages">
-    <jj-news-ticker [messages]="messages"></jj-news-ticker>
+    <jj-news-ticker
+      [prefix]="'snw'"
+      [messages]="messages"
+      [buttons]="buttons"
+      (onButtonClick)="onTickerButtonClick($event)"
+    ></jj-news-ticker>
   </ng-container>
 </ion-header>
 
@@ -24,10 +29,12 @@
     <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">
       <div class="inner-container">
         <div class="ion-text-center ion-padding">
-          <ion-text class="ion-font-bold" color="light">{{ event.name }}</ion-text>
+          <ion-text color="light" class="ion-font-bold">{{ event.name }}</ion-text>
           <ng-container *ngIf="event.distance">
             <br />
-            <ion-text color="light">{{ event.distance }}</ion-text>
+            <ion-text color="light" class="ion-text-xs">
+              {{ 'jj._DISTANCE_AWAY' | translate: { distance: event.distance + 'KM' } }}
+            </ion-text>
           </ng-container>
         </div>
         <ion-card>
@@ -62,12 +69,12 @@
           </ion-grid>
         </div>
       </div>
-      <!-- <div class="footer-container">
-        <ion-note class="ion-text-sm">
-          <span>活动由<span class="ion-font-bold">龙镇手机店</span>主办</span><br />
-          <span><u>条款与条规</u></span>
+      <div class="footer-container">
+        <ion-note class="ion-text-xs">
+          <span>{{ "jj._EVENT_ORGANIZED_BY" | translate: { name: event.merchant.name } }}</span><br />
+          <span><u>{{ "jj._TERM_AND_CONDITIONS" | translate }}</u></span>
         </ion-note>
-      </div> -->
+      </div>
     </div>
   </ng-container>
 </ion-content>

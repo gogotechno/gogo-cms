@@ -418,8 +418,15 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
-  async getScratchAndWinEventById(eventId: number) {
-    let res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId);
+  async getScratchAndWinEventById(eventId: number, options: { withLocation?: boolean } = {}) {
+    let conditions: Conditions = {};
+    if (options['withLocation']) {
+      let coords = await this.common.getCurrentCoords();
+      conditions['longitude'] = coords.longitude;
+      conditions['latitude'] = coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, <GetOptions>conditions);
     return res;
   }
 

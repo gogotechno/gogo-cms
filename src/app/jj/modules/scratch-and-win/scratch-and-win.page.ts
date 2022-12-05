@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
@@ -13,6 +14,7 @@ import {
   ScratchRequestExtras,
   WalletType,
 } from '../../typings';
+import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ScratchPrizesComponent } from './@components/scratch-prizes/scratch-prizes.component';
 import { ScratchResultComponent } from './@components/scratch-result/scratch-result.component';
 
@@ -30,7 +32,11 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   messages: string[];
   totalChance: number;
 
+  buttons = buttons;
+
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private modalCtrl: ModalController,
     private hideText: HideTextPipe,
     private fullName: FullNamePipe,
@@ -50,7 +56,10 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    this.event = await this.core.getScratchAndWinEventById(this.eventId);
+    this.event = await this.core.getScratchAndWinEventById(this.eventId, {
+      withLocation: true,
+    });
+
     this.startTimer();
 
     await this.getWallet();
@@ -129,6 +138,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
         prize: prize,
       },
       cssClass: 'scratch-result-modal',
+      backdropDismiss: false,
     });
     await modal.present();
   }
@@ -145,6 +155,28 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     let res = await this.core.createScratchRequest(request);
     let extras: ScratchRequestExtras = res.data;
 
-    await this.openResult(extras.prize);
+    if (extras['prize']) {
+      await this.openResult(extras['prize']);
+    }
+
+    await this.getWallet();
+  }
+
+  async onTickerButtonClick(code: string) {
+    switch (code) {
+      case 'VIEW_GAME_HISTORY':
+        await this.router.navigate([this.eventId, 'scratch-history'], { relativeTo: this.route });
+        break;
+      default:
+        break;
+    }
   }
 }
+
+const buttons: TickerButton[] = [
+  {
+    slot: 'end',
+    code: 'VIEW_GAME_HISTORY',
+    label: 'jj._VIEW_GAME_HISTORY',
+  },
+];
