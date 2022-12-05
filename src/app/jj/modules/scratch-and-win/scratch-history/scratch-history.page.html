@@ -1,7 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/scratch-and-win"></ion-back-button>
+      <ion-back-button
+        [defaultHref]="'/jj/scratch-and-win/' + eventId"
+        icon="arrow-back"
+        text=""
+        class="filled-back-button"
+      ></ion-back-button>
     </ion-buttons>
     <div *ngIf="event?.logo" class="event-logo">
       <ion-img [src]="event.logo | erpImg"></ion-img>
@@ -11,6 +16,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list lines="full">
     <div *ngIf="!requests?.length" class="note">
       <ion-label>{{ 'jj._NO_HISTORY_FOUND' | translate }}</ion-label>

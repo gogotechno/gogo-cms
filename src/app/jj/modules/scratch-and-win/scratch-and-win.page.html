@@ -1,14 +1,14 @@
 <ion-header class="ion-header-clear">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj" icon="arrow-back" text=""></ion-back-button>
+      <ion-back-button defaultHref="/jj" icon="arrow-back" text="" class="filled-back-button"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button *ngIf="wallet">
+      <ion-button *ngIf="wallet" class="filled-button">
         <ion-icon name="ticket"></ion-icon>
         <ion-label>{{ wallet.walletBalance }}</ion-label>
       </ion-button>
-      <ion-button (click)="openPrizes()">
+      <ion-button class="filled-button" (click)="openPrizes()">
         <ion-icon slot="icon-only" name="gift"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -23,7 +23,7 @@
   </ng-container>
 </ion-header>
 
-<ion-content [fullscreen]="true" [style.--offset-top]="messages ? '74px' : '54px'">
+<ion-content [fullscreen]="true" [style.--offset-top]="messages ? '66px' : '46px'">
   <ng-container *ngIf="event">
     <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
     <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">

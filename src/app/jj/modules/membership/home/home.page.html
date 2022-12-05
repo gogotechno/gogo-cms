@@ -24,7 +24,7 @@
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
       <ion-icon *ngIf="!fab.icon" name="alert"></ion-icon>
-      <ion-img *ngIf="fab.icon" [src]="fab.icon | erpImg"></ion-img>
+      <img *ngIf="fab.icon" [src]="fab.icon | erpImg" />
     </ion-fab-button>
   </ion-fab>
 </ion-content>

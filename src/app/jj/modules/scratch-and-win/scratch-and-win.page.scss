@@ -1,32 +1,5 @@
 ion-header ion-toolbar {
   --background: rgba(var(--ion-color-secondary-rgb), 0.6);
-
-  ion-button {
-    height: 40px;
-
-    &:not(.button-has-icon-only) {
-      border-radius: 20px;
-      background: var(--ion-color-secondary);
-    }
-
-    &.button-has-icon-only {
-      width: 40px;
-      --padding-start: 0px;
-      --padding-end: 0px;
-    }
-
-    ion-icon {
-      padding: 4px;
-      border-radius: 50%;
-      background: var(--ion-color-light);
-    }
-
-    ion-label {
-      font-size: var(--ion-font-sm);
-      margin-right: calc(var(--ion-margin) / 2);
-      margin-left: calc(var(--ion-margin) / 2);
-    }
-  }
 }
 
 ion-content {

@@ -64,4 +64,10 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
     let currentDate = new Date(current.doc_createdBy).toDateString();
     return previousDate != currentDate;
   }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
 }

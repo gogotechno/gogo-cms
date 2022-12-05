@@ -298,7 +298,46 @@ ion-content.ion-content-clear {
 
 ion-back-button.ios.back-button-has-icon-only {
   min-width: 48px;
-  height: 48px;
+  height: 40px;
+}
+
+ion-back-button.filled-back-button {
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  &::part(icon) {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ion-color-light);
+  }
+}
+
+ion-button.filled-button {
+  height: 40px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+
+  &:not(.button-has-icon-only) {
+    border-radius: 20px;
+    background: var(--ion-color-secondary);
+  }
+
+  &.button-has-icon-only {
+    width: 40px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+  }
+
+  ion-icon,
+  ion-icon[slot='icon-only'] {
+    padding: 4px;
+    border-radius: 50%;
+    background: var(--ion-color-light);
+  }
+
+  ion-label {
+    font-size: var(--ion-font-sm);
+    margin-right: calc(var(--ion-margin) / 2);
+    margin-left: calc(var(--ion-margin) / 2);
+  }
 }
 
 ion-grid.grid-fixed {
