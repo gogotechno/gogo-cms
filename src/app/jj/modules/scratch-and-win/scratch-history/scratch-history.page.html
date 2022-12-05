@@ -8,9 +8,7 @@
         class="filled-back-button"
       ></ion-back-button>
     </ion-buttons>
-    <div *ngIf="event?.logo" class="event-logo">
-      <ion-img [src]="event.logo | erpImg"></ion-img>
-    </div>
+    <div *ngIf="event?.logo" class="event-logo"><ion-img [src]="event.logo | erpImg"></ion-img></div>
     <ion-title *ngIf="!event?.logo">{{ event?.name }}</ion-title>
   </ion-toolbar>
 </ion-header>

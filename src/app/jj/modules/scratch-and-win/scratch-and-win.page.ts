@@ -143,9 +143,10 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async onScratch() {
+    let currentUser = this.auth.currentUser;
     let request: JJScratchRequest = {
       scratch_and_win_event_id: this.eventId,
-      customer_id: 17,
+      customer_id: currentUser.doc_id,
       wallet_id: 0,
       spend: 0,
       status: 'PROCESSING',

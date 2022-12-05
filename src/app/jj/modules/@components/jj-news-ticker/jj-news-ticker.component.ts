@@ -29,7 +29,7 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
     }
 
     if (!this.prefix) {
-      throw new Error('Please provide a prefix to prevent duplication');
+      console.warn('Not prefix was provided. May cause duplication.');
     }
 
     await this.startAnim();
