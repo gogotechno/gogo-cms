@@ -1,5 +1,7 @@
 <ion-content>
-  <img class="congratulation-image" [src]="event?.congratulationImage | erpImg" />
+  <div class="congratulation-image">
+    <img [src]="event?.congratulationImage | erpImg" />
+  </div>
   <div class="container">
     <div class="inner-container">
       <img class="prize-image" [src]="prize?.thumbnailImage | erpImg" />

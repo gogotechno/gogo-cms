@@ -4,13 +4,20 @@ ion-content {
 }
 
 .congratulation-image {
-  width: 80%;
-  height: 30vh;
-  margin-left: auto;
-  margin-right: auto;
-  object-fit: contain;
-  object-position: center;
-  display: block;
+  width: 100%;
+  height: 25vh;
+  position: absolute;
+  top: calc(var(--ion-margin) * 3.5);
+
+  img {
+    width: 80%;
+    height: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+    object-position: center;
+  }
 }
 
 .prize-image {
@@ -25,6 +32,8 @@ ion-content {
 .inner-container {
   width: 100%;
   text-align: center;
+  position: absolute;
+  bottom: calc(var(--ion-margin) * 2);
 }
 
 .container {
