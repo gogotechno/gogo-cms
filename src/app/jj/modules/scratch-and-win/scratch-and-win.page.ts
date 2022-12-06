@@ -99,6 +99,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
     let conditions: Conditions = {
       hasPrize: true,
+      eventId: this.eventId,
       isDefault: false,
     };
 
@@ -176,7 +177,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
     await this.getWallet({ skipLoading: true });
     await this.getLatestWinners({ skipLoading: true });
-    
+
     this.memberHome.refresh();
 
     if (extras['prize']) {
