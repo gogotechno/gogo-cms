@@ -195,6 +195,12 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
     await modal.present();
   }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
 }
 
 const buttons: TickerButton[] = [

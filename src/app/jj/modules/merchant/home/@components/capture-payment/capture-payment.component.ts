@@ -47,7 +47,7 @@ export class CapturePaymentComponent implements OnInit {
       this.common.sendSms(extras.customerInfo.customer.phone, 'CAPTURE_PAYMENT', {
         refNo: extras.customerInfo.transaction.refNo,
         amount: String(extras.request.amount),
-        currentBalance: String(extras.customerInfo.customer.phone),
+        currentBalance: String(extras.customerInfo.currentBalance),
       });
       this.success = true;
       await this.onDismiss();
@@ -67,7 +67,7 @@ const form: CmsForm = {
       label: {
         en: 'Wallet No',
         zh: '钱包账号',
-        ms: 'No Dompet'
+        ms: 'No Dompet',
       },
       type: 'barcode-scanner',
       required: true,
@@ -77,7 +77,7 @@ const form: CmsForm = {
       label: {
         en: 'Amount',
         zh: '金额',
-        ms: 'Jumlah'
+        ms: 'Jumlah',
       },
       type: 'number',
       required: true,
@@ -87,7 +87,7 @@ const form: CmsForm = {
       label: {
         en: 'Description',
         zh: '详情',
-        ms: 'Penerangan'
+        ms: 'Penerangan',
       },
       type: 'text',
       required: true,
@@ -97,7 +97,7 @@ const form: CmsForm = {
       label: {
         en: 'Reference 1',
         zh: '参考 1',
-        ms: 'Rujukan 1'
+        ms: 'Rujukan 1',
       },
       type: 'text',
     },
@@ -106,7 +106,7 @@ const form: CmsForm = {
       label: {
         en: 'Reference 2',
         zh: '参考 2',
-        ms: 'Rujukan 2'
+        ms: 'Rujukan 2',
       },
       type: 'text',
     },
@@ -115,7 +115,7 @@ const form: CmsForm = {
       label: {
         en: 'Reference 3',
         zh: '参考 3',
-        ms: 'Rujukan 3'
+        ms: 'Rujukan 3',
       },
       type: 'text',
     },

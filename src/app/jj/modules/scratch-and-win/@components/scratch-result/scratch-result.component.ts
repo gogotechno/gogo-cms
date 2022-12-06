@@ -12,10 +12,19 @@ export class ScratchResultComponent implements OnInit {
   event: JJScratchAndWinEvent;
   prize: JJScratchAndWinPrize;
 
+  image: string;
+  message: string;
+  backgroundImage: string;
+
   constructor(private modalCtrl: ModalController, private core: CoreService) {}
 
   ngOnInit() {
     this.prize = this.core.populateScratchAndWinPrize(this.prize);
+    this.image = this.prize.isDefault ? this.event.thankYouImage : this.event.congratulationImage;
+    this.message = this.prize.isDefault ? this.event.thankYouMessage : this.event.congratulationMessage;
+    this.backgroundImage = this.prize.isDefault
+      ? this.event.thankYouBackgroundImage
+      : this.event.congratulationBackgroundImage;
   }
 
   async onDismiss() {
