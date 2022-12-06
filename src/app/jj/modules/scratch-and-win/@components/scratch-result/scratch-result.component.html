@@ -1,12 +1,12 @@
 <ion-content>
-  <div class="congratulation-image">
-    <img [src]="event?.congratulationImage | erpImg" />
+  <div class="image">
+    <img [src]="image | erpImg" />
   </div>
-  <div class="container">
+  <div class="container" [style.background-image]="backgroundImage | erpImg | cssUrl">
     <div class="inner-container">
       <img class="prize-image" [src]="prize?.thumbnailImage | erpImg" />
       <div class="message">
-        <p>{{ event?.congratulationMessage }}</p>
+        <p>{{ message }}</p>
         <h3>{{ prize?.nameTranslation | cmsTranslate }}</h3>
       </div>
       <ion-button (click)="onDismiss()">

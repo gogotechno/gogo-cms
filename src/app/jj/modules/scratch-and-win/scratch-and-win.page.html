@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/jj" icon="arrow-back" text="" class="filled-back-button"></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button *ngIf="wallet" class="filled-button">
+      <ion-button *ngIf="wallet" class="filled-button" [routerLink]="['/jj/wallets/', wallet.walletNo]">
         <ion-icon name="ticket"></ion-icon>
         <ion-label>{{ wallet.walletBalance }}</ion-label>
       </ion-button>
@@ -24,6 +24,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" [style.--offset-top]="contentOffsetTop">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngIf="event">
     <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
     <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">

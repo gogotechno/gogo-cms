@@ -372,8 +372,10 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   cardBackgroundImage: string;
   scratchAreaPlaceholderImage: string;
   congratulationImage: string;
+  congratulationBackgroundImage: string;
   congratulationMessage: string;
   thankYouImage: string;
+  thankYouBackgroundImage: string;
   thankYouMessage: string;
   merchant_id: number;
 
@@ -396,6 +398,7 @@ export interface JJScratchAndWinPrize extends ErpDoc {
   dailyLimit: number;
   userLimit: number;
   isActive: boolean;
+  isDefault: boolean;
   scratch_and_win_event_id: number;
 
   nameTranslation?: CmsTranslation;
