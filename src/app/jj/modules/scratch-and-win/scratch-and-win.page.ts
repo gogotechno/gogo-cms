@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
-import { GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
+import { Conditions, GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
 import { AuthService, CoreService } from '../../services';
 import { CountdownTimer, SharedComponent } from '../../shared';
 import {
@@ -82,17 +82,25 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     this.wallet = wallets.find((wallet) => wallet.type == WalletType.SNW);
 
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
+    if (this.totalChance < 0) {
+      this.totalChance = 0;
+    }
   }
 
   async getLatestWinners(options: GetExtraOptions = {}) {
     let winnersPage: Pagination = {
       itemsPerPage: 10,
       currentPage: 1,
-      sortBy: 'doc_createdDate',
+      sortBy: 'sr.doc_createdDate',
       sortOrder: 'DESC',
     };
 
-    let winners = await this.core.getScratchRequests(winnersPage, { hasPrize: true }, options);
+    let conditions: Conditions = {
+      hasPrize: true,
+      isDefault: false,
+    };
+
+    let winners = await this.core.getScratchRequests(winnersPage, conditions, options);
     this.messages = await Promise.all(
       winners.map(async (winner) => {
         let customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);

@@ -56,7 +56,10 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
     nextEl.style.setProperty('--offset-end', this.getOffsetEnd(container, nextEl));
     nextEl.style.setProperty('--base-duration', this.getBaseDuration(nextEl));
     currentEl.classList.remove('animated');
-    nextEl.classList.add('animated');
+    let timeout = nextIndex == index ? 100 : 0;
+    setTimeout(() => {
+      nextEl.classList.add('animated');
+    }, timeout);
   }
 
   getMessageEl(index: number) {
