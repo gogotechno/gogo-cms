@@ -52,6 +52,12 @@ export class CommonService {
     return this.swsErp.language;
   }
 
+  async getWhatsapp() {
+    let attributes = await this.cms.getAttributes();
+    let attribute = attributes.find((a) => a.code == 'whatsapp');
+    return attribute.value;
+  }
+
   sendSms(receiver: string, template: SmsTemplateCode, data: LiteralObject) {
     let body = this.getSmsBody(template, data);
     let anchor = document.createElement('a');
