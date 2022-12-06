@@ -16,6 +16,7 @@ import {
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';
+import { HomeService as MemberHomeService } from '../membership/home/@services/home.service';
 import { ScratchPrizesComponent } from './@components/scratch-prizes/scratch-prizes.component';
 import { ScratchResultComponent } from './@components/scratch-result/scratch-result.component';
 
@@ -54,6 +55,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     private translate: TranslateService,
     private auth: AuthService,
     private core: CoreService,
+    private memberHome: MemberHomeService,
   ) {
     super();
     this.totalChance = 0;
@@ -172,12 +174,14 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     let res = await this.core.createScratchRequest(request);
     let extras: ScratchRequestExtras = res.data;
 
+    await this.getWallet({ skipLoading: true });
+    await this.getLatestWinners({ skipLoading: true });
+    
+    this.memberHome.refresh();
+
     if (extras['prize']) {
       await this.openResult(extras['prize']);
     }
-
-    await this.getWallet({ skipLoading: true });
-    await this.getLatestWinners({ skipLoading: true });
   }
 
   async onTickerButtonClick(code: string) {

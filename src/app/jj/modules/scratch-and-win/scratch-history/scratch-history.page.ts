@@ -44,6 +44,7 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
     let currentUser = this.auth.currentUser;
     let requests = await this.core.getScratchRequests(this.requestsPage, {
       hasPrize: true,
+      eventId: this.eventId,
       customer_id: currentUser.doc_id,
       customer_id_type: '=',
     });

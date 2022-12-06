@@ -6,7 +6,6 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { JJComponentsModule } from '../../@components/jj-components.module';
 import { HomeComponentsModule } from './@components/home-components.module';
-import { HomeService } from './@services/home.service';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 
@@ -19,9 +18,8 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     JJComponentsModule,
     HomeComponentsModule,
     SharedModule,
-    SwsErpModule
+    SwsErpModule,
   ],
   declarations: [HomePage],
-  providers: [HomeService],
 })
 export class HomePageModule {}

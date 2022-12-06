@@ -14,9 +14,11 @@ import {
   UserRole,
   UserType,
 } from 'src/app/jj/typings';
-import { Conditions } from 'src/app/sws-erp.type';
+import { Conditions, GetExtraOptions } from 'src/app/sws-erp.type';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
@@ -75,20 +77,13 @@ export class HomeService extends SharedComponent {
   }
 
   async init() {
-    let fabsConditions: Conditions = {};
-    if (this.auth.userType == 'CUSTOMER') {
-      fabsConditions = {
-        customerId: this.auth.currentUser.doc_id,
-      };
-    }
-
     const [user, wallets, ongoingEvents, announcements, slideshow, fabs] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
       this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      this.core.getFabsByGroupCode('HOME_FABS', fabsConditions),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
     ]);
 
     this._USER.next(user);
@@ -133,6 +128,28 @@ export class HomeService extends SharedComponent {
       default:
         return MINI_PROGRAMS;
     }
+  }
+
+  getFabsConditions() {
+    let fabsConditions: Conditions = {};
+    if (this.auth.userType == 'CUSTOMER') {
+      fabsConditions = {
+        customerId: this.auth.currentUser.doc_id,
+      };
+    }
+    return fabsConditions;
+  }
+
+  async refresh() {
+    let options: GetExtraOptions = { skipLoading: true };
+
+    const [wallets, fabs] = await Promise.all([
+      this.auth.findMyWallets(options),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+    ]);
+
+    this._WALLETS.next(wallets);
+    this._FABS.next(fabs);
   }
 }
 

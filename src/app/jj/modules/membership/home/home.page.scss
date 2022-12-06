@@ -52,6 +52,10 @@ ion-toolbar ion-button {
 ion-fab-button {
   --background-activated: transparent;
 
+  &:not(:first-of-type) {
+    margin-top: calc(var(--ion-margin) / 4);
+  }
+
   &::part(native) {
     position: relative;
     overflow: visible;

@@ -400,11 +400,12 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJFab>('FAB', {
+  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       groupCode: groupCode,
       ...conditions,
-    });
+    };
+    let res = await this.swsErp.getDocs<JJFab>('FAB', query, options);
     return res.result;
   }
 

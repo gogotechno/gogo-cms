@@ -24,8 +24,8 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     JJComponentsModule,
     SharedModule,
     SwsErpModule,
-    CmsUIModule
+    CmsUIModule,
   ],
-  declarations: [ScratchAndWinPage]
+  declarations: [ScratchAndWinPage],
 })
 export class ScratchAndWinPageModule {}
