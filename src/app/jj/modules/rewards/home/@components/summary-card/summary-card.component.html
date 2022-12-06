@@ -1,6 +1,6 @@
 <div class="container">
   <ion-slides [pager]="true" *ngIf="slideshow; else loading">
-    <ion-slide *ngFor="let item of slideshow?.items">
+    <ion-slide *ngFor="let item of slideshow?.items" (click)="onItemClick(item)">
       <img [src]="item.backgroundImage | erpImg" />
     </ion-slide>
   </ion-slides>

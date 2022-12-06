@@ -14,6 +14,7 @@ import {
   UserRole,
   UserType,
 } from 'src/app/jj/typings';
+import { Conditions } from 'src/app/sws-erp.type';
 
 @Injectable()
 export class HomeService extends SharedComponent {
@@ -74,13 +75,20 @@ export class HomeService extends SharedComponent {
   }
 
   async init() {
+    let fabsConditions: Conditions = {};
+    if (this.auth.userType == 'CUSTOMER') {
+      fabsConditions = {
+        customerId: this.auth.currentUser.doc_id,
+      };
+    }
+
     const [user, wallets, ongoingEvents, announcements, slideshow, fabs] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
       this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      this.core.getFabsByGroupCode('HOME_FABS'),
+      this.core.getFabsByGroupCode('HOME_FABS', fabsConditions),
     ]);
 
     this._USER.next(user);

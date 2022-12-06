@@ -329,6 +329,7 @@ export interface JJSlideshowItem extends ErpDoc {
   backgroundImage: string;
   isActive: boolean;
   sequence: number;
+  url: string;
 
   messageTranslation?: CmsTranslation;
 }
@@ -357,6 +358,12 @@ export interface JJFab extends ErpDoc {
   icon: string;
   url: string;
   isActive: boolean;
+  
+  extras: FabExtras;
+}
+
+export interface FabExtras {
+  count?: number;
 }
 
 export interface JJScratchAndWinEvent extends ErpDoc {
@@ -387,7 +394,7 @@ export interface JJScratchAndWinEvent extends ErpDoc {
 
 export interface JJScratchAndWinPrize extends ErpDoc {
   name: string;
-  worth: number; //missing in backend
+  worth: number;
   thumbnailImage: string;
   backgroundImage: string;
   sequence: number;

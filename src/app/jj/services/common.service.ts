@@ -105,9 +105,7 @@ export class CommonService {
     query = query.replace('&', '%26');
     let encoded = encodeURI(query);
     let url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
-    await Browser.open({
-      url: url,
-    });
+    await Browser.open({ url: url });
   }
 
   async getCurrentPosition() {
@@ -135,15 +133,20 @@ export class CommonService {
   }
 
   async navigateFabUrl(fab: JJFab) {
-    if (!fab || !fab.url) {
+    if (!fab) {
       return;
     }
-    if (fab.url.startsWith('http')) {
-      await Browser.open({
-        url: fab.url,
-      });
+    await this.navigateCustomUrl(fab.url);
+  }
+
+  async navigateCustomUrl(url: string) {
+    if (!url) {
       return;
     }
-    await this.router.navigateByUrl(fab.url);
+    if (url.startsWith('http')) {
+      await Browser.open({ url: url });
+      return;
+    }
+    await this.router.navigateByUrl(url);
   }
 }

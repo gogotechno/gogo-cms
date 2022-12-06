@@ -391,9 +391,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
-      groupCode: groupCode,
-    });
+    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode: groupCode });
     return res.result;
   }
 
@@ -402,9 +400,10 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getFabsByGroupCode(groupCode: string) {
+  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs<JJFab>('FAB', {
       groupCode: groupCode,
+      ...conditions,
     });
     return res.result;
   }
@@ -572,7 +571,7 @@ export class CoreService extends SharedComponent {
 
     switch (wallet.type) {
       case WalletType.SNW:
-        wallet.icon = 'gift';
+        wallet.icon = 'ticket';
         wallet.colors = {
           primary: '#FFC000',
           'primary-light': '#FFF2CC',

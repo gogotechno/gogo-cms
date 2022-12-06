@@ -3,7 +3,7 @@
     <ion-img slot="start" src="/assets/logo-placeholder.png"></ion-img>
     <ion-buttons slot="end" class="round">
       <ion-button routerLink="notifications">
-        <ion-badge color="danger" *ngIf="notifications > 0">{{ notifications }}</ion-badge>
+        <ion-badge color="danger" *ngIf="notifications">{{ notifications }}</ion-badge>
         <ion-icon name="notifications" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -23,6 +23,7 @@
   <lucky-draw-cards></lucky-draw-cards>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
+      <ion-badge color="danger" *ngIf="fab.extras?.count">{{ fab.extras.count }}</ion-badge>
       <ion-icon *ngIf="!fab.icon" name="alert"></ion-icon>
       <img *ngIf="fab.icon" [src]="fab.icon | erpImg" />
     </ion-fab-button>

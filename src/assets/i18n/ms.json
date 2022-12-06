@@ -420,6 +420,7 @@
     "_EVENT_IS_ENDED": "Acara tamat",
     "_INVALID_WALLET_TYPE_FOUND": "Jenis dompet tidak sah ditemui",
     "_TERM_AND_CONDITIONS": "Terma dan Syarat",
-    "_EVENT_ORGANIZED_BY": "Acara dianjurkan oleh {{ name }}"
+    "_EVENT_ORGANIZED_BY": "Acara dianjurkan oleh {{ name }}",
+    "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula"
   }
 }

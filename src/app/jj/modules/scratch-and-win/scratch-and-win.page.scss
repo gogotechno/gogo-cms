@@ -104,6 +104,11 @@ ion-card {
     ion-col {
       position: relative;
 
+      animation-name: pulse;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+
       &:before {
         content: '';
         display: block;

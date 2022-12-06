@@ -420,6 +420,7 @@
     "_EVENT_IS_ENDED": "Event is ended",
     "_INVALID_WALLET_TYPE_FOUND": "Invalid wallet type found",
     "_TERM_AND_CONDITIONS": "Term and Conditions",
-    "_EVENT_ORGANIZED_BY": "Event organized by {{ name }}"
+    "_EVENT_ORGANIZED_BY": "Event organized by {{ name }}",
+    "_EVENT_IS_NOT_STARTED_YET": "Event is not started yet"
   }
 }

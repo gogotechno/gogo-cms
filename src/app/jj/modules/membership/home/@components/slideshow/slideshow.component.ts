@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/jj/services';
 import { JJSlideshow, JJSlideshowItem } from 'src/app/jj/typings';
 import { HomeService } from '../../@services/home.service';
 
@@ -11,7 +12,11 @@ export class SlideshowComponent implements OnInit {
   slideshow: JJSlideshow;
   slideshowItems: JJSlideshowItem[];
 
-  constructor(private home: HomeService) {}
+  slideOpts = {
+    spaceBetween: 8,
+  };
+
+  constructor(private common: CommonService, private home: HomeService) {}
 
   ngOnInit() {
     this.home.slideshow.subscribe((slideshow) => {
@@ -20,5 +25,9 @@ export class SlideshowComponent implements OnInit {
         this.slideshowItems = this.slideshow.items;
       }
     });
+  }
+
+  async onItemClick(item: JJSlideshowItem) {
+    await this.common.navigateCustomUrl(item.url);
   }
 }
