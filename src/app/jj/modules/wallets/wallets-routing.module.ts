@@ -36,6 +36,14 @@ const routes: Routes = [
     path: 'deposits',
     loadChildren: () => import('./deposits/deposits.module').then((m) => m.DepositsPageModule),
   },
+  {
+    path: 'deposit',
+    loadChildren: () => import('./deposit/deposit.module').then( m => m.DepositPageModule)
+  },
+  {
+    path: 'withdraw',
+    loadChildren: () => import('./withdraw/withdraw.module').then( m => m.WithdrawPageModule)
+  },
 ];
 
 @NgModule({
