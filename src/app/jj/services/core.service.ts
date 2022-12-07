@@ -113,8 +113,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
     let query: GetOptions = {
-      merchantId: merchantId,
-      merchantId_type: '=',
+      merchant_id: merchantId,
+      merchant_id_type: '=',
     };
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
@@ -164,8 +164,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
     let query: GetOptions = {
-      customerId: customerId,
-      customerId_type: '=',
+      customer_id: customerId,
+      customer_id_type: '=',
     };
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
@@ -210,8 +210,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
     let res = await this.getWalletTransactions(pagination, {
-      walletId: walletId,
-      walletId_type: '=',
+      wallet_id: walletId,
+      wallet_id_type: '=',
       sortBy: 'doc_createdDate',
       sortType: 'desc',
     });

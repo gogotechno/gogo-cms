@@ -140,9 +140,9 @@ export enum WalletType {
 }
 
 export interface JJWalletPermission extends ErpDoc {
-  walletId: number;
-  customerId?: number;
-  merchantId?: number;
+  wallet_id: number;
+  customer_id?: number;
+  merchant_id?: number;
 }
 
 export interface JJProduct extends ErpDoc {
@@ -284,7 +284,7 @@ export enum IssueMode {
 }
 
 export interface JJWalletTransaction extends ErpDoc {
-  walletId: number;
+  wallet_id: number;
   refNo: string;
   amount: number;
   description: string;
