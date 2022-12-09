@@ -54,6 +54,8 @@ export class WalletPage implements OnInit {
         return this.openQrCode();
       case 'DEPOSIT':
         return this.openDeposit();
+      case 'PIN':
+        return this.openPIN();
     }
   }
 
@@ -65,6 +67,10 @@ export class WalletPage implements OnInit {
     // await modal.present();
 
     this.router.navigate(["/jj/wallets/create-deposit"]);
+  }
+
+  async openPIN() {
+    this.router.navigate(["/jj/wallets/verify-pin"]);
   }
 
   async openQrCode() {
@@ -127,7 +133,7 @@ const actions: WalletAction[] = [
     nameKey: 'jj._PIN',
     icon: 'keypad-outline',
     code: 'PIN',
-    active: false,
+    active: true,
   },
   {
     type: 'modal',

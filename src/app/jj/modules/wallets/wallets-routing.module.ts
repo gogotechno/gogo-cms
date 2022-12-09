@@ -37,6 +37,14 @@ const routes: Routes = [
     loadChildren: () => import('./withdraw/withdraw.module').then(m => m.WithdrawPageModule)
   },
   {
+    path: 'change-pin',
+    loadChildren: () => import('./change-pin/change-pin.module').then( m => m.ChangePinPageModule)
+  },
+  {
+    path: 'verify-pin',
+    loadChildren: () => import('./verify-pin/verify-pin.module').then( m => m.VerifyPinPageModule)
+  },
+  {
     path: ':walletNo',
     loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletPageModule),
   },
