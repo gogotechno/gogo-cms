@@ -10,6 +10,13 @@ export class CountdownTimerComponent extends SharedComponent implements OnInit {
   @Input('timer') timer: CountdownTimer;
   @Input('endDate') endDate: Date;
 
+  @Input('unitFormat') unitFormat: 'full' | 'short' = 'short';
+  @Input('separator') separator: string = ':';
+
+  @Input('columns') columns: string[] = ['days', 'hours', 'minutes', 'seconds'];
+
+  unit: UnitFormat;
+
   constructor() {
     super();
   }
@@ -21,13 +28,38 @@ export class CountdownTimerComponent extends SharedComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.timer) {
-      this.timer = {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-      };
+    this.timer = this.getTimer();
+    this.unit = this.getUnitFormat();
+  }
+
+  getTimer(): CountdownTimer {
+    if (this.timer) {
+      return this.timer;
+    }
+    return {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  getUnitFormat(): UnitFormat {
+    switch (this.unitFormat) {
+      case 'full':
+        return {
+          days: '_DAYS',
+          hours: '_HOURS',
+          minutes: '_MINUTES',
+          seconds: '_SECONDS',
+        };
+      default:
+        return {
+          days: '_DAYS_SHORT',
+          hours: '_HOURS_SHORT',
+          minutes: '_MINUTES_SHORT',
+          seconds: '_SECONDS_SHORT',
+        };
     }
   }
 
@@ -48,4 +80,11 @@ export class CountdownTimerComponent extends SharedComponent implements OnInit {
       }
     }, interval);
   }
+}
+
+interface UnitFormat {
+  days: '_DAYS' | '_DAYS_SHORT';
+  hours: '_HOURS' | '_HOURS_SHORT';
+  minutes: '_MINUTES' | '_MINUTES_SHORT';
+  seconds: '_SECONDS' | '_SECONDS_SHORT';
 }

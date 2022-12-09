@@ -1,4 +1,4 @@
-<div *ngIf="wallets; else loading" class="container">
+<!-- <div *ngIf="wallets; else loading" class="container">
   <ion-card *ngFor="let wallet of wallets" routerLink="/jj/wallets/{{ wallet.walletNo }}">
     <ion-card-content>
       <p>{{ 'jj._BALANCE' | translate }}</p>
@@ -12,23 +12,44 @@
 </div>
 
 <ng-template #loading>
-  <div class="container">
+  <div class="container container-loading">
     <ion-card *ngFor="let i of [1, 1, 1]">
-      <ion-card-content style="position: relative">
-        <ion-skeleton-text [animated]="true" style="width: 4em"></ion-skeleton-text>
-        <ion-skeleton-text [animated]="true" style="width: 4em"></ion-skeleton-text>
-        <ion-skeleton-text
-          [animated]="true"
-          style="
-            width: 24px;
-            height: 24px;
-            position: absolute;
-            bottom: calc(var(--ion-padding) / 2);
-            right: calc(var(--ion-padding) / 1.5);
-            margin: 0;
-          "
-        ></ion-skeleton-text>
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
       </ion-card-content>
     </ion-card>
   </div>
-</ng-template>
+</ng-template> -->
+
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button (click)="openQrCode()">
+      <ion-icon slot="icon-only" name="qr-code"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <div class="wallets" *ngIf="wallets; else loading">
+    <ion-card *ngFor="let wallet of wallets" [routerLink]="['/jj/wallets/', wallet.walletNo]">
+      <ion-card-content>
+        <p>{{ wallet.type }}</p>
+        <h3><jj-currency [value]="wallet.walletBalance"></jj-currency></h3>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ng-template #loading>
+    <div class="wallets wallets-loading">
+      <ion-card *ngFor="let i of [1, 1]">
+        <ion-card-content>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
+  <ion-buttons slot="end">
+    <ion-button routerLink="/jj/account">
+      <ion-icon slot="icon-only" name="settings"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

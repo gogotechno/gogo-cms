@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Browser } from '@capacitor/browser';
@@ -27,11 +28,16 @@ export class CommonService {
   constructor(
     private platform: Platform,
     private router: Router,
+    private http: HttpClient,
     private translate: TranslateService,
     private storage: LocalStorageService,
     private cms: CmsService,
     private swsErp: SwsErpService,
   ) {}
+
+  getByUrl(url: string) {
+    return this.http.get(url).toPromise();
+  }
 
   async getSupportedLanguages(): Promise<CmsLanguage[]> {
     let attributes = await this.cms.getAttributes();
@@ -136,13 +142,6 @@ export class CommonService {
       latitude: lat,
       longitude: lng,
     };
-  }
-
-  async navigateFabUrl(fab: JJFab) {
-    if (!fab) {
-      return;
-    }
-    await this.navigateCustomUrl(fab.url);
   }
 
   async navigateCustomUrl(url: string) {

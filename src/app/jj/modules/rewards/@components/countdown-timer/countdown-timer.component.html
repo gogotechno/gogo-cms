@@ -1,29 +1,13 @@
 <ion-grid>
   <ion-row>
-    <ion-col>
-      <h3>{{ timer.days }}</h3>
-      <p>{{ '_DAYS_SHORT' | translate }}</p>
-    </ion-col>
-    <ion-col size="auto">
-      <h3>:</h3>
-    </ion-col>
-    <ion-col>
-      <h3>{{ timer.hours }}</h3>
-      <p>{{ '_HOURS_SHORT' | translate }}</p>
-    </ion-col>
-    <ion-col size="auto">
-      <h3>:</h3>
-    </ion-col>
-    <ion-col>
-      <h3>{{ timer.minutes }}</h3>
-      <p>{{ '_MINUTES_SHORT' | translate }}</p>
-    </ion-col>
-    <ion-col size="auto">
-      <h3>:</h3>
-    </ion-col>
-    <ion-col>
-      <h3>{{ timer.seconds }}</h3>
-      <p>{{ '_SECONDS_SHORT' | translate }}</p>
-    </ion-col>
+    <ng-container *ngFor="let column of columns; let last = last">
+      <ion-col>
+        <h3>{{ timer[column] }}</h3>
+        <p>{{ unit[column] | translate }}</p>
+      </ion-col>
+      <ion-col *ngIf="!last && separator" size="auto">
+        <h3>{{ separator }}</h3>
+      </ion-col>
+    </ng-container>
   </ion-row>
 </ion-grid>

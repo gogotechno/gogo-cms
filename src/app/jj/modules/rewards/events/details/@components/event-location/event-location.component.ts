@@ -14,9 +14,7 @@ export class EventLocationComponent implements OnInit {
   constructor(private common: CommonService, private details: DetailsService) {}
 
   ngOnInit() {
-    this.details.event.subscribe((event) => {
-      this.event = event;
-    });
+    this.details.event.subscribe((event) => (this.event = event));
   }
 
   openLocation() {

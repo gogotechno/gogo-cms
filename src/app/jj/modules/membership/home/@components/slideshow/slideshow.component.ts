@@ -19,12 +19,7 @@ export class SlideshowComponent implements OnInit {
   constructor(private common: CommonService, private home: HomeService) {}
 
   ngOnInit() {
-    this.home.slideshow.subscribe((slideshow) => {
-      this.slideshow = slideshow;
-      if (this.slideshow) {
-        this.slideshowItems = this.slideshow.items;
-      }
-    });
+    this.home.slideshow.subscribe((slideshow) => (this.slideshow = slideshow));
   }
 
   async onItemClick(item: JJSlideshowItem) {

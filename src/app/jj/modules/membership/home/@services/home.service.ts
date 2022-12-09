@@ -80,10 +80,10 @@ export class HomeService extends SharedComponent {
     const [user, wallets, ongoingEvents, announcements, slideshow, fabs] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
-      this.core.getOngoingEvents(this.defaultPage),
+      [], //   this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
+      [], //   this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
     ]);
 
     this._USER.next(user);
@@ -105,6 +105,7 @@ export class HomeService extends SharedComponent {
     this._MINI_PROGRAMS.next(null);
     this._ANNOUNCEMENTS.next(null);
     this._SLIDESHOW.next(null);
+    this._FABS.next(null);
   }
 
   getRole(userType: UserType, user: JJUser) {
@@ -145,7 +146,7 @@ export class HomeService extends SharedComponent {
 
     const [wallets, fabs] = await Promise.all([
       this.auth.findMyWallets(options),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+      [], // this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
     ]);
 
     this._WALLETS.next(wallets);

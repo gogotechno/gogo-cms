@@ -22,7 +22,6 @@ export class NewsTickerComponent extends SharedComponent implements OnInit {
       this.announcements = announcements;
       if (this.announcements) {
         let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
-
         firstEl.style.setProperty('--offset-end', this.getOffsetEnd(container, firstEl));
         firstEl.style.setProperty('--base-duration', this.getBaseDuration(firstEl));
         firstEl.classList.add('animated');

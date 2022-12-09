@@ -14,12 +14,15 @@ ion-col {
 }
 
 h3 {
+  margin-top: calc(var(--ion-margin) / 4);
   margin-bottom: 0;
   font-size: var(--ion-font-sm);
   font-weight: var(--ion-font-bold);
 }
 
 p {
+  margin-top: 0;
+  margin-bottom: calc(var(--ion-margin) / 4);
   color: var(--ion-color-note);
   font-size: var(--ion-font-xs);
 }

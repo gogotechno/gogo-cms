@@ -64,6 +64,10 @@
   "_CHANGE_PASSWORD": "Change password",
   "_EDIT_PROFILE": "Edit profile",
   "_VIEW_ALL": "View All",
+  "_DAYS": "Days",
+  "_HOURS": "Hours",
+  "_MINUTES": "Minutes",
+  "_SECONDS": "Seconds",
   "_DAYS_SHORT": "D",
   "_HOURS_SHORT": "H",
   "_MINUTES_SHORT": "M",
@@ -421,6 +425,8 @@
     "_INVALID_WALLET_TYPE_FOUND": "Invalid wallet type found",
     "_TERM_AND_CONDITIONS": "Term and Conditions",
     "_EVENT_ORGANIZED_BY": "Event organized by {{ name }}",
-    "_EVENT_IS_NOT_STARTED_YET": "Event is not started yet"
+    "_EVENT_IS_NOT_STARTED_YET": "Event is not started yet",
+    "_NO_BULLETINS_FOUND": "No bulletins found",
+    "_NO_MORE_BULLETINS": "No more bulletins"
   }
 }
