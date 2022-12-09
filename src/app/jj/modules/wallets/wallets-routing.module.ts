@@ -9,14 +9,6 @@ const routes: Routes = [
     component: WalletsPage,
   },
   {
-    path: ':walletNo',
-    loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletPageModule),
-  },
-  {
-    path: ':walletNo/transactions',
-    loadChildren: () => import('./transactions/transactions.module').then((m) => m.TransactionsPageModule),
-  },
-  {
     path: 'locations',
     loadChildren: () => import('./locations/locations.module').then((m) => m.LocationsPageModule),
   },
@@ -38,11 +30,19 @@ const routes: Routes = [
   },
   {
     path: 'deposit',
-    loadChildren: () => import('./deposit/deposit.module').then( m => m.DepositPageModule)
+    loadChildren: () => import('./deposit/deposit.module').then(m => m.DepositPageModule)
   },
   {
     path: 'withdraw',
-    loadChildren: () => import('./withdraw/withdraw.module').then( m => m.WithdrawPageModule)
+    loadChildren: () => import('./withdraw/withdraw.module').then(m => m.WithdrawPageModule)
+  },
+  {
+    path: ':walletNo',
+    loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletPageModule),
+  },
+  {
+    path: ':walletNo/transactions',
+    loadChildren: () => import('./transactions/transactions.module').then((m) => m.TransactionsPageModule),
   },
 ];
 
@@ -50,4 +50,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WalletsPageRoutingModule {}
+export class WalletsPageRoutingModule { }

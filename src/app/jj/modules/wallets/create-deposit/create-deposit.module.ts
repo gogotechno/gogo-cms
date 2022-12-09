@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { CreateDepositPageRoutingModule } from './create-deposit-routing.module';
 
 import { CreateDepositPage } from './create-deposit.page';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateDepositPageRoutingModule
+    CreateDepositPageRoutingModule,
+    SwsErpModule
   ],
   declarations: [CreateDepositPage]
 })
