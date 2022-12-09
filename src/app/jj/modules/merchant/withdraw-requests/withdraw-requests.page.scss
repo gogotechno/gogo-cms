@@ -16,17 +16,24 @@ ion-list-header {
     font-size: small;
 }
 
+
+ion-badge{
+    height: 100%;
+    width: 100%;
+
+}
+
+
 .transaction {
     .description {
         font-weight: bold;
     }
 
-    .reference1, .reference2 {
+    .reference1 {
         font-size: small;
     }
-}
 
-ion-badge{
-    height: 100%;
-    width: 100%;
+    .request{
+        font-size:larger;
+    }
 }

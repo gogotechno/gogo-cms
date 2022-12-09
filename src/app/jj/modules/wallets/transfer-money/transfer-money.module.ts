@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { MembershipPageRoutingModule } from './membership-routing.module';
-import { MembershipPage } from './membership.page';
+
+import { TransferMoneyPageRoutingModule } from './transfer-money-routing.module';
+
+import { TransferMoneyPage } from './transfer-money.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MembershipPageRoutingModule
+    TransferMoneyPageRoutingModule
   ],
-  declarations: [MembershipPage],
+  declarations: [TransferMoneyPage]
 })
-export class MembershipPageModule { }
+export class TransferMoneyPageModule {}

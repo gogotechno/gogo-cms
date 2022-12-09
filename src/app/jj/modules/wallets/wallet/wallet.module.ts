@@ -18,6 +18,7 @@ import { JJComponentsModule } from '../../@components/jj-components.module';
     WalletPageRoutingModule,
     TranslateModule,
     JJComponentsModule,
+    
   ],
   declarations: [WalletPage]
 })

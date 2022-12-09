@@ -1,36 +1,36 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/wallets/:walletNo/withdraws"></ion-back-button>
+      <ion-back-button defaultHref="/jj/wallets/:walletNo/search-phone"></ion-back-button>
     </ion-buttons>
-    <ion-title>取出记录</ion-title>
+    <ion-title>Transfer History</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
       <ion-list-header>11/11/2022</ion-list-header>
-      <ion-item lines="full" class="transaction"  href="/jj/wallets/:walletNo/withdraw" button detail="false">
+      <ion-item lines="full" class="transaction"  href="/jj/wallets/:walletNo/transfer" button detail="false">
         <div class="ion-padding-vertical-sm">
-          <ion-text class="description">MDSP</ion-text><br />
+          <ion-text class="reference1">Transfer to</ion-text><br />
+          <ion-text class="description">TAN AH KAU</ion-text><br />
           <ion-text class="reference1">22111102293</ion-text><br />
-          <ion-text class="reference2">-</ion-text>
+          <ion-text class="reference2">Transfer to wallet</ion-text>
         </div>
         <div slot="end">
-          <ion-text class="description">RM500.00</ion-text><br />
-          <ion-badge color="warning">处理中</ion-badge>
+          <ion-text class="description" style="color:var(--ion-color-danger)">- RM500.00</ion-text><br />
         </div>
       </ion-item>
 
       <ion-item lines="full" class="transaction">
         <div class="ion-padding-vertical-sm">
-          <ion-text class="description">MDSP</ion-text><br />
+          <ion-text class="reference1">Receive from</ion-text><br />
+          <ion-text class="description">TAN AH KAU</ion-text><br />
           <ion-text class="reference1">22111102294</ion-text><br />
-          <ion-text class="reference2">-</ion-text>
+          <ion-text class="reference2">Transfer to wallet</ion-text>
         </div>
         <div slot="end">
-          <ion-text class="description">RM500.00</ion-text><br />
-          <ion-badge color="success">成功</ion-badge>
+          <ion-text class="description" style="color:var(--ion-color-success)">+ RM500.00</ion-text><br />
         </div>
       </ion-item>
   </ion-list>
@@ -38,13 +38,13 @@
   <div class="note">
     <ion-label>
       <ion-text>
-        已加载全部钱包取出记录
+        All history is loaded
       </ion-text>
     </ion-label>
   </div>
 
 
-   <!-- <ng-container *ngIf="dates?.length">
+  <!-- <ng-container *ngIf="dates?.length">
     <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
@@ -58,6 +58,4 @@
     </div>
   </ng-container> -->
 </ion-content>
-
-
 

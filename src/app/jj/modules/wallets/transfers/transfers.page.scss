@@ -21,12 +21,12 @@ ion-list-header {
         font-weight: bold;
     }
 
-    .reference1, .reference2 {
+    .reference1{
         font-size: small;
     }
-}
 
-ion-badge{
-    height: 100%;
-    width: 100%;
+    .reference2{
+        font-size: small;
+        color:	#A9A9A9;
+    } 
 }

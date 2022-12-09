@@ -1,0 +1,34 @@
+.transfer-to{
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.transfer-to-text{
+    font-size: medium;
+    font-weight: bold;
+    text-align: start;
+    margin-left: 5%;
+}
+
+ion-card{
+    height: 20vh;
+    border-radius: calc(var(--ion-border-radius)*2);
+}
+
+ion-card-content{
+    margin-top: 5%;
+}
+
+ion-grid{
+    text-align: center;
+    margin-left: 13%;
+}
+
+ion-text{
+    color:black;
+}
+
+ion-avatar { 
+    width: 70px;  
+    height: 70px;  
+}

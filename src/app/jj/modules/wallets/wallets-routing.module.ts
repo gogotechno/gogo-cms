@@ -25,11 +25,11 @@ const routes: Routes = [
     loadChildren: () => import('./create-deposit/create-deposit.module').then((m) => m.CreateDepositPageModule),
   },
   {
-    path: 'create-withdraw',
+    path: ':walletNo/create-withdraw',
     loadChildren: () => import('./create-withdraw/create-withdraw.module').then((m) => m.CreateWithdrawPageModule),
   },
   {
-    path: 'withdraws',
+    path: ':walletNo/withdraws',
     loadChildren: () => import('./withdraws/withdraws.module').then((m) => m.WithdrawsPageModule),
   },
   {
@@ -41,9 +41,26 @@ const routes: Routes = [
     loadChildren: () => import('./deposit/deposit.module').then( m => m.DepositPageModule)
   },
   {
-    path: 'withdraw',
+    path: ':walletNo/withdraw',
     loadChildren: () => import('./withdraw/withdraw.module').then( m => m.WithdrawPageModule)
   },
+  {
+    path: ':walletNo/search-phone',
+    loadChildren: () => import('./search-phone/search-phone.module').then( m => m.SearchPhonePageModule)
+  },
+  {
+    path: ':walletNo/transfer-money',
+    loadChildren: () => import('./transfer-money/transfer-money.module').then( m => m.TransferMoneyPageModule)
+  },
+  {
+    path: ':walletNo/transfers',
+    loadChildren: () => import('./transfers/transfers.module').then( m => m.TransfersPageModule)
+  },
+  {
+    path: ':walletNo/transfer',
+    loadChildren: () => import('./transfer/transfer.module').then( m => m.TransferPageModule)
+  },
+
 ];
 
 @NgModule({

@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
 import { IonicModule } from '@ionic/angular';
-import { MembershipPageRoutingModule } from './membership-routing.module';
-import { MembershipPage } from './membership.page';
+
+import { SearchPhonePageRoutingModule } from './search-phone-routing.module';
+
+import { SearchPhonePage } from './search-phone.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MembershipPageRoutingModule
+    SearchPhonePageRoutingModule
   ],
-  declarations: [MembershipPage],
+  declarations: [SearchPhonePage]
 })
-export class MembershipPageModule { }
+export class SearchPhonePageModule {}
