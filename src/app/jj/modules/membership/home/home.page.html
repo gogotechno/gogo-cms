@@ -52,12 +52,7 @@
     <ion-row *ngIf="event && showEvent">
       <ion-col class="countdown-event" [routerLink]="['/jj/rewards/events', event.doc_id]">
         <div class="event-name">{{ event.name | cmsTranslate }}</div>
-        <countdown-timer
-          [endDate]="event.endAt"
-          unitFormat="full"
-          separator=""
-          [columns]="['days', 'hours', 'minutes']"
-        ></countdown-timer>
+        <countdown-timer [endDate]="event.endAt" unitFormat="full" separator=""></countdown-timer>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="bulletins">

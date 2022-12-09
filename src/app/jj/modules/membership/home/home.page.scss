@@ -207,7 +207,7 @@ ion-segment {
   width: fit-content;
 
   ion-col:not(:last-of-type) {
-    padding-right: var(--ion-padding);
+    padding-right: calc(var(--ion-padding) / 2);
   }
 
   h3 {
