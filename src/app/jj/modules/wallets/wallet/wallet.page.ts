@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { AppUtils } from 'src/app/cms.util';
 import { JJLuckydrawService } from 'src/app/jj-luckydraw/jj-luckydraw.service';
 import { JJWallet, WalletType } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
+import { CreateDepositPage } from '../create-deposit/create-deposit.page';
 import { Currency } from '../wallets.types';
 
 @Component({
@@ -23,9 +24,11 @@ export class WalletPage implements OnInit {
     precision: 2,
     symbolPosition: 'start',
   };
+  createDepositPage: CreateDepositPage;
 
   constructor(
     route: ActivatedRoute,
+    private router: Router,
     private modalCtrl: ModalController,
     private appUtils: AppUtils,
     private jj: JJLuckydrawService,
@@ -49,7 +52,25 @@ export class WalletPage implements OnInit {
     switch (action.code) {
       default:
         return this.openQrCode();
+      case 'DEPOSIT':
+        return this.openDeposit();
+      case 'PIN':
+        return this.openPIN();
     }
+  }
+
+  async openDeposit() {
+    // const modal = await this.modalCtrl.create({
+    //   component: CreateDepositPage,
+    // });
+
+    // await modal.present();
+
+    this.router.navigate(["/jj/wallets/create-deposit"]);
+  }
+
+  async openPIN() {
+    this.router.navigate(["/jj/wallets/verify-pin"]);
   }
 
   async openQrCode() {
@@ -84,7 +105,7 @@ const actions: WalletAction[] = [
     nameKey: 'jj._DEPOSIT',
     icon: 'enter-outline',
     code: 'DEPOSIT',
-    active: false,
+    active: true,
   },
   {
     type: 'modal',
@@ -112,7 +133,7 @@ const actions: WalletAction[] = [
     nameKey: 'jj._PIN',
     icon: 'keypad-outline',
     code: 'PIN',
-    active: false,
+    active: true,
   },
   {
     type: 'modal',

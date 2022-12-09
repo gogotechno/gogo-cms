@@ -9,14 +9,6 @@ const routes: Routes = [
     component: WalletsPage,
   },
   {
-    path: ':walletNo',
-    loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletPageModule),
-  },
-  {
-    path: ':walletNo/transactions',
-    loadChildren: () => import('./transactions/transactions.module').then((m) => m.TransactionsPageModule),
-  },
-  {
     path: 'locations',
     loadChildren: () => import('./locations/locations.module').then((m) => m.LocationsPageModule),
   },
@@ -38,11 +30,31 @@ const routes: Routes = [
   },
   {
     path: 'deposit',
-    loadChildren: () => import('./deposit/deposit.module').then( m => m.DepositPageModule)
+    loadChildren: () => import('./deposit/deposit.module').then(m => m.DepositPageModule)
   },
   {
     path: ':walletNo/withdraw',
     loadChildren: () => import('./withdraw/withdraw.module').then( m => m.WithdrawPageModule)
+  },
+  {  
+    path: 'withdraw',
+    loadChildren: () => import('./withdraw/withdraw.module').then(m => m.WithdrawPageModule)
+  },
+  {
+    path: 'change-pin',
+    loadChildren: () => import('./change-pin/change-pin.module').then( m => m.ChangePinPageModule)
+  },
+  {
+    path: 'verify-pin',
+    loadChildren: () => import('./verify-pin/verify-pin.module').then( m => m.VerifyPinPageModule)
+  },
+  {
+    path: ':walletNo',
+    loadChildren: () => import('./wallet/wallet.module').then((m) => m.WalletPageModule),
+  },
+  {
+    path: ':walletNo/transactions',
+    loadChildren: () => import('./transactions/transactions.module').then((m) => m.TransactionsPageModule),
   },
   {
     path: ':walletNo/search-phone',
@@ -67,4 +79,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class WalletsPageRoutingModule {}
+export class WalletsPageRoutingModule { }
