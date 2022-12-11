@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/jj/shared';
 import { JJCurrencyComponent } from './jj-currency/jj-currency.component';
-import { JjNewsTickerComponent } from './jj-news-ticker/jj-news-ticker.component';
+import { JJNewsTickerComponent } from './jj-news-ticker/jj-news-ticker.component';
 
-const components = [JJCurrencyComponent, JjNewsTickerComponent];
+const components = [JJCurrencyComponent, JJNewsTickerComponent];
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SharedModule],

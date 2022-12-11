@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetExtraOptions, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -16,10 +16,14 @@ import {
   JJCustomer,
   JJEvent,
   JJEventPrize,
+  JJFab,
   JJMerchant,
   JJPointRule,
   JJProduct,
+  JJScratchAndWinEvent,
+  JJScratchAndWinPrize,
   JJScratchAndWinRule,
+  JJScratchRequest,
   JJSlideshow,
   JJTicket,
   JJTicketDistribution,
@@ -107,11 +111,12 @@ export class CoreService extends SharedComponent {
     return res[0];
   }
 
-  async getWalletsByMerchantId(merchantId: number) {
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+  async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       merchantId: merchantId,
       merchantId_type: '=',
-    });
+    };
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -157,11 +162,12 @@ export class CoreService extends SharedComponent {
     return res.result[0];
   }
 
-  async getWalletsByCustomerId(customerId: number) {
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+  async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
       customerId: customerId,
       customerId_type: '=',
-    });
+    };
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -385,15 +391,65 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
-      groupCode: groupCode,
-    });
+    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode: groupCode });
     return res.result;
   }
 
   async getContentPageById(pageId: number) {
     let res = await this.swsErp.getDoc<JJContentPage>('Content Page', pageId);
     return res;
+  }
+
+  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
+      groupCode: groupCode,
+      ...conditions,
+    };
+    let res = await this.swsErp.getDocs<JJFab>('FAB', query, options);
+    return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Scratch and Win Event
+  // -----------------------------------------------------------------------------------------------------
+
+  createScratchRequest(request: JJScratchRequest) {
+    return this.swsErp.postDoc('Scratch Request', request);
+  }
+
+  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    };
+    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query, options);
+    return res.result.map((request) => this.populateScratchRequest(request));
+  }
+
+  async getScratchAndWinEventById(eventId: number, options: { withLocation?: boolean } = {}) {
+    let conditions: Conditions = {};
+    if (options['withLocation']) {
+      let coords = await this.common.getCurrentCoords();
+      conditions['longitude'] = coords.longitude;
+      conditions['latitude'] = coords.latitude;
+      delete conditions['withLocation'];
+    }
+    let res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, <GetOptions>conditions);
+    return res;
+  }
+
+  async getScratchAndWinPrizes(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJScratchAndWinPrize>('Scratch And Win Prize', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -516,7 +572,7 @@ export class CoreService extends SharedComponent {
 
     switch (wallet.type) {
       case WalletType.SNW:
-        wallet.icon = 'gift';
+        wallet.icon = 'ticket';
         wallet.colors = {
           primary: '#FFC000',
           'primary-light': '#FFF2CC',
@@ -534,5 +590,24 @@ export class CoreService extends SharedComponent {
     }
 
     return wallet;
+  }
+
+  populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {
+    if (!prize) {
+      return null;
+    }
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
+      prize.translate ? prize.translate.name : prize.name,
+      prize.name,
+    );
+    return prize;
+  }
+
+  populateScratchRequest(request: JJScratchRequest) {
+    if (!request) {
+      return null;
+    }
+    request.prize = this.populateScratchAndWinPrize(request.prize);
+    return request;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { CmsFilter, Operator } from 'src/app/cms.type';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
@@ -28,7 +28,12 @@ export class ListPage extends SharedComponent implements OnInit {
 
   merchantId: number;
 
-  constructor(private auth: AuthService, private core: CoreService, private modalCtrl: ModalController) {
+  constructor(
+    private menuCtrl: MenuController,
+    private auth: AuthService,
+    private core: CoreService,
+    private modalCtrl: ModalController,
+  ) {
     super();
   }
 
@@ -36,6 +41,11 @@ export class ListPage extends SharedComponent implements OnInit {
     this.filter = this._filter;
     this.distributionsConditions = {};
     await this.loadData();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 
   async loadData() {
@@ -106,7 +116,11 @@ export class ListPage extends SharedComponent implements OnInit {
       items: [
         {
           code: 'event_id',
-          label: { en: 'Event', zh: '抽奖活动' },
+          label: {
+            en: 'Event',
+            zh: '抽奖活动',
+            ms: 'Acara',
+          },
           type: 'select',
           searchable: true,
           selectConfig: {
@@ -127,7 +141,11 @@ export class ListPage extends SharedComponent implements OnInit {
         },
         {
           code: 'distributedAt',
-          label: { en: 'Distributed At', zh: '分发于' },
+          label: {
+            en: 'Distributed At',
+            zh: '分发于',
+            ms: 'Diedarkan Di',
+          },
           type: 'date-between',
         },
       ],

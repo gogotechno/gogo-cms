@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { MenuController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/jj/services';
 import { JJMerchant, JJWallet, WalletType } from 'src/app/jj/typings';
 import { CreateUserPage } from '../create-user/create-user.page';
@@ -15,10 +15,15 @@ export class HomePage implements OnInit {
   merchant: JJMerchant;
   wallet: JJWallet;
 
-  constructor(private modalCtrl: ModalController, private auth: AuthService) {}
+  constructor(private modalCtrl: ModalController, private menuCtrl: MenuController, private auth: AuthService) {}
 
   async ngOnInit() {
     await this.loadData();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 
   async loadData() {

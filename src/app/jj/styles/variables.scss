@@ -97,6 +97,9 @@
   --ion-color-orange: #ffa500;
   --ion-color-note: var(--ion-color-step-350, #a6a6a6);
 
+  --ion-font-4xs: 6px;
+  --ion-font-3xs: 8px;
+  --ion-font-2xs: 10px;
   --ion-font-xs: 12px;
   --ion-font-sm: 14px;
   --ion-font-md: 16px;
@@ -291,6 +294,49 @@ ion-header.header-ios {
 
 ion-content.ion-content-clear {
   --background: transparent;
+}
+
+ion-back-button.ios.back-button-has-icon-only {
+  min-width: 48px;
+  height: 40px;
+}
+
+ion-back-button.filled-back-button {
+  &::part(icon) {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ion-color-light);
+  }
+}
+
+ion-button.filled-button,
+.sc-ion-buttons-md-s ion-button.filled-button {
+  height: 40px;
+
+  &:not(.button-has-icon-only) {
+    border-radius: 20px;
+    background: var(--ion-color-secondary);
+  }
+
+  &.button-has-icon-only {
+    --padding-start: 0px;
+    --padding-end: 0px;
+    width: 40px;
+  }
+
+  ion-icon,
+  ion-icon[slot='icon-only'] {
+    padding: 4px;
+    border-radius: 50%;
+    background: var(--ion-color-light);
+  }
+
+  ion-label {
+    font-size: var(--ion-font-sm);
+    margin-right: calc(var(--ion-margin) / 2);
+    margin-left: calc(var(--ion-margin) / 2);
+  }
 }
 
 ion-grid.grid-fixed {

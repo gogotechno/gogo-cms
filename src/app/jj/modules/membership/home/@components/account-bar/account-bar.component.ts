@@ -21,15 +21,12 @@ export class AccountBarComponent extends SharedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.home.user.subscribe((user) => {
-      this.user = user;
-    });
-    this.home.wallets.subscribe((wallets) => {
-      if (wallets) {
-        this.wallet = wallets.find((wallet) => wallet.type == WalletType.CUSTOMER);
-      }
-    });
     this.greetingKey = this.getGreeting();
+    this.home.user.subscribe((user) => (this.user = user));
+    this.home.wallets.subscribe((wallets) => {
+      if (!wallets) return;
+      this.wallet = wallets.find((wallet) => wallet.type == WalletType.CUSTOMER);
+    });
   }
 
   async openQrCode() {
@@ -37,7 +34,6 @@ export class AccountBarComponent extends SharedComponent implements OnInit {
       await this.appUtils.presentAlert('jj._NO_WALLET_CAN_BE_USED_FOR_PAYMENT');
       return;
     }
-
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
@@ -45,7 +41,6 @@ export class AccountBarComponent extends SharedComponent implements OnInit {
       },
       cssClass: 'qrcode-modal',
     });
-
     await modal.present();
   }
 }

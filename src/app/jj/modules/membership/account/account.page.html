@@ -26,6 +26,10 @@
   </ion-list>
 
   <ion-list lines="none">
+    <ion-item [detail]="true" [disabled]="!whatsappLink" (click)="onHelpCenter()">
+      <ion-icon slot="start" name="help-circle"></ion-icon>
+      <ion-label><h3>{{ "_HELP_CENTER" | translate }}</h3></ion-label>
+    </ion-item>
     <ion-item *ngFor="let contentPage of contentPages" [routerLink]="['/jj/common/content-page', contentPage.doc_id]">
       <ion-icon slot="start" [name]="contentPage.icon || 'document'"></ion-icon>
       <ion-label><h3>{{ contentPage.title }}</h3></ion-label>

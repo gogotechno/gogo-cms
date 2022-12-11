@@ -12,19 +12,18 @@ import { SearchAreaComponent } from './search-area/search-area.component';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SearchableSelectComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
-
-  @Input("filterItem") filterItem: CmsFilterItem;
-  @Output("filterItemChange") filterItemChange: EventEmitter<CmsFilterItem>;
+  @Input('filterItem') filterItem: CmsFilterItem;
+  @Output('filterItemChange') filterItemChange: EventEmitter<CmsFilterItem>;
 
   value: string;
   disabled: boolean;
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   labelFields: string[];
   labelSeparator: string;
@@ -37,19 +36,23 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
   onLoad: OnSelectLoad;
   onScrollToEnd: OnSelectScrollToEnd;
 
-  get id() {
+  get labelId() {
     return `cms-sel-${this.filterItem.code}-lbl`;
   }
 
+  get clickId() {
+    return `cms-sel-${this.filterItem.code}-clk`;
+  }
+
   get selectedLabel() {
-    let label: string = "";
-    this.selectedItems.forEach((i) => label += this.labelFields.map((f) => i[f]).join(this.labelSeparator));
+    let label: string = '';
+    this.selectedItems.forEach((i) => (label += this.labelFields.map((f) => i[f]).join(this.labelSeparator)));
     return label;
   }
 
   get selectCode() {
-    let code: string = "";
-    this.selectedItems.forEach((i) => code += this.codeFields.map((f) => i[f]).join(this.codeSeparator));
+    let code: string = '';
+    this.selectedItems.forEach((i) => (code += this.codeFields.map((f) => i[f]).join(this.codeSeparator)));
     return code;
   }
 
@@ -61,16 +64,21 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
     this.selectedItems = this.filterItem.selectConfig?.selectedItems || [];
 
     this.labelFields = this.filterItem.selectConfig?.labelFields || [];
-    this.labelSeparator = this.filterItem.selectConfig?.labelSeparator || " ";
+    this.labelSeparator = this.filterItem.selectConfig?.labelSeparator || ' ';
 
     this.codeFields = this.filterItem.selectConfig?.codeFields || [];
-    this.codeSeparator = this.filterItem.selectConfig?.codeSeparator || " ";
+    this.codeSeparator = this.filterItem.selectConfig?.codeSeparator || ' ';
 
     this.onLoad = this.filterItem.selectHandler?.onLoad;
     this.onScrollToEnd = this.filterItem.selectHandler?.onScrollToEnd;
 
-    if (!this.onLoad) console.warn("onLoad is not provided!");
-    if (!this.onScrollToEnd) console.warn("onScrollToEnd is not provided!");
+    if (!this.onLoad) {
+      console.warn('onLoad is not provided!');
+    }
+
+    if (!this.onScrollToEnd) {
+      console.warn('onScrollToEnd is not provided!');
+    }
   }
 
   writeValue(value: string) {
@@ -100,9 +108,9 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
         codeSeparator: this.codeSeparator,
         onLoad: this.onLoad,
         onScrollToEnd: this.onScrollToEnd,
-        selectedItems: this.selectedItems
-      }
-    })
+        selectedItems: this.selectedItems,
+      },
+    });
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data?.items) {
@@ -113,5 +121,4 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
       this.filterItemChange.emit(this.filterItem);
     }
   }
-
 }

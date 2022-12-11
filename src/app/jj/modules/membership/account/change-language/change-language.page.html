@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-radio-group [(ngModel)]="currentLangCode" (ionChange)="onLanguageChange($event)">
+    <ion-radio-group [(ngModel)]="currentLangCode" (ngModelChange)="onLanguageChange($event)">
       <ion-item *ngFor="let lang of languages">
         <ion-avatar slot="start">
           <ion-img [src]="lang.value"></ion-img>

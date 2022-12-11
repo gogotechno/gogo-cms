@@ -5,6 +5,7 @@ import { SharedComponent } from 'src/app/jj/shared';
 import {
   JJAnnouncement,
   JJEvent,
+  JJFab,
   JJSlideshow,
   JJUser,
   JJWallet,
@@ -13,9 +14,11 @@ import {
   UserRole,
   UserType,
 } from 'src/app/jj/typings';
-import { SwsErpService } from 'src/app/sws-erp.service';
+import { Conditions, GetExtraOptions } from 'src/app/sws-erp.type';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
@@ -23,6 +26,7 @@ export class HomeService extends SharedComponent {
   private _MINI_PROGRAMS: BehaviorSubject<MiniProgram[]>;
   private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
   private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
+  private _FABS: BehaviorSubject<JJFab[]>;
 
   get user() {
     return this._USER.asObservable();
@@ -48,6 +52,10 @@ export class HomeService extends SharedComponent {
     return this._SLIDESHOW.asObservable();
   }
 
+  get fabs() {
+    return this._FABS.asObservable();
+  }
+
   constructor(private auth: AuthService, private core: CoreService) {
     super();
     this._USER = new BehaviorSubject<User>(null);
@@ -56,6 +64,7 @@ export class HomeService extends SharedComponent {
     this._MINI_PROGRAMS = new BehaviorSubject<MiniProgram[]>(null);
     this._ANNOUNCEMENTS = new BehaviorSubject<JJAnnouncement[]>(null);
     this._SLIDESHOW = new BehaviorSubject<JJSlideshow>(null);
+    this._FABS = new BehaviorSubject<JJFab[]>(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
       if (event?.status == 'LOGGED_IN' && !this._USER.getValue()) {
@@ -68,12 +77,13 @@ export class HomeService extends SharedComponent {
   }
 
   async init() {
-    const [user, wallets, ongoingEvents, announcements, slideshow] = await Promise.all([
+    const [user, wallets, ongoingEvents, announcements, slideshow, fabs] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
-      this.core.getOngoingEvents(this.defaultPage),
+      [], //   this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
+      [], //   this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
     ]);
 
     this._USER.next(user);
@@ -85,6 +95,7 @@ export class HomeService extends SharedComponent {
 
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
+    this._FABS.next(fabs);
   }
 
   destroy() {
@@ -94,6 +105,7 @@ export class HomeService extends SharedComponent {
     this._MINI_PROGRAMS.next(null);
     this._ANNOUNCEMENTS.next(null);
     this._SLIDESHOW.next(null);
+    this._FABS.next(null);
   }
 
   getRole(userType: UserType, user: JJUser) {
@@ -118,6 +130,28 @@ export class HomeService extends SharedComponent {
         return MINI_PROGRAMS;
     }
   }
+
+  getFabsConditions() {
+    let fabsConditions: Conditions = {};
+    if (this.auth.userType == 'CUSTOMER') {
+      fabsConditions = {
+        customerId: this.auth.currentUser.doc_id,
+      };
+    }
+    return fabsConditions;
+  }
+
+  async refresh() {
+    let options: GetExtraOptions = { skipLoading: true };
+
+    const [wallets, fabs] = await Promise.all([
+      this.auth.findMyWallets(options),
+      [], // this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+    ]);
+
+    this._WALLETS.next(wallets);
+    this._FABS.next(fabs);
+  }
 }
 
 const MINI_PROGRAMS: MiniProgram[] = [
@@ -125,6 +159,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Reward',
       zh: 'JJ福利',
+      ms: 'JJ Ganjaran',
     }),
     icon: 'gift',
     link: '/jj/rewards',
@@ -137,6 +172,7 @@ const MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Wallet',
       zh: 'JJ钱包',
+      ms: 'JJ Dompet',
     }),
     icon: 'wallet',
     link: '/jj/wallets',
@@ -148,6 +184,7 @@ const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Merchant',
       zh: 'JJ门市',
+      ms: 'JJ Pedagang',
     }),
     icon: 'storefront',
     link: '/jj/merchant',
@@ -160,6 +197,7 @@ const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Wallet',
       zh: 'JJ钱包',
+      ms: 'JJ Dompet',
     }),
     icon: 'wallet',
     link: '/jj/wallets',
@@ -171,6 +209,7 @@ const SYSTEM_MINI_PROGRAMS: MiniProgram[] = [
     name: JSON.stringify({
       en: 'JJ Admin',
       zh: 'JJ管理员',
+      ms: 'JJ Pentadbir',
     }),
     icon: 'tv',
     link: '/jj/admin',

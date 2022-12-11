@@ -1,0 +1,46 @@
+.event-logo {
+  height: 160px;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+ion-list {
+  background: transparent;
+
+  ion-item {
+    margin: calc(var(--ion-margin) / 2) var(--ion-margin);
+
+    --background: var(--ion-color-dark);
+
+    --padding-start: calc(var(--ion-padding) / 1.5);
+    --padding-end: calc(var(--ion-padding) / 1.5);
+    --inner-padding-end: 0;
+
+    border-radius: var(--ion-border-radius);
+    border-color: var(--ion-color-medium);
+    border-style: solid;
+    border-width: 8px;
+
+    ion-label {
+      margin-top: calc(var(--ion-margin) / 2);
+      margin-bottom: calc(var(--ion-margin) / 2);
+      p,
+      h3 {
+        color: var(--ion-color-light);
+        font-size: var(--ion-font-xs);
+      }
+      h3 {
+        font-weight: var(--ion-font-bold);
+        font-size: var(--ion-font-md);
+      }
+    }
+  }
+}
+
+.prize-worth {
+  font-size: var(--ion-font-xs);
+  jj-currency {
+    --symbol-size: var(--ion-font-xs);
+  }
+}

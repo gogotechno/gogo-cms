@@ -1,3 +1,20 @@
-<p>
-  jj-news-ticker works!
-</p>
+<ng-container *ngIf="messages || buttons">
+  <div [id]="prefix + '-messages-container'" class="container">
+    <div class="inner-container">
+      <p
+        *ngFor="let message of messages; let index = index"
+        [id]="prefix + '-message-' + index"
+        [style.--sequence]="index"
+        [style.--length]="message.length"
+        (animationend)="onAnimEnd(index)"
+      >
+        <span>{{ message }}</span>
+      </p>
+      <div class="end-buttons">
+        <ion-button *ngFor="let button of endButtons" (click)="onButtonClick(button)" size="small" fill="clear">
+          <ion-label>{{ button.label | translate }}</ion-label>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ng-container>

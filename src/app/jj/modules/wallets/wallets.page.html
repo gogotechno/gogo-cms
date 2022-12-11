@@ -47,11 +47,13 @@
         </div>
       </ion-item>
     </ion-list>
-    <div *ngIf="updatedAt" class="ion-padding ion-text-center">
-      <ion-text color="medium">
-        <small>{{ '_ALL_LOADED' | translate }}</small><br />
-        <small>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</small>
-      </ion-text>
+    <div *ngIf="updatedAt" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+        </ion-text>
+      </ion-label>
     </div>
   </ng-container>
 

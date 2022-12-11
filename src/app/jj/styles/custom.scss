@@ -46,3 +46,12 @@
 .qrcode-modal {
   --background: rgba(0, 0, 0, 0.85);
 }
+
+.scratch-result-modal {
+  --height: 75%;
+  --width: 90%;
+  --background: transparent;
+  --border-radius: var(--ion-border-radius);
+  --max-width: 384px;
+  --box-shadow: none;
+}

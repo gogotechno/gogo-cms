@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Browser } from '@capacitor/browser';
 import { CmsForm, CmsLanguage } from 'src/app/cms.type';
 import { AuthService, CommonService } from 'src/app/jj/services';
 import { PackageInfo, SharedComponent } from 'src/app/jj/shared';
@@ -14,6 +15,7 @@ export class LoginPage extends SharedComponent implements OnInit {
   value: LoginDto;
   packageInfo: PackageInfo;
   languages: CmsLanguage[];
+  whatsappLink: string;
 
   constructor(
     private auth: AuthService,
@@ -27,6 +29,7 @@ export class LoginPage extends SharedComponent implements OnInit {
   async ngOnInit() {
     this.packageInfo = this.getPackageInfo();
     this.languages = await this.common.getSupportedLanguages();
+    this.whatsappLink = await this.common.getWhatsapp();
   }
 
   ionViewWillEnter() {
@@ -52,6 +55,10 @@ export class LoginPage extends SharedComponent implements OnInit {
       relativeTo: this.route,
     });
   }
+
+  async onHelpCenter() {
+    await Browser.open({ url: `https://${this.whatsappLink}` });
+  }
 }
 
 const form: CmsForm = {
@@ -62,19 +69,31 @@ const form: CmsForm = {
   items: [
     {
       code: 'email',
-      label: { en: 'Phone No.', zh: '手机号' },
+      label: {
+        en: 'Phone No.',
+        zh: '手机号',
+        ms: 'Nombor Telefon',
+      },
       type: 'text',
       required: true,
     },
     {
       code: 'password',
-      label: { en: 'Password', zh: '密码' },
+      label: {
+        en: 'Password',
+        zh: '密码',
+        ms: 'Kata Laluan',
+      },
       type: 'password',
       required: true,
     },
     {
       code: 'rememberMe',
-      label: { en: 'Remember Me', zh: '记住我' },
+      label: {
+        en: 'Remember Me',
+        zh: '记住我',
+        ms: 'Ingat Saya',
+      },
       type: 'checkbox',
     },
   ],

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJCustomer, JJUser } from 'src/app/jj/typings';
@@ -18,7 +19,7 @@ export class ListPage extends SharedComponent implements OnInit {
     searchInput?: string;
   };
 
-  constructor(private auth: AuthService, private core: CoreService) {
+  constructor(private menuCtrl: MenuController, private auth: AuthService, private core: CoreService) {
     super();
   }
 
@@ -26,6 +27,11 @@ export class ListPage extends SharedComponent implements OnInit {
     this.customersConditions = {};
     this.currentUser = <JJUser>this.auth.currentUser;
     await this.loadData();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 
   async loadData() {

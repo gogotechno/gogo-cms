@@ -1,0 +1,87 @@
+:host {
+  --background: rgba(var(--ion-color-secondary-rgb), 0.6);
+  --color: var(--ion-color-dark);
+  --height: calc(var(--ion-font-xs) + calc(var(--ion-padding) / 4) + calc(var(--ion-padding) / 4));
+}
+
+.container {
+  z-index: 99;
+  background: var(--background);
+  height: var(--height);
+  position: sticky;
+  top: 0;
+}
+
+.inner-container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+p {
+  --offset-end: 0px;
+  --base-duration: 0ms;
+  --anim-duration: calc(var(--length) * var(--base-duration));
+
+  margin: 0;
+  text-align: end;
+  white-space: nowrap;
+  width: max-content;
+  min-width: 100%;
+  transform: translate(-100%);
+  font-size: var(--ion-font-xs);
+  color: var(--color);
+  position: absolute;
+}
+
+p.animated {
+  animation-name: scrolling-anim;
+  animation-duration: var(--anim-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes scrolling-anim {
+  0% {
+    transform: translate(calc(0% + var(--offset-end)));
+  }
+  100% {
+    transform: translate(-100%);
+  }
+}
+
+.end-buttons {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  background: var(--background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+ion-button {
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  --padding-start: 4px;
+  --padding-end: 4px;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
+
+  &:last-of-type {
+    margin-right: 0;
+  }
+
+  ion-label {
+    color: var(--color);
+    text-decoration: underline;
+    text-transform: capitalize;
+    font-weight: var(--ion-font-bold);
+  }
+}

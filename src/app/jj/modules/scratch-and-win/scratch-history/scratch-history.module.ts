@@ -10,6 +10,7 @@ import { ScratchHistoryPage } from './scratch-history.page';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { ScratchAndWinComponentsModule } from '../@components/scratch-and-win-components.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     ScratchHistoryPageRoutingModule,
     SharedModule,
     SwsErpModule,
-    CmsUIModule
+    CmsUIModule,
+    ScratchAndWinComponentsModule
   ],
   declarations: [ScratchHistoryPage]
 })

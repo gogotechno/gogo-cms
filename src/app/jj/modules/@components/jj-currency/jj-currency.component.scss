@@ -1,0 +1,7 @@
+:host {
+  --symbol-size: var(--ion-font-2xs);
+}
+
+span:not(.number) {
+  font-size: var(--symbol-size);
+}

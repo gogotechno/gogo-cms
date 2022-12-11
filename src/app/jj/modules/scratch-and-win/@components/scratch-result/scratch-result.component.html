@@ -1,3 +1,17 @@
-<p>
-  scratch-result works!
-</p>
+<ion-content>
+  <div class="image">
+    <img [src]="image | erpImg" />
+  </div>
+  <div class="container" [style.background-image]="backgroundImage | erpImg | cssUrl">
+    <div class="inner-container">
+      <img class="prize-image" [src]="prize?.thumbnailImage | erpImg" />
+      <div class="message">
+        <p>{{ message }}</p>
+        <h3>{{ prize?.nameTranslation | cmsTranslate }}</h3>
+      </div>
+      <ion-button (click)="onDismiss()">
+        <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

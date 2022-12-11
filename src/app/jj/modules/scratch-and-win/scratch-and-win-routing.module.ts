@@ -5,11 +5,11 @@ import { ScratchAndWinPage } from './scratch-and-win.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: ScratchAndWinPage,
   },
   {
-    path: 'scratch-history',
+    path: ':id/history',
     loadChildren: () => import('./scratch-history/scratch-history.module').then((m) => m.ScratchHistoryPageModule),
   },
 ];

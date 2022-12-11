@@ -3,15 +3,15 @@
   <div class="ion-padding-horizontal ion-padding-bottom">
     <cms-form [form]="form" [value]="value" (submit)="onLogin($event)"></cms-form>
     <div class="cms-form">
-      <ion-list>
+      <!-- <ion-list>
         <ion-item>
           <ion-label class="ion-text-end ion-no-margin-end">{{ "_FORGOT_PASSWORD" | translate }}?</ion-label>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
       <ion-button expand="block" fill="outline" [disabled]="true">
         <ion-label>{{ "_REGISTER_ACCOUNT" | translate }}</ion-label>
       </ion-button>
-      <ion-button expand="block" fill="outline">
+      <ion-button expand="block" fill="outline" [disabled]="!whatsappLink" (click)="onHelpCenter()">
         <ion-label>{{ "_HELP_CENTER" | translate }}</ion-label>
       </ion-button>
     </div>

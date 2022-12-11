@@ -5,11 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { JJComponentsModule } from '../../@components/jj-components.module';
-import { ScratchPrizesComponent } from './scratch-prizes/scratch-prizes.component';
-import { ScratchResultComponent } from './scratch-result/scratch-result.component';
+import { ContentBoxComponent } from './content-box/content-box.component';
 
-const components = [ScratchPrizesComponent, ScratchResultComponent];
+const components = [ContentBoxComponent];
 
 @NgModule({
   imports: [
@@ -18,10 +16,9 @@ const components = [ScratchPrizesComponent, ScratchResultComponent];
     IonicModule, 
     SharedModule,
     SwsErpModule,
-    CmsUIModule,
-    JJComponentsModule
+    CmsUIModule
   ],
   exports: components,
   declarations: components,
 })
-export class ScratchAndWinComponentsModule {}
+export class CommonComponentsModule {}

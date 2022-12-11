@@ -329,6 +329,7 @@ export interface JJSlideshowItem extends ErpDoc {
   backgroundImage: string;
   isActive: boolean;
   sequence: number;
+  url: string;
 
   messageTranslation?: CmsTranslation;
 }
@@ -351,34 +352,77 @@ export interface JJContentPage extends ErpDoc {
   isActive: boolean;
 }
 
+export interface JJFab extends ErpDoc {
+  code: string;
+  title: string;
+  icon: string;
+  url: string;
+  isActive: boolean;
+  
+  extras: FabExtras;
+}
+
+export interface FabExtras {
+  count?: number;
+}
+
 export interface JJScratchAndWinEvent extends ErpDoc {
   name: string;
-  highlight: string;
-  description: string;
-  tnc: string;
-  status: EventStatus;
   startAt: Date;
   endAt: Date;
+  tnc: string;
+  isActive: boolean;
+  pricePerScratch: number;
   logo: string;
   coverImage: string;
   backgroundImage: string;
-  scratchBackgroundImage: string;
-  scratchPlaceholderImage: string;
-  distance: string;
+  cardBackgroundImage: string;
+  scratchAreaPlaceholderImage: string;
+  congratulationImage: string;
+  congratulationBackgroundImage: string;
+  congratulationMessage: string;
+  thankYouImage: string;
+  thankYouBackgroundImage: string;
+  thankYouMessage: string;
+  merchant_id: number;
+
+  prizes?: JJScratchAndWinPrize[];
+
+  merchant?: JJMerchant;
+  distance?: number;
 }
 
-export interface JJScratchAndWinEventPrize extends ErpDoc {
+export interface JJScratchAndWinPrize extends ErpDoc {
   name: string;
-  description: string;
-  thumbnailImage: string;
   worth: number;
+  thumbnailImage: string;
+  backgroundImage: string;
+  sequence: number;
+  type: 'WALLET' | 'GIFT';
+  walletType: WalletType;
+  chance: number;
+  totalLimit: number;
+  dailyLimit: number;
+  userLimit: number;
+  isActive: boolean;
+  isDefault: boolean;
   scratch_and_win_event_id: number;
+
+  nameTranslation?: CmsTranslation;
 }
 
-export interface JJScratchHistory extends ErpDoc {
+export interface JJScratchRequest extends ErpDoc {
+  scratch_and_win_event_id: number;
   customer_id: number;
-  prize_id: number;
-  scratchedAt: Date;
+  wallet_id: number;
+  spend: number;
+  status: 'PROCESSING' | 'COMPLETED';
+  scratch_and_win_prize_id: number | null;
 
-  prize?: JJScratchAndWinEventPrize;
+  customer?: JJCustomer;
+  prize?: JJScratchAndWinPrize;
+}
+
+export interface ScratchRequestExtras {
+  prize: JJScratchAndWinPrize;
 }

@@ -19,9 +19,7 @@ export class DetailsPage implements OnInit {
     this.details.eventId = params['id'];
     await this.loadData();
 
-    this.details.event.subscribe((event) => {
-      this.event = event;
-    });
+    this.details.event.subscribe((event) => (this.event = event));
   }
 
   ngOnDestroy() {

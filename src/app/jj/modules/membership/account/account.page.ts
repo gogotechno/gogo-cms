@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Browser } from '@capacitor/browser';
 import { AuthService } from 'src/app/jj/services';
 import { JJContentPage } from 'src/app/jj/typings';
 import { AccountService } from './@services/account.service';
@@ -10,15 +11,14 @@ import { AccountService } from './@services/account.service';
 })
 export class AccountPage implements OnInit {
   contentPages: JJContentPage[];
+  whatsappLink: string;
 
   constructor(private auth: AuthService, private account: AccountService) {}
 
   ngOnInit() {
     this.account.init();
-
-    this.account.contentPages.subscribe((contentPages) => {
-      this.contentPages = contentPages;
-    });
+    this.account.whatsappLink.subscribe((link) => (this.whatsappLink = link));
+    this.account.contentPages.subscribe((contentPages) => (this.contentPages = contentPages));
   }
 
   ngOnDestroy() {
@@ -27,5 +27,9 @@ export class AccountPage implements OnInit {
 
   async onLogout() {
     await this.auth.signOut();
+  }
+
+  async onHelpCenter() {
+    await Browser.open({ url: `https://${this.whatsappLink}` });
   }
 }

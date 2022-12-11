@@ -1,3 +1,37 @@
-<p>
-  scratch-prizes works!
-</p>
+<ion-header class="ion-header-clear">
+  <ion-toolbar class="clear">
+    <ion-buttons slot="end">
+      <ion-button class="filled-button" (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" [style.--background]="'center / cover ' + (event?.backgroundImage | erpImg | cssUrl)">
+  <ion-img class="event-logo" [src]="event?.logo | erpImg"></ion-img>
+  <ion-list lines="none">
+    <div *ngIf="!prizes?.length" class="note">
+      <ion-label>{{ 'jj._NO_PRIZES_FOUND' | translate }}</ion-label>
+    </div>
+    <ion-item *ngFor="let prize of prizes">
+      <ion-thumbnail slot="start">
+        <img [src]="prize.thumbnailImage | erpImg" />
+      </ion-thumbnail>
+      <ion-label>
+        <h3>{{ prize.name }}</h3>
+        <p class="prize-worth">
+          {{ 'jj._WORTH' | translate }}&nbsp;
+          <jj-currency [currency]="displayCurrency" [value]="prize.worth"></jj-currency>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-container *ngIf="prizes?.length">
+    <ion-infinite-scroll *ngIf="!prizesEnded" (ionInfinite)="loadMorePrizes($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="prizesEnded" class="note">
+      <ion-label>{{ 'jj._NO_MORE_PRIZES' | translate }}</ion-label>
+    </div>
+  </ng-container>
+</ion-content>

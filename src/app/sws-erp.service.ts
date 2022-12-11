@@ -19,6 +19,7 @@ import {
   PostOptions,
   PutOptions,
   ChangePasswordDto,
+  GetExtraOptions,
 } from './sws-erp.type';
 
 @Injectable({
@@ -76,10 +77,17 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns document object
    */
-  public getDoc<T = any>(docType: string, id: number, query: GetOptions = {}) {
+  public getDoc<T = any>(docType: string, id: number, query: GetOptions = {}, options: GetExtraOptions = {}) {
+    let headers = {};
+    if (options.skipLoading) {
+      headers['SkipLoading'] = 'TRUE';
+    }
     const requestUrl = `${this.API_URL}/module/${docType}/${id}`;
     return this._http
-      .get<T[]>(requestUrl, { params: query })
+      .get<T[]>(requestUrl, {
+        params: query,
+        headers: headers,
+      })
       .pipe(map((res) => res[0]))
       .toPromise();
   }
@@ -90,9 +98,18 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns with documents and total
    */
-  public getDocs<T = any>(docType: string, query: GetOptions = {}) {
+  public getDocs<T = any>(docType: string, query: GetOptions = {}, options: GetExtraOptions = {}) {
+    let headers = {};
+    if (options.skipLoading) {
+      headers['SkipLoading'] = 'TRUE';
+    }
     const requestUrl = `${this.API_URL}/docs/${docType}`;
-    return this._http.get<Pageable<T>>(requestUrl, { params: query }).toPromise();
+    return this._http
+      .get<Pageable<T>>(requestUrl, {
+        params: query,
+        headers: headers,
+      })
+      .toPromise();
   }
 
   /**

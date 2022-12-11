@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent } from 'src/app/jj/typings';
@@ -14,12 +15,17 @@ export class ListPage extends SharedComponent implements OnInit {
   eventsEnded: boolean;
   events: JJEvent[];
 
-  constructor(private core: CoreService) {
+  constructor(private menuCtrl: MenuController, private core: CoreService) {
     super();
   }
 
   async ngOnInit() {
     await this.loadData();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 
   async loadData() {

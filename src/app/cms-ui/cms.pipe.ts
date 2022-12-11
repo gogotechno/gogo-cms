@@ -41,8 +41,10 @@ export class SafeHtmlPipe implements PipeTransform {
 export class CssUrlPipe implements PipeTransform {
   constructor() {}
   transform(src: string) {
-    if (!src) src = '/assets/image-placeholder.jpg';
-    return `url(${src})`;
+    if (!src) {
+      src = '/assets/image-placeholder.jpg';
+    }
+    return `url("${src}")`;
   }
 }
 

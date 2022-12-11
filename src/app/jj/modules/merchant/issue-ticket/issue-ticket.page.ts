@@ -12,6 +12,7 @@ import {
   JJMerchant,
   JJTicketDistributionApplication,
 } from 'src/app/jj/typings';
+import { HomeService as MemberHomeService } from '../../membership/home/@services/home.service';
 
 @Component({
   selector: 'app-issue-ticket',
@@ -37,6 +38,7 @@ export class IssueTicketPage implements OnInit {
     private auth: AuthService,
     private core: CoreService,
     private common: CommonService,
+    private memberHome: MemberHomeService,
   ) {}
 
   async ngOnInit() {
@@ -150,6 +152,7 @@ export class IssueTicketPage implements OnInit {
             handler: () => {
               this.customer = null;
               this.success = true;
+              this.memberHome.refresh();
               this.onDismiss();
               return true;
             },
@@ -256,6 +259,7 @@ const form: CmsForm = {
       label: {
         en: 'Merchant',
         zh: '商家',
+        ms: 'Pedagang',
       },
       type: 'number',
       required: true,
@@ -266,6 +270,7 @@ const form: CmsForm = {
       label: {
         en: 'Event',
         zh: '活动',
+        ms: 'Acara',
       },
       type: 'select',
       required: true,
@@ -275,6 +280,7 @@ const form: CmsForm = {
       label: {
         en: 'Customer Contact No',
         zh: '客户联络号码',
+        ms: 'Nombor Hubungan Pelanggan',
       },
       type: 'text',
       required: true,
@@ -284,6 +290,7 @@ const form: CmsForm = {
       label: {
         en: 'Customer First Name',
         zh: '客户名字',
+        ms: 'Nama Pertama Pelanggan',
       },
       type: 'text',
     },
@@ -292,6 +299,7 @@ const form: CmsForm = {
       label: {
         en: 'Customer Last Name',
         zh: '客户姓氏',
+        ms: 'Nama Terakhir Pelanggan',
       },
       type: 'text',
     },
@@ -300,6 +308,7 @@ const form: CmsForm = {
       label: {
         en: 'Bill No',
         zh: '账单编号',
+        ms: 'No Bil',
       },
       type: 'text',
       required: true,
@@ -309,6 +318,7 @@ const form: CmsForm = {
       label: {
         en: 'Expenses Amount (RM)',
         zh: '消费合计 (RM)',
+        ms: 'Jumlah Digunakan (RM)',
       },
       type: 'number',
       required: true,
@@ -318,6 +328,7 @@ const form: CmsForm = {
       label: {
         en: 'Point Expenses Amount',
         zh: '消费积分',
+        ms: 'Jumlah Mata Digunakan',
       },
       type: 'number',
       required: true,
@@ -327,6 +338,7 @@ const form: CmsForm = {
       label: {
         en: 'Product',
         zh: '产品',
+        ms: 'Produk',
       },
       type: 'select',
     },
