@@ -6,7 +6,12 @@ import { MembershipPageRoutingModule } from './membership-routing.module';
 import { MembershipPage } from './membership.page';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, MembershipPageRoutingModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    IonicModule, 
+    MembershipPageRoutingModule
+  ],
   declarations: [MembershipPage],
 })
 export class MembershipPageModule {}

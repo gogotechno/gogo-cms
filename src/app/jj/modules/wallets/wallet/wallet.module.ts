@@ -8,7 +8,7 @@ import { WalletPageRoutingModule } from './wallet-routing.module';
 
 import { WalletPage } from './wallet.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.module';
+import { JJComponentsModule } from '../../@components/jj-components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.
     IonicModule,
     WalletPageRoutingModule,
     TranslateModule,
-    JjCurrencyModule,
+    JJComponentsModule,
   ],
   declarations: [WalletPage]
 })

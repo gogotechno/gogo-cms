@@ -1,50 +1,65 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>{{ "jj._CUSTOMERS" | translate }}</ion-title>
-  </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar
-      [placeholder]="'jj._SEARCH_NAME_OR_CONTACT_NO' | translate"
-      [debounce]="500"
-      (ionChange)="onSearch($event)"
-    ></ion-searchbar>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="customers-content">
+  <ion-header>
+    <menu-header></menu-header>
+  </ion-header>
+  <ion-content>
+    <menu-content></menu-content>
+  </ion-content>
+  <ion-footer>
+    <menu-footer></menu-footer>
+  </ion-footer>
+</ion-menu>
 
-<ion-content>
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col>
-        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-          <ion-refresher-content></ion-refresher-content>
-        </ion-refresher>
-        <ion-list>
-          <div *ngIf="!customers?.length" class="note">
-            <ion-label> {{ "jj._NO_CUSTOMERS_FOUND" | translate }} </ion-label>
-          </div>
-          <ion-item *ngFor="let customer of customers" [routerLink]="[customer.doc_id]">
-            <ion-label>
-              <h3>{{ customer.firstName | fullName: customer.lastName }}</h3>
-              <h3 *ngIf="currentUser?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hideText }}</h3>
-              <h3 *ngIf="currentUser?.role == 'SYSTEM_ADMIN'">{{ customer.phone }}</h3>
-              <p>
-                {{ "jj._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ customer.doc_createdDate | date: "MM/dd/yy, h:mm a" }}
-              </p>
-            </ion-label>
-          </ion-item>
-        </ion-list>
-        <ng-container *ngIf="customers?.length">
-          <ion-infinite-scroll *ngIf="!customersEnded" (ionInfinite)="loadMoreCustomers($event)">
-            <ion-infinite-scroll-content></ion-infinite-scroll-content>
-          </ion-infinite-scroll>
-          <div *ngIf="customersEnded" class="note">
-            <ion-label> {{ "jj._NO_MORE_CUSTOMERS" | translate }} </ion-label>
-          </div>
-        </ng-container>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+<div class="ion-page" id="customers-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>{{ "jj._CUSTOMERS" | translate }}</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar
+        [placeholder]="'jj._SEARCH_NAME_OR_CONTACT_NO' | translate"
+        [debounce]="500"
+        (ionChange)="onSearch($event)"
+      ></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+          </ion-refresher>
+          <ion-list>
+            <div *ngIf="!customers?.length" class="note">
+              <ion-label> {{ "jj._NO_CUSTOMERS_FOUND" | translate }} </ion-label>
+            </div>
+            <ion-item *ngFor="let customer of customers" [routerLink]="[customer.doc_id]">
+              <ion-label>
+                <h3>{{ customer.firstName | fullName: customer.lastName }}</h3>
+                <h3 *ngIf="currentUser?.role == 'MERCHANT_ADMIN'">{{ customer.phone | hideText }}</h3>
+                <h3 *ngIf="currentUser?.role == 'SYSTEM_ADMIN'">{{ customer.phone }}</h3>
+                <p>
+                  {{ "jj._CREATED_AT" | translate }}&nbsp;:&nbsp;{{ customer.doc_createdDate | date: "MM/dd/yy, h:mm a"
+                  }}
+                </p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+          <ng-container *ngIf="customers?.length">
+            <ion-infinite-scroll *ngIf="!customersEnded" (ionInfinite)="loadMoreCustomers($event)">
+              <ion-infinite-scroll-content></ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+            <div *ngIf="customersEnded" class="note">
+              <ion-label> {{ "jj._NO_MORE_CUSTOMERS" | translate }} </ion-label>
+            </div>
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</div>

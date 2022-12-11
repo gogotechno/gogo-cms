@@ -7,9 +7,9 @@ import { AuthService } from '../services';
 })
 export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
-  canActivate() {
+  async canActivate() {
     if (!this.auth.authenticated) {
-      this.router.navigateByUrl('/jj/login');
+      await this.router.navigate(['/jj/login']);
       return false;
     }
     return true;
@@ -21,11 +21,9 @@ export class AuthGuard implements CanActivate {
 })
 export class PublicGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
-  canActivate() {
+  async canActivate() {
     if (this.auth.authenticated) {
-      this.router.navigateByUrl('/jj', {
-        replaceUrl: true,
-      });
+      await this.router.navigate(['/jj']);
       return false;
     }
     return true;

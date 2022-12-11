@@ -9,7 +9,7 @@ import { TransactionsPageRoutingModule } from './transactions-routing.module';
 import { TransactionsPage } from './transactions.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.module';
+import { JJComponentsModule } from '../../@components/jj-components.module';
 
 @NgModule({
   imports: [
@@ -19,7 +19,7 @@ import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.
     TransactionsPageRoutingModule,
     TranslateModule,
     ScrollingModule,
-    JjCurrencyModule
+    JJComponentsModule,
   ],
   declarations: [TransactionsPage]
 })

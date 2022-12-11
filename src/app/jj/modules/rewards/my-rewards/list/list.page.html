@@ -26,7 +26,11 @@
           <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button>
         </h3>
         <div class="events" (scroll)="loadMoreEvents($event)">
-          <ion-avatar *ngFor="let event of events" (click)="onEventClick(event)">
+          <ion-avatar
+            *ngFor="let event of events"
+            [class.active]="event.doc_id == selectedEvent.doc_id"
+            (click)="onEventClick(event)"
+          >
             <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
             <ion-img [src]="event.backgroundImage | erpImg"></ion-img>
           </ion-avatar>

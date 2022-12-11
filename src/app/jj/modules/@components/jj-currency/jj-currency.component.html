@@ -1,0 +1,3 @@
+<small *ngIf="currency.symbolPosition === 'start'">{{ currency.displaySymbol || '$' }}</small>
+{{ value | number: numberFormat }}
+<small *ngIf="currency.symbolPosition === 'end'">{{ currency.displaySymbol || '$' }}</small>

@@ -1,9 +1,11 @@
 ion-segment {
   --background: transparent;
+  --min-height: auto;
 }
 
 ion-segment-button {
   --border-radius: calc(var(--ion-border-radius) * 3);
+  --border-width: 0px;
   --color: var(--ion-color-orange);
   --color-checked: #fff;
   --background-hover: transparent;

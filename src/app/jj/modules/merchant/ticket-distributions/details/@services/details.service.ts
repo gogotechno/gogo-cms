@@ -46,6 +46,11 @@ export class DetailsService extends SharedComponent {
     this.TICKETS$.next(this._tickets);
   }
 
+  destroy() {
+    this.DISTRIBUTION$.next(null);
+    this.TICKETS$.next(null);
+  }
+
   private async getTickets() {
     let tickets = await this.core.getTickets(this.ticketsPage, {
       ticket_distribution_id: this.distributionId,

@@ -27,12 +27,12 @@
       <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" routerLink="{{ wallet.walletNo }}">
         <ion-avatar
           class="d-flex-center"
-          [style.background-color]="wallet.secondaryColor || 'var(--ion-color-primary-light)'"
+          [style.background-color]="wallet.colors ? wallet.colors['primary-light'] : 'var(--ion-color-primary-light)'"
           slot="start"
         >
           <ion-icon
             [name]="wallet.icon || 'wallet'"
-            [style.color]="wallet.primaryColor || 'var(--ion-color-primary)'"
+            [style.color]="wallet.colors ? wallet.colors['primary'] : 'var(--ion-color-primary)'"
             [style.font-size]="'x-large'"
           ></ion-icon>
         </ion-avatar>
@@ -50,7 +50,7 @@
     <div *ngIf="updatedAt" class="ion-padding ion-text-center">
       <ion-text color="medium">
         <small>{{ '_ALL_LOADED' | translate }}</small><br />
-        <small>{{'_UPDATED_AT' | translate: {date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a')} }}</small>
+        <small>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</small>
       </ion-text>
     </div>
   </ng-container>

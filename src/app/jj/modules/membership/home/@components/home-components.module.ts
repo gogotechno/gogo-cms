@@ -12,7 +12,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { RouterModule } from '@angular/router';
-import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.module';
+import { JJComponentsModule } from '../../../@components/jj-components.module';
 
 const components = [
   AccountBarComponent,
@@ -24,7 +24,7 @@ const components = [
 ];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, RouterModule, SharedModule, CmsUIModule, SwsErpModule, JjCurrencyModule],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, SharedModule, CmsUIModule, SwsErpModule, JJComponentsModule],
   exports: components,
   declarations: components,
 })

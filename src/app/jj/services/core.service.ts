@@ -1,12 +1,12 @@
 import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Geolocation } from '@capacitor/geolocation';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { SharedComponent } from '../shared';
 import {
   AccountOptions,
   COMPANY_CODE,
@@ -32,11 +32,12 @@ import {
   LANGUAGE_STORAGE_KEY,
   WalletType,
 } from '../typings';
+import { CommonService } from './common.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CoreService {
+export class CoreService extends SharedComponent {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
   private initialized: boolean = false;
 
@@ -48,7 +49,9 @@ export class CoreService {
     private storage: LocalStorageService,
     private translate: TranslateService,
     private swsErp: SwsErpService,
+    private common: CommonService,
   ) {
+    super();
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
   }
 
@@ -79,8 +82,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJUser>('User', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -94,18 +97,13 @@ export class CoreService {
   }
 
   async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
-    let page: Pagination = {
-      itemsPerPage: 1,
-      currentPage: 1,
-    };
-
     let conditions: Conditions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
       ...accountOptions,
     };
 
-    let res = await this.getUsers(page, conditions);
+    let res = await this.getUsers(this.defaultPage, conditions);
     return res[0];
   }
 
@@ -135,8 +133,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       doc_status: DocStatus.SUBMIT,
       doc_status_type: '=',
       ...conditions,
@@ -197,8 +195,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     return res.result.map((transaction) => this.populateWalletTransaction(transaction));
@@ -227,8 +225,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     return res.result.map((event) => this.populateEvent(event));
@@ -237,9 +235,10 @@ export class CoreService {
   async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
     let conditions: Conditions = {};
     if (options['withLocation']) {
-      let coordinates = await Geolocation.getCurrentPosition();
-      conditions['longitude'] = coordinates.coords.longitude;
-      conditions['latitude'] = coordinates.coords.latitude;
+      let coords = await this.common.getCurrentCoords();
+      conditions['longitude'] = coords.longitude;
+      conditions['latitude'] = coords.latitude;
+      delete conditions['withLocation'];
     }
     let events = await this.getEvents(pagination, {
       status: 'ACTIVE',
@@ -285,9 +284,9 @@ export class CoreService {
 
   async getEventById(eventId: number, conditions: Conditions = {}) {
     if (conditions['withLocation']) {
-      let coordinates = await Geolocation.getCurrentPosition();
-      conditions['longitude'] = coordinates.coords.longitude;
-      conditions['latitude'] = coordinates.coords.latitude;
+      let coords = await this.common.getCurrentCoords();
+      conditions['longitude'] = coords.longitude;
+      conditions['latitude'] = coords.latitude;
       delete conditions['withLocation'];
     }
     let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
@@ -298,8 +297,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     return res.result.map((distribution) => this.populateTicketDistribution(distribution));
@@ -314,8 +313,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs<JJTicket>('Ticket', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     return res.result;
@@ -325,8 +324,8 @@ export class CoreService {
     let res = await this.swsErp.getDocs('Winner', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     return res.result.map((winner) => this.populateWinner(winner));
@@ -347,16 +346,16 @@ export class CoreService {
 
   async getMerchants(pagination: Pagination, conditions: Conditions = {}) {
     if (conditions['withLocation']) {
-      let coordinates = await Geolocation.getCurrentPosition();
-      conditions['longitude'] = coordinates.coords.longitude;
-      conditions['latitude'] = coordinates.coords.latitude;
+      let coords = await this.common.getCurrentCoords();
+      conditions['longitude'] = coords.longitude;
+      conditions['latitude'] = coords.latitude;
       delete conditions['withLocation'];
     }
     let res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy || null,
-      sortType: pagination.sortOrder || null,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
       ...conditions,
     });
     console.log(res);
