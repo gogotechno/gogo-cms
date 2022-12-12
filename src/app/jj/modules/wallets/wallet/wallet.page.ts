@@ -56,6 +56,10 @@ export class WalletPage implements OnInit {
         return this.openDeposit();
       case 'PIN':
         return this.openPIN();
+      case 'TRANSFER':
+        return this.openTRANSFER();
+      case 'WITHDRAW':
+        return this.openWITHDRAW();  
     }
   }
 
@@ -73,11 +77,19 @@ export class WalletPage implements OnInit {
     this.router.navigate(["/jj/wallets/verify-pin"]);
   }
 
+  async openTRANSFER() {
+    this.router.navigate(["/jj/wallets/:walletNo/search-phone"]);
+  }
+
+  async openWITHDRAW() {
+    this.router.navigate(["/jj/wallets/:walletNo/create-withdraw"]);
+  }
+
   async openQrCode() {
     if (this.wallet.type != WalletType.CUSTOMER) {
       await this.appUtils.presentAlert('jj._THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT');
       return;
-    }
+    }  
 
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
@@ -112,14 +124,14 @@ const actions: WalletAction[] = [
     nameKey: 'jj._WITHDRAW',
     icon: 'exit-outline',
     code: 'WITHDRAW',
-    active: false,
+    active: true,
   },
   {
     type: 'modal',
     nameKey: 'jj._TRANSFER',
     icon: 'arrow-redo-outline',
     code: 'TRANSFER',
-    active: false,
+    active: true,
   },
   {
     type: 'modal',
