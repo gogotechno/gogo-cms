@@ -96,4 +96,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
+      <ion-badge color="danger" *ngIf="fab.extras?.count">
+        <span *ngIf="fab.extras.count < 100">{{ fab.extras.count }}</span>
+        <span *ngIf="fab.extras.count >= 100">99+</span>
+      </ion-badge>
+      <ion-icon *ngIf="!fab.icon" name="alert"></ion-icon>
+      <img *ngIf="fab.icon" [src]="fab.icon | erpImg" />
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
