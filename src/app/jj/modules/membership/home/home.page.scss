@@ -10,8 +10,8 @@ ion-toolbar ion-img {
 }
 
 ion-toolbar ion-button {
-  --color: #222428;
-  --background: #f2f2f2;
+  --color: var(--ion-color-dark);
+  --background: var(--ion-color-light);
   --border-radius: 50%;
   --padding-start: calc(var(--ion-padding) / 4);
   --padding-end: calc(var(--ion-padding) / 4);
@@ -151,8 +151,13 @@ ion-fab-button {
   }
 }
 
+ion-toolbar.bulletins-toolbar {
+  --min-height: 44px;
+}
+
 ion-segment {
   --background: transparent;
+  --min-height: auto;
   width: 100%;
 
   ion-segment-button {

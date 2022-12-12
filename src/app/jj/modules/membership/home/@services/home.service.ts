@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { CmsService } from 'src/app/cms.service';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import {
+  Bulletin,
+  BulletinGroup,
+  EventConfig,
   JJAnnouncement,
   JJEvent,
   JJFab,
@@ -27,6 +31,13 @@ export class HomeService extends SharedComponent {
   private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
   private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
   private _FABS: BehaviorSubject<JJFab[]>;
+  private _BULLETINS: BehaviorSubject<Bulletin[]>;
+  private _BULLETIN_GROUPS: BehaviorSubject<BulletinGroup[]>;
+  private _EVENT_CONFIG: BehaviorSubject<EventConfig>;
+  private _EVENT: BehaviorSubject<JJEvent>;
+  private _GROUP_CODE: BehaviorSubject<string>;
+
+  private allBulletins: Bulletin[];
 
   get user() {
     return this._USER.asObservable();
@@ -56,15 +67,45 @@ export class HomeService extends SharedComponent {
     return this._FABS.asObservable();
   }
 
-  constructor(private auth: AuthService, private core: CoreService) {
+  get bulletinGroups() {
+    return this._BULLETIN_GROUPS.asObservable();
+  }
+
+  get bulletins() {
+    return this._BULLETINS.asObservable();
+  }
+
+  get eventConfig() {
+    return this._EVENT_CONFIG.asObservable();
+  }
+
+  get event() {
+    return this._EVENT.asObservable();
+  }
+
+  get groupCode() {
+    return this._GROUP_CODE.asObservable();
+  }
+
+  constructor(
+    private cms: CmsService,
+    private auth: AuthService,
+    private common: CommonService,
+    private core: CoreService,
+  ) {
     super();
-    this._USER = new BehaviorSubject<User>(null);
-    this._WALLETS = new BehaviorSubject<JJWallet[]>(null);
-    this._ONGOING_EVENTS = new BehaviorSubject<JJEvent[]>(null);
-    this._MINI_PROGRAMS = new BehaviorSubject<MiniProgram[]>(null);
-    this._ANNOUNCEMENTS = new BehaviorSubject<JJAnnouncement[]>(null);
-    this._SLIDESHOW = new BehaviorSubject<JJSlideshow>(null);
-    this._FABS = new BehaviorSubject<JJFab[]>(null);
+    this._USER = new BehaviorSubject(null);
+    this._WALLETS = new BehaviorSubject(null);
+    this._ONGOING_EVENTS = new BehaviorSubject(null);
+    this._MINI_PROGRAMS = new BehaviorSubject(null);
+    this._ANNOUNCEMENTS = new BehaviorSubject(null);
+    this._SLIDESHOW = new BehaviorSubject(null);
+    this._FABS = new BehaviorSubject(null);
+    this._BULLETINS = new BehaviorSubject(null);
+    this._BULLETIN_GROUPS = new BehaviorSubject(null);
+    this._EVENT_CONFIG = new BehaviorSubject(null);
+    this._EVENT = new BehaviorSubject(null);
+    this._GROUP_CODE = new BehaviorSubject(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
       if (event?.status == 'LOGGED_IN' && !this._USER.getValue()) {
@@ -80,22 +121,23 @@ export class HomeService extends SharedComponent {
     const [user, wallets, ongoingEvents, announcements, slideshow, fabs] = await Promise.all([
       this.auth.findMe(),
       this.auth.findMyWallets(),
-      [], //   this.core.getOngoingEvents(this.defaultPage),
+      this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      [], //   this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
     ]);
 
     this._USER.next(user);
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
 
-    let role = this.getRole(this.auth.userType, <JJUser>user);
-    this._MINI_PROGRAMS.next(this.getMiniPrograms(role));
+    this._MINI_PROGRAMS.next(this.getMiniPrograms(this.auth.userType));
 
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
     this._FABS.next(fabs);
+
+    await this.loadBulletins();
   }
 
   destroy() {
@@ -106,25 +148,46 @@ export class HomeService extends SharedComponent {
     this._ANNOUNCEMENTS.next(null);
     this._SLIDESHOW.next(null);
     this._FABS.next(null);
+    this._BULLETIN_GROUPS.next(null);
+    this._BULLETINS.next(null);
+    this._EVENT_CONFIG.next(null);
+    this._EVENT.next(null);
+    this._GROUP_CODE.next(null);
   }
 
-  getRole(userType: UserType, user: JJUser) {
-    if (userType == 'MERCHANT') {
-      switch (user.role) {
-        case UserRole.MERCHANT_ADMIN:
-          return 'MERCHANT';
-        default:
-          return 'SYSTEM';
-      }
-    }
-    return 'CUSTOMER';
+  async refresh() {
+    let options: GetExtraOptions = {
+      skipLoading: true,
+    };
+
+    const [wallets, fabs] = await Promise.all([
+      this.auth.findMyWallets(options),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+    ]);
+    this._WALLETS.next(wallets);
+    this._FABS.next(fabs);
+
+    // let map = {
+    //   wallets: [this._WALLETS, this.auth.findMyWallets(options)],
+    //   fabs: [this._FABS, this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options)],
+    // };
+    // let keys = Object.keys(map);
+    // let validKeys = areas.length ? keys.filter((key) => areas.includes(key)) : keys;
+    // let properties = validKeys.map((key) => key);
+    // let functions = validKeys.map((key) => map[key][1]);
+    // let results = await Promise.all(functions);
+    // for (let i = 0; i < results.length; i++) {
+    //   let key = properties[i];
+    //   let property = map[key][0];
+    //   property.next(results[i]);
+    // }
   }
 
-  getMiniPrograms(role: string) {
+  getMiniPrograms(role: UserType) {
     switch (role) {
       case 'MERCHANT':
         return MERCHANT_MINI_PROGRAMS;
-      case 'SYSTEM':
+      case 'ADMIN':
         return SYSTEM_MINI_PROGRAMS;
       default:
         return MINI_PROGRAMS;
@@ -141,16 +204,42 @@ export class HomeService extends SharedComponent {
     return fabsConditions;
   }
 
-  async refresh() {
-    let options: GetExtraOptions = { skipLoading: true };
+  async loadBulletins() {
+    let url = await this.cms.getDownloadURL('home-directory.json');
+    let data = await this.common.getByUrl(url);
 
-    const [wallets, fabs] = await Promise.all([
-      this.auth.findMyWallets(options),
-      [], // this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
-    ]);
+    let eventConfig = data['event'];
+    if (eventConfig) {
+      let event = await this.core.getEventById(eventConfig.id);
+      this._EVENT_CONFIG.next(eventConfig);
+      this._EVENT.next(event);
+    }
 
-    this._WALLETS.next(wallets);
-    this._FABS.next(fabs);
+    let groups = data['groups'];
+    this._BULLETIN_GROUPS.next(groups);
+    if (!this._GROUP_CODE.getValue()) {
+      let groupCode = groups[0].code;
+      this._GROUP_CODE.next(groupCode);
+    }
+
+    this.allBulletins = data['bulletins'];
+    await this.filterBulletins();
+  }
+
+  async filterBulletins(groupCode?: string) {
+    if (!groupCode) {
+      groupCode = this._GROUP_CODE.getValue();
+    }
+
+    this._GROUP_CODE.next(groupCode);
+
+    let filtered = this.allBulletins.filter((bulletin) => {
+      let tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
+      let roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
+      return tags && roles;
+    });
+
+    this._BULLETINS.next(filtered);
   }
 }
 

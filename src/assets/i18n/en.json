@@ -427,6 +427,7 @@
     "_EVENT_ORGANIZED_BY": "Event organized by {{ name }}",
     "_EVENT_IS_NOT_STARTED_YET": "Event is not started yet",
     "_NO_BULLETINS_FOUND": "No bulletins found",
-    "_NO_MORE_BULLETINS": "No more bulletins"
+    "_NO_MORE_BULLETINS": "No more bulletins",
+    "_YOU_HAVE_CHECKED_IN_TODAY": "You have checked in today"
   }
 }

@@ -427,6 +427,7 @@
     "_EVENT_ORGANIZED_BY": "Acara dianjurkan oleh {{ name }}",
     "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula",
     "_NO_BULLETINS_FOUND": "Tiada buletin ditemui",
-    "_NO_MORE_BULLETINS": "Tiada lagi buletin"
+    "_NO_MORE_BULLETINS": "Tiada lagi buletin",
+    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini"
   }
 }
