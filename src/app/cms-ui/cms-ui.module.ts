@@ -21,6 +21,7 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { SearchAreaComponent } from './searchable-select/search-area/search-area.component';
 import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
+import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
 
 const components = [
   ArrayInputComponent,
@@ -41,6 +42,7 @@ const componentsToBeExported = [
   FilterComponent,
   SearchableSelectComponent,
   BarcodeScannerComponent,
+  PhoneNumberVerificationComponent,
 ];
 
 const pipes = [CmsTranslatePipe, SafeHtmlPipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HideTextPipe];

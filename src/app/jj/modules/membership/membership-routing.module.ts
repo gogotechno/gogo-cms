@@ -28,6 +28,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('./notifications/notifications.module').then((m) => m.NotificationsPageModule),
       },
+      {
+        path: 'register',
+        canActivate: [PublicGuard],
+        loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+      },
     ],
   },
 ];

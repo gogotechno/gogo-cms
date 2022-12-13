@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="change($event)">{{ '_CHANGE' }}</ion-button>
+    </ion-buttons>
+    <ion-title>{{ phone || 'PHONE' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="loadData($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
+  
+  <form (ngSubmit)="verify($event)">
+    <ion-list>
+      <ion-item>
+        <ion-label>{{ '_VERIFICATION_CODE' | translate }}</ion-label>
+        <ion-input [(ngModel)]="verificationCode" name="verificationCode"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" type="submit" [disabled]="!verificationCode">{{ '_VERIFY' }}</ion-button>
+  </form>
+  <ion-button expand="block" fill="clear" (click)="loadData()">{{ '_RESEND' }}</ion-button>
+  <div id="recaptcha-container" #recaptchaContainer></div>
+</ion-content>

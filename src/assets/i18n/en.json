@@ -76,6 +76,10 @@
   "_ALL_LOADED": "All loaded",
   "_BACK": "Back",
   "_MODULES": "Modules",
+  "_CHANGE": "Change",
+  "_VERIFICATION_CDOE": "Verification Code",
+  "_VERIFY": "Verify",
+  "_RESEND": "Resend",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",

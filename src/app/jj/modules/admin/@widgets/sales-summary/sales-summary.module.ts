@@ -5,14 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SalesSummaryPage } from './sales-summary.page';
-import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.module';
+import { JJComponentsModule } from 'src/app/jj/modules/@components/jj-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    JjCurrencyModule,
+    JJComponentsModule,
   ],
   declarations: [SalesSummaryPage],
   exports: [SalesSummaryPage],

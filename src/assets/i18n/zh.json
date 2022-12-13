@@ -76,6 +76,10 @@
   "_ALL_LOADED": "加载完毕",
   "_BACK": "返回",
   "_MODULES": "模块",
+  "_CHANGE": "更改",
+  "_VERIFICATION_CODE": "验证码",
+  "_VERIFY": "验证",
+  "_RESEND": "重新发送",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",

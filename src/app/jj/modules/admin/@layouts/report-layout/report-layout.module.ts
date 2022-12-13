@@ -8,7 +8,7 @@ import { ReportLayoutPageRoutingModule } from './report-layout-routing.module';
 
 import { ReportLayoutPage } from './report-layout.page';
 import { TranslateModule } from '@ngx-translate/core';
-import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.module';
+import { JJComponentsModule } from '../../../@components/jj-components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +17,7 @@ import { JjCurrencyModule } from 'src/app/jj/components/jj-currency/jj-currency.
     IonicModule,
     ReportLayoutPageRoutingModule,
     TranslateModule,
-    JjCurrencyModule,
+    JJComponentsModule,
   ],
   declarations: [ReportLayoutPage]
 })
