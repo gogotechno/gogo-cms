@@ -42,7 +42,7 @@ export class ListPage extends SharedComponent implements OnInit {
       sortBy: 'startAt',
       sortType: 'desc',
       withSummary: true,
-      withoutResult: true,
+      withResult: true,
     });
     return events;
   }

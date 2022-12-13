@@ -218,7 +218,7 @@ export class JJLuckydrawService {
       sortBy: 'startAt',
       sortType: 'DESC',
       withSummary: true,
-      withoutResult: true,
+      withResult: true,
     });
     return res.result;
   }
