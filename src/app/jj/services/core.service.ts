@@ -283,8 +283,22 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getDefaultBankAccount() {
-    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', { getDefault: true });
+    let query: GetOptions = {
+      default: true,
+    };
+    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
+  }
+
+  async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------

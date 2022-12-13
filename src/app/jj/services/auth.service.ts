@@ -209,7 +209,18 @@ export class AuthService {
     return this.core.populateMerchant(merchant);
   }
 
-  findMyBankAccounts() {
-    
+  async findMyBankAccounts(pagination: Pagination) {
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+      case 'ADMIN':
+        return [];
+      default:
+        let customerId = this._CURRENT_USER.doc_id;
+        let events = await this.core.getBankAccounts(pagination, {
+          customer_id: customerId,
+          customer_id_type: '=',
+        });
+        return events;
+    }
   }
 }
