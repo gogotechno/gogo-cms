@@ -81,7 +81,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
   async getWallet(options: GetExtraOptions = {}) {
     let wallets = await this.auth.findMyWallets(options);
-    this.wallet = wallets.find((wallet) => wallet.type == WalletType.SNW);
+    this.wallet = wallets.find((wallet) => wallet.type == 'SNW');
 
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
     if (this.totalChance < 0) {

@@ -9,7 +9,7 @@
 <ion-content>
   <ng-container *ngIf="wallet">
     <div class="ion-padding wallet-summary">
-      <ion-text class="label">{{ wallet.type | translate }}</ion-text><br />
+      <ion-text class="label">{{ wallet.walletType.name | cmsTranslate }}</ion-text><br />
       <ion-text class="content">{{ wallet.walletNo }}</ion-text><br />
       <ion-text class="label">{{ 'jj._BALANCE' | translate }}</ion-text><br />
       <ion-text class="balance">

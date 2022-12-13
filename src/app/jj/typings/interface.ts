@@ -128,15 +128,24 @@ export interface JJWallet extends ErpDoc {
   walletNo: string;
   type: WalletType;
   walletBalance?: number;
+  walletType?: JJWalletType;
   permissions?: JJWalletPermission[];
+
+  // app use only
   icon?: string;
   colors?: any;
 }
 
-export enum WalletType {
-  CUSTOMER = 'CUSTOMER',
-  MERCHANT = 'MERCHANT',
-  SNW = 'SNW',
+export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW';
+
+export interface JJWalletType extends ErpDoc {
+  code: WalletType;
+  name: string;
+  icon: string;
+  colors: string;
+  canDeposit: boolean;
+  canWithdraw: boolean;
+  wallet_currency_id: number;
 }
 
 export interface JJWalletPermission extends ErpDoc {
@@ -304,7 +313,7 @@ export interface JJCapturePaymentRequest extends ErpDoc {
   reference1?: string;
   reference2?: string;
   reference3?: string;
-  fromWalletNo?: number;
+  fromWalletNo?: string;
 }
 
 export interface CapturePaymentRequestExtras {
@@ -358,7 +367,7 @@ export interface JJFab extends ErpDoc {
   icon: string;
   url: string;
   isActive: boolean;
-  
+
   extras: FabExtras;
 }
 
@@ -426,3 +435,29 @@ export interface JJScratchRequest extends ErpDoc {
 export interface ScratchRequestExtras {
   prize: JJScratchAndWinPrize;
 }
+
+export interface JJDepositRequest extends ErpDoc {
+  wallet_id: number;
+  amount: number;
+  refNo: string;
+  description?: string | null;
+  reference1?: string | null;
+  reference2?: string | null;
+  reference3?: string | null;
+  status: DepositRequestStatus;
+}
+
+export type DepositRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
+
+export interface JJWithdrawRequest extends ErpDoc {
+  wallet_id: number;
+  amount: number;
+  refNo: string;
+  description?: string | null;
+  reference1?: string | null;
+  reference2?: string | null;
+  reference3?: string | null;
+  status: WithdrawRequestStatus;
+}
+
+export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';

@@ -33,7 +33,7 @@ export class HomePage implements OnInit {
 
   async getWallet() {
     let wallets = await this.auth.findMyWallets();
-    this.wallet = wallets.find((wallet) => wallet.type == WalletType.MERCHANT);
+    this.wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
   }
 
   async doRefresh(event: Event) {

@@ -37,7 +37,7 @@
           ></ion-icon>
         </ion-avatar>
         <div class="ion-padding-vertical-sm">
-          <ion-text class="type">{{ wallet.type }}</ion-text><br />
+          <ion-text class="type">{{ wallet.walletType.name | cmsTranslate }}</ion-text><br />
           <ion-text class="no">{{ wallet.walletNo }}</ion-text>
         </div>
         <div slot="end">

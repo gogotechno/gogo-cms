@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { AppUtils } from 'src/app/cms.util';
-import { JJLuckydrawService } from 'src/app/jj-luckydraw/jj-luckydraw.service';
-import { JJWallet, WalletType } from 'src/app/jj-luckydraw/jj-luckydraw.type';
+import { CoreService } from 'src/app/jj/services';
+import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
 import { CreateDepositPage } from '../create-deposit/create-deposit.page';
 import { Currency } from '../wallets.types';
@@ -29,8 +28,7 @@ export class WalletPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private modalCtrl: ModalController,
-    private appUtils: AppUtils,
-    private jj: JJLuckydrawService,
+    private core: CoreService,
   ) {}
 
   ngOnInit() {
@@ -40,7 +38,7 @@ export class WalletPage implements OnInit {
   }
 
   async loadData() {
-    this.wallet = await this.jj.getWalletByNo(this.walletNo);
+    this.wallet = await this.core.getWalletByNo(this.walletNo);
   }
 
   onCardClick(card: WalletCard) {

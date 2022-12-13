@@ -21,7 +21,7 @@ export class ListPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     let wallets = await this.auth.findMyWallets();
-    let wallet = wallets.find((wallet) => wallet.type == WalletType.MERCHANT);
+    let wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
     this.walletId = wallet.doc_id;
 
     await this.loadData();

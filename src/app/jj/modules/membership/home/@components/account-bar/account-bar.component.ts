@@ -21,15 +21,12 @@ export class AccountBarComponent extends SharedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.home.user.subscribe((user) => {
-      this.user = user;
-    });
-    this.home.wallets.subscribe((wallets) => {
-      if (wallets) {
-        this.wallet = wallets.find((wallet) => wallet.type == WalletType.CUSTOMER);
-      }
-    });
     this.greetingKey = this.getGreeting();
+    this.home.user.subscribe((user) => (this.user = user));
+    this.home.wallets.subscribe((wallets) => {
+      if (!wallets) return;
+      this.wallet = wallets.find((wallet) => wallet.type == 'CUSTOMER');
+    });
   }
 
   async openQrCode() {

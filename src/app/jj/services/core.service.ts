@@ -14,6 +14,7 @@ import {
   JJCapturePaymentRequest,
   JJContentPage,
   JJCustomer,
+  JJDepositRequest,
   JJEvent,
   JJEventPrize,
   JJFab,
@@ -33,6 +34,7 @@ import {
   JJWallet,
   JJWalletTransaction,
   JJWinner,
+  JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
   WalletType,
 } from '../typings';
@@ -189,7 +191,7 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
-  async getWalletByNo(walletNo: number) {
+  async getWalletByNo(walletNo: string) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       walletNo: walletNo,
       walletNo_type: '=',
@@ -221,6 +223,46 @@ export class CoreService extends SharedComponent {
   async getWalletTransactionById(transactionId: number) {
     let res = await this.swsErp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
     return this.populateWalletTransaction(res);
+  }
+
+  createDepositRequest(request: JJDepositRequest) {
+    return this.swsErp.postDoc('Deposit Request', request);
+  }
+
+  async getDepositRequestById(requestId: number) {
+    let res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
+    return res;
+  }
+
+  async getDepositRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJDepositRequest>('Deposit Request', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  createWithdrawRequest(request: JJWithdrawRequest) {
+    return this.swsErp.postDoc('Withdraw Request', request);
+  }
+
+  async getWithdrawRequestById(requestId: number) {
+    let res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
+    return res;
+  }
+
+  async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJWithdrawRequest>('Withdraw Request', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -571,14 +613,14 @@ export class CoreService extends SharedComponent {
     }
 
     switch (wallet.type) {
-      case WalletType.SNW:
+      case 'SNW':
         wallet.icon = 'ticket';
         wallet.colors = {
           primary: '#FFC000',
           'primary-light': '#FFF2CC',
         };
         break;
-      case WalletType.MERCHANT:
+      case 'MERCHANT':
         wallet.icon = 'business';
         wallet.colors = {
           primary: '#70AD47',
