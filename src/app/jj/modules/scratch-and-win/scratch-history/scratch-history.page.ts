@@ -29,14 +29,14 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    if (this.auth.userType == 'MERCHANT') {
-      this.requests = [];
-      this.requestsEnded = true;
-    } else {
+    if (this.auth.userType == 'CUSTOMER') {
       this.event = await this.core.getScratchAndWinEventById(this.eventId);
       this.requestsPage = this.defaultPage;
       this.requests = await this.getRequests();
       this.requestsEnded = this.requests.length < this.requestsPage.itemsPerPage;
+    } else {
+      this.requests = [];
+      this.requestsEnded = true;
     }
   }
 

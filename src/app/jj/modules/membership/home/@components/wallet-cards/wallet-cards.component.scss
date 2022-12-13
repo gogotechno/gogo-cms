@@ -87,8 +87,14 @@ ion-card {
 }
 
 ion-toolbar ion-buttons ion-button {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: calc(var(--ion-padding) / 4);
+  --padding-end: calc(var(--ion-padding) / 4);
   --color: var(--ion-color-primary-contrast);
   --background: var(--ion-color-primary);
+  --border-radius: var(--ion-border-radius);
+
   width: 38px;
   height: 38px;
 }

@@ -11,6 +11,37 @@ export type SmsTemplateCode =
   | 'CAPTURE_PAYMENT'
   | 'TICKET_DISTRIBUTION';
 
+export interface BulletinGroup {
+  code: string;
+  label: CmsTranslation;
+}
+
+export interface Bulletin {
+  title: CmsTranslation;
+  description: CmsTranslation;
+  thumbnailImage: string;
+  backgroundImage: string;
+  tags: string[];
+  cardConfig: {
+    backgroundColor: string;
+    backgroundColorOpacity: number;
+    textColor: string;
+  };
+  url: string;
+  actionUrl: string;
+  actionSuccessCallback: {
+    label: CmsTranslation;
+    refreshAreas: string[];
+  };
+  responseUrl: string;
+  roles: string[];
+}
+
+export interface EventConfig {
+  id: number;
+  tags: string[];
+}
+
 export interface MiniProgram {
   name: string;
   icon: string;
@@ -23,7 +54,7 @@ export interface AccountOptions {
 }
 
 export type User = JJCustomer | JJUser;
-export type UserType = 'MERCHANT' | 'CUSTOMER';
+export type UserType = 'ADMIN' | 'MERCHANT' | 'CUSTOMER';
 
 export interface JJCustomer extends ErpDoc {
   firstName: string;
@@ -358,7 +389,7 @@ export interface JJFab extends ErpDoc {
   icon: string;
   url: string;
   isActive: boolean;
-  
+
   extras: FabExtras;
 }
 

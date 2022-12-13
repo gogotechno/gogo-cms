@@ -36,7 +36,7 @@
   <slideshow></slideshow>
   <wallet-cards></wallet-cards>
 
-  <ion-toolbar *ngIf="groups">
+  <ion-toolbar *ngIf="groups" class="bulletins-toolbar">
     <ion-segment
       class="scrollbar-hide"
       [scrollable]="true"
@@ -55,7 +55,12 @@
         <countdown-timer [endDate]="event.endAt" unitFormat="full" separator=""></countdown-timer>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="bulletins">
+    <ion-row *ngIf="groupCode == 'MINI_PROGRAMS'">
+      <ion-col>
+        <mini-programs></mini-programs>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="groupCode != 'MINI_PROGRAMS' && bulletins">
       <ion-col size="12" *ngIf="!bulletins.length">
         <div class="note">
           <ion-label>{{ "jj._NO_BULLETINS_FOUND" | translate }}</ion-label>
@@ -91,4 +96,14 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
+      <ion-badge color="danger" *ngIf="fab.extras?.count">
+        <span *ngIf="fab.extras.count < 100">{{ fab.extras.count }}</span>
+        <span *ngIf="fab.extras.count >= 100">99+</span>
+      </ion-badge>
+      <ion-icon *ngIf="!fab.icon" name="alert"></ion-icon>
+      <img *ngIf="fab.icon" [src]="fab.icon | erpImg" />
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

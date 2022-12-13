@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CmsService } from 'src/app/cms.service';
-import { CmsTranslation } from 'src/app/cms.type';
-import { CommonService, CoreService } from 'src/app/jj/services';
-import { JJEvent, JJFab } from 'src/app/jj/typings';
+import { CmsTranslatePipe } from 'src/app/cms-ui/cms.pipe';
+import { AppUtils } from 'src/app/cms.util';
+import { CommonService } from 'src/app/jj/services';
+import { Bulletin, BulletinGroup, EventConfig, JJEvent, JJFab } from 'src/app/jj/typings';
 import { HomeService } from './@services/home.service';
 
 @Component({
@@ -17,26 +17,33 @@ export class HomePage implements OnInit {
 
   groupCode: string;
   groups: BulletinGroup[];
-
-  allBulletins: Bulletin[];
   bulletins: Bulletin[];
-
+  eventConfig: EventConfig;
   event: JJEvent;
-  _event: CountdownEvent;
 
   get showEvent() {
-    return this._event.tags.includes(this.groupCode);
+    if (!this.eventConfig) {
+      return false;
+    }
+    if (!this.eventConfig.tags?.length) {
+      return true;
+    }
+    return this.eventConfig.tags.includes(this.groupCode);
   }
 
   constructor(
-    private cms: CmsService,
+    private cmsTranslate: CmsTranslatePipe,
+    private appUtils: AppUtils,
     private common: CommonService,
-    private core: CoreService,
     private home: HomeService,
   ) {}
 
   async ngOnInit() {
-    await this.loadData();
+    await this.home.init();
+    this.home.event.subscribe((event) => (this.event = event));
+    this.home.bulletinGroups.subscribe((groups) => (this.groups = groups));
+    this.home.groupCode.subscribe((code) => (this.groupCode = this.groupCode ? this.groupCode : code));
+    this.home.bulletins.subscribe((bulletins) => (this.bulletins = bulletins));
     this.home.fabs.subscribe((fabs) => (this.fabs = fabs));
     this.home.announcements.subscribe((announcements) => {
       if (!announcements) return;
@@ -48,26 +55,8 @@ export class HomePage implements OnInit {
     this.home.destroy();
   }
 
-  async loadData() {
-    await this.home.init();
-
-    let url = await this.cms.getDownloadURL('home-directory.json');
-    let data = await this.common.getByUrl(url);
-
-    this._event = data['event'];
-    if (this._event) {
-      this.event = await this.core.getEventById(this._event.id);
-    }
-
-    this.groups = data['groups'];
-    this.groupCode = this.groups[0].code;
-
-    this.allBulletins = data['bulletins'];
-    this.filterBulletins();
-  }
-
   async doRefresh(event: Event) {
-    await this.loadData();
+    await this.home.init();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
@@ -76,44 +65,25 @@ export class HomePage implements OnInit {
     await this.common.navigateCustomUrl(fab.url);
   }
 
-  filterBulletins() {
-    this.bulletins = this.allBulletins.filter((bulletin) => bulletin.tags.includes(this.groupCode));
-  }
-
   async onBulletinClick(bulletin: Bulletin) {
-    await this.common.navigateCustomUrl(bulletin.url);
+    if (bulletin.url) {
+      await this.common.navigateCustomUrl(bulletin.url);
+    }
+    if (bulletin.actionUrl) {
+      let url = this.common.populateUrl(bulletin.actionUrl);
+      await this.common.postByUrl(url, {});
+      await this.appUtils.presentAlert(this.cmsTranslate.transform(bulletin.actionSuccessCallback.label));
+      this.home.refresh();
+    }
   }
 
-  onBulletinGroupChange(event: Event) {
-    document.getElementById('bulletin-group-' + event).scrollIntoView({
+  async onBulletinGroupChange(event: Event) {
+    let groupCode = String(event);
+    document.getElementById('bulletin-group-' + groupCode).scrollIntoView({
       behavior: 'smooth',
       inline: 'nearest',
       block: 'nearest',
     });
-    this.filterBulletins();
+    await this.home.filterBulletins(groupCode);
   }
-}
-
-interface BulletinGroup {
-  code: string;
-  label: CmsTranslation;
-}
-
-interface Bulletin {
-  title: CmsTranslation;
-  description: CmsTranslation;
-  thumbnailImage: string;
-  backgroundImage: string;
-  tags: string[];
-  cardConfig: {
-    backgroundColor: string;
-    backgroundColorOpacity: number;
-    textColor: string;
-  };
-  url: string;
-}
-
-interface CountdownEvent {
-  id: number;
-  tags: string[];
 }
