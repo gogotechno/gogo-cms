@@ -449,6 +449,13 @@ export interface JJDepositRequest extends ErpDoc {
 
 export type DepositRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
 
+export interface JJDepositMethod {
+  name: string;
+  description: string;
+  isActive: boolean;
+  isVisible: boolean;
+}
+
 export interface JJWithdrawRequest extends ErpDoc {
   wallet_id: number;
   amount: number;
@@ -461,3 +468,18 @@ export interface JJWithdrawRequest extends ErpDoc {
 }
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
+
+export interface JJWithdrawMethod {
+  name: string;
+  description: string;
+  isActive: boolean;
+  isVisible: boolean;
+}
+
+export interface JJBankAccount extends ErpDoc {
+  bank_id: number;
+  accountNo: string;
+  holderName: string;
+  isActive: boolean;
+  isDefault: boolean;
+}

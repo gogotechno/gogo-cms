@@ -11,9 +11,11 @@ import {
   AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
+  JJBankAccount,
   JJCapturePaymentRequest,
   JJContentPage,
   JJCustomer,
+  JJDepositMethod,
   JJDepositRequest,
   JJEvent,
   JJEventPrize,
@@ -34,6 +36,7 @@ import {
   JJWallet,
   JJWalletTransaction,
   JJWinner,
+  JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
   WalletType,
@@ -245,6 +248,11 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
+  async getDepositMethods() {
+    let res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method');
+    return res.result;
+  }
+
   createWithdrawRequest(request: JJWithdrawRequest) {
     return this.swsErp.postDoc('Withdraw Request', request);
   }
@@ -263,6 +271,20 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result;
+  }
+
+  async getWithdrawMethods() {
+    let res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method');
+    return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Bank
+  // -----------------------------------------------------------------------------------------------------
+
+  async getDefaultBankAccount() {
+    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', { getDefault: true });
+    return res.result[0];
   }
 
   // -----------------------------------------------------------------------------------------------------

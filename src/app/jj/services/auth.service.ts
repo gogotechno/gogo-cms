@@ -202,4 +202,8 @@ export class AuthService {
     });
     return this.core.populateMerchant(merchant);
   }
+
+  findMyBankAccounts() {
+    
+  }
 }
