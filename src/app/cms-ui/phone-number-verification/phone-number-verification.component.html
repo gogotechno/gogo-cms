@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="change($event)">{{ '_CHANGE' }}</ion-button>
+      <ion-button (click)="change($event)">{{ '_CHANGE' | translate }}</ion-button>
     </ion-buttons>
     <ion-title>{{ phone || 'PHONE' }}</ion-title>
   </ion-toolbar>
@@ -19,8 +19,8 @@
         <ion-input [(ngModel)]="verificationCode" name="verificationCode"></ion-input>
       </ion-item>
     </ion-list>
-    <ion-button expand="block" type="submit" [disabled]="!verificationCode">{{ '_VERIFY' }}</ion-button>
+    <ion-button expand="block" type="submit" [disabled]="!verificationCode">{{ '_VERIFY' | translate }}</ion-button>
   </form>
-  <ion-button expand="block" fill="clear" (click)="loadData()">{{ '_RESEND' }}</ion-button>
+  <ion-button expand="block" fill="clear" (click)="loadData()">{{ '_RESEND' | translate }}</ion-button>
   <div id="recaptcha-container" #recaptchaContainer></div>
 </ion-content>
