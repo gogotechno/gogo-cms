@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { SharedComponent } from 'src/app/jj/shared';
 
 @Component({
@@ -22,6 +22,12 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
     this.buttonClick = new EventEmitter<string>();
   }
 
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes['messages']) {
+      await this.startAnim();
+    }
+  }
+
   async ngOnInit() {
     if (this.buttons) {
       this.startButtons = this.buttons.filter((b) => b.slot == 'start');
@@ -36,7 +42,7 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   async startAnim() {
-    if (!this.messages && this.animatedStarted) {
+    if (!this.messages || this.animatedStarted) {
       return;
     }
     let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);

@@ -1,6 +1,7 @@
 .container {
   padding: 0 calc(var(--ion-padding) / 2);
   margin-top: calc(var(--ion-margin) / 2);
+  margin-bottom: calc(var(--ion-margin) / 2);
 }
 
 ion-slide img {
@@ -12,10 +13,10 @@ ion-slide img {
   border-radius: var(--ion-border-radius);
 }
 
-:host ::ng-deep ion-slides .swiper-pagination {
-  bottom: 0;
-}
+// :host ::ng-deep ion-slides .swiper-pagination {
+//   bottom: 0;
+// }
 
-ion-slide {
-  padding-bottom: calc(var(--ion-padding) * 1.5);
-}
+// ion-slide {
+//   padding-bottom: calc(var(--ion-padding) * 1.5);
+// }

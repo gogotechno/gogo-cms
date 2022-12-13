@@ -4,8 +4,11 @@
       <ion-back-button defaultHref="/jj/rewards/my-rewards"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="distribution">
-      <span>#{{ distribution.doc_id }}</span><br />
-      <span>{{ distribution.merchant.name }}</span>
+      <span>#{{ distribution.doc_id }}</span>
+      <span *ngIf="distribution.merchant">
+        <br />
+        <span>{{ distribution.merchant.name }}</span>
+      </span>
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -34,7 +37,7 @@
           <h3>{{ "jj._DISTRIBUTED_TO" | translate }}</h3>
         </ion-col>
         <ion-col>
-          <h3>{{ distribution.merchant.name }}</h3>
+          <h3>{{ distribution.merchant?.name || "-" }}</h3>
           <h3>{{ distribution.billNo }}</h3>
           <h3>
             <span *ngIf="distribution.product">{{ distribution.product.nameTranslation | cmsTranslate }}</span>

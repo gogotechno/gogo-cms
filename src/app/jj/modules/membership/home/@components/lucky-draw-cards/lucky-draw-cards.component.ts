@@ -14,9 +14,7 @@ export class LuckyDrawCardsComponent implements OnInit {
   constructor(private home: HomeService) {}
 
   ngOnInit() {
-    this.home.ongoingEvents.subscribe((events) => {
-      this.events = events;
-    });
+    this.home.ongoingEvents.subscribe((events) => (this.events = events));
   }
 }
 

@@ -17,10 +17,8 @@ export class EditProfilePage implements OnInit {
   constructor(private app: AppUtils, private auth: AuthService, private account: AccountService) {}
 
   ngOnInit() {
-    this.form = this.auth.userType == 'MERCHANT' ? userForm : customerform;
-    this.account.user.subscribe((user) => {
-      this.user = user;
-    });
+    this.form = this.auth.userType == 'CUSTOMER' ? customerform : userForm;
+    this.account.user.subscribe((user) => (this.user = user));
   }
 
   async onSubmit(data: User) {

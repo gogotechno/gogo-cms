@@ -64,6 +64,10 @@
   "_CHANGE_PASSWORD": "更改密码",
   "_EDIT_PROFILE": "更改个人资料",
   "_VIEW_ALL": "查看全部",
+  "_DAYS": "天",
+  "_HOURS": "小时",
+  "_MINUTES": "分钟",
+  "_SECONDS": "秒钟",
   "_DAYS_SHORT": "天",
   "_HOURS_SHORT": "时",
   "_MINUTES_SHORT": "分",
@@ -421,6 +425,9 @@
     "_INVALID_WALLET_TYPE_FOUND": "钱包类别不合格",
     "_TERM_AND_CONDITIONS": "条款和条件",
     "_EVENT_ORGANIZED_BY": "由{{ name }}举办",
-    "_EVENT_IS_NOT_STARTED_YET": "活动还未开始"
+    "_EVENT_IS_NOT_STARTED_YET": "活动还未开始",
+    "_NO_BULLETINS_FOUND": "没有找到公告",
+    "_NO_MORE_BULLETINS": "没有更多的公告",
+    "_YOU_HAVE_CHECKED_IN_TODAY": "您今天已签到"
   }
 }

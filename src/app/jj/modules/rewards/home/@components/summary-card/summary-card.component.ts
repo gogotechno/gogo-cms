@@ -15,13 +15,8 @@ export class SummaryCardComponent implements OnInit {
   constructor(private common: CommonService, private home: HomeService) {}
 
   ngOnInit() {
-    this.home.customer.subscribe((customer) => {
-      this.customer = customer;
-    });
-
-    this.home.slideshow.subscribe((slideshow) => {
-      this.slideshow = slideshow;
-    });
+    this.home.customer.subscribe((customer) => (this.customer = customer));
+    this.home.slideshow.subscribe((slideshow) => (this.slideshow = slideshow));
   }
 
   async onItemClick(item: JJSlideshowItem) {

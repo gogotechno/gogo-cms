@@ -64,6 +64,10 @@
   "_CHANGE_PASSWORD": "Tukar Kata Laluan",
   "_EDIT_PROFILE": "Tukar Profil",
   "_VIEW_ALL": "Lihat Semua",
+  "_DAYS": "Hari",
+  "_HOURS": "Jam",
+  "_MINUTES": "Minit",
+  "_SECONDS": "Kedua",
   "_DAYS_SHORT": "H",
   "_HOURS_SHORT": "J",
   "_MINUTES_SHORT": "M",
@@ -421,6 +425,9 @@
     "_INVALID_WALLET_TYPE_FOUND": "Jenis dompet tidak sah ditemui",
     "_TERM_AND_CONDITIONS": "Terma dan Syarat",
     "_EVENT_ORGANIZED_BY": "Acara dianjurkan oleh {{ name }}",
-    "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula"
+    "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula",
+    "_NO_BULLETINS_FOUND": "Tiada buletin ditemui",
+    "_NO_MORE_BULLETINS": "Tiada lagi buletin",
+    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini"
   }
 }

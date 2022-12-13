@@ -17,14 +17,8 @@ export class AccountPage implements OnInit {
 
   ngOnInit() {
     this.account.init();
-
-    this.account.contentPages.subscribe((contentPages) => {
-      this.contentPages = contentPages;
-    });
-
-    this.account.whatsappLink.subscribe((link) => {
-      this.whatsappLink = link;
-    });
+    this.account.whatsappLink.subscribe((link) => (this.whatsappLink = link));
+    this.account.contentPages.subscribe((contentPages) => (this.contentPages = contentPages));
   }
 
   ngOnDestroy() {

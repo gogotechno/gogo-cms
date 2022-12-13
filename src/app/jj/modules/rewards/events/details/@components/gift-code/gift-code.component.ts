@@ -13,8 +13,6 @@ export class GiftCodeComponent implements OnInit {
   constructor(private details: DetailsService) {}
 
   ngOnInit() {
-    this.details.event.subscribe((event) => {
-      this.event = event;
-    });
+    this.details.event.subscribe((event) => (this.event = event));
   }
 }

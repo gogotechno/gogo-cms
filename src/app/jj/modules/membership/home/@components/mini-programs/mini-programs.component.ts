@@ -13,8 +13,6 @@ export class MiniProgramsComponent implements OnInit {
   constructor(private home: HomeService) {}
 
   ngOnInit() {
-    this.home.miniPrograms.subscribe((miniPrograms) => {
-      this.miniPrograms = miniPrograms;
-    });
+    this.home.miniPrograms.subscribe((miniPrograms) => (this.miniPrograms = miniPrograms));
   }
 }

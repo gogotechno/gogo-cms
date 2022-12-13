@@ -5,9 +5,11 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { JJComponentsModule } from '../../@components/jj-components.module';
+import { RewardsComponentsModule } from '../../rewards/@components/rewards-components.module';
 import { HomeComponentsModule } from './@components/home-components.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -16,9 +18,11 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     IonicModule,
     HomePageRoutingModule,
     JJComponentsModule,
+    RewardsComponentsModule,
     HomeComponentsModule,
     SharedModule,
     SwsErpModule,
+    CmsUIModule
   ],
   declarations: [HomePage],
 })

@@ -13,8 +13,6 @@ export class DistributionDetailsComponent implements OnInit {
   constructor(private details: DetailsService) {}
 
   ngOnInit() {
-    this.details.distribution.subscribe((distribution) => {
-      this.distribution = distribution;
-    });
+    this.details.distribution.subscribe((distribution) => (this.distribution = distribution));
   }
 }

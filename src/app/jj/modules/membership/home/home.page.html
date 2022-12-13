@@ -14,13 +14,88 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-  <account-bar></account-bar>
-  <!-- <news-ticker></news-ticker> -->
+
+  <!-- <account-bar></account-bar>
   <jj-news-ticker [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
   <wallet-cards></wallet-cards>
   <slideshow></slideshow>
   <mini-programs></mini-programs>
   <lucky-draw-cards></lucky-draw-cards>
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
+      <ion-badge color="danger" *ngIf="fab.extras?.count">
+        <span *ngIf="fab.extras.count < 100">{{ fab.extras.count }}</span>
+        <span *ngIf="fab.extras.count >= 100">99+</span>
+      </ion-badge>
+      <ion-icon *ngIf="!fab.icon" name="alert"></ion-icon>
+      <img *ngIf="fab.icon" [src]="fab.icon | erpImg" />
+    </ion-fab-button>
+  </ion-fab> -->
+
+  <jj-news-ticker [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
+  <slideshow></slideshow>
+  <wallet-cards></wallet-cards>
+
+  <ion-toolbar *ngIf="groups" class="bulletins-toolbar">
+    <ion-segment
+      class="scrollbar-hide"
+      [scrollable]="true"
+      [(ngModel)]="groupCode"
+      (ngModelChange)="onBulletinGroupChange($event)"
+    >
+      <ion-segment-button *ngFor="let group of groups" [id]="'bulletin-group-' + group.code" [value]="group.code">
+        <ion-label>{{ group.label | cmsTranslate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+  <ion-grid>
+    <ion-row *ngIf="event && showEvent">
+      <ion-col class="countdown-event" [routerLink]="['/jj/rewards/events', event.doc_id]">
+        <div class="event-name">{{ event.name | cmsTranslate }}</div>
+        <countdown-timer [endDate]="event.endAt" unitFormat="full" separator=""></countdown-timer>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="groupCode == 'MINI_PROGRAMS'">
+      <ion-col>
+        <mini-programs></mini-programs>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="groupCode != 'MINI_PROGRAMS' && bulletins">
+      <ion-col size="12" *ngIf="!bulletins.length">
+        <div class="note">
+          <ion-label>{{ "jj._NO_BULLETINS_FOUND" | translate }}</ion-label>
+        </div>
+      </ion-col>
+      <ion-col size="6" *ngFor="let bulletin of bulletins">
+        <div class="bulletin" (click)="onBulletinClick(bulletin)">
+          <div
+            class="color-bg"
+            [style.background-color]="bulletin.cardConfig.backgroundColor"
+            [style.opacity]="bulletin.cardConfig.backgroundColorOpacity"
+          ></div>
+          <div
+            class="image-bg"
+            [style.background]="'center / cover ' + (bulletin.backgroundImage | erpImg | cssUrl)"
+          ></div>
+          <div
+            class="content"
+            [style.color]="bulletin.cardConfig.textColor"
+            [style.--color]="bulletin.cardConfig.textColor"
+          >
+            <h3 class="ion-text-ellipsis">{{ bulletin.title | cmsTranslate }}</h3>
+            <div class="divider"></div>
+            <p class="ion-text-ellipsis">{{ bulletin.description | cmsTranslate }}</p>
+            <img [src]="bulletin.thumbnailImage" />
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="12" *ngIf="bulletins.length">
+        <div class="note">
+          <ion-label>{{ "jj._NO_MORE_BULLETINS" | translate }}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button *ngFor="let fab of fabs" (click)="onFabClick(fab)">
       <ion-badge color="danger" *ngIf="fab.extras?.count">

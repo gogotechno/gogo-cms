@@ -17,9 +17,7 @@ export class TicketsComponent implements OnInit {
   constructor(private details: DetailsService) {}
 
   ngOnInit() {
-    this.details.tickets.subscribe((tickets) => {
-      this.tickets = tickets;
-    });
+    this.details.tickets.subscribe((tickets) => (this.tickets = tickets));
   }
 
   loadMoreTickets(event: Event) {

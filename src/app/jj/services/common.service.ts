@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Browser } from '@capacitor/browser';
@@ -8,7 +9,8 @@ import { CmsService } from 'src/app/cms.service';
 import { CmsLanguage, CmsSiteAttributeOption } from 'src/app/cms.type';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { JJFab, LANGUAGE_STORAGE_KEY, LiteralObject, SmsTemplateCode } from '../typings';
+import { environment } from 'src/environments/environment';
+import { COMPANY_CODE, LANGUAGE_STORAGE_KEY, LiteralObject, SmsTemplateCode } from '../typings';
 
 const DEFAULT_LANG: CmsSiteAttributeOption = {
   code: 'en',
@@ -27,11 +29,20 @@ export class CommonService {
   constructor(
     private platform: Platform,
     private router: Router,
+    private http: HttpClient,
     private translate: TranslateService,
     private storage: LocalStorageService,
     private cms: CmsService,
     private swsErp: SwsErpService,
   ) {}
+
+  getByUrl(url: string) {
+    return this.http.get(url).toPromise();
+  }
+
+  postByUrl(url: string, payload: LiteralObject) {
+    return this.http.post(url, payload).toPromise();
+  }
 
   async getSupportedLanguages(): Promise<CmsLanguage[]> {
     let attributes = await this.cms.getAttributes();
@@ -138,13 +149,6 @@ export class CommonService {
     };
   }
 
-  async navigateFabUrl(fab: JJFab) {
-    if (!fab) {
-      return;
-    }
-    await this.navigateCustomUrl(fab.url);
-  }
-
   async navigateCustomUrl(url: string) {
     if (!url) {
       return;
@@ -154,5 +158,14 @@ export class CommonService {
       return;
     }
     await this.router.navigateByUrl(url);
+  }
+
+  populateUrl(url: string) {
+    if (!url) {
+      return null;
+    }
+    url = url.replace(/{{swsUrl}}/g, environment.swsErp.apiUrl);
+    url = url.replace(/{{companyCode}}/g, COMPANY_CODE);
+    return url;
   }
 }
