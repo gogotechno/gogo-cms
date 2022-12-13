@@ -1,0 +1,39 @@
+ion-list-header {
+    --background: var(--ion-color-light);
+    font-size: small;
+    min-height: 0px;
+    padding-top: calc(var(--ion-padding, 16px) / 2);
+    padding-bottom: calc(var(--ion-padding, 16px) / 2);
+}
+
+.header-title {
+    margin: 0;
+    font-size: 17px;
+}
+
+.header-subtitle {
+    margin: 0;
+    font-size: small;
+}
+
+
+ion-badge{
+    height: 100%;
+    width: 100%;
+
+}
+
+
+.transaction {
+    .description {
+        font-weight: bold;
+    }
+
+    .reference1 {
+        font-size: small;
+    }
+
+    .request{
+        font-size:larger;
+    }
+}

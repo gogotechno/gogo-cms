@@ -33,7 +33,15 @@ const routes: Routes = [
   {
     path: 'create-user',
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
+  },  {
+    path: 'withdraw-requests',
+    loadChildren: () => import('./withdraw-requests/withdraw-requests.module').then( m => m.WithdrawRequestsPageModule)
   },
+  {
+    path: 'withdraw-request',
+    loadChildren: () => import('./withdraw-request/withdraw-request.module').then( m => m.WithdrawRequestPageModule)
+  },
+
 ];
 
 @NgModule({

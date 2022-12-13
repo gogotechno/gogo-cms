@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons>
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h2 class="ion-text-center">Change 6-digit PIN</h2>
+  <p>To verify your identity, first enter your current 6-digit PIN</p><br />
+  <h5>Current PIN</h5>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="2">
+        <ion-input #pin1 
+        maxLength="1" 
+        (keyup)="pinController($event,pin2,'')" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel" 
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input #pin2 
+        maxLength="1" 
+        (keyup)="pinController($event,pin3,pin1)" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel"  
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input #pin3 
+        maxLength="1" 
+        (keyup)="pinController($event,pin4,pin2)" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel"  
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input #pin4 
+        maxLength="1" 
+        (keyup)="pinController($event,pin5,pin3)" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel" 
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input #pin5 
+        maxLength="1" 
+        (keyup)="pinController($event,pin6,pin4)" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel" 
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+      <ion-col size="2">
+        <ion-input #pin6 
+        maxLength="1" 
+        (keyup)="pinController($event,'',pin5)" 
+        (keypress)="numberOnlyValidation($event)" 
+        type="tel"  
+        class="custom"
+        type="password"
+        autocomplete="off">
+      </ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" routerLink="/jj/wallets/change-pin">Submit</ion-button>
+</ion-footer>

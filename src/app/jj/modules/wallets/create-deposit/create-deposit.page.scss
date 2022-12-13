@@ -1,0 +1,13 @@
+ion-card-content span {
+    font-weight: var(--ion-font-bold);
+}
+ion-card-content h3 {
+    padding: calc(var(--ion-padding) / 4);
+    font-size: var(--ion-font-lg);
+    color: black;
+}
+ion-card-content {
+    padding-top: calc(var(--ion-padding) / 1.5);
+    padding-bottom: calc(var(--ion-padding) / 1.5);
+    // text-align: center;
+}

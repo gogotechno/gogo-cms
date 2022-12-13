@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <!-- <ion-button fill="clear" (click)="onDismiss()">Back</ion-button> -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" routerLink="/jj/wallets/deposits">Records</ion-button>
+    </ion-buttons>
+    <!-- <ion-button slot="end" (click)="OpenDeposits()">Records</ion-button> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-input placeholder="Wallet No"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Amount"></ion-input>
+  </ion-item>
+  <ion-list>
+    <ion-radio-group value="transfer">
+      <ion-item>
+        <ion-label>Bank Transfer</ion-label>
+        <ion-radio value="transfer"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>GS Pay</ion-label>
+        <ion-radio value="pay"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Virtual Currency</ion-label>
+        <ion-radio value="bitcoin"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidDismiss)="onModalDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-buttons slot="end">
+            <ion-button (click)="setOpen(false)">X</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <ion-card>
+          <ion-card-content>
+            <h3>银行: <span>Maybank</span> </h3>
+            <h3>户口: <span>{{ text }}</span> </h3>
+            <h3>名字: <span>Da Shuai Ge</span> </h3>
+            <ion-button expand="block" (click)="writeToClipboard()">复制户口号码</ion-button>
+          </ion-card-content>
+        </ion-card>
+
+          <span *ngIf="!this.testingUrl">Uploaded Files(0/1)</span>
+          <span *ngIf="this.testingUrl">Uploaded Files(1/1)</span>
+
+        <ion-button expand="block" (click)="file.click()">Attachment</ion-button>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="auto">
+              <img [src]="this.testingUrl | erpImg" /> 
+            </ion-col>
+            <ion-col>
+              <p>{{ this.fileName }}</p>
+              <!-- <p>{{ this.fileSize }} bytes</p> -->
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <input #file class="ion-none" name="file" type="file" (change)="onFileChange($event)" />
+
+      </ion-content>
+      <ion-footer>
+        <ion-button expand="block" (click)="setOpen(false)">Confirm Payment</ion-button>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" (click)="setOpen(true)">存入</ion-button>
+  <ion-button expand="block">现金存入地点</ion-button>
+</ion-footer>
