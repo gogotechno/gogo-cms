@@ -6,7 +6,7 @@ import { AuthService } from '../services';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) {}
   async canActivate() {
     if (!this.auth.authenticated) {
       await this.router.navigate(['/jj/login']);
@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
   providedIn: 'root',
 })
 export class PublicGuard implements CanActivate {
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) {}
   async canActivate() {
     if (this.auth.authenticated) {
       await this.router.navigate(['/jj']);

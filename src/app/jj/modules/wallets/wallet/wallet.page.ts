@@ -14,10 +14,9 @@ import { Currency } from '../wallets.types';
   styleUrls: ['./wallet.page.scss'],
 })
 export class WalletPage implements OnInit {
-  private _walletNo: string;
-
+  walletNo: string;
   wallet: JJWallet;
-  actions = actions;
+  cards = cards;
   displayCurrency: Currency = {
     code: 'MYR',
     displaySymbol: 'RM',
@@ -27,131 +26,107 @@ export class WalletPage implements OnInit {
   createDepositPage: CreateDepositPage;
 
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
     private router: Router,
     private modalCtrl: ModalController,
     private appUtils: AppUtils,
     private jj: JJLuckydrawService,
-  ) {
-    this._walletNo = route.snapshot.params.walletNo;
-  }
+  ) {}
 
   ngOnInit() {
+    let params = this.route.snapshot.params;
+    this.walletNo = params['walletNo'];
     this.loadData();
   }
 
-  async loadData(event?: Event) {
-    this.wallet = await this.jj.getWalletByNo(this._walletNo);
+  async loadData() {
+    this.wallet = await this.jj.getWalletByNo(this.walletNo);
   }
 
-  onActionClick(action: WalletAction) {
-    if (!action.active) {
+  onCardClick(card: WalletCard) {
+    if (!card.active) {
       return;
     }
-
-    switch (action.code) {
-      default:
+    switch (card.code) {
+      case 'QR_CODE':
         return this.openQrCode();
       case 'DEPOSIT':
-        return this.openDeposit();
-      case 'PIN':
-        return this.openPIN();
-      case 'TRANSFER':
-        return this.openTRANSFER();
       case 'WITHDRAW':
-        return this.openWITHDRAW();  
+      case 'TRANSFER':
+      case 'PIN':
+        return this.onCardNavigate(card.url);
+      default:
+        return;
     }
   }
 
-  async openDeposit() {
-    // const modal = await this.modalCtrl.create({
-    //   component: CreateDepositPage,
-    // });
-
-    // await modal.present();
-
-    this.router.navigate(["/jj/wallets/create-deposit"]);
-  }
-
-  async openPIN() {
-    this.router.navigate(["/jj/wallets/verify-pin"]);
-  }
-
-  async openTRANSFER() {
-    this.router.navigate(["/jj/wallets/:walletNo/search-phone"]);
-  }
-
-  async openWITHDRAW() {
-    this.router.navigate(["/jj/wallets/:walletNo/create-withdraw"]);
+  async onCardNavigate(path: string) {
+    await this.router.navigate([path], {
+      relativeTo: this.route,
+    });
   }
 
   async openQrCode() {
-    if (this.wallet.type != WalletType.CUSTOMER) {
-      await this.appUtils.presentAlert('jj._THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT');
-      return;
-    }  
-
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
-        qrData: this.wallet.walletNo,
+        qrData: this.walletNo,
       },
       cssClass: 'qrcode-modal',
     });
-
     await modal.present();
   }
 }
 
-interface WalletAction {
-  type: 'modal';
-  nameKey: string;
-  icon: string;
+interface WalletCard {
   code: string;
+  name: string;
+  icon: string;
+  url: string;
   active: boolean;
 }
 
-const actions: WalletAction[] = [
+const cards: WalletCard[] = [
   {
-    type: 'modal',
-    nameKey: 'jj._DEPOSIT',
-    icon: 'enter-outline',
     code: 'DEPOSIT',
+    name: 'jj._DEPOSIT',
+    icon: 'enter-outline',
+    url: 'create-deposit',
     active: true,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._WITHDRAW',
-    icon: 'exit-outline',
     code: 'WITHDRAW',
+    name: 'jj._WITHDRAW',
+    icon: 'exit-outline',
+    url: 'create-withdraw',
     active: true,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._TRANSFER',
-    icon: 'arrow-redo-outline',
     code: 'TRANSFER',
+    name: 'jj._TRANSFER',
+    icon: 'arrow-redo-outline',
+    url: 'search-phone',
     active: true,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._STATEMENT',
-    icon: 'document-text-outline',
     code: 'STATEMENT',
+    name: 'jj._STATEMENT',
+    icon: 'document-text-outline',
+    url: '',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._PIN',
-    icon: 'keypad-outline',
     code: 'PIN',
+    name: 'jj._PIN',
+    icon: 'keypad-outline',
+    url: 'verify-pin',
     active: true,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._QR_CODE',
-    icon: 'qr-code-outline',
     code: 'QR_CODE',
+    name: 'jj._QR_CODE',
+    icon: 'qr-code-outline',
+    url: '',
     active: true,
   },
 ];
