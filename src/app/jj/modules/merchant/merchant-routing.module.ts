@@ -36,11 +36,16 @@ const routes: Routes = [
   },
   {
     path: 'withdraw-requests',
-    loadChildren: () => import('./withdraw-requests/withdraw-requests.module').then((m) => m.WithdrawRequestsPageModule),
-  },
-  {
-    path: 'withdraw-request',
-    loadChildren: () => import('./withdraw-request/withdraw-request.module').then((m) => m.WithdrawRequestPageModule),
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./withdraw-requests/withdraw-requests.module').then((m) => m.WithdrawRequestsPageModule),
+      },
+      {
+        path: ':id',
+        loadChildren: () => import('./withdraw-request/withdraw-request.module').then((m) => m.WithdrawRequestPageModule),
+      },
+    ],
   },
 ];
 

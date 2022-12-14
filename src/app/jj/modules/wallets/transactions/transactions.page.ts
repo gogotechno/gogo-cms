@@ -1,9 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { JJLuckydrawService } from 'src/app/jj-luckydraw/jj-luckydraw.service';
-import { JJWallet, JJWalletTransaction } from 'src/app/jj-luckydraw/jj-luckydraw.type';
+import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
+import { JJWallet, JJWalletTransaction } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -27,7 +27,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
     return Object.keys(this.transactions);
   }
 
-  constructor(private route: ActivatedRoute, private jj: JJLuckydrawService, private date: DatePipe) {
+  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
     super();
   }
 
@@ -38,8 +38,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    this.wallet = await this.jj.getWalletByNo(this.walletNo);
-    this.transactions = [];
+    this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.transactionsPage = this.defaultPage;
     let transactions = await this.getTransactions();
     this.grouping(transactions);
@@ -47,7 +46,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   async getTransactions() {
-    let transactions = await this.jj.getWalletTransactionsByWalletId(this.wallet.doc_id, this.transactionsPage);
+    let transactions = await this.core.getWalletTransactionsByWalletId(this.wallet.doc_id, this.transactionsPage);
     this.updatedAt = new Date();
     return transactions;
   }
@@ -62,6 +61,9 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   grouping(transactions: JJWalletTransaction[]) {
+    if (!this.transactions) {
+      this.transactions = [];
+    }
     transactions.forEach((transaction) => {
       let date = this.date.transform(transaction.doc_createdDate, 'd/M/yyyy');
       let list = this.transactions[date];
