@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
-import { JJWallet, JJWithdrawRequest } from 'src/app/jj/typings';
+import { JJDepositRequest, JJWallet, JJWithdrawRequest } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -46,9 +46,44 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   }
 
   async getWithdraws() {
-    let withdraws = await this.core.getWithdrawRequests(this.wallet.doc_id, this.withdrawsPage);
+    let withdraws = await this.core.getWithdrawRequests(this.withdrawsPage, {
+      wallet_id: this.wallet.doc_id,
+      wallet_id_type: '=',
+    });
     this.updatedAt = new Date();
     return withdraws;
   }
+
+  async loadMoreWithdraws(event: Event) {
+    this.withdrawsPage.currentPage += 1;
+    let incoming = await this.getWithdraws();
+    this.grouping(incoming);
+    this.withdrawsEnded = incoming.length <= 0;
+    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    scroller.complete();
+  }
+
+  grouping(withdraws: JJDepositRequest[]) {
+    if (!this.withdraws) {
+      this.withdraws = [];
+    }
+    withdraws.forEach((withdraw) => {
+      let date = this.date.transform(withdraw.doc_createdDate, 'd/M/yyyy');
+      let list = this.withdraws[date];
+      if (list === undefined) {
+        list = [withdraw];
+      } else {
+        list.push(withdraw);
+      }
+      this.withdraws[date] = list;
+    });
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
+
 
 }
