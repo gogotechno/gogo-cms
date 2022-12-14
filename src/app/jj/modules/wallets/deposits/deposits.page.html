@@ -7,42 +7,40 @@
 </ion-header>
 
 <ion-content>
-  <!-- <ion-refresher slot="fixed">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
-  </ion-refresher> -->
+  </ion-refresher>
   <ion-list>
-    <ion-list-header>11/11/2022</ion-list-header>
-    <ion-item lines="full" class="transaction" routerLink="1">
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>_NO_TRANSACTIONS_FOUND</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+    <ion-list-header>{{ date }}</ion-list-header>
+    <ion-item lines="full" class="transaction" *ngFor="let deposit of deposits[date]" [routerLink]=[deposit.doc_id]>
       <div class="ion-padding-vertical-sm">
-        <ion-text class="description">AAA</ion-text><br />
-        <ion-text class="reference2">22111102293</ion-text><br />
-        <ion-text>-</ion-text>
+        <ion-text class="description">{{ deposit.description || '-' }}</ion-text><br />
+        <ion-text class="reference2">{{ deposit.reference1 || '-' }}</ion-text><br />
+        <ion-text>{{ deposit.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
       </div>
 
       <div slot="end">
-        <ion-text class="right" class="reference1">RM100.00</ion-text><br />
-        <ion-badge slot="end" color="warning">Pending</ion-badge>
+        <ion-text class="right" class="reference1">RM {{ deposit.amount || '-' }}</ion-text><br />
+        <ion-badge slot="end" color="warning">{{ deposit.status || '-' }}</ion-badge>
       </div>
     </ion-item>
-    <ion-item lines="full" class="transaction" routerLink="1">
-      <div class="ion-padding-vertical-sm">
-        <ion-text class="description">AAA</ion-text><br />
-        <ion-text class="reference2">22111102293</ion-text><br />
-        <ion-text>-</ion-text>
-      </div>
-
-      <div slot="end">
-        <ion-text class="right" class="reference1">RM100.00</ion-text><br />
-        <ion-badge slot="end" color="warning">Pending</ion-badge>
-      </div>
-    </ion-item>
+  </ng-container>
   </ion-list>
-  <!-- <div class="note">
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!depositsEnded" (ionInfinite)="loadMoreDeposits($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  <div *ngIf="depositsEnded" class="note">
       <ion-label>
         <ion-text>ALL_LOADED</ion-text><br />
         <ion-text>
           UPDATED_AT_WITH_DATE
         </ion-text>
       </ion-label>
-    </div> -->
+    </div>
+  </ng-container>
 </ion-content>
