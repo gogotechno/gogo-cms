@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-deposits',
@@ -7,15 +6,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./deposits.page.scss'],
 })
 export class DepositsPage implements OnInit {
+  constructor() {}
 
-  constructor(private router: Router) { }
-
-  async ngOnInit() {
-
-  }
-
-  async OpenDetails() {
-    this.router.navigate(["/jj/wallets/deposit"]);
-  }
-
+  async ngOnInit() {}
 }

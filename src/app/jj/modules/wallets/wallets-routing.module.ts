@@ -25,24 +25,36 @@ const routes: Routes = [
       },
       {
         path: 'deposits',
-        loadChildren: () => import('./deposits/deposits.module').then((m) => m.DepositsPageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./deposits/deposits.module').then((m) => m.DepositsPageModule),
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./deposit/deposit.module').then((m) => m.DepositPageModule),
+          },
+        ],
       },
-      {
-        path: 'deposit',
-        loadChildren: () => import('./deposit/deposit.module').then((m) => m.DepositPageModule),
-      },
+
       {
         path: 'create-withdraw',
         loadChildren: () => import('./create-withdraw/create-withdraw.module').then((m) => m.CreateWithdrawPageModule),
       },
       {
         path: 'withdraws',
-        loadChildren: () => import('./withdraws/withdraws.module').then((m) => m.WithdrawsPageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./withdraws/withdraws.module').then((m) => m.WithdrawsPageModule),
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawPageModule),
+          },
+        ],
       },
-      {
-        path: 'withdraw',
-        loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawPageModule),
-      },
+
       {
         path: 'search-phone',
         loadChildren: () => import('./search-phone/search-phone.module').then((m) => m.SearchPhonePageModule),
@@ -53,12 +65,18 @@ const routes: Routes = [
       },
       {
         path: 'transfers',
-        loadChildren: () => import('./transfers/transfers.module').then((m) => m.TransfersPageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('./transfers/transfers.module').then((m) => m.TransfersPageModule),
+          },
+          {
+            path: ':id',
+            loadChildren: () => import('./transfer/transfer.module').then((m) => m.TransferPageModule),
+          },
+        ],
       },
-      {
-        path: 'transfer',
-        loadChildren: () => import('./transfer/transfer.module').then((m) => m.TransferPageModule),
-      },
+
       {
         path: 'change-pin',
         loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),
