@@ -59,6 +59,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.matchingFields = {};
+    
     let controls = {};
     for (let item of this.form.items) {
       switch (item.type) {
