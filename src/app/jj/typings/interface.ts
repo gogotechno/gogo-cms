@@ -274,13 +274,14 @@ export interface JJMerchant extends ErpDoc {
   postalCode: string;
   state: string;
   country: string;
-
   totalOfLatestTickets?: number;
   totalOfTickets?: number;
   totalOfWinners?: number;
   fullAddress?: string;
   distance?: number;
   nameTranslation?: CmsTranslation;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface JJPointRule extends ErpDoc {

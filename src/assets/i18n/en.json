@@ -80,6 +80,8 @@
   "_VERIFICATION_CDOE": "Verification Code",
   "_VERIFY": "Verify",
   "_RESEND": "Resend",
+  "_KM": "KM",
+  "_SHARE": "Share",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -432,6 +434,8 @@
     "_EVENT_IS_NOT_STARTED_YET": "Event is not started yet",
     "_NO_BULLETINS_FOUND": "No bulletins found",
     "_NO_MORE_BULLETINS": "No more bulletins",
-    "_YOU_HAVE_CHECKED_IN_TODAY": "You have checked in today"
+    "_YOU_HAVE_CHECKED_IN_TODAY": "You have checked in today",
+    "_MERCHANT_LIST": "Merchant List",
+    "_REFERRER": "Referrer"
   }
 }
