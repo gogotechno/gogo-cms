@@ -1,0 +1,193 @@
+{
+  "groups": [
+    {
+      "code": "ALL",
+      "label": {
+        "en": "All",
+        "zh": "全部",
+        "ms": ""
+      }
+    },
+    {
+      "code": "INFO",
+      "label": {
+        "en": "Information",
+        "zh": "资讯",
+        "ms": ""
+      }
+    },
+    {
+      "code": "PRIZE",
+      "label": {
+        "en": "Lucky Draw",
+        "zh": "抽奖",
+        "ms": ""
+      }
+    },
+    {
+      "code": "POINT",
+      "label": {
+        "en": "Free Point",
+        "zh": "礼码",
+        "ms": ""
+      }
+    },
+    {
+      "code": "CHEST",
+      "label": {
+        "en": "Chest",
+        "zh": "宝箱",
+        "ms": ""
+      }
+    },
+    {
+      "code": "MINI_PROGRAMS",
+      "label": {
+        "en": "Mini Programs",
+        "zh": "小程序",
+        "ms": ""
+      }
+    }
+  ],
+  "bulletins": [
+    {
+      "title": {
+        "en": "Merchant",
+        "zh": "商家",
+        "ms": "Pedagang"
+      },
+      "description": {
+        "en": "Welcome",
+        "zh": "欢迎光临",
+        "ms": "Selamat datang"
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fspider-man.png?alt=media&token=524c4c03-b498-4032-a363-826db3cc3da1",
+      "backgroundImage": "https://images.unsplash.com/photo-1558623922-5c516f934e6a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+      "cardConfig": {
+        "backgroundColor": "#06ab5f",
+        "backgroundColorOpacity": 0.5,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL", "INFO"],
+      "roles": ["CUSTOMER"],
+      "url": "jj/merchant/merchants"
+    },
+    {
+      "title": {
+        "en": "Check In",
+        "zh": "签到",
+        "ms": ""
+      },
+      "description": {
+        "en": "Get daily reward",
+        "zh": "获得每日奖励",
+        "ms": ""
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fspider-man.png?alt=media&token=524c4c03-b498-4032-a363-826db3cc3da1",
+      "backgroundImage": "https://images.unsplash.com/photo-1558623922-5c516f934e6a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
+      "cardConfig": {
+        "backgroundColor": "#06ab5f",
+        "backgroundColorOpacity": 0.5,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL"],
+      "roles": ["CUSTOMER"],
+      "actionUrl": "{{swsUrl}}/{{companyCode}}/docs/Checkin%20Request",
+      "actionSuccessCallback": {
+        "label": {
+          "en": "Successfuly get your reward",
+          "zh": "已成功领取您的奖励",
+          "ms": ""
+        }
+      }
+    },
+    {
+      "title": {
+        "en": "4D Result",
+        "zh": "4D 中奖成绩",
+        "ms": "Keputusan 4D"
+      },
+      "description": {
+        "en": "4D 链接",
+        "zh": "4D link",
+        "ms": "Pautan 4D"
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2F4d-logo.png?alt=media&token=78593cf2-6974-4160-a04d-1b20080e6ff2",
+      "backgroundImage": "https://www.dbola88.com/wp-content/uploads/2019/10/4d-lotto.jpg",
+      "cardConfig": {
+        "backgroundColor": "#e8e701",
+        "backgroundColorOpacity": 0.8,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL", "INFO"],
+      "url": "https://4dyes.com/pop.php?view=home"
+    },
+    {
+      "title": {
+        "en": "Weekly Jackpot",
+        "zh": "每周积宝",
+        "ms": ""
+      },
+      "description": {
+        "en": "RM1888 Free Points",
+        "zh": "RM1888礼码",
+        "ms": ""
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fjackpot.png?alt=media&token=dbb54547-2cd2-4403-979c-6b93c1e14e82",
+      "backgroundImage": "https://www.dbola88.com/wp-content/uploads/2019/10/4d-lotto.jpg",
+      "cardConfig": {
+        "backgroundColor": "#0762a9",
+        "backgroundColorOpacity": 0.8,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL", "INFO"],
+      "url": "jj/rewards/events/38"
+    },
+    {
+      "title": {
+        "en": "Chest Event",
+        "zh": "宝箱活动",
+        "ms": ""
+      },
+      "description": {
+        "en": "Various rewards",
+        "zh": "丰富奖励",
+        "ms": ""
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fchest-box.png?alt=media&token=0bb0a6e7-413e-467c-9278-503413be0fa6",
+      "backgroundImage": "https://www.dbola88.com/wp-content/uploads/2019/10/4d-lotto.jpg",
+      "cardConfig": {
+        "backgroundColor": "#6f3194",
+        "backgroundColorOpacity": 0.8,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL", "INFO"],
+      "url": "jj/scratch-and-win/1"
+    },
+    {
+      "title": {
+        "en": "",
+        "zh": "推荐有礼",
+        "ms": ""
+      },
+      "description": {
+        "en": "Various rewards",
+        "zh": "丰富奖励",
+        "ms": ""
+      },
+      "thumbnailImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fchest-box.png?alt=media&token=0bb0a6e7-413e-467c-9278-503413be0fa6",
+      "backgroundImage": "https://firebasestorage.googleapis.com/v0/b/gogo-cms.appspot.com/o/jj%2Fupload%2Fhome-directory%2Fasian-pretty-happy-ladies-sisters-chatting-by-mobile-phones.jpg?alt=media&token=5cb337e9-3f10-4752-9cbe-2e527ac3f176",
+      "cardConfig": {
+        "backgroundColor": "#6f3194",
+        "backgroundColorOpacity": 0.8,
+        "textColor": "#ffffff"
+      },
+      "tags": ["ALL", "INFO"],
+      "url": "jj/scratch-and-win/1"
+    }
+  ],
+  "event": {
+    "id": 38,
+    "tags": ["ALL"]
+  }
+}

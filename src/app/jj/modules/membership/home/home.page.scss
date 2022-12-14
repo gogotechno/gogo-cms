@@ -233,4 +233,8 @@ ion-segment {
     font-weight: var(--ion-font-bold);
     text-transform: uppercase;
   }
+
+  .text-shadow {
+    text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.6)!important;
+  }
 }

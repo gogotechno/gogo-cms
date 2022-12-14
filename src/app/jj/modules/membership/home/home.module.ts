@@ -10,6 +10,7 @@ import { HomeComponentsModule } from './@components/home-components.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { CountdownModule } from 'ngx-countdown';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     HomeComponentsModule,
     SharedModule,
     SwsErpModule,
-    CmsUIModule
+    CmsUIModule,
+    CountdownModule,
   ],
   declarations: [HomePage],
 })

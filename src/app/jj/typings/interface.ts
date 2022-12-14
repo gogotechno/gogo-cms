@@ -1,3 +1,4 @@
+import { CountdownConfig } from 'ngx-countdown';
 import { CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 
@@ -35,6 +36,7 @@ export interface Bulletin {
   };
   responseUrl: string;
   roles: string[];
+  countdownConfig?: CountdownConfig;
 }
 
 export interface EventConfig {

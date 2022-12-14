@@ -82,11 +82,13 @@
             [style.color]="bulletin.cardConfig.textColor"
             [style.--color]="bulletin.cardConfig.textColor"
           >
-            <h3 class="ion-text-ellipsis">{{ bulletin.title | cmsTranslate }}</h3>
+            <h3 class="ion-text-ellipsis text-shadow">{{ bulletin.title | cmsTranslate }}</h3>
             <div class="divider"></div>
-            <p class="ion-text-ellipsis">{{ bulletin.description | cmsTranslate }}</p>
+            <p class="ion-text-ellipsis text-shadow">{{ bulletin.description | cmsTranslate }}</p>
+            <countdown *ngIf="bulletin.countdownConfig" [config]="bulletin.countdownConfig"></countdown>
             <img [src]="bulletin.thumbnailImage" />
           </div>
+          <ion-ripple-effect></ion-ripple-effect>
         </div>
       </ion-col>
       <ion-col size="12" *ngIf="bulletins.length">

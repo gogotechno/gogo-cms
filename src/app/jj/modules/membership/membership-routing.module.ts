@@ -33,8 +33,13 @@ const routes: Routes = [
         canActivate: [PublicGuard],
         loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
       },
+      {
+        path: 'referrer',
+        loadChildren: () => import('./referrer/referrer.module').then( m => m.ReferrerPageModule)
+      },
     ],
   },
+
 ];
 
 @NgModule({
