@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pathName = window.location.pathname;
+    this.pathName = window.location.hash;
 
     this.initStorage();
     this.redirectToTemplate();
@@ -46,12 +46,11 @@ export class AppComponent implements OnInit {
     if (!found) {
       let commands = [`/${this.cms.SITE.template}`];
       if (this.pathName != '/') {
-        let paths = this.pathName.split('/').filter((path) => path && path != this.cms.SITE.template);
+        let paths = this.pathName.split('/').filter((path) => path && path != this.cms.SITE.template && path != '#');
         if (paths.length > 0) {
           commands.push(...paths);
         }
       }
-
       this.router.navigate(commands);
     }
   }
