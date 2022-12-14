@@ -8,6 +8,17 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 })
 export class VerifyPinPage implements OnInit {
 
+  PIN: any =  {
+    first: '',
+    second: '',
+    third: '',
+    forth: '',
+    fifth: '',
+    sixth: ''
+  };
+
+  values: any[];
+
   constructor() { }
 
   ngOnInit() {
@@ -21,15 +32,19 @@ export class VerifyPinPage implements OnInit {
   // gotoNextField(nextElement)
   // nextElement.focus();
 
-  pinController(event,next,prev){
+  pinController(event,next,prev,index?){
 
-    if(event.target.value.length < 1 && prev){
-      prev.setFocus();
+    if(index == 6 && event.target.value.length == 1) {
+      console.log("submit")
     }
-    else if(next && event.target.value.length>0){
-      next.setFocus();
+    else if(event.target.value.length == 0 && prev){
+      prev.setFocus()
+    }
+    else if(next && event.target.value.length == 1){
+      next.setFocus()
     }
     else {
+      return 0;
     } 
  }
 
@@ -41,6 +56,55 @@ export class VerifyPinPage implements OnInit {
     event.preventDefault();
   }
 }
+
+// submit(e:Event){
+        
+//   this.values=[];
+//   this.PIN.first.value="";
+//   this.PIN.second.value="";
+//   this.PIN.third.value="";
+//   this.PIN.fourth.value="";
+//   this.PIN.fifth.value="";
+//   this.PIN.sixth.value="";
+//   e.stopPropagation();
+  
+// }
+
+// onKeyUp(event,index){  
+//   console.log(event);
+//   if(event.target.value.length !=1){
+//     this.setFocus(index-2);  
+//   }else{
+//     this.values.push(event.target.value);  
+//     this.setFocus(index);   
+//   }
+//   event.stopPropagation();
+// }
+
+// setFocus(index){
+       
+//   switch(index){
+//     case 0:
+//     this.PIN.first.setFocus();
+//     break;
+//     case 1:
+//     this.PIN.second.setFocus();
+//     break;
+//     case 2:
+//     this.PIN.third.setFocus();
+//     break;
+//     case 3:
+//     this.PIN.fourth.setFocus();
+//     break;
+//     case 4:
+//     this.PIN.fifth.setFocus();
+//     break;
+//     case 5:
+//     this.PIN.sixth.setFocus();
+//     break;
+//     }
+
+// }
 
 // contactForm = new FormGroup({
 //   pin1: new FormControl('', Validators.required),
