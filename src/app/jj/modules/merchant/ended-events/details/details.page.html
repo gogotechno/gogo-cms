@@ -29,7 +29,7 @@
         <ion-list lines="full">
           <ng-container *ngFor="let record of event?.winningSummary">
             <ion-list-header>
-              <ion-label>{{ record.prize.name | erpTranlate }}</ion-label>
+              <ion-label>{{ record.prize.name | erpTranslate }}</ion-label>
             </ion-list-header>
             <ion-item *ngIf="!record.winningNumbers.length">
               <ion-label>-</ion-label>

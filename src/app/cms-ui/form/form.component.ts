@@ -1,16 +1,17 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MaskApplierService } from 'ngx-mask';
-import _ from 'lodash';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
-import { CmsForm, CmsFormItem, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
+import { CmsForm, CmsFormItem, CmsFormItemOption, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
+import _ from 'lodash';
+import { InputCustomEvent } from '@ionic/angular';
 
 @Component({
   selector: 'cms-form',
@@ -19,7 +20,7 @@ import { CmsTranslatePipe } from '../cms.pipe';
 })
 export class FormComponent extends CmsComponent implements OnInit {
   @Input('form') form: CmsForm;
-  @Input('value') value: { [key: string]: any };
+  @Input('value') value: object;
   @Input('collection-path') collectionPath: string;
   @Output('submit') submit = new EventEmitter<any>();
 
@@ -32,13 +33,14 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private datePipe: DatePipe,
+    private date: DatePipe,
+    private decimal: DecimalPipe,
     private cmsTranslate: CmsTranslatePipe,
     private cms: CmsService,
     private admin: CmsAdminService,
     private translate: TranslateService,
     private mask: MaskApplierService,
-    private app: AppUtils,
+    private appUtils: AppUtils,
   ) {
     super();
   }
@@ -59,7 +61,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.matchingFields = {};
-    
+
     let controls = {};
     for (let item of this.form.items) {
       switch (item.type) {
@@ -67,7 +69,7 @@ export class FormComponent extends CmsComponent implements OnInit {
           let value = null;
           if (this.value) {
             let datetime = (<Timestamp>this.value[item.code]).toDate();
-            value = this.datePipe.transform(datetime, 'YYYY-MM-ddTHH:mm');
+            value = this.date.transform(datetime, 'YYYY-MM-ddTHH:mm');
           }
           controls[item.code] = [value];
           break;
@@ -236,7 +238,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     let validation = await this.validateForm();
     if (!validation.valid) {
       let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + '</p>').join('');
-      this.app.presentAlert(messages, '_ERROR');
+      this.appUtils.presentAlert(messages, '_ERROR');
     }
     return validation;
   }
@@ -288,6 +290,12 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   markAsNonSubmitable() {
     this.cannotSubmit = true;
+  }
+
+  onQuickButtonClick(item: CmsFormItem, button: CmsFormItemOption) {
+    this.formGroup.patchValue({
+      [item.code]: button.code,
+    });
   }
 }
 

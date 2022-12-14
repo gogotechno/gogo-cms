@@ -1,66 +1,28 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/wallets/:walletNo/search-phone"></ion-back-button>
+      <ion-back-button [text]="'_BACK' | translate" defaultHref="/jj/wallets"></ion-back-button>
     </ion-buttons>
-    <ion-title>Transfer Money</ion-title>
+    <ion-title>{{ "jj._TRANSFER" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="transfer-to">
-    <ion-text class="transfer-to-text">Transfer To</ion-text>
-    <ion-card>
-      <ion-card-content>
-        <ion-grid>
-          <ion-row>
-            <ion-col size="2">
-              <ion-avatar>
-                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-              </ion-avatar>
-            </ion-col>
-            <ion-col style="padding-top: 17px;">   
-                <ion-text class="ion-font-bold">TAN AH KAU</ion-text><br/>
-                <ion-text>+60 12-725 7890</ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-grid> 
-      </ion-card-content>
-    </ion-card>
-
-    <div class="cms-form" style="margin-left:5%; margin-right:5%; margin-top:10%;" >
-      <ion-item>
-        <ion-label position="stacked">Amount</ion-label>
-        <ion-input></ion-input>
-      </ion-item>
-      <div style="margin:2%" >
-        <ion-button>
-          <ion-label>RM50</ion-label>
-        </ion-button>
-        <ion-button>
-          <ion-label>RM100</ion-label>
-        </ion-button>
-        <ion-button>
-          <ion-label>RM150</ion-label>
-        </ion-button>
-        <ion-button>
-          <ion-label>RM200</ion-label>
-        </ion-button>
-      </div>
-      <div style="margin-top:10%; margin-bottom:10%" >
-        <ion-item counter="true">
-          <ion-label position="stacked">Description</ion-label>
-          <ion-input  maxlength="50"></ion-input>
-        </ion-item>
-      </div>
-</div>
-
-</div>  
-
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-card class="border-card">
+          <ion-card-content>
+            <ion-icon [name]="toWallet?.walletType?.icon || 'gift'"></ion-icon>
+            <div class="content">
+              <h3>{{ toWallet?.walletNo }}</h3>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <div class="ion-padding-sm">
+          <cms-form [form]="form" (submit)="onConfirm($event)"></cms-form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
-
-<ion-footer>
-  <ion-button expand="block" size="large">
-    Transfer
-  </ion-button>
-</ion-footer>

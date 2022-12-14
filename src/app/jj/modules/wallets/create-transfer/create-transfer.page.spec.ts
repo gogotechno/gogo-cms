@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { SearchPhonePage } from './search-phone.page';
+import { CreateTransferPage } from './create-transfer.page';
 
-describe('SearchPhonePage', () => {
-  let component: SearchPhonePage;
-  let fixture: ComponentFixture<SearchPhonePage>;
+describe('CreateTransferPage', () => {
+  let component: CreateTransferPage;
+  let fixture: ComponentFixture<CreateTransferPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchPhonePage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [CreateTransferPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SearchPhonePage);
+    fixture = TestBed.createComponent(CreateTransferPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

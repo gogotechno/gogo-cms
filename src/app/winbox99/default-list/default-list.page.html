@@ -24,7 +24,7 @@
   </div>
 </ng-container>
 
-<ion-grid fixed="true" *ngIf="list">
+<ion-grid fixed *ngIf="list">
   <ion-row>
     <ion-col sizeXs="12" sizeSm="12" sizeMd="6" sizeLg="4" sizeXl="3" *ngFor="let item of list.items">
       <ion-card class="ion-activatable ripple-parent h-100 ion-no-margin" (click)="detail(item)">

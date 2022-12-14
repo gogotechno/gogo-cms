@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { CmsFormItem } from 'src/app/cms.type';
+import { CmsTranslable } from 'src/app/cms.type';
 import { ScannerComponent } from './scanner/scanner.component';
 
 @Component({
@@ -17,7 +17,11 @@ import { ScannerComponent } from './scanner/scanner.component';
   ],
 })
 export class BarcodeScannerComponent implements ControlValueAccessor {
-  @Input('formItem') formItem: CmsFormItem;
+  @Input('code') code: string;
+  @Input('label') label: CmsTranslable;
+  @Input('required') required: boolean;
+  @Input('writable') writable: boolean;
+  @Input('placeholder') placeholder: CmsTranslable;
   @Input('labelPosition') labelPosition: string;
 
   value: string;
@@ -26,7 +30,7 @@ export class BarcodeScannerComponent implements ControlValueAccessor {
   onTouched: any = () => {};
 
   get id() {
-    return `cms-scan-${this.formItem.code}-lbl`;
+    return `cms-scan-${this.code}-lbl`;
   }
 
   constructor(private modalCtrl: ModalController) {}
@@ -58,5 +62,11 @@ export class BarcodeScannerComponent implements ControlValueAccessor {
       this.writeValue(value);
       this.onChange(value);
     }
+  }
+
+  onInputChange(event?: Event) {
+    let value = String(event);
+    this.writeValue(value);
+    this.onChange(value);
   }
 }

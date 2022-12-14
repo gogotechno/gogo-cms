@@ -39,6 +39,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
 
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
+    this.transactions = [];
     this.transactionsPage = this.defaultPage;
     let transactions = await this.getTransactions();
     this.grouping(transactions);

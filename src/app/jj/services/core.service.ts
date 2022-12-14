@@ -31,6 +31,7 @@ import {
   JJTicket,
   JJTicketDistribution,
   JJTicketDistributionApplication,
+  JJTransferRequest,
   JJUser,
   JJUserRole,
   JJWallet,
@@ -39,6 +40,7 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
+  TransferRequestDto,
   WalletType,
 } from '../typings';
 import { CommonService } from './common.service';
@@ -249,7 +251,10 @@ export class CoreService extends SharedComponent {
   }
 
   async getDepositMethods() {
-    let res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method');
+    let res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method', {
+      isVisible: 1,
+      isVisible_type: '=',
+    });
     return res.result;
   }
 
@@ -274,8 +279,28 @@ export class CoreService extends SharedComponent {
   }
 
   async getWithdrawMethods() {
-    let res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method');
+    let res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method', {
+      isVisible: 1,
+      isVisible_type: '=',
+    });
     return res.result;
+  }
+
+  createTransferRequest(data: TransferRequestDto) {
+    let request: JJTransferRequest = {
+      refNo: '',
+      amount: data.amount,
+      fromWallet: data.fromWallet,
+      toWallet: data.toWallet,
+      description: data.description,
+      reference1: data.reference1,
+      reference2: data.reference2,
+      reference3: data.reference3,
+      effectiveDate: data.effectiveDate,
+      fromWalletNo: data.fromWalletNo,
+      toWalletNo: data.toWalletNo,
+    };
+    return this.swsErp.postDoc('Transfer Request', request);
   }
 
   // -----------------------------------------------------------------------------------------------------

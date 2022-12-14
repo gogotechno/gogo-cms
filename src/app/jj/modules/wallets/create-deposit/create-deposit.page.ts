@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Clipboard } from '@capacitor/clipboard';
-import { AppUtils } from 'src/app/cms.util';
-
+import { ActivatedRoute } from '@angular/router';
+import { ModalController } from '@ionic/angular';
+import { CmsForm } from 'src/app/cms.type';
+import { CoreService } from 'src/app/jj/services';
+import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
   selector: 'app-create-deposit',
@@ -9,75 +11,90 @@ import { AppUtils } from 'src/app/cms.util';
   styleUrls: ['./create-deposit.page.scss'],
 })
 export class CreateDepositPage implements OnInit {
-  isModalOpen = false;
-  text: string = "123456654321";
+  walletNo: string;
+  form = form;
+  formValue: CreateDepositDto;
 
-  constructor(private appUtils: AppUtils) { }
+  constructor(private route: ActivatedRoute, private modalCtrl: ModalController, private core: CoreService) {}
 
-  ngOnInit() {
-
+  async ngOnInit() {
+    let params = this.route.snapshot.params;
+    this.walletNo = params['walletNo'];
+    await this.loadData();
   }
 
-  async writeToClipboard() {
-    await Clipboard.write({
-      string: this.text
+  async loadData() {
+    let methods = await this.core.getDepositMethods();
+    let methodField = this.form.items.find((item) => item.code == 'deposit_method_id');
+    methodField.options = methods.map((method) => ({
+      code: String(method.doc_id),
+      label: method.name,
+      disabled: !method.isActive,
+    }));
+
+    this.formValue = {
+      walletNo: this.walletNo,
+      amount: 1,
+      deposit_method_id: null,
+    };
+  }
+
+  async onNext(data: CreateDepositDto) {
+    console.log(data);
+
+    const modal = await this.modalCtrl.create({
+      component: UploadAttachmentsComponent,
+      componentProps: {},
     });
 
-    await this.appUtils.presentAlert("Copied");
-  };
-
-  async checkClipboard() {
-    const { type, value } = await Clipboard.read();
-    console.log(`Got ${type} from clipboard: ${value}`);
-  };
-
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
+    await modal.present();
   }
+}
 
-  testingUrl: string;
-  fileName: string;
-  fileSize: number;
+const form: CmsForm = {
+  code: 'create-deposit',
+  labelPosition: 'stacked',
+  submitButtonText: '_NEXT',
+  autoValidate: true,
+  items: [
+    {
+      code: 'walletNo',
+      label: {
+        en: 'Wallet No.',
+        zh: '钱包账号',
+        ms: 'No. Dompet',
+      },
+      type: 'text',
+      required: true,
+      readonly: true,
+    },
+    {
+      code: 'amount',
+      label: {
+        en: 'Amount',
+        zh: '金额',
+        ms: 'Jumlah',
+      },
+      placeholder: '0.00',
+      type: 'number',
+      required: true,
+    },
+    {
+      code: 'deposit_method_id',
+      label: {
+        en: 'Method',
+        zh: '方式',
+        ms: 'Kaedah',
+      },
+      type: 'radio',
+      required: true,
+      direction: 'vertical',
+    },
+  ],
+};
 
-  onFileChange(event: any) {
-    let file = (<HTMLInputElement>event.target).files[0];
-
-    console.log(file);
-
-    if (file.type.startsWith("image")) {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        let value = String(reader.result);
-        this.testingUrl = value;
-      }
-    } else {
-      switch (file.type) {
-        case "application/pdf":
-          this.testingUrl = "assets/jj/lucky-draw/file-types/icons8-pdf-48.png";
-          break;
-        case "text/plain":
-          this.testingUrl = "assets/jj/lucky-draw/file-types/icons8-txt-48.png";
-          break;
-        default:
-          this.testingUrl = "assets/jj/lucky-draw/file-types/icons8-new-document-48.png";
-          break;
-      }
-    }
-
-    switch (file.name) {
-      default:
-        this.fileName = file.name;
-    }
-
-    // switch (file.size) {
-    //   default:
-    //     this.fileSize = file.size;
-    // }
-  }
-
-  onModalDismiss(event: any) {
-    this.isModalOpen = false;
-  }
-
+interface CreateDepositDto {
+  walletNo: string;
+  amount: number;
+  deposit_method_id: number;
 }

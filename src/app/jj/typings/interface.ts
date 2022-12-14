@@ -62,7 +62,6 @@ export interface JJCustomer extends ErpDoc {
   email: string;
   phone: string;
   password: string;
-
   totalOfTickets?: number;
   totalOfWinners?: number;
 }
@@ -80,11 +79,8 @@ export interface JJUser extends ErpDoc {
   password: string;
   doc_user_id: number;
   merchant_id: number;
-
   roleTranslation?: CmsTranslation;
-
   docUser?: DocUser;
-
   old_password?: string;
   new_password?: string;
 }
@@ -124,9 +120,8 @@ export interface JJEvent extends ErpDoc {
     prize: JJEventPrize;
     winningNumbers: string[];
   }[];
-  /**
-   * Use in app control
-   */
+
+  // app use only
   _status: string;
 }
 
@@ -151,7 +146,6 @@ export interface JJDrawingResult extends ErpDoc {
   drewAt: Date;
   drewBy: string;
   event_id: number;
-
   event?: JJEvent;
 }
 
@@ -188,7 +182,6 @@ export interface JJWalletPermission extends ErpDoc {
 export interface JJProduct extends ErpDoc {
   code: string;
   name: string;
-
   nameTranslation?: CmsTranslation;
 }
 
@@ -221,21 +214,15 @@ export interface JJTicketDistribution extends ErpDoc {
   merchant_id: number;
   application_id: number;
   customer_id: number;
-
   tickets?: JJTicket[];
-
   distributedByPerson?: DocUser;
   merchant?: JJMerchant;
   event?: JJEvent;
   customer?: JJCustomer;
-
   totalOfTickets?: number;
-
   product?: JJProduct;
-
   expense?: number;
   pointExpense?: number;
-
   freePoint?: number;
   freeSnwTickets?: number;
 }
@@ -246,7 +233,6 @@ export interface JJTicket extends ErpDoc {
   event_id: number;
   merchant_id: number;
   ticket_distribution_id: number;
-
   statusTranslation?: CmsTranslation;
 }
 
@@ -263,7 +249,6 @@ export interface JJWinner extends ErpDoc {
   merchant_id?: number;
   drawing_result_id?: number;
   event_id: number;
-
   prize?: JJEventPrize;
   ticket?: JJTicket;
   merchant?: JJMerchant;
@@ -283,7 +268,6 @@ export interface JJMerchant extends ErpDoc {
   postalCode: string;
   state: string;
   country: string;
-
   totalOfLatestTickets?: number;
   totalOfTickets?: number;
   totalOfWinners?: number;
@@ -331,7 +315,6 @@ export interface JJWalletTransaction extends ErpDoc {
   reference1: string;
   reference2: string;
   reference3: string;
-
   amountText: string;
 }
 
@@ -370,7 +353,6 @@ export interface JJSlideshowItem extends ErpDoc {
   isActive: boolean;
   sequence: number;
   url: string;
-
   messageTranslation?: CmsTranslation;
 }
 
@@ -398,7 +380,6 @@ export interface JJFab extends ErpDoc {
   icon: string;
   url: string;
   isActive: boolean;
-
   extras: FabExtras;
 }
 
@@ -425,9 +406,7 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   thankYouBackgroundImage: string;
   thankYouMessage: string;
   merchant_id: number;
-
   prizes?: JJScratchAndWinPrize[];
-
   merchant?: JJMerchant;
   distance?: number;
 }
@@ -447,7 +426,6 @@ export interface JJScratchAndWinPrize extends ErpDoc {
   isActive: boolean;
   isDefault: boolean;
   scratch_and_win_event_id: number;
-
   nameTranslation?: CmsTranslation;
 }
 
@@ -458,7 +436,6 @@ export interface JJScratchRequest extends ErpDoc {
   spend: number;
   status: 'PROCESSING' | 'COMPLETED';
   scratch_and_win_prize_id: number | null;
-
   customer?: JJCustomer;
   prize?: JJScratchAndWinPrize;
 }
@@ -480,7 +457,7 @@ export interface JJDepositRequest extends ErpDoc {
 
 export type DepositRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
 
-export interface JJDepositMethod {
+export interface JJDepositMethod extends ErpDoc {
   name: string;
   description: string;
   isActive: boolean;
@@ -507,10 +484,43 @@ export interface JJWithdrawMethod {
   isVisible: boolean;
 }
 
+export interface JJBank extends ErpDoc {
+  name: string;
+}
+
 export interface JJBankAccount extends ErpDoc {
-  bank_id: number;
   accountNo: string;
   holderName: string;
   isActive: boolean;
   isDefault: boolean;
+  bank_id: number;
+  bank?: JJBank;
+}
+
+export interface JJTransferRequest extends ErpDoc {
+  fromWallet: number;
+  toWallet: number;
+  refNo: string;
+  amount: number;
+  description?: string | null;
+  reference1?: string | null;
+  reference2?: string | null;
+  reference3?: string | null;
+  effectiveDate?: Date;
+  fromWalletNo?: string;
+  toWalletNo?: string;
+}
+
+// app use only
+export interface TransferRequestDto {
+  fromWallet?: number;
+  toWallet?: number;
+  amount: number;
+  description?: string | null;
+  reference1?: string | null;
+  reference2?: string | null;
+  reference3?: string | null;
+  effectiveDate?: Date;
+  fromWalletNo?: string;
+  toWalletNo?: string;
 }

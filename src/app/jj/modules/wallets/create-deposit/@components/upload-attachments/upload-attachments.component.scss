@@ -1,0 +1,13 @@
+ion-thumbnail img {
+  object-fit: cover;
+  object-position: center;
+
+  &.file {
+    object-fit: contain;
+  }
+}
+
+.remove-btn {
+  width: 32px;
+  height: 32px;
+}

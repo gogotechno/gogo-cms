@@ -41,6 +41,12 @@ export class WalletPage implements OnInit {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
   }
 
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
+
   onCardClick(card: WalletCard) {
     if (!card.active) {
       return;
@@ -103,7 +109,7 @@ const cards: WalletCard[] = [
     code: 'TRANSFER',
     name: 'jj._TRANSFER',
     icon: 'arrow-redo-outline',
-    url: 'search-phone',
+    url: 'create-transfer',
     active: true,
   },
   {

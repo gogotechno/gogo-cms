@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
@@ -21,8 +21,9 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { SearchAreaComponent } from './searchable-select/search-area/search-area.component';
 import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
+import { RequiredTagComponent } from './required-tag/required-tag.component';
 
-const components = [
+const internalComponents = [
   ArrayInputComponent,
   TranslationInputComponent,
   TranslationEditorInputComponent,
@@ -31,7 +32,7 @@ const components = [
   ScannerComponent,
 ];
 
-const componentsToBeExported = [
+const exportedComponents = [
   SlideshowComponent,
   NavigationComponent,
   AccordionComponent,
@@ -41,14 +42,41 @@ const componentsToBeExported = [
   FilterComponent,
   SearchableSelectComponent,
   BarcodeScannerComponent,
+  RequiredTagComponent,
 ];
 
-const pipes = [CmsTranslatePipe, SafeHtmlPipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HideTextPipe];
+const pipes = [
+  CmsTranslatePipe, 
+  SafeHtmlPipe, 
+  CssUrlPipe, 
+  FirestoreDatePipe, 
+  FullNamePipe, 
+  HideTextPipe
+];
 
 @NgModule({
-  declarations: [...components, ...componentsToBeExported, ...pipes],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, RouterModule, TranslateModule, QuillModule],
-  exports: [...componentsToBeExported, ...pipes],
-  providers: [DatePipe, ...pipes],
+  declarations: [
+    ...internalComponents, 
+    ...exportedComponents, 
+    ...pipes
+  ],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    IonicModule, 
+    RouterModule, 
+    TranslateModule, 
+    QuillModule
+  ],
+  exports: [
+    ...exportedComponents, 
+    ...pipes
+  ],
+  providers: [
+    DatePipe,
+    DecimalPipe,
+    ...pipes
+  ],
 })
 export class CmsUIModule {}

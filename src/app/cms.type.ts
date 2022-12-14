@@ -8,6 +8,8 @@ export interface CmsDocument {
   createdBy?: string;
 }
 
+export type CmsTranslable = CmsTranslation | string;
+
 export interface CmsTranslation {
   [key: string]: string;
 }
@@ -103,7 +105,7 @@ export interface CmsForm extends CmsDocument {
 
 export interface CmsFormItem extends CmsDocument {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
   type: CmsFormItemType;
   dataType?: string;
   required?: boolean;
@@ -114,14 +116,20 @@ export interface CmsFormItem extends CmsDocument {
   minimumLength?: number;
   maximumLength?: number;
   matchWith?: string[];
-  placeholder?: CmsTranslation;
+  placeholder?: CmsTranslable;
   inputMask?: string;
   inputPrefix?: string;
+  writable?: boolean;
+  readonly?: boolean;
+  precision?: number;
+  direction?: 'vertical' | 'horizontal';
+  buttons?: Array<CmsFormItemOption>;
 }
 
 export interface CmsFormItemOption {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
+  disabled?: boolean;
 }
 
 export type CmsFormItemType =
@@ -137,7 +145,8 @@ export type CmsFormItemType =
   | 'datetime'
   | 'cms-translate'
   | 'cms-translate-editor'
-  | 'barcode-scanner';
+  | 'barcode-scanner'
+  | 'radio';
 
 export interface CmsFormValidation {
   valid: boolean;

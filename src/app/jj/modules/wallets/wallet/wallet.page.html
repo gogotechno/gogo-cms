@@ -7,6 +7,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngIf="wallet">
     <div class="ion-padding wallet-summary">
       <ion-text class="label">{{ wallet.walletType.name | cmsTranslate }}</ion-text><br />

@@ -35,7 +35,7 @@ export class ErpImagePipe implements PipeTransform {
   }
 }
 
-@Pipe({ name: 'erpTranlate' })
+@Pipe({ name: 'erpTranslate' })
 export class ErpTranslationPipe implements PipeTransform {
   constructor(private cms: CmsService) {}
 

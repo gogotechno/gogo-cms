@@ -56,11 +56,11 @@ const routes: Routes = [
       },
 
       {
-        path: 'search-phone',
-        loadChildren: () => import('./search-phone/search-phone.module').then((m) => m.SearchPhonePageModule),
+        path: 'create-transfer',
+        loadChildren: () => import('./create-transfer/create-transfer.module').then((m) => m.CreateTransferPageModule),
       },
       {
-        path: 'transfer-money',
+        path: 'transfer-money/:toWalletNo',
         loadChildren: () => import('./transfer-money/transfer-money.module').then((m) => m.TransferMoneyPageModule),
       },
       {
@@ -76,7 +76,6 @@ const routes: Routes = [
           },
         ],
       },
-
       {
         path: 'change-pin',
         loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),

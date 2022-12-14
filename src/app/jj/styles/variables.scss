@@ -267,8 +267,12 @@
 }
 
 // -----------------------------------------------------------------------------------------------------
-// @ Flex
+// @ Display
 // -----------------------------------------------------------------------------------------------------
+
+.ion-display-none {
+  display: none;
+}
 
 .ion-flex-column {
   display: flex;
@@ -409,6 +413,10 @@ cms-filter,
     }
   }
 
+  ion-item.only-label {
+    --min-height: auto;
+  }
+
   .label-stacked.sc-ion-label-md-h,
   .label-stacked.sc-ion-label-ios-h {
     transform: unset;
@@ -460,8 +468,4 @@ cms-filter,
   ion-select {
     background-color: var(--ion-item-background, #fff);
   }
-}
-
-.ion-none {
-  display: none;
 }
