@@ -21,6 +21,7 @@ import {
   JJEventPrize,
   JJFab,
   JJMerchant,
+  JJPinVerification,
   JJPointRule,
   JJProduct,
   JJScratchAndWinEvent,
@@ -40,8 +41,6 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
-  TransferRequestDto,
-  WalletType,
 } from '../typings';
 import { CommonService } from './common.service';
 
@@ -196,6 +195,10 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
+  updateWallet(walletId: number, wallet: Partial<JJWallet>) {
+    return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
   async getWalletByNo(walletNo: string) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       walletNo: walletNo,
@@ -286,21 +289,12 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  createTransferRequest(data: TransferRequestDto) {
-    let request: JJTransferRequest = {
-      refNo: '',
-      amount: data.amount,
-      fromWallet: data.fromWallet,
-      toWallet: data.toWallet,
-      description: data.description,
-      reference1: data.reference1,
-      reference2: data.reference2,
-      reference3: data.reference3,
-      effectiveDate: data.effectiveDate,
-      fromWalletNo: data.fromWalletNo,
-      toWalletNo: data.toWalletNo,
-    };
+  createTransferRequest(request: JJTransferRequest) {
     return this.swsErp.postDoc('Transfer Request', request);
+  }
+
+  createPinVerification(verification: JJPinVerification) {
+    return this.swsErp.postDoc('Pin Verification', verification);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -673,24 +667,15 @@ export class CoreService extends SharedComponent {
       return null;
     }
 
-    switch (wallet.type) {
-      case 'SNW':
-        wallet.icon = 'ticket';
-        wallet.colors = {
-          primary: '#FFC000',
-          'primary-light': '#FFF2CC',
-        };
-        break;
-      case 'MERCHANT':
-        wallet.icon = 'business';
-        wallet.colors = {
-          primary: '#70AD47',
-          'primary-light': '#E2F0D9',
-        };
-      default:
-        wallet.icon = 'wallet';
-        break;
-    }
+    wallet.displayCurrency = {
+      code: wallet?.walletCurrency.code,
+      displaySymbol: wallet?.walletCurrency.symbol,
+      symbolPosition: wallet?.walletCurrency.symbolPosition,
+      precision: wallet?.walletCurrency.digits,
+    };
+
+    wallet.icon = wallet?.walletType.icon;
+    wallet.colors = wallet?.walletType.colors;
 
     return wallet;
   }

@@ -1,3 +1,3 @@
-<span *ngIf="currency.symbolPosition === 'start'">{{ currency.displaySymbol || '$' }}</span>
+<span *ngIf="currency.symbolPosition === 'START'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>
 <span class="number">{{ value | number : numberFormat }}</span>
-<span *ngIf="currency.symbolPosition === 'end'">{{ currency.displaySymbol || '$' }}</span>
+<span *ngIf="currency.symbolPosition === 'END'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>

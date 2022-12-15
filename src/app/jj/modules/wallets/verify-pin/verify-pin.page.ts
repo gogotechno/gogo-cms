@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { CmsForm } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
+import { CoreService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-verify-pin',
@@ -7,52 +10,48 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./verify-pin.page.scss'],
 })
 export class VerifyPinPage implements OnInit {
+  walletNo: string;
+  form = form;
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController, private appUtils: AppUtils, private core: CoreService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async onDismiss() {
+    await this.modalCtrl.dismiss();
   }
 
-  // change(value) {
-  //   this.cdRef.detectChanges();
-  //   this.showValue = value.length > 0 ? value.substring(0, 1) : value;
-  // }
-
-  // gotoNextField(nextElement)
-  // nextElement.focus();
-
-  pinController(event,next,prev){
-
-    if(event.target.value.length < 1 && prev){
-      prev.setFocus();
-    }
-    else if(next && event.target.value.length>0){
-      next.setFocus();
-    }
-    else {
-    } 
- }
-
- numberOnlyValidation(event: any) {
-  const pattern = /[0-9.,]/;
-  let inputChar = String.fromCharCode(event.charCode);
-
-  if (!pattern.test(inputChar)) {
-    event.preventDefault();
+  async onVerify(data: VerifyPinDto) {
+    await this.core.createPinVerification({
+      walletNo: this.walletNo,
+      walletPin: data.pin,
+    });
+    await this.modalCtrl.dismiss({
+      success: true,
+    });
   }
 }
 
-// contactForm = new FormGroup({
-//   pin1: new FormControl('', Validators.required),
-//   pin2: new FormControl('', Validators.required),
-//   pin3: new FormControl('', Validators.required),
-//   pin4: new FormControl('', Validators.required),
-//   pin5: new FormControl('', Validators.required),
-//   pin6: new FormControl('', Validators.required),
-// });
+const form: CmsForm = {
+  code: 'verify-pin',
+  labelPosition: 'stacked',
+  submitButtonText: '_CONFIRM',
+  submitButtonId: 'submit-btn',
+  autoValidate: true,
+  items: [
+    {
+      code: 'pin',
+      label: {
+        en: 'PIN',
+        zh: '密码',
+        ms: 'PIN',
+      },
+      type: 'pin',
+      required: true,
+    },
+  ],
+};
 
-// submitForm() {
-// 	console.log(this.contactForm.value);
-// }
-
+interface VerifyPinDto {
+  pin: string;
 }

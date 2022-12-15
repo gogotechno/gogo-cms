@@ -76,12 +76,16 @@
   "_ALL_LOADED": "加载完毕",
   "_BACK": "返回",
   "_MODULES": "模块",
+  "_UPLOADED_ATTACHMENTS": "已上传的附件",
+  "_NO_ATTACHMENTS_FOUND": "未找到附件",
+  "_UPLOAD_ATTACHMENT": "上传附件",
   "_CHANGE": "更改",
   "_VERIFICATION_CODE": "验证码",
   "_VERIFY": "验证",
   "_RESEND": "重新发送",
   "_KM": "公里",
   "_SHARE": "分享",
+  "_NEXT": "继续",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",
@@ -435,6 +439,10 @@
     "_NO_BULLETINS_FOUND": "没有找到公告",
     "_NO_MORE_BULLETINS": "没有更多的公告",
     "_YOU_HAVE_CHECKED_IN_TODAY": "您今天已签到",
+    "_BANK": "银行",
+    "_ACCOUNT_NO": "账号",
+    "_HOLDER_NAME": "持有人",
+    "_COPY_ACCOUNT_NO": "复制账号",
     "_MERCHANT_LIST": "商家列表",
     "_REFERRER": "推荐"
   }

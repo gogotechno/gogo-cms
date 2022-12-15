@@ -23,6 +23,7 @@ import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { RequiredTagComponent } from './required-tag/required-tag.component';
 import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
+import { PinInputComponent } from './pin-input/pin-input.component';
 
 const internalComponents = [
   ArrayInputComponent,
@@ -45,6 +46,7 @@ const exportedComponents = [
   BarcodeScannerComponent,
   RequiredTagComponent,
   PhoneNumberVerificationComponent,
+  PinInputComponent,
 ];
 
 const pipes = [

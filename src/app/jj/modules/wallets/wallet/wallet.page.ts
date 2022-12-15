@@ -16,12 +16,6 @@ export class WalletPage implements OnInit {
   walletNo: string;
   wallet: JJWallet;
   cards = cards;
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'start',
-  };
   createDepositPage: CreateDepositPage;
 
   constructor(
@@ -96,14 +90,14 @@ const cards: WalletCard[] = [
     name: 'jj._DEPOSIT',
     icon: 'enter-outline',
     url: 'create-deposit',
-    active: true,
+    active: false,
   },
   {
     code: 'WITHDRAW',
     name: 'jj._WITHDRAW',
     icon: 'exit-outline',
     url: 'create-withdraw',
-    active: true,
+    active: false,
   },
   {
     code: 'TRANSFER',
@@ -124,7 +118,7 @@ const cards: WalletCard[] = [
     name: 'jj._PIN',
     icon: 'keypad-outline',
     url: 'verify-pin',
-    active: true,
+    active: false,
   },
   {
     code: 'QR_CODE',

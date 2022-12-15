@@ -138,6 +138,12 @@ export class FormComponent extends CmsComponent implements OnInit {
         });
       });
     });
+
+    if (this.form.submitButtonId) {
+      document.getElementById(this.form.submitButtonId).addEventListener('click', () => {
+        this.onSubmit();
+      });
+    }
   }
 
   async onSubmit(event?: Event) {

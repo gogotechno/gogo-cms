@@ -54,7 +54,6 @@ const routes: Routes = [
           },
         ],
       },
-
       {
         path: 'create-transfer',
         loadChildren: () => import('./create-transfer/create-transfer.module').then((m) => m.CreateTransferPageModule),
@@ -80,11 +79,11 @@ const routes: Routes = [
         path: 'change-pin',
         loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),
       },
-      {
-        path: 'verify-pin',
-        loadChildren: () => import('./verify-pin/verify-pin.module').then((m) => m.VerifyPinPageModule),
-      },
     ],
+  },
+  {
+    path: 'verify-pin',
+    loadChildren: () => import('./verify-pin/verify-pin.module').then((m) => m.VerifyPinPageModule),
   },
 ];
 

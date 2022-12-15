@@ -16,9 +16,9 @@
       <ion-text class="content">{{ wallet.walletNo }}</ion-text><br />
       <ion-text class="label">{{ 'jj._BALANCE' | translate }}</ion-text><br />
       <ion-text class="balance">
-        <jj-currency [currency]="displayCurrency" [value]="wallet.walletBalance"></jj-currency>
+        <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
       </ion-text>
-      <ion-icon class="icon" name="gift"></ion-icon>
+      <ion-icon class="icon" [name]="wallet.icon || 'wallet'"></ion-icon>
     </div>
 
     <ion-button routerLink="./transactions" expand="block" fill="clear">

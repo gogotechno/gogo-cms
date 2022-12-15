@@ -76,12 +76,16 @@
   "_ALL_LOADED": "Semua dimuatkan",
   "_BACK": "Kembali",
   "_MODULES": "Modul",
+  "_UPLOADED_ATTACHMENTS": "Lampiran yang dimuat naik",
+  "_NO_ATTACHMENTS_FOUND": "Tiada lampiran ditemui",
+  "_UPLOAD_ATTACHMENT": "Muat naik lampiran",
   "_CHANGE": "Tukar",
   "_VERIFICATION_CODE": "Kod Pengesahan",
   "_VERIFY": "Sahkan",
   "_SEND SEMULA": "Hantar semula",
   "_KM": "KM",
   "_SHARE": "Kongsi",
+  "_NEXT": "Terus",
   "winbox99": {
     "_LOGIN": "Log masuk",
     "_GAMES": "Permainan Kami",
@@ -435,6 +439,10 @@
     "_NO_BULLETINS_FOUND": "Tiada buletin ditemui",
     "_NO_MORE_BULLETINS": "Tiada lagi buletin",
     "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini",
+    "_BANK": "Bank",
+    "_ACCOUNT_NO": "No. Akaun",
+    "_HOLDER_NAME": "Nama Pemegang",
+    "_COPY_ACCOUNT_NO": "Salin no. akaun",
     "_MERCHANT_LIST": "Senarai Peniaga",
     "_REFERRER": "Perujuk"
   }

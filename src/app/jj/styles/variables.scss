@@ -343,12 +343,9 @@ ion-button.filled-button,
   }
 }
 
-ion-grid.grid-fixed {
+ion-grid.grid-fixed,
+ion-grid.grid-fixed > ion-col {
   padding: 0;
-
-  ion-col {
-    padding: 0;
-  }
 }
 
 ion-list.list-md,

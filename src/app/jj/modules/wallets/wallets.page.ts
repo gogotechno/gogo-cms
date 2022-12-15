@@ -10,12 +10,6 @@ import { Currency } from './wallets.types';
   styleUrls: ['./wallets.page.scss'],
 })
 export class WalletsPage implements OnInit {
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'start',
-  };
   wallets: JJWallet[] = [];
   totalAssetsBalance = 0;
   updatedAt: Date;

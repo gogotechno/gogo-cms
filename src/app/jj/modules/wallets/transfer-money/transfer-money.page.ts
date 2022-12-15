@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
+import { VerifyPinPage } from '../verify-pin/verify-pin.page';
 
 @Component({
   selector: 'app-transfer-money',
@@ -19,6 +21,7 @@ export class TransferMoneyPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private modalCtrl: ModalController,
     private appUtils: AppUtils,
     private core: CoreService,
   ) {}
@@ -44,15 +47,39 @@ export class TransferMoneyPage implements OnInit {
 
   async onConfirm(data: TransferDto) {
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
-    if (confirm) {
-      await this.core.createTransferRequest({
-        fromWalletNo: this.walletNo,
-        toWalletNo: this.toWalletNo,
-        amount: data.amount,
-        description: data.description,
-      });
-      await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
+    if (!confirm) {
+      return;
     }
+
+    // let verified = await this.doVerification();
+    // if (!verified) {
+    //   return;
+    // }
+
+    await this.core.createTransferRequest({
+      refNo: '',
+      amount: data.amount,
+      description: data.description,
+      fromWalletNo: this.walletNo,
+      toWalletNo: this.toWalletNo,
+    });
+    await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
+    await this.router.navigate(['../..'], {
+      relativeTo: this.route,
+      replaceUrl: true,
+    });
+  }
+
+  async doVerification() {
+    const modal = await this.modalCtrl.create({
+      component: VerifyPinPage,
+      componentProps: {
+        walletNo: this.walletNo,
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    return data?.success;
   }
 }
 

@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { MerchantsPageRoutingModule } from './merchants-routing.module';
-
 import { MerchantsPage } from './merchants.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/jj/shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
@@ -15,7 +14,9 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     MerchantsPageRoutingModule,
-    TranslateModule,
+    SharedModule,
+    CmsUIModule,
+    SwsErpModule
   ],
   declarations: [MerchantsPage]
 })

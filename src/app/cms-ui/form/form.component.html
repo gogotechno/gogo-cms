@@ -82,6 +82,16 @@
             </ng-container>
           </ng-container>
 
+          <ng-container *ngSwitchCase="'pin'">
+            <cms-pin-input 
+              [code]="item.code"
+              [label]="item.label"
+              [required]="item.required"
+              [labelPosition]="form.labelPosition || 'fixed'"
+              [formControlName]="item.code"
+            ></cms-pin-input>
+          </ng-container>
+
           <ng-container *ngSwitchDefault>
             <ion-item>
               <ion-label [position]="form.labelPosition || 'fixed'">
@@ -113,11 +123,12 @@
   </ion-list>
 </ng-container>
 
-<hr />
-
-<ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
-  <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
-</ion-button>
+<ng-container *ngIf="!form.submitButtonId">
+  <hr />
+  <ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
+    <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
+  </ion-button>
+</ng-container>
 
 <!-- <ion-button (click)="onPrint($event)" expand="block">
     <ion-label>{{ '_PRINT' | translate }}</ion-label>
