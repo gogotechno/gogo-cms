@@ -118,6 +118,9 @@
           "configurations": {
             "production": {
               "browserTarget": "app:build:production"
+            },
+            "staging": {
+              "browserTarget": "app:build:staging"
             }
           }
         },
