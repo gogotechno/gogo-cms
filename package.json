@@ -6,11 +6,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "npx ionic build --configuration production",
+    "build:staging": "npx ionic build --configuration staging",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev": "npm i && npx ionic serve --external",
-    "deploy": "npm run build && npx firebase deploy"
+    "deploy": "npm run build && npx firebase deploy",
+    "deploy:staging": "npm run build:staging && npx firebase deploy"
   },
   "private": true,
   "dependencies": {
