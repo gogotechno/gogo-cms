@@ -6,7 +6,8 @@
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
       <h2 class="header-subtitle">
-        {{ wallet.type }}&nbsp;@&nbsp;<jj-currency [value]="wallet.walletBalance"></jj-currency>
+        <span>{{ wallet.type }}&nbsp;@&nbsp;</span>
+        <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
       </h2>
     </div>
   </ion-toolbar>
@@ -30,6 +31,7 @@
         </div>
         <div slot="end">
           <jj-currency
+            [currency]="wallet.displayCurrency"
             [value]="transaction.amount"
             [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
           ></jj-currency>

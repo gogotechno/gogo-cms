@@ -444,6 +444,11 @@
     "_HOLDER_NAME": "Nama Pemegang",
     "_COPY_ACCOUNT_NO": "Salin no. akaun",
     "_MERCHANT_LIST": "Senarai Peniaga",
-    "_REFERRER": "Perujuk"
+    "_REFERRER": "Perujuk",
+    "_SENDER_WALLET_NOT_FOUND": "Dompet penghantar tidak ditemui",
+    "_RECEIVER_WALLET_NOT_FOUND": "Dompet penerima tidak ditemui",
+    "_SAME_WALLETS_FOUND": "Dompet yang sama ditemui",
+    "_NO_CONVERSION_RATE_CONFIGURED": "Tiada kadar penukaran dikonfigurasikan",
+    "_TRANSFER_IS_NOT_ALLOWED": "Pemindahan tidak dibenarkan"
   }
 }

@@ -25,7 +25,7 @@ export class AccountBarComponent extends SharedComponent implements OnInit {
     this.account.user.subscribe((user) => (this.user = user));
     this.account.wallets.subscribe((wallets) => {
       if (!wallets) return;
-      this.wallet = wallets.find((wallet) => wallet.type == 'CUSTOMER');
+      this.wallet = wallets.find((wallet) => wallet.walletType?.canPay);
     });
   }
 

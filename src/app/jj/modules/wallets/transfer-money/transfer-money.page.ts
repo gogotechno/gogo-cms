@@ -87,6 +87,7 @@ const form: CmsForm = {
   code: 'transfer-money',
   labelPosition: 'stacked',
   submitButtonText: '_CONFIRM',
+  submitButtonId: 'transfer-money-btn',
   autoValidate: true,
   items: [
     {
@@ -98,6 +99,7 @@ const form: CmsForm = {
       },
       placeholder: '0.00',
       type: 'number',
+      precision: 2,
       required: true,
     },
     {
@@ -107,7 +109,10 @@ const form: CmsForm = {
         zh: '详情',
         ms: 'Penerangan',
       },
-      type: 'text',
+      type: 'textarea',
+      required: true,
+      maximumLength: 50,
+      counter: true,
     },
   ],
 };

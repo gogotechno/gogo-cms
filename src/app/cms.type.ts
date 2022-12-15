@@ -125,6 +125,7 @@ export interface CmsFormItem extends CmsDocument {
   precision?: number;
   direction?: 'vertical' | 'horizontal';
   buttons?: Array<CmsFormItemOption>;
+  counter?: boolean;
 }
 
 export interface CmsFormItemOption {
@@ -148,7 +149,8 @@ export type CmsFormItemType =
   | 'cms-translate-editor'
   | 'barcode-scanner'
   | 'radio'
-  | 'pin';
+  | 'pin'
+  | 'textarea';
 
 export interface CmsFormValidation {
   valid: boolean;

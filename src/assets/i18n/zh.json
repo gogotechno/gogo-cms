@@ -444,6 +444,11 @@
     "_HOLDER_NAME": "持有人",
     "_COPY_ACCOUNT_NO": "复制账号",
     "_MERCHANT_LIST": "商家列表",
-    "_REFERRER": "推荐"
+    "_REFERRER": "推荐",
+    "_SENDER_WALLET_NOT_FOUND": "转账钱包未找到",
+    "_RECEIVER_WALLET_NOT_FOUND": "收账钱包未找到",
+    "_SAME_WALLETS_FOUND": "找到相同的钱包",
+    "_NO_CONVERSION_RATE_CONFIGURED": "未设置转换率",
+    "_TRANSFER_IS_NOT_ALLOWED": "不允许转账"
   }
 }

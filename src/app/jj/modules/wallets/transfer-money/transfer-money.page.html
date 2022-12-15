@@ -13,7 +13,7 @@
       <ion-col>
         <ion-card class="border-card">
           <ion-card-content>
-            <ion-icon [name]="toWallet?.walletType?.icon || 'gift'"></ion-icon>
+            <ion-icon [name]="toWallet?.walletType?.icon || 'wallet'"></ion-icon>
             <div class="content">
               <h3>{{ toWallet?.walletNo }}</h3>
             </div>
@@ -26,3 +26,11 @@
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="transfer-money-btn" expand="block">
+      <ion-label>{{ "_CONFIRM" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

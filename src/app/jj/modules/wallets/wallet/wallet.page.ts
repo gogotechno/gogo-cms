@@ -15,7 +15,7 @@ import { Currency } from '../wallets.types';
 export class WalletPage implements OnInit {
   walletNo: string;
   wallet: JJWallet;
-  cards = cards;
+  cards: WalletCard[];
   createDepositPage: CreateDepositPage;
 
   constructor(
@@ -33,6 +33,7 @@ export class WalletPage implements OnInit {
 
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
+    this.getCards();
   }
 
   async doRefresh(event: Event) {
@@ -74,6 +75,22 @@ export class WalletPage implements OnInit {
     });
     await modal.present();
   }
+
+  getCards() {
+    this.cards = cards.map((card) => {
+      switch (card.code) {
+        case 'TRANSFER':
+          card.active = this.wallet.walletType?.canTransfer;
+          break;
+        case 'QR_CODE':
+          card.active = this.wallet.walletType?.canPay;
+          break;
+        default:
+          break;
+      }
+      return card;
+    });
+  }
 }
 
 interface WalletCard {
@@ -104,7 +121,7 @@ const cards: WalletCard[] = [
     name: 'jj._TRANSFER',
     icon: 'arrow-redo-outline',
     url: 'create-transfer',
-    active: true,
+    active: false,
   },
   {
     code: 'STATEMENT',
@@ -125,6 +142,6 @@ const cards: WalletCard[] = [
     name: 'jj._QR_CODE',
     icon: 'qr-code-outline',
     url: '',
-    active: true,
+    active: false,
   },
 ];

@@ -174,6 +174,8 @@ export interface JJWalletType extends ErpDoc {
   colors: object;
   canDeposit: boolean;
   canWithdraw: boolean;
+  canTransfer: boolean;
+  canPay: boolean;
   wallet_currency_id: number;
 }
 

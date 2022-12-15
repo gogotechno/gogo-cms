@@ -36,7 +36,7 @@ const form: CmsForm = {
   code: 'verify-pin',
   labelPosition: 'stacked',
   submitButtonText: '_CONFIRM',
-  submitButtonId: 'submit-btn',
+  submitButtonId: 'verify-pin-btn',
   autoValidate: true,
   items: [
     {

@@ -444,6 +444,11 @@
     "_HOLDER_NAME": "Holder Name",
     "_COPY_ACCOUNT_NO": "Copy account no.",
     "_MERCHANT_LIST": "Merchant List",
-    "_REFERRER": "Referrer"
+    "_REFERRER": "Referrer",
+    "_SENDER_WALLET_NOT_FOUND": "Sender's wallet not found",
+    "_RECEIVER_WALLET_NOT_FOUND": "Receiver's wallet not found",
+    "_SAME_WALLETS_FOUND": "Same wallets found",
+    "_NO_CONVERSION_RATE_CONFIGURED": "No conversion rate configured",
+    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed"
   }
 }

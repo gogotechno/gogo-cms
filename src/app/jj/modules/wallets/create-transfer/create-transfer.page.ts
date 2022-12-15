@@ -26,6 +26,10 @@ export class CreateTransferPage implements OnInit {
   }
 
   async onNext(data: CreateTransferDto) {
+    if (data.walletNo == this.walletNo) {
+      await this.appUtils.presentAlert('jj._SAME_WALLETS_FOUND');
+      return;
+    }
     let wallet = await this.core.getWalletByNo(data.walletNo);
     if (!wallet) {
       await this.appUtils.presentAlert('jj._WALLET_NOT_FOUND');
@@ -44,6 +48,7 @@ const form: CmsForm = {
   code: 'create-transfer',
   labelPosition: 'stacked',
   submitButtonText: '_NEXT',
+  submitButtonId: 'create-transfer-btn',
   autoValidate: true,
   items: [
     {

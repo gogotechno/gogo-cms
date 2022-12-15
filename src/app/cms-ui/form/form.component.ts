@@ -303,6 +303,16 @@ export class FormComponent extends CmsComponent implements OnInit {
       [item.code]: button.code,
     });
   }
+
+  onNumberChange(event: Event, code: string) {
+    let value = (<InputCustomEvent>event).detail.value;
+    let item = this.form.items.find((i) => i.code == code);
+    if (item.precision) {
+      let num = Number(value) / Math.pow(10, item.precision);
+      // TODO: Set value and do not trigger change event
+      // console.log(num);
+    }
+  }
 }
 
 interface MatchingConfig {
