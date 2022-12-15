@@ -28,9 +28,10 @@ export class SwsErpInterceptor implements HttpInterceptor {
     }
 
     let skipLoading = request.headers.get('SkipLoading');
+    let skipErrorAlert = request.headers.get('SkipErrorAlert');
     if (skipLoading) {
       request = request.clone({
-        headers: request.headers.delete('SkipLoading'),
+        headers: request.headers.delete('SkipLoading').delete('SkipErrorAlert'),
       });
     } else {
       this.app.requestChange.next(1);
@@ -77,7 +78,9 @@ export class SwsErpInterceptor implements HttpInterceptor {
               this.erp.signOut();
             }
             if (!this.isAccessTokenExpiredError(err)) {
-              await this.app.presentAlert(message, header);
+              if (!skipErrorAlert) {
+                await this.app.presentAlert(message, header);
+              }
             }
           },
         ),

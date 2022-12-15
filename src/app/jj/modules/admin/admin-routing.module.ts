@@ -9,9 +9,21 @@ const routes: Routes = [
     component: AdminPage,
     children: [
       {
+        path: '',
+        loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+      },
+      {
         path: 'crm',
         loadChildren: () => import('./crm/crm.module').then(m => m.CrmPageModule)
-      }
+      },
+      {
+        path: 'reports',
+        loadChildren: () => import('./@layouts/report-layout/report-layout.module').then( m => m.ReportLayoutPageModule)
+      },
+      {
+        path: 'modules',
+        loadChildren: () => import('./@layouts/module-layout/module-layout.module').then( m => m.ModuleLayoutPageModule)
+      },
     ]
   },
 ];

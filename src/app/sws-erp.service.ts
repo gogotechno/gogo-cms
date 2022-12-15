@@ -120,8 +120,13 @@ export class SwsErpService {
    * @returns Returns with created id and extra data
    */
   public postDoc<T = any>(docType: string, body: T, query: PostOptions = {}) {
+    let headers = {};
+    if (query.skipErrorAlert) {
+      headers['SkipErrorAlert'] = 'TRUE';
+      delete query['skipErrorAlert'];
+    }
     const requestUrl = `${this.API_URL}/docs/${docType}`;
-    return this._http.post<CreateResponse>(requestUrl, body, { params: query }).toPromise();
+    return this._http.post<CreateResponse>(requestUrl, body, { params: query, headers: headers }).toPromise();
   }
 
   /**

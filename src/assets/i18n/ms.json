@@ -76,6 +76,12 @@
   "_ALL_LOADED": "Semua dimuatkan",
   "_BACK": "Kembali",
   "_MODULES": "Modul",
+  "_CHANGE": "Tukar",
+  "_VERIFICATION_CODE": "Kod Pengesahan",
+  "_VERIFY": "Sahkan",
+  "_SEND SEMULA": "Hantar semula",
+  "_KM": "KM",
+  "_SHARE": "Kongsi",
   "winbox99": {
     "_LOGIN": "Log masuk",
     "_GAMES": "Permainan Kami",
@@ -428,6 +434,8 @@
     "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula",
     "_NO_BULLETINS_FOUND": "Tiada buletin ditemui",
     "_NO_MORE_BULLETINS": "Tiada lagi buletin",
-    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini"
+    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini",
+    "_MERCHANT_LIST": "Senarai Peniaga",
+    "_REFERRER": "Perujuk"
   }
 }

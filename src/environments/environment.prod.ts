@@ -10,7 +10,7 @@ export const environment = {
     measurementId: 'G-HV244CX08S',
   },
   swsErp: {
-    apiUrl: 'https://uat.erp.swstechno.com/api',
+    apiUrl: 'https://erp.lucky365.shop/api',
   },
   production: true,
 };

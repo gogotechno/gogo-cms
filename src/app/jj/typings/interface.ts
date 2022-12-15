@@ -274,6 +274,8 @@ export interface JJMerchant extends ErpDoc {
   fullAddress?: string;
   distance?: number;
   nameTranslation?: CmsTranslation;
+  latitude?: number;
+  longitude?: number;
 }
 
 export interface JJPointRule extends ErpDoc {

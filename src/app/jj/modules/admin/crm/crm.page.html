@@ -1,9 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>crm</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<ion-card>
+  <ion-card-content class="ion-no-padding">
+    <ion-list>
+      <ion-list-header>{{ '_REPORT' | translate }}</ion-list-header>
+      <ion-item lines="none" routerLink="/jj/admin/reports">
+        <ion-icon name="document-text" slot="start"></ion-icon>
+        <ion-label>{{ 'Campaign Report' }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>

@@ -22,6 +22,7 @@ import { SearchAreaComponent } from './searchable-select/search-area/search-area
 import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { RequiredTagComponent } from './required-tag/required-tag.component';
+import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
 
 const internalComponents = [
   ArrayInputComponent,
@@ -43,6 +44,7 @@ const exportedComponents = [
   SearchableSelectComponent,
   BarcodeScannerComponent,
   RequiredTagComponent,
+  PhoneNumberVerificationComponent,
 ];
 
 const pipes = [
