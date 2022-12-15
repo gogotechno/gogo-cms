@@ -10,8 +10,8 @@ import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsFormItem, CmsFormItemOption, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
-import _ from 'lodash';
 import { InputCustomEvent } from '@ionic/angular';
+import _ from 'lodash';
 
 @Component({
   selector: 'cms-form',

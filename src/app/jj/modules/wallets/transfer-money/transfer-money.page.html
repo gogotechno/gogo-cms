@@ -16,6 +16,11 @@
             <ion-icon [name]="toWallet?.walletType?.icon || 'wallet'"></ion-icon>
             <div class="content">
               <h3>{{ toWallet?.walletNo }}</h3>
+              <p>{{ toWallet?.customer?.firstName | fullName: toWallet?.customer?.lastName }}</p>
+              <p>{{ toWallet?.customer?.phone }}</p>
+              <p class="balance">
+                <jj-currency [currency]="toWallet?.displayCurrency" [value]="toWallet?.walletBalance"></jj-currency>
+              </p>
             </div>
           </ion-card-content>
         </ion-card>

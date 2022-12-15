@@ -69,7 +69,7 @@ export class CoreService extends SharedComponent {
     if (this.initialized) {
       return;
     }
-    this.title.setTitle('JJ Member');
+    this.title.setTitle('Lucky365');
     this.appUtils.loadTemplateTheme('jj');
     this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
     let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);

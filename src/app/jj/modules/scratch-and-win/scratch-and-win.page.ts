@@ -12,7 +12,6 @@ import {
   JJScratchRequest,
   JJWallet,
   ScratchRequestExtras,
-  WalletType,
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';
@@ -35,6 +34,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   totalChance: number;
 
   buttons = buttons;
+
+  scratching: boolean;
 
   get contentOffsetTop() {
     let offset = this.platform.is('ios') ? 46 : 56;
@@ -163,6 +164,12 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async onScratch() {
+    if (this.scratching) {
+      return;
+    }
+
+    this.scratching = true;
+
     let currentUser = this.auth.currentUser;
     let request: JJScratchRequest = {
       scratch_and_win_event_id: this.eventId,
@@ -183,6 +190,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     if (extras['prize']) {
       await this.openResult(extras['prize']);
     }
+
+    this.scratching = false;
   }
 
   async onTickerButtonClick(code: string) {
