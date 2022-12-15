@@ -35,7 +35,7 @@
                 <h3 *ngIf="!distribution.customerFirstName && !distribution.customerLastName">-</h3>
                 <h3>{{ distribution.customerContactNo | hideText }}</h3>
                 <p>{{ "jj-luckydraw._BILL_NO" | translate }}&nbsp;:&nbsp;{{ distribution.billNo }}</p>
-                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranlate }}</p>
+                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranslate }}</p>
                 <p>{{ "jj-luckydraw._DISTRIBUTED_AT" | translate }}&nbsp;:&nbsp;{{ distribution.distributedAt | date: "MM/dd/yy, h:mm a" }}</p>
               </ion-label>
               <ion-badge slot="end">

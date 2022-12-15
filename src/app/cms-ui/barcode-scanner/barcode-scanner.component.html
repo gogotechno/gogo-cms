@@ -1,11 +1,14 @@
 <ion-item>
   <ion-label [id]="id" [position]="labelPosition">
-    <span>{{ formItem.label | cmsTranslate }}</span>
-    <ion-text color="danger" *ngIf="formItem.required">
-      <sup>*</sup>
-    </ion-text>
+    <span>{{ label | cmsTranslate }}</span>
+    <cms-required-tag *ngIf="required"></cms-required-tag>
   </ion-label>
-  <ion-input [readonly]="true" [value]="value" [placeholder]="formItem.placeholder | cmsTranslate"></ion-input>
+  <ion-input
+    [readonly]="!writable"
+    [placeholder]="placeholder | cmsTranslate"
+    [ngModel]="value"
+    (ngModelChange)="onInputChange($event)"
+  ></ion-input>
   <ion-button slot="end" (click)="openScanner()">
     <ion-icon name="scan-outline" slot="icon-only"></ion-icon>
   </ion-button>

@@ -17,7 +17,7 @@ export class JJCurrencyComponent implements OnInit {
         code: 'MYR',
         displaySymbol: 'RM',
         precision: 2,
-        symbolPosition: 'start',
+        symbolPosition: 'START',
       };
     }
   }

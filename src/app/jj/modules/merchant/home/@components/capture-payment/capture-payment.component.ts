@@ -65,9 +65,9 @@ const form: CmsForm = {
     {
       code: 'fromWalletNo',
       label: {
-        en: 'Wallet No',
+        en: 'Wallet No.',
         zh: '钱包账号',
-        ms: 'No Dompet',
+        ms: 'No. Dompet',
       },
       type: 'barcode-scanner',
       required: true,

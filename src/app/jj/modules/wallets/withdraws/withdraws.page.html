@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>取出记录</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+      <ion-list-header>11/11/2022</ion-list-header>
+      <ion-item lines="full" class="transaction" routerLink="1" button detail="false">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">MDSP</ion-text><br />
+          <ion-text class="reference1">22111102293</ion-text><br />
+          <ion-text class="reference2">-</ion-text>
+        </div>
+        <div slot="end">
+          <ion-text class="description">RM500.00</ion-text><br />
+          <ion-badge color="warning">处理中</ion-badge>
+        </div>
+      </ion-item>
+
+      <ion-item lines="full" class="transaction">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">MDSP</ion-text><br />
+          <ion-text class="reference1">22111102294</ion-text><br />
+          <ion-text class="reference2">-</ion-text>
+        </div>
+        <div slot="end">
+          <ion-text class="description">RM500.00</ion-text><br />
+          <ion-badge color="success">成功</ion-badge>
+        </div>
+      </ion-item>
+  </ion-list>
+
+  <div class="note">
+    <ion-label>
+      <ion-text>
+        已加载全部钱包取出记录
+      </ion-text>
+    </ion-label>
+  </div>
+
+
+   <!-- <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="transactionsEnded" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container> -->
+</ion-content>
+
+
+

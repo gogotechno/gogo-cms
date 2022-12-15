@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>取出</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="solid" size="large" style="width: 80px;" routerLink="../withdraws">
+        记录
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <p>钱包编号</p>
+        <h1>W00013</h1>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>钱包余额</p>
+        <h1>RM 100</h1>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>取出金额</p>
+        <h1>RM 50</h1>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <p>手续费</p>
+        <h1>RM 10</h1>
+      </ion-label>
+    </ion-item>
+  </ion-list>  
+
+  <ion-list style="margin-top:10%">
+    <ion-radio-group value="withdraw-path" mode="md">
+      <ion-item>
+        <ion-label><h1>银行转账</h1></ion-label>
+        <ion-radio slot="start" value="bank-transfer"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>
+          <h1>现金送到家</h1>
+          <p>RM10,000以上和特定区域</p>
+        </ion-label>
+        <ion-radio slot="start" value="cash"></ion-radio>
+      </ion-item>
+  
+      <ion-item>
+        <ion-label>
+          <h1>自取</h1>
+          <p>特定区域</p>
+        </ion-label>
+        <ion-radio slot="start" value="self-collect"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label><h1>虚拟货币 (开发中）</h1></ion-label>
+        <ion-radio slot="start" value="Bitcoin"  [disabled]="true"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-button expand="block" size="large">取出</ion-button>
+</ion-footer>

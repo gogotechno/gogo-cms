@@ -1,0 +1,18 @@
+<ion-item>
+  <ion-label [position]="labelPosition">
+    <span>{{ label | cmsTranslate }}</span>
+    <cms-required-tag *ngIf="required"></cms-required-tag>
+  </ion-label>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let column of columns; let index = index">
+        <ion-input
+          type="text"
+          maxlength="1"
+          (ionFocus)="onInputFocus(index, $event)"
+          (ionChange)="onInputChange(index, $event)"
+        ></ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>

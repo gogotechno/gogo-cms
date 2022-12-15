@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'jj._DEPOSIT' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <bank-account
+    [bank]="bankAccount?.bank?.name"
+    [holder]="bankAccount?.holderName"
+    [accountNo]="bankAccount?.accountNo"
+  ></bank-account>
+  <div class="cms-form ion-padding-sm">
+    <ion-list>
+      <ion-item class="only-label">
+        <ion-label position="stacked">{{ '_UPLOADED_ATTACHMENTS' | translate }}</ion-label>
+      </ion-item>
+      <div *ngIf="!attachments?.length" class="note">
+        <ion-label>{{ '_NO_ATTACHMENTS_FOUND' | translate }}</ion-label>
+      </div>
+      <ion-item *ngFor="let attachment of attachments; let index = index">
+        <ion-thumbnail slot="start">
+          <img [class.file]="attachment.type == 'file'" [src]="attachment.previewUrl" />
+        </ion-thumbnail>
+        <ion-label>{{ attachment.name }}</ion-label>
+        <ion-button slot="end" class="remove-btn" (click)="removeAttachment(index)">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <input #file class="ion-display-none" type="file" (change)="onFileChange($event)" />
+      <ion-button expand="block" (click)="file.click()">
+        <ion-label>{{ '_UPLOAD_ATTACHMENT' | translate }}</ion-label>
+      </ion-button>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block">
+      <ion-label>{{ 'jj._PAY' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

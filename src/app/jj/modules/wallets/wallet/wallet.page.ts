@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { AppUtils } from 'src/app/cms.util';
-import { JJLuckydrawService } from 'src/app/jj-luckydraw/jj-luckydraw.service';
-import { JJWallet, WalletType } from 'src/app/jj-luckydraw/jj-luckydraw.type';
+import { CoreService } from 'src/app/jj/services';
+import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
+import { CreateDepositPage } from '../create-deposit/create-deposit.page';
 import { Currency } from '../wallets.types';
 
 @Component({
@@ -13,112 +13,135 @@ import { Currency } from '../wallets.types';
   styleUrls: ['./wallet.page.scss'],
 })
 export class WalletPage implements OnInit {
-  private _walletNo: string;
-
+  walletNo: string;
   wallet: JJWallet;
-  actions = actions;
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'start',
-  };
+  cards: WalletCard[];
+  createDepositPage: CreateDepositPage;
 
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
+    private router: Router,
     private modalCtrl: ModalController,
-    private appUtils: AppUtils,
-    private jj: JJLuckydrawService,
-  ) {
-    this._walletNo = route.snapshot.params.walletNo;
-  }
+    private core: CoreService,
+  ) {}
 
   ngOnInit() {
+    let params = this.route.snapshot.params;
+    this.walletNo = params['walletNo'];
     this.loadData();
   }
 
-  async loadData(event?: Event) {
-    this.wallet = await this.jj.getWalletByNo(this._walletNo);
+  async loadData() {
+    this.wallet = await this.core.getWalletByNo(this.walletNo);
+    this.getCards();
   }
 
-  onActionClick(action: WalletAction) {
-    if (!action.active) {
+  async doRefresh(event: Event) {
+    await this.loadData();
+    let refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
+
+  onCardClick(card: WalletCard) {
+    if (!card.active) {
       return;
     }
-
-    switch (action.code) {
-      default:
+    switch (card.code) {
+      case 'QR_CODE':
         return this.openQrCode();
+      case 'DEPOSIT':
+      case 'WITHDRAW':
+      case 'TRANSFER':
+      case 'PIN':
+        return this.onCardNavigate(card.url);
+      default:
+        return;
     }
+  }
+
+  async onCardNavigate(path: string) {
+    await this.router.navigate([path], {
+      relativeTo: this.route,
+    });
   }
 
   async openQrCode() {
-    if (this.wallet.type != WalletType.CUSTOMER) {
-      await this.appUtils.presentAlert('jj._THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT');
-      return;
-    }
-
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
-        qrData: this.wallet.walletNo,
+        qrData: this.walletNo,
       },
       cssClass: 'qrcode-modal',
     });
-
     await modal.present();
+  }
+
+  getCards() {
+    this.cards = cards.map((card) => {
+      switch (card.code) {
+        case 'TRANSFER':
+          card.active = this.wallet.walletType?.canTransfer;
+          break;
+        case 'QR_CODE':
+          card.active = this.wallet.walletType?.canPay;
+          break;
+        default:
+          break;
+      }
+      return card;
+    });
   }
 }
 
-interface WalletAction {
-  type: 'modal';
-  nameKey: string;
-  icon: string;
+interface WalletCard {
   code: string;
+  name: string;
+  icon: string;
+  url: string;
   active: boolean;
 }
 
-const actions: WalletAction[] = [
+const cards: WalletCard[] = [
   {
-    type: 'modal',
-    nameKey: 'jj._DEPOSIT',
-    icon: 'enter-outline',
     code: 'DEPOSIT',
+    name: 'jj._DEPOSIT',
+    icon: 'enter-outline',
+    url: 'create-deposit',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._WITHDRAW',
-    icon: 'exit-outline',
     code: 'WITHDRAW',
+    name: 'jj._WITHDRAW',
+    icon: 'exit-outline',
+    url: 'create-withdraw',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._TRANSFER',
-    icon: 'arrow-redo-outline',
     code: 'TRANSFER',
+    name: 'jj._TRANSFER',
+    icon: 'arrow-redo-outline',
+    url: 'create-transfer',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._STATEMENT',
-    icon: 'document-text-outline',
     code: 'STATEMENT',
+    name: 'jj._STATEMENT',
+    icon: 'document-text-outline',
+    url: '',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._PIN',
-    icon: 'keypad-outline',
     code: 'PIN',
+    name: 'jj._PIN',
+    icon: 'keypad-outline',
+    url: 'verify-pin',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._QR_CODE',
-    icon: 'qr-code-outline',
     code: 'QR_CODE',
-    active: true,
+    name: 'jj._QR_CODE',
+    icon: 'qr-code-outline',
+    url: '',
+    active: false,
   },
 ];

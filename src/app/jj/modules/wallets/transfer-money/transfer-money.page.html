@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [text]="'_BACK' | translate" defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._TRANSFER" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-card class="border-card">
+          <ion-card-content>
+            <ion-icon [name]="toWallet?.walletType?.icon || 'wallet'"></ion-icon>
+            <div class="content">
+              <h3>{{ toWallet?.walletNo }}</h3>
+              <p>{{ toWallet?.customer?.firstName | fullName: toWallet?.customer?.lastName }}</p>
+              <p>{{ toWallet?.customer?.phone }}</p>
+              <p class="balance">
+                <jj-currency [currency]="toWallet?.displayCurrency" [value]="toWallet?.walletBalance"></jj-currency>
+              </p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <div class="ion-padding-sm">
+          <cms-form [form]="form" (submit)="onConfirm($event)"></cms-form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="transfer-money-btn" expand="block">
+      <ion-label>{{ "_CONFIRM" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

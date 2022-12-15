@@ -218,7 +218,7 @@ export class JJLuckydrawService {
       sortBy: 'startAt',
       sortType: 'DESC',
       withSummary: true,
-      withoutResult: true,
+      withResult: true,
     });
     return res.result;
   }
@@ -579,16 +579,16 @@ export class JJLuckydrawService {
 
   async getWalletByMerchantId(merchantId: number) {
     let res = await this.erp.getDocs<JJWallet>('Wallet', {
-      merchantId: merchantId,
-      merchantId_type: '=',
+      merchant_id: merchantId,
+      merchant_id_type: '=',
     });
     return res?.result?.length ? res.result[0] : null;
   }
 
   async getWalletByCustomerId(customerId: number) {
     let res = await this.erp.getDocs<JJWallet>('Wallet', {
-      customerId: customerId,
-      customerId_type: '=',
+      customer_id: customerId,
+      customer_id_type: '=',
     });
     return res?.result?.length ? res.result[0] : null;
   }
@@ -609,8 +609,8 @@ export class JJLuckydrawService {
     let res = await this.erp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
-      walletId: walletId,
-      walletId_type: '=',
+      wallet_id: walletId,
+      wallet_id_type: '=',
       sortBy: 'doc_createdDate',
       sortType: 'DESC',
     });
@@ -640,8 +640,8 @@ export class JJLuckydrawService {
   async createMerchantWallet() {
     let merchantId = await this.getMyMerchantId();
     let permissions = await this.erp.getDocs('Wallet Permission', {
-      merchantId: merchantId,
-      merchantId_type: '=',
+      merchant_id: merchantId,
+      merchant_id_type: '=',
     });
     if (permissions.result.length == 0) {
       let walletRes = await this.erp.postDoc('Wallet', {
@@ -649,8 +649,8 @@ export class JJLuckydrawService {
         type: WalletType.MERCHANT,
       });
       let permissionRes = await this.erp.postDoc('Wallet Permission', {
-        walletId: walletRes.doc_id,
-        merchantId: merchantId,
+        wallet_id: walletRes.doc_id,
+        merchant_id: merchantId,
       });
       return permissionRes;
     }
@@ -659,8 +659,8 @@ export class JJLuckydrawService {
   async createCustomerWallet() {
     let customerId = await this.getCustomerId();
     let permissions = await this.erp.getDocs('Wallet Permission', {
-      customerId: customerId,
-      customerId_type: '=',
+      customer_id: customerId,
+      customer_id_type: '=',
     });
     if (permissions.result.length == 0) {
       let walletRes = await this.erp.postDoc('Wallet', {
@@ -668,8 +668,8 @@ export class JJLuckydrawService {
         type: WalletType.CUSTOMER,
       });
       let permissionRes = await this.erp.postDoc('Wallet Permission', {
-        walletId: walletRes.doc_id,
-        customerId: customerId,
+        wallet_id: walletRes.doc_id,
+        customer_id: customerId,
       });
       return permissionRes;
     }

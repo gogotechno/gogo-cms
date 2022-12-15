@@ -1,0 +1,12 @@
+ion-input {
+  --padding-top: calc(var(--ion-padding) / 2);
+  --padding-bottom: calc(var(--ion-padding) / 2);
+  --padding-start: calc(var(--ion-padding) / 2);
+  --padding-end: calc(var(--ion-padding) / 2);
+
+  text-align: center;
+}
+
+ion-grid {
+  padding: 0;
+}

@@ -1,41 +1,44 @@
-#wallet-summary {
+.wallet-summary {
   background-color: var(--ion-color-primary);
-  color: white;
+  color: var(--ion-color-primary-contrast);
   position: relative;
 
   .label {
-    font-size: small;
+    font-size: var(--ion-font-sm);
   }
 
   .content {
-    font-size: large;
+    font-size: var(--ion-font-lg);
   }
 
   .balance {
-    font-weight: bold;
-    font-size: larger;
+    font-weight: var(--ion-font-bold);
+    font-size: var(--ion-font-xl);
   }
 
   .icon {
-    font-size: xx-large;
+    font-size: var(--ion-font-2xl);
     position: absolute;
     right: var(--ion-padding, 16px);
     bottom: var(--ion-padding, 16px);
   }
 }
 
-.wallet-action {
-  background-color: var(--ion-color-primary-light);
+.wallet-card {
   text-align: center;
-  color: var(--ion-color-primary);
   padding: var(--ion-padding, 16px);
   border-radius: var(--ion-border-radius, 8px);
+  background-color: var(--ion-color-primary-light);
+  color: var(--ion-color-primary);
+
   .icon {
-    font-size: xx-large;
+    font-size: var(--ion-font-2xl);
   }
+
   .label {
-    font-size: small;
+    font-size: var(--ion-font-sm);
   }
+
   &.inactive {
     opacity: 0.4;
   }

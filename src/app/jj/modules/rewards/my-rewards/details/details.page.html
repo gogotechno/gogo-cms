@@ -45,7 +45,7 @@
           </h3>
           <h3>{{ distribution.expense | number: '1.2-2' }}</h3>
           <h3>{{ distribution.pointExpense }}</h3>
-          <h3>{{ distribution.event.name | erpTranlate }}</h3>
+          <h3>{{ distribution.event.name | erpTranslate }}</h3>
           <h3>{{ distribution.distributedAt | date: "YYYY/MM/dd h:mm aa" }}</h3>
           <h3>
             {{ distribution.distributedByPerson.first_name | fullName: distribution.distributedByPerson.last_name }}

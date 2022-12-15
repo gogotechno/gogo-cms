@@ -1,7 +1,23 @@
 ion-item.stacked-select {
   --min-height: 68px;
-
   ion-label {
     align-self: baseline;
+  }
+}
+
+.item-radio-group ion-radio-group {
+  width: 100%;
+}
+
+.item-radio-group:not(.vertical) ion-radio-group {
+  display: flex;
+  align-items: center;
+  ion-item {
+    --inner-padding-start: calc(var(--ion-padding) / 2);
+    --inner-padding-end: calc(var(--ion-padding) / 2);
+    ion-radio[slot='start'] {
+      margin-left: calc(var(--ion-margin) / 4);
+      margin-right: calc(var(--ion-margin) / 4);
+    }
   }
 }

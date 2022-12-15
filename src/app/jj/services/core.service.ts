@@ -11,13 +11,17 @@ import {
   AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
+  JJBankAccount,
   JJCapturePaymentRequest,
   JJContentPage,
   JJCustomer,
+  JJDepositMethod,
+  JJDepositRequest,
   JJEvent,
   JJEventPrize,
   JJFab,
   JJMerchant,
+  JJPinVerification,
   JJPointRule,
   JJProduct,
   JJScratchAndWinEvent,
@@ -28,13 +32,15 @@ import {
   JJTicket,
   JJTicketDistribution,
   JJTicketDistributionApplication,
+  JJTransferRequest,
   JJUser,
   JJUserRole,
   JJWallet,
   JJWalletTransaction,
   JJWinner,
+  JJWithdrawMethod,
+  JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
-  WalletType,
 } from '../typings';
 import { CommonService } from './common.service';
 
@@ -113,8 +119,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
     let query: GetOptions = {
-      merchantId: merchantId,
-      merchantId_type: '=',
+      merchant_id: merchantId,
+      merchant_id_type: '=',
     };
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
@@ -164,8 +170,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
     let query: GetOptions = {
-      customerId: customerId,
-      customerId_type: '=',
+      customer_id: customerId,
+      customer_id_type: '=',
     };
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
     return res.result.map((wallet) => this.populateWallet(wallet));
@@ -189,7 +195,11 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
-  async getWalletByNo(walletNo: number) {
+  updateWallet(walletId: number, wallet: Partial<JJWallet>) {
+    return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
+  async getWalletByNo(walletNo: string) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       walletNo: walletNo,
       walletNo_type: '=',
@@ -210,8 +220,8 @@ export class CoreService extends SharedComponent {
 
   async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
     let res = await this.getWalletTransactions(pagination, {
-      walletId: walletId,
-      walletId_type: '=',
+      wallet_id: walletId,
+      wallet_id_type: '=',
       sortBy: 'doc_createdDate',
       sortType: 'desc',
     });
@@ -221,6 +231,93 @@ export class CoreService extends SharedComponent {
   async getWalletTransactionById(transactionId: number) {
     let res = await this.swsErp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
     return this.populateWalletTransaction(res);
+  }
+
+  createDepositRequest(request: JJDepositRequest) {
+    return this.swsErp.postDoc('Deposit Request', request);
+  }
+
+  async getDepositRequestById(requestId: number) {
+    let res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
+    return res;
+  }
+
+  async getDepositRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJDepositRequest>('Deposit Request', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  async getDepositMethods() {
+    let res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method', {
+      isVisible: 1,
+      isVisible_type: '=',
+    });
+    return res.result;
+  }
+
+  createWithdrawRequest(request: JJWithdrawRequest) {
+    return this.swsErp.postDoc('Withdraw Request', request);
+  }
+
+  async getWithdrawRequestById(requestId: number) {
+    let res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
+    return res;
+  }
+
+  async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJWithdrawRequest>('Withdraw Request', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  async getWithdrawMethods() {
+    let res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method', {
+      isVisible: 1,
+      isVisible_type: '=',
+    });
+    return res.result;
+  }
+
+  createTransferRequest(request: JJTransferRequest) {
+    return this.swsErp.postDoc('Transfer Request', request);
+  }
+
+  createPinVerification(verification: JJPinVerification) {
+    return this.swsErp.postDoc('Pin Verification', verification);
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Bank
+  // -----------------------------------------------------------------------------------------------------
+
+  async getDefaultBankAccount() {
+    let query: GetOptions = {
+      default: true,
+    };
+    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
+    return res.result[0];
+  }
+
+  async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -570,24 +667,15 @@ export class CoreService extends SharedComponent {
       return null;
     }
 
-    switch (wallet.type) {
-      case WalletType.SNW:
-        wallet.icon = 'ticket';
-        wallet.colors = {
-          primary: '#FFC000',
-          'primary-light': '#FFF2CC',
-        };
-        break;
-      case WalletType.MERCHANT:
-        wallet.icon = 'business';
-        wallet.colors = {
-          primary: '#70AD47',
-          'primary-light': '#E2F0D9',
-        };
-      default:
-        wallet.icon = 'wallet';
-        break;
-    }
+    wallet.displayCurrency = {
+      code: wallet?.walletCurrency.code,
+      displaySymbol: wallet?.walletCurrency.symbol,
+      symbolPosition: wallet?.walletCurrency.symbolPosition,
+      precision: wallet?.walletCurrency.digits,
+    };
+
+    wallet.icon = wallet?.walletType.icon;
+    wallet.colors = wallet?.walletType.colors;
 
     return wallet;
   }

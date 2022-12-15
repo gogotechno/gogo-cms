@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <div class="ion-padding-sm">
+          <cms-form [form]="form" (submit)="onVerify($event)"></cms-form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="verify-pin-btn" expand="block">
+      <ion-label>{{ "_VERIFY" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

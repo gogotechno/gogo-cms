@@ -76,12 +76,16 @@
   "_ALL_LOADED": "All loaded",
   "_BACK": "Back",
   "_MODULES": "Modules",
+  "_UPLOADED_ATTACHMENTS": "Uploaded attachments",
+  "_NO_ATTACHMENTS_FOUND": "No attachments found",
+  "_UPLOAD_ATTACHMENT": "Upload attachment",
   "_CHANGE": "Change",
   "_VERIFICATION_CDOE": "Verification Code",
   "_VERIFY": "Verify",
   "_RESEND": "Resend",
   "_KM": "KM",
   "_SHARE": "Share",
+  "_NEXT": "Next",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -435,7 +439,16 @@
     "_NO_BULLETINS_FOUND": "No bulletins found",
     "_NO_MORE_BULLETINS": "No more bulletins",
     "_YOU_HAVE_CHECKED_IN_TODAY": "You have checked in today",
+    "_BANK": "Bank",
+    "_ACCOUNT_NO": "Account No.",
+    "_HOLDER_NAME": "Holder Name",
+    "_COPY_ACCOUNT_NO": "Copy account no.",
     "_MERCHANT_LIST": "Merchant List",
-    "_REFERRER": "Referrer"
+    "_REFERRER": "Referrer",
+    "_SENDER_WALLET_NOT_FOUND": "Sender's wallet not found",
+    "_RECEIVER_WALLET_NOT_FOUND": "Receiver's wallet not found",
+    "_SAME_WALLETS_FOUND": "Same wallets found",
+    "_NO_CONVERSION_RATE_CONFIGURED": "No conversion rate configured",
+    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed"
   }
 }
