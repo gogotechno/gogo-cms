@@ -52,3 +52,15 @@ ion-card-content {
   text-decoration: underline;
   color: blue;
 }
+
+.APPROVED {
+  background: var(--ion-color-success); 
+}
+
+.PENDING {
+  background: var(--ion-color-warning); 
+}
+
+.DECLINED {
+  background: var(--ion-color-danger); 
+}

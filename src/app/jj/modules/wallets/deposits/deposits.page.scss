@@ -33,3 +33,16 @@ ion-list-header {
 .right {
     text-align: end;
 }
+
+.APPROVED {
+    background: var(--ion-color-success); 
+  }
+  
+.PENDING {
+    background: var(--ion-color-warning); 
+  }
+  
+.DECLINED {
+    background: var(--ion-color-danger); 
+  }
+  

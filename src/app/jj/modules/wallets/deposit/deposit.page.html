@@ -8,12 +8,12 @@
 
 <ion-content>
   <ng-container *ngFor="let date of dates">
-  <div class="ion-text-center ion-margin">
-    <ion-badge color="warning"><h2 style="padding-bottom: 5px;">Pending</h2></ion-badge>
-  </div>
-
-  <ion-item  lines="full" class="transaction" *ngFor="let deposit of deposits[date]">
-<div>
+    <div *ngFor="let deposit of deposits[date]">
+    <div class="ion-text-center ion-margin">
+      <ion-badge class="{{ deposit.status }}"><h2 style="padding-bottom: 5px;">{{ deposit.status || '-' }}</h2></ion-badge>
+    </div>
+    
+    <ion-item lines="full" class="transaction">
     <ion-grid class="details">
       <ion-row>
         <ion-col size="auto">
@@ -30,9 +30,9 @@
         </ion-col>
         <ion-col>
           <h3>{{ deposit.refNo || '-' }}</h3>
-          <h3>{{ deposit.doc_createdDate | date: 'hh:mm:ss a' }}</h3>
+          <h3>{{ deposit.doc_createdDate | date: 'd/M/yyyy hh:mm:ss a' }}</h3>
           <h3>102922102293</h3>
-          <h3>{{ 'RM ' && deposit.amount || '-' }}</h3>
+          <h3>RM{{ deposit.amount | number:'.2-2' || '-' }}</h3>
           <h3>{{ deposit.description || '-' }}</h3>
           <h3>{{ deposit.reference1 || '-' }}</h3>
           <h3>{{ deposit.reference2 || '-' }}</h3>
@@ -42,8 +42,8 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
   </ion-item>
+  </div>
 </ng-container>
     <ion-card>
       <ion-card-content>
@@ -53,6 +53,12 @@
       </ion-card-content>
     </ion-card>
   </ion-content>
+
+  <!-- <bank-account
+[bank]="bankAccount?.bank?.name"
+[holder]="bankAccount?.holderName"
+[accountNo]="bankAccount?.accountNo"
+></bank-account> -->
 
   <ion-footer>
     <ion-button expand="block">联系客服</ion-button>

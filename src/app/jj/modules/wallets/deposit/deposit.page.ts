@@ -14,11 +14,12 @@ import { Pagination } from 'src/app/sws-erp.type';
 export class DepositPage extends SharedComponent implements OnInit {
   walletNo: string;
   wallet: JJWallet;
-  depositsPage: Pagination;
-  depositsEnded: boolean;
+  depositPage: Pagination;
+  depositEnded: boolean;
   depositId: number;
   deposits: JJDepositRequest[][];
   updatedAt: Date;
+  id: string;
   
   get dates(): string[] {
     if (!this.deposits) {
@@ -31,35 +32,27 @@ export class DepositPage extends SharedComponent implements OnInit {
     super();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let params = this.route.snapshot.params;
-    this.depositId = params['id'];
+    this.walletNo = params['walletNo'];
+    await this.loadData();
   }
 
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
-    this.depositsPage = this.defaultPage;
+    this.depositPage = this.defaultPage;
     let deposits = await this.getDeposits();
     this.grouping(deposits);
-    this.depositsEnded = deposits.length < this.depositsPage.itemsPerPage;
+    this.depositEnded = deposits.length < this.depositPage.itemsPerPage;
   }
 
   async getDeposits() {
-    let deposits = await this.core.getDepositRequests(this.depositsPage, {
+    let deposits = await this.core.getDepositRequests(this.depositPage, {
       wallet_id: this.wallet.doc_id,
       wallet_id_type: '=',
     });
     this.updatedAt = new Date();
     return deposits;
-  }
-
-  async loadMoreDeposits(event: Event) {
-    this.depositsPage.currentPage += 1;
-    let incoming = await this.getDeposits();
-    this.grouping(incoming);
-    this.depositsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
-    scroller.complete();
   }
 
   grouping(deposits: JJDepositRequest[]) {
@@ -76,12 +69,6 @@ export class DepositPage extends SharedComponent implements OnInit {
       }
       this.deposits[date] = list;
     });
-  }
-
-  async doRefresh(event: Event) {
-    await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
-    refresher.complete();
   }
 
 }
