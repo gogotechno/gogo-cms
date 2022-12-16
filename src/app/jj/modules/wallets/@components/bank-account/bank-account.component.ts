@@ -10,7 +10,7 @@ import { AppUtils } from 'src/app/cms.util';
 export class BankAccountComponent implements OnInit {
   @Input('bank') bankName: string;
   @Input('holder') holderName: string;
-  @Input('accountNo') accountNo: string;
+  @Input() accountNo: string;
 
   constructor(private appUtils: AppUtils) {}
 

@@ -11,20 +11,20 @@ import { WalletCardComponent } from './wallet-card/wallet-card.component';
 import { SmsComponent } from './sms/sms.component';
 
 const components = [
-  LatestDrawComponent, 
-  SmsComponent, 
+  LatestDrawComponent,
+  SmsComponent,
   WalletCardComponent
 ];
 
 @NgModule({
   declarations: components,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
-    RouterModule, 
-    TranslateModule, 
-    CmsUIModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule,
+    TranslateModule,
+    CmsUIModule,
     SwsErpModule
   ],
   exports: components,

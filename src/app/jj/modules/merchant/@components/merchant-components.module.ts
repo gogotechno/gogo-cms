@@ -16,8 +16,8 @@ const components = [
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
+    CommonModule,
+    FormsModule,
     IonicModule,
     RouterModule,
     SharedModule

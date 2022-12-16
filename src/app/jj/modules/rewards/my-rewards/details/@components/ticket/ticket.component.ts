@@ -8,7 +8,7 @@ import { TicketStatus } from 'src/app/jj/typings';
   styleUrls: ['./ticket.component.scss'],
 })
 export class TicketComponent implements OnInit {
-  @Input('ticket') ticket: JJTicket;
+  @Input() ticket: JJTicket;
 
   get statusColor() {
     switch (this.ticket.status) {

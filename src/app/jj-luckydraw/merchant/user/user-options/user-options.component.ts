@@ -40,11 +40,11 @@ export class UserOptionsComponent implements OnInit {
 
   async onRemoveUser() {
     await this.popoverCtrl.dismiss();
-    let name = this.fullName.transform(this.user.firstName, this.user.lastName);
-    let message = await this.translate.get('jj-luckydraw._CONFIRM_TO_REMOVE_USER', { name: name }).toPromise();
-    let confirm = await this.app.presentConfirm(message, '_WARNING');
+    const name = this.fullName.transform(this.user.firstName, this.user.lastName);
+    const message = await this.translate.get('jj-luckydraw._CONFIRM_TO_REMOVE_USER', { name }).toPromise();
+    const confirm = await this.app.presentConfirm(message, '_WARNING');
     if (confirm) {
-      let updateForm = { doc_status: DocStatus.CANCEL };
+      const updateForm = { doc_status: DocStatus.CANCEL };
       await this.lucky.updateUser(this.userId, updateForm);
       await this.app.presentAlert('jj-luckydraw._USER_REMOVED', '_SUCCESS');
       this.lucky.userChange.next({

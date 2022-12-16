@@ -26,8 +26,8 @@ export class WalletPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
     this.loadData();
   }
 
@@ -38,7 +38,7 @@ export class WalletPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 

@@ -449,6 +449,10 @@
     "_RECEIVER_WALLET_NOT_FOUND": "Dompet penerima tidak ditemui",
     "_SAME_WALLETS_FOUND": "Dompet yang sama ditemui",
     "_NO_CONVERSION_RATE_CONFIGURED": "Tiada kadar penukaran dikonfigurasikan",
-    "_TRANSFER_IS_NOT_ALLOWED": "Pemindahan tidak dibenarkan"
+    "_TRANSFER_IS_NOT_ALLOWED": "Pemindahan tidak dibenarkan",
+    "_TRANSFER_RECEIPT": "Resit Pemindahan",
+    "_BENEFICIARY_NAME": "Name penerima",
+    "_BENEFICIARY_WALLET_NO": "Penerima dompet no.",
+    "_AMOUNT": "Jumlah"
   }
 }

@@ -16,7 +16,7 @@ export class RewardPage implements OnInit {
   constructor(private route: ActivatedRoute, private lucky: JJLuckydrawService) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.rewardId = params.id;
     await this.loadData();
   }

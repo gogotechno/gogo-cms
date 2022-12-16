@@ -22,9 +22,9 @@ export class LuckyDrawRewardsComponent implements OnInit {
     this.details.event.subscribe(async (event) => {
       this.event = event;
       if (this.event) {
-        this.event['_status'] = this.event.drewAt ? 'RESULT' : 'DRAWING';
+        this.event._status = this.event.drewAt ? 'RESULT' : 'DRAWING';
         if (this.event.drawAt && dayjs().isBefore(this.event.drawAt)) {
-          this.event['_status'] = 'COUNTDOWN';
+          this.event._status = 'COUNTDOWN';
         }
       }
     });
@@ -45,6 +45,7 @@ export class LuckyDrawRewardsComponent implements OnInit {
 
   /**
    * Open prize in modal
+   *
    * @param prize
    * @param event
    */
@@ -52,7 +53,7 @@ export class LuckyDrawRewardsComponent implements OnInit {
     this.prizeModal = await this.modalController.create({
       component: LuckyDrawPrizeComponent,
       componentProps: {
-        prize: prize,
+        prize,
       },
     });
     await this.prizeModal.present();

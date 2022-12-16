@@ -449,6 +449,11 @@
     "_RECEIVER_WALLET_NOT_FOUND": "Receiver's wallet not found",
     "_SAME_WALLETS_FOUND": "Same wallets found",
     "_NO_CONVERSION_RATE_CONFIGURED": "No conversion rate configured",
-    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed"
+    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed",
+    "_TRANSFER_RECEIPT": "Transfer Receipt",
+    "_BENEFICIARY_NAME": "Beneficiary name",
+    "_BENEFICIARY_WALLET_NO": "Beneficiary wallet no.",
+    "_AMOUNT": "Amount"
+    
   }
 }

@@ -43,7 +43,7 @@ export class RegisterPage implements OnInit {
   async loadData(event?: Event) {
     if (this.referrerCode) {
       console.log(`Register with referrer code: ${this.referrerCode}`);
-      this.value = { referrerCode: this.referrerCode }
+      this.value = { referrerCode: this.referrerCode };
     }
     this.form = await this.cms.getForm('member-registration');
     this.form.autoRemoveUnusedKeys = 'swserp';
@@ -55,10 +55,10 @@ export class RegisterPage implements OnInit {
     // CMS FORM VALIDATION
 
     // PRESENT PHONE VERIFICATION
-    let phone = `+6${formValue.phone}`;
-    let modal = await this.modalController.create({
+    const phone = `+6${formValue.phone}`;
+    const modal = await this.modalController.create({
       component: PhoneNumberVerificationComponent,
-      componentProps: { phone: phone },
+      componentProps: { phone },
     });
     modal.onDidDismiss().then(async (v) => {
       if (!v.data) {
@@ -68,9 +68,9 @@ export class RegisterPage implements OnInit {
       if (v.data.status === 'success') {
         try {
           await this.appUtils.presentLoading();
-          let response = await this.erp.postDoc('Customer', formValue, { skipErrorAlert: true });
+          const response = await this.erp.postDoc('Customer', formValue, { skipErrorAlert: true });
           await this.auth.signInCustomer(formValue.phone, formValue.password, true);
-          this.router.navigateByUrl('/jj', { replaceUrl: true })
+          this.router.navigateByUrl('/jj', { replaceUrl: true });
         } catch (error) {
           await this.appUtils.presentAlert(error.error?.error || error?.message, '_FAILED');
         } finally {

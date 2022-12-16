@@ -21,8 +21,8 @@ export class CreateTransferPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
   }
 
   async onNext(data: CreateTransferDto) {
@@ -30,7 +30,7 @@ export class CreateTransferPage implements OnInit {
       await this.appUtils.presentAlert('jj._SAME_WALLETS_FOUND');
       return;
     }
-    let wallet = await this.core.getWalletByNo(data.walletNo);
+    const wallet = await this.core.getWalletByNo(data.walletNo);
     if (!wallet) {
       await this.appUtils.presentAlert('jj._WALLET_NOT_FOUND');
       return;
@@ -38,7 +38,7 @@ export class CreateTransferPage implements OnInit {
     await this.router.navigate(['../transfer-money', data.walletNo], {
       relativeTo: this.route,
       state: {
-        wallet: wallet,
+        wallet,
       },
     });
   }

@@ -8,7 +8,7 @@ import { JJEvent } from '../../jj-luckydraw.type';
 })
 export class LatestDrawComponent implements OnInit {
 
-  @Input("event") event: JJEvent;
+  @Input() event: JJEvent;
 
   constructor() { }
 

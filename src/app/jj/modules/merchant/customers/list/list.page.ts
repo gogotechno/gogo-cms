@@ -42,29 +42,29 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getCustomers() {
-    let customers = await this.core.getCustomers(this.customersPage, this.customersConditions);
+    const customers = await this.core.getCustomers(this.customersPage, this.customersConditions);
     return customers;
   }
 
   async loadMoreCustomers(event: Event) {
     this.customersPage.currentPage += 1;
-    let incoming = await this.getCustomers();
+    const incoming = await this.getCustomers();
     this.customers = [...this.customers, ...incoming];
     this.customersEnded = incoming.length <= 0;
-    let scoller = <HTMLIonInfiniteScrollElement>event.target;
+    const scoller = <HTMLIonInfiniteScrollElement>event.target;
     scoller.complete();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
   async onSearch(event: Event) {
-    let searchbar = <HTMLIonSearchbarElement>event.target;
+    const searchbar = <HTMLIonSearchbarElement>event.target;
     this.customersPage = this.defaultPage;
-    this.customersConditions['searchInput'] = searchbar.value;
+    this.customersConditions.searchInput = searchbar.value;
     this.customers = await this.getCustomers();
   }
 }

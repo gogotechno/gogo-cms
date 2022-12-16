@@ -8,7 +8,7 @@ import { CmsList } from 'src/app/cms.type';
 })
 export class AccordionComponent implements OnInit {
 
-  @Input('list') list: CmsList;
+  @Input() list: CmsList;
 
   constructor() { }
 

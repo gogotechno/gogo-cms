@@ -25,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   async onResetPassword(user: Partial<JJUser>) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_RESET_PASSWORD');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       await this.core.updateUser(this.userId, {
         password: user.new_password,

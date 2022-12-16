@@ -1,7 +1,7 @@
-import { CmsTranslation } from "../cms.type";
+import { CmsTranslation } from '../cms.type';
 
 export interface Winbox99Game {
-    code: string,
-    name: CmsTranslation,
-    thumbnail: string
+    code: string;
+    name: CmsTranslation;
+    thumbnail: string;
 }

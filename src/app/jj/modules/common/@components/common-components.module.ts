@@ -11,9 +11,9 @@ const components = [ContentBoxComponent];
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
     SharedModule,
     SwsErpModule,
     CmsUIModule

@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { SwsErpService } from "src/app/sws-erp.service";
+import { Injectable } from '@angular/core';
+import { SwsErpService } from 'src/app/sws-erp.service';
 
 @Injectable({
-    providedIn: "root"
+    providedIn: 'root'
 })
 export class WalletsService {
     constructor(private erp: SwsErpService) {}

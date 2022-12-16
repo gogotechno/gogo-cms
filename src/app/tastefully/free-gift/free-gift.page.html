@@ -20,13 +20,13 @@
         </div>
         <ion-card class="card ion-no-margin-vertical" [style.background-image]="event.giftCardImage | cssUrl">
           <ion-card-content class="d-flex-center">
-            <ng-container *ngIf="type == 'incoming'">
+            <ng-container *ngIf="type === 'incoming'">
               <div class="color-white ion-text-center">
                 <p class="ion-no-margin font-bold">{{ "tastefully._COMING_SOON" | translate }}</p>
                 <countdown [config]="config" (event)="handleEvent($event)"></countdown>
               </div>
             </ng-container>
-            <ng-container *ngIf="type == 'today'">
+            <ng-container *ngIf="type === 'today'">
               <ng-container *ngIf="!register">
                 <ion-button fill="solid" shape="round" color="light" (click)="openModal()">
                   <ion-label>{{ 'tastefully._GET_NOW' | translate }}</ion-label>

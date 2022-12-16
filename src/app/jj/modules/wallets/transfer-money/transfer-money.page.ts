@@ -27,13 +27,13 @@ export class TransferMoneyPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
-    this.toWalletNo = params['toWalletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
+    this.toWalletNo = params.toWalletNo;
 
-    let state = this.router.getCurrentNavigation().extras.state;
+    const state = this.router.getCurrentNavigation().extras.state;
     if (state) {
-      this.toWallet = state?.['wallet'];
+      this.toWallet = state?.wallet;
     }
 
     await this.loadData();
@@ -46,7 +46,7 @@ export class TransferMoneyPage implements OnInit {
   }
 
   async onConfirm(data: TransferDto) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
     if (!confirm) {
       return;
     }
@@ -56,16 +56,15 @@ export class TransferMoneyPage implements OnInit {
     //   return;
     // }
 
-    await this.core.createTransferRequest({
+    const respnse = await this.core.createTransferRequest({
       refNo: '',
       amount: data.amount,
       description: data.description,
       fromWalletNo: this.walletNo,
       toWalletNo: this.toWalletNo,
     });
-    await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
-    await this.router.navigate(['../..'], {
-      relativeTo: this.route,
+    // await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
+    await this.router.navigate(['/', 'jj', 'tansfer-receipt', respnse.data.refNo], {
       replaceUrl: true,
     });
   }

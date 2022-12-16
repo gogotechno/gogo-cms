@@ -23,14 +23,14 @@ export class DetailsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.distributionId = params['id'];
+    const params = this.route.snapshot.params;
+    this.distributionId = params.id;
     await this.loadData();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
@@ -42,7 +42,7 @@ export class DetailsPage extends SharedComponent implements OnInit {
   }
 
   async getTickets() {
-    let tickets = await this.core.getTickets(this.ticketsPage, {
+    const tickets = await this.core.getTickets(this.ticketsPage, {
       ticket_distribution_id: this.distributionId,
       ticket_distribution_id_type: '=',
     });
@@ -51,10 +51,10 @@ export class DetailsPage extends SharedComponent implements OnInit {
 
   async loadMoreTickets(event: Event) {
     this.ticketsPage.currentPage += 1;
-    let incoming = await this.getTickets();
+    const incoming = await this.getTickets();
     this.tickets = [...this.tickets, ...incoming];
     this.ticketsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 }

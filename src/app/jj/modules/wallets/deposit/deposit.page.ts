@@ -14,7 +14,7 @@ export class DepositPage implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.depositId = params[':id'];
   }
 }

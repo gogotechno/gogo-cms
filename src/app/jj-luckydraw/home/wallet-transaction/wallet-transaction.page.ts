@@ -16,7 +16,7 @@ export class WalletTransactionPage implements OnInit {
   constructor(private route: ActivatedRoute, private lucky: JJLuckydrawService) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.transactionId = params.id;
     await this.loadData();
   }
@@ -29,7 +29,7 @@ export class WalletTransactionPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     refresherEl.complete();
   }
 }
