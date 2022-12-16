@@ -460,6 +460,8 @@
     "_TRANSFER_RECEIPT": "Resit Pemindahan",
     "_BENEFICIARY_NAME": "Name penerima",
     "_BENEFICIARY_WALLET_NO": "Penerima dompet no.",
-    "_AMOUNT": "Jumlah"
+    "_AMOUNT": "Jumlah",
+    "_VIEW_DETAILS": "Lihat Butiran",
+    "_VIEW_MY_REWARDS": "Lihat Ganjaran Saya"
   }
 }
