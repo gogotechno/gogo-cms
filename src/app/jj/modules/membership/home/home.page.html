@@ -32,7 +32,8 @@
     </ion-fab-button>
   </ion-fab> -->
 
-  <jj-news-ticker [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
+  <jj-news-ticker *ngIf="messages" [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
+
   <slideshow></slideshow>
   <wallet-cards></wallet-cards>
 

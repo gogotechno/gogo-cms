@@ -8,10 +8,17 @@
       <ion-col *ngFor="let column of columns; let index = index">
         <ion-input
           type="password"
-          maxlength="1"
+          inputmode="numeric"
+          [clearOnEdit]="false"
+          [maxlength]="index == lastIndex ? 1 : 2"
+          [autofocus]="index == 0"
           (ionFocus)="onInputFocus(index, $event)"
           (ionChange)="onInputChange(index, $event)"
-        ></ion-input>
+        >
+          <div *ngIf="getInputValue(index)" class="dot-container">
+            <div class="dot"></div>
+          </div>
+        </ion-input>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -182,15 +182,13 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     };
     const res = await this.core.createScratchRequest(request);
     const extras: ScratchRequestExtras = res.data;
-
-    await this.getWallet({ skipLoading: true });
-    await this.getLatestWinners({ skipLoading: true });
-
-    this.memberHomeService.refresh();
-
     if (extras.prize) {
       await this.openResult(extras.prize);
     }
+
+    this.getWallet({ skipLoading: true });
+    this.getLatestWinners({ skipLoading: true });
+    this.memberHomeService.refresh();
 
     this.scratching = false;
   }

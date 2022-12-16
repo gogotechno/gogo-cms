@@ -30,12 +30,17 @@ export class CreateTransferPage implements OnInit {
       await this.appUtils.presentAlert('jj._SAME_WALLETS_FOUND');
       return;
     }
-    let toWallet = await this.core.getWalletByNo(data.toWalletNo);
+
+    let [wallet, toWallet] = await Promise.all([
+      this.core.getWalletByNo(this.walletNo),
+      this.core.getWalletByNo(data.toWalletNo),
+    ]);
+
     if (!toWallet) {
       await this.appUtils.presentAlert('jj._WALLET_NOT_FOUND');
       return;
     }
-    let wallet = await this.core.getWalletByNo(this.walletNo);
+
     await this.router.navigate(['../transfer-money', data.toWalletNo], {
       relativeTo: this.route,
       state: {

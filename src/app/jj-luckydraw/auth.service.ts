@@ -54,7 +54,7 @@ export class AuthService {
    * @returns Returns if initialized
    */
   async init() {
-    if (this.initialized) {return;}
+    if (this.initialized) return;
 
     const refreshToken = await this.storage.get(`${COMPANY_CODE}_REFRESH_TOKEN`);
     if (refreshToken) {

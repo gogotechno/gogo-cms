@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, QueryList, ViewChildren } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { InputCustomEvent, IonInput } from '@ionic/angular';
+import { IonInput } from '@ionic/angular';
 import { CmsTranslable } from 'src/app/cms.type';
 
 @Component({
@@ -61,26 +61,41 @@ export class PinInputComponent implements ControlValueAccessor {
   }
 
   onInputFocus(index: number, event?: Event) {
-    const value = this.inputs.get(index).value;
-    if (value) {
-      const inputs = this.inputs.filter((input) => !!input.value);
-      inputs[inputs.length - 1].setFocus();
+    let inputs = this.inputs.filter((input) => !!input.value);
+    if (inputs.length) {
+      let first = inputs.length - 1;
+      if (first < 0) {
+        first = 0;
+      }
+      inputs[first].setFocus();
     } else {
-      const inputs = this.inputs.filter((input) => !input.value);
-      inputs[0].setFocus();
+      this.inputs.get(0).setFocus();
     }
   }
 
   onInputChange(index: number, event: Event) {
-    const value = (<InputCustomEvent>event).detail.value;
-    if (value) {
-      const nextIndex = index < this.lastIndex ? index + 1 : this.lastIndex;
-      this.inputs.get(nextIndex).setFocus();
-    } else {
-      const prevIndex = index > 0 ? index - 1 : 0;
-      this.inputs.get(prevIndex).setFocus();
+    let currentInput = this.inputs.get(index);
+    let value = currentInput.value.toString();
+
+    if (value && value.length > 1) {
+      currentInput.value = value.charAt(0);
+      let nextIndex = index + 1;
+      let nextInput = this.inputs.get(nextIndex);
+      nextInput.setFocus();
+      nextInput.value = value.charAt(1);
     }
+
+    if (!value) {
+      let prevIndex = index > 0 ? index - 1 : 0;
+      let prevInput = this.inputs.get(prevIndex);
+      prevInput.setFocus();
+    }
+
     this.writeValue(this.pin);
     this.onChange(this.pin);
+  }
+
+  getInputValue(index: number) {
+    return this.inputs?.get(index).value;
   }
 }

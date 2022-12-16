@@ -20,6 +20,8 @@ export class WalletPage implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean>;
 
+  initialized: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -30,16 +32,18 @@ export class WalletPage implements OnInit, OnDestroy {
     this.destroy$ = new Subject();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
 
-    this.walletsService.walletChange = new BehaviorSubject(null);
-    this.walletsService.walletChange.pipe(takeUntil(this.destroy$)).subscribe((change) => {
-      if (change) this.refreshData();
+    this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
+      if (change && this.initialized) {
+        this.refreshData();
+      }
     });
 
-    this.loadData();
+    await this.loadData();
+    this.initialized = true;
   }
 
   ngOnDestroy(): void {

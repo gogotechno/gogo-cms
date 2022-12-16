@@ -7,10 +7,11 @@ import { VerifyPinComponent } from './@components/verify-pin/verify-pin.componen
 
 @Injectable()
 export class WalletsService {
-  walletChange: BehaviorSubject<boolean>;
-  walletsChange: BehaviorSubject<boolean>;
+  transferSuccess: BehaviorSubject<boolean>;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController) {
+    this.transferSuccess = new BehaviorSubject(null);
+  }
 
   verifyPin(wallet: JJWallet) {
     if (wallet.pin) {

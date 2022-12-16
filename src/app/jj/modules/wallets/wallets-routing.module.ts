@@ -9,6 +9,10 @@ const routes: Routes = [
     component: WalletsPage,
   },
   {
+    path: 'transfer-receipt/:refNo',
+    loadChildren: () => import('./transfer-receipt/transfer-receipt.module').then((m) => m.TransferReceiptPageModule),
+  },
+  {
     path: ':walletNo',
     children: [
       {
@@ -79,10 +83,6 @@ const routes: Routes = [
         loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),
       },
     ],
-  },
-  {
-    path: 'transfer-receipt',
-    loadChildren: () => import('./transfer-receipt/transfer-receipt.module').then((m) => m.TransferReceiptPageModule),
   },
 ];
 

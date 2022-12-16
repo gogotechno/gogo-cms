@@ -73,7 +73,7 @@ export class TransferMoneyPage implements OnInit {
       return;
     }
 
-    const respnse = await this.core.createTransferRequest({
+    const response = await this.core.createTransferRequest({
       refNo: '',
       amount: data.amount,
       description: data.description,
@@ -81,8 +81,7 @@ export class TransferMoneyPage implements OnInit {
       toWalletNo: this.toWalletNo,
     });
 
-    this.walletsService.walletChange.next(true);
-    this.walletsService.walletsChange.next(true);
+    this.walletsService.transferSuccess.next(true);
     this.memberHomeService.refresh();
 
     // await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
@@ -91,7 +90,7 @@ export class TransferMoneyPage implements OnInit {
     //   replaceUrl: true,
     // });
 
-    await this.router.navigate(['/', 'jj', 'tansfer-receipt', respnse.data.refNo], {
+    await this.router.navigate(['/', 'jj', 'wallets', 'transfer-receipt', response.data.refNo], {
       replaceUrl: true,
     });
   }
