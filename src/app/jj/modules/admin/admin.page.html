@@ -8,7 +8,7 @@
     <ion-list>
       <ion-menu-toggle>
         <ion-item lines="none" routerLink="/jj/admin">
-          <ion-icon name="home" slot="start"></ion-icon>
+          <ion-icon name="grid-outline" slot="start"></ion-icon>
           <ion-label>{{ '_DASHBOARD' | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>
@@ -21,6 +21,17 @@
       </ion-menu-toggle>
     </ion-list>
   </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button>
+          <ion-icon name="home" slot="start"></ion-icon>
+          {{ '_BACK' | translate }}
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
   <!-- <ion-footer>
     <ion-toolbar>
       <ion-buttons slot="start">
