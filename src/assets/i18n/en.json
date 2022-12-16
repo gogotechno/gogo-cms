@@ -456,6 +456,10 @@
     "_CHANGE_PIN": "Change PIN",
     "_CONFIRM_TO_TRANSFER": "Confirm to transfer?",
     "_TRANSFER_SUCCESS": "Transfer success",
-    "_CAN_TRANSFER_UP_TO": "Can transfer up to {{ balance }}"
+    "_CAN_TRANSFER_UP_TO": "Can transfer up to {{ balance }}",
+    "_TRANSFER_RECEIPT": "Transfer Receipt",
+    "_BENEFICIARY_NAME": "Beneficiary name",
+    "_BENEFICIARY_WALLET_NO": "Beneficiary wallet no.",
+    "_AMOUNT": "Amount"
   }
 }

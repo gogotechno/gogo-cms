@@ -14,7 +14,7 @@ export class SearchAreaComponent implements OnInit {
 
   title: string;
 
-  labelFields: string[]
+  labelFields: string[];
   labelSeparator: string;
 
   codeFields: string[];
@@ -46,7 +46,7 @@ export class SearchAreaComponent implements OnInit {
   async loadData() {
     this.loaded = false;
     this.noMoreItems = false;
-    let [items, pagination] = await this.onLoad();
+    const [items, pagination] = await this.onLoad();
     this.pagination = pagination;
     this.items = this.populateItems(items);
     this.noMoreItems = this.items.length < this.pagination.itemsPerPage;
@@ -54,9 +54,9 @@ export class SearchAreaComponent implements OnInit {
   }
 
   async loadMoreItems(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.pagination.currentPage += 1;
-    let [items, pagination] = await this.onScrollToEnd(this.pagination);
+    const [items, pagination] = await this.onScrollToEnd(this.pagination);
     this.pagination = pagination;
     this.items = [...this.items, ...this.populateItems(items)];
     this.noMoreItems = items.length <= 0;
@@ -68,7 +68,7 @@ export class SearchAreaComponent implements OnInit {
       item.selectLabel = this.concatLabel(item);
       item.selected = this.selectedItems.findIndex((i) => this.concatCode(i) == this.concatCode(item)) > -1;
       return item;
-    })
+    });
   }
 
   private concatLabel(item: any) {

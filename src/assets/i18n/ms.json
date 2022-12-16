@@ -456,6 +456,10 @@
     "_CHANGE_PIN": "Tukar PIN",
     "_CONFIRM_TO_TRANSFER": "Sahkan untuk memindahkan?",
     "_TRANSFER_SUCCESS": "Pemindahan berjaya",
-    "_CAN_TRANSFER_UP_TO": "Boleh memindahkan sehingga {{ baki }}"
+    "_CAN_TRANSFER_UP_TO": "Boleh memindahkan sehingga {{ baki }}",
+    "_TRANSFER_RECEIPT": "Resit Pemindahan",
+    "_BENEFICIARY_NAME": "Name penerima",
+    "_BENEFICIARY_WALLET_NO": "Penerima dompet no.",
+    "_AMOUNT": "Jumlah"
   }
 }

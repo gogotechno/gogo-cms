@@ -9,7 +9,7 @@ import { productCategories } from './mock-up-data';
 })
 export class TeckguanPage implements OnInit {
 
-  currentUrl: string = '/teckguan/fleet';
+  currentUrl = '/teckguan/fleet';
   categories;
 
   constructor(private route: ActivatedRoute) { }

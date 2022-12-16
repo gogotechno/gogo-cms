@@ -25,8 +25,8 @@ export class ScannerComponent implements OnInit {
 
   assertReaderEl() {
     return new Promise((resolve) => {
-      let interval = setInterval(() => {
-        let el = document.getElementById('reader');
+      const interval = setInterval(() => {
+        const el = document.getElementById('reader');
         if (el) {
           clearInterval(interval);
           resolve(true);
@@ -40,10 +40,10 @@ export class ScannerComponent implements OnInit {
     if (!this.html5QrCode) {
       this.html5QrCode = new Html5Qrcode('reader');
     }
-    let facingMode = this.cameraType == 'BACK' ? 'environment' : 'user';
+    const facingMode = this.cameraType == 'BACK' ? 'environment' : 'user';
     await this.html5QrCode.start(
       {
-        facingMode: facingMode,
+        facingMode,
       },
       {
         fps: 10,

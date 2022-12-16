@@ -71,6 +71,7 @@ export class SwsErpService {
 
   /**
    * Get document
+   *
    * @param docType Document type
    * @param id Document's ID
    * @param query Query params
@@ -86,7 +87,7 @@ export class SwsErpService {
     return this._http
       .get<T[]>(requestUrl, {
         params: query,
-        headers: headers,
+        headers,
       })
       .pipe(map((res) => res[0]))
       .toPromise();
@@ -94,6 +95,7 @@ export class SwsErpService {
 
   /**
    * Get documents
+   *
    * @param docType Document type
    * @param query Query params
    * @returns Returns with documents and total
@@ -108,20 +110,21 @@ export class SwsErpService {
     return this._http
       .get<Pageable<T>>(requestUrl, {
         params: query,
-        headers: headers,
+        headers,
       })
       .toPromise();
   }
 
   /**
    * Create document
+   *
    * @param docType Document type
    * @param body Create object
    * @param query Query params
    * @returns Returns with created id and extra data
    */
   public postDoc<T = any>(docType: string, body: T, query: PostOptions = {}) {
-    let headers = {};
+    const headers: any = {};
     if (query.skipErrorAlert) {
       headers['SkipErrorAlert'] = 'TRUE';
     }
@@ -137,6 +140,7 @@ export class SwsErpService {
 
   /**
    * Update document
+   *
    * @param docType Document type
    * @param id Document's ID
    * @param body Update object
@@ -160,6 +164,7 @@ export class SwsErpService {
 
   /**
    * Get user's profile
+   *
    * @param id User's ID
    * @returns Returns user's profile
    */
@@ -173,13 +178,14 @@ export class SwsErpService {
 
   /**
    * Get current doc user's profile
+   *
    * @param id Doc user's ID
    * @returns Returns doc user's profile
    */
   public async findMyDocUser(id: number, withAccesses: boolean, withGroups: boolean, withPermissions: boolean) {
     this._DOC_USER = await this.findDocUser(id);
     if (withAccesses) {
-      let accesses = await this.getUserAccesses(id);
+      const accesses = await this.getUserAccesses(id);
       this._DOC_USER.user_access = accesses;
     }
     return this._DOC_USER;
@@ -187,6 +193,7 @@ export class SwsErpService {
 
   /**
    * Get current user's profile
+   *
    * @param id User's ID
    * @returns Returns user's profile
    */
@@ -196,7 +203,7 @@ export class SwsErpService {
   }
 
   private async getUserAccesses(userId: number) {
-    let res = await this.getDocs<DocUserAccess>('Doc User Access', {
+    const res = await this.getDocs<DocUserAccess>('Doc User Access', {
       doc_user_id: this._DOC_USER.doc_id,
       doc_user_id_type: '=',
     });
@@ -205,14 +212,15 @@ export class SwsErpService {
 
   /**
    * Sign in with user credential
+   *
    * @param email User's email
    * @param password User's password
    * @returns Returns with refresh token, access token and user's profile
    */
   public async signInDocUser(email: string, password: string) {
     const requestUrl = `${this.API_URL}/login`;
-    const requestBody = { email: email, password: password };
-    let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
+    const requestBody = { email, password };
+    const res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
     this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
     this._DOC_USER = res.body.data;
@@ -224,14 +232,15 @@ export class SwsErpService {
 
   /**
    * Sign in with user credential
+   *
    * @param email User's email
    * @param password User's password
    * @returns Returns with refresh token, access token and user's profile
    */
   public async signInUser(docType: string, email: string, password: string) {
     const requestUrl = `${this.API_URL}/login/${docType}`;
-    const requestBody = { email: email, password: password };
-    let res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
+    const requestBody = { email, password };
+    const res = await this._http.post<any>(requestUrl, requestBody, { observe: 'response' }).toPromise();
     this._REFRESH_TOKEN = res.headers.get('x-auth-refresh-token');
     this._TOKEN = this.transformAccessToken(res.headers.get('x-auth-token'));
     this._USER = res.body.data;
@@ -243,6 +252,7 @@ export class SwsErpService {
 
   /**
    * Transform token into correct format
+   *
    * @param token Token response
    * @returns Transformed token
    */
@@ -252,32 +262,35 @@ export class SwsErpService {
 
   /**
    * Generate new refresh token
+   *
    * @param refreshToken Current refresh Token
    * @returns Returns new refresh token
    */
   public async generateRefreshToken(refreshToken: string) {
     const requestUrl = `${this.API_URL}/refresh_refresh_token`;
     const requestHeaders = { Authorization: `Bearer ${refreshToken}` };
-    let res = await this._http.get<GenerateRefreshTokenResponse>(requestUrl, { headers: requestHeaders }).toPromise();
+    const res = await this._http.get<GenerateRefreshTokenResponse>(requestUrl, { headers: requestHeaders }).toPromise();
     this._REFRESH_TOKEN = res.data;
     return this._REFRESH_TOKEN;
   }
 
   /**
    * Generate new access token
+   *
    * @param refreshToken Refresh Token
    * @returns Returns new access token
    */
   public async generateAccessToken(refreshToken: string) {
     const requestUrl = `${this.API_URL}/refresh_token`;
     const requestHeaders = { Authorization: `Bearer ${refreshToken}` };
-    let res = await this._http.get<GenerateAccessTokenResponse>(requestUrl, { headers: requestHeaders }).toPromise();
+    const res = await this._http.get<GenerateAccessTokenResponse>(requestUrl, { headers: requestHeaders }).toPromise();
     this._TOKEN = res.data;
     return this._TOKEN;
   }
 
   /**
    * Change password
+   *
    * @param userId User ID
    * @param payload Old password and new password
    * @param userReference Provided when updating non-doc-user user
@@ -292,7 +305,7 @@ export class SwsErpService {
    * Sign out
    */
   public signOut() {
-    let authState = this.authStateChange.getValue();
+    const authState = this.authStateChange.getValue();
     if (authState && authState.status == 'LOGGED_OUT') {
       return;
     }

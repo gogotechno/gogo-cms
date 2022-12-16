@@ -80,6 +80,10 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'transfer-receipt',
+    loadChildren: () => import('./transfer-receipt/transfer-receipt.module').then((m) => m.TransferReceiptPageModule),
+  },
 ];
 
 @NgModule({

@@ -5,12 +5,12 @@
       <ion-label>{{ 'jj-luckydraw._HOME' | translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button *ngIf="role == 'MERCHANT'" tab="merchant">
+    <ion-tab-button *ngIf="role === 'MERCHANT'" tab="merchant">
       <ion-icon name="storefront"></ion-icon>
       <ion-label>{{ 'jj-luckydraw._MERCHANT'| translate }}</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button *ngIf="role == 'CUSTOMER'" tab="customer">
+    <ion-tab-button *ngIf="role === 'CUSTOMER'" tab="customer">
       <ion-icon name="information"></ion-icon>
       <ion-label>{{ 'jj-luckydraw._INFORMATION'| translate }}</ion-label>
     </ion-tab-button>

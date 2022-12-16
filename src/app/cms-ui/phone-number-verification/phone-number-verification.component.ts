@@ -19,7 +19,7 @@ export class PhoneNumberVerificationComponent implements OnInit, ViewWillEnter {
   private recaptchaWidgetId: number;
   private confirmationResult: ConfirmationResult;
 
-  @Input('phone') phone: string;
+  @Input() phone: string;
 
   verificationCode: string;
 
@@ -38,12 +38,12 @@ export class PhoneNumberVerificationComponent implements OnInit, ViewWillEnter {
       return;
     }
 
-    let loading = await this.loadingController.create();
+    const loading = await this.loadingController.create();
     try {
       await loading.present();
       console.log(`Generating recaptcha...`);
       if (!this.recaptchaVerifier) {
-        this.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', { 'size': 'invisible' }, auth);
+        this.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', { size: 'invisible' }, auth);
         this.recaptchaWidgetId = await this.recaptchaVerifier.render();
       }
       console.log(`Recaptcha generated with ID ${this.recaptchaWidgetId}`);
@@ -51,7 +51,7 @@ export class PhoneNumberVerificationComponent implements OnInit, ViewWillEnter {
       this.confirmationResult = await signInWithPhoneNumber(auth, this.phone, this.recaptchaVerifier);
     } catch (error) {
       console.error(error);
-      this.modalController.dismiss({ status: 'failed', error: error });
+      this.modalController.dismiss({ status: 'failed', error });
     } finally {
       if (event) {
         // TODO: IF EVENT IS RefresherCustomEvent
@@ -64,10 +64,10 @@ export class PhoneNumberVerificationComponent implements OnInit, ViewWillEnter {
   async verify(event?: Event) {
     try {
       await this.appUtils.presentLoading();
-      let userCredential = await this.confirmationResult.confirm(this.verificationCode);
-      this.modalController.dismiss({ status: 'success', userCredential: userCredential });
+      const userCredential = await this.confirmationResult.confirm(this.verificationCode);
+      this.modalController.dismiss({ status: 'success', userCredential });
     } catch (error) {
-      this.modalController.dismiss({ status: 'failed', error: error });
+      this.modalController.dismiss({ status: 'failed', error });
     } finally {
       await this.appUtils.dismissLoading();
     }

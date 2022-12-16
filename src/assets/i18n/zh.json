@@ -456,6 +456,10 @@
     "_CHANGE_PIN": "更改PIN",
     "_CONFIRM_TO_TRANSFER": "确认转帐？",
     "_TRANSFER_SUCCESS": "转账成功",
-    "_CAN_TRANSFER_UP_TO": "可以转账{{ balance }}"
+    "_CAN_TRANSFER_UP_TO": "可以转账{{ balance }}",
+    "_TRANSFER_RECEIPT": "转账收据",
+    "_BENEFICIARY_NAME": "收款人",
+    "_BENEFICIARY_WALLET_NO": "收款账户",
+    "_AMOUNT": "金额"
   }
 }

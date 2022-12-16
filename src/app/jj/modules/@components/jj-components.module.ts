@@ -9,15 +9,15 @@ import { JJCurrencyComponent } from './jj-currency/jj-currency.component';
 import { JJNewsTickerComponent } from './jj-news-ticker/jj-news-ticker.component';
 
 const components = [
-  JJCurrencyComponent, 
+  JJCurrencyComponent,
   JJNewsTickerComponent
 ];
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
     SharedModule,
     CmsUIModule,
     SwsErpModule

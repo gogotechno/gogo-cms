@@ -52,12 +52,12 @@ export class UpdateMePage implements OnInit {
   }
 
   async onUpdateMe(user?: Partial<JJUser> | Partial<JJCustomer>) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_PROFILE');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_PROFILE');
     if (confirm) {
       await this.auth.updateMyProfile(this.cmsForm.removeUnusedKeys('swserp', user));
       await this.app.presentAlert('jj-luckydraw._PROFILE_UPDATED', '_SUCCESS');

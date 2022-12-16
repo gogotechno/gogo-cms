@@ -50,31 +50,31 @@ const exportedComponents = [
 ];
 
 const pipes = [
-  CmsTranslatePipe, 
-  SafeHtmlPipe, 
-  CssUrlPipe, 
-  FirestoreDatePipe, 
-  FullNamePipe, 
+  CmsTranslatePipe,
+  SafeHtmlPipe,
+  CssUrlPipe,
+  FirestoreDatePipe,
+  FullNamePipe,
   HideTextPipe
 ];
 
 @NgModule({
   declarations: [
-    ...internalComponents, 
-    ...exportedComponents, 
+    ...internalComponents,
+    ...exportedComponents,
     ...pipes
   ],
   imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
-    IonicModule, 
-    RouterModule, 
-    TranslateModule, 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    IonicModule,
+    RouterModule,
+    TranslateModule,
     QuillModule
   ],
   exports: [
-    ...exportedComponents, 
+    ...exportedComponents,
     ...pipes
   ],
   providers: [

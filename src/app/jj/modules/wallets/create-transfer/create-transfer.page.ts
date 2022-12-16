@@ -21,8 +21,8 @@ export class CreateTransferPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
   }
 
   async onNext(data: CreateTransferDto) {

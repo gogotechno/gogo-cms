@@ -32,13 +32,13 @@ export class SharedComponent {
   protected assertElement(id: string, duration: number = 100) {
     return new Promise<HTMLElement>((resolve, reject) => {
       let timeout = 0;
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         if (timeout > 3000) {
           clearInterval(interval);
           reject(`Assert [${id}] error: Timeout due to no response`);
           return;
         }
-        let el = document.getElementById(id);
+        const el = document.getElementById(id);
         if (el) {
           clearInterval(interval);
           resolve(el);
@@ -49,7 +49,7 @@ export class SharedComponent {
   }
 
   protected getDateDiff(toDate: Date, fromDate?: Date) {
-    let diff = { time: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
+    const diff = { time: 0, days: 0, hours: 0, minutes: 0, seconds: 0 };
     fromDate = fromDate || new Date();
     if (toDate > fromDate) {
       diff.time = (toDate.getTime() - fromDate.getTime()) / 1000;
@@ -62,7 +62,7 @@ export class SharedComponent {
   }
 
   protected getGreeting() {
-    let today = new Date();
+    const today = new Date();
     if (today.getHours() < 12) {
       return '_GOOD_MORNING';
     }

@@ -33,9 +33,9 @@ export class TransferMoneyPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
-    this.toWalletNo = params['toWalletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
+    this.toWalletNo = params.toWalletNo;
 
     let state = this.router.getCurrentNavigation().extras.state;
     this.wallet = state?.['wallet'] || (await this.core.getWalletByNo(this.walletNo));
@@ -73,7 +73,7 @@ export class TransferMoneyPage implements OnInit {
       return;
     }
 
-    await this.core.createTransferRequest({
+    const respnse = await this.core.createTransferRequest({
       refNo: '',
       amount: data.amount,
       description: data.description,
@@ -85,9 +85,13 @@ export class TransferMoneyPage implements OnInit {
     this.walletsService.walletsChange.next(true);
     this.memberHomeService.refresh();
 
-    await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
-    await this.router.navigate(['../..'], {
-      relativeTo: this.route,
+    // await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
+    // await this.router.navigate(['../..'], {
+    //   relativeTo: this.route,
+    //   replaceUrl: true,
+    // });
+
+    await this.router.navigate(['/', 'jj', 'tansfer-receipt', respnse.data.refNo], {
       replaceUrl: true,
     });
   }
