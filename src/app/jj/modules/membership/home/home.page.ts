@@ -40,14 +40,14 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await this.home.init();
+    this.home.initialized = true;
     this.home.event.subscribe((event) => (this.event = event));
     this.home.bulletinGroups.subscribe((groups) => (this.groups = groups));
     this.home.groupCode.subscribe((code) => (this.groupCode = this.groupCode ? this.groupCode : code));
     this.home.bulletins.subscribe((bulletins) => (this.bulletins = bulletins));
     this.home.fabs.subscribe((fabs) => (this.fabs = fabs));
     this.home.announcements.subscribe((announcements) => {
-      if (!announcements) {return;}
-      this.messages = announcements.map((announcement) => announcement.message);
+      this.messages = announcements ? announcements.map((announcement) => announcement.message) : null;
     });
   }
 

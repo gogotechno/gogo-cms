@@ -151,7 +151,7 @@ export class AppUtils {
    * Present loading
    */
   async presentLoading(message?: string) {
-    if (await this.getTopLoading()) {return;}
+    if (await this.getTopLoading()) return;
     message = message ? message : '_LOADING';
     const defaultOpts: LoadingOptions = { spinner: 'bubbles' };
     const loading = await this.loadingCtrl.create({
@@ -167,7 +167,7 @@ export class AppUtils {
    * @returns Returns null if no loading presenting
    */
   async dismissLoading() {
-    if (!(await this.getTopLoading())) {return;}
+    if (!(await this.getTopLoading())) return;
     await this.loadingCtrl.dismiss();
   }
 

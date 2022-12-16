@@ -74,6 +74,13 @@ export class FormComponent extends CmsComponent implements OnInit {
           controls[item.code] = [value];
           break;
 
+        case 'pin':
+          if (!item.minimumLength) {
+            item.minimumLength = 6;
+          }
+          controls[item.code] = [this.value ? this.value[item.code] : null];
+          break;
+
         default:
           controls[item.code] = [this.value ? this.value[item.code] : null];
           break;
@@ -243,7 +250,7 @@ export class FormComponent extends CmsComponent implements OnInit {
   async validateFormAndShowErrorMessages() {
     const validation = await this.validateForm();
     if (!validation.valid) {
-      const messages = validation.errors.map((e) => '<p class=\'ion-no-margin\'>' + e.message + '</p>').join('');
+      const messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + '</p>').join('');
       this.appUtils.presentAlert(messages, '_ERROR');
     }
     return validation;
@@ -310,7 +317,6 @@ export class FormComponent extends CmsComponent implements OnInit {
     if (item.precision) {
       const num = Number(value) / Math.pow(10, item.precision);
       // TODO: Set value and do not trigger change event
-      // console.log(num);
     }
   }
 }

@@ -37,6 +37,8 @@ export class HomeService extends SharedComponent {
 
   private allBulletins: Bulletin[];
 
+  initialized: boolean;
+
   get user() {
     return this._USER.asObservable();
   }
@@ -106,11 +108,18 @@ export class HomeService extends SharedComponent {
     this._GROUP_CODE = new BehaviorSubject(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
-      if (event?.status == 'LOGGED_IN' && !this._USER.getValue()) {
-        await this.init();
-      }
-      if (event?.status == 'LOGGED_OUT') {
-        this.destroy();
+      if (!event) return;
+      switch (event.status) {
+        case 'LOGGED_IN':
+          if (this.initialized && !this._USER.getValue()) {
+            await this.init();
+          }
+          break;
+        case 'LOGGED_OUT':
+          this.destroy();
+          break;
+        default:
+          break;
       }
     });
   }

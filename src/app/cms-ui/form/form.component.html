@@ -85,6 +85,7 @@
           <ng-container *ngSwitchCase="'pin'">
             <cms-pin-input 
               [code]="item.code"
+              [digits]="item.minimumLength"
               [label]="item.label"
               [required]="item.required"
               [labelPosition]="form.labelPosition || 'fixed'"

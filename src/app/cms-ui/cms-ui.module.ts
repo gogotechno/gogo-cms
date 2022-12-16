@@ -71,7 +71,7 @@ const pipes = [
     IonicModule,
     RouterModule,
     TranslateModule,
-    QuillModule
+    QuillModule,
   ],
   exports: [
     ...exportedComponents,

@@ -19,17 +19,21 @@ export class WalletsPage implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean>;
 
+  initialized: boolean;
+
   constructor(private auth: AuthService, private walletsService: WalletsService) {
     this.destroy$ = new Subject();
   }
 
   async ngOnInit() {
-    this.walletsService.walletsChange = new BehaviorSubject(null);
-    this.walletsService.walletsChange.pipe(takeUntil(this.destroy$)).subscribe((change) => {
-      if (change) this.refreshData();
+    this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
+      if (change && this.initialized) {
+        this.refreshData();
+      }
     });
 
     await this.loadData();
+    this.initialized = true;
   }
 
   ngOnDestroy(): void {

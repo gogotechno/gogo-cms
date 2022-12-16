@@ -71,7 +71,7 @@ export class JJLuckydrawService {
    * @returns Returns if initialized
    */
   async init() {
-    if (this.initialized) {return;}
+    if (this.initialized) return;
 
     this.title.setTitle('JJ Lucky');
     this.app.loadTemplateTheme(this.cms.SITE.template);
