@@ -55,12 +55,12 @@
         <countdown-timer [endDate]="event.endAt" unitFormat="full" separator=""></countdown-timer>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="groupCode == 'MINI_PROGRAMS'">
+    <ion-row *ngIf="groupCode === 'MINI_PROGRAMS'">
       <ion-col>
         <mini-programs></mini-programs>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="groupCode != 'MINI_PROGRAMS' && bulletins">
+    <ion-row *ngIf="groupCode !== 'MINI_PROGRAMS' && bulletins">
       <ion-col size="12" *ngIf="!bulletins.length">
         <div class="note">
           <ion-label>{{ "jj._NO_BULLETINS_FOUND" | translate }}</ion-label>

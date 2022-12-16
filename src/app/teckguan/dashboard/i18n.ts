@@ -4,4 +4,4 @@ export const i18n = {
             _DASHBOARD: 'Dashboard'
         }
     }
-}
+};

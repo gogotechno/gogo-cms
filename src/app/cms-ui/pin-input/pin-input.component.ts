@@ -16,11 +16,11 @@ import { CmsTranslable } from 'src/app/cms.type';
   ],
 })
 export class PinInputComponent implements ControlValueAccessor {
-  @Input('digits') digits: number = 6;
-  @Input('code') code: string;
-  @Input('label') label: CmsTranslable;
-  @Input('required') required: boolean;
-  @Input('labelPosition') labelPosition: string;
+  @Input() digits = 6;
+  @Input() code: string;
+  @Input() label: CmsTranslable;
+  @Input() required: boolean;
+  @Input() labelPosition: string;
 
   @ViewChildren(IonInput) inputs: QueryList<IonInput>;
 
@@ -33,7 +33,7 @@ export class PinInputComponent implements ControlValueAccessor {
   }
 
   get pin() {
-    let digits = this.inputs.map((input) => input.value);
+    const digits = this.inputs.map((input) => input.value);
     return digits.join('');
   }
 
@@ -61,23 +61,23 @@ export class PinInputComponent implements ControlValueAccessor {
   }
 
   onInputFocus(index: number, event?: Event) {
-    let value = this.inputs.get(index).value;
+    const value = this.inputs.get(index).value;
     if (value) {
-      let inputs = this.inputs.filter((input) => !!input.value);
+      const inputs = this.inputs.filter((input) => !!input.value);
       inputs[inputs.length - 1].setFocus();
     } else {
-      let inputs = this.inputs.filter((input) => !input.value);
+      const inputs = this.inputs.filter((input) => !input.value);
       inputs[0].setFocus();
     }
   }
 
   onInputChange(index: number, event: Event) {
-    let value = (<InputCustomEvent>event).detail.value;
+    const value = (<InputCustomEvent>event).detail.value;
     if (value) {
-      let nextIndex = index < this.lastIndex ? index + 1 : this.lastIndex;
+      const nextIndex = index < this.lastIndex ? index + 1 : this.lastIndex;
       this.inputs.get(nextIndex).setFocus();
     } else {
-      let prevIndex = index > 0 ? index - 1 : 0;
+      const prevIndex = index > 0 ? index - 1 : 0;
       this.inputs.get(prevIndex).setFocus();
     }
     this.writeValue(this.pin);

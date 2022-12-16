@@ -20,10 +20,10 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-const Parchment = Quill.import("parchment");
-const Block = Parchment.query("block");
+const Parchment = Quill.import('parchment');
+const Block = Parchment.query('block');
 class NewBlock extends Block { };
-NewBlock.tagName = "div";
+NewBlock.tagName = 'div';
 Quill.register(NewBlock, true);
 
 import ImageResize from 'quill-image-resize-module';
@@ -70,16 +70,16 @@ import { BehaviorSubject } from 'rxjs';
         toolbar: [
           ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
-          [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'script': 'sub' }, { 'script': 'super' }],
-          [{ 'indent': '-1' }, { 'indent': '+1' }],
-          [{ 'direction': 'rtl' }],
-          [{ 'size': [] }],
-          [{ 'header': [] }],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
+          [{ header: 1 }, { header: 2 }],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+          [{ size: [] }],
+          [{ header: [] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
           ['clean'],
           ['link', 'image', 'video', 'formula']
         ]
@@ -100,7 +100,7 @@ import { BehaviorSubject } from 'rxjs';
     },
     {
       provide: SWS_ERP_COMPANY,
-      useValue: new BehaviorSubject<string>("default")
+      useValue: new BehaviorSubject<string>('default')
     },
     SiteGuard
   ],

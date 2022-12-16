@@ -64,8 +64,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.eventId = params['id'];
+    const params = this.route.snapshot.params;
+    this.eventId = params.id;
     await this.loadData();
   }
 
@@ -81,7 +81,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async getWallet(options: GetExtraOptions = {}) {
-    let wallets = await this.auth.findMyWallets(options);
+    const wallets = await this.auth.findMyWallets(options);
     this.wallet = wallets.find((wallet) => wallet.type == 'SNW');
 
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
@@ -91,25 +91,25 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async getLatestWinners(options: GetExtraOptions = {}) {
-    let winnersPage: Pagination = {
+    const winnersPage: Pagination = {
       itemsPerPage: 10,
       currentPage: 1,
       sortBy: 'sr.doc_createdDate',
       sortOrder: 'DESC',
     };
 
-    let conditions: Conditions = {
+    const conditions: Conditions = {
       hasPrize: true,
       eventId: this.eventId,
       isDefault: false,
     };
 
-    let winners = await this.core.getScratchRequests(winnersPage, conditions, options);
+    const winners = await this.core.getScratchRequests(winnersPage, conditions, options);
     this.messages = await Promise.all(
       winners.map(async (winner) => {
-        let customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);
-        let hiddenName = this.hideText.transform(customerName);
-        let prizeName = this.cmsTranslate.transform(winner.prize.nameTranslation);
+        const customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);
+        const hiddenName = this.hideText.transform(customerName);
+        const prizeName = this.cmsTranslate.transform(winner.prize.nameTranslation);
         return await this.translate
           .get('jj._SNW_WINNER_ANNOUNCEMENT', {
             name: hiddenName,
@@ -121,16 +121,16 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   startTimer() {
-    let endDate = new Date(this.event.endAt);
-    let interval: number = 1000;
-    let timer = setInterval(() => {
-      let { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
+    const endDate = new Date(this.event.endAt);
+    const interval = 1000;
+    const timer = setInterval(() => {
+      const { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
       if (time > 0) {
         this.timer = {
-          days: days,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
+          days,
+          hours,
+          minutes,
+          seconds,
         };
       } else {
         clearInterval(timer);
@@ -155,7 +155,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       componentProps: {
         eventId: this.eventId,
         event: this.event,
-        prize: prize,
+        prize,
       },
       cssClass: 'scratch-result-modal',
       backdropDismiss: false,
@@ -170,8 +170,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
     this.scratching = true;
 
-    let currentUser = this.auth.currentUser;
-    let request: JJScratchRequest = {
+    const currentUser = this.auth.currentUser;
+    const request: JJScratchRequest = {
       scratch_and_win_event_id: this.eventId,
       customer_id: currentUser.doc_id,
       wallet_id: 0,
@@ -179,16 +179,16 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       status: 'PROCESSING',
       scratch_and_win_prize_id: null,
     };
-    let res = await this.core.createScratchRequest(request);
-    let extras: ScratchRequestExtras = res.data;
+    const res = await this.core.createScratchRequest(request);
+    const extras: ScratchRequestExtras = res.data;
 
     await this.getWallet({ skipLoading: true });
     await this.getLatestWinners({ skipLoading: true });
 
     this.memberHome.refresh();
 
-    if (extras['prize']) {
-      await this.openResult(extras['prize']);
+    if (extras.prize) {
+      await this.openResult(extras.prize);
     }
 
     this.scratching = false;
@@ -205,12 +205,12 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async openTnc() {
-    let title = await this.translate.get('jj._TERM_AND_CONDITIONS').toPromise();
+    const title = await this.translate.get('jj._TERM_AND_CONDITIONS').toPromise();
 
     const modal = await this.modalCtrl.create({
       component: ContentBoxComponent,
       componentProps: {
-        title: title,
+        title,
         content: this.event.tnc,
       },
     });
@@ -220,7 +220,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

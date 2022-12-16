@@ -156,7 +156,7 @@ export class HomeService extends SharedComponent {
   }
 
   async refresh() {
-    let options: GetExtraOptions = {
+    const options: GetExtraOptions = {
       skipLoading: true,
     };
 
@@ -205,24 +205,24 @@ export class HomeService extends SharedComponent {
   }
 
   async loadBulletins() {
-    let url = await this.cms.getDownloadURL('home-directory.json');
-    let data = await this.common.getByUrl(url);
+    const url = await this.cms.getDownloadURL('home-directory.json');
+    const data = await this.common.getByUrl(url);
 
-    let eventConfig = data['event'];
+    const eventConfig = data.event;
     if (eventConfig) {
-      let event = await this.core.getEventById(eventConfig.id);
+      const event = await this.core.getEventById(eventConfig.id);
       this._EVENT_CONFIG.next(eventConfig);
       this._EVENT.next(event);
     }
 
-    let groups = data['groups'];
+    const groups = data.groups;
     this._BULLETIN_GROUPS.next(groups);
     if (!this._GROUP_CODE.getValue()) {
-      let groupCode = groups[0].code;
+      const groupCode = groups[0].code;
       this._GROUP_CODE.next(groupCode);
     }
 
-    this.allBulletins = data['bulletins'];
+    this.allBulletins = data.bulletins;
     await this.filterBulletins();
   }
 
@@ -233,9 +233,9 @@ export class HomeService extends SharedComponent {
 
     this._GROUP_CODE.next(groupCode);
 
-    let filtered = this.allBulletins.filter((bulletin) => {
-      let tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
-      let roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
+    const filtered = this.allBulletins.filter((bulletin) => {
+      const tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
+      const roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
       return tags && roles;
     });
 

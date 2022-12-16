@@ -60,24 +60,24 @@ export class CustomersPage implements OnInit {
   }
 
   async loadMoreCustomers(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.customerPagination.currentPage += 1;
-    let customers = await this.getCustomers();
+    const customers = await this.getCustomers();
     this.customers = [...this.customers, ...customers];
     this.noMoreCustomers = customers.length <= 0;
     infiniteScrollEl.complete();
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }
 
   async onSearch(event: Event) {
-    let searchbarEl = <HTMLIonSearchbarElement>event.target;
+    const searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.customerConditions['searchInput'] = searchbarEl.value;
+    this.customerConditions.searchInput = searchbarEl.value;
     this.customers = await this.getCustomers();
   }
 

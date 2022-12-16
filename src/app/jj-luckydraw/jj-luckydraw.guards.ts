@@ -14,8 +14,8 @@ export class AuthGuard implements CanActivate {
             await this.auth.init();
         }
         if (!this.auth.authenticated) {
-            console.log("Not authenticated!");
-            this.router.navigateByUrl("/jj-luckydraw/sign-in");
+            console.log('Not authenticated!');
+            this.router.navigateByUrl('/jj-luckydraw/sign-in');
             return false;
         }
         return true;
@@ -33,8 +33,8 @@ export class SignInGuard implements CanActivate {
             await this.auth.init();
         }
         if (this.auth.authenticated) {
-            console.log("Authenticated!");
-            this.router.navigateByUrl("/jj-luckydraw", { replaceUrl: true });
+            console.log('Authenticated!');
+            this.router.navigateByUrl('/jj-luckydraw', { replaceUrl: true });
             return false;
         }
         return true;

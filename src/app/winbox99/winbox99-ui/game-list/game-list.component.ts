@@ -34,7 +34,7 @@ export class GameListComponent implements OnInit {
   }
 
   async gameDetail(game: CmsListItem, event?: Event) {
-    let modal = await this.modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: HtmlModalComponent,
       componentProps: {
         title: this.cmsTranslate.transform(game.title),

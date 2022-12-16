@@ -234,7 +234,7 @@ export interface CmsTable extends CmsDocument {
 }
 
 export class CmsAdminChildPage {
-  title: string = '';
+  title = '';
 }
 
 export interface CmsUser extends CmsDocument {

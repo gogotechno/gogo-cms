@@ -34,7 +34,7 @@ export class MePage implements OnInit {
 
   async loadData() {
     this.loaded = false;
-    let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
+    const storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
     this.currentLang = storedLang || this.translate.currentLang;
     this.languages = await this.lucky.getSupportedLanguages();
     this.me = await this.auth.findMe();
@@ -45,7 +45,7 @@ export class MePage implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }

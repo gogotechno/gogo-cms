@@ -50,9 +50,9 @@ export class WalletTransactionsPage implements OnInit {
   }
 
   async loadMoreTransactions(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.transactionPagination.currentPage += 1;
-    let transactions = await this.getTransactions();
+    const transactions = await this.getTransactions();
     this.transactions = [...this.transactions, ...transactions];
     this.noMoreTransactions = transactions.length <= 0;
     infiniteScrollEl.complete();
@@ -60,7 +60,7 @@ export class WalletTransactionsPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     refresherEl.complete();
   }
 }

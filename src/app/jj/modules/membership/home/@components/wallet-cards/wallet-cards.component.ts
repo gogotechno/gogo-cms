@@ -18,7 +18,7 @@ export class WalletCardsComponent implements OnInit {
 
   ngOnInit() {
     this.home.wallets.subscribe((wallets) => {
-      if (!wallets) return;
+      if (!wallets) {return;}
       this.wallets = wallets;
       this.wallet = wallets.find((wallet) => wallet.walletType?.canPay);
     });

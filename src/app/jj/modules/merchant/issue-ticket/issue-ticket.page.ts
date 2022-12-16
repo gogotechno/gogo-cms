@@ -47,15 +47,15 @@ export class IssueTicketPage implements OnInit {
   }
 
   async initForm() {
-    let products = await this.core.getProducts();
-    let productField = this.form.items.find((item) => item.code == 'product_id');
+    const products = await this.core.getProducts();
+    const productField = this.form.items.find((item) => item.code == 'product_id');
     productField.options = products.map((product) => ({
       code: String(product.doc_id),
       label: product.nameTranslation,
     }));
 
-    let events = await this.core.getMerchantEvents();
-    let eventField = this.form.items.find((item) => item.code == 'event_id');
+    const events = await this.core.getMerchantEvents();
+    const eventField = this.form.items.find((item) => item.code == 'event_id');
     eventField.options = events.map((event) => ({
       code: String(event.doc_id),
       label: event.nameTranslation,
@@ -87,24 +87,24 @@ export class IssueTicketPage implements OnInit {
     application = await this.countTicket(application);
     application = await this.countFreePoint(application);
     application = await this.countFreeSnwTickets(application);
-    let valid = await this.validateApplication(application);
+    const valid = await this.validateApplication(application);
     if (!valid) {
       return;
     }
 
-    let params = {
+    const params = {
       count: application.ticketCount,
       point: application.freePoint,
       snwCount: application.freeSnwTickets,
     };
-    let confirmMessage = await this.translate.get('jj._CONFIRM_TO_ISSUE_TICKETS', params).toPromise();
-    let confirm = await this.appUtils.presentConfirm(confirmMessage);
+    const confirmMessage = await this.translate.get('jj._CONFIRM_TO_ISSUE_TICKETS', params).toPromise();
+    const confirm = await this.appUtils.presentConfirm(confirmMessage);
     if (confirm) {
       application = await this.assignCustomerId(application);
-      let res = await this.core.issueTickets(application);
-      let paymentInfo: CapturePaymentRequestExtras = res.data['paymentInfo'];
+      const res = await this.core.issueTickets(application);
+      const paymentInfo: CapturePaymentRequestExtras = res.data.paymentInfo;
 
-      let buttons: AlertButton[] = [];
+      const buttons: AlertButton[] = [];
       if (paymentInfo) {
         buttons.push({
           text: await this.translate.get('jj._SEND_PAYMENT').toPromise(),
@@ -164,7 +164,7 @@ export class IssueTicketPage implements OnInit {
 
   async countTicket(application: JJTicketDistributionApplication) {
     this.event = await this.core.getEventById(Number(application.event_id));
-    let minSpend = this.event.minSpend || application.expense;
+    const minSpend = this.event.minSpend || application.expense;
     application.ticketCount = Math.floor(application.expense / minSpend) || 0;
     return application;
   }
@@ -174,13 +174,13 @@ export class IssueTicketPage implements OnInit {
   }
 
   async countFreePoint(application: JJTicketDistributionApplication) {
-    let rule = await this.core.getActivePointRule(
+    const rule = await this.core.getActivePointRule(
       Number(application.event_id),
       application.expense,
       application.pointExpense,
     );
     if (rule) {
-      let totalSpend = this.getTotalSpend(application, rule.issueMode);
+      const totalSpend = this.getTotalSpend(application, rule.issueMode);
       application.freePoint = rule.freePoint * Math.floor(totalSpend / rule.minimumSpend) || 0;
       application.usedPointRule = JSON.stringify(rule);
     } else {
@@ -190,13 +190,13 @@ export class IssueTicketPage implements OnInit {
   }
 
   async countFreeSnwTickets(application: JJTicketDistributionApplication) {
-    let rule = await this.core.getActiveSnwRule(
+    const rule = await this.core.getActiveSnwRule(
       Number(application.event_id),
       application.expense,
       application.pointExpense,
     );
     if (rule) {
-      let totalSpend = this.getTotalSpend(application, rule.issueMode);
+      const totalSpend = this.getTotalSpend(application, rule.issueMode);
       application.freeSnwTickets = rule.freeTickets * Math.floor(totalSpend / rule.minimumSpend) || 0;
       application.usedSnwRule = JSON.stringify(rule);
     } else {
@@ -207,14 +207,14 @@ export class IssueTicketPage implements OnInit {
 
   async validateApplication(application: JJTicketDistributionApplication) {
     if (application.ticketCount == 0 && application.freePoint == 0 && application.freeSnwTickets == 0) {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
 
-      let expenseField = this.form.items.find((item) => item.code == 'expense');
-      let expenseParams = { min: this.event.minSpend || 1, label: this.cmsTranslate.transform(expenseField.label) };
-      let expenseMessage = await this.translate.get('_REQUIRES_MINIMUM', expenseParams).toPromise();
+      const expenseField = this.form.items.find((item) => item.code == 'expense');
+      const expenseParams = { min: this.event.minSpend || 1, label: this.cmsTranslate.transform(expenseField.label) };
+      const expenseMessage = await this.translate.get('_REQUIRES_MINIMUM', expenseParams).toPromise();
       errorMessages.push(expenseMessage);
 
-      let alertMessage = errorMessages.map((m) => `<p class='ion-no-margin'>${m}</p>`).join('');
+      const alertMessage = errorMessages.map((m) => `<p class='ion-no-margin'>${m}</p>`).join('');
       this.appUtils.presentAlert(alertMessage, '_ERROR');
       return false;
     }
@@ -222,10 +222,10 @@ export class IssueTicketPage implements OnInit {
   }
 
   async assignCustomerId(application: JJTicketDistributionApplication) {
-    let customer = await this.core.getCustomerByPhone(application.customerContactNo);
+    const customer = await this.core.getCustomerByPhone(application.customerContactNo);
     if (!customer) {
-      let randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      let response = await this.core.createCustomer({
+      const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
+      const response = await this.core.createCustomer({
         firstName: application.customerFirstName,
         lastName: application.customerLastName,
         email: '',

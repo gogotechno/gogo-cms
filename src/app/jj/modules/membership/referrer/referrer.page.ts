@@ -15,8 +15,8 @@ import { AuthService } from 'src/app/jj/services';
 })
 export class ReferrerPage implements OnInit {
 
-  path: string = '';
-  canShare: boolean = false;
+  path = '';
+  canShare = false;
   me: JJCustomer | null = null;
 
   constructor(
@@ -31,9 +31,9 @@ export class ReferrerPage implements OnInit {
   ngOnInit() {
     this.loadData();
   }
-  
+
   async loadData() {
-    let canShareResult = await Share.canShare();
+    const canShareResult = await Share.canShare();
     this.canShare = canShareResult.value;
     this.me = await this.auth.findMe() as JJCustomer;
     this.path = `${window.location.protocol}//${window.location.host}/#/jj/register?referrerCode=${this.me.phone}`;
@@ -43,7 +43,7 @@ export class ReferrerPage implements OnInit {
     if (!this.canShare) {
       return;
     }
-    let shareResult = await Share.share({
+    const shareResult = await Share.share({
       url: this.path
     });
     console.log(shareResult);

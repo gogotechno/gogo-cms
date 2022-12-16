@@ -7,9 +7,9 @@ import { JJPage } from './jj.page';
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
     JJPageRoutingModule
   ],
   declarations: [JJPage],

@@ -30,8 +30,8 @@ export class DefaultListPage implements OnInit {
   async loadData(event?: Event) {
     // let code = this.route.snapshot.data.listCode;
 
-    
-    let params = this.route.snapshot.params;
+
+    const params = this.route.snapshot.params;
     this.list = await this.cms.getList(params.code);
     console.log(params);
 
@@ -41,7 +41,7 @@ export class DefaultListPage implements OnInit {
   }
 
   async detail(item: CmsListItem, event?: Event) {
-    let modal = await this.modalCtrl.create({
+    const modal = await this.modalCtrl.create({
       component: HtmlModalComponent,
       componentProps: {
         title: this.cmsTranslate.transform(item.title),

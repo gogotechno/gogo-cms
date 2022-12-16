@@ -34,7 +34,7 @@ export class SignInPage implements OnInit {
   }
 
   async onSignIn(data?: SignIn) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }

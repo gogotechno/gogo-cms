@@ -10,7 +10,7 @@ import { CmsAdminService } from './cms-admin.service';
 })
 export class CmsAdminPage implements OnInit {
 
-  title = "Gogo CMS";
+  title = 'Gogo CMS';
   ownedSites: Array<string> = [];
   selectedSite: string;
 
@@ -22,7 +22,7 @@ export class CmsAdminPage implements OnInit {
 
   async loadData() {
     if (!this.admin.user) {
-      let user = await this.admin.getCmsUser();
+      const user = await this.admin.getCmsUser();
       this.ownedSites = user.ownedSites;
       return;
     }
@@ -33,7 +33,7 @@ export class CmsAdminPage implements OnInit {
   componentActivated(component: { [key: string]: any }) {
     console.log(component);
     if (component.title) {
-      console.log('Is CMS admin child, change title')
+      console.log('Is CMS admin child, change title');
       this.title = component.title;
     }
   }

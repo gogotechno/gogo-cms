@@ -16,7 +16,7 @@ export class ChangePasswordPage implements OnInit {
   ngOnInit() {}
 
   async onSubmit(data: ChangePasswordDto) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CHANGE_PASSWORD');
+    const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CHANGE_PASSWORD');
     if (confirm) {
       await this.auth.changePassword(data.oldPassword, data.newPassword);
       await this.app.presentAlert('jj._PASSWORD_UPDATED', '_SUCCESS');

@@ -45,7 +45,7 @@ export class UserPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.userId = params.id;
 
     this.destroy$ = new Subject<boolean>();
@@ -108,9 +108,9 @@ export class UserPage implements OnInit {
 
   assertForm() {
     return new Promise<boolean>((resolve, reject) => {
-      let cycle = 100;
+      const cycle = 100;
       let timeout = 0;
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         if (timeout > 3000) {
           clearInterval(interval);
           reject('Assert form error: Timeout due to no response');
@@ -127,10 +127,10 @@ export class UserPage implements OnInit {
   }
 
   async initForm() {
-    let roles = await this.lucky.getUserRolesByMerchant();
-    let roleField = this.form.items.find((item) => item.code == 'role');
+    const roles = await this.lucky.getUserRolesByMerchant();
+    const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles.map((role) => {
-      let item: CmsFormItemOption = {
+      const item: CmsFormItemOption = {
         code: role.code,
         label: this.utils.parseCmsTranslation(role.name),
       };
@@ -149,18 +149,18 @@ export class UserPage implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }
 
   async onUpdateUser(user: JJUser) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_USER');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_USER');
     if (confirm) {
       await this.lucky.updateUser(this.userId, this.cmsForm.removeUnusedKeys('swserp', user));
       await this.app.presentAlert('jj-luckydraw._USER_UPDATED', '_SUCCESS');
@@ -183,7 +183,7 @@ export class UserPage implements OnInit {
         userId: this.userId,
         user: this.user,
       },
-      event: event,
+      event,
     });
     await popover.present();
   }

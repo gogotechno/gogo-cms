@@ -35,23 +35,23 @@ export class CapturePaymentPage implements OnInit {
   }
 
   async onSendRequest(request: JJCapturePaymentRequest) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_MAKE_PAYMENT').toPromise();
-    let confirm = await this.app.presentConfirm(confirmMessage);
+    const confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_MAKE_PAYMENT').toPromise();
+    const confirm = await this.app.presentConfirm(confirmMessage);
     if (confirm) {
-      let customerWalletNo = request.customerWalletNo;
-      let customerWallet = await this.lucky.getWalletByNo(customerWalletNo);
+      const customerWalletNo = request.customerWalletNo;
+      const customerWallet = await this.lucky.getWalletByNo(customerWalletNo);
       delete request.customerWalletNo;
       request.fromWallet = customerWallet.doc_id;
       request.toWallet = this.merchantWallet.doc_id;
       request.refNo = '';
-      let response = await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
+      const response = await this.lucky.createCapturePaymentRequest(this.cmsForm.removeUnusedKeys('swserp', request));
       await this.app.presentAlert('jj-luckydraw._PAYMENT_MADE', '_SUCCESS');
-      let extras: CapturePaymentRequestExtras = response.data;
+      const extras: CapturePaymentRequestExtras = response.data;
       this.smsComponent.setReceiver(extras.customerInfo.customer.phone);
       this.smsComponent.setData({
         refNo: extras.customerInfo.transaction.refNo,

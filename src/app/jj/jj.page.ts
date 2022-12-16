@@ -9,16 +9,16 @@ import { Component, Inject, OnInit } from '@angular/core';
 export class JJPage implements OnInit {
   constructor(@Inject(DOCUMENT) private doc: Document) {
 
-    let links = this.doc.head.getElementsByTagName('link');
+    const links = this.doc.head.getElementsByTagName('link');
     let link: HTMLLinkElement = this.doc.createElement('link');
     for (let index = 0; index < links.length; index++) {
-      let link = links.item(index);
+      const link = links.item(index);
       if (link.rel === 'icon') {
         link.setAttribute('href', '/assets/jj/favicon.ico');
-        // this.doc.head.replaceChild(this.doc.head, link); 
+        // this.doc.head.replaceChild(this.doc.head, link);
       }
     }
-    
+
     link = this.doc.createElement('link');
     link.setAttribute('rel', 'apple-touch-icon');
     link.setAttribute('sizes', '180x180');

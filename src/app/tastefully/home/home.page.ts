@@ -31,7 +31,7 @@ export class HomePage extends CmsComponent implements OnInit {
   }
 
   async loadData(event?: Event) {
-    let today = new Date();
+    const today = new Date();
     if (today.getHours() < 12) {
       this.greetingKey = '_GOOD_MORNING';
     } else if (today.getHours() <= 2) {
@@ -41,7 +41,7 @@ export class HomePage extends CmsComponent implements OnInit {
     }
 
     this.slideshow = await this.cms.getSlideshow('home-slideshow');
-    this.events = await this.tastefully.getEvents((ref) => ref.where("organisedAt", ">=", start_of_day(this.now)).orderBy("organisedAt", "desc"));
+    this.events = await this.tastefully.getEvents((ref) => ref.where('organisedAt', '>=', start_of_day(this.now)).orderBy('organisedAt', 'desc'));
     this.feeds = await this.tastefully.getFeeds();
 
     if (event) {
