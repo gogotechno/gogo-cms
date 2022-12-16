@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
+import { JJComponentsModule } from '../../@components/jj-components.module';
 import { HomeComponentsModule } from './@components/home-components.module';
 import { MerchantComponentsModule } from '../@components/merchant-components.module';
 import { HomePage } from './home.page';
@@ -16,6 +17,7 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
+    JJComponentsModule,
     HomeComponentsModule,
     MerchantComponentsModule,
     SharedModule,
