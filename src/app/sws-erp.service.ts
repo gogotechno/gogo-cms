@@ -19,7 +19,6 @@ import {
   PostOptions,
   PutOptions,
   ChangePasswordDto,
-  GetExtraOptions,
 } from './sws-erp.type';
 
 @Injectable({
@@ -77,11 +76,12 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns document object
    */
-  public getDoc<T = any>(docType: string, id: number, query: GetOptions = {}, options: GetExtraOptions = {}) {
+  public getDoc<T = any>(docType: string, id: number, query: GetOptions = {}) {
     let headers = {};
-    if (options.skipLoading) {
+    if (query.skipLoading) {
       headers['SkipLoading'] = 'TRUE';
     }
+    delete query['skipLoading'];
     const requestUrl = `${this.API_URL}/module/${docType}/${id}`;
     return this._http
       .get<T[]>(requestUrl, {
@@ -98,11 +98,12 @@ export class SwsErpService {
    * @param query Query params
    * @returns Returns with documents and total
    */
-  public getDocs<T = any>(docType: string, query: GetOptions = {}, options: GetExtraOptions = {}) {
+  public getDocs<T = any>(docType: string, query: GetOptions = {}) {
     let headers = {};
-    if (options.skipLoading) {
+    if (query.skipLoading) {
       headers['SkipLoading'] = 'TRUE';
     }
+    delete query['skipLoading'];
     const requestUrl = `${this.API_URL}/docs/${docType}`;
     return this._http
       .get<Pageable<T>>(requestUrl, {
@@ -123,10 +124,15 @@ export class SwsErpService {
     let headers = {};
     if (query.skipErrorAlert) {
       headers['SkipErrorAlert'] = 'TRUE';
-      delete query['skipErrorAlert'];
     }
+    delete query['skipErrorAlert'];
     const requestUrl = `${this.API_URL}/docs/${docType}`;
-    return this._http.post<CreateResponse>(requestUrl, body, { params: query, headers: headers }).toPromise();
+    return this._http
+      .post<CreateResponse>(requestUrl, body, {
+        params: query,
+        headers: headers,
+      })
+      .toPromise();
   }
 
   /**
@@ -138,8 +144,18 @@ export class SwsErpService {
    * @returns Returns with updated id and extra data
    */
   public putDoc<T = any>(docType: string, id: number, body: T, query: PutOptions = {}) {
+    let headers = {};
+    if (query.skipErrorAlert) {
+      headers['SkipErrorAlert'] = 'TRUE';
+    }
+    delete query['skipErrorAlert'];
     const requestUrl = `${this.API_URL}/docs/${docType}/${id}`;
-    return this._http.post<UpdateResponse>(requestUrl, body, { params: query }).toPromise();
+    return this._http
+      .post<UpdateResponse>(requestUrl, body, {
+        params: query,
+        headers: headers,
+      })
+      .toPromise();
   }
 
   /**

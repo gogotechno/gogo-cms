@@ -21,3 +21,7 @@ ion-item.stacked-select {
     }
   }
 }
+
+.hint {
+  padding: calc(var(--ion-padding) / 4);
+}

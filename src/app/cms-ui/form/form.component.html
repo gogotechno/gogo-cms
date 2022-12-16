@@ -112,6 +112,11 @@
                 <ion-input *ngSwitchDefault [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
               </ng-container>
             </ion-item>
+            <div *ngIf="item.hint" class="hint">
+              <ion-note>
+                <small>{{ item.hint | cmsTranslate }}</small>
+              </ion-note>
+            </div>
             <div *ngIf="item.buttons">
               <ion-button size="small" *ngFor="let button of item.buttons" (click)="onQuickButtonClick(item, button)">
                 <ion-label>{{ button.label | cmsTranslate }}</ion-label>

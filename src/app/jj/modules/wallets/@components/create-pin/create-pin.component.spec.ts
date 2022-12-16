@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { VerifyPinPage } from './verify-pin.page';
+import { CreatePinComponent } from './create-pin.component';
 
-describe('VerifyPinPage', () => {
-  let component: VerifyPinPage;
-  let fixture: ComponentFixture<VerifyPinPage>;
+describe('CreatePinComponent', () => {
+  let component: CreatePinComponent;
+  let fixture: ComponentFixture<CreatePinComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerifyPinPage ],
+      declarations: [ CreatePinComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VerifyPinPage);
+    fixture = TestBed.createComponent(CreatePinComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

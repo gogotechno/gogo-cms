@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
-import { Conditions, GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
+import { Conditions, Pagination } from 'src/app/sws-erp.type';
 import { AuthService, CoreService } from '../../services';
 import { CountdownTimer, SharedComponent } from '../../shared';
 import {
@@ -56,7 +56,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     private translate: TranslateService,
     private auth: AuthService,
     private core: CoreService,
-    private memberHome: MemberHomeService,
+    private memberHomeService: MemberHomeService,
   ) {
     super();
     this.totalChance = 0;
@@ -80,8 +80,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     await this.getLatestWinners();
   }
 
-  async getWallet(options: GetExtraOptions = {}) {
-    let wallets = await this.auth.findMyWallets(options);
+  async getWallet(conditions: Conditions = {}) {
+    let wallets = await this.auth.findMyWallets(conditions);
     this.wallet = wallets.find((wallet) => wallet.type == 'SNW');
 
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
@@ -90,7 +90,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     }
   }
 
-  async getLatestWinners(options: GetExtraOptions = {}) {
+  async getLatestWinners(conditions: Conditions = {}) {
     let winnersPage: Pagination = {
       itemsPerPage: 10,
       currentPage: 1,
@@ -98,13 +98,14 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       sortOrder: 'DESC',
     };
 
-    let conditions: Conditions = {
-      hasPrize: true,
+    let _conditions: Conditions = {
       eventId: this.eventId,
+      hasPrize: true,
       isDefault: false,
+      ...conditions,
     };
 
-    let winners = await this.core.getScratchRequests(winnersPage, conditions, options);
+    let winners = await this.core.getScratchRequests(winnersPage, _conditions);
     this.messages = await Promise.all(
       winners.map(async (winner) => {
         let customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);
@@ -185,7 +186,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     await this.getWallet({ skipLoading: true });
     await this.getLatestWinners({ skipLoading: true });
 
-    this.memberHome.refresh();
+    this.memberHomeService.refresh();
 
     if (extras['prize']) {
       await this.openResult(extras['prize']);

@@ -38,7 +38,7 @@ export class IssueTicketPage implements OnInit {
     private auth: AuthService,
     private core: CoreService,
     private common: CommonService,
-    private memberHome: MemberHomeService,
+    private memberHomeService: MemberHomeService,
   ) {}
 
   async ngOnInit() {
@@ -152,7 +152,7 @@ export class IssueTicketPage implements OnInit {
             handler: () => {
               this.customer = null;
               this.success = true;
-              this.memberHome.refresh();
+              this.memberHomeService.refresh();
               this.onDismiss();
               return true;
             },

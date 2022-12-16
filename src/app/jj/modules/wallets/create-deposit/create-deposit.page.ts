@@ -13,7 +13,7 @@ import { UploadAttachmentsComponent } from './@components/upload-attachments/upl
 export class CreateDepositPage implements OnInit {
   walletNo: string;
   form = form;
-  formValue: CreateDepositDto;
+  value: CreateDepositDto;
 
   constructor(private route: ActivatedRoute, private modalCtrl: ModalController, private core: CoreService) {}
 
@@ -32,9 +32,9 @@ export class CreateDepositPage implements OnInit {
       disabled: !method.isActive,
     }));
 
-    this.formValue = {
+    this.value = {
       walletNo: this.walletNo,
-      amount: 1,
+      amount: null,
       deposit_method_id: null,
     };
   }
