@@ -36,7 +36,6 @@ const routes: Routes = [
           },
         ],
       },
-
       {
         path: 'create-withdraw',
         loadChildren: () => import('./create-withdraw/create-withdraw.module').then((m) => m.CreateWithdrawPageModule),
@@ -82,13 +81,9 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'verify-pin',
-    loadChildren: () => import('./verify-pin/verify-pin.module').then((m) => m.VerifyPinPageModule),
-  },  {
     path: 'transfer-receipt',
-    loadChildren: () => import('./transfer-receipt/transfer-receipt.module').then( m => m.TransferReceiptPageModule)
+    loadChildren: () => import('./transfer-receipt/transfer-receipt.module').then((m) => m.TransferReceiptPageModule),
   },
-
 ];
 
 @NgModule({

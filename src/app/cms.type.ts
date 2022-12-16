@@ -126,6 +126,7 @@ export interface CmsFormItem extends CmsDocument {
   direction?: 'vertical' | 'horizontal';
   buttons?: Array<CmsFormItemOption>;
   counter?: boolean;
+  hint?: CmsTranslable;
 }
 
 export interface CmsFormItemOption {

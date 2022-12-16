@@ -11,14 +11,12 @@ import {
   JJEvent,
   JJFab,
   JJSlideshow,
-  JJUser,
   JJWallet,
   MiniProgram,
   User,
-  UserRole,
   UserType,
 } from 'src/app/jj/typings';
-import { Conditions, GetExtraOptions } from 'src/app/sws-erp.type';
+import { Conditions } from 'src/app/sws-erp.type';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +122,7 @@ export class HomeService extends SharedComponent {
       this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(false)),
     ]);
 
     this._USER.next(user);
@@ -156,13 +154,9 @@ export class HomeService extends SharedComponent {
   }
 
   async refresh() {
-    const options: GetExtraOptions = {
-      skipLoading: true,
-    };
-
     const [wallets, fabs] = await Promise.all([
-      this.auth.findMyWallets(options),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+      this.auth.findMyWallets({ skipLoading: true }),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(true)),
     ]);
     this._WALLETS.next(wallets);
     this._FABS.next(fabs);
@@ -194,12 +188,13 @@ export class HomeService extends SharedComponent {
     }
   }
 
-  getFabsConditions() {
+  getFabsConditions(silent: boolean) {
     let fabsConditions: Conditions = {};
     if (this.auth.userType == 'CUSTOMER') {
-      fabsConditions = {
-        customerId: this.auth.currentUser.doc_id,
-      };
+      fabsConditions['customerId'] = this.auth.currentUser.doc_id;
+    }
+    if (silent) {
+      fabsConditions['skipLoading'] = true;
     }
     return fabsConditions;
   }

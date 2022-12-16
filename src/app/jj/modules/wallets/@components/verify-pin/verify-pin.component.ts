@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
-import { AppUtils } from 'src/app/cms.util';
 import { CoreService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-verify-pin',
-  templateUrl: './verify-pin.page.html',
-  styleUrls: ['./verify-pin.page.scss'],
+  templateUrl: './verify-pin.component.html',
+  styleUrls: ['./verify-pin.component.scss'],
 })
-export class VerifyPinPage implements OnInit {
+export class VerifyPinComponent implements OnInit {
   walletNo: string;
   form = form;
 
-  constructor(private modalCtrl: ModalController, private appUtils: AppUtils, private core: CoreService) {}
+  constructor(private modalCtrl: ModalController, private core: CoreService) {}
 
   ngOnInit() {}
 
@@ -26,9 +25,7 @@ export class VerifyPinPage implements OnInit {
       walletNo: this.walletNo,
       walletPin: data.pin,
     });
-    await this.modalCtrl.dismiss({
-      success: true,
-    });
+    await this.modalCtrl.dismiss({ success: true });
   }
 }
 

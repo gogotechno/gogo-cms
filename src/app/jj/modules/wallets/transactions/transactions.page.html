@@ -6,7 +6,7 @@
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
       <h2 class="header-subtitle">
-        <span>{{ wallet.type }}&nbsp;@&nbsp;</span>
+        <span>{{ wallet.walletType?.name | cmsTranslate }}&nbsp;@&nbsp;</span>
         <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
       </h2>
     </div>

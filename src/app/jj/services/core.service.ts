@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, GetExtraOptions, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -117,12 +117,13 @@ export class CoreService extends SharedComponent {
     return res[0];
   }
 
-  async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
-    const query: GetOptions = {
+  async getWalletsByMerchantId(merchantId: number, conditions: Conditions = {}) {
+    let query: GetOptions = {
       merchant_id: merchantId,
       merchant_id_type: '=',
+      ...conditions,
     };
-    const res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -168,12 +169,13 @@ export class CoreService extends SharedComponent {
     return res.result[0];
   }
 
-  async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
-    const query: GetOptions = {
+  async getWalletsByCustomerId(customerId: number, conditions: Conditions = {}) {
+    let query: GetOptions = {
       customer_id: customerId,
       customer_id_type: '=',
+      ...conditions,
     };
-    const res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -199,10 +201,11 @@ export class CoreService extends SharedComponent {
     return this.swsErp.putDoc('Wallet', walletId, wallet);
   }
 
-  async getWalletByNo(walletNo: string) {
-    const res = await this.swsErp.getDocs<JJWallet>('Wallet', {
-      walletNo,
+  async getWalletByNo(walletNo: string, conditions: Conditions = {}) {
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
+      walletNo: walletNo,
       walletNo_type: '=',
+      ...conditions,
     });
     return res.result.map((wallet) => this.populateWallet(wallet))[0];
   }
@@ -497,12 +500,12 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}, options: GetExtraOptions = {}) {
-    const query: GetOptions = {
-      groupCode,
+  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      groupCode: groupCode,
       ...conditions,
     };
-    const res = await this.swsErp.getDocs<JJFab>('FAB', query, options);
+    let res = await this.swsErp.getDocs<JJFab>('FAB', query);
     return res.result;
   }
 
@@ -514,15 +517,15 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request);
   }
 
-  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}, options: GetExtraOptions = {}) {
-    const query: GetOptions = {
+  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
+    let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
       sortType: pagination.sortOrder,
       ...conditions,
     };
-    const res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query, options);
+    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query);
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
