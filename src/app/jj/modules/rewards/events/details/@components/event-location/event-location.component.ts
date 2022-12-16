@@ -22,8 +22,8 @@ export class EventLocationComponent implements OnInit {
       return;
     }
 
-    let merchant = this.event.merchant;
-    let address =
+    const merchant = this.event.merchant;
+    const address =
       `${merchant.addressLine1}${merchant.addressLine2 ? ` ${merchant.addressLine2}` : ''},` +
       `+${merchant.postalCode}+${merchant.city},` +
       `+${merchant.state},` +

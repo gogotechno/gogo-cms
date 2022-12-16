@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit {
   }
 
   isActive(path: string) {
-    let activePath = this.router.url;
+    const activePath = this.router.url;
     return path === activePath;
   }
 

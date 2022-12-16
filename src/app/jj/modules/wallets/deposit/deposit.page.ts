@@ -17,15 +17,13 @@ export class DepositPage extends SharedComponent implements OnInit {
   depositPage: Pagination;
   depositEnded: boolean;
   depositId: number;
-  deposits: JJDepositRequest[][];
-  updatedAt: Date;
-  id: string;
-  
-  get dates(): string[] {
-    if (!this.deposits) {
-      return null;
-    }
-    return Object.keys(this.deposits);
+  deposit: JJDepositRequest;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    const params = this.route.snapshot.params;
+    this.depositId = params[':id'];
   }
 
   constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {

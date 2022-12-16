@@ -27,9 +27,9 @@ export class LoginPage implements OnInit {
     // this.debugUrl = window.location.href;
 
     // login logic here
-    let queryParams = new URLSearchParams(window.location.search);
-    let authtoken = queryParams.get("authtoken");
-    let result = await this.giver.validateAuthToken(authtoken);
+    const queryParams = new URLSearchParams(window.location.search);
+    const authtoken = queryParams.get('authtoken');
+    const result = await this.giver.validateAuthToken(authtoken);
 
     // fake login for ease of testing purpose
     // let result: GiverValidationResponse = {
@@ -45,28 +45,28 @@ export class LoginPage implements OnInit {
     //   isHalal: false
     // }
 
-    let success = result && result.result == "successful";
+    const success = result && result.result == 'successful';
     if (success) {
-      let customerForm: TastefullyCustomer = {
+      const customerForm: TastefullyCustomer = {
         giverMemberId: result.memberID,
         name: result.name,
         email: result.email,
         mobileNo: result.phone,
         gender: result.gender,
         dob: result.dob
-      }
-      let customers = await this.tastefully.getCustomers((ref) => ref.where("giverMemberId", "==", result.memberID));
-      let table = await this.cms.getTable("customers");
+      };
+      const customers = await this.tastefully.getCustomers((ref) => ref.where('giverMemberId', '==', result.memberID));
+      const table = await this.cms.getTable('customers');
       if (customers.length <= 0) {
-        let customer = await this.tastefully.saveCustomer(table, customerForm)
+        const customer = await this.tastefully.saveCustomer(table, customerForm);
         if (customer) {
           this.tastefully.CURRENT_CUSTOMER = customer;
         } else {
           this.loginFailed = true;
         }
       } else {
-        let customer = customers[0];
-        let updated = await this.tastefully.saveCustomer(table, customerForm, customer[table.codeField]);
+        const customer = customers[0];
+        const updated = await this.tastefully.saveCustomer(table, customerForm, customer[table.codeField]);
         if (updated) {
           this.tastefully.CURRENT_CUSTOMER = updated;
         } else {
@@ -74,7 +74,7 @@ export class LoginPage implements OnInit {
         }
       }
       await this.tastefully.getAttributes();
-      await this.router.navigate(["../home"], { relativeTo: this.route });
+      await this.router.navigate(['../home'], { relativeTo: this.route });
     } else {
       this.loginFailed = true;
     }

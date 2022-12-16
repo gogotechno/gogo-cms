@@ -50,7 +50,7 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'select'">
-            <ion-item [class.stacked-select]="form.labelPosition == 'stacked'">
+            <ion-item [class.stacked-select]="form.labelPosition === 'stacked'">
               <ion-label [position]="form.labelPosition || 'fixed'">
                 <span>{{ item.label | cmsTranslate }}</span>
                 <cms-required-tag *ngIf="item.required"></cms-required-tag>
@@ -65,7 +65,7 @@
 
           <ng-container *ngSwitchCase="'radio'">
             <ng-container>
-              <ion-item class="item-radio-group" [class.vertical]="item.direction == 'vertical'">
+              <ion-item class="item-radio-group" [class.vertical]="item.direction === 'vertical'">
                 <ion-label [position]="form.labelPosition || 'fixed'">
                   <span>{{ item.label | cmsTranslate }}</span>
                   <cms-required-tag *ngIf="item.required"></cms-required-tag>
@@ -101,6 +101,11 @@
                 <ion-input *ngSwitchDefault [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
               </ng-container>
             </ion-item>
+            <div *ngIf="item.hint" class="hint">
+              <ion-note>
+                <small>{{ item.hint | cmsTranslate }}</small>
+              </ion-note>
+            </div>
             <div *ngIf="item.buttons">
               <ion-button size="small" *ngFor="let button of item.buttons" (click)="onQuickButtonClick(item, button)">
                 <ion-label>{{ button.label | cmsTranslate }}</ion-label>

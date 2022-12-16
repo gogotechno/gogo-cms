@@ -17,7 +17,7 @@ export class DetailsService {
   }
 
   async init() {
-    let currentUser = this.auth.currentUser;
+    const currentUser = this.auth.currentUser;
 
     const [event] = await Promise.all([
       this.core.getEventById(this.eventId, {

@@ -38,7 +38,7 @@ export class DetailsPage implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.userId = params.id;
 
     await this.loadData();
@@ -51,8 +51,8 @@ export class DetailsPage implements OnInit {
 
   async loadData() {
     this.form = form;
-    let roles = await this.core.getUserRoles();
-    let roleField = this.form.items.find((item) => item.code == 'role');
+    const roles = await this.core.getUserRoles();
+    const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles
       .filter((role) => role.code != UserRole.SYSTEM_ADMIN)
       .map((role) => ({
@@ -64,7 +64,7 @@ export class DetailsPage implements OnInit {
   }
 
   async onUpdate(user: JJUser) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_USER');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_USER');
     if (confirm) {
       await this.core.updateUser(this.userId, user);
       await this.appUtils.presentAlert('jj._USER_UPDATED', '_SUCCESS');
@@ -73,13 +73,13 @@ export class DetailsPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
   async openMoreOptions(event: Event) {
     const popover = await this.popoverCtrl.create({
-      event: event,
+      event,
       component: MoreOptionsComponent,
       componentProps: {
         userId: this.userId,
@@ -91,9 +91,9 @@ export class DetailsPage implements OnInit {
     const { data } = await popover.onWillDismiss();
 
     if (data?.removeUser) {
-      let name = this.fullName.transform(this.user.firstName, this.user.lastName);
-      let message = await this.translate.get('jj._CONFIRM_TO_REMOVE_USER', { name: name }).toPromise();
-      let confirm = await this.appUtils.presentConfirm(message, '_WARNING');
+      const name = this.fullName.transform(this.user.firstName, this.user.lastName);
+      const message = await this.translate.get('jj._CONFIRM_TO_REMOVE_USER', { name }).toPromise();
+      const confirm = await this.appUtils.presentConfirm(message, '_WARNING');
       if (confirm) {
         await this.core.updateUser(this.userId, {
           doc_status: DocStatus.CANCEL,

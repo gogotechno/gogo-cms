@@ -32,8 +32,8 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
     await this.loadData();
   }
 
@@ -41,23 +41,23 @@ export class TransactionsPage extends SharedComponent implements OnInit {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.transactions = [];
     this.transactionsPage = this.defaultPage;
-    let transactions = await this.getTransactions();
+    const transactions = await this.getTransactions();
     this.grouping(transactions);
     this.transactionsEnded = transactions.length < this.transactionsPage.itemsPerPage;
   }
 
   async getTransactions() {
-    let transactions = await this.core.getWalletTransactionsByWalletId(this.wallet.doc_id, this.transactionsPage);
+    const transactions = await this.core.getWalletTransactionsByWalletId(this.wallet.doc_id, this.transactionsPage);
     this.updatedAt = new Date();
     return transactions;
   }
 
   async loadMoreTransactions(event: Event) {
     this.transactionsPage.currentPage += 1;
-    let incoming = await this.getTransactions();
+    const incoming = await this.getTransactions();
     this.grouping(incoming);
     this.transactionsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
@@ -66,7 +66,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
       this.transactions = [];
     }
     transactions.forEach((transaction) => {
-      let date = this.date.transform(transaction.doc_createdDate, 'd/M/yyyy');
+      const date = this.date.transform(transaction.doc_createdDate, 'd/M/yyyy');
       let list = this.transactions[date];
       if (list === undefined) {
         list = [transaction];
@@ -79,7 +79,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

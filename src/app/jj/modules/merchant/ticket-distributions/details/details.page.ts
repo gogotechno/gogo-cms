@@ -19,8 +19,8 @@ export class DetailsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.details.distributionId = params['id'];
+    const params = this.route.snapshot.params;
+    this.details.distributionId = params.id;
     this.segment = 'details';
     await this.details.init();
   }
@@ -31,7 +31,7 @@ export class DetailsPage extends SharedComponent implements OnInit {
 
   async doRefresh(event: Event) {
     await this.details.init();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

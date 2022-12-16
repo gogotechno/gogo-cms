@@ -27,7 +27,7 @@ export class GiverFormPage implements OnInit {
   inquiryForm: CmsForm;
   inquiryResult: any;
   value: any;
-  state: "welcome" | "register" | "inquiry" | "success" = "welcome";
+  state: 'welcome' | 'register' | 'inquiry' | 'success' = 'welcome';
 
   constructor(private _route: ActivatedRoute,
     private cms: CmsService,
@@ -43,44 +43,44 @@ export class GiverFormPage implements OnInit {
     this.value = { machineLink: this.qrUrl };
     this.cmsForm = await this.cms.getForm(this.formCode);
     this.cmsTable = await this.cms.getTable(this.formCode);
-  
+
     this.title.setTitle(this.cmsTranslate.transform(this.cmsForm.name));
 
     if (this.cmsForm.cover) {
       this.state = 'welcome';
     }
 
-    let idItem = this.cmsForm.items.find(item => item.code === this.cmsTable.codeField);
+    const idItem = this.cmsForm.items.find(item => item.code === this.cmsTable.codeField);
 
     this.inquiryForm = {
       code: '',
       items: [idItem],
       lines: 'none',
       labelPosition: 'stacked'
-    }
+    };
   }
 
   async onSubmit(event) {
 
-    console.log('Submit')
+    console.log('Submit');
 
-    let validate = await this.cmsFormComponent.validateFormAndShowErrorMessages();
+    const validate = await this.cmsFormComponent.validateFormAndShowErrorMessages();
     if (!validate.valid) {
       return;
     }
 
-    console.log('Submit')
-    let formData = event;
-    let doc = await this.cms.getDocument(this.cmsTable, formData[this.cmsTable.codeField]);
+    console.log('Submit');
+    const formData = event;
+    const doc = await this.cms.getDocument(this.cmsTable, formData[this.cmsTable.codeField]);
 
     if (doc) {
-      let alert = await this.alertController.create({
+      const alert = await this.alertController.create({
         message: await this.translate.get('giver-form._ALREADY_REGISTER').toPromise(),
         buttons: [
           {
             text: await this.translate.get('giver-form._VIEW').toPromise(),
             handler: () => {
-              let inquiryFormData = {};
+              const inquiryFormData = {};
               inquiryFormData[this.cmsTable.codeField] = formData[this.cmsTable.codeField];
               this.onChangeState('inquiry');
               // this.inquiryFormComponent.value = inquiryFormData;
@@ -96,21 +96,21 @@ export class GiverFormPage implements OnInit {
     }
 
     try {
-      let response = await this._giver.scan(event);
-      formData['machineDispenseStatus'] = 'SUCCESS';
-      formData['machineMessage'] = response;
+      const response = await this._giver.scan(event);
+      formData.machineDispenseStatus = 'SUCCESS';
+      formData.machineMessage = response;
     } catch (error) {
-      formData['machineDispenseStatus'] = 'FAILED';
-      formData['machineMessage'] = String(error) || 'Unknown Error';
+      formData.machineDispenseStatus = 'FAILED';
+      formData.machineMessage = String(error) || 'Unknown Error';
     }
-    let result = await this.cms.saveDocument(this.cmsTable, formData);
-    let alert = await this.alertController.create({
+    const result = await this.cms.saveDocument(this.cmsTable, formData);
+    const alert = await this.alertController.create({
       message: await this.translate.get('giver-form._REGISTER_SUCCESS').toPromise(),
       buttons: [
         {
           text: await this.translate.get('giver-form._VIEW').toPromise(),
           handler: () => {
-            let inquiryFormData = {};
+            const inquiryFormData = {};
             inquiryFormData[this.cmsTable.codeField] = formData[this.cmsTable.codeField];
             this.onChangeState('inquiry');
             // this.inquiryFormComponent.value = inquiryFormData;
@@ -124,15 +124,15 @@ export class GiverFormPage implements OnInit {
   }
 
   async onInquiry(event) {
-    let validate = await this.inquiryFormComponent.validateFormAndShowErrorMessages();
+    const validate = await this.inquiryFormComponent.validateFormAndShowErrorMessages();
 
     if (!validate.valid) {
       return;
     }
 
-    let formData = event;
+    const formData = event;
     this.inquiryResult = await this.cms.getDocument(this.cmsTable, formData[this.cmsTable.codeField]);
-    console.log(this.inquiryResult)
+    console.log(this.inquiryResult);
   }
 
   onReset(event?) {
@@ -145,12 +145,12 @@ export class GiverFormPage implements OnInit {
 
   async onRetryMachine(formData, event?) {
     try {
-      let response = await this._giver.scan(formData);
-      formData['machineDispenseStatus'] = 'SUCCESS';
-      formData['machineMessage'] = response;
+      const response = await this._giver.scan(formData);
+      formData.machineDispenseStatus = 'SUCCESS';
+      formData.machineMessage = response;
     } catch (error) {
-      formData['machineDispenseStatus'] = 'FAILED';
-      formData['machineMessage'] = error.toString();
+      formData.machineDispenseStatus = 'FAILED';
+      formData.machineMessage = error.toString();
       alert(error);
     }
     await this.cms.saveDocument(this.cmsTable, formData);

@@ -1,21 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { CmsForm } from 'src/app/cms.type';
+import { CoreService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-verify-pin',
-  templateUrl: './verify-pin.page.html',
-  styleUrls: ['./verify-pin.page.scss'],
+  templateUrl: './verify-pin.component.html',
+  styleUrls: ['./verify-pin.component.scss'],
 })
-export class VerifyPinPage implements OnInit {
+export class VerifyPinComponent implements OnInit {
+  walletNo: string;
+  form = form;
 
-  PIN: any =  {
-    first: '',
-    second: '',
-    third: '',
-    forth: '',
-    fifth: '',
-    sixth: ''
-  };
+  constructor(private modalCtrl: ModalController, private core: CoreService) {}
 
   values: any[];
 
@@ -24,36 +21,12 @@ export class VerifyPinPage implements OnInit {
   ngOnInit() {
   }
 
-  // change(value) {
-  //   this.cdRef.detectChanges();
-  //   this.showValue = value.length > 0 ? value.substring(0, 1) : value;
-  // }
-
-  // gotoNextField(nextElement)
-  // nextElement.focus();
-
-  pinController(event,next,prev,index?){
-
-    if(index == 6 && event.target.value.length == 1) {
-      console.log("submit")
-    }
-    else if(event.target.value.length == 0 && prev){
-      prev.setFocus()
-    }
-    else if(next && event.target.value.length == 1){
-      next.setFocus()
-    }
-    else {
-      return 0;
-    } 
- }
-
- numberOnlyValidation(event: any) {
-  const pattern = /[0-9.,]/;
-  let inputChar = String.fromCharCode(event.charCode);
-
-  if (!pattern.test(inputChar)) {
-    event.preventDefault();
+  async onVerify(data: VerifyPinDto) {
+    await this.core.createPinVerification({
+      walletNo: this.walletNo,
+      walletPin: data.pin,
+    });
+    await this.modalCtrl.dismiss({ success: true });
   }
 }
 

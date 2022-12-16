@@ -17,7 +17,7 @@ export class EventDetailsPage implements OnInit {
   constructor(private route: ActivatedRoute, private lucky: JJLuckydrawService) { }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.eventId = params.id;
     await this.loadData();
   }

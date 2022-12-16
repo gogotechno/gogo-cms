@@ -73,23 +73,23 @@ export class ListPage extends SharedComponent implements OnInit {
 
   async loadMoreTicketDistributions(event: Event) {
     this.distributionsPage.currentPage += 1;
-    let incoming = await this.getTicketDistributions();
+    const incoming = await this.getTicketDistributions();
     this.distributions = [...this.distributions, ...incoming];
     this.distributionsEnded = incoming.length <= 0;
-    let scoller = <HTMLIonInfiniteScrollElement>event.target;
+    const scoller = <HTMLIonInfiniteScrollElement>event.target;
     scoller.complete();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
   async onSearch(event: Event) {
-    let searchbar = <HTMLIonSearchbarElement>event.target;
+    const searchbar = <HTMLIonSearchbarElement>event.target;
     this.distributionsPage = this.defaultPage;
-    this.distributionsConditions['searchInput'] = searchbar.value;
+    this.distributionsConditions.searchInput = searchbar.value;
     this.distributions = await this.getTicketDistributions();
   }
 
@@ -129,12 +129,12 @@ export class ListPage extends SharedComponent implements OnInit {
           },
           selectHandler: {
             onLoad: async () => {
-              let pagination: Pagination = this.defaultPage;
-              let events = await this.core.getEvents(pagination);
+              const pagination: Pagination = this.defaultPage;
+              const events = await this.core.getEvents(pagination);
               return [events, pagination];
             },
             onScrollToEnd: async (pagination: Pagination) => {
-              let events = await this.core.getEvents(pagination);
+              const events = await this.core.getEvents(pagination);
               return [events, pagination];
             },
           },

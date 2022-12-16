@@ -59,20 +59,20 @@ export class IssueTicketPage implements OnInit {
   }
 
   async initForm() {
-    let products = await this.lucky.getProducts();
-    let productField = this.form.items.find((item) => item.code == 'product_id');
+    const products = await this.lucky.getProducts();
+    const productField = this.form.items.find((item) => item.code == 'product_id');
     productField.options = products.map((product) => {
-      let item: CmsFormItemOption = {
+      const item: CmsFormItemOption = {
         code: product.doc_id.toString(),
         label: product.nameTranslation,
       };
       return item;
     });
 
-    let events = await this.lucky.getActiveMerchantEvent();
-    let eventField = this.form.items.find((item) => item.code == 'event_id');
+    const events = await this.lucky.getActiveMerchantEvent();
+    const eventField = this.form.items.find((item) => item.code == 'event_id');
     eventField.options = events.map((event) => {
-      let item: CmsFormItemOption = {
+      const item: CmsFormItemOption = {
         code: event.doc_id.toString(),
         label: event.nameTranslation,
       };
@@ -101,31 +101,31 @@ export class IssueTicketPage implements OnInit {
   }
 
   async onIssueTicket(application?: JJTicketDistributionApplication) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
     application = await this.countTicket(application);
     application = await this.countFreePoint(application);
-    let valid = await this.validateApplication(application);
+    const valid = await this.validateApplication(application);
     if (!valid) {
       return;
     }
 
-    let params = { count: application.ticketCount, point: application.freePoint };
-    let confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', params).toPromise();
-    let confirm = await this.app.presentConfirm(confirmMessage);
+    const params = { count: application.ticketCount, point: application.freePoint };
+    const confirmMessage = await this.translate.get('jj-luckydraw._CONFIRM_TO_ISSUE_TICKETS', params).toPromise();
+    const confirm = await this.app.presentConfirm(confirmMessage);
 
     if (confirm) {
       application = await this.assignCustomerId(application);
 
       let captureRes: CreateResponse;
       if (application.pointExpense) {
-        let merchantWallet = await this.lucky.getWalletByMerchantId(application.merchant_id);
-        let customerWallet = await this.lucky.getWalletByCustomerId(application.customer_id);
-        let customer = await this.lucky.getCustomerById(application.customer_id);
-        let captureReq: JJCapturePaymentRequest = {
+        const merchantWallet = await this.lucky.getWalletByMerchantId(application.merchant_id);
+        const customerWallet = await this.lucky.getWalletByCustomerId(application.customer_id);
+        const customer = await this.lucky.getCustomerById(application.customer_id);
+        const captureReq: JJCapturePaymentRequest = {
           fromWallet: customerWallet.doc_id,
           toWallet: merchantWallet.doc_id,
           amount: application.pointExpense,
@@ -136,14 +136,14 @@ export class IssueTicketPage implements OnInit {
         captureRes = await this.lucky.createCapturePaymentRequest(captureReq);
       }
 
-      let distributionRes = await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys('swserp', application));
+      const distributionRes = await this.lucky.issueTickets(this.cmsForm.removeUnusedKeys('swserp', application));
 
       if (captureRes) {
         await this.lucky.updateCapturePaymentRequest(captureRes.doc_id, {
           reference2: String(distributionRes.doc_id),
         });
-        let extras: CapturePaymentRequestExtras = captureRes.data;
-        let transactions = await this.lucky.getWalletTransactionsByCapturePaymentRequest(extras.request.refNo);
+        const extras: CapturePaymentRequestExtras = captureRes.data;
+        const transactions = await this.lucky.getWalletTransactionsByCapturePaymentRequest(extras.request.refNo);
         await Promise.all(
           transactions.map(async (transaction) => {
             await this.lucky.updateWalletTransaction(transaction.doc_id, {
@@ -155,13 +155,13 @@ export class IssueTicketPage implements OnInit {
 
       await this.app.dismissLoading();
 
-      let buttons: AlertButton[] = [];
+      const buttons: AlertButton[] = [];
 
       if (captureRes) {
         buttons.push({
           text: await this.translate.get('jj-luckydraw._SEND_PAYMENT').toPromise(),
           handler: () => {
-            let extras: CapturePaymentRequestExtras = captureRes.data;
+            const extras: CapturePaymentRequestExtras = captureRes.data;
             this.smsComponent.setTemplate(SmsTemplateCode.CAPTURE_PAYMENT);
             this.smsComponent.setReceiver(extras.customerInfo.customer.phone);
             this.smsComponent.setData({
@@ -225,19 +225,19 @@ export class IssueTicketPage implements OnInit {
 
   async countTicket(application: JJTicketDistributionApplication) {
     this.event = await this.lucky.getEventById(Number(application.event_id));
-    let minSpend = this.event.minSpend || application.expense;
+    const minSpend = this.event.minSpend || application.expense;
     application.ticketCount = Math.floor(application.expense / minSpend) || 0;
     return application;
   }
 
   async countFreePoint(application: JJTicketDistributionApplication) {
-    let rule = await this.lucky.getActivePointRule(
+    const rule = await this.lucky.getActivePointRule(
       Number(application.event_id),
       application.expense,
       application.pointExpense,
     );
     if (rule) {
-      let totalSpend =
+      const totalSpend =
         rule.issueMode == JJIssueMode.AMOUNT_PAID
           ? application.expense
           : +application.expense + +application.pointExpense;
@@ -251,11 +251,11 @@ export class IssueTicketPage implements OnInit {
 
   async validateApplication(application: JJTicketDistributionApplication) {
     if (application.ticketCount == 0 && application.freePoint == 0) {
-      let errorMessages: string[] = [];
+      const errorMessages: string[] = [];
 
-      let expenseField = this.form.items.find((item) => item.code == 'expense');
-      let expenseParams = { min: this.event.minSpend || 1, label: this.cmsTranslate.transform(expenseField.label) };
-      let expenseMessage = await this.translate.get('_REQUIRES_MINIMUM', expenseParams).toPromise();
+      const expenseField = this.form.items.find((item) => item.code == 'expense');
+      const expenseParams = { min: this.event.minSpend || 1, label: this.cmsTranslate.transform(expenseField.label) };
+      const expenseMessage = await this.translate.get('_REQUIRES_MINIMUM', expenseParams).toPromise();
       errorMessages.push(expenseMessage);
 
       // let pointRule: JJPointRule = application.usedPointRule ? JSON.parse(application.usedPointRule) : null;
@@ -264,7 +264,7 @@ export class IssueTicketPage implements OnInit {
       // let pointMessage = await this.translate.get('_REQUIRES_MINIMUM', pointParams).toPromise();
       // errorMessages.push(pointMessage);
 
-      let alertMessage = errorMessages.map((m) => `<p class='ion-no-margin'>${m}</p>`).join('');
+      const alertMessage = errorMessages.map((m) => `<p class='ion-no-margin'>${m}</p>`).join('');
       this.app.presentAlert(alertMessage, '_ERROR');
       return false;
     }
@@ -272,11 +272,11 @@ export class IssueTicketPage implements OnInit {
   }
 
   async assignCustomerId(application: JJTicketDistributionApplication) {
-    let customer = await this.lucky.getCustomerByPhone(application.customerContactNo);
+    const customer = await this.lucky.getCustomerByPhone(application.customerContactNo);
     if (!customer) {
-      let randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
-      let phone = `${application.customerContactNo}`;
-      let response = await this.lucky.createCustomer({
+      const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
+      const phone = `${application.customerContactNo}`;
+      const response = await this.lucky.createCustomer({
         firstName: application.customerFirstName,
         lastName: application.customerLastName,
         phone: application.customerContactNo,
@@ -284,7 +284,7 @@ export class IssueTicketPage implements OnInit {
       });
       this.customerInfo = {
         new: true,
-        phone: phone,
+        phone,
         password: randomPassword,
       };
       application.customer_id = response.doc_id;

@@ -13,9 +13,9 @@ const components = [ScratchPrizesComponent, ScratchResultComponent];
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
     SharedModule,
     SwsErpModule,
     CmsUIModule,

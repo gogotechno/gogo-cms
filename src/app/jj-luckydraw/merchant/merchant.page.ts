@@ -42,9 +42,9 @@ export class MerchantPage implements OnInit {
     if (this.router.url == MERCHANT_ROOT_PATH) {
       this.navigate('dashboard');
     } else {
-      let rootPaths = MERCHANT_ROOT_PATH.split('/');
-      let paths = this.router.url.split('/');
-      let pathsWithoutRoot = paths.filter((p) => !rootPaths.includes(p));
+      const rootPaths = MERCHANT_ROOT_PATH.split('/');
+      const paths = this.router.url.split('/');
+      const pathsWithoutRoot = paths.filter((p) => !rootPaths.includes(p));
       this.currentUrl = pathsWithoutRoot[0];
     }
   }

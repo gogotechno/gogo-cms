@@ -35,21 +35,21 @@ export class LuckyDrawActivityComponent extends SharedComponent implements OnIni
     this.EventGroup = _.chunk(this.Events, 1);
 
     console.log(this.EventGroup);
-  
+
 
   this.startTimer();
   }
   startTimer() {
-    let endDate = new Date('2023-11-11');
-    let interval: number = 1000;
-    let timer = setInterval(() => {
-      let { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
+    const endDate = new Date('2023-11-11');
+    const interval = 1000;
+    const timer = setInterval(() => {
+      const { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
       if (time > 0) {
         this.countdownTimer = {
-          days: days,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
+          days,
+          hours,
+          minutes,
+          seconds,
         };
       } else {
         clearInterval(timer);

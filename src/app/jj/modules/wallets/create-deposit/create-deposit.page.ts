@@ -13,28 +13,28 @@ import { UploadAttachmentsComponent } from './@components/upload-attachments/upl
 export class CreateDepositPage implements OnInit {
   walletNo: string;
   form = form;
-  formValue: CreateDepositDto;
+  value: CreateDepositDto;
 
   constructor(private route: ActivatedRoute, private modalCtrl: ModalController, private core: CoreService) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
     await this.loadData();
   }
 
   async loadData() {
-    let methods = await this.core.getDepositMethods();
-    let methodField = this.form.items.find((item) => item.code == 'deposit_method_id');
+    const methods = await this.core.getDepositMethods();
+    const methodField = this.form.items.find((item) => item.code == 'deposit_method_id');
     methodField.options = methods.map((method) => ({
       code: String(method.doc_id),
       label: method.name,
       disabled: !method.isActive,
     }));
 
-    this.formValue = {
+    this.value = {
       walletNo: this.walletNo,
-      amount: 1,
+      amount: null,
       deposit_method_id: null,
     };
   }

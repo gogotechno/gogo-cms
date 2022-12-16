@@ -65,17 +65,17 @@ export class ListPage extends SharedComponent implements OnInit {
         await this.loadEvents();
         break;
     }
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
   async getEvents() {
-    let events = await this.auth.findMyJoinedEvents(this.eventsPage);
+    const events = await this.auth.findMyJoinedEvents(this.eventsPage);
     return events;
   }
 
   async getDistributions() {
-    let distributions = await this.core.getTicketDistributions(this.distributionsPage, {
+    const distributions = await this.core.getTicketDistributions(this.distributionsPage, {
       customer_id: this.currentUser.doc_id,
       customer_id_type: '=',
       event_id: this.selectedEvent.doc_id,
@@ -85,7 +85,7 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getWinners() {
-    let winners = await this.core.getWinners(this.winnersPage, {
+    const winners = await this.core.getWinners(this.winnersPage, {
       customerId: this.currentUser.doc_id,
     });
     return winners;
@@ -95,12 +95,12 @@ export class ListPage extends SharedComponent implements OnInit {
     if (this.eventsEnded) {
       return;
     }
-    let el = <HTMLDivElement>event.target;
-    let target = el.scrollWidth - el.offsetWidth;
+    const el = <HTMLDivElement>event.target;
+    const target = el.scrollWidth - el.offsetWidth;
     if (Math.ceil(el.scrollLeft) == target) {
       this.distributionsLoading = true;
       this.eventsPage.currentPage += 1;
-      let incoming = await this.getEvents();
+      const incoming = await this.getEvents();
       this.events = [...this.events, ...incoming];
       this.eventsEnded = incoming.length <= 0;
       this.distributionsLoading = false;
@@ -109,19 +109,19 @@ export class ListPage extends SharedComponent implements OnInit {
 
   async loadMoreDistributions(event: Event) {
     this.distributionsPage.currentPage += 1;
-    let incoming = await this.getDistributions();
+    const incoming = await this.getDistributions();
     this.distributions = [...this.distributions, ...incoming];
     this.distributionsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
   async loadMoreWinners(event: Event) {
     this.winnersPage.currentPage += 1;
-    let incoming = await this.getWinners();
+    const incoming = await this.getWinners();
     this.winners = [...this.winners, ...incoming];
     this.winnersEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
@@ -139,10 +139,10 @@ export class ListPage extends SharedComponent implements OnInit {
     if (index == 0) {
       return true;
     }
-    let previous = this.distributions[index - 1];
-    let current = this.distributions[index];
-    let previousDate = new Date(previous.distributedAt).toDateString();
-    let currentDate = new Date(current.distributedAt).toDateString();
+    const previous = this.distributions[index - 1];
+    const current = this.distributions[index];
+    const previousDate = new Date(previous.distributedAt).toDateString();
+    const currentDate = new Date(current.distributedAt).toDateString();
     return previousDate != currentDate;
   }
 

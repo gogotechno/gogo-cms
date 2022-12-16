@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { Conditions, DocStatus, GetExtraOptions, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -50,7 +50,7 @@ import { CommonService } from './common.service';
 })
 export class CoreService extends SharedComponent {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
-  private initialized: boolean = false;
+  private initialized = false;
 
   constructor(
     injector: Injector,
@@ -73,7 +73,7 @@ export class CoreService extends SharedComponent {
     this.title.setTitle('JJ Member');
     this.appUtils.loadTemplateTheme('jj');
     this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
-    let storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
+    const storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
     if (storedLang) {
       await this.translate.use(storedLang).toPromise();
     }
@@ -81,7 +81,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getUserRoles() {
-    let res = await this.swsErp.getDocs<JJUserRole>('User Role');
+    const res = await this.swsErp.getDocs<JJUserRole>('User Role');
     return res.result;
   }
 
@@ -90,7 +90,7 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getUsers(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJUser>('User', {
+    const res = await this.swsErp.getDocs<JJUser>('User', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -103,27 +103,28 @@ export class CoreService extends SharedComponent {
   }
 
   async getUserById(userId: number) {
-    let res = await this.swsErp.getDoc<JJUser>('User', userId);
+    const res = await this.swsErp.getDoc<JJUser>('User', userId);
     return res;
   }
 
   async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
-    let conditions: Conditions = {
+    const conditions: Conditions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
       ...accountOptions,
     };
 
-    let res = await this.getUsers(this.defaultPage, conditions);
+    const res = await this.getUsers(this.defaultPage, conditions);
     return res[0];
   }
 
-  async getWalletsByMerchantId(merchantId: number, options: GetExtraOptions = {}) {
+  async getWalletsByMerchantId(merchantId: number, conditions: Conditions = {}) {
     let query: GetOptions = {
       merchant_id: merchantId,
       merchant_id_type: '=',
+      ...conditions,
     };
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -142,7 +143,7 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getCustomers(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
+    const res = await this.swsErp.getDocs<JJCustomer>('Customer', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -155,26 +156,27 @@ export class CoreService extends SharedComponent {
   }
 
   async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
-    let res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
+    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
       ...accountOptions,
     });
     return res;
   }
 
   async getCustomerByPhone(phone: string) {
-    let res = await this.swsErp.getDocs<JJCustomer>('Customer', {
-      phone: phone,
+    const res = await this.swsErp.getDocs<JJCustomer>('Customer', {
+      phone,
       phone_type: '=',
     });
     return res.result[0];
   }
 
-  async getWalletsByCustomerId(customerId: number, options: GetExtraOptions = {}) {
+  async getWalletsByCustomerId(customerId: number, conditions: Conditions = {}) {
     let query: GetOptions = {
       customer_id: customerId,
       customer_id_type: '=',
+      ...conditions,
     };
-    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query, options);
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
     return res.result.map((wallet) => this.populateWallet(wallet));
   }
 
@@ -196,16 +198,21 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
-  async getWalletByNo(walletNo: string) {
+  updateWallet(walletId: number, wallet: Partial<JJWallet>) {
+    return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
+  async getWalletByNo(walletNo: string, conditions: Conditions = {}) {
     let res = await this.swsErp.getDocs<JJWallet>('Wallet', {
       walletNo: walletNo,
       walletNo_type: '=',
+      ...conditions,
     });
     return res.result.map((wallet) => this.populateWallet(wallet))[0];
   }
 
   async getWalletTransactions(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
+    const res = await this.swsErp.getDocs<JJWalletTransaction>('Wallet Transaction', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -216,7 +223,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getWalletTransactionsByWalletId(walletId: number, pagination: Pagination) {
-    let res = await this.getWalletTransactions(pagination, {
+    const res = await this.getWalletTransactions(pagination, {
       wallet_id: walletId,
       wallet_id_type: '=',
       sortBy: 'doc_createdDate',
@@ -226,7 +233,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getWalletTransactionById(transactionId: number) {
-    let res = await this.swsErp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
+    const res = await this.swsErp.getDoc<JJWalletTransaction>('Wallet Transaction', transactionId);
     return this.populateWalletTransaction(res);
   }
 
@@ -235,12 +242,12 @@ export class CoreService extends SharedComponent {
   }
 
   async getDepositRequestById(requestId: number) {
-    let res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
+    const res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
     return res;
   }
 
   async getDepositRequests(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJDepositRequest>('Deposit Request', {
+    const res = await this.swsErp.getDocs<JJDepositRequest>('Deposit Request', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -251,7 +258,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getDepositMethods() {
-    let res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method', {
+    const res = await this.swsErp.getDocs<JJDepositMethod>('Deposit Method', {
       isVisible: 1,
       isVisible_type: '=',
     });
@@ -263,12 +270,12 @@ export class CoreService extends SharedComponent {
   }
 
   async getWithdrawRequestById(requestId: number) {
-    let res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
+    const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
     return res;
   }
 
   async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJWithdrawRequest>('Withdraw Request', {
+    const res = await this.swsErp.getDocs<JJWithdrawRequest>('Withdraw Request', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -279,7 +286,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getWithdrawMethods() {
-    let res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method', {
+    const res = await this.swsErp.getDocs<JJWithdrawMethod>('Withdraw Method', {
       isVisible: 1,
       isVisible_type: '=',
     });
@@ -308,15 +315,15 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getDefaultBankAccount() {
-    let query: GetOptions = {
+    const query: GetOptions = {
       default: true,
     };
-    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
+    const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
   }
 
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
+    const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -331,7 +338,7 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getEvents(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJEvent>('Event', {
+    const res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -342,14 +349,14 @@ export class CoreService extends SharedComponent {
   }
 
   async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
-    let conditions: Conditions = {};
-    if (options['withLocation']) {
-      let coords = await this.common.getCurrentCoords();
-      conditions['longitude'] = coords.longitude;
-      conditions['latitude'] = coords.latitude;
-      delete conditions['withLocation'];
+    const conditions: Conditions = {};
+    if (options.withLocation) {
+      const coords = await this.common.getCurrentCoords();
+      conditions.longitude = coords.longitude;
+      conditions.latitude = coords.latitude;
+      delete conditions.withLocation;
     }
-    let events = await this.getEvents(pagination, {
+    const events = await this.getEvents(pagination, {
       status: 'ACTIVE',
       status_type: '=',
       hasFk: true,
@@ -359,7 +366,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getMerchantEvents() {
-    let res = await this.swsErp.getDocs<JJEvent>('Event', {
+    const res = await this.swsErp.getDocs<JJEvent>('Event', {
       status: 'ACTIVE',
       status_type: '=',
       sortBy: 'startAt',
@@ -370,40 +377,40 @@ export class CoreService extends SharedComponent {
   }
 
   async getActivePointRule(eventId: number, amountExpense: number, pointExpense: number) {
-    let res = await this.swsErp.getDocs<JJPointRule>('Point Rule', {
+    const res = await this.swsErp.getDocs<JJPointRule>('Point Rule', {
       event_id: eventId,
       event_id_type: '=',
-      amountExpense: amountExpense,
-      pointExpense: pointExpense,
+      amountExpense,
+      pointExpense,
       getActive: true,
     });
     return res.result[0];
   }
 
   async getActiveSnwRule(eventId: number, amountExpense: number, pointExpense: number) {
-    let res = await this.swsErp.getDocs<JJScratchAndWinRule>('Scratch And Win Rule', {
+    const res = await this.swsErp.getDocs<JJScratchAndWinRule>('Scratch And Win Rule', {
       event_id: eventId,
       event_id_type: '=',
-      amountExpense: amountExpense,
-      pointExpense: pointExpense,
+      amountExpense,
+      pointExpense,
       getActive: true,
     });
     return res.result[0];
   }
 
   async getEventById(eventId: number, conditions: Conditions = {}) {
-    if (conditions['withLocation']) {
-      let coords = await this.common.getCurrentCoords();
-      conditions['longitude'] = coords.longitude;
-      conditions['latitude'] = coords.latitude;
-      delete conditions['withLocation'];
+    if (conditions.withLocation) {
+      const coords = await this.common.getCurrentCoords();
+      conditions.longitude = coords.longitude;
+      conditions.latitude = coords.latitude;
+      delete conditions.withLocation;
     }
-    let res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
+    const res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
     return this.populateEvent(res);
   }
 
   async getTicketDistributions(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
+    const res = await this.swsErp.getDocs<JJTicketDistribution>('Ticket Distribution', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -414,12 +421,12 @@ export class CoreService extends SharedComponent {
   }
 
   async getTicketDistributionById(distributionId: number) {
-    let res = await this.swsErp.getDoc<JJTicketDistribution>('Ticket Distribution', distributionId);
+    const res = await this.swsErp.getDoc<JJTicketDistribution>('Ticket Distribution', distributionId);
     return this.populateTicketDistribution(res);
   }
 
   async getTickets(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJTicket>('Ticket', {
+    const res = await this.swsErp.getDocs<JJTicket>('Ticket', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -430,7 +437,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getWinners(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs('Winner', {
+    const res = await this.swsErp.getDocs('Winner', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -449,18 +456,18 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getProducts() {
-    let res = await this.swsErp.getDocs<JJProduct>('Product');
+    const res = await this.swsErp.getDocs<JJProduct>('Product');
     return res.result.map((product) => this.populateProduct(product));
   }
 
   async getMerchants(pagination: Pagination, conditions: Conditions = {}) {
-    if (conditions['withLocation']) {
-      let coords = await this.common.getCurrentCoords();
-      conditions['longitude'] = coords.longitude;
-      conditions['latitude'] = coords.latitude;
-      delete conditions['withLocation'];
+    if (conditions.withLocation) {
+      const coords = await this.common.getCurrentCoords();
+      conditions.longitude = coords.longitude;
+      conditions.latitude = coords.latitude;
+      delete conditions.withLocation;
     }
-    let res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
+    const res = await this.swsErp.getDocs<JJMerchant>('Merchant', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,
@@ -476,8 +483,8 @@ export class CoreService extends SharedComponent {
   // -----------------------------------------------------------------------------------------------------
 
   async getSlideshowByCode(code: string) {
-    let res = await this.swsErp.getDocs<JJSlideshow>('Slideshow', {
-      code: code,
+    const res = await this.swsErp.getDocs<JJSlideshow>('Slideshow', {
+      code,
       code_type: '=',
       isActive: 1,
       isActive_type: '=',
@@ -486,7 +493,7 @@ export class CoreService extends SharedComponent {
   }
 
   async getAnnouncements() {
-    let res = await this.swsErp.getDocs<JJAnnouncement>('Announcement', {
+    const res = await this.swsErp.getDocs<JJAnnouncement>('Announcement', {
       isActive: 1,
       isActive_type: '=',
     });
@@ -494,21 +501,21 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    let res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode: groupCode });
+    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode });
     return res.result;
   }
 
   async getContentPageById(pageId: number) {
-    let res = await this.swsErp.getDoc<JJContentPage>('Content Page', pageId);
+    const res = await this.swsErp.getDoc<JJContentPage>('Content Page', pageId);
     return res;
   }
 
-  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+  async getFabsByGroupCode(groupCode: string, conditions: Conditions = {}) {
     let query: GetOptions = {
       groupCode: groupCode,
       ...conditions,
     };
-    let res = await this.swsErp.getDocs<JJFab>('FAB', query, options);
+    let res = await this.swsErp.getDocs<JJFab>('FAB', query);
     return res.result;
   }
 
@@ -520,7 +527,7 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request);
   }
 
-  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}, options: GetExtraOptions = {}) {
+  async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
@@ -528,24 +535,24 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     };
-    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query, options);
+    let res = await this.swsErp.getDocs<JJScratchRequest>('Scratch Request', query);
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
   async getScratchAndWinEventById(eventId: number, options: { withLocation?: boolean } = {}) {
-    let conditions: Conditions = {};
-    if (options['withLocation']) {
-      let coords = await this.common.getCurrentCoords();
-      conditions['longitude'] = coords.longitude;
-      conditions['latitude'] = coords.latitude;
-      delete conditions['withLocation'];
+    const conditions: Conditions = {};
+    if (options.withLocation) {
+      const coords = await this.common.getCurrentCoords();
+      conditions.longitude = coords.longitude;
+      conditions.latitude = coords.latitude;
+      delete conditions.withLocation;
     }
-    let res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, <GetOptions>conditions);
+    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, <GetOptions>conditions);
     return res;
   }
 
   async getScratchAndWinPrizes(pagination: Pagination, conditions: Conditions = {}) {
-    let res = await this.swsErp.getDocs<JJScratchAndWinPrize>('Scratch And Win Prize', {
+    const res = await this.swsErp.getDocs<JJScratchAndWinPrize>('Scratch And Win Prize', {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
       sortBy: pagination.sortBy,

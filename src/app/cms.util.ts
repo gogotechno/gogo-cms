@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 
 export function array_move(arr: Array<any>, old_index: number, new_index: number) {
   if (new_index >= arr.length) {
-    var k = new_index - arr.length + 1;
+    let k = new_index - arr.length + 1;
     while (k--) {
       arr.push(undefined);
     }
@@ -24,7 +24,7 @@ export function end_of_day(date: Date) {
 }
 
 export function timestr_to_date(time: string) {
-  let arr = time.split(':').map((val) => Number(val));
+  const arr = time.split(':').map((val) => Number(val));
   return new Date(new Date().setHours(arr[0], arr[1]));
 }
 
@@ -40,6 +40,7 @@ export class CmsUtils {
 
   /**
    * Convert JSON string to CmsTranslation object
+   *
    * @param jsonString JSON string
    * @param defaultText Default text if conversion failed, use original JSON string if not provided
    * @returns Returns converted CmsTranslation object
@@ -48,8 +49,8 @@ export class CmsUtils {
     try {
       return JSON.parse(jsonString);
     } catch (err) {
-      let lang = this.translate.currentLang;
-      let text = defaultText || jsonString;
+      const lang = this.translate.currentLang;
+      const text = defaultText || jsonString;
       return {
         [lang]: text,
       };
@@ -80,7 +81,7 @@ export class AppUtils {
     this.loadingChange = new BehaviorSubject(false);
 
     this.requestChange.subscribe(async (count) => {
-      let previousCount = this.requestCount;
+      const previousCount = this.requestCount;
       this.requestCount += count;
       if (this.requestCount > previousCount) {
         this.loadingQueue.push(1);
@@ -106,6 +107,7 @@ export class AppUtils {
 
   /**
    * Load template theme
+   *
    * @param template Template name
    */
   loadTemplateTheme(template: string) {
@@ -124,6 +126,7 @@ export class AppUtils {
 
   /**
    * Present alert dialog
+   *
    * @param message Message text
    * @param header Header text
    */
@@ -133,8 +136,8 @@ export class AppUtils {
     if (!options) {
       options = defaultOpts;
     } else {
-      if (!options.buttons) options.buttons = defaultOpts.buttons;
-      if (options.subHeader) options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      if (!options.buttons) {options.buttons = defaultOpts.buttons;}
+      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
     }
     const alert = await this.alertCtrl.create({
       header: await this.translate.get(header).toPromise(),
@@ -148,9 +151,9 @@ export class AppUtils {
    * Present loading
    */
   async presentLoading(message?: string) {
-    if (await this.getTopLoading()) return;
+    if (await this.getTopLoading()) {return;}
     message = message ? message : '_LOADING';
-    let defaultOpts: LoadingOptions = { spinner: 'bubbles' };
+    const defaultOpts: LoadingOptions = { spinner: 'bubbles' };
     const loading = await this.loadingCtrl.create({
       message: await this.translate.get(message).toPromise(),
       ...defaultOpts,
@@ -160,15 +163,17 @@ export class AppUtils {
 
   /**
    * Dismiss loading
+   *
    * @returns Returns null if no loading presenting
    */
   async dismissLoading() {
-    if (!(await this.getTopLoading())) return;
+    if (!(await this.getTopLoading())) {return;}
     await this.loadingCtrl.dismiss();
   }
 
   /**
    * Get current top overlay of loading if exists
+   *
    * @returns Returns the top overlay
    */
   async getTopLoading() {
@@ -177,6 +182,7 @@ export class AppUtils {
 
   /**
    * Present confirm alert
+   *
    * @param message Message
    * @param header Header
    * @param confirmBtnText Confirm button text, default is "Confirm"
@@ -195,7 +201,7 @@ export class AppUtils {
     cancelBtnText = cancelBtnText ? cancelBtnText : '_CANCEL';
     if (!options) {
     } else {
-      if (options.subHeader) options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
     }
     return new Promise<boolean>(async (resolve) => {
       const confirm = await this.alertCtrl.create({
@@ -226,5 +232,5 @@ export class AppUtils {
   }
 }
 
-interface CmsConfirmOptions extends Omit<AlertOptions, 'header' | 'message' | 'buttons'> {}
-interface CmsAlertOptions extends Omit<AlertOptions, 'header' | 'message'> {}
+type CmsConfirmOptions = Omit<AlertOptions, 'header' | 'message' | 'buttons'>;
+type CmsAlertOptions = Omit<AlertOptions, 'header' | 'message'>;

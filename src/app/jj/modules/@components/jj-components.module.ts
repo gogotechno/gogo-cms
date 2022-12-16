@@ -6,10 +6,20 @@ import { SharedModule } from 'src/app/jj/shared';
 import { JJCurrencyComponent } from './jj-currency/jj-currency.component';
 import { JJNewsTickerComponent } from './jj-news-ticker/jj-news-ticker.component';
 
-const components = [JJCurrencyComponent, JJNewsTickerComponent];
+const components = [
+  JJCurrencyComponent,
+  JJNewsTickerComponent
+];
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, SharedModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    SharedModule,
+    CmsUIModule,
+    SwsErpModule
+  ],
   exports: components,
   declarations: components,
 })

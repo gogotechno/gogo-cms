@@ -36,22 +36,36 @@ export class AppComponent implements OnInit {
     this.translate.addLangs(this.cms.SITE.supportedLanguages);
     this.translate.setDefaultLang(this.cms.SITE.defaultLanguage);
 
-    let browserLangauge = this.translate.getBrowserLang();
-    let used = await this.translate.use(browserLangauge).toPromise();
+    const browserLangauge = this.translate.getBrowserLang();
+    const used = await this.translate.use(browserLangauge).toPromise();
     if (!used) {
       await this.translate.use(this.cms.SITE.defaultLanguage).toPromise();
     }
 
-    let found = this.router.url.split('/').find((s) => s == 'cms-admin');
+    const found = this.router.url.split('/').find((s) => s == 'cms-admin');
     if (!found) {
-      let commands = [`/${this.cms.SITE.template}`];
+      const commands = [`/${this.cms.SITE.template}`];
+
+      const arr = this.pathName.split('?');
+      const queryParams = {};
+      if (arr.length > 1) {
+        this.pathName = arr[0];
+        arr[1].split('&').forEach((queryString) => {
+          const queryParam = queryString.split('=');
+          queryParams[queryParam[0]] = queryParam[1];
+        });
+      }
+
       if (this.pathName != '/') {
-        let paths = this.pathName.split('/').filter((path) => path && path != this.cms.SITE.template && path != '#');
+        const paths = this.pathName.split('/').filter((path) => path && path != this.cms.SITE.template && path != '#');
         if (paths.length > 0) {
           commands.push(...paths);
         }
       }
-      this.router.navigate(commands);
+      this.router.navigate(commands, {
+        queryParamsHandling: 'merge',
+        queryParams,
+      });
     }
   }
 }

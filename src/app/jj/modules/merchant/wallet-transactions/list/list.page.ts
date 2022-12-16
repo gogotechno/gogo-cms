@@ -20,8 +20,8 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let wallets = await this.auth.findMyWallets();
-    let wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
+    const wallets = await this.auth.findMyWallets();
+    const wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
     this.walletId = wallet.doc_id;
 
     await this.loadData();
@@ -35,22 +35,22 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getTransactions() {
-    let transactions = await this.core.getWalletTransactionsByWalletId(this.walletId, this.transactionsPage);
+    const transactions = await this.core.getWalletTransactionsByWalletId(this.walletId, this.transactionsPage);
     return transactions;
   }
 
   async loadMoreTransactions(event: Event) {
     this.transactionsPage.currentPage += 1;
-    let incoming = await this.getTransactions();
+    const incoming = await this.getTransactions();
     this.transactions = [...this.transactions, ...incoming];
     this.transactionsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

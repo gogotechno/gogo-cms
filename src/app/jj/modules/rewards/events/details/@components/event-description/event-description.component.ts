@@ -21,7 +21,7 @@ export class EventDescriptionComponent extends SharedComponent implements OnInit
     this.details.event.subscribe(async (event) => {
       this.event = event;
       if (this.event) {
-        let descriptionEl = await this.assertElement('description');
+        const descriptionEl = await this.assertElement('description');
         this.canExpand = descriptionEl.scrollHeight > descriptionEl.clientHeight;
       }
     });
@@ -29,7 +29,7 @@ export class EventDescriptionComponent extends SharedComponent implements OnInit
 
   async toggleMore() {
     this.expanded = !this.expanded;
-    let descriptionEl = await this.assertElement('description');
+    const descriptionEl = await this.assertElement('description');
     if (!this.expanded) {
       descriptionEl.classList.add('ion-text-ellipsis');
     } else {

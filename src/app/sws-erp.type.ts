@@ -64,10 +64,6 @@ export interface GetOptions {
   [key: `${string}_type`]: '=' | '!=' | '<' | '<=' | '>' | '>=' | 'is null' | 'like';
 }
 
-export interface GetExtraOptions {
-  skipLoading?: boolean;
-}
-
 export interface PostOptions {
   [key: string]: any;
 }

@@ -26,8 +26,8 @@ export class CreateUserPage implements OnInit {
 
   async ngOnInit() {
     this.form = form;
-    let roles = await this.core.getUserRoles();
-    let roleField = this.form.items.find((item) => item.code == 'role');
+    const roles = await this.core.getUserRoles();
+    const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles
       .filter((role) => role.code != UserRole.SYSTEM_ADMIN)
       .map((role) => ({
@@ -48,7 +48,7 @@ export class CreateUserPage implements OnInit {
   }
 
   async onCreateUser(user: JJUser) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_USER');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_USER');
     if (confirm) {
       await this.core.createUser(user);
       await this.appUtils.presentAlert('jj._USER_CREATED', '_SUCCESS');

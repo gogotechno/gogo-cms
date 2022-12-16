@@ -46,7 +46,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   }
 
   async getDeposits() {
-    let deposits = await this.core.getDepositRequests(this.depositsPage, {
+    const deposits = await this.core.getDepositRequests(this.depositsPage, {
       wallet_id: this.wallet.doc_id,
       wallet_id_type: '=',
     });
