@@ -24,8 +24,8 @@
       </div>
 
       <div slot="end">
-        <ion-text class="right" class="reference1">RM {{ deposit.amount || '-' }}</ion-text><br />
-        <ion-badge slot="end" color="warning">{{ deposit.status || '-' }}</ion-badge>
+        <ion-text class="right" class="reference1">RM{{ deposit.amount | number:'.2-2' || '-' }}</ion-text><br />
+        <ion-badge slot="end"  class="{{ deposit.status }}">{{ deposit.status || '-' }}</ion-badge>
       </div>
     </ion-item>
   </ng-container>
