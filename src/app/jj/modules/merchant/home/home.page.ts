@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/jj/services';
 import { JJMerchant, JJWallet, WalletType } from 'src/app/jj/typings';
+import { QrCodePage } from '../../common/qr-code/qr-code.page';
 import { CreateUserPage } from '../create-user/create-user.page';
 import { IssueTicketPage } from '../issue-ticket/issue-ticket.page';
 import { CapturePaymentComponent } from './@components/capture-payment/capture-payment.component';
@@ -70,5 +71,17 @@ export class HomePage implements OnInit {
     if (data?.success) {
       await this.getWallet();
     }
+  }
+
+  async openQrCode() {
+    const modal = await this.modalCtrl.create({
+      component: QrCodePage,
+      componentProps: {
+        qrData: this.wallet.walletNo,
+      },
+      cssClass: 'qrcode-modal',
+    });
+
+    await modal.present();
   }
 }

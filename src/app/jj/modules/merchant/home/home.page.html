@@ -60,10 +60,19 @@
     </ion-card>
     <ion-card *ngIf="wallet">
       <ion-card-header>
-        <ion-card-subtitle>{{ 'jj._BALANCE' | translate }}</ion-card-subtitle>
-        <ion-card-title>{{ 'jj._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance } }}</ion-card-title>
+        <!-- <ion-card-subtitle>{{ 'jj._BALANCE' | translate }}</ion-card-subtitle>
+        <ion-card-title>{{ 'jj._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance } }}</ion-card-title> -->
+        <ion-card-title>{{ wallet?.walletNo }}</ion-card-title>
+        <ion-card-subtitle class="wallet-balance">
+          <jj-currency [currency]="wallet?.displayCurrency" [value]="wallet?.walletBalance"></jj-currency>
+        </ion-card-subtitle>
         <ion-grid>
           <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="openQrCode()">
+                <ion-icon name="qr-code" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-col>
             <ion-col>
               <ion-button expand="block" (click)="onCapturePayment()">
                 <ion-icon name="scan" slot="icon-only"></ion-icon>
