@@ -16,8 +16,8 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     WalletsPageRoutingModule,
     JJComponentsModule,
     SharedModule,
-    CmsUIModule
+    CmsUIModule,
   ],
-  declarations: [WalletsPage]
+  declarations: [WalletsPage],
 })
 export class WalletsPageModule {}

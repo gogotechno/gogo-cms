@@ -31,17 +31,17 @@ export class FooterComponent extends CmsComponent implements OnInit {
     this.navigation = await this.cms.getNavigation('top-nav');
 
     await this.winbox99.getAttributes();
-    this.contactUs = this.winbox99.ATTRIBUTES.find((a) => a.code == "contact-us");
+    this.contactUs = this.winbox99.ATTRIBUTES.find((a) => a.code == 'contact-us');
   }
 
   getContactUsOption(code: string) {
-    let option = this.contactUs.options.find((o) => o.code == code);
-    if (!option || !option.value) return null;
+    const option = this.contactUs.options.find((o) => o.code == code);
+    if (!option || !option.value) {return null;}
     return option;
   }
 
   getContactUsOptions() {
-    return this.contactUs.options.filter((o) => o.code != "whatsapp" && o.code != "android" && o.code != "ios" && o.value);
+    return this.contactUs.options.filter((o) => o.code != 'whatsapp' && o.code != 'android' && o.code != 'ios' && o.value);
   }
 
 }

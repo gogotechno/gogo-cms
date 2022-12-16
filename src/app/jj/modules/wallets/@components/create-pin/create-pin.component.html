@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-title>{{ 'jj._CREATE_PIN' | translate }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="onDismiss()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -13,7 +14,7 @@
     <ion-row>
       <ion-col>
         <div class="ion-padding-sm">
-          <cms-form [form]="form" (submit)="onVerify($event)"></cms-form>
+          <cms-form [form]="form" (submit)="onCreate($event)"></cms-form>
         </div>
       </ion-col>
     </ion-row>
@@ -22,8 +23,8 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button id="verify-pin-btn" expand="block">
-      <ion-label>{{ "_VERIFY" | translate }}</ion-label>
+    <ion-button id="create-pin-btn" expand="block">
+      <ion-label>{{ '_CREATE' | translate }}</ion-label>
     </ion-button>
   </ion-toolbar>
 </ion-footer>

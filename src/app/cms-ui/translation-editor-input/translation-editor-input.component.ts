@@ -86,12 +86,11 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
   }
 
   getModules() {
-    const uploadFile = (file: File) => {
-      return new Promise(async (resolve, reject) => {
+    const uploadFile = (file: File) => new Promise(async (resolve, reject) => {
         try {
-          if (this.collectionPath.split("/").length < 2) {
-            await this.app.presentAlert("_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE", "_ERROR");
-            reject("Please save document to get valid collection path");
+          if (this.collectionPath.split('/').length < 2) {
+            await this.app.presentAlert('_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE', '_ERROR');
+            reject('Please save document to get valid collection path');
             return;
           }
 
@@ -103,33 +102,32 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
           resolve(url);
         } catch (err) {
           console.error(err);
-          await this.app.presentAlert("_ERROR_WHILE_UPLOADING_FILE", "_ERROR");
-          reject("Error while uploading file");
+          await this.app.presentAlert('_ERROR_WHILE_UPLOADING_FILE', '_ERROR');
+          reject('Error while uploading file');
         }
-      })
-    }
+      });
 
-    let modules: QuillModules = {
+    const modules: QuillModules = {
       toolbar: [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'script': 'sub' }, { 'script': 'super' }],
-        [{ 'indent': '-1' }, { 'indent': '+1' }],
-        [{ 'direction': 'rtl' }],
-        [{ 'size': [] }],
-        [{ 'header': [] }],
-        [{ 'color': [] }, { 'background': [] }],
-        [{ 'font': [] }],
-        [{ 'align': [] }],
+        [{ header: 1 }, { header: 2 }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        [{ script: 'sub' }, { script: 'super' }],
+        [{ indent: '-1' }, { indent: '+1' }],
+        [{ direction: 'rtl' }],
+        [{ size: [] }],
+        [{ header: [] }],
+        [{ color: [] }, { background: [] }],
+        [{ font: [] }],
+        [{ align: [] }],
         ['clean'],
         ['link', 'image', 'video', 'formula']
       ],
       imageResize: {},
       imageHandler: { upload: uploadFile },
       videoHandler: { upload: uploadFile }
-    }
+    };
 
     return modules;
   }

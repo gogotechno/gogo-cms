@@ -11,7 +11,7 @@ import { HomeService } from './@services/home.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  notifications: number = 0;
+  notifications = 0;
   messages: string[];
   fabs: JJFab[];
 
@@ -40,14 +40,14 @@ export class HomePage implements OnInit {
 
   async ngOnInit() {
     await this.home.init();
+    this.home.initialized = true;
     this.home.event.subscribe((event) => (this.event = event));
     this.home.bulletinGroups.subscribe((groups) => (this.groups = groups));
     this.home.groupCode.subscribe((code) => (this.groupCode = this.groupCode ? this.groupCode : code));
     this.home.bulletins.subscribe((bulletins) => (this.bulletins = bulletins));
     this.home.fabs.subscribe((fabs) => (this.fabs = fabs));
     this.home.announcements.subscribe((announcements) => {
-      if (!announcements) return;
-      this.messages = announcements.map((announcement) => announcement.message);
+      this.messages = announcements ? announcements.map((announcement) => announcement.message) : null;
     });
   }
 
@@ -57,7 +57,7 @@ export class HomePage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.home.init();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
@@ -70,7 +70,7 @@ export class HomePage implements OnInit {
       await this.common.navigateCustomUrl(bulletin.url);
     }
     if (bulletin.actionUrl) {
-      let url = this.common.populateUrl(bulletin.actionUrl);
+      const url = this.common.populateUrl(bulletin.actionUrl);
       await this.common.postByUrl(url, {});
       await this.appUtils.presentAlert(this.cmsTranslate.transform(bulletin.actionSuccessCallback.label));
       this.home.refresh();
@@ -78,7 +78,7 @@ export class HomePage implements OnInit {
   }
 
   async onBulletinGroupChange(event: Event) {
-    let groupCode = String(event);
+    const groupCode = String(event);
     document.getElementById('bulletin-group-' + groupCode).scrollIntoView({
       behavior: 'smooth',
       inline: 'nearest',

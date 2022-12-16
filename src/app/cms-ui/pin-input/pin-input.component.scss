@@ -10,3 +10,27 @@ ion-input {
 ion-grid {
   padding: 0;
 }
+
+ion-input {
+  color: transparent;
+  caret-color: transparent;
+  position: relative;
+}
+
+div.dot-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: var(--ion-color-dark);
+}

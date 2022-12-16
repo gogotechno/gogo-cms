@@ -18,14 +18,14 @@ export class EventDetailPage implements OnInit {
   constructor(private cms: CmsService, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) { }
 
   async ngOnInit() {
-    let params = this.activatedRoute.snapshot.params;
+    const params = this.activatedRoute.snapshot.params;
     this.eventSlug = params.slug;
 
-    let table = await this.cms.getTable("events");
+    const table = await this.cms.getTable('events');
     this.event = await this.cms.getDocument(table, this.eventSlug);
 
-    this.event.startAt = this.datePipe.transform(timestr_to_date(this.event.startAt), "hh:mm a");
-    this.event.endAt = this.datePipe.transform(timestr_to_date(this.event.endAt), "hh:mm a");
+    this.event.startAt = this.datePipe.transform(timestr_to_date(this.event.startAt), 'hh:mm a');
+    this.event.endAt = this.datePipe.transform(timestr_to_date(this.event.endAt), 'hh:mm a');
   }
 
 }

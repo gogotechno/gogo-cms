@@ -86,6 +86,7 @@
   "_KM": "KM",
   "_SHARE": "Kongsi",
   "_NEXT": "Terus",
+  "_INCORRECT_PIN": "PIN salah",
   "winbox99": {
     "_LOGIN": "Log masuk",
     "_GAMES": "Permainan Kami",
@@ -449,6 +450,16 @@
     "_RECEIVER_WALLET_NOT_FOUND": "Dompet penerima tidak ditemui",
     "_SAME_WALLETS_FOUND": "Dompet yang sama ditemui",
     "_NO_CONVERSION_RATE_CONFIGURED": "Tiada kadar penukaran dikonfigurasikan",
-    "_TRANSFER_IS_NOT_ALLOWED": "Pemindahan tidak dibenarkan"
+    "_TRANSFER_IS_NOT_ALLOWED": "Pemindahan tidak dibenarkan",
+    "_VERIFY_PIN": "Sahkan PIN",
+    "_CREATE_PIN": "Buat PIN",
+    "_CHANGE_PIN": "Tukar PIN",
+    "_CONFIRM_TO_TRANSFER": "Sahkan untuk memindahkan?",
+    "_TRANSFER_SUCCESS": "Pemindahan berjaya",
+    "_CAN_TRANSFER_UP_TO": "Boleh memindahkan sehingga {{ baki }}",
+    "_TRANSFER_RECEIPT": "Resit Pemindahan",
+    "_BENEFICIARY_NAME": "Name penerima",
+    "_BENEFICIARY_WALLET_NO": "Penerima dompet no.",
+    "_AMOUNT": "Jumlah"
   }
 }

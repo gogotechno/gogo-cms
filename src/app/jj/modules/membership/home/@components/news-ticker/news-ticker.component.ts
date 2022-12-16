@@ -21,7 +21,7 @@ export class NewsTickerComponent extends SharedComponent implements OnInit {
     this.home.announcements.subscribe(async (announcements) => {
       this.announcements = announcements;
       if (this.announcements) {
-        let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
+        const [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
         firstEl.style.setProperty('--offset-end', this.getOffsetEnd(container, firstEl));
         firstEl.style.setProperty('--base-duration', this.getBaseDuration(firstEl));
         firstEl.classList.add('animated');
@@ -30,8 +30,8 @@ export class NewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   async onAnimEnd(index: number) {
-    let nextIndex = index + 1 == this.announcements.length ? 0 : index + 1;
-    let [currentEl, nextEl, container] = await Promise.all([
+    const nextIndex = index + 1 == this.announcements.length ? 0 : index + 1;
+    const [currentEl, nextEl, container] = await Promise.all([
       this.getMessageEl(index),
       this.getMessageEl(nextIndex),
       this.getContainerEl(),
@@ -52,13 +52,13 @@ export class NewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   getOffsetEnd(container: HTMLElement, message: HTMLElement) {
-    let span = message.querySelector('span');
-    let width = span.offsetWidth < container.offsetWidth ? span.offsetWidth : container.offsetWidth;
+    const span = message.querySelector('span');
+    const width = span.offsetWidth < container.offsetWidth ? span.offsetWidth : container.offsetWidth;
     return `${width}px`;
   }
 
   getBaseDuration(message: HTMLElement) {
-    let length = Number(message.style.getPropertyValue('--length'));
+    const length = Number(message.style.getPropertyValue('--length'));
     let duration = 0;
     if (length > 1000) {
       duration = 100;

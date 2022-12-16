@@ -29,7 +29,7 @@ export class ListPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     this.route.queryParams.subscribe(async (queryParams) => {
-      if (queryParams['refresh']) {
+      if (queryParams.refresh) {
         await this.loadData();
         await this.router.navigate([]);
       }
@@ -51,7 +51,7 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getUsers() {
-    let users = await this.core.getUsers(this.usersPage, {
+    const users = await this.core.getUsers(this.usersPage, {
       merchant_id: this.merchantId,
       merchant_id_type: '=',
     });
@@ -60,16 +60,16 @@ export class ListPage extends SharedComponent implements OnInit {
 
   async loadMoreUsers(event: Event) {
     this.usersPage.currentPage += 1;
-    let incoming = await this.getUsers();
+    const incoming = await this.getUsers();
     this.users = [...this.users, ...incoming];
     this.usersEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

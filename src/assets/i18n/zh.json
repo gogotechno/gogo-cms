@@ -86,6 +86,7 @@
   "_KM": "公里",
   "_SHARE": "分享",
   "_NEXT": "继续",
+  "_INCORRECT_PIN": "PIN错误",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",
@@ -449,6 +450,16 @@
     "_RECEIVER_WALLET_NOT_FOUND": "收账钱包未找到",
     "_SAME_WALLETS_FOUND": "找到相同的钱包",
     "_NO_CONVERSION_RATE_CONFIGURED": "未设置转换率",
-    "_TRANSFER_IS_NOT_ALLOWED": "不允许转账"
+    "_TRANSFER_IS_NOT_ALLOWED": "不允许转账",
+    "_VERIFY_PIN": "验证PIN",
+    "_CREATE_PIN": "创建PIN",
+    "_CHANGE_PIN": "更改PIN",
+    "_CONFIRM_TO_TRANSFER": "确认转帐？",
+    "_TRANSFER_SUCCESS": "转账成功",
+    "_CAN_TRANSFER_UP_TO": "可以转账{{ balance }}",
+    "_TRANSFER_RECEIPT": "转账收据",
+    "_BENEFICIARY_NAME": "收款人",
+    "_BENEFICIARY_WALLET_NO": "收款账户",
+    "_AMOUNT": "金额"
   }
 }

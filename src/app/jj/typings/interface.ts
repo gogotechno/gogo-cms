@@ -156,9 +156,10 @@ export interface JJWallet extends ErpDoc {
   walletBalance?: number;
   walletType?: JJWalletType;
   walletCurrency?: JJWalletCurrency;
-  customer?: JJCustomer;
   permissions?: JJWalletPermission[];
   pin?: string;
+  customer?: JJCustomer;
+  merchant?: JJMerchant;
 
   // app use only
   displayCurrency: Currency;

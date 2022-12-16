@@ -11,14 +11,12 @@ import {
   JJEvent,
   JJFab,
   JJSlideshow,
-  JJUser,
   JJWallet,
   MiniProgram,
   User,
-  UserRole,
   UserType,
 } from 'src/app/jj/typings';
-import { Conditions, GetExtraOptions } from 'src/app/sws-erp.type';
+import { Conditions } from 'src/app/sws-erp.type';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +36,8 @@ export class HomeService extends SharedComponent {
   private _GROUP_CODE: BehaviorSubject<string>;
 
   private allBulletins: Bulletin[];
+
+  initialized: boolean;
 
   get user() {
     return this._USER.asObservable();
@@ -108,11 +108,18 @@ export class HomeService extends SharedComponent {
     this._GROUP_CODE = new BehaviorSubject(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
-      if (event?.status == 'LOGGED_IN' && !this._USER.getValue()) {
-        await this.init();
-      }
-      if (event?.status == 'LOGGED_OUT') {
-        this.destroy();
+      if (!event) return;
+      switch (event.status) {
+        case 'LOGGED_IN':
+          if (this.initialized && !this._USER.getValue()) {
+            await this.init();
+          }
+          break;
+        case 'LOGGED_OUT':
+          this.destroy();
+          break;
+        default:
+          break;
       }
     });
   }
@@ -124,7 +131,7 @@ export class HomeService extends SharedComponent {
       this.core.getOngoingEvents(this.defaultPage),
       this.core.getAnnouncements(),
       this.core.getSlideshowByCode('HOME_SLIDESHOW'),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions()),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(false)),
     ]);
 
     this._USER.next(user);
@@ -156,13 +163,9 @@ export class HomeService extends SharedComponent {
   }
 
   async refresh() {
-    let options: GetExtraOptions = {
-      skipLoading: true,
-    };
-
     const [wallets, fabs] = await Promise.all([
-      this.auth.findMyWallets(options),
-      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options),
+      this.auth.findMyWallets({ skipLoading: true }),
+      this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(true)),
     ]);
     this._WALLETS.next(wallets);
     this._FABS.next(fabs);
@@ -194,35 +197,36 @@ export class HomeService extends SharedComponent {
     }
   }
 
-  getFabsConditions() {
+  getFabsConditions(silent: boolean) {
     let fabsConditions: Conditions = {};
     if (this.auth.userType == 'CUSTOMER') {
-      fabsConditions = {
-        customerId: this.auth.currentUser.doc_id,
-      };
+      fabsConditions['customerId'] = this.auth.currentUser.doc_id;
+    }
+    if (silent) {
+      fabsConditions['skipLoading'] = true;
     }
     return fabsConditions;
   }
 
   async loadBulletins() {
-    let url = await this.cms.getDownloadURL('home-directory.json');
-    let data = await this.common.getByUrl(url);
+    const url = await this.cms.getDownloadURL('home-directory.json');
+    const data = await this.common.getByUrl(url);
 
-    let eventConfig = data['event'];
+    const eventConfig = data.event;
     if (eventConfig) {
-      let event = await this.core.getEventById(eventConfig.id);
+      const event = await this.core.getEventById(eventConfig.id);
       this._EVENT_CONFIG.next(eventConfig);
       this._EVENT.next(event);
     }
 
-    let groups = data['groups'];
+    const groups = data.groups;
     this._BULLETIN_GROUPS.next(groups);
     if (!this._GROUP_CODE.getValue()) {
-      let groupCode = groups[0].code;
+      const groupCode = groups[0].code;
       this._GROUP_CODE.next(groupCode);
     }
 
-    this.allBulletins = data['bulletins'];
+    this.allBulletins = data.bulletins;
     await this.filterBulletins();
   }
 
@@ -233,9 +237,9 @@ export class HomeService extends SharedComponent {
 
     this._GROUP_CODE.next(groupCode);
 
-    let filtered = this.allBulletins.filter((bulletin) => {
-      let tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
-      let roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
+    const filtered = this.allBulletins.filter((bulletin) => {
+      const tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
+      const roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
       return tags && roles;
     });
 

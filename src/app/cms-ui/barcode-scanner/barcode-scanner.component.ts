@@ -17,12 +17,12 @@ import { ScannerComponent } from './scanner/scanner.component';
   ],
 })
 export class BarcodeScannerComponent implements ControlValueAccessor {
-  @Input('code') code: string;
-  @Input('label') label: CmsTranslable;
-  @Input('required') required: boolean;
-  @Input('writable') writable: boolean;
-  @Input('placeholder') placeholder: CmsTranslable;
-  @Input('labelPosition') labelPosition: string;
+  @Input() code: string;
+  @Input() label: CmsTranslable;
+  @Input() required: boolean;
+  @Input() writable: boolean;
+  @Input() placeholder: CmsTranslable;
+  @Input() labelPosition: string;
 
   value: string;
   disabled = false;
@@ -57,15 +57,15 @@ export class BarcodeScannerComponent implements ControlValueAccessor {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    if (data?.['value']) {
-      let value = data['value'];
+    if (data?.value) {
+      const value = data.value;
       this.writeValue(value);
       this.onChange(value);
     }
   }
 
   onInputChange(event?: Event) {
-    let value = String(event);
+    const value = String(event);
     this.writeValue(value);
     this.onChange(value);
   }

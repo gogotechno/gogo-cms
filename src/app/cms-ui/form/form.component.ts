@@ -19,10 +19,10 @@ import _ from 'lodash';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent extends CmsComponent implements OnInit {
-  @Input('form') form: CmsForm;
-  @Input('value') value: object;
+  @Input() form: CmsForm;
+  @Input() value: object;
   @Input('collection-path') collectionPath: string;
-  @Output('submit') submit = new EventEmitter<any>();
+  @Output() submit = new EventEmitter<any>();
 
   formGroup: FormGroup;
 
@@ -46,8 +46,8 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['value'] && this.formGroup) {
-      this.formGroup.patchValue(changes['value'].currentValue);
+    if (changes.value && this.formGroup) {
+      this.formGroup.patchValue(changes.value.currentValue);
     }
   }
 
@@ -62,16 +62,23 @@ export class FormComponent extends CmsComponent implements OnInit {
 
     this.matchingFields = {};
 
-    let controls = {};
-    for (let item of this.form.items) {
+    const controls: any = {};
+    for (const item of this.form.items) {
       switch (item.type) {
         case 'datetime':
           let value = null;
           if (this.value) {
-            let datetime = (<Timestamp>this.value[item.code]).toDate();
+            const datetime = (<Timestamp>this.value[item.code]).toDate();
             value = this.date.transform(datetime, 'YYYY-MM-ddTHH:mm');
           }
           controls[item.code] = [value];
+          break;
+
+        case 'pin':
+          if (!item.minimumLength) {
+            item.minimumLength = 6;
+          }
+          controls[item.code] = [this.value ? this.value[item.code] : null];
           break;
 
         default:
@@ -79,7 +86,7 @@ export class FormComponent extends CmsComponent implements OnInit {
           break;
       }
 
-      let validators = [];
+      const validators = [];
 
       if (item.required) {
         validators.push(Validators.required);
@@ -114,15 +121,15 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
     }
 
-    let uid = (await this.admin.currentUser)?.uid;
+    const uid = (await this.admin.currentUser)?.uid;
     if (this.value) {
-      controls['updatedAt'] = [this.now];
-      controls['updatedBy'] = [uid];
+      controls.updatedAt = [this.now];
+      controls.updatedBy = [uid];
     } else {
-      controls['createdAt'] = [this.now];
-      controls['createdBy'] = [uid];
-      controls['updatedAt'] = [this.now];
-      controls['updatedBy'] = [uid];
+      controls.createdAt = [this.now];
+      controls.createdBy = [uid];
+      controls.updatedAt = [this.now];
+      controls.updatedBy = [uid];
     }
 
     this.formGroup = this.fb.group(controls, {
@@ -130,7 +137,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     });
 
     this.maskedItems.forEach((item) => {
-      let control = this.formGroup.get(item.code);
+      const control = this.formGroup.get(item.code);
       control.valueChanges.subscribe((value) => {
         this.mask.prefix = item.inputPrefix || '';
         control.setValue(this.mask.applyMask(value, item.inputMask), {
@@ -149,13 +156,13 @@ export class FormComponent extends CmsComponent implements OnInit {
   async onSubmit(event?: Event) {
     let data = this.formGroup.value;
 
-    let datetimeItems = this.form.items.filter((item) => item.type == 'datetime');
-    for (let item of datetimeItems) {
+    const datetimeItems = this.form.items.filter((item) => item.type == 'datetime');
+    for (const item of datetimeItems) {
       data[item.code] = new Date(data[item.code]);
     }
 
     if (this.form.autoValidate) {
-      let validation = await this.validateFormAndShowErrorMessages();
+      const validation = await this.validateFormAndShowErrorMessages();
       if (!validation.valid) {
         return;
       }
@@ -184,40 +191,40 @@ export class FormComponent extends CmsComponent implements OnInit {
     if (this.formGroup.valid) {
       return { valid: true };
     }
-    let validationErrors: CmsFormValidationError[] = [];
-    let controls = this.formGroup.controls;
-    for (let controlKey of Object.keys(controls)) {
-      let errors = controls[controlKey].errors;
+    const validationErrors: CmsFormValidationError[] = [];
+    const controls = this.formGroup.controls;
+    for (const controlKey of Object.keys(controls)) {
+      const errors = controls[controlKey].errors;
       if (errors) {
-        for (let errorKey of Object.keys(errors)) {
-          let error = errors[errorKey];
-          let field = this.form.items.find((i) => i.code == controlKey);
-          let label = this.cmsTranslate.transform(field.label);
+        for (const errorKey of Object.keys(errors)) {
+          const error = errors[errorKey];
+          const field = this.form.items.find((i) => i.code == controlKey);
+          const label = this.cmsTranslate.transform(field.label);
           let messageKey: string;
-          let messageParams = { label: label };
+          const messageParams: any = { label };
           switch (errorKey) {
             case 'required':
               messageKey = '_IS_REQUIRED';
               break;
             case 'min':
               messageKey = '_REQUIRES_MINIMUM';
-              messageParams['min'] = error.min;
+              messageParams.min = error.min;
               break;
             case 'max':
               messageKey = '_REQUIRES_MAXIMUM';
-              messageParams['max'] = error.min;
+              messageParams.max = error.min;
               break;
             case 'minlength':
               messageKey = '_REQUIRES_MINIMUM_LENGTH';
-              messageParams['minLength'] = error.requiredLength;
+              messageParams.minLength = error.requiredLength;
               break;
             case 'maxlength':
               messageKey = '_REQUIRES_MAXIMUM_LENGTH';
-              messageParams['maxLength'] = error.requiredLength;
+              messageParams.maxLength = error.requiredLength;
               break;
             case 'notMatching':
               messageKey = '_REQUIRES_MATCH_WITH';
-              messageParams['matchingFields'] = this.form.items
+              messageParams.matchingFields = this.form.items
                 .filter((i) => error.fields.includes(i.code))
                 .map((f) => this.cmsTranslate.transform(f.label))
                 .join(', ');
@@ -226,10 +233,10 @@ export class FormComponent extends CmsComponent implements OnInit {
               messageKey = '_HAS_UNKNOWN_ERROR';
               break;
           }
-          let message = await this.translate.get(messageKey, messageParams).toPromise();
+          const message = await this.translate.get(messageKey, messageParams).toPromise();
           validationErrors.push({
             error: errors,
-            message: message,
+            message,
           });
         }
       }
@@ -241,27 +248,27 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   async validateFormAndShowErrorMessages() {
-    let validation = await this.validateForm();
+    const validation = await this.validateForm();
     if (!validation.valid) {
-      let messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + '</p>').join('');
+      const messages = validation.errors.map((e) => "<p class='ion-no-margin'>" + e.message + '</p>').join('');
       this.appUtils.presentAlert(messages, '_ERROR');
     }
     return validation;
   }
 
   removeUnusedKeys<T>(from: 'swserp', source: T, keys?: string[]) {
-    let cloned = _.cloneDeep(source);
+    const cloned = _.cloneDeep(source) as any;
     if (keys?.length > 0) {
-      for (let key of keys) {
+      for (const key of keys) {
         delete cloned[key];
       }
     } else {
       switch (from) {
         case 'swserp':
-          delete cloned['createdAt'];
-          delete cloned['createdBy'];
-          delete cloned['updatedAt'];
-          delete cloned['updatedBy'];
+          delete cloned.createdAt;
+          delete cloned.createdBy;
+          delete cloned.updatedAt;
+          delete cloned.updatedBy;
           break;
         default:
           break;
@@ -305,12 +312,11 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   onNumberChange(event: Event, code: string) {
-    let value = (<InputCustomEvent>event).detail.value;
-    let item = this.form.items.find((i) => i.code == code);
+    const value = (<InputCustomEvent>event).detail.value;
+    const item = this.form.items.find((i) => i.code == code);
     if (item.precision) {
-      let num = Number(value) / Math.pow(10, item.precision);
+      const num = Number(value) / Math.pow(10, item.precision);
       // TODO: Set value and do not trigger change event
-      // console.log(num);
     }
   }
 }
@@ -337,18 +343,18 @@ class NeedMatching {
 class CustomValidators {
   static MatchValidator(config: MatchingConfig): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      for (let key of Object.keys(config)) {
-        let matchingFrom = control.get(key);
-        let needMatching = config[key].map((c) => new NeedMatching(control, c));
-        let notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
-        let allMatched = notMatching.length <= 0;
+      for (const key of Object.keys(config)) {
+        const matchingFrom = control.get(key);
+        const needMatching = config[key].map((c) => new NeedMatching(control, c));
+        const notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
+        const allMatched = notMatching.length <= 0;
         if (!allMatched) {
           matchingFrom.setErrors({ notMatching: { fields: notMatching.map((n) => n.key) } });
         } else {
           if (matchingFrom.errors) {
-            let keys = Object.keys(matchingFrom.errors);
+            const keys = Object.keys(matchingFrom.errors);
             if (keys.length > 0 && keys.includes('notMatching')) {
-              delete matchingFrom.errors['notMatching'];
+              delete matchingFrom.errors.notMatching;
               if (keys.length == 1) {
                 matchingFrom.setErrors(null);
               }

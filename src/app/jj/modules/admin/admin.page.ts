@@ -19,7 +19,7 @@ export class AdminPage implements OnInit {
       icon: 'star',
       link: '/jj/admin/crm'
     },
-  ]
+  ];
 
   constructor(private router: Router) { }
 

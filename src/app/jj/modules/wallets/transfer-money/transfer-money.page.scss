@@ -9,8 +9,8 @@ ion-card {
       border-radius: 50%;
       color: var(--ion-color-primary-contrast);
       background: var(--ion-color-primary);
-      font-size: var(--ion-font-4xl);
-      padding: calc(var(--ion-padding) / 2);
+      font-size: var(--ion-font-3xl);
+      padding: var(--ion-padding);
     }
 
     .content {

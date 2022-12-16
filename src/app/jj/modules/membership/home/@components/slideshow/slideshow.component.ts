@@ -25,10 +25,10 @@ export class SlideshowComponent implements OnInit {
     on: {
       beforeInit() {
         const swiper = this;
-  
+
         swiper.classNames.push(`${swiper.params.containerModifierClass}coverflow`);
         swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
-  
+
         swiper.params.watchSlidesProgress = true;
         swiper.originalParams.watchSlidesProgress = true;
       },
@@ -49,24 +49,24 @@ export class SlideshowComponent implements OnInit {
           const slideSize = slidesSizesGrid[i];
           const slideOffset = $slideEl[0].swiperSlideOffset;
           const offsetMultiplier = ((center - slideOffset - (slideSize / 2)) / slideSize) * params.modifier;
-  
+
            let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
           let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
           // var rotateZ = 0
           let translateZ = -translate * Math.abs(offsetMultiplier);
-  
+
            let translateY = isHorizontal ? 0 : params.stretch * (offsetMultiplier);
           let translateX = isHorizontal ? params.stretch * (offsetMultiplier) : 0;
-  
+
            // Fix for ultra small values
-          if (Math.abs(translateX) < 0.001) translateX = 0;
-          if (Math.abs(translateY) < 0.001) translateY = 0;
-          if (Math.abs(translateZ) < 0.001) translateZ = 0;
-          if (Math.abs(rotateY) < 0.001) rotateY = 0;
-          if (Math.abs(rotateX) < 0.001) rotateX = 0;
-  
+          if (Math.abs(translateX) < 0.001) {translateX = 0;}
+          if (Math.abs(translateY) < 0.001) {translateY = 0;}
+          if (Math.abs(translateZ) < 0.001) {translateZ = 0;}
+          if (Math.abs(rotateY) < 0.001) {rotateY = 0;}
+          if (Math.abs(rotateX) < 0.001) {rotateX = 0;}
+
            const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  
+
            $slideEl.transform(slideTransform);
           $slideEl[0].style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
           if (params.slideShadows) {
@@ -81,11 +81,11 @@ export class SlideshowComponent implements OnInit {
               $shadowAfterEl = swiper.$(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
               $slideEl.append($shadowAfterEl);
             }
-            if ($shadowBeforeEl.length) $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
-            if ($shadowAfterEl.length) $shadowAfterEl[0].style.opacity = (-offsetMultiplier) > 0 ? -offsetMultiplier : 0;
+            if ($shadowBeforeEl.length) {$shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;}
+            if ($shadowAfterEl.length) {$shadowAfterEl[0].style.opacity = (-offsetMultiplier) > 0 ? -offsetMultiplier : 0;}
           }
         }
-  
+
          // Set correct perspective for IE10
         if (swiper.support.pointerEvents || swiper.support.prefixedPointerEvents) {
           const ws = $wrapperEl[0].style;
@@ -100,7 +100,7 @@ export class SlideshowComponent implements OnInit {
           .transition(duration);
       }
     }
-  }
+  };
 
   constructor(private common: CommonService, private home: HomeService) {}
 

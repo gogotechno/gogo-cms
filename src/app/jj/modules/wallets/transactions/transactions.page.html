@@ -6,7 +6,7 @@
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
       <h2 class="header-subtitle">
-        <span>{{ wallet.type }}&nbsp;@&nbsp;</span>
+        <span>{{ wallet.walletType?.name | cmsTranslate }}&nbsp;@&nbsp;</span>
         <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
       </h2>
     </div>
@@ -23,18 +23,16 @@
     </div>
     <ng-container *ngFor="let date of dates">
       <ion-list-header>{{ date }}</ion-list-header>
-      <ion-item lines="full" class="transaction" *ngFor="let transaction of transactions[date]">
+      <ion-item lines="full" class="transaction" *ngFor="let transaction of transactions[date]"
+        [routerLink]="transaction.identifier1 ? 'transfer-receipt/' + transaction.identifier1 : undefined">
         <div class="ion-padding-vertical-sm">
           <ion-text class="description">{{ transaction.description || '-' }}</ion-text><br />
           <ion-text class="reference1">{{ transaction.reference1 || '-' }}</ion-text><br />
           <ion-text class="reference2">{{ transaction.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
         </div>
         <div slot="end">
-          <jj-currency
-            [currency]="wallet.displayCurrency"
-            [value]="transaction.amount"
-            [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
-          ></jj-currency>
+          <jj-currency [currency]="wallet.displayCurrency" [value]="transaction.amount"
+            [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"></jj-currency>
         </div>
       </ion-item>
     </ng-container>

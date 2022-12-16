@@ -17,11 +17,13 @@ export class EditProfilePage implements OnInit {
   form: CmsForm;
   user: User;
 
-  constructor(private app: AppUtils,
+  constructor(
+    private app: AppUtils,
     private auth: AuthService,
     private account: AccountService,
     private modalController: ModalController,
-    private appUtils: AppUtils) { }
+    private appUtils: AppUtils,
+  ) {}
 
   ngOnInit() {
     this.form = this.auth.userType == 'CUSTOMER' ? customerform : userForm;
@@ -29,18 +31,18 @@ export class EditProfilePage implements OnInit {
   }
 
   async onSubmit(data: User) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
+    const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
     if (!confirm) return;
     if (this.auth.userType == 'MERCHANT') {
       await this.auth.updateMe(data);
       await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
     } else {
       // VALIDATE PHONE NUMBER BEFORE LOGIN
-      let modal = await this.modalController.create({
+      const modal = await this.modalController.create({
         component: PhoneNumberVerificationComponent,
         componentProps: {
-          phone: `+6${(<JJCustomer>data).phone}`
-        }
+          phone: `+6${(<JJCustomer>data).phone}`,
+        },
       });
 
       modal.onDidDismiss().then(async (v) => {
@@ -65,7 +67,6 @@ export class EditProfilePage implements OnInit {
 
       await modal.present();
     }
-
   }
 }
 

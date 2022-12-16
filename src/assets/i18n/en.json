@@ -86,6 +86,7 @@
   "_KM": "KM",
   "_SHARE": "Share",
   "_NEXT": "Next",
+  "_INCORRECT_PIN": "Incorrect PIN",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -449,6 +450,16 @@
     "_RECEIVER_WALLET_NOT_FOUND": "Receiver's wallet not found",
     "_SAME_WALLETS_FOUND": "Same wallets found",
     "_NO_CONVERSION_RATE_CONFIGURED": "No conversion rate configured",
-    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed"
+    "_TRANSFER_IS_NOT_ALLOWED": "Transfer is not allowed",
+    "_VERIFY_PIN": "Verify PIN",
+    "_CREATE_PIN": "Create PIN",
+    "_CHANGE_PIN": "Change PIN",
+    "_CONFIRM_TO_TRANSFER": "Confirm to transfer?",
+    "_TRANSFER_SUCCESS": "Transfer success",
+    "_CAN_TRANSFER_UP_TO": "Can transfer up to {{ balance }}",
+    "_TRANSFER_RECEIPT": "Transfer Receipt",
+    "_BENEFICIARY_NAME": "Beneficiary name",
+    "_BENEFICIARY_WALLET_NO": "Beneficiary wallet no.",
+    "_AMOUNT": "Amount"
   }
 }

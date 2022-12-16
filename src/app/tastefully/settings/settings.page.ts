@@ -17,8 +17,8 @@ export class SettingsPage implements OnInit {
 
   ngOnInit() {
     this.currentLang = this.translate.currentLang;
-    let languageAttr = this.tastefully.ATTRIBUTES.find((a) => a.code == "languages");
-    this.languages = languageAttr ? languageAttr.options : [{ code: "en", label: { en: "English" } }];
+    const languageAttr = this.tastefully.ATTRIBUTES.find((a) => a.code == 'languages');
+    this.languages = languageAttr ? languageAttr.options : [{ code: 'en', label: { en: 'English' } }];
   }
 
   async onLanguageChange() {

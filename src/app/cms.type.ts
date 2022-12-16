@@ -126,6 +126,7 @@ export interface CmsFormItem extends CmsDocument {
   direction?: 'vertical' | 'horizontal';
   buttons?: Array<CmsFormItemOption>;
   counter?: boolean;
+  hint?: CmsTranslable;
 }
 
 export interface CmsFormItemOption {
@@ -234,7 +235,7 @@ export interface CmsTable extends CmsDocument {
 }
 
 export class CmsAdminChildPage {
-  title: string = '';
+  title = '';
 }
 
 export interface CmsUser extends CmsDocument {

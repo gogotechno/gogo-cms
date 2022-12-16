@@ -25,7 +25,7 @@ export class RegistrationStepsComponent implements OnInit {
   }
 
   onDownloadClick(item: CmsListItem) {
-    
+
   }
 
 }

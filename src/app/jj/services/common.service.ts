@@ -37,7 +37,7 @@ export class CommonService {
   ) {}
 
   getByUrl(url: string) {
-    return this.http.get(url).toPromise();
+    return this.http.get<any>(url).toPromise();
   }
 
   postByUrl(url: string, payload: LiteralObject) {
@@ -45,9 +45,9 @@ export class CommonService {
   }
 
   async getSupportedLanguages(): Promise<CmsLanguage[]> {
-    let attributes = await this.cms.getAttributes();
-    let attribute = attributes.find((a) => a.code == 'languages');
-    let options = attribute?.options.length ? attribute.options : [DEFAULT_LANG];
+    const attributes = await this.cms.getAttributes();
+    const attribute = attributes.find((a) => a.code == 'languages');
+    const options = attribute?.options.length ? attribute.options : [DEFAULT_LANG];
     return options.map((option) => ({
       ...option,
       selected: option.code == this.translate.currentLang,
@@ -64,14 +64,14 @@ export class CommonService {
   }
 
   async getWhatsapp() {
-    let attributes = await this.cms.getAttributes();
-    let attribute = attributes.find((a) => a.code == 'whatsapp');
+    const attributes = await this.cms.getAttributes();
+    const attribute = attributes.find((a) => a.code == 'whatsapp');
     return attribute.value;
   }
 
   sendSms(receiver: string, template: SmsTemplateCode, data: LiteralObject) {
-    let body = this.getSmsBody(template, data);
-    let anchor = document.createElement('a');
+    const body = this.getSmsBody(template, data);
+    const anchor = document.createElement('a');
     anchor.setAttribute('id', 'sms-trigger');
     anchor.setAttribute('href', `sms:${receiver}${this.platform.is('android') ? '?' : '&'}body=${body}`);
     document.body.appendChild(anchor);
@@ -120,14 +120,14 @@ export class CommonService {
 
   async searchGoogleMap(query: string) {
     query = query.replace('&', '%26');
-    let encoded = encodeURI(query);
-    let url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
-    await Browser.open({ url: url });
+    const encoded = encodeURI(query);
+    const url = `https://www.google.com/maps/search/?api=1&query=${encoded}`;
+    await Browser.open({ url });
   }
 
   async getCurrentPosition() {
     try {
-      let position = await Geolocation.getCurrentPosition();
+      const position = await Geolocation.getCurrentPosition();
       return position;
     } catch (err) {
       console.error('Error getting location: ', err);
@@ -138,7 +138,7 @@ export class CommonService {
   async getCurrentCoords() {
     let lat: number = null;
     let lng: number = null;
-    let position = await this.getCurrentPosition();
+    const position = await this.getCurrentPosition();
     if (position) {
       lat = position.coords.latitude;
       lng = position.coords.longitude;
@@ -154,7 +154,7 @@ export class CommonService {
       return;
     }
     if (url.startsWith('http')) {
-      await Browser.open({ url: url });
+      await Browser.open({ url });
       return;
     }
     await this.router.navigateByUrl(url);

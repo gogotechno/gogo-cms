@@ -17,8 +17,8 @@ import { SearchAreaComponent } from './search-area/search-area.component';
   ],
 })
 export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
-  @Input('filterItem') filterItem: CmsFilterItem;
-  @Output('filterItemChange') filterItemChange: EventEmitter<CmsFilterItem>;
+  @Input() filterItem: CmsFilterItem;
+  @Output() filterItemChange: EventEmitter<CmsFilterItem>;
 
   value: string;
   disabled: boolean;
@@ -45,13 +45,13 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   get selectedLabel() {
-    let label: string = '';
+    let label = '';
     this.selectedItems.forEach((i) => (label += this.labelFields.map((f) => i[f]).join(this.labelSeparator)));
     return label;
   }
 
   get selectCode() {
-    let code: string = '';
+    let code = '';
     this.selectedItems.forEach((i) => (code += this.codeFields.map((f) => i[f]).join(this.codeSeparator)));
     return code;
   }

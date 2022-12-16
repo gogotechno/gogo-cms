@@ -14,11 +14,11 @@ export class CmsTranslatePipe implements PipeTransform {
   constructor(private cms: CmsService, private translate: TranslateService) {}
   transform(value: CmsTranslation | string) {
     try {
-      let lang = this.cms.getCurrentLang();
+      const lang = this.cms.getCurrentLang();
       if (value[lang]) {
         return value[lang];
       }
-      let defaultLang = this.cms.getDefaultLang();
+      const defaultLang = this.cms.getDefaultLang();
       if (value[defaultLang]) {
         return value[defaultLang];
       }
@@ -63,7 +63,7 @@ export class FullNamePipe implements PipeTransform {
     if (!firstName && !lastName) {
       return '-';
     }
-    let arr = [firstName];
+    const arr = [firstName];
     arr.unshift(lastName || '');
     return arr.join(separator || ' ');
   }
@@ -76,7 +76,7 @@ export class HideTextPipe implements PipeTransform {
     if (!text) {
       return '-';
     }
-    let toBeReplaced = text.substring(0, text.length - digitLeft);
+    const toBeReplaced = text.substring(0, text.length - digitLeft);
     return `${replaceString.repeat(toBeReplaced.length)}${text.substring(toBeReplaced.length)}`;
   }
 }

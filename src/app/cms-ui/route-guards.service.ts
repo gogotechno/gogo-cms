@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
-import { CanActivate } from "@angular/router";
-import { CmsService } from "../cms.service";
+import { Injectable } from '@angular/core';
+import { CanActivate } from '@angular/router';
+import { CmsService } from '../cms.service';
 
 @Injectable()
 export class SiteGuard implements CanActivate {
