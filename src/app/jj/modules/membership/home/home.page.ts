@@ -81,7 +81,7 @@ export class HomePage implements OnInit {
     const groupCode = String(event);
     document.getElementById('bulletin-group-' + groupCode).scrollIntoView({
       behavior: 'smooth',
-      inline: 'nearest',
+      inline: 'center',
       block: 'nearest',
     });
     await this.home.filterBulletins(groupCode);

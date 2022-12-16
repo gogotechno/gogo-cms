@@ -460,6 +460,7 @@
     "_TRANSFER_RECEIPT": "Transfer Receipt",
     "_BENEFICIARY_NAME": "Beneficiary name",
     "_BENEFICIARY_WALLET_NO": "Beneficiary wallet no.",
-    "_AMOUNT": "Amount"
+    "_AMOUNT": "Amount",
+    "_VIEW_MY_REWARDS": "View My Rewards"
   }
 }
