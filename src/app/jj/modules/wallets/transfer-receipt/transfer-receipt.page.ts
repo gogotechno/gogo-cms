@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Platform } from '@ionic/angular';
 import { SwsErpService } from 'src/app/sws-erp.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class TransferReceiptPage implements OnInit {
 
   constructor(
     route: ActivatedRoute,
+    public platform: Platform,
     private erp: SwsErpService,
   ) {
     this.refNo = route.snapshot.params.refNo;
