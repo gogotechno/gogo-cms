@@ -35,7 +35,7 @@ const routes: Routes = [
             loadChildren: () => import('./deposits/deposits.module').then((m) => m.DepositsPageModule),
           },
           {
-            path: ':id',
+            path: ':refNo',
             loadChildren: () => import('./deposit/deposit.module').then((m) => m.DepositPageModule),
           },
         ],
@@ -64,19 +64,6 @@ const routes: Routes = [
       {
         path: 'transfer-money/:toWalletNo',
         loadChildren: () => import('./transfer-money/transfer-money.module').then((m) => m.TransferMoneyPageModule),
-      },
-      {
-        path: 'transfers',
-        children: [
-          {
-            path: '',
-            loadChildren: () => import('./transfers/transfers.module').then((m) => m.TransfersPageModule),
-          },
-          {
-            path: ':id',
-            loadChildren: () => import('./transfer/transfer.module').then((m) => m.TransferPageModule),
-          },
-        ],
       },
       {
         path: 'change-pin',

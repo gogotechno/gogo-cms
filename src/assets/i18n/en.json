@@ -87,6 +87,8 @@
   "_SHARE": "Share",
   "_NEXT": "Next",
   "_INCORRECT_PIN": "Incorrect PIN",
+  "_COPY": "Copy",
+  "_HISTORY": "History",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",
@@ -443,7 +445,6 @@
     "_BANK": "Bank",
     "_ACCOUNT_NO": "Account No.",
     "_HOLDER_NAME": "Holder Name",
-    "_COPY_ACCOUNT_NO": "Copy account no.",
     "_MERCHANT_LIST": "Merchant List",
     "_REFERRER": "Referrer",
     "_SENDER_WALLET_NOT_FOUND": "Sender's wallet not found",
@@ -461,6 +462,13 @@
     "_BENEFICIARY_NAME": "Beneficiary name",
     "_BENEFICIARY_WALLET_NO": "Beneficiary wallet no.",
     "_AMOUNT": "Amount",
-    "_VIEW_MY_REWARDS": "View My Rewards"
+    "_VIEW_MY_REWARDS": "View My Rewards",
+    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "Amount must be more than zero",
+    "_PENDING_PAYMENT": "Pending Payment",
+    "_PROCESSING": "Processing",
+    "_SUCCESS": "Success",
+    "_FAILED": "Failed",
+    "_CONTACT_SERVICE": "Contact Service",
+    "_MAKE_PAYMENT": "Make Payment"
   }
 }

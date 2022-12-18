@@ -1,4 +1,4 @@
-import { CmsTranslation } from 'src/app/cms.type';
+import { CmsFile, CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 import { Currency } from '../modules/wallets/wallets.types';
 
@@ -464,17 +464,24 @@ export interface ScratchRequestExtras {
 }
 
 export interface JJDepositRequest extends ErpDoc {
-  wallet_id: number;
+  wallet_id?: number;
   amount: number;
   refNo: string;
   description?: string | null;
   reference1?: string | null;
   reference2?: string | null;
   reference3?: string | null;
-  status: DepositRequestStatus;
+  status?: DepositRequestStatus;
+  deposit_method_id: number;
+  bank_account_id?: number;
+  attachments?: CmsFile[];
+  walletNo?: string;
+  bankAccount?: JJBankAccount;
+  depositMethod?: JJDepositMethod;
+  wallet?: JJWallet;
 }
 
-export type DepositRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
+export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED' | 'DECLINED';
 
 export interface JJDepositMethod extends ErpDoc {
   name: string;
@@ -514,6 +521,7 @@ export interface JJBankAccount extends ErpDoc {
   isDefault: boolean;
   bank_id: number;
   bank?: JJBank;
+  bankName?: string;
 }
 
 export interface JJTransferRequest extends ErpDoc {
@@ -528,6 +536,7 @@ export interface JJTransferRequest extends ErpDoc {
   effectiveDate?: Date;
   fromWalletNo?: string;
   toWalletNo?: string;
+  fromWalletPin?: string;
 }
 
 export interface JJPinVerification extends ErpDoc {

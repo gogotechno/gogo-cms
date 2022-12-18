@@ -240,9 +240,21 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Deposit Request', request);
   }
 
+  updateDepositRequest(requestId: number, request: Partial<JJDepositRequest>) {
+    return this.swsErp.putDoc('Deposit Request', requestId, request);
+  }
+
   async getDepositRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
     return res;
+  }
+
+  async getDepositRequestByRefNo(refNo: string) {
+    const res = await this.getDepositRequests(this.defaultPage, {
+      refNo: refNo,
+      refNo_type: '=',
+    });
+    return this.populateDepositRequest(res[0]);
   }
 
   async getDepositRequests(pagination: Pagination, conditions: Conditions = {}) {
@@ -537,7 +549,11 @@ export class CoreService extends SharedComponent {
       conditions.latitude = coords.latitude;
       delete conditions.withLocation;
     }
-    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, <GetOptions>conditions);
+    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>(
+      'Scratch And Win Event',
+      eventId,
+      <GetOptions>conditions,
+    );
     return res;
   }
 
@@ -624,14 +640,12 @@ export class CoreService extends SharedComponent {
     if (!slideshow) {
       return null;
     }
-
     if (slideshow.items?.length) {
       slideshow.items = slideshow.items.map((item) => {
         item.messageTranslation = this.cmsUtils.parseCmsTranslation(item.message, item.message);
         return item;
       });
     }
-
     return slideshow;
   }
 
@@ -669,18 +683,27 @@ export class CoreService extends SharedComponent {
     if (!wallet) {
       return null;
     }
-
-    wallet.displayCurrency = {
-      code: wallet?.walletCurrency.code,
-      displaySymbol: wallet?.walletCurrency.symbol,
-      symbolPosition: wallet?.walletCurrency.symbolPosition,
-      precision: wallet?.walletCurrency.digits,
-    };
-
-    wallet.icon = wallet?.walletType.icon;
-    wallet.colors = wallet?.walletType.colors;
-
+    if (wallet.walletCurrency) {
+      wallet.displayCurrency = {
+        code: wallet.walletCurrency.code,
+        displaySymbol: wallet.walletCurrency.symbol,
+        symbolPosition: wallet.walletCurrency.symbolPosition,
+        precision: wallet.walletCurrency.digits,
+      };
+    }
+    if (wallet.walletType) {
+      wallet.icon = wallet.walletType.icon;
+      wallet.colors = wallet.walletType.colors;
+    }
     return wallet;
+  }
+
+  populateDepositRequest(request: JJDepositRequest) {
+    if (!request) {
+      return null;
+    }
+    request.wallet = this.populateWallet(request.wallet);
+    return request;
   }
 
   populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {

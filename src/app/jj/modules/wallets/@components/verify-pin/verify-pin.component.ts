@@ -25,14 +25,16 @@ export class VerifyPinComponent implements OnInit {
       walletNo: this.walletNo,
       walletPin: data.pin,
     });
-    await this.modalCtrl.dismiss({ success: true });
+    await this.modalCtrl.dismiss({
+      success: true,
+      pin: data.pin,
+    });
   }
 }
 
 const form: CmsForm = {
   code: 'verify-pin',
   labelPosition: 'stacked',
-  submitButtonText: '_CONFIRM',
   submitButtonId: 'verify-pin-btn',
   autoValidate: true,
   items: [

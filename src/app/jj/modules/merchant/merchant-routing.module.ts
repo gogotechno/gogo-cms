@@ -35,19 +35,6 @@ const routes: Routes = [
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
   {
-    path: 'withdraw-requests',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./withdraw-requests/withdraw-requests.module').then((m) => m.WithdrawRequestsPageModule),
-      },
-      {
-        path: ':id',
-        loadChildren: () => import('./withdraw-request/withdraw-request.module').then((m) => m.WithdrawRequestPageModule),
-      },
-    ],
-  },
-  {
     path: 'merchants',
     loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
   },
