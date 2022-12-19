@@ -22,7 +22,7 @@ export class ScratchPrizesComponent extends SharedComponent implements OnInit {
     code: 'MYR',
     displaySymbol: 'RM',
     precision: 2,
-    symbolPosition: 'start',
+    symbolPosition: 'START',
   };
 
   constructor(private modalCtrl: ModalController, private core: CoreService) {

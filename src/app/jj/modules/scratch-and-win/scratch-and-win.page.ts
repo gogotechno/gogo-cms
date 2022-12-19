@@ -36,6 +36,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
   buttons = buttons;
 
+  scratching: boolean;
+
   get contentOffsetTop() {
     let offset = this.platform.is('ios') ? 46 : 56;
     if (this.messages) {

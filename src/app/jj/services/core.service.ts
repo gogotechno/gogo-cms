@@ -21,6 +21,7 @@ import {
   JJEventPrize,
   JJFab,
   JJMerchant,
+  JJPinVerification,
   JJPointRule,
   JJProduct,
   JJScratchAndWinEvent,
@@ -40,8 +41,6 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
-  TransferRequestDto,
-  WalletType,
 } from '../typings';
 import { CommonService } from './common.service';
 
@@ -305,21 +304,12 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  createTransferRequest(data: TransferRequestDto) {
-    let request: JJTransferRequest = {
-      refNo: '',
-      amount: data.amount,
-      fromWallet: data.fromWallet,
-      toWallet: data.toWallet,
-      description: data.description,
-      reference1: data.reference1,
-      reference2: data.reference2,
-      reference3: data.reference3,
-      effectiveDate: data.effectiveDate,
-      fromWalletNo: data.fromWalletNo,
-      toWalletNo: data.toWalletNo,
-    };
+  createTransferRequest(request: JJTransferRequest) {
     return this.swsErp.postDoc('Transfer Request', request);
+  }
+
+  createPinVerification(verification: JJPinVerification) {
+    return this.swsErp.postDoc('Pin Verification', verification);
   }
 
   // -----------------------------------------------------------------------------------------------------

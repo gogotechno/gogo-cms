@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
-import { JJDepositRequest, JJWallet, JJWithdrawRequest } from 'src/app/jj/typings';
+import { JJWallet, JJWithdrawRequest } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -29,9 +29,9 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
     super();
-   }
+  }
 
-   async ngOnInit() {
+  async ngOnInit() {
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     await this.loadData();
@@ -63,7 +63,7 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
     scroller.complete();
   }
 
-  grouping(withdraws: JJDepositRequest[]) {
+  grouping(withdraws: JJWithdrawRequest[]) {
     if (!this.withdraws) {
       this.withdraws = [];
     }
@@ -84,6 +84,4 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
-
-
 }

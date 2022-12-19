@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj" [text]="platform.is('ios') ? ('_BACK' | translate) : ''"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'jj._MERCHANT_LIST' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="merchants$ | async as merchants">
+    <ion-item *ngFor="let merchant of merchants">
+      <ion-avatar slot="start">
+        <ion-img [src]="merchant.logo | erpImg"></ion-img>
+      </ion-avatar>
+      <ion-label>
+        <ion-text><strong>{{ merchant.name }}</strong></ion-text>
+        <br />
+        <ion-text *ngIf="merchant.distance">
+          <small>{{ merchant.distance | number: '1.2-2' }}{{ '_KM' | translate }}</small>
+        </ion-text>
+      </ion-label>
+      <div slot="end" *ngIf="merchant.distance">
+        <ion-button
+          shape="round"
+          fill="clear"
+          href="https://maps.google.com/?q={{merchant.latitude}},{{merchant.longitude}}"
+          target="_blank"
+        >
+          <ion-icon name="locate-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

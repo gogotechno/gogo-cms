@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, Inject } from '@angular/core';
 
 @Component({
   selector: 'app-jj',
@@ -7,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JJPage implements OnInit {
   constructor(@Inject(DOCUMENT) private doc: Document) {
-
     const links = this.doc.head.getElementsByTagName('link');
     let link: HTMLLinkElement = this.doc.createElement('link');
     for (let index = 0; index < links.length; index++) {

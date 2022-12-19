@@ -70,10 +70,6 @@ const routes: Routes = [
         path: 'change-pin',
         loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),
       },
-      {
-        path: 'verify-pin',
-        loadChildren: () => import('./verify-pin/verify-pin.module').then((m) => m.VerifyPinPageModule),
-      },
     ],
   },
 ];

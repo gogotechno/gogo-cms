@@ -69,14 +69,8 @@ export class TransferMoneyPage implements OnInit {
     }
 
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
-    if (confirm) {
-      await this.core.createTransferRequest({
-        fromWalletNo: this.walletNo,
-        toWalletNo: this.toWalletNo,
-        amount: data.amount,
-        description: data.description,
-      });
-      await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
+    if (!confirm) {
+      return;
     }
 
     let verification = await this.walletsService.verifyPin(this.wallet);
