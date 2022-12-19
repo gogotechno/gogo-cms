@@ -3,11 +3,52 @@
       <ion-buttons slot="start">
         <ion-back-button defaultHref="/jj/wallets/:walletNo/create-withdraw"></ion-back-button>
       </ion-buttons>
-      <ion-title>取出明细</ion-title>
+      <ion-title>Withdraw Details</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col>
+          <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+          </ion-refresher>
+          <ng-container *ngIf="withdraw">
+            <h3 class="title">
+              <ion-text [color]=" withdraw?.amount > 0 ? 'success' : 'danger'">
+                {{ "jj._POINTS_WITH_COUNT" | translate: { count: withdraw?.amount } }}
+              </ion-text>
+            </h3>
+            <ion-list lines="full">
+              <ion-item>
+                <ion-label>{{ "jj._REFERENCE_NO" | translate }}</ion-label>
+                <ion-input [readonly]="true" [value]="withdraw?.refNo"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>{{ "jj._DESCRIPTION" | translate }}</ion-label>
+                <ion-input [readonly]="true" [value]="withdraw?.description"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>{{ "jj._REFERENCE_1" | translate }}</ion-label>
+                <ion-input [readonly]="true" [value]="withdraw?.reference1"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>{{ "jj._REFERENCE_2" | translate }}</ion-label>
+                <ion-input [readonly]="true" [value]="withdraw?.reference2"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label>{{ "jj._REFERENCE_3" | translate }}</ion-label>
+                <ion-input [readonly]="true" [value]="withdraw?.reference3"></ion-input>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+
+  <!-- <ion-content>
     <div class="ion-text-center ion-margin">
         <ion-badge color="warning"><h2 style="padding-bottom: 5px;">等待核实中</h2></ion-badge>
     </div>
@@ -60,7 +101,7 @@
         
         </ion-card-content>
       </ion-card>
-  </ion-content>
+  </ion-content> -->
 
   <ion-footer>
     <ion-button expand="block" size="large">联系客服</ion-button>

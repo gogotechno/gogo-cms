@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    <ion-title>{{ 'jj._VERIFY_PIN' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -84,5 +87,9 @@
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block" routerLink="../change-pin">Submit</ion-button>
+  <ion-toolbar>
+    <ion-button id="verify-pin-btn" expand="block">
+      <ion-label>{{ '_VERIFY' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
 </ion-footer>

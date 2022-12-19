@@ -33,7 +33,7 @@ export class UploadAttachmentsComponent implements OnInit {
   }
 
   async onFileChange(event: Event) {
-    let file = (<HTMLInputElement>event.target).files[0];
+    const file = (<HTMLInputElement>event.target).files[0];
     if (!file) {
       return;
     }
@@ -43,7 +43,7 @@ export class UploadAttachmentsComponent implements OnInit {
     if (file.type.startsWith('image')) {
       type = 'image';
       await new Promise((resolve) => {
-        let reader = new FileReader();
+        const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
           previewUrl = String(reader.result);
@@ -66,10 +66,10 @@ export class UploadAttachmentsComponent implements OnInit {
     }
 
     this.attachments.push({
-      file: file,
+      file,
       name: file.name,
-      type: type,
-      previewUrl: previewUrl,
+      type,
+      previewUrl,
     });
   }
 

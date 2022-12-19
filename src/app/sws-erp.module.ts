@@ -1,10 +1,10 @@
-import { NgModule } from "@angular/core";
-import { ErpImagePipe, ErpTranslationPipe } from "./sws-erp.pipe";
+import { NgModule } from '@angular/core';
+import { ErpImagePipe, ErpTranslationPipe } from './sws-erp.pipe';
 
 const pipes = [
     ErpImagePipe,
     ErpTranslationPipe
-]
+];
 
 @NgModule({
     declarations: [

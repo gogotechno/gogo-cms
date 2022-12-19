@@ -25,7 +25,7 @@
       </div>
       <ion-item *ngFor="let attachment of attachments; let index = index">
         <ion-thumbnail slot="start">
-          <img [class.file]="attachment.type == 'file'" [src]="attachment.previewUrl" />
+          <img [class.file]="attachment.type === 'file'" [src]="attachment.previewUrl" />
         </ion-thumbnail>
         <ion-label>{{ attachment.name }}</ion-label>
         <ion-button slot="end" class="remove-btn" (click)="removeAttachment(index)">

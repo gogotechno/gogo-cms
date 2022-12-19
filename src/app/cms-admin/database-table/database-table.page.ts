@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CmsTranslatePipe, FirestoreDatePipe } from 'src/app/cms-ui/cms.pipe';
 import { CmsService } from 'src/app/cms.service';
 import { CmsAdminChildPage, CmsForm, CmsTable } from 'src/app/cms.type';
-import {saveAs} from "file-saver";
+import {saveAs} from 'file-saver';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DatePipe } from '@angular/common';
 
@@ -36,11 +36,11 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
     this.list = await this.cms.getTableData(this.table);
     this.title = this.cmsTranslate.transform(this.table.name);
     this.form = await this.cms.getForm(this.tableId);
-    console.log("List: ", this.list);
+    console.log('List: ', this.list);
   }
 
   getTableDataName(tableData: any) {
-    let nameField = this.table.nameField;
+    const nameField = this.table.nameField;
     let name = tableData.name || tableData[nameField];
     if (this.cms.isTranslationObject(name)) {
       name = this.cmsTranslate.transform(name);
@@ -49,8 +49,8 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
   }
 
   getTableDataId(tableData: any) {
-    let idField = this.table.codeField;
-    let id = tableData.code || tableData[idField] as string;
+    const idField = this.table.codeField;
+    const id = tableData.code || tableData[idField] as string;
     return id;
   }
 
@@ -64,31 +64,31 @@ export class DatabaseTablePage extends CmsAdminChildPage implements OnInit {
   }
 
   toggleItem(item, event: Event) {
-    let checked = (<CustomEvent>event).detail.checked;
+    const checked = (<CustomEvent>event).detail.checked;
     if (checked) {
       this.selectedItems.push(item);
     } else {
-      let i = this.selectedItems.findIndex((v) => this.getTableDataId(v) === this.getTableDataId(item));
+      const i = this.selectedItems.findIndex((v) => this.getTableDataId(v) === this.getTableDataId(item));
       this.selectedItems.splice(i, 1);
     }
     console.log(this.selectedItems);
   }
 
   export(list: any[]) {
-    let csv = "";
-    let headers = this.form.items.map(item => `"${this.cmsTranslate.transform(item.label)}"`);
+    let csv = '';
+    const headers = this.form.items.map(item => `"${this.cmsTranslate.transform(item.label)}"`);
     headers.push(this.translate.transform('_UPDATED_AT'));
     csv += headers.join(',') + '\n';
     list.forEach(v => {
-      let values = [];
+      const values = [];
       this.form.items.forEach(item => {
         values.push(`"${v[item.code]}"`);
       });
-      values.push(`"${this.firestoreDate.transform(v['updatedAt'], 'yyyy-MM-dd HH:mm:ss')}"`);
+      values.push(`"${this.firestoreDate.transform(v.updatedAt, 'yyyy-MM-dd HH:mm:ss')}"`);
       csv += values.join(',') + '\n';
     });
-    let data: Blob = new Blob([csv], {
-      type: "text/csv;charset=utf-8"
+    const data: Blob = new Blob([csv], {
+      type: 'text/csv;charset=utf-8'
     });
     saveAs(data, `${this.date.transform(new Date(), 'yyyy-MM-dd HH:mm:ss')}-${this.cmsTranslate.transform(this.table.name)}.csv`);
   }

@@ -26,12 +26,12 @@ export class ChangePasswordPage implements OnInit {
   }
 
   async onChangePassword(user: Partial<JJUser>) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CHANGE_PASSWORD');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CHANGE_PASSWORD');
     if (confirm) {
       await this.auth.updateMyPassword(user.old_password, user.new_password);
       await this.app.presentAlert('jj-luckydraw._PASSWORD_UPDATED', '_SUCCESS');

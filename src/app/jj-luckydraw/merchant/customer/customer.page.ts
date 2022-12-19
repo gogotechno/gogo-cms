@@ -53,7 +53,7 @@ export class CustomerPage implements OnInit {
   async ngOnInit() {
     const me = await this.auth.findMe();
     this.role = me.role;
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.customerId = params.id;
     this.lucky.customerChange.next({
       currentCustomerId: this.customerId,
@@ -94,9 +94,9 @@ export class CustomerPage implements OnInit {
 
   assertForm() {
     return new Promise<boolean>((resolve, reject) => {
-      let cycle = 100;
+      const cycle = 100;
       let timeout = 0;
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         if (timeout > 3000) {
           clearInterval(interval);
           reject('Assert form error: Timeout due to no response');
@@ -123,18 +123,18 @@ export class CustomerPage implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }
 
   async onUpdateCustomer(customer: JJCustomer) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_UPDATE_CUSTOMER');
     if (confirm) {
       await this.lucky.updateCustomer(this.customerId, this.cmsForm.removeUnusedKeys('swserp', customer));
       await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
@@ -151,7 +151,7 @@ export class CustomerPage implements OnInit {
   }
 
   async onResetPassword() {
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
       const phone = `${this.customer.phone}`;
@@ -159,7 +159,7 @@ export class CustomerPage implements OnInit {
       await this.app.presentAlert('jj-luckydraw._CUSTOMER_UPDATED', '_SUCCESS');
       await this.disableForm();
       this.smsComponent.setReceiver(phone);
-      this.smsComponent.setData({ phone: phone, password: randomPassword });
+      this.smsComponent.setData({ phone, password: randomPassword });
       this.smsComponent.send();
     }
   }

@@ -16,6 +16,14 @@
             <ion-icon [name]="toWallet?.walletType?.icon || 'gift'"></ion-icon>
             <div class="content">
               <h3>{{ toWallet?.walletNo }}</h3>
+              <ng-container *ngIf="toWallet?.customer">
+                <p>{{ toWallet?.customer.firstName | fullName: toWallet?.customer.lastName }}</p>
+                <p>{{ toWallet?.customer.phone }}</p>
+              </ng-container>
+              <ng-container *ngIf="toWallet?.merchant">
+                <p>{{ toWallet?.merchant.name }}</p>
+                <p>{{ toWallet?.merchant.officePhone }}</p>
+              </ng-container>
             </div>
           </ion-card-content>
         </ion-card>

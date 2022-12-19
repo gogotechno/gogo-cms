@@ -77,9 +77,9 @@ export class TicketDistributionsPage implements OnInit {
   }
 
   async loadMoreTicketDistributions(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.distributionPagination.currentPage += 1;
-    let distributions = await this.getTicketDistributions();
+    const distributions = await this.getTicketDistributions();
     this.distributions = [...this.distributions, ...distributions];
     this.noMoreDistributions = distributions.length <= 0;
     infiniteScrollEl.complete();
@@ -87,14 +87,14 @@ export class TicketDistributionsPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     refresherEl.complete();
   }
 
   async onSearch(event: Event) {
-    let searchbarEl = <HTMLIonSearchbarElement>event.target;
+    const searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.distributionConditions['searchInput'] = searchbarEl.value;
+    this.distributionConditions.searchInput = searchbarEl.value;
     this.distributions = await this.getTicketDistributions();
   }
 
@@ -132,12 +132,12 @@ export class TicketDistributionsPage implements OnInit {
           },
           selectHandler: {
             onLoad: async () => {
-              let pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
-              let events = await this.lucky.getEvents({}, pagination);
+              const pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
+              const events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
             },
             onScrollToEnd: async (pagination: Pagination) => {
-              let events = await this.lucky.getEvents({}, pagination);
+              const events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
             },
           },

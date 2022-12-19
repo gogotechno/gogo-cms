@@ -127,10 +127,10 @@ export class CmsService {
     if (id) {
       await this.firestore.doc<any>(`${collectionPath}/${id}`).update(document);
     } else {
-      id = document['code'] || document[table.codeField];
+      id = document.code || document[table.codeField];
       await this.firestore.collection<any>(collectionPath).doc(id).set(document);
     }
-    let result = { id: id };
+    const result = { id };
     return result;
   }
 
@@ -159,7 +159,7 @@ export class CmsService {
   }
 
   getExternalIntegration(code?: string) {
-    let queryFn: QueryFn = (ref) => {
+    const queryFn: QueryFn = (ref) => {
       if (code) {
         ref.where('code', '==', code);
       }
@@ -182,8 +182,8 @@ export class CmsService {
   }
 
   async getDownloadURL(path: string) {
-    let ref = this.fireStorage.ref(`${this.SITE.template}/${path}`);
-    let url = await ref.getDownloadURL().toPromise();
+    const ref = this.fireStorage.ref(`${this.SITE.template}/${path}`);
+    const url = await ref.getDownloadURL().toPromise();
     return url;
   }
 }

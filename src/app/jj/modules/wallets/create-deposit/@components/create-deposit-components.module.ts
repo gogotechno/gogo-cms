@@ -13,10 +13,10 @@ const components = [
 
 @NgModule({
   imports: [
-    CommonModule, 
-    FormsModule, 
-    IonicModule, 
-    RouterModule, 
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    RouterModule,
     SharedModule,
     WalletsComponentsModule
   ],

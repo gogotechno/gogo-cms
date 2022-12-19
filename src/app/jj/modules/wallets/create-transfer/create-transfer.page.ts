@@ -21,20 +21,26 @@ export class CreateTransferPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.walletNo = params['walletNo'];
+    const params = this.route.snapshot.params;
+    this.walletNo = params.walletNo;
   }
 
   async onNext(data: CreateTransferDto) {
-    let wallet = await this.core.getWalletByNo(data.walletNo);
-    if (!wallet) {
+    if (data.toWalletNo == this.walletNo) {
+      await this.appUtils.presentAlert('jj._SAME_WALLETS_FOUND');
+      return;
+    }
+    let toWallet = await this.core.getWalletByNo(data.toWalletNo);
+    if (!toWallet) {
       await this.appUtils.presentAlert('jj._WALLET_NOT_FOUND');
       return;
     }
-    await this.router.navigate(['../transfer-money', data.walletNo], {
+    let wallet = await this.core.getWalletByNo(this.walletNo);
+    await this.router.navigate(['../transfer-money', data.toWalletNo], {
       relativeTo: this.route,
       state: {
         wallet: wallet,
+        toWallet: toWallet,
       },
     });
   }
@@ -47,7 +53,7 @@ const form: CmsForm = {
   autoValidate: true,
   items: [
     {
-      code: 'walletNo',
+      code: 'toWalletNo',
       label: {
         en: 'Wallet No.',
         zh: '钱包账号',
@@ -61,5 +67,5 @@ const form: CmsForm = {
 };
 
 interface CreateTransferDto {
-  walletNo: string;
+  toWalletNo: string;
 }

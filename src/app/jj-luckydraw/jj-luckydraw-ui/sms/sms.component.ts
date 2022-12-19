@@ -7,10 +7,10 @@ import { Platform } from '@ionic/angular';
   styleUrls: ['./sms.component.scss'],
 })
 export class SmsComponent implements OnInit {
-  @Input('template') template: SmsTemplateCode;
-  @Input('receiver') receiver: string;
-  @Input('body') body: string;
-  @Input('data') data: { [key: string]: string };
+  @Input() template: SmsTemplateCode;
+  @Input() receiver: string;
+  @Input() body: string;
+  @Input() data: { [key: string]: string };
 
   constructor(private platform: Platform) {}
 
@@ -38,7 +38,7 @@ export class SmsComponent implements OnInit {
       return;
     }
     const smsContent = `sms:${this.receiver}${this.platform.is('android') ? '?' : '&'}body=${this.body}`;
-    let el = document.getElementById('sms-trigger');
+    const el = document.getElementById('sms-trigger');
     el.setAttribute('href', smsContent);
     el.click();
   }

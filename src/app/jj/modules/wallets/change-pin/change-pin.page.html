@@ -1,157 +1,28 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons>
-      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/jj/wallets/' + walletNo"></ion-back-button>
     </ion-buttons>
+    <ion-title>{{ 'jj._CHANGE_PIN' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <h2 class="ion-text-center">Enter new 6-digit PIN</h2><br />
-  <h5>Set your PIN</h5>
-  <ion-grid>
+<ion-content>
+  <ion-grid fixed>
     <ion-row>
-      <ion-col size="2">
-        <ion-input #pin1 
-        maxLength="1" 
-        (keyup)="pinController($event,pin2,'')" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin2 
-        maxLength="1" 
-        (keyup)="pinController($event,pin3,pin1)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin3 
-        maxLength="1" 
-        (keyup)="pinController($event,pin4,pin2)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin4 
-        maxLength="1" 
-        (keyup)="pinController($event,pin5,pin3)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin5 
-        maxLength="1" 
-        (keyup)="pinController($event,pin6,pin4)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin6 
-        maxLength="1" 
-        (keyup)="pinController($event,pin7,pin5)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <h5>Confirm your PIN</h5>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="2">
-        <ion-input #pin7 
-        maxLength="1" 
-        (keyup)="pinController($event,pin8,pin6)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin8 
-        maxLength="1" 
-        (keyup)="pinController($event,pin9,pin7)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin9 
-        maxLength="1" 
-        (keyup)="pinController($event,pin10,pin8)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin10 
-        maxLength="1" 
-        (keyup)="pinController($event,pin11,pin9)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin11 
-        maxLength="1" 
-        (keyup)="pinController($event,pin12,pin10)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
-      </ion-col>
-      <ion-col size="2">
-        <ion-input #pin12 
-        maxLength="1" 
-        (keyup)="pinController($event,'',pin11)" 
-        (keypress)="numberOnlyValidation($event)" 
-        type="tel" 
-        class="custom"
-        type="password"
-        autocomplete="off">
-      </ion-input>
+      <ion-col>
+        <div class="ion-padding-sm">
+          <cms-form [form]="form" (submit)="onCreate($event)"></cms-form>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
 
 <ion-footer>
-  <ion-button expand="block">Submit</ion-button>
+  <ion-toolbar>
+    <ion-button id="change-pin-btn" expand="block">
+      <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
 </ion-footer>

@@ -67,24 +67,24 @@ export class RewardsPage implements OnInit {
   }
 
   async loadMoreRewards(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.rewardPagination.currentPage += 1;
-    let rewards = await this.getRewards();
+    const rewards = await this.getRewards();
     this.rewards = [...this.rewards, ...rewards];
     this.noMoreRewards = rewards.length <= 0;
     infiniteScrollEl.complete();
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }
 
   async onSearch(event: Event) {
-    let searchbarEl = <HTMLIonSearchbarElement>event.target;
+    const searchbarEl = <HTMLIonSearchbarElement>event.target;
     this.resetPagination();
-    this.rewardConditions['searchInput'] = searchbarEl.value;
+    this.rewardConditions.searchInput = searchbarEl.value;
     this.rewards = await this.getRewards();
   }
 
@@ -122,12 +122,12 @@ export class RewardsPage implements OnInit {
           },
           selectHandler: {
             onLoad: async () => {
-              let pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
-              let events = await this.lucky.getEvents({}, pagination);
+              const pagination: Pagination = { itemsPerPage: 10, currentPage: 1 };
+              const events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
             },
             onScrollToEnd: async (pagination: Pagination) => {
-              let events = await this.lucky.getEvents({}, pagination);
+              const events = await this.lucky.getEvents({}, pagination);
               return [events, pagination];
             },
           },

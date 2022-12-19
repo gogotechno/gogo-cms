@@ -23,8 +23,8 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.eventId = params['id'];
+    const params = this.route.snapshot.params;
+    this.eventId = params.id;
     await this.loadData();
   }
 
@@ -41,8 +41,8 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   }
 
   async getRequests() {
-    let currentUser = this.auth.currentUser;
-    let requests = await this.core.getScratchRequests(this.requestsPage, {
+    const currentUser = this.auth.currentUser;
+    const requests = await this.core.getScratchRequests(this.requestsPage, {
       hasPrize: true,
       eventId: this.eventId,
       customer_id: currentUser.doc_id,
@@ -53,10 +53,10 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
 
   async loadMoreRequests(event: Event) {
     this.requestsPage.currentPage += 1;
-    let incoming = await this.getRequests();
+    const incoming = await this.getRequests();
     this.requests = [...this.requests, ...incoming];
     this.requestsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
@@ -64,16 +64,16 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
     if (index == 0) {
       return true;
     }
-    let previous = this.requests[index - 1];
-    let current = this.requests[index];
-    let previousDate = new Date(previous.doc_createdBy).toDateString();
-    let currentDate = new Date(current.doc_createdBy).toDateString();
+    const previous = this.requests[index - 1];
+    const current = this.requests[index];
+    const previousDate = new Date(previous.doc_createdBy).toDateString();
+    const currentDate = new Date(current.doc_createdBy).toDateString();
     return previousDate != currentDate;
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

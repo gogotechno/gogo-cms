@@ -18,7 +18,7 @@ export class ErpImagePipe implements PipeTransform {
       src = defaultImg || '/assets/image-placeholder.jpg';
     }
     if (this.uploaded(src)) {
-      let imgUrl = this.transformImgUrl();
+      const imgUrl = this.transformImgUrl();
       src = `${imgUrl}${src}`;
     }
     return src;
@@ -41,12 +41,12 @@ export class ErpTranslationPipe implements PipeTransform {
 
   transform(value: string) {
     try {
-      let obj = JSON.parse(value);
-      let lang = this.cms.getCurrentLang();
+      const obj = JSON.parse(value);
+      const lang = this.cms.getCurrentLang();
       if (obj[lang]) {
         return obj[lang];
       }
-      let defaultLang = this.cms.getDefaultLang();
+      const defaultLang = this.cms.getDefaultLang();
       if (obj[defaultLang]) {
         return obj[defaultLang];
       }

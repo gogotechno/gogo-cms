@@ -31,7 +31,7 @@ export class LuckyDrawPrizeComponent extends SharedComponent implements OnInit {
   }
 
   async getWinners() {
-    let winners = await this.core.getWinners(this.winnersPage, {
+    const winners = await this.core.getWinners(this.winnersPage, {
       prize_id: this.prize.doc_id,
       prize_id_type: '=',
     });
@@ -40,10 +40,10 @@ export class LuckyDrawPrizeComponent extends SharedComponent implements OnInit {
 
   async loadMoreWinners(event: Event) {
     this.winnersPage.currentPage += 1;
-    let incoming = await this.getWinners();
+    const incoming = await this.getWinners();
     this.winners = [...this.winners, ...incoming];
     this.winnersEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 }

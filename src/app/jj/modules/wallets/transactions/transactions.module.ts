@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { TransactionsPageRoutingModule } from './transactions-routing.module';
-
-import { TransactionsPage } from './transactions.page';
-import { TranslateModule } from '@ngx-translate/core';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { JJComponentsModule } from '../../@components/jj-components.module';
+import { TransactionsPage } from './transactions.page';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { SharedModule } from 'src/app/jj/shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -17,10 +15,11 @@ import { JJComponentsModule } from '../../@components/jj-components.module';
     FormsModule,
     IonicModule,
     TransactionsPageRoutingModule,
-    TranslateModule,
-    ScrollingModule,
     JJComponentsModule,
+    ScrollingModule,
+    SharedModule,
+    CmsUIModule,
   ],
-  declarations: [TransactionsPage]
+  declarations: [TransactionsPage],
 })
 export class TransactionsPageModule {}

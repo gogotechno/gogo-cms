@@ -1,49 +1,71 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
-import { CreateDepositPage } from '../create-deposit/create-deposit.page';
-import { Currency } from '../wallets.types';
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.page.html',
   styleUrls: ['./wallet.page.scss'],
 })
-export class WalletPage implements OnInit {
+export class WalletPage implements OnInit, OnDestroy {
   walletNo: string;
   wallet: JJWallet;
-  cards = cards;
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'start',
-  };
-  createDepositPage: CreateDepositPage;
+  cards: WalletCard[];
+
+  destroy$: Subject<boolean>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private modalCtrl: ModalController,
+    private walletsService: WalletsService,
     private core: CoreService,
-  ) {}
+  ) {
+    this.destroy$ = new Subject();
+  }
 
   ngOnInit() {
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
+
+    this.walletsService.walletChange = new BehaviorSubject(null);
+    this.walletsService.walletChange.pipe(takeUntil(this.destroy$)).subscribe((change) => {
+      if (change) this.refreshData();
+    });
+
     this.loadData();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
   async loadData() {
-    this.wallet = await this.core.getWalletByNo(this.walletNo);
+    this.wallet = await this.getWallet(false);
+    this.cards = this.getCards();
+  }
+
+  async refreshData() {
+    this.wallet = await this.getWallet(true);
+  }
+
+  async getWallet(silent: boolean) {
+    let wallet = await this.core.getWalletByNo(this.walletNo, {
+      skipLoading: silent,
+    });
+    return wallet;
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
@@ -54,10 +76,11 @@ export class WalletPage implements OnInit {
     switch (card.code) {
       case 'QR_CODE':
         return this.openQrCode();
+      case 'PIN':
+        return this.openPin();
       case 'DEPOSIT':
       case 'WITHDRAW':
       case 'TRANSFER':
-      case 'PIN':
         return this.onCardNavigate(card.url);
       default:
         return;
@@ -65,9 +88,7 @@ export class WalletPage implements OnInit {
   }
 
   async onCardNavigate(path: string) {
-    await this.router.navigate([path], {
-      relativeTo: this.route,
-    });
+    await this.router.navigate([path], { relativeTo: this.route });
   }
 
   async openQrCode() {
@@ -79,6 +100,33 @@ export class WalletPage implements OnInit {
       cssClass: 'qrcode-modal',
     });
     await modal.present();
+  }
+
+  async openPin() {
+    let verified = await this.walletsService.verifyPin(this.wallet);
+    if (!verified) {
+      return;
+    }
+    await this.router.navigate(['change-pin'], { relativeTo: this.route });
+  }
+
+  getCards() {
+    return cards.map((card) => {
+      switch (card.code) {
+        case 'TRANSFER':
+          card.active = this.wallet.walletType?.canTransfer;
+          break;
+        case 'QR_CODE':
+          card.active = this.wallet.walletType?.canPay;
+          break;
+        case 'PIN':
+          card.active = true;
+          break;
+        default:
+          break;
+      }
+      return card;
+    });
   }
 }
 
@@ -123,8 +171,8 @@ const cards: WalletCard[] = [
     code: 'PIN',
     name: 'jj._PIN',
     icon: 'keypad-outline',
-    url: 'verify-pin',
-    active: true,
+    url: '',
+    active: false,
   },
   {
     code: 'QR_CODE',

@@ -42,9 +42,9 @@ export class TicketFilterComponent implements OnInit {
   }
 
   async onDismiss() {
-    let conditions = this.cmsFilter.removeEmptyKeys(this.conditions);
+    const conditions = this.cmsFilter.removeEmptyKeys(this.conditions);
     await this.modalCtrl.dismiss({
-      conditions: conditions,
+      conditions,
       needRefresh: this.needRefresh
     });
   }

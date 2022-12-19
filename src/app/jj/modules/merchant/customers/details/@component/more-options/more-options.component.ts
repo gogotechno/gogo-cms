@@ -24,9 +24,9 @@ export class MoreOptionsComponent implements OnInit {
 
   async onResetPassword() {
     await this.popoverCtrl.dismiss();
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_RESET_PASSWORD');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
-      let randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
+      const randomPassword = (Math.random() + 1).toString(18).substring(2, 10);
       await this.core.updateCustomer(this.customerId, {
         password: randomPassword,
       });

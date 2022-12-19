@@ -28,7 +28,7 @@ export class DetailsPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
+    const params = this.route.snapshot.params;
     this.customerId = params.id;
     this.currentUser = <JJUser>this.auth.currentUser;
     await this.loadData();
@@ -41,12 +41,12 @@ export class DetailsPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 
   async onUpdateCustomer(customer: JJCustomer) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_CUSTOMER');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_CUSTOMER');
     if (confirm) {
       await this.core.updateCustomer(this.customerId, customer);
       await this.appUtils.presentAlert('jj._CUSTOMER_UPDATED', '_SUCCESS');
@@ -60,7 +60,7 @@ export class DetailsPage implements OnInit {
         customerId: this.customerId,
         customer: this.customer,
       },
-      event: event,
+      event,
     });
     await popover.present();
   }

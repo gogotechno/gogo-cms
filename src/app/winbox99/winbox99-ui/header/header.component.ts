@@ -19,13 +19,13 @@ export class HeaderComponent implements OnInit {
 
   async ngOnInit() {
     await this.winbox99.getAttributes();
-    this.websiteConfig = this.winbox99.ATTRIBUTES.find((a) => a.code == "website-config");
-    this.logoUrl = this.getOptionValue(this.websiteConfig, "logo-url");
-    this.loginUrl = this.getOptionValue(this.websiteConfig, "login-url");
+    this.websiteConfig = this.winbox99.ATTRIBUTES.find((a) => a.code == 'website-config');
+    this.logoUrl = this.getOptionValue(this.websiteConfig, 'logo-url');
+    this.loginUrl = this.getOptionValue(this.websiteConfig, 'login-url');
   }
 
   private getOptionValue(attr: CmsSiteAttribute, code: string) {
-    let option = this.getOption(attr, code);
+    const option = this.getOption(attr, code);
     return option ? option.value : null;
   }
 

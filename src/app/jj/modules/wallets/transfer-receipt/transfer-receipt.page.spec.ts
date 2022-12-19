@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { VerifyPinPage } from './verify-pin.page';
+import { TransferReceiptPage } from './transfer-receipt.page';
 
-describe('VerifyPinPage', () => {
-  let component: VerifyPinPage;
-  let fixture: ComponentFixture<VerifyPinPage>;
+describe('TransferReceiptPage', () => {
+  let component: TransferReceiptPage;
+  let fixture: ComponentFixture<TransferReceiptPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ VerifyPinPage ],
+      declarations: [ TransferReceiptPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VerifyPinPage);
+    fixture = TestBed.createComponent(TransferReceiptPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

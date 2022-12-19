@@ -52,7 +52,7 @@ export class DetailsService extends SharedComponent {
   }
 
   private async getTickets() {
-    let tickets = await this.core.getTickets(this.ticketsPage, {
+    const tickets = await this.core.getTickets(this.ticketsPage, {
       ticket_distribution_id: this.distributionId,
       ticket_distribution_id_type: '=',
     });
@@ -61,11 +61,11 @@ export class DetailsService extends SharedComponent {
 
   async loadMoreTickets(event: Event) {
     this.ticketsPage.currentPage += 1;
-    let incoming = await this.getTickets();
+    const incoming = await this.getTickets();
     this._tickets = [...this._tickets, ...incoming];
     this.ticketsEnded = incoming.length <= 0;
     this.TICKETS$.next(this._tickets);
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 }

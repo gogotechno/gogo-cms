@@ -32,23 +32,23 @@ export class EndedEventsPage implements OnInit {
     this.eventPagination = {
       itemsPerPage: 10,
       currentPage: 1
-    }
+    };
 
     this.events = await this.lucky.getEndedEvents(this.eventPagination);
     this.noMoreEvents = this.events.length < this.eventPagination.itemsPerPage;
   }
 
   async loadMoreEvents(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.eventPagination.currentPage += 1;
-    let events = await this.lucky.getEndedEvents(this.eventPagination);
+    const events = await this.lucky.getEndedEvents(this.eventPagination);
     this.events = [...this.events, ...events];
     this.noMoreEvents = events.length <= 0;
     infiniteScrollEl.complete();
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }

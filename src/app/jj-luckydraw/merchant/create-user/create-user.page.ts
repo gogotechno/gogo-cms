@@ -40,10 +40,10 @@ export class CreateUserPage implements OnInit {
   }
 
   async initForm() {
-    let roles = await this.lucky.getUserRolesByMerchant();
-    let roleField = this.form.items.find((item) => item.code == 'role');
+    const roles = await this.lucky.getUserRolesByMerchant();
+    const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles.map((role) => {
-      let item: CmsFormItemOption = {
+      const item: CmsFormItemOption = {
         code: role.code,
         label: this.utils.parseCmsTranslation(role.name),
       };
@@ -63,12 +63,12 @@ export class CreateUserPage implements OnInit {
   }
 
   async onCreateUser(user: JJUser) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CREATE_USER');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_CREATE_USER');
     if (confirm) {
       await this.lucky.createUser(this.cmsForm.removeUnusedKeys('swserp', user));
       await this.app.presentAlert('jj-luckydraw._USER_CREATED', '_SUCCESS');

@@ -22,10 +22,41 @@ export class EditProfilePage implements OnInit {
   }
 
   async onSubmit(data: User) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
-    if (confirm) {
+    const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
+    if (!confirm) {return;}
+    if (this.auth.userType == 'MERCHANT') {
       await this.auth.updateMe(data);
       await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
+    } else {
+      // VALIDATE PHONE NUMBER BEFORE LOGIN
+      const modal = await this.modalController.create({
+        component: PhoneNumberVerificationComponent,
+        componentProps: {
+          phone: `+6${(<JJCustomer>data).phone}`
+        }
+      });
+
+      modal.onDidDismiss().then(async (v) => {
+        if (!v.data) {
+          return;
+        }
+
+        if (v.data.status === 'success') {
+          try {
+            // await this.appUtils.presentLoading();
+            await this.auth.updateMe(data);
+            await this.app.presentAlert('jj-luckydraw._PROFILE_UPDATED', '_SUCCESS');
+          } catch (error) {
+            await this.appUtils.presentAlert(error.error?.error || error?.message, '_FAILED');
+          } finally {
+            // await this.appUtils.dismissLoading();
+          }
+        } else {
+          await this.appUtils.presentAlert(v.data.error?.message, '_FAILED');
+        }
+      });
+
+      await modal.present();
     }
   }
 }
