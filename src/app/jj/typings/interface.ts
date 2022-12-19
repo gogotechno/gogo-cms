@@ -132,6 +132,16 @@ export enum EventStatus {
   ENDED = 'ENDED',
 }
 
+export interface JJEventStatus extends ErpDoc {
+  code: string;
+  name: string;
+}
+
+export interface JJTicketGenerationMethod extends ErpDoc {
+  code: string;
+  name: string;
+}
+
 export interface JJEventPrize extends ErpDoc {
   name: string;
   description: string;

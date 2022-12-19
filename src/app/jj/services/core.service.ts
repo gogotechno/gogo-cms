@@ -19,6 +19,7 @@ import {
   JJDepositRequest,
   JJEvent,
   JJEventPrize,
+  JJEventStatus,
   JJFab,
   JJMerchant,
   JJPinVerification,
@@ -32,6 +33,7 @@ import {
   JJTicket,
   JJTicketDistribution,
   JJTicketDistributionApplication,
+  JJTicketGenerationMethod,
   JJTransferRequest,
   JJUser,
   JJUserRole,
@@ -348,6 +350,16 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result.map((event) => this.populateEvent(event));
+  }
+
+  async getEventStatuses() {
+    const res = await this.swsErp.getDocs<JJEventStatus>('Event Status');
+    return res.result;
+  }
+
+  async getTicketGenerationMethods() {
+    const res = await this.swsErp.getDocs<JJTicketGenerationMethod>('Ticket Generation Method');
+    return res.result;
   }
 
   async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
