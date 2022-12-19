@@ -107,7 +107,7 @@
           </ng-container>
 
           <ng-container *ngSwitchDefault>
-            <ion-item>
+            <ion-item [counter]="item.counter">
               <ion-label [position]="form.labelPosition || 'fixed'">
                 <span>{{ item.label | cmsTranslate }}</span>
                 <cms-required-tag *ngIf="item.required"></cms-required-tag>
@@ -115,13 +115,14 @@
               <ng-container [ngSwitch]="item.type">
                 <cms-file-input *ngSwitchCase="'file'" [formControlName]="item.code"></cms-file-input>
                 <cms-translation-input *ngSwitchCase="'cms-translate'" [formControlName]="item.code"></cms-translation-input>
+                <ion-textarea *ngSwitchCase="'textarea'" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate" [maxlength]="item.maximumLength"></ion-textarea>
                 <ion-input *ngSwitchCase="'date'" type="date" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                 <ion-input *ngSwitchCase="'time'" type="time" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                 <ion-input *ngSwitchCase="'datetime'" type="datetime-local" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                 <ion-input *ngSwitchCase="'email'" type="email" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                 <ion-input *ngSwitchCase="'phone'" type="tel" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
                 <ion-input *ngSwitchCase="'password'" type="password" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
-                <ion-input *ngSwitchCase="'number'" type="number" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
+                <ion-input *ngSwitchCase="'number'" type="number" [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate" (ionChange)="onNumberChange($event, item.code)"></ion-input>
                 <ion-input *ngSwitchDefault [formControlName]="item.code" [readonly]="item.readonly" [placeholder]="item.placeholder | cmsTranslate"></ion-input>
               </ng-container>
             </ion-item>
@@ -142,11 +143,12 @@
   </ion-list>
 </ng-container>
 
-<hr />
-
-<ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
-  <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
-</ion-button>
+<ng-container *ngIf="!form.submitButtonId">
+  <hr />
+  <ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
+    <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
+  </ion-button>
+</ng-container>
 
 <!-- <ion-button (click)="onPrint($event)" expand="block">
     <ion-label>{{ '_PRINT' | translate }}</ion-label>
