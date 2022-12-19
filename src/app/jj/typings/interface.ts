@@ -117,13 +117,18 @@ export interface JJEvent extends ErpDoc {
   totalOfGainedSnwTickets?: number;
   drawingResult?: JJDrawingResult;
   drewAt?: Date;
-  winningSummary?: {
-    prize: JJEventPrize;
-    winningNumbers: string[];
-  }[];
+  showEndDateCountdown: boolean;
+  showNearestStore: boolean;
+  showCustomerTickets: boolean;
+  winningSummary?: WinningSummaryDetails[];
 
   // app use only
   _status: string;
+}
+
+export interface WinningSummaryDetails {
+  prize: JJEventPrize;
+  winningNumbers: string[];
 }
 
 export enum EventStatus {

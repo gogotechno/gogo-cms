@@ -1,38 +1,78 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService, CoreService } from 'src/app/jj/services';
-import { JJEvent } from 'src/app/jj/typings';
+import { SharedComponent } from 'src/app/jj/shared';
+import { JJEvent, JJTicket } from 'src/app/jj/typings';
+import { Pagination } from 'src/app/sws-erp.type';
 
 @Injectable()
-export class DetailsService {
+export class DetailsService extends SharedComponent {
   eventId: number;
-  private _EVENT: BehaviorSubject<JJEvent>;
+  private EVENT$: BehaviorSubject<JJEvent>;
+  private TICKETS$: BehaviorSubject<JJTicket[]>;
+  private _tickets: JJTicket[];
+  private ticketsPage: Pagination;
+  ticketsEnded: boolean;
 
   get event() {
-    return this._EVENT.asObservable();
+    return this.EVENT$.asObservable();
+  }
+
+  get tickets() {
+    return this.TICKETS$.asObservable();
   }
 
   constructor(private auth: AuthService, private core: CoreService) {
-    this._EVENT = new BehaviorSubject<JJEvent>(null);
+    super();
+    this.EVENT$ = new BehaviorSubject(null);
+    this.TICKETS$ = new BehaviorSubject(null);
   }
 
   async init() {
-    const currentUser = this.auth.currentUser;
-
-    const [event] = await Promise.all([
-      this.core.getEventById(this.eventId, {
-        hasFk: true,
-        withLocation: true,
-        withSummary: true,
-        customerId: currentUser.doc_id,
-      }),
+    this.ticketsPage = this.defaultPage;
+    const [event, tickets] = await Promise.all([
+      this.getEvent(), 
+      this.getTickets()
     ]);
-
-    this._EVENT.next(event);
+    this._tickets = tickets;
+    this.ticketsEnded = this._tickets.length < this.ticketsPage.itemsPerPage;
+    this.EVENT$.next(event);
+    this.TICKETS$.next(this._tickets);
   }
 
   destroy() {
     this.eventId = null;
-    this._EVENT.next(null);
+    this.EVENT$.next(null);
+    this.TICKETS$.next(null);
+  }
+
+  private getEvent() {
+    const events = this.core.getEventById(this.eventId, {
+      hasFk: true,
+      withSummary: true,
+      withLocation: true,
+      customer_id: this.auth.currentUser.doc_id,
+    });
+    return events;
+  }
+
+  private async getTickets() {
+    const tickets = await this.core.getTickets(this.ticketsPage, {
+      event_id: this.eventId,
+      event_id_type: '=',
+      customer_id: this.auth.currentUser.doc_id,
+      customer_id_type: '=',
+    });
+    return tickets;
+  }
+
+  async loadMoreTickets(event: Event) {
+    this.ticketsPage.currentPage += 1;
+    const incoming = await this.getTickets();
+    this._tickets = [...this._tickets, ...incoming];
+    this.ticketsEnded = incoming.length <= 0;
+    this.TICKETS$.next(this._tickets);
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
+    scroller.complete();
   }
 }

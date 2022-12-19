@@ -569,12 +569,10 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getScratchAndWinPrizes(pagination: Pagination, conditions: Conditions = {}) {
+  async getScratchAndWinPrizes(conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJScratchAndWinPrize>('Scratch And Win Prize', {
-      itemsPerPage: pagination.itemsPerPage,
-      currentPage: pagination.currentPage,
-      sortBy: pagination.sortBy,
-      sortType: pagination.sortOrder,
+      sortBy: 'worth',
+      sortType: 'DESC',
       ...conditions,
     });
     return res.result;

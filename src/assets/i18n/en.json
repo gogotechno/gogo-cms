@@ -469,6 +469,9 @@
     "_SUCCESS": "Success",
     "_FAILED": "Failed",
     "_CONTACT_SERVICE": "Contact Service",
-    "_MAKE_PAYMENT": "Make Payment"
+    "_MAKE_PAYMENT": "Make Payment",
+    "_YOUR_TICKETS": "Your Tickets",
+    "_VALID": "Valid",
+    "_INVALID": "Invalid"
   }
 }

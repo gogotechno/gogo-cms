@@ -3,6 +3,10 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj" icon="arrow-back" text="" class="filled-back-button"></ion-back-button>
     </ion-buttons>
+    <ion-title *ngIf="event">
+      <span>{{ event.name }}</span><br />
+      <span *ngIf="event.distance">{{ 'jj._DISTANCE_AWAY' | translate: { distance: event.distance + 'KM' } }}</span>
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="wallet" class="filled-button" [routerLink]="['/jj/wallets/', wallet.walletNo]">
         <ion-icon name="ticket"></ion-icon>
@@ -10,9 +14,9 @@
           <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
         </ion-label>
       </ion-button>
-      <ion-button class="filled-button" (click)="openPrizes()">
+      <!-- <ion-button class="filled-button" (click)="openPrizes()">
         <ion-icon slot="icon-only" name="gift"></ion-icon>
-      </ion-button>
+      </ion-button> -->
     </ion-buttons>
   </ion-toolbar>
   <ng-container *ngIf="messages">
@@ -33,7 +37,7 @@
     <ion-img class="cover-image" [src]="event.coverImage | erpImg"></ion-img>
     <div class="background-image" [style.background-image]="event.backgroundImage | erpImg | cssUrl">
       <div class="inner-container">
-        <div class="ion-text-center ion-padding">
+        <!-- <div class="ion-text-center ion-padding">
           <ion-text color="light" class="ion-font-bold">{{ event.name }}</ion-text>
           <ng-container *ngIf="event.distance">
             <br />
@@ -41,7 +45,7 @@
               {{ 'jj._DISTANCE_AWAY' | translate: { distance: event.distance + 'KM' } }}
             </ion-text>
           </ng-container>
-        </div>
+        </div> -->
         <ion-card>
           <ion-card-content>
             <ion-grid>
@@ -73,13 +77,34 @@
             </ion-row>
           </ion-grid>
         </div>
+        <div class="prizes-container" *ngIf="prizes?.length">
+          <ion-slides class="prize-slides" [options]="prizesOpts">
+            <ion-slide *ngFor="let prize of prizes">
+              <ion-item>
+                <ion-thumbnail slot="start">
+                  <img [src]="prize.thumbnailImage | erpImg" />
+                </ion-thumbnail>
+                <ion-label>
+                  <h3>{{ prize.name }}</h3>
+                  <p><jj-currency [value]="prize.worth"></jj-currency></p>
+                </ion-label>
+              </ion-item>
+            </ion-slide>
+          </ion-slides>
+        </div>
+        <div>
+          <ion-note class="ion-text-xs">
+            <span>{{ "jj._EVENT_ORGANIZED_BY" | translate: { name: event.merchant.name } }}</span><br />
+            <span (click)="openTnc()"><u>{{ "jj._TERM_AND_CONDITIONS" | translate }}</u></span>
+          </ion-note>
+        </div>
       </div>
-      <div class="footer-container">
+      <!-- <div class="footer-container">
         <ion-note class="ion-text-xs">
           <span>{{ "jj._EVENT_ORGANIZED_BY" | translate: { name: event.merchant.name } }}</span><br />
           <span (click)="openTnc()"><u>{{ "jj._TERM_AND_CONDITIONS" | translate }}</u></span>
         </ion-note>
-      </div>
+      </div> -->
     </div>
   </ng-container>
 </ion-content>

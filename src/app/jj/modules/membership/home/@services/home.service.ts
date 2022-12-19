@@ -169,21 +169,6 @@ export class HomeService extends SharedComponent {
     ]);
     this._WALLETS.next(wallets);
     this._FABS.next(fabs);
-
-    // let map = {
-    //   wallets: [this._WALLETS, this.auth.findMyWallets(options)],
-    //   fabs: [this._FABS, this.core.getFabsByGroupCode('HOME_FABS', this.getFabsConditions(), options)],
-    // };
-    // let keys = Object.keys(map);
-    // let validKeys = areas.length ? keys.filter((key) => areas.includes(key)) : keys;
-    // let properties = validKeys.map((key) => key);
-    // let functions = validKeys.map((key) => map[key][1]);
-    // let results = await Promise.all(functions);
-    // for (let i = 0; i < results.length; i++) {
-    //   let key = properties[i];
-    //   let property = map[key][0];
-    //   property.next(results[i]);
-    // }
   }
 
   getMiniPrograms(role: UserType) {

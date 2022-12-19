@@ -14,8 +14,6 @@ import { Currency } from '../../../wallets/wallets.types';
 export class ScratchPrizesComponent extends SharedComponent implements OnInit {
   eventId: number;
   event: JJScratchAndWinEvent;
-  prizesPage: Pagination;
-  prizesEnded: boolean;
   prizes: JJScratchAndWinPrize[];
 
   constructor(private modalCtrl: ModalController, private core: CoreService) {
@@ -27,30 +25,12 @@ export class ScratchPrizesComponent extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    this.prizesPage = {
-      ...this.defaultPage,
-      sortBy: 'worth',
-    };
-
-    this.prizes = await this.getPrizes();
-    this.prizesEnded = this.prizes.length < this.prizesPage.itemsPerPage;
-  }
-
-  async getPrizes() {
-    const prizes = await this.core.getScratchAndWinPrizes(this.prizesPage, {
+    this.prizes = await this.core.getScratchAndWinPrizes({
       scratch_and_win_event_id: this.eventId,
       scratch_and_win_event_id_type: '=',
+      isActive: 1,
+      isActive_type: '=',
     });
-    return prizes;
-  }
-
-  async loadMorePrizes(event: Event) {
-    this.prizesPage.currentPage += 1;
-    const incoming = await this.getPrizes();
-    this.prizes = [...this.prizes, ...incoming];
-    this.prizesEnded = incoming.length <= 0;
-    const scroller = <HTMLIonInfiniteScrollElement>event.target;
-    scroller.complete();
   }
 
   async onDismiss() {

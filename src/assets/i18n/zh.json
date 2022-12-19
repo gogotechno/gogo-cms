@@ -463,6 +463,9 @@
     "_BENEFICIARY_WALLET_NO": "收款账户",
     "_AMOUNT": "金额",
     "_VIEW_MY_REWARDS": "查看我的奖励",
-    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "金额必须大于零"
+    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "金额必须大于零",
+    "_YOUR_TICKETS": "您的抽奖券",
+    "_VALID": "有效",
+    "_INVALID": "无效"
   }
 }

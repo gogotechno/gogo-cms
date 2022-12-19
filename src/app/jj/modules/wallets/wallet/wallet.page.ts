@@ -125,7 +125,7 @@ export class WalletPage implements OnInit, OnDestroy {
           card.active = this.wallet.walletType?.canPay;
           break;
         case 'PIN':
-        case 'DEPOSIT':
+        // case 'DEPOSIT':
           card.active = true;
           break;
         default:

@@ -126,7 +126,7 @@ const customerform: CmsForm = {
         zh: '姓氏',
         ms: 'Nama Terakhir',
       },
-      type: 'number',
+      type: 'text',
     },
     {
       code: 'phone',

@@ -21,10 +21,7 @@
   <ng-container [ngSwitch]="segmentCode">
     <ng-container *ngSwitchCase="'rewards'">
       <div class="events-container">
-        <h3 class="title">
-          <span>{{ "jj._JOINED_EVENTS" | translate }}</span>
-          <!-- <ion-button fill="clear">{{ "_VIEW_ALL" | translate }}</ion-button> -->
-        </h3>
+        <h3 class="title">{{ "jj._JOINED_EVENTS" | translate }}</h3>
         <div class="events" (scroll)="loadMoreEvents($event)">
           <ion-avatar
             *ngFor="let event of events"
