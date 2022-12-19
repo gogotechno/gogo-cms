@@ -10,7 +10,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   selector: 'app-deposits',
   templateUrl: './deposits.page.html',
   styleUrls: ['./deposits.page.scss'],
-  // providers: [DatePipe],
+  providers: [DatePipe],
 })
 export class DepositsPage extends SharedComponent implements OnInit {
   walletNo: string;
@@ -19,6 +19,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   depositsEnded: boolean;
   deposits: JJDepositRequest[][];
   updatedAt: Date;
+  
 
   get dates(): string[] {
     if (!this.deposits) {
@@ -46,7 +47,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   }
 
   async getDeposits() {
-    let deposits = await this.core.getDepositRequests(this.depositsPage, {
+    const deposits = await this.core.getDepositRequests(this.depositsPage, {
       wallet_id: this.wallet.doc_id,
       wallet_id_type: '=',
     });

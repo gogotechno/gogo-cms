@@ -76,6 +76,22 @@
   "_ALL_LOADED": "加载完毕",
   "_BACK": "返回",
   "_MODULES": "模块",
+  "_UPLOADED_ATTACHMENTS": "已上传附件",
+  "_NO_ATTACHMENTS_FOUND": "未找到附件",
+  "_UPLOAD_ATTACHMENT": "上传附件",
+  "_NO_TRANSACTIONS_FOUND": "未发现交易记录",
+  "_NEXT": "下一步",
+  "_REFERENCE_NO": "参考编号",
+  "_DEPOSIT_IN": "存入于",
+  "_WALLET": "钱包",
+  "_AMOUNT": "金额",
+  "_DESCRIPTION": "叙述",
+  "_REFERENCE_1": "参考 1",
+  "_REFERENCE_2": "参考 2",
+  "_REFERENCE_3": "参考 3",
+  "_METHOD": "方式",
+  "_ATTACHMENT": "附件",
+  "_VIEW_ATTACHMENT": "查看附件",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",
@@ -428,6 +444,10 @@
     "_EVENT_IS_NOT_STARTED_YET": "活动还未开始",
     "_NO_BULLETINS_FOUND": "没有找到公告",
     "_NO_MORE_BULLETINS": "没有更多的公告",
-    "_YOU_HAVE_CHECKED_IN_TODAY": "您今天已签到"
+    "_YOU_HAVE_CHECKED_IN_TODAY": "您今天已签到",
+    "_BANK": "银行",
+    "_ACCOUNT_NO": "户口号码",
+    "_HOLDER_NAME": "持有人名称",
+    "_COPY_ACCOUNT_NO": "复制户口号码"
   }
 }

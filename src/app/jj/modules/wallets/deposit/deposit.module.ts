@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { DepositPageRoutingModule } from './deposit-routing.module';
 
 import { DepositPage } from './deposit.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DepositPageRoutingModule
+    DepositPageRoutingModule,
+    TranslateModule
   ],
   declarations: [DepositPage]
 })

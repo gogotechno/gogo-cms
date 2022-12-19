@@ -12,7 +12,7 @@
   </ion-refresher>
   <ion-list>
     <div *ngIf="!dates?.length" class="note">
-      <ion-label>_NO_TRANSACTIONS_FOUND</ion-label>
+      <ion-label>{{ '_NO_TRANSACTIONS_FOUND' | translate }}</ion-label>
     </div>
     <ng-container *ngFor="let date of dates">
     <ion-list-header>{{ date }}</ion-list-header>
@@ -36,9 +36,9 @@
     </ion-infinite-scroll>
   <div *ngIf="depositsEnded" class="note">
       <ion-label>
-        <ion-text>ALL_LOADED</ion-text><br />
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
         <ion-text>
-          UPDATED_AT_WITH_DATE
+          {{ '_UPDATED_AT_WITH_DATE' | translate }}
         </ion-text>
       </ion-label>
     </div>

@@ -76,6 +76,22 @@
   "_ALL_LOADED": "Semua dimuatkan",
   "_BACK": "Kembali",
   "_MODULES": "Modul",
+  "_UPLOADED_ATTACHMENTS": "Lampiran yang Dimuat Naik",
+  "_NO_ATTACHMENTS_FOUND": "Tiada lampiran ditemui",
+  "_UPLOAD_ATTACHMENT": "Muat Naik Lampiran",
+  "_NO_TRANSACTIONS_FOUND": "Tiada transaksi ditemui",
+  "_NEXT": "Teruskan",
+  "_REFERENCE_NO": "No Rujukan",
+  "_DEPOSIT_IN": "Menyimpan",
+  "_WALLET": "Dompet",
+  "_AMOUNT": "Jumlah",
+  "_DESCRIPTION": "Penerangan",
+  "_REFERENCE_1": "Rujukan 1",
+  "_REFERENCE_2": "Rujukan 2",
+  "_REFERENCE_3": "Rujukan 3",
+  "_METHOD": "Kaedah",
+  "_ATTACHMENT": "Lampiran",
+  "_VIEW_ATTACHMENT": "Lihat Lampiran",
   "winbox99": {
     "_LOGIN": "Log masuk",
     "_GAMES": "Permainan Kami",
@@ -428,6 +444,10 @@
     "_EVENT_IS_NOT_STARTED_YET": "Acara belum bermula",
     "_NO_BULLETINS_FOUND": "Tiada buletin ditemui",
     "_NO_MORE_BULLETINS": "Tiada lagi buletin",
-    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini"
+    "_YOU_HAVE_CHECKED_IN_TODAY": "Anda telah mendaftar hari ini",
+    "_BANK": "Bank",
+    "_ACCOUNT_NO": "No akaun",
+    "_HOLDER_NAME": "Nama pemegang",
+    "_COPY_ACCOUNT_NO": "Salin No akaun"
   }
 }
