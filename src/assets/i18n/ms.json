@@ -87,6 +87,8 @@
   "_SHARE": "Kongsi",
   "_NEXT": "Terus",
   "_INCORRECT_PIN": "PIN salah",
+  "_COPY": "Salin",
+  "_HISTORY": "Sejarah",
   "winbox99": {
     "_LOGIN": "Log masuk",
     "_GAMES": "Permainan Kami",
@@ -443,7 +445,6 @@
     "_BANK": "Bank",
     "_ACCOUNT_NO": "No. Akaun",
     "_HOLDER_NAME": "Nama Pemegang",
-    "_COPY_ACCOUNT_NO": "Salin no. akaun",
     "_MERCHANT_LIST": "Senarai Peniaga",
     "_REFERRER": "Perujuk",
     "_SENDER_WALLET_NOT_FOUND": "Dompet penghantar tidak ditemui",
@@ -462,6 +463,10 @@
     "_BENEFICIARY_WALLET_NO": "Penerima dompet no.",
     "_AMOUNT": "Jumlah",
     "_VIEW_DETAILS": "Lihat Butiran",
-    "_VIEW_MY_REWARDS": "Lihat Ganjaran Saya"
+    "_VIEW_MY_REWARDS": "Lihat Ganjaran Saya",
+    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "Jumlah mestilah lebih daripada sifar",
+    "_YOUR_TICKETS": "Tiket Anda",
+    "_VALID": "Sah",
+    "_INVALID": "Tidak Sah"
   }
 }

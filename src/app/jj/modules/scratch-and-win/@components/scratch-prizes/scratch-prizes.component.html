@@ -26,12 +26,4 @@
       </ion-label>
     </ion-item>
   </ion-list>
-  <ng-container *ngIf="prizes?.length">
-    <ion-infinite-scroll *ngIf="!prizesEnded" (ionInfinite)="loadMorePrizes($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-    <div *ngIf="prizesEnded" class="note">
-      <ion-label>{{ 'jj._NO_MORE_PRIZES' | translate }}</ion-label>
-    </div>
-  </ng-container>
 </ion-content>

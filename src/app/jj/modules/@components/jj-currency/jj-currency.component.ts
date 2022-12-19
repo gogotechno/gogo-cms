@@ -18,8 +18,8 @@ export class JJCurrencyComponent implements OnInit {
       this.currency = {
         code: 'MYR',
         displaySymbol: 'RM',
-        precision: 2,
         symbolPosition: 'START',
+        precision: 2,
       };
     }
     this.numberFormat = `1.${this.currency.precision || '0'}-${this.currency.precision || '0'}`;

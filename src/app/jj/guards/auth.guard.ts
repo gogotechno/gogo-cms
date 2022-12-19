@@ -9,7 +9,7 @@ export class AuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
   async canActivate() {
     if (!this.auth.authenticated) {
-      await this.router.navigate(['/jj/login'], {queryParamsHandling: 'merge'});
+      await this.router.navigate(['/jj/login'], { queryParamsHandling: 'merge' });
       return false;
     }
     return true;
@@ -23,7 +23,7 @@ export class PublicGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
   async canActivate() {
     if (this.auth.authenticated) {
-      await this.router.navigate(['/jj'], {queryParamsHandling: 'merge'});
+      await this.router.navigate(['/jj'], { queryParamsHandling: 'merge' });
       return false;
     }
     return true;

@@ -29,7 +29,6 @@ export class CreatePinComponent implements OnInit {
 const form: CmsForm = {
   code: 'create-pin',
   labelPosition: 'stacked',
-  submitButtonText: '_CONFIRM',
   submitButtonId: 'create-pin-btn',
   autoValidate: true,
   items: [

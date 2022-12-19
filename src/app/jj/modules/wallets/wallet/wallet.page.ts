@@ -107,7 +107,8 @@ export class WalletPage implements OnInit, OnDestroy {
   }
 
   async openPin() {
-    let verified = await this.walletsService.verifyPin(this.wallet);
+    let verification = await this.walletsService.verifyPin(this.wallet);
+    let verified = verification?.success;
     if (!verified) {
       return;
     }
@@ -124,6 +125,7 @@ export class WalletPage implements OnInit, OnDestroy {
           card.active = this.wallet.walletType?.canPay;
           break;
         case 'PIN':
+        // case 'DEPOSIT':
           card.active = true;
           break;
         default:

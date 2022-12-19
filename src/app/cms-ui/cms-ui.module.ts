@@ -24,6 +24,7 @@ import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.compo
 import { RequiredTagComponent } from './required-tag/required-tag.component';
 import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
 import { PinInputComponent } from './pin-input/pin-input.component';
+import { FilesInputComponent } from './files-input/files-input.component';
 
 const internalComponents = [
   ArrayInputComponent,
@@ -32,6 +33,10 @@ const internalComponents = [
   FileInputComponent,
   SearchAreaComponent,
   ScannerComponent,
+  PinInputComponent,
+  FilesInputComponent,
+  SearchableSelectComponent,
+  BarcodeScannerComponent,
 ];
 
 const exportedComponents = [
@@ -42,44 +47,41 @@ const exportedComponents = [
   ImageButtonComponent,
   HtmlViewerComponent,
   FilterComponent,
-  SearchableSelectComponent,
-  BarcodeScannerComponent,
   RequiredTagComponent,
   PhoneNumberVerificationComponent,
-  PinInputComponent,
 ];
 
 const pipes = [
-  CmsTranslatePipe,
-  SafeHtmlPipe,
-  CssUrlPipe,
-  FirestoreDatePipe,
-  FullNamePipe,
+  CmsTranslatePipe, 
+  SafeHtmlPipe, 
+  CssUrlPipe, 
+  FirestoreDatePipe, 
+  FullNamePipe, 
   HideTextPipe
 ];
 
 @NgModule({
   declarations: [
-    ...internalComponents,
-    ...exportedComponents,
+    ...internalComponents, 
+    ...exportedComponents, 
     ...pipes
   ],
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    RouterModule,
-    TranslateModule,
-    QuillModule,
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    IonicModule, 
+    RouterModule, 
+    TranslateModule, 
+    QuillModule
   ],
   exports: [
-    ...exportedComponents,
+    ...exportedComponents, 
     ...pipes
   ],
   providers: [
-    DatePipe,
-    DecimalPipe,
+    DatePipe, 
+    DecimalPipe, 
     ...pipes
   ],
 })

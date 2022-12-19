@@ -63,22 +63,29 @@ export class TransferMoneyPage implements OnInit {
       return;
     }
 
+    if (data.amount <= 0) {
+      await this.appUtils.presentAlert('jj._AMOUNT_MUST_BE_MORE_THAN_ZERO');
+      return;
+    }
+
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
     if (!confirm) {
       return;
     }
 
-    let verified = await this.walletsService.verifyPin(this.wallet);
+    let verification = await this.walletsService.verifyPin(this.wallet);
+    let verified = verification?.success;
     if (!verified) {
       return;
     }
 
-    const response = await this.core.createTransferRequest({
+    let response = await this.core.createTransferRequest({
       refNo: '',
       amount: data.amount,
       description: data.description,
       fromWalletNo: this.walletNo,
       toWalletNo: this.toWalletNo,
+      fromWalletPin: verification.pin,
     });
 
     this.walletsService.transferSuccess.next(true);
@@ -90,7 +97,7 @@ export class TransferMoneyPage implements OnInit {
     //   replaceUrl: true,
     // });
 
-    await this.router.navigate(['/', 'jj', 'wallets', 'transfer-receipt', response.data.refNo], {
+    await this.router.navigate(['/jj/wallets/transfer-receipt', response.data.refNo], {
       replaceUrl: true,
     });
   }
@@ -99,7 +106,6 @@ export class TransferMoneyPage implements OnInit {
 const form: CmsForm = {
   code: 'transfer-money',
   labelPosition: 'stacked',
-  submitButtonText: '_CONFIRM',
   submitButtonId: 'transfer-money-btn',
   autoValidate: true,
   items: [
@@ -112,8 +118,8 @@ const form: CmsForm = {
       },
       placeholder: '0.00',
       type: 'number',
-      precision: 2,
       required: true,
+      precision: 2,
     },
     {
       code: 'description',

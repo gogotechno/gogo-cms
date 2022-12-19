@@ -43,6 +43,10 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         loadChildren: () => import('./modules/scratch-and-win/scratch-and-win.module').then((m) => m.ScratchAndWinPageModule),
       },
+      {
+        path: 'finance',
+        loadChildren: () => import('./modules/finance/finance.module').then((m) => m.FinancePageModule),
+      },
     ],
   },
 ];

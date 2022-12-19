@@ -151,7 +151,8 @@ export type CmsFormItemType =
   | 'barcode-scanner'
   | 'radio'
   | 'pin'
-  | 'textarea';
+  | 'textarea'
+  | 'files';
 
 export interface CmsFormValidation {
   valid: boolean;
@@ -163,15 +164,25 @@ export interface CmsFormValidationError {
   message: string;
 }
 
+export interface CmsFile {
+  name: string;
+  fileType: 'image' | 'file';
+  mimeType: string;
+  previewUrl: string;
+  file?: File;
+  base64String?: string;
+}
+
 export interface CmsFilter {
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
   lines?: 'full' | 'inset' | 'none' | undefined;
+  disallowEmpty?: boolean;
   items: Array<CmsFilterItem>;
 }
 
 export interface CmsFilterItem {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
   type: CmsFilterItemType;
   icon?: string;
   img?: string;
@@ -202,7 +213,7 @@ export type OnSelectScrollToEnd = (pagination: Pagination) => Promise<[any[], Pa
 
 export interface CmsFilterItemOption {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
 }
 
 export type CmsFilterItemType =
