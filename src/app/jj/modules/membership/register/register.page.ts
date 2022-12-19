@@ -14,7 +14,6 @@ import { AuthService } from 'src/app/jj/services';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-
   @ViewChild(IonModal) modal: IonModal;
   platform: string;
   form: CmsForm | null = null;
@@ -23,13 +22,12 @@ export class RegisterPage implements OnInit {
 
   constructor(
     route: ActivatedRoute,
-    private cms: CmsService,
-    private alertController: AlertController,
-    public modalController: ModalController,
-    private erp: SwsErpService,
     platform: Platform,
-    private appUtils: AppUtils,
     private router: Router,
+    private modalController: ModalController,
+    private appUtils: AppUtils,
+    private erp: SwsErpService,
+    private cms: CmsService,
     private auth: AuthService,
   ) {
     this.referrerCode = route.snapshot.queryParams.referrerCode;
@@ -52,8 +50,6 @@ export class RegisterPage implements OnInit {
 
   async onRegister(formValue: any) {
     console.log(`Member registering...`);
-    // CMS FORM VALIDATION
-
     // PRESENT PHONE VERIFICATION
     const phone = `+6${formValue.phone}`;
     const modal = await this.modalController.create({

@@ -2,8 +2,10 @@
   <ion-toolbar>
     <ion-title>{{ '_REGISTER' | translate }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/login"
-        [text]="platform === 'ios' ? ('_BACK' | translate) : ''"></ion-back-button>
+      <ion-back-button
+        defaultHref="/jj/login"
+        [text]="platform === 'ios' ? ('_BACK' | translate) : ''"
+      ></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -13,7 +15,3 @@
     <cms-form *ngIf="form" [form]="form" [value]="value" (submit)="onRegister($event)"></cms-form>
   </div>
 </ion-content>
-
-<ion-modal backdropDismiss="false">
-    <cms-phone-number-verification></cms-phone-number-verification>
-</ion-modal>
