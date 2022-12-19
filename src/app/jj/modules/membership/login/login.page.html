@@ -1,33 +1,31 @@
 <ion-content>
-  <ion-img class="logo ion-padding" src="/assets/jj/android-chrome-192x192.png"></ion-img>
+  <ion-img class="logo" src="/assets/logo-placeholder-2.png"></ion-img>
   <div class="ion-padding-horizontal ion-padding-bottom">
     <cms-form [form]="form" [value]="value" (submit)="onLogin($event)"></cms-form>
-    <div class="cms-form">
-      <!-- <ion-list>
-        <ion-item>
-          <ion-label class="ion-text-end ion-no-margin-end">{{ "_FORGOT_PASSWORD" | translate }}?</ion-label>
-        </ion-item>
-      </ion-list> -->
-      <ion-button expand="block" fill="outline" routerLink="/jj/register" [queryParamsHandling]="'merge'">
-        <ion-label>{{ "_REGISTER_ACCOUNT" | translate }}</ion-label>
-      </ion-button>
-      <ion-button expand="block" fill="outline" [disabled]="!whatsappLink" (click)="onHelpCenter()">
-        <ion-label>{{ "_HELP_CENTER" | translate }}</ion-label>
-      </ion-button>
+    <!-- <ion-list>
+      <ion-item>
+        <ion-label class="ion-text-end ion-no-margin-end">{{ "_FORGOT_PASSWORD" | translate }}?</ion-label>
+      </ion-item>
+    </ion-list> -->
+    <ion-button expand="block" fill="outline" [disabled]="true">
+      <ion-label>{{ "_REGISTER_ACCOUNT" | translate }}</ion-label>
+    </ion-button>
+    <ion-button expand="block" fill="outline" [disabled]="!whatsappLink" (click)="onHelpCenter()">
+      <ion-label>{{ "_HELP_CENTER" | translate }}</ion-label>
+    </ion-button>
+  </div>
+  <div class="ion-padding-vertical-lg">
+    <div class="ion-text-center ion-text-xs">{{ "_CHANGE_LANGUAGE" | translate }}</div>
+    <div class="languages">
+      <ion-avatar *ngFor="let lang of languages" [class.active]="lang.selected" (click)="onLanguageClick(lang)">
+        <ion-img [src]="lang.value"></ion-img>
+      </ion-avatar>
     </div>
-    <div class="ion-padding-vertical-lg">
-      <div class="ion-text-center ion-text-xs">{{ "_CHANGE_LANGUAGE" | translate }}</div>
-      <div class="languages">
-        <ion-avatar *ngFor="let lang of languages" [class.active]="lang.selected" (click)="onLanguageClick(lang)">
-          <ion-img [src]="lang.value"></ion-img>
-        </ion-avatar>
-      </div>
-    </div>
-    <div class="ion-text-center">
-      <ion-note class="ion-text-xs">
-        <span>© 2022 Lucky365. {{ "_ALL_RIGHTS_RESERVED" | translate }}.</span><br />
-        <span>{{ "_VERSION_NUMBER" | translate }}&nbsp;{{ packageInfo.version }}</span>
-      </ion-note>
-    </div>
+  </div>
+  <div class="ion-text-center">
+    <ion-note class="ion-text-xs">
+      <span>© 2022 JJ Member. {{ "_ALL_RIGHTS_RESERVED" | translate }}.</span><br />
+      <span>{{ "_VERSION_NUMBER" | translate }}&nbsp;{{ packageInfo.version }}</span>
+    </ion-note>
   </div>
 </ion-content>

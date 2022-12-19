@@ -95,7 +95,6 @@ export interface CmsForm extends CmsDocument {
   code: string;
   name?: CmsTranslation;
   submitButtonText?: string;
-  submitButtonId?: string;
   autoValidate?: boolean;
   autoRemoveUnusedKeys?: 'swserp';
   items: Array<CmsFormItem>;

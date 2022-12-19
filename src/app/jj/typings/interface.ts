@@ -1,6 +1,5 @@
 import { CmsFile, CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
-import { Currency } from '../modules/wallets/wallets.types';
 
 export interface LiteralObject {
   [key: string]: any;
@@ -162,9 +161,8 @@ export interface JJWallet extends ErpDoc {
   merchant?: JJMerchant;
 
   // app use only
-  displayCurrency: Currency;
   icon?: string;
-  colors?: object;
+  colors?: any;
 }
 
 export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW';
@@ -173,21 +171,10 @@ export interface JJWalletType extends ErpDoc {
   code: WalletType;
   name: string;
   icon: string;
-  colors: object;
+  colors: string;
   canDeposit: boolean;
   canWithdraw: boolean;
-  canTransfer: boolean;
-  canPay: boolean;
   wallet_currency_id: number;
-}
-
-export interface JJWalletCurrency extends ErpDoc {
-  code: string;
-  label: string;
-  symbol: string;
-  symbolPosition: 'START' | 'END';
-  digits: number;
-  isDefault: boolean;
 }
 
 export interface JJWalletPermission extends ErpDoc {
@@ -291,8 +278,6 @@ export interface JJMerchant extends ErpDoc {
   fullAddress?: string;
   distance?: number;
   nameTranslation?: CmsTranslation;
-  latitude?: number;
-  longitude?: number;
 }
 
 export interface JJPointRule extends ErpDoc {
@@ -525,8 +510,8 @@ export interface JJBankAccount extends ErpDoc {
 }
 
 export interface JJTransferRequest extends ErpDoc {
-  fromWallet?: number;
-  toWallet?: number;
+  fromWallet: number;
+  toWallet: number;
   refNo: string;
   amount: number;
   description?: string | null;
@@ -539,7 +524,16 @@ export interface JJTransferRequest extends ErpDoc {
   fromWalletPin?: string;
 }
 
-export interface JJPinVerification extends ErpDoc {
-  walletNo: string;
-  walletPin: string;
+// app use only
+export interface TransferRequestDto {
+  fromWallet?: number;
+  toWallet?: number;
+  amount: number;
+  description?: string | null;
+  reference1?: string | null;
+  reference2?: string | null;
+  reference3?: string | null;
+  effectiveDate?: Date;
+  fromWalletNo?: string;
+  toWalletNo?: string;
 }

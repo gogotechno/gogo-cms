@@ -69,8 +69,14 @@ export class TransferMoneyPage implements OnInit {
     }
 
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_TRANSFER');
-    if (!confirm) {
-      return;
+    if (confirm) {
+      await this.core.createTransferRequest({
+        fromWalletNo: this.walletNo,
+        toWalletNo: this.toWalletNo,
+        amount: data.amount,
+        description: data.description,
+      });
+      await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
     }
 
     let verification = await this.walletsService.verifyPin(this.wallet);
@@ -118,7 +124,6 @@ const form: CmsForm = {
       },
       placeholder: '0.00',
       type: 'number',
-      precision: 2,
       required: true,
     },
     {
@@ -128,10 +133,7 @@ const form: CmsForm = {
         zh: '详情',
         ms: 'Penerangan',
       },
-      type: 'textarea',
-      required: true,
-      maximumLength: 50,
-      counter: true,
+      type: 'text',
     },
   ],
 };

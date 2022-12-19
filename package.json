@@ -6,13 +6,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "npx ionic build --configuration production",
-    "build:staging": "npx ionic build --configuration staging",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev": "npm i && npx ionic serve --external",
-    "deploy": "npm run build && npx firebase deploy",
-    "deploy:staging": "npm run build:staging && npx firebase deploy"
+    "deploy": "npm run build && npx firebase deploy"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +29,6 @@
     "@capacitor/geolocation": "^4.1.0",
     "@capacitor/haptics": "4.0.1",
     "@capacitor/keyboard": "4.0.1",
-    "@capacitor/share": "^4.1.0",
     "@capacitor/status-bar": "4.0.1",
     "@ionic/angular": "^6.1.9",
     "@ionic/storage-angular": "^3.0.6",

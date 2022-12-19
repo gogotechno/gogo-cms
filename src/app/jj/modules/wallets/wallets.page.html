@@ -15,7 +15,7 @@
 
     <div class="wallets-summary-card ion-padding">
       <ion-text class="balance">
-        <jj-currency [value]="totalAssetsBalance"></jj-currency>
+        <jj-currency [currency]="displayCurrency" [value]="totalAssetsBalance"></jj-currency>
       </ion-text>
       <br />
       <ion-text class="label">{{ 'jj._TOTAL_ASSETS' | translate }}</ion-text>
@@ -23,7 +23,8 @@
 
     <ion-list>
       <ion-list-header>{{ 'jj._ALL_WALLETS' | translate }}</ion-list-header>
-      <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" [routerLink]="wallet.walletNo">
+
+      <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" routerLink="{{ wallet.walletNo }}">
         <ion-avatar
           class="d-flex-center"
           [style.background-color]="wallet.colors ? wallet.colors['primary-light'] : 'var(--ion-color-primary-light)'"
@@ -41,7 +42,7 @@
         </div>
         <div slot="end">
           <ion-text class="balance">
-            <jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency>
+            <jj-currency [currency]="displayCurrency" [value]="wallet.walletBalance"></jj-currency>
           </ion-text>
         </div>
       </ion-item>

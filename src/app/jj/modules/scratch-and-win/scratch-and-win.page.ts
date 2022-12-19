@@ -12,6 +12,7 @@ import {
   JJScratchRequest,
   JJWallet,
   ScratchRequestExtras,
+  WalletType,
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';
@@ -34,8 +35,6 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   totalChance: number;
 
   buttons = buttons;
-
-  scratching: boolean;
 
   get contentOffsetTop() {
     let offset = this.platform.is('ios') ? 46 : 56;

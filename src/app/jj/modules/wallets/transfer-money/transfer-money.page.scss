@@ -14,15 +14,10 @@ ion-card {
     }
 
     .content {
-      margin-left: var(--ion-margin);
+      margin-left: calc(var(--ion-margin) / 2);
 
       h3 {
         font-size: var(--ion-font-2xl);
-        font-weight: var(--ion-font-bold);
-      }
-
-      .balance {
-        font-size: var(--ion-font-lg);
         font-weight: var(--ion-font-bold);
       }
     }

@@ -21,7 +21,6 @@ import {
   JJEventPrize,
   JJFab,
   JJMerchant,
-  JJPinVerification,
   JJPointRule,
   JJProduct,
   JJScratchAndWinEvent,
@@ -41,6 +40,8 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
+  TransferRequestDto,
+  WalletType,
 } from '../typings';
 import { CommonService } from './common.service';
 
@@ -69,7 +70,7 @@ export class CoreService extends SharedComponent {
     if (this.initialized) {
       return;
     }
-    this.title.setTitle('Lucky365');
+    this.title.setTitle('JJ Member');
     this.appUtils.loadTemplateTheme('jj');
     this.SWS_ERP_COMPANY_TOKEN.next(COMPANY_CODE);
     const storedLang = await this.storage.get(LANGUAGE_STORAGE_KEY);
@@ -304,12 +305,21 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  createTransferRequest(request: JJTransferRequest) {
+  createTransferRequest(data: TransferRequestDto) {
+    let request: JJTransferRequest = {
+      refNo: '',
+      amount: data.amount,
+      fromWallet: data.fromWallet,
+      toWallet: data.toWallet,
+      description: data.description,
+      reference1: data.reference1,
+      reference2: data.reference2,
+      reference3: data.reference3,
+      effectiveDate: data.effectiveDate,
+      fromWalletNo: data.fromWalletNo,
+      toWalletNo: data.toWalletNo,
+    };
     return this.swsErp.postDoc('Transfer Request', request);
-  }
-
-  createPinVerification(verification: JJPinVerification) {
-    return this.swsErp.postDoc('Pin Verification', verification);
   }
 
   // -----------------------------------------------------------------------------------------------------

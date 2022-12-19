@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { PhoneNumberVerificationComponent } from 'src/app/cms-ui/phone-number-verification/phone-number-verification.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { JJCustomer } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { AuthService } from 'src/app/jj/services';
 import { User } from 'src/app/jj/typings';
 import { AccountService } from '../@services/account.service';

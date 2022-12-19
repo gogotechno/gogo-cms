@@ -3,60 +3,47 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
     </ion-buttons>
-    <ion-title>取出记录</ion-title>
+    <ion-title>Withdraw History</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-      <ion-list-header>11/11/2022</ion-list-header>
-      <ion-item lines="full" class="transaction" routerLink="1" button detail="false">
-        <div class="ion-padding-vertical-sm">
-          <ion-text class="description">MDSP</ion-text><br />
-          <ion-text class="reference1">22111102293</ion-text><br />
-          <ion-text class="reference2">-</ion-text>
-        </div>
-        <div slot="end">
-          <ion-text class="description">RM500.00</ion-text><br />
-          <ion-badge color="warning">处理中</ion-badge>
-        </div>
-      </ion-item>
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>_NO_WITHDRAWS_FOUND</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+    <ion-list-header>{{ date }}</ion-list-header>
+    <ion-item lines="full" class="transaction" *ngFor="let withdraw of withdraws[date]" [routerLink]=[withdraw.doc_id]>
+      <div class="ion-padding-vertical-sm">
+        <ion-text class="description">{{ withdraw.description || '-' }}</ion-text><br />
+        <ion-text class="reference2">{{ withdraw.reference1 || '-' }}</ion-text><br />
+        <ion-text>{{ withdraw.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
+      </div>
 
-      <ion-item lines="full" class="transaction">
-        <div class="ion-padding-vertical-sm">
-          <ion-text class="description">MDSP</ion-text><br />
-          <ion-text class="reference1">22111102294</ion-text><br />
-          <ion-text class="reference2">-</ion-text>
-        </div>
-        <div slot="end">
-          <ion-text class="description">RM500.00</ion-text><br />
-          <ion-badge color="success">成功</ion-badge>
-        </div>
-      </ion-item>
+      <div slot="end">
+        <ion-text class="right" class="reference1">RM {{ withdraw.amount || '-' }}</ion-text><br />
+        <ion-badge slot="end" color="warning">{{ withdraw.status || '-' }}</ion-badge>
+      </div>
+    </ion-item>
+  </ng-container>
   </ion-list>
-
-  <div class="note">
-    <ion-label>
-      <ion-text>
-        已加载全部钱包取出记录
-      </ion-text>
-    </ion-label>
-  </div>
-
-
-   <!-- <ng-container *ngIf="dates?.length">
-    <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!withdrawsEnded" (ionInfinite)="loadMoreWithdraws($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
-    <div *ngIf="transactionsEnded" class="note">
+  <div *ngIf="withdrawsEnded" class="note">
       <ion-label>
-        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>ALL_LOADED</ion-text><br />
         <ion-text>
-          {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+          UPDATED_AT_WITH_DATE
         </ion-text>
       </ion-label>
     </div>
-  </ng-container> -->
+  </ng-container>
 </ion-content>
 
 

@@ -150,21 +150,21 @@ const cards: WalletCard[] = [
     name: 'jj._DEPOSIT',
     icon: 'enter-outline',
     url: 'create-deposit',
-    active: false,
+    active: true,
   },
   {
     code: 'WITHDRAW',
     name: 'jj._WITHDRAW',
     icon: 'exit-outline',
     url: 'create-withdraw',
-    active: false,
+    active: true,
   },
   {
     code: 'TRANSFER',
     name: 'jj._TRANSFER',
     icon: 'arrow-redo-outline',
     url: 'create-transfer',
-    active: false,
+    active: true,
   },
   {
     code: 'STATEMENT',
@@ -185,6 +185,6 @@ const cards: WalletCard[] = [
     name: 'jj._QR_CODE',
     icon: 'qr-code-outline',
     url: '',
-    active: false,
+    active: true,
   },
 ];
