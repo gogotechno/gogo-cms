@@ -18,13 +18,6 @@ export class ScratchPrizesComponent extends SharedComponent implements OnInit {
   prizesEnded: boolean;
   prizes: JJScratchAndWinPrize[];
 
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'START',
-  };
-
   constructor(private modalCtrl: ModalController, private core: CoreService) {
     super();
   }

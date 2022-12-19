@@ -12,7 +12,6 @@ import {
   JJScratchRequest,
   JJWallet,
   ScratchRequestExtras,
-  WalletType,
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';

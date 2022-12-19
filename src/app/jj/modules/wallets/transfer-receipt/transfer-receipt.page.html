@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button
         [defaultHref]="walletNo ? '/jj/wallets/' + walletNo : '/jj/wallets'"
-        [text]="platform.is('ios') ? ('_BACK' | translate) : ''"
+        [text]="backButtonText"
       ></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'jj._TRANSFER_RECEIPT' | translate }}</ion-title>
