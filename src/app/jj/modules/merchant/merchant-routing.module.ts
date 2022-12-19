@@ -35,22 +35,17 @@ const routes: Routes = [
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
   {
-    path: 'withdraw-requests',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./withdraw-requests/withdraw-requests.module').then((m) => m.WithdrawRequestsPageModule),
-      },
-      {
-        path: ':id',
-        loadChildren: () => import('./withdraw-request/withdraw-request.module').then((m) => m.WithdrawRequestPageModule),
-      },
-    ],
-  },
-  {
     path: 'merchants',
     loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
+  },  {
+    path: 'create-event',
+    loadChildren: () => import('./create-event/create-event.module').then( m => m.CreateEventPageModule)
   },
+  {
+    path: 'events',
+    loadChildren: () => import('./events/events.module').then( m => m.EventsPageModule)
+  },
+
 ];
 
 @NgModule({

@@ -78,11 +78,19 @@ export class FilterComponent implements OnInit {
 
   onReset() {
     this.resetForm();
-    this.reset.emit(this.formGroup.value);
+    let formValue = this.formGroup.value;
+    if (this.form.disallowEmpty) {
+      formValue = this.removeEmptyKeys(formValue);
+    }
+    this.reset.emit(formValue);
   }
 
   onApply() {
-    this.submit.emit(this.formGroup.value);
+    let formValue = this.formGroup.value;
+    if (this.form.disallowEmpty) {
+      formValue = this.removeEmptyKeys(formValue);
+    }
+    this.submit.emit(formValue);
   }
 
   resetForm() {
@@ -94,7 +102,14 @@ export class FilterComponent implements OnInit {
 
   removeEmptyKeys<T>(source: T) {
     const cloned = _.cloneDeep(source);
-    Object.keys(cloned).forEach((key) => (!cloned[key] ? delete cloned[key] : cloned[key]));
+    Object.keys(cloned).forEach((key) => {
+      if (!cloned[key]) {
+        delete cloned[key];
+      }
+    });
+    if (Object.keys(cloned).length == 0) {
+      return null;
+    }
     return cloned;
   }
 }

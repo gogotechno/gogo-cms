@@ -1,46 +1,47 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="walletNo ? '/jj/wallets/' + walletNo : '/jj/wallets'" [text]="platform.is('ios') ? ('_BACK' | translate) : ''"></ion-back-button>
+      <ion-back-button
+        [defaultHref]="walletNo ? '/jj/wallets/' + walletNo : '/jj/wallets'"
+        [text]="backButtonText"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'jj._TRANSFER_RECEIPT' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="transferRequest">
-    <ion-item lines="full" color="light">
+  <ion-list *ngIf="transferRequest" lines="full">
+    <ion-item color="light">
       <ion-label><strong>{{ type | cmsTranslate }}</strong></ion-label>
       <ion-badge color="success" slot="end">{{ status | cmsTranslate }}</ion-badge>
     </ion-item>
-    <ion-item lines="full">
+    <ion-item>
       <ion-label>
         {{ 'jj._REFERENCE_NO' | translate }}<br />
         <strong>{{ transferRequest.refNo }}</strong>
       </ion-label>
-      <ion-note slot="end">
-        {{ transferRequest.doc_createdDate | date: 'd/M/yyyy h:mma' }}
-      </ion-note>
+      <ion-note slot="end"> {{ transferRequest.doc_createdDate | date: 'd/M/yyyy h:mma' }} </ion-note>
     </ion-item>
-    <ion-item lines="full">
+    <ion-item>
       <ion-label>
         {{ 'jj._BENEFICIARY_NAME' | translate }}<br />
         <strong>{{ transferRequest.beneficiaryName || '-' }}</strong>
       </ion-label>
     </ion-item>
-    <ion-item lines="full">
+    <ion-item>
       <ion-label>
         {{ 'jj._BENEFICIARY_WALLET_NO' | translate }}<br />
         <strong>{{ transferRequest.beneficiaryWalletNo || '-' }}</strong>
       </ion-label>
     </ion-item>
-    <ion-item lines="full">
+    <ion-item>
       <ion-label>
         {{ 'jj._DESCRIPTION' | translate }}<br />
         <strong>{{ transferRequest.description || '-' }}</strong>
       </ion-label>
     </ion-item>
-    <ion-item lines="full">
+    <ion-item>
       <ion-label>
         {{ 'jj._AMOUNT' | translate }}<br />
         <strong class="ion-text-xl"><jj-currency [value]="transferRequest.amount"></jj-currency></strong>

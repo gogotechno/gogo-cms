@@ -147,9 +147,12 @@ export class FormComponent extends CmsComponent implements OnInit {
     });
 
     if (this.form.submitButtonId) {
-      document.getElementById(this.form.submitButtonId).addEventListener('click', () => {
-        this.onSubmit();
-      });
+      let button = document.getElementById(this.form.submitButtonId);
+      if (button) {
+        button.addEventListener('click', () => {
+          this.onSubmit();
+        });
+      }
     }
   }
 

@@ -76,6 +76,10 @@ ion-card {
     position: absolute;
     top: 0;
     left: 0;
+
+    &::part(image) {
+      border-radius: var(--ion-border-radius);
+    }
   }
 
   ion-badge {

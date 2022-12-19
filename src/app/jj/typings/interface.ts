@@ -1,4 +1,4 @@
-import { CmsTranslation } from 'src/app/cms.type';
+import { CmsFile, CmsTranslation } from 'src/app/cms.type';
 import { DocUser, ErpDoc } from 'src/app/sws-erp.type';
 import { Currency } from '../modules/wallets/wallets.types';
 
@@ -117,19 +117,34 @@ export interface JJEvent extends ErpDoc {
   totalOfGainedSnwTickets?: number;
   drawingResult?: JJDrawingResult;
   drewAt?: Date;
-  winningSummary?: {
-    prize: JJEventPrize;
-    winningNumbers: string[];
-  }[];
+  showEndDateCountdown: boolean;
+  showNearestStore: boolean;
+  showCustomerTickets: boolean;
+  winningSummary?: WinningSummaryDetails[];
 
   // app use only
   _status: string;
+}
+
+export interface WinningSummaryDetails {
+  prize: JJEventPrize;
+  winningNumbers: string[];
 }
 
 export enum EventStatus {
   ACTIVE = 'ACTIVE',
   INACTIVE = 'INACTIVE',
   ENDED = 'ENDED',
+}
+
+export interface JJEventStatus extends ErpDoc {
+  code: string;
+  name: string;
+}
+
+export interface JJTicketGenerationMethod extends ErpDoc {
+  code: string;
+  name: string;
 }
 
 export interface JJEventPrize extends ErpDoc {
@@ -160,11 +175,9 @@ export interface JJWallet extends ErpDoc {
   pin?: string;
   customer?: JJCustomer;
   merchant?: JJMerchant;
-
-  // app use only
-  displayCurrency: Currency;
+  displayCurrency?: Currency;
   icon?: string;
-  colors?: object;
+  colors?: any;
 }
 
 export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW';
@@ -173,21 +186,13 @@ export interface JJWalletType extends ErpDoc {
   code: WalletType;
   name: string;
   icon: string;
-  colors: object;
+  colors: string;
   canDeposit: boolean;
   canWithdraw: boolean;
   canTransfer: boolean;
   canPay: boolean;
+  canNegative: boolean;
   wallet_currency_id: number;
-}
-
-export interface JJWalletCurrency extends ErpDoc {
-  code: string;
-  label: string;
-  symbol: string;
-  symbolPosition: 'START' | 'END';
-  digits: number;
-  isDefault: boolean;
 }
 
 export interface JJWalletPermission extends ErpDoc {
@@ -290,9 +295,9 @@ export interface JJMerchant extends ErpDoc {
   totalOfWinners?: number;
   fullAddress?: string;
   distance?: number;
+  latitude?: string;
+  longitude?: string;
   nameTranslation?: CmsTranslation;
-  latitude?: number;
-  longitude?: number;
 }
 
 export interface JJPointRule extends ErpDoc {
@@ -464,17 +469,24 @@ export interface ScratchRequestExtras {
 }
 
 export interface JJDepositRequest extends ErpDoc {
-  wallet_id: number;
+  wallet_id?: number;
   amount: number;
   refNo: string;
   description?: string | null;
   reference1?: string | null;
   reference2?: string | null;
   reference3?: string | null;
-  status: DepositRequestStatus;
+  status?: DepositRequestStatus;
+  deposit_method_id: number;
+  bank_account_id?: number;
+  attachments?: CmsFile[];
+  walletNo?: string;
+  bankAccount?: JJBankAccount;
+  depositMethod?: JJDepositMethod;
+  wallet?: JJWallet;
 }
 
-export type DepositRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
+export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED' | 'DECLINED';
 
 export interface JJDepositMethod extends ErpDoc {
   name: string;
@@ -514,6 +526,7 @@ export interface JJBankAccount extends ErpDoc {
   isDefault: boolean;
   bank_id: number;
   bank?: JJBank;
+  bankName?: string;
 }
 
 export interface JJTransferRequest extends ErpDoc {
@@ -528,6 +541,28 @@ export interface JJTransferRequest extends ErpDoc {
   effectiveDate?: Date;
   fromWalletNo?: string;
   toWalletNo?: string;
+  fromWalletPin?: string;
+}
+
+export interface JJWalletCurrency extends ErpDoc {
+  code: string;
+  label: string;
+  symbol: string;
+  symbolPosition: 'START' | 'END';
+  digits: number;
+  isDefault: boolean;
+}
+
+export interface JJWalletCurrencyConversion extends ErpDoc {
+  from_wallet_currency_id: number;
+  to_wallet_currency_id: number;
+  factor: number;
+}
+
+export interface JJWalletTypePermission extends ErpDoc {
+  from_wallet_type_id: number;
+  to_wallet_type_id: number;
+  canTransfer: number;
 }
 
 export interface JJPinVerification extends ErpDoc {

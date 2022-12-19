@@ -168,4 +168,8 @@ export class CommonService {
     url = url.replace(/{{companyCode}}/g, COMPANY_CODE);
     return url;
   }
+
+  getBackButtonText() {
+    return this.platform.is('ios') ? '_BACK' : '';
+  }
 }

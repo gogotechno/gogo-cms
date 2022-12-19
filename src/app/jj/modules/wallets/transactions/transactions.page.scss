@@ -1,27 +1,28 @@
 ion-list-header {
-    --background: var(--ion-color-light);
-    font-size: small;
-    min-height: 0px;
-    padding-top: calc(var(--ion-padding, 16px) / 2);
-    padding-bottom: calc(var(--ion-padding, 16px) / 2);
+  min-height: 0;
+  font-size: var(--ion-font-sm);
+  padding-top: calc(var(--ion-padding, 16px) / 2);
+  padding-bottom: calc(var(--ion-padding, 16px) / 2);
+  --background: var(--ion-color-light);
 }
 
 .header-title {
-    margin: 0;
-    font-size: 17px;
+  margin: 0;
+  font-size: var(--ion-font-lg);
 }
 
 .header-subtitle {
-    margin: 0;
-    font-size: small;
+  margin: 0;
+  font-size: var(--ion-font-sm);
 }
 
 .transaction {
-    .description {
-        font-weight: bold;
-    }
+  .description {
+    font-weight: var(--ion-font-bold);
+  }
 
-    .reference1, .reference2 {
-        font-size: small;
-    }
+  .reference1,
+  .reference2 {
+    font-size: var(--ion-font-sm);
+  }
 }

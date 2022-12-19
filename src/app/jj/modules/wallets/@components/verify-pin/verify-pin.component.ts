@@ -32,7 +32,6 @@ export class VerifyPinComponent implements OnInit {
 const form: CmsForm = {
   code: 'verify-pin',
   labelPosition: 'stacked',
-  submitButtonText: '_CONFIRM',
   submitButtonId: 'verify-pin-btn',
   autoValidate: true,
   items: [
