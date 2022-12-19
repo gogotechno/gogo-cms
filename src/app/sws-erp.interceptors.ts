@@ -70,7 +70,9 @@ export class SwsErpInterceptor implements HttpInterceptor {
               this.erp.signOut();
             }
             if (!this.isAccessTokenExpiredError(err)) {
-              await this.app.presentAlert(message, header);
+              if (!skipErrorAlert) {
+                await this.app.presentAlert(message, header);
+              }
             }
           },
         ),
