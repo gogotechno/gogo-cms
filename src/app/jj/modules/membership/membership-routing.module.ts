@@ -31,12 +31,12 @@ const routes: Routes = [
       {
         path: 'register',
         canActivate: [PublicGuard],
-        loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+        loadChildren: () => import('./register/register.module').then((m) => m.RegisterPageModule),
       },
       {
         path: 'referrer',
         canActivate: [AuthGuard],
-        loadChildren: () => import('./referrer/referrer.module').then( m => m.ReferrerPageModule)
+        loadChildren: () => import('./referrer/referrer.module').then((m) => m.ReferrerPageModule),
       },
     ],
   },

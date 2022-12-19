@@ -29,14 +29,27 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'cms-translate-editor'">
-            <ion-list-header>
-              <span>{{ item.label | cmsTranslate }}</span>
-              <cms-required-tag *ngIf="item.required"></cms-required-tag>
-            </ion-list-header>
+            <ion-item>
+              <ion-label>
+                <span>{{ item.label | cmsTranslate }}</span>
+                <cms-required-tag *ngIf="item.required"></cms-required-tag>
+              </ion-label>
+            </ion-item>
             <cms-translation-editor-input 
               [collection-path]="collectionPath" 
               [formControlName]="item.code"
             ></cms-translation-editor-input>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="'files'">
+            <cms-files-input
+              [code]="item.code"
+              [label]="item.label"
+              [required]="item.required"
+              [maximum]="item.maximum"
+              [readonly]="item.readonly"
+              [formControlName]="item.code"
+            ></cms-files-input>
           </ng-container>
 
           <ng-container *ngSwitchCase="'checkbox'">

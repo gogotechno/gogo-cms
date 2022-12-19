@@ -54,7 +54,6 @@ export class CreateTransferPage implements OnInit {
 const form: CmsForm = {
   code: 'create-transfer',
   labelPosition: 'stacked',
-  submitButtonText: '_NEXT',
   submitButtonId: 'create-transfer-btn',
   autoValidate: true,
   items: [

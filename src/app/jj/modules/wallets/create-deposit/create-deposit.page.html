@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button [text]="'_BACK' | translate" [defaultHref]="'/jj/wallets/' + walletNo"></ion-back-button>
+      <ion-back-button [text]="backButtonText | translate" [defaultHref]="'/jj/wallets/' + walletNo"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._DEPOSIT" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="../deposits">
+        <ion-label>{{ "_HISTORY" | translate }}</ion-label>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -12,9 +17,17 @@
     <ion-row>
       <ion-col>
         <div class="ion-padding-sm">
-          <cms-form [form]="form" [value]="value" (submit)="onNext($event)"></cms-form>
+          <cms-form [form]="form" [value]="value" (submit)="onConfirm($event)"></cms-form>
         </div>
       </ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="create-deposit-btn" expand="block">
+      <ion-label>{{ "_CONFIRM" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

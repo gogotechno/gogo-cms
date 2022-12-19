@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/finance"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._DEPOSITS" }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onFilter()">
+        <ion-icon name="filter-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="full">
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>{{ 'jj._NO_REQUESTS_FOUND' | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+      <ion-list-header>{{ date }}</ion-list-header>
+      <ion-item class="request" *ngFor="let request of requests[date]" [routerLink]="request.refNo">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">{{ request.description || '-' }}</ion-text><br />
+          <ion-text class="reference1">{{ request.reference1 || '-' }}</ion-text><br />
+          <ion-text class="reference2">{{ request.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
+        </div>
+        <div slot="end">
+          <jj-currency
+            [currency]="request.wallet.displayCurrency"
+            [value]="request.amount"
+            [style.color]="request.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
+          ></jj-currency>
+          <ion-badge [color]="getStatusColor(request)">{{ "jj._" + request.status | translate }}</ion-badge>
+        </div>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!requestsEnded" (ionInfinite)="loadMoreRequests($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="requestsEnded" class="note">
+      <ion-label>
+        <span>{{ '_ALL_LOADED' | translate }}</span><br />
+        <span>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</span>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content>
+
+<!-- <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Requests</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon slot="icon-only" name="funnel"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      11/11/2022
+      <ion-badge color="danger" style="margin-left: 55%">2 pending</ion-badge>
+    </ion-list-header>
+    <ion-item lines="full" class="transaction" routerLink="1" button detail="false">
+      <div class="ion-padding-vertical-sm">
+        <ion-text class="request">Withdraw</ion-text><br />
+        <ion-text class="description">TAN AH KAU</ion-text><br />
+        <ion-text class="reference1">22111102293</ion-text>
+      </div>
+      <div slot="end">
+        <ion-text class="description">RM500.00</ion-text><br />
+        <ion-badge color="warning">pending</ion-badge>
+      </div>
+    </ion-item>
+
+    <ion-item lines="full" class="transaction">
+      <div class="ion-padding-vertical-sm">
+        <ion-text class="request">Deposit</ion-text><br />
+        <ion-text class="description">TAN AH KAU</ion-text><br />
+        <ion-text class="reference1">22111102294</ion-text>
+      </div>
+      <div slot="end">
+        <ion-text class="description">RM800.00</ion-text><br />
+        <ion-badge color="warning">pending</ion-badge>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <div class="note">
+    <ion-label>
+      <ion-text> All requests are loaded </ion-text>
+    </ion-label>
+  </div>
+
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!transactionsEnded" (ionInfinite)="loadMoreTransactions($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="transactionsEnded" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content> -->

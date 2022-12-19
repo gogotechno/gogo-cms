@@ -21,7 +21,7 @@
         <h3>{{ prize.name }}</h3>
         <p class="prize-worth">
           {{ 'jj._WORTH' | translate }}&nbsp;
-          <jj-currency [value]="prize.worth"></jj-currency>
+          <jj-currency [currency]="displayCurrency" [value]="prize.worth"></jj-currency>
         </p>
       </ion-label>
     </ion-item>

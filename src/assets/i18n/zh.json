@@ -87,6 +87,8 @@
   "_SHARE": "分享",
   "_NEXT": "继续",
   "_INCORRECT_PIN": "PIN错误",
+  "_COPY": "复制",
+  "_HISTORY": "历史",
   "winbox99": {
     "_LOGIN": "登录",
     "_GAMES": "我们的游戏",
@@ -443,7 +445,6 @@
     "_BANK": "银行",
     "_ACCOUNT_NO": "账号",
     "_HOLDER_NAME": "持有人",
-    "_COPY_ACCOUNT_NO": "复制账号",
     "_MERCHANT_LIST": "商家列表",
     "_REFERRER": "推荐",
     "_SENDER_WALLET_NOT_FOUND": "转账钱包未找到",
@@ -461,6 +462,7 @@
     "_BENEFICIARY_NAME": "收款人",
     "_BENEFICIARY_WALLET_NO": "收款账户",
     "_AMOUNT": "金额",
-    "_VIEW_MY_REWARDS": "查看我的奖励"
+    "_VIEW_MY_REWARDS": "查看我的奖励",
+    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "金额必须大于零"
   }
 }

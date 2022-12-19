@@ -35,7 +35,6 @@ export class ChangePinPage implements OnInit {
 const form: CmsForm = {
   code: 'change-pin',
   labelPosition: 'stacked',
-  submitButtonText: '_CONFIRM',
   submitButtonId: 'change-pin-btn',
   autoValidate: true,
   items: [

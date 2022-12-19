@@ -8,7 +8,14 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, LoginPageRoutingModule, SharedModule, CmsUIModule],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    IonicModule, 
+    LoginPageRoutingModule, 
+    SharedModule, 
+    CmsUIModule
+  ],
   declarations: [LoginPage],
 })
 export class LoginPageModule {}

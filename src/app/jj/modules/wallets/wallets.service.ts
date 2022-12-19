@@ -30,7 +30,7 @@ export class WalletsService {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    return data?.success;
+    return data;
   }
 
   async openCreatePin(walletId: number) {
@@ -42,6 +42,6 @@ export class WalletsService {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    return data?.success;
+    return data;
   }
 }

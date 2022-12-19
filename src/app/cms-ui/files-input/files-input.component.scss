@@ -1,0 +1,12 @@
+ion-thumbnail img {
+  object-fit: cover;
+  object-position: center;
+
+  &.file {
+    object-fit: contain;
+  }
+}
+
+ion-button[slot='end'] {
+  margin: 0;
+}
