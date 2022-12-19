@@ -16,15 +16,16 @@ export class VerifyPinComponent implements OnInit {
 
   ngOnInit() {}
 
+  async onDismiss() {
+    await this.modalCtrl.dismiss();
+  }
+
   async onVerify(data: VerifyPinDto) {
     await this.core.createPinVerification({
       walletNo: this.walletNo,
       walletPin: data.pin,
     });
-    await this.modalCtrl.dismiss({
-      success: true,
-      pin: data.pin,
-    });
+    await this.modalCtrl.dismiss({ success: true });
   }
 }
 

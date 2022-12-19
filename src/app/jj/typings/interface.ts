@@ -280,6 +280,8 @@ export interface JJMerchant extends ErpDoc {
   totalOfWinners?: number;
   fullAddress?: string;
   distance?: number;
+  latitude?: string;
+  longitude?: string;
   nameTranslation?: CmsTranslation;
 }
 
