@@ -22,9 +22,7 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
 
   get dates(): string[] {
-    if (!this.withdraws) {
-      return null;
-    }
+    if (!this.withdraws) return null;
     return Object.keys(this.withdraws);
   }
 
@@ -92,6 +90,6 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   }
 
   getStatusColor(request: JJWithdrawRequest) {
-    return this.walletsService.getWithdrawStatusColor(request.status);
+    return this.walletsService.getStatusColor(request.status);
   }
 }

@@ -20,7 +20,7 @@ export class DepositPage implements OnInit {
 
   get statusColor() {
     if (!this.deposit) return;
-    return this.walletsService.getDepositStatusColor(this.deposit.status);
+    return this.walletsService.getStatusColor(this.deposit.status);
   }
 
   constructor(

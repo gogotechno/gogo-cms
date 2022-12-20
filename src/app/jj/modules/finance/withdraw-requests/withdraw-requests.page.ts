@@ -32,9 +32,7 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
   }
 
   get dates(): string[] {
-    if (!this.requests) {
-      return null;
-    }
+    if (!this.requests) return null;
     return Object.keys(this.requests);
   }
 
@@ -110,7 +108,7 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
   }
 
   getStatusColor(request: JJWithdrawRequest) {
-    return this.walletsService.getWithdrawStatusColor(request.status);
+    return this.walletsService.getStatusColor(request.status);
   }
 
   get _filter(): CmsFilter {

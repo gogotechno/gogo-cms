@@ -20,7 +20,7 @@ export class WithdrawPage implements OnInit {
     if (!this.withdraw) {
       return;
     }
-    return this.walletsService.getDepositStatusColor(this.withdraw.status);
+    return this.walletsService.getStatusColor(this.withdraw.status);
   }
 
   constructor(

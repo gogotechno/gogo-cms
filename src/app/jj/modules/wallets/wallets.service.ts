@@ -45,20 +45,7 @@ export class WalletsService {
     return data;
   }
 
-  getDepositStatusColor(status: DepositRequestStatus) {
-    switch (status) {
-      case 'DECLINED':
-        return 'danger';
-      case 'APPROVED':
-        return 'success';
-      case 'PROCESSING':
-        return 'warning';
-      default:
-        return 'medium';
-    }
-  }
-
-  getWithdrawStatusColor(status: WithdrawRequestStatus) {
+  getStatusColor(status: string) {
     switch (status) {
       case 'DECLINED':
         return 'danger';
