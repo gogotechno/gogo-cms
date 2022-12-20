@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
-import { WalletsComponentsModule } from '../../@components/wallets-components.module';
+import { WalletsComponentsModule } from '../../../@components/wallets-components.module';
 import { UploadAttachmentsComponent } from './upload-attachments/upload-attachments.component';
 
 const components = [
