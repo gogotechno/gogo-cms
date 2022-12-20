@@ -1,9 +1,50 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>events</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/merchant">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._EVENT" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/jj/merchant/create-event">
+        <ion-label>{{ "_NEW_EVENT" | translate }}</ion-label>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>{{ '_NO_EVENTS_FOUND' | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+      <ion-list-header>{{ date }}</ion-list-header>
+      <ion-item lines="full" *ngFor="let event of events[date]" [routerLink]="event.doc_id">
+        <div>
+          <ion-text>{{ event.name || '-' }}</ion-text><br />
+          <ion-text>{{ event.status || '-' }}</ion-text><br />
+          <ion-text>{{ event.startAt | date: 'hh:mm:ss a' }}</ion-text>
+        </div>
 
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  <ng-container *ngIf="dates?.length">
+    <!-- <ion-infinite-scroll *ngIf="!eventsEnded" (ionInfinite)="loadMoreEvents($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll> -->
+    <div *ngIf="eventsEnded" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate }}
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container>
 </ion-content>

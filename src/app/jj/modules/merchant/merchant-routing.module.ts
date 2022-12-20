@@ -37,13 +37,23 @@ const routes: Routes = [
   {
     path: 'merchants',
     loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
-  },  {
+  },
+  {
     path: 'create-event',
     loadChildren: () => import('./create-event/create-event.module').then( m => m.CreateEventPageModule)
   },
   {
     path: 'events',
-    loadChildren: () => import('./events/events.module').then( m => m.EventsPageModule)
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
+      },
+      {
+        path: ':id',
+        loadChildren: () => import('./events/event-details/event-details.module').then((m) => m.EventDetailsPageModule),
+      },
+    ]
   },
 
 ];
