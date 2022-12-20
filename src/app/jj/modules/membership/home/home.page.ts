@@ -41,6 +41,7 @@ export class HomePage implements OnInit {
   async ngOnInit() {
     await this.home.init();
     this.home.initialized = true;
+    this.home.eventConfig.subscribe((config) => (this.eventConfig = config));
     this.home.event.subscribe((event) => (this.event = event));
     this.home.bulletinGroups.subscribe((groups) => (this.groups = groups));
     this.home.groupCode.subscribe((code) => (this.groupCode = this.groupCode ? this.groupCode : code));
