@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'qr-code',
     loadChildren: () => import('./qr-code/qr-code.module').then((m) => m.QrCodePageModule),
   },
+  {
+    path: 'merchants',
+    loadChildren: () => import('../common/merchants/merchants.module').then((m) => m.MerchantsPageModule),
+  },
 ];
 
 @NgModule({

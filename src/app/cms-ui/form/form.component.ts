@@ -322,6 +322,11 @@ export class FormComponent extends CmsComponent implements OnInit {
       // TODO: Set value and do not trigger change event
     }
   }
+
+  onSearchableItemsChange(code: string, items: Array<any>) {
+    let index = this.form.items.findIndex((i) => i.code == code);
+    this.form.items[index].items = items;
+  }
 }
 
 interface MatchingConfig {

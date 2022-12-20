@@ -127,6 +127,10 @@ export interface CmsFormItem extends CmsDocument {
   buttons?: Array<CmsFormItemOption>;
   counter?: boolean;
   hint?: CmsTranslable;
+  searchable?: boolean;
+  items?: Array<any>;
+  selectConfig?: SearchableConfig;
+  selectHandler?: SearchableHanlder;
 }
 
 export interface CmsFormItemOption {
@@ -192,20 +196,25 @@ export interface CmsFilterItem {
   operator?: Operator;
   dateType?: 'date' | 'time' | 'datetime';
   searchable?: boolean;
-  selectConfig?: {
-    labelFields: string[];
-    labelSeparator?: string;
-    codeFields: string[];
-    codeSeparator?: string;
-    noMoreText?: string;
-    emptyText?: string;
-    selectedItems?: any[];
-  };
-  selectHandler?: {
-    onLoad: OnSelectLoad;
-    onScrollToEnd: OnSelectScrollToEnd;
-  };
+  items?: Array<any>;
+  selectConfig?: SearchableConfig;
+  selectHandler?: SearchableHanlder;
   options?: Array<CmsFilterItemOption>;
+}
+
+export interface SearchableConfig {
+  labelFields: string[];
+  labelSeparator?: string;
+  codeFields: string[];
+  codeSeparator?: string;
+  noMoreText?: string;
+  emptyText?: string;
+  // selectedItems?: any[];
+}
+
+export interface SearchableHanlder {
+  onLoad: OnSelectLoad;
+  onScrollToEnd: OnSelectScrollToEnd;
 }
 
 export type OnSelectLoad = () => Promise<[any[], Pagination]>;

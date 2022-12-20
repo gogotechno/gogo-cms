@@ -21,9 +21,9 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'select'">
-            <ion-item *ngIf="!item.searchable">
+            <ion-item *ngIf="!item.searchable" [class.stacked-select]="form.labelPosition === 'stacked'">
               <ion-label [position]="form.labelPosition">{{ item.label | cmsTranslate | translate }}</ion-label>
-              <ion-select [formControlName]="item.code" slot="end">
+              <ion-select slot="end"[formControlName]="item.code">
                 <ion-select-option *ngFor="let option of item.options" [value]="option.code">
                   <ion-label>{{ option.label | cmsTranslate | translate }}</ion-label>
                 </ion-select-option>
@@ -31,9 +31,13 @@
             </ion-item>
             <ng-container *ngIf="item.searchable">
               <cms-searchable-select
-                [filterItem]="item"
+                [code]="item.code"
+                [label]="item.label"
+                [config]="item.selectConfig"
+                [handler]="item.selectHandler"
+                [items]="item.items"
+                (itemsChange)="onSearchableItemsChange(item.code, $event)"
                 [formControlName]="item.code"
-                (filterItemChange)="onSearchableSelectFilterItemChange(item.code, $event)"
               ></cms-searchable-select>
             </ng-container>
           </ng-container>

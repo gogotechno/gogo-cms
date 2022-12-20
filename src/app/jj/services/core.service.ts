@@ -11,6 +11,7 @@ import {
   AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
+  JJBank,
   JJBankAccount,
   JJCapturePaymentRequest,
   JJContentPage,
@@ -321,11 +322,28 @@ export class CoreService extends SharedComponent {
   async getDefaultBankAccount() {
     const query: GetOptions = {
       default: true,
+      random: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
   }
 
+  async getBanks(pagination: Pagination, conditions: Conditions = {}) {
+    const res = await this.swsErp.getDocs<JJBank>('Bank', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  /**
+   * let accounts = await this.core.getBankAccounts(this.accountsPage, {
+   *  customer_id: this.auth.currentUser.doc_id
+   * })
+   */
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
       itemsPerPage: pagination.itemsPerPage,
@@ -335,6 +353,33 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result;
+  }
+
+  /**
+   * this.accountId = params.id;
+   * 
+   * onSubmit(data) {
+   *  // CONFIRM ALERT
+   *  await this.core.updateBankAccount(this.accountId, data);
+   * }
+   */
+  updateBankAccount(accountId: number, account: JJBankAccount) {
+    return this.swsErp.putDoc('Bank Account', accountId, account);
+  }
+
+  /**
+   * onSubmit(data) {
+   *  // CONFIRM ALERT
+   *  // data: { accountNo: "12345", bank_id: 1, holderName: "Tan Zhi De" }
+   *  let account: JJBankAccount = {
+   *    ...data,
+   *    customerId: this.auth.currentUser.doc_id
+   *  }
+   *  await this.core.createBankAccount();
+   * }
+   */
+  createBankAccount(account: JJBankAccount) {
+    return this.swsErp.postDoc('Bank Account', account);
   }
 
   // -----------------------------------------------------------------------------------------------------

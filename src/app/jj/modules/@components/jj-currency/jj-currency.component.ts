@@ -7,9 +7,21 @@ import { Currency } from '../../wallets/wallets.types';
   styleUrls: ['./jj-currency.component.scss'],
 })
 export class JJCurrencyComponent implements OnInit {
-  @Input() currency: Currency;
-  @Input() value: number;
+  @Input('currency') currency: Currency;
+  @Input('value') value: number;
+  @Input('showColor') showColor: boolean;
+
   numberFormat: string;
+
+  get color() {
+    if (!this.showColor) {
+      return;
+    }
+    if (this.value < 0) {
+      return 'danger';
+    }
+    return 'success';
+  }
 
   constructor() {}
 
