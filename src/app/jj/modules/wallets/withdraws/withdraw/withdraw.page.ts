@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
-import { WalletsService } from '../wallets.service';
+import { WalletsService } from '../../wallets.service';
 
 @Component({
   selector: 'app-withdraw',
