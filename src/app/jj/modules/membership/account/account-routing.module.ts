@@ -14,22 +14,28 @@ const routes: Routes = [
   },
   {
     path: 'change-password',
-    loadChildren: () => import('./change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+    loadChildren: () => import('./change-password/change-password.module').then(m => m.ChangePasswordPageModule)
   },
   {
     path: 'change-language',
-    loadChildren: () => import('./change-language/change-language.module').then( m => m.ChangeLanguagePageModule)
-  },  {
-    path: 'bank-accounts',
-    loadChildren: () => import('./bank-accounts/bank-accounts.module').then( m => m.BankAccountsPageModule)
+    loadChildren: () => import('./change-language/change-language.module').then(m => m.ChangeLanguagePageModule)
   },
   {
-    path: 'bank-account',
-    loadChildren: () => import('./bank-account/bank-account.module').then( m => m.BankAccountPageModule)
+    path: 'bank-accounts',
+    children: [
+      {
+        path: "",
+        loadChildren: () => import('./bank-accounts/bank-accounts.module').then(m => m.BankAccountsPageModule)
+      },
+      {
+        path: ":id",
+        loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountPageModule)
+      },
+    ]
   },
   {
     path: 'create-bank-account',
-    loadChildren: () => import('./create-bank-account/create-bank-account.module').then( m => m.CreateBankAccountPageModule)
+    loadChildren: () => import('./create-bank-account/create-bank-account.module').then(m => m.CreateBankAccountPageModule)
   },
 
 ];
@@ -38,4 +44,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AccountPageRoutingModule {}
+export class AccountPageRoutingModule { }
