@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bank-accounts</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._EDIT_BANK_ACCOUNTS" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="../create-bank-account">
+        <ion-icon size="large" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-list lines="full">
+      <ion-item routerLink="../bank-account" class="transaction">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">{{  "jj._1234 5432 5678" | translate }}</ion-text><br />
+          <ion-text class="reference1">{{  "jj._MAYBANK" | translate }}</ion-text><br />
+          <ion-text class="reference2">{{  "jj._TAN AH KAU" | translate }}</ion-text>
+        </div>
+      </ion-item>
+      <ion-item routerLink="../bank-account" class="transaction">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">{{  "jj._9876 4567 5432" | translate }}</ion-text><br />
+          <ion-text class="reference1">{{  "jj._HONG LEONG BANK" | translate }}</ion-text><br />
+          <ion-text class="reference2">{{  "jj._TAN AH MAU" | translate }}</ion-text>
+        </div>
+      </ion-item>
+  </ion-list>
+  <div class="note">
+    <ion-label>
+      <span>{{ '_ALL_LOADED' | translate }}</span><br />
+    </ion-label>
+  </div>
 </ion-content>

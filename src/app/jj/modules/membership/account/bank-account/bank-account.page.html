@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bank-account</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._EDIT_BANK_ACCOUNT" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="ion-padding-sm">
+    <cms-form [form]="form" [value]="bank" (submit)="onSubmit($event)"></cms-form>
+  </div>
 </ion-content>
