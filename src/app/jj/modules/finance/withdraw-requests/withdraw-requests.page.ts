@@ -4,21 +4,21 @@ import { ModalController } from '@ionic/angular';
 import { CmsFilter } from 'src/app/cms.type';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
-import { DepositRequestStatus, JJDepositRequest } from 'src/app/jj/typings';
+import { JJWithdrawRequest, WithdrawRequestStatus } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
 import { WalletsService } from '../../wallets/wallets.service';
 import { FilterComponent } from './@components/filter/filter.component';
 
 @Component({
-  selector: 'app-deposit-requests',
-  templateUrl: './deposit-requests.page.html',
-  styleUrls: ['./deposit-requests.page.scss'],
+  selector: 'app-withdraw-requests',
+  templateUrl: './withdraw-requests.page.html',
+  styleUrls: ['./withdraw-requests.page.scss'],
 })
-export class DepositRequestsPage extends SharedComponent implements OnInit {
+export class WithdrawRequestsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
   requestsPage: Pagination;
   requestsEnded: boolean;
-  requests: JJDepositRequest[][];
+  requests: JJWithdrawRequest[][];
   requestsConditions: RequestsConditions;
   filter: CmsFilter;
 
@@ -53,7 +53,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   }
 
   async getRequests() {
-    const requests = await this.core.getDepositRequests(this.requestsPage, this.requestsConditions);
+    const requests = await this.core.getWithdrawRequests(this.requestsPage, this.requestsConditions);
     this.updatedAt = new Date();
     return requests;
   }
@@ -67,7 +67,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
     scroller.complete();
   }
 
-  grouping(requests: JJDepositRequest[]) {
+  grouping(requests: JJWithdrawRequest[]) {
     if (!this.requests) {
       this.requests = [];
     }
@@ -109,8 +109,8 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
     }
   }
 
-  getStatusColor(request: JJDepositRequest) {
-    return this.walletsService.getDepositStatusColor(request.status);
+  getStatusColor(request: JJWithdrawRequest) {
+    return this.walletsService.getWithdrawStatusColor(request.status);
   }
 
   get _filter(): CmsFilter {
@@ -123,10 +123,6 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
           label: '_STATUS',
           type: 'select',
           options: [
-            {
-              code: 'PENDING_PAYMENT',
-              label: 'jj._PENDING_PAYMENT',
-            },
             {
               code: 'PROCESSING',
               label: 'jj._PROCESSING',
@@ -153,5 +149,5 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
 }
 
 export interface RequestsConditions extends Conditions {
-  status?: DepositRequestStatus;
+  status?: WithdrawRequestStatus;
 }

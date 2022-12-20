@@ -8,14 +8,14 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ng-container *ngIf="deposit">
     <ion-list lines="full">
       <ion-item color="light">
         <ion-label><h3>{{ deposit.depositMethod?.name | erpTranslate }}</h3></ion-label>
-        <ion-badge color="success" slot="end">{{ "jj._" + deposit.status | translate }}</ion-badge>
+        <ion-badge [color]="statusColor" slot="end">{{ "jj._" + deposit.status | translate }}</ion-badge>
       </ion-item>
       <ion-item>
         <ion-label>

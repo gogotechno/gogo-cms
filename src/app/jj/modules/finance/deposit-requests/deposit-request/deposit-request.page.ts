@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
+import { WalletsService } from '../../../wallets/wallets.service';
 
 @Component({
   selector: 'app-deposit-request',
@@ -14,11 +15,17 @@ export class DepositRequestPage implements OnInit {
   refNo: string;
   deposit: JJDepositRequest;
 
+  get statusColor() {
+    if (!this.deposit) return;
+    return this.walletsService.getDepositStatusColor(this.deposit.status);
+  }
+
   constructor(
     private route: ActivatedRoute,
     private appUtils: AppUtils,
     private core: CoreService,
     private common: CommonService,
+    private walletsService: WalletsService,
   ) {}
 
   async ngOnInit() {
@@ -32,7 +39,7 @@ export class DepositRequestPage implements OnInit {
     this.deposit = await this.core.getDepositRequestByRefNo(this.refNo);
   }
 
-  async onRefresh(event: Event) {
+  async doRefresh(event: Event) {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();

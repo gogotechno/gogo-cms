@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { CmsForm } from 'src/app/cms.type';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../wallets.service';
@@ -18,12 +17,9 @@ export class DepositPage implements OnInit {
   walletNo: string;
   refNo: string;
   deposit: JJDepositRequest;
-  form = form;
 
   get statusColor() {
-    if (!this.deposit) {
-      return;
-    }
+    if (!this.deposit) return;
     return this.walletsService.getDepositStatusColor(this.deposit.status);
   }
 
@@ -63,26 +59,9 @@ export class DepositPage implements OnInit {
     }
   }
 
-  async onRefresh(event: Event) {
+  async doRefresh(event: Event) {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }
-
-const form: CmsForm = {
-  code: 'view-deposit',
-  labelPosition: 'stacked',
-  submitButtonId: 'view-deposit-btn',
-  items: [
-    {
-      code: 'attachments',
-      label: {
-        en: 'Attachments',
-        zh: '附件',
-        ms: '',
-      },
-      type: 'files',
-    },
-  ],
-};

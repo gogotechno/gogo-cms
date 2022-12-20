@@ -14,9 +14,9 @@
     <div *ngIf="!accounts?.length" class="note">
       <ion-label>{{ 'jj._NO_ACCOUNTS_FOUND' | translate }}</ion-label>
     </div>
-    <ion-radio-group>
+    <ion-radio-group [(ngModel)]="selectedBankId">
       <ion-item *ngFor="let account of accounts">
-        <ion-radio slot="start" mode="md"></ion-radio>
+        <ion-radio slot="start" mode="md" [value]="account.doc_id"></ion-radio>
         <ion-label>
           <h3>{{ account.accountNo }}</h3>
           <p>{{ account.bankName | erpTranslate }}</p>
@@ -46,7 +46,7 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-button expand="block">
+    <ion-button expand="block" (click)="onConfirm()">
       <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
     </ion-button>
   </ion-toolbar>

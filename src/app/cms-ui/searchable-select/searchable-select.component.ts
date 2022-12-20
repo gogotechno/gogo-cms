@@ -25,6 +25,7 @@ import { SearchAreaComponent } from './search-area/search-area.component';
 export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
   @Input('code') code: string;
   @Input('label') label: CmsTranslable;
+  @Input('labelPosition') labelPosition: string;
   @Input('config') config: SearchableConfig;
   @Input('handler') handler: SearchableHanlder;
   @Input('items') items: any;

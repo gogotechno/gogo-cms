@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AppUtils } from 'src/app/cms.util';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
@@ -18,14 +19,19 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   updatedAt: Date;
   customerId: number;
   merchantId: number;
+  selectedBankId: number;
 
-  constructor(private modalCtrl: ModalController, private auth: AuthService, private core: CoreService) {
+  constructor(
+    private modalCtrl: ModalController,
+    private appUtils: AppUtils,
+    private auth: AuthService,
+    private core: CoreService,
+  ) {
     super();
   }
 
   async ngOnInit() {
     await this.loadData();
-    console.log(this.accounts);
   }
 
   async loadData() {
@@ -61,6 +67,9 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
     if (this.merchantId) {
       conditions.merchant_id = this.merchantId;
     }
+    if (!this.customerId && !this.merchantId) {
+      conditions.default = true;
+    }
     let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
     this.updatedAt = new Date();
     return accounts;
@@ -73,7 +82,25 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   async openCreate() {
     const modal = await this.modalCtrl.create({
       component: CreateBankAccountComponent,
+      componentProps: {
+        customerId: this.customerId,
+        merchantId: this.merchantId,
+      },
     });
     await modal.present();
+    const { data } = await modal.onWillDismiss();
+    if (data?.account) {
+      this.accounts.unshift(data.account);
+    }
+  }
+
+  async onConfirm() {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
+    if (!confirm) {
+      return;
+    }
+    await this.modalCtrl.dismiss({
+      bankId: this.selectedBankId,
+    });
   }
 }

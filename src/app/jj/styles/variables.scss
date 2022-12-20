@@ -450,7 +450,8 @@ cms-filter,
     margin-bottom: calc(var(--ion-margin) / 4);
   }
 
-  ion-item.stacked-select ion-select[slot='end'] {
+  ion-item.stacked-select ion-select[slot='end'],
+  ion-item.stacked-select .select[slot='end'] {
     --padding-start: 10px;
 
     width: 100%;
@@ -469,7 +470,8 @@ cms-filter,
   ion-input.sc-ion-input-ios-h,
   ion-textarea.sc-ion-textarea-md-h,
   ion-textarea.sc-ion-textarea-ios-h,
-  ion-select {
+  ion-select,
+  .select {
     background: var(--ion-item-background, #fff);
     --background: var(--ion-item-background, #fff);
   }

@@ -288,6 +288,14 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
+  async getWithdrawRequestByRefNo(refNo: string) {
+    const res = await this.getWithdrawRequests(this.defaultPage, {
+      refNo: refNo,
+      refNo_type: '=',
+    });
+    return this.populateWithdrawRequest(res[0]);
+  }
+
   async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJWithdrawRequest>('Withdraw Request', {
       itemsPerPage: pagination.itemsPerPage,
@@ -339,11 +347,6 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  /**
-   * let accounts = await this.core.getBankAccounts(this.accountsPage, {
-   *  customer_id: this.auth.currentUser.doc_id
-   * })
-   */
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
       itemsPerPage: pagination.itemsPerPage,
@@ -355,29 +358,10 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  /**
-   * this.accountId = params.id;
-   * 
-   * onSubmit(data) {
-   *  // CONFIRM ALERT
-   *  await this.core.updateBankAccount(this.accountId, data);
-   * }
-   */
   updateBankAccount(accountId: number, account: JJBankAccount) {
     return this.swsErp.putDoc('Bank Account', accountId, account);
   }
 
-  /**
-   * onSubmit(data) {
-   *  // CONFIRM ALERT
-   *  // data: { accountNo: "12345", bank_id: 1, holderName: "Tan Zhi De" }
-   *  let account: JJBankAccount = {
-   *    ...data,
-   *    customerId: this.auth.currentUser.doc_id
-   *  }
-   *  await this.core.createBankAccount();
-   * }
-   */
   createBankAccount(account: JJBankAccount) {
     return this.swsErp.postDoc('Bank Account', account);
   }
@@ -754,6 +738,14 @@ export class CoreService extends SharedComponent {
   }
 
   populateDepositRequest(request: JJDepositRequest) {
+    if (!request) {
+      return null;
+    }
+    request.wallet = this.populateWallet(request.wallet);
+    return request;
+  }
+
+  populateWithdrawRequest(request: JJWithdrawRequest) {
     if (!request) {
       return null;
     }

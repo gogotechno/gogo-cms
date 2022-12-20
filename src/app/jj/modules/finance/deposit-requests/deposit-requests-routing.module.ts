@@ -7,6 +7,10 @@ const routes: Routes = [
     path: '',
     component: DepositRequestsPage,
   },
+  {
+    path: ':refNo',
+    loadChildren: () => import('./deposit-request/deposit-request.module').then((m) => m.DepositRequestPageModule),
+  },
 ];
 
 @NgModule({

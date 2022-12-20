@@ -4,7 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
-import { JJWithdrawMethod } from 'src/app/jj/typings';
+import { JJWallet, JJWithdrawMethod, JJWithdrawRequest } from 'src/app/jj/typings';
+import { WalletsService } from '../wallets.service';
 import { ChooseBankAccountComponent } from './@components/choose-bank-account/choose-bank-account.component';
 
 @Component({
@@ -15,9 +16,10 @@ import { ChooseBankAccountComponent } from './@components/choose-bank-account/ch
 export class CreateWithdrawPage implements OnInit {
   backButtonText: string;
   walletNo: string;
+  wallet: JJWallet;
   form = form;
   value: CreateWithdrawDto;
-  withdrawMethods: JJWithdrawMethod[];
+  methods: JJWithdrawMethod[];
 
   constructor(
     private router: Router,
@@ -26,6 +28,7 @@ export class CreateWithdrawPage implements OnInit {
     private appUtils: AppUtils,
     private common: CommonService,
     private core: CoreService,
+    private walletsService: WalletsService,
   ) {}
 
   async ngOnInit() {
@@ -36,27 +39,38 @@ export class CreateWithdrawPage implements OnInit {
   }
 
   async loadData() {
-    this.withdrawMethods = await this.core.getWithdrawMethods();
-    const methodField = this.form.items.find((item) => item.code == 'withdrawMethodId');
-    methodField.options = this.withdrawMethods.map((method) => ({
+    this.wallet = await this.core.getWalletByNo(this.walletNo);
+    this.methods = await this.core.getWithdrawMethods();
+    const methodField = this.form.items.find((item) => item.code == 'methodId');
+    methodField.options = this.methods.map((method) => ({
       code: String(method.doc_id),
       label: method.name,
       disabled: !method.isActive,
     }));
-
     this.value = {
       walletNo: this.walletNo,
       amount: null,
-      withdrawMethodId: null,
+      description: null,
+      methodId: null,
     };
   }
 
   async onConfirm(data: CreateWithdrawDto) {
-    console.log(data);
-    let withdrawMethod = this.withdrawMethods.find((method) => method.doc_id == data.withdrawMethodId);
-    switch (withdrawMethod.code) {
+    let request: JJWithdrawRequest = {
+      refNo: '',
+      amount: data.amount,
+      description: data.description,
+      withdraw_method_id: data.methodId,
+      walletNo: data.walletNo,
+    };
+    let method = this.methods.find((method) => method.doc_id == data.methodId);
+    switch (method.code) {
       case 'BANK_TRANSFER':
-        await this.chooseBankAccount();
+        let bankId = await this.chooseBankAccount();
+        if (!bankId) {
+          return;
+        }
+        request.bank_account_id = bankId;
         break;
       case 'SELF_PICKUP':
         break;
@@ -65,9 +79,15 @@ export class CreateWithdrawPage implements OnInit {
         if (!confirm) {
           return;
         }
-        // CREATE WITHDRAW
         break;
     }
+    let verification = await this.walletsService.verifyPin(this.wallet);
+    let verified = verification?.success;
+    if (!verified) {
+      return;
+    }
+    request.walletPin = verification.pin;
+    await this.core.createWithdrawRequest(request);
   }
 
   async chooseBankAccount() {
@@ -75,8 +95,11 @@ export class CreateWithdrawPage implements OnInit {
       component: ChooseBankAccountComponent,
     });
     await modal.present();
+    const { data } = await modal.onWillDismiss();
+    return data?.bankId;
   }
 }
+
 const form: CmsForm = {
   code: 'create-withdraw',
   labelPosition: 'stacked',
@@ -99,7 +122,13 @@ const form: CmsForm = {
       required: true,
     },
     {
-      code: 'withdrawMethodId',
+      code: 'description',
+      label: 'jj._DESCRIPTION',
+      type: 'textarea',
+      required: true,
+    },
+    {
+      code: 'methodId',
       label: 'jj._METHOD',
       type: 'radio',
       required: true,
@@ -107,8 +136,10 @@ const form: CmsForm = {
     },
   ],
 };
+
 interface CreateWithdrawDto {
   walletNo: string;
   amount: number;
-  withdrawMethodId: number;
+  description: string;
+  methodId: number;
 }

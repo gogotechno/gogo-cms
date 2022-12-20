@@ -52,7 +52,7 @@ const routes: Routes = [
             loadChildren: () => import('./withdraws/withdraws.module').then((m) => m.WithdrawsPageModule),
           },
           {
-            path: ':id',
+            path: ':refNo',
             loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawPageModule),
           },
         ],

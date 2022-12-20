@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
-
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-withdraw',
@@ -10,19 +10,36 @@ import { JJWithdrawRequest } from 'src/app/jj/typings';
   styleUrls: ['./withdraw.page.scss'],
 })
 export class WithdrawPage implements OnInit {
-  withdrawId: number;
+  backButtonText: string;
+  whatsappLink: string;
+  walletNo: string;
+  refNo: string;
   withdraw: JJWithdrawRequest;
 
-  constructor(private route: ActivatedRoute, private core: CoreService) {}
+  get statusColor() {
+    if (!this.withdraw) {
+      return;
+    }
+    return this.walletsService.getDepositStatusColor(this.withdraw.status);
+  }
+
+  constructor(
+    private route: ActivatedRoute,
+    private core: CoreService,
+    private common: CommonService,
+    private walletsService: WalletsService,
+  ) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.withdrawId = params.id;
+    this.backButtonText = this.common.getBackButtonText();
+    const params = this.route.snapshot.params;
+    this.refNo = params['refNo'];
     await this.loadData();
   }
 
   async loadData() {
-    this.withdraw = await this.core.getWithdrawRequestById(this.withdrawId);
+    this.whatsappLink = await this.common.getWhatsapp();
+    this.withdraw = await this.core.getWithdrawRequestByRefNo(this.refNo);
   }
 
   async doRefresh(event: Event) {
@@ -30,5 +47,4 @@ export class WithdrawPage implements OnInit {
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
-
 }
