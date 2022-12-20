@@ -14,38 +14,33 @@ const routes: Routes = [
   },
   {
     path: 'change-password',
-    loadChildren: () => import('./change-password/change-password.module').then(m => m.ChangePasswordPageModule)
+    loadChildren: () => import('./change-password/change-password.module').then((m) => m.ChangePasswordPageModule),
   },
   {
     path: 'change-language',
-    loadChildren: () => import('./change-language/change-language.module').then(m => m.ChangeLanguagePageModule)
+    loadChildren: () => import('./change-language/change-language.module').then((m) => m.ChangeLanguagePageModule),
   },
   {
     path: 'bank-accounts',
     children: [
       {
-        path: "",
-        loadChildren: () => import('./bank-accounts/bank-accounts.module').then(m => m.BankAccountsPageModule)
+        path: '',
+        loadChildren: () => import('./bank-accounts/bank-accounts.module').then((m) => m.BankAccountsPageModule),
       },
       {
-        path: ":id",
-        loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountPageModule)
+        path: ':id',
+        loadChildren: () => import('./bank-account/bank-account.module').then((m) => m.BankAccountPageModule),
       },
-      {
-        path: ":id",
-        loadChildren: () => import('./create-bank-account/create-bank-account.module').then(m => m.CreateBankAccountPageModule)
-      }
-    ]
+    ],
   },
   {
     path: 'create-bank-account',
-    loadChildren: () => import('./create-bank-account/create-bank-account.module').then(m => m.CreateBankAccountPageModule)
+    loadChildren: () => import('./create-bank-account/create-bank-account.module').then((m) => m.CreateBankAccountPageModule),
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class AccountPageRoutingModule { }
+export class AccountPageRoutingModule {}
