@@ -31,10 +31,6 @@ const routes: Routes = [
         path: ":id",
         loadChildren: () => import('./bank-account/bank-account.module').then(m => m.BankAccountPageModule)
       },
-      {
-        path: ":id",
-        loadChildren: () => import('./create-bank-account/create-bank-account.module').then(m => m.CreateBankAccountPageModule)
-      }
     ]
   },
   {
