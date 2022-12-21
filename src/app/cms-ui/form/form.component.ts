@@ -10,8 +10,8 @@ import { CmsService } from 'src/app/cms.service';
 import { CmsForm, CmsFormItem, CmsFormItemOption, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
-import _ from 'lodash';
 import { InputCustomEvent } from '@ionic/angular';
+import _ from 'lodash';
 
 @Component({
   selector: 'cms-form',
@@ -321,6 +321,11 @@ export class FormComponent extends CmsComponent implements OnInit {
       const num = Number(value) / Math.pow(10, item.precision);
       // TODO: Set value and do not trigger change event
     }
+  }
+
+  onSearchableItemsChange(code: string, items: Array<any>) {
+    let index = this.form.items.findIndex((i) => i.code == code);
+    this.form.items[index].items = items;
   }
 }
 

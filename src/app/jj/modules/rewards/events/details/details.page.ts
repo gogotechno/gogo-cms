@@ -18,7 +18,6 @@ export class DetailsPage implements OnInit {
     const params = this.route.snapshot.params;
     this.details.eventId = params.id;
     await this.loadData();
-
     this.details.event.subscribe((event) => (this.event = event));
   }
 

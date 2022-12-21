@@ -1,11 +1,11 @@
 <ion-item>
-  <ion-label [id]="labelId">{{ filterItem.label | cmsTranslate }}</ion-label>
+  <ion-label [id]="labelId">{{ label | cmsTranslate | translate }}</ion-label>
   <div slot="end" [id]="clickId" class="select" (click)="onSelect()">
     <div class="select-text">{{ selectedLabel }}</div>
     <div class="select-icon">
       <div class="select-icon-inner"></div>
     </div>
-    <label [id]="labelId">{{ filterItem.label | cmsTranslate }}</label>
+    <label [id]="labelId">{{ label | cmsTranslate | translate }}</label>
     <button type="button"></button>
   </div>
 </ion-item>

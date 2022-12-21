@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/account"></ion-back-button>
+      <ion-back-button defaultHref="/jj/account/bank-accounts"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._ADD_BANK_ACCOUNT" | translate }}</ion-title>
   </ion-toolbar>
@@ -9,6 +9,14 @@
 
 <ion-content>
   <div class="ion-padding-sm">
-    <cms-form [form]="form" [value]="bank" (submit)="onSubmit($event)"></cms-form>
+    <cms-form [form]="form" (submit)="onSubmit($event)"></cms-form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="create-bank-btn" expand="block">
+      <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

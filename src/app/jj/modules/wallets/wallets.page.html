@@ -23,8 +23,7 @@
 
     <ion-list>
       <ion-list-header>{{ 'jj._ALL_WALLETS' | translate }}</ion-list-header>
-
-      <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" routerLink="{{ wallet.walletNo }}">
+      <ion-item class="wallet-item" lines="full" *ngFor="let wallet of wallets" [routerLink]="wallet.walletNo">
         <ion-avatar
           class="d-flex-center"
           [style.background-color]="wallet.colors ? wallet.colors['primary-light'] : 'var(--ion-color-primary-light)'"

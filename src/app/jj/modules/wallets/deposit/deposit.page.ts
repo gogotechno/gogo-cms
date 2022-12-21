@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
+import { WalletsService } from '../wallets.service';
 import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
@@ -19,11 +20,19 @@ export class DepositPage implements OnInit {
   deposit: JJDepositRequest;
   form = form;
 
+  get statusColor() {
+    if (!this.deposit) {
+      return;
+    }
+    return this.walletsService.getDepositStatusColor(this.deposit.status);
+  }
+
   constructor(
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
     private core: CoreService,
     private common: CommonService,
+    private walletsService: WalletsService,
   ) {}
 
   async ngOnInit() {

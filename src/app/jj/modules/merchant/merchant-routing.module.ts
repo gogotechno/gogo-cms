@@ -35,17 +35,13 @@ const routes: Routes = [
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
   {
-    path: 'merchants',
-    loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
-  },  {
     path: 'create-event',
-    loadChildren: () => import('./create-event/create-event.module').then( m => m.CreateEventPageModule)
+    loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),
   },
   {
     path: 'events',
-    loadChildren: () => import('./events/events.module').then( m => m.EventsPageModule)
+    loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
   },
-
 ];
 
 @NgModule({

@@ -63,6 +63,7 @@
   "_CHANGE_LANGUAGE": "Tukar Bahasa",
   "_CHANGE_PASSWORD": "Tukar Kata Laluan",
   "_EDIT_PROFILE": "Tukar Profil",
+  "_EDIT_BANK_INFO": "Edit Akaun Bank",
   "_VIEW_ALL": "Lihat Semua",
   "_DAYS": "Hari",
   "_HOURS": "Jam",
@@ -464,6 +465,14 @@
     "_AMOUNT": "Jumlah",
     "_VIEW_DETAILS": "Lihat Butiran",
     "_VIEW_MY_REWARDS": "Lihat Ganjaran Saya",
-    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "Jumlah mestilah lebih daripada sifar"
+    "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "Jumlah mestilah lebih daripada sifar",
+    "_YOUR_TICKETS": "Tiket Anda",
+    "_VALID": "Sah",
+    "_INVALID": "Tidak Sah",
+    "_EDIT_BANK_ACCOUNTS": "Edit Akaun Bank",
+    "_ADD_BANK_ACCOUNT": "Tambah Akaun Bank" ,
+    "_EDIT_BANK_ACCOUNT": "Edit Maklumat Akaun",
+    "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm Nak Kemaskini Info Bank?",
+    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim Nak Padam Akaun Bank Ini?"
   }
 }

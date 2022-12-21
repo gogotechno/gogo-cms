@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
@@ -17,10 +17,8 @@ export class WalletPage implements OnInit, OnDestroy {
   walletNo: string;
   wallet: JJWallet;
   cards: WalletCard[];
-
-  destroy$: Subject<boolean>;
-
   initialized: boolean;
+  destroy$: Subject<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,13 +33,11 @@ export class WalletPage implements OnInit, OnDestroy {
   async ngOnInit() {
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
-
     this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
       if (change && this.initialized) {
         this.refreshData();
       }
     });
-
     await this.loadData();
     this.initialized = true;
   }
@@ -126,6 +122,7 @@ export class WalletPage implements OnInit, OnDestroy {
           break;
         case 'PIN':
         case 'DEPOSIT':
+        case 'WITHDRAW':
           card.active = true;
           break;
         default:
@@ -150,21 +147,21 @@ const cards: WalletCard[] = [
     name: 'jj._DEPOSIT',
     icon: 'enter-outline',
     url: 'create-deposit',
-    active: true,
+    active: false,
   },
   {
     code: 'WITHDRAW',
     name: 'jj._WITHDRAW',
     icon: 'exit-outline',
     url: 'create-withdraw',
-    active: true,
+    active: false,
   },
   {
     code: 'TRANSFER',
     name: 'jj._TRANSFER',
     icon: 'arrow-redo-outline',
     url: 'create-transfer',
-    active: true,
+    active: false,
   },
   {
     code: 'STATEMENT',
@@ -185,6 +182,6 @@ const cards: WalletCard[] = [
     name: 'jj._QR_CODE',
     icon: 'qr-code-outline',
     url: '',
-    active: true,
+    active: false,
   },
 ];

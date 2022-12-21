@@ -37,7 +37,7 @@
           <jj-currency
             [currency]="wallet.displayCurrency"
             [value]="transaction.amount"
-            [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
+            [showColor]="true"
           ></jj-currency>
         </div>
       </ion-item>
