@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SlideshowComponent } from './slideshow/slideshow.component';
@@ -21,18 +21,25 @@ import { SearchableSelectComponent } from './searchable-select/searchable-select
 import { SearchAreaComponent } from './searchable-select/search-area/search-area.component';
 import { ScannerComponent } from './barcode-scanner/scanner/scanner.component';
 import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
+import { RequiredTagComponent } from './required-tag/required-tag.component';
 import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
+import { PinInputComponent } from './pin-input/pin-input.component';
+import { FilesInputComponent } from './files-input/files-input.component';
 
-const components = [
+const internalComponents = [
   ArrayInputComponent,
   TranslationInputComponent,
   TranslationEditorInputComponent,
   FileInputComponent,
   SearchAreaComponent,
   ScannerComponent,
+  PinInputComponent,
+  FilesInputComponent,
+  SearchableSelectComponent,
+  BarcodeScannerComponent,
 ];
 
-const componentsToBeExported = [
+const exportedComponents = [
   SlideshowComponent,
   NavigationComponent,
   AccordionComponent,
@@ -40,17 +47,42 @@ const componentsToBeExported = [
   ImageButtonComponent,
   HtmlViewerComponent,
   FilterComponent,
-  SearchableSelectComponent,
-  BarcodeScannerComponent,
+  RequiredTagComponent,
   PhoneNumberVerificationComponent,
 ];
 
-const pipes = [CmsTranslatePipe, SafeHtmlPipe, CssUrlPipe, FirestoreDatePipe, FullNamePipe, HideTextPipe];
+const pipes = [
+  CmsTranslatePipe, 
+  SafeHtmlPipe, 
+  CssUrlPipe, 
+  FirestoreDatePipe, 
+  FullNamePipe, 
+  HideTextPipe
+];
 
 @NgModule({
-  declarations: [...components, ...componentsToBeExported, ...pipes],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, IonicModule, RouterModule, TranslateModule, QuillModule],
-  exports: [...componentsToBeExported, ...pipes],
-  providers: [DatePipe, ...pipes],
+  declarations: [
+    ...internalComponents, 
+    ...exportedComponents, 
+    ...pipes
+  ],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    ReactiveFormsModule, 
+    IonicModule, 
+    RouterModule, 
+    TranslateModule, 
+    QuillModule
+  ],
+  exports: [
+    ...exportedComponents, 
+    ...pipes
+  ],
+  providers: [
+    DatePipe, 
+    DecimalPipe, 
+    ...pipes
+  ],
 })
 export class CmsUIModule {}

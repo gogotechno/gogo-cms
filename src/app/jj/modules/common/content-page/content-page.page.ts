@@ -15,8 +15,8 @@ export class ContentPagePage implements OnInit {
   constructor(private route: ActivatedRoute, private core: CoreService) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.contentPageId = params['id'];
+    const params = this.route.snapshot.params;
+    this.contentPageId = params.id;
     await this.loadData();
   }
 

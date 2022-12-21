@@ -64,7 +64,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
                 type: 'text'
               }
             ],
-          }
+          };
           break;
 
         default:
@@ -104,7 +104,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   reorder(event: Event) {
-    let detail = (<ItemReorderCustomEvent>event).detail;
+    const detail = (<ItemReorderCustomEvent>event).detail;
     this.value = array_move(this.value, detail.from, detail.to);
     this.onChange(this.value);
     detail.complete(true);
@@ -149,7 +149,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     try {
       return item[this.table.nameField];
     } catch (error) {
-      return "";
+      return '';
     }
   }
 }

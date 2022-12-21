@@ -7,9 +7,9 @@ import { SharedComponent } from 'src/app/jj/shared';
   styleUrls: ['./jj-news-ticker.component.scss'],
 })
 export class JJNewsTickerComponent extends SharedComponent implements OnInit {
-  @Input('prefix') prefix: string;
-  @Input('messages') messages: string[];
-  @Input('buttons') buttons: TickerButton[];
+  @Input() prefix: string;
+  @Input() messages: string[];
+  @Input() buttons: TickerButton[];
 
   @Output('onButtonClick') buttonClick: EventEmitter<string>;
 
@@ -23,7 +23,7 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes['messages']) {
+    if (changes.messages) {
       await this.startAnim();
     }
   }
@@ -45,7 +45,7 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
     if (!this.messages || this.animatedStarted) {
       return;
     }
-    let [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
+    const [firstEl, container] = await Promise.all([this.getMessageEl(0), this.getContainerEl()]);
     firstEl.style.setProperty('--offset-end', this.getOffsetEnd(container, firstEl));
     firstEl.style.setProperty('--base-duration', this.getBaseDuration(firstEl));
     firstEl.classList.add('animated');
@@ -53,8 +53,8 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   async onAnimEnd(index: number) {
-    let nextIndex = index + 1 == this.messages.length ? 0 : index + 1;
-    let [currentEl, nextEl, container] = await Promise.all([
+    const nextIndex = index + 1 == this.messages.length ? 0 : index + 1;
+    const [currentEl, nextEl, container] = await Promise.all([
       this.getMessageEl(index),
       this.getMessageEl(nextIndex),
       this.getContainerEl(),
@@ -62,7 +62,7 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
     nextEl.style.setProperty('--offset-end', this.getOffsetEnd(container, nextEl));
     nextEl.style.setProperty('--base-duration', this.getBaseDuration(nextEl));
     currentEl.classList.remove('animated');
-    let timeout = nextIndex == index ? 100 : 0;
+    const timeout = nextIndex == index ? 100 : 0;
     setTimeout(() => {
       nextEl.classList.add('animated');
     }, timeout);
@@ -77,13 +77,13 @@ export class JJNewsTickerComponent extends SharedComponent implements OnInit {
   }
 
   getOffsetEnd(container: HTMLElement, message: HTMLElement) {
-    let span = message.querySelector('span');
-    let width = span.offsetWidth < container.offsetWidth ? span.offsetWidth : container.offsetWidth;
+    const span = message.querySelector('span');
+    const width = span.offsetWidth < container.offsetWidth ? span.offsetWidth : container.offsetWidth;
     return `${width}px`;
   }
 
   getBaseDuration(message: HTMLElement) {
-    let length = Number(message.style.getPropertyValue('--length'));
+    const length = Number(message.style.getPropertyValue('--length'));
     let duration = 0;
     if (length > 1000) {
       duration = 100;

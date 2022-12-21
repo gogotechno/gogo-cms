@@ -11,18 +11,17 @@ export class JJCurrencyComponent implements OnInit {
   @Input() value: number;
   numberFormat: string;
 
-  constructor() {
+  constructor() {}
+
+  ngOnInit() {
     if (!this.currency) {
       this.currency = {
         code: 'MYR',
         displaySymbol: 'RM',
+        symbolPosition: 'START',
         precision: 2,
-        symbolPosition: 'start',
       };
     }
-  }
-
-  ngOnInit() {
     this.numberFormat = `1.${this.currency.precision || '0'}-${this.currency.precision || '0'}`;
   }
 }

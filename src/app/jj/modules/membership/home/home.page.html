@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-img slot="start" src="/assets/logo-placeholder.png"></ion-img>
+    <ion-img slot="start" src="/assets/jj/logo.png"></ion-img>
     <ion-buttons slot="end" class="round">
       <ion-button routerLink="notifications">
         <ion-badge color="danger" *ngIf="notifications">{{ notifications }}</ion-badge>
@@ -32,7 +32,8 @@
     </ion-fab-button>
   </ion-fab> -->
 
-  <jj-news-ticker [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
+  <jj-news-ticker *ngIf="messages" [prefix]="'announcement'" [messages]="messages"></jj-news-ticker>
+
   <slideshow></slideshow>
   <wallet-cards></wallet-cards>
 
@@ -55,12 +56,12 @@
         <countdown-timer [endDate]="event.endAt" unitFormat="full" separator=""></countdown-timer>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="groupCode == 'MINI_PROGRAMS'">
+    <ion-row *ngIf="groupCode === 'MINI_PROGRAMS'">
       <ion-col>
         <mini-programs></mini-programs>
       </ion-col>
     </ion-row>
-    <ion-row *ngIf="groupCode != 'MINI_PROGRAMS' && bulletins">
+    <ion-row *ngIf="groupCode !== 'MINI_PROGRAMS' && bulletins">
       <ion-col size="12" *ngIf="!bulletins.length">
         <div class="note">
           <ion-label>{{ "jj._NO_BULLETINS_FOUND" | translate }}</ion-label>

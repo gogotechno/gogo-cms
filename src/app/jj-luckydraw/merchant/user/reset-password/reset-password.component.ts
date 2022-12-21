@@ -28,12 +28,12 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   async onResetPassword(user: Partial<JJUser>) {
-    let validation = await this.cmsForm.validateFormAndShowErrorMessages();
+    const validation = await this.cmsForm.validateFormAndShowErrorMessages();
     if (!validation.valid) {
       return;
     }
 
-    let confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
+    const confirm = await this.app.presentConfirm('jj-luckydraw._CONFIRM_TO_RESET_PASSWORD');
     if (confirm) {
       await this.lucky.updateUser(this.userId, { password: user.new_password });
       await this.app.presentAlert('jj-luckydraw._PASSWORD_RESET', '_SUCCESS');

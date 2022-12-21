@@ -8,7 +8,7 @@
               <p>{{ 'jj._DRAWING' | translate }}</p>
             </ion-card-content>
           </ion-card>
-          <ion-card *ngSwitchCase="'RESULT'" (click)="openLuckyDrawResult($event)">
+          <ion-card *ngSwitchCase="'RESULT'" (click)="openLuckyDrawResult()">
             <ion-card-content class="flex-card-content">
               <p>{{ 'jj._RESULT' | translate }}</p>
             </ion-card-content>
@@ -49,4 +49,14 @@
       <ion-ripple-effect></ion-ripple-effect>
     </div>
   </div>
+  <ng-container *ngIf="tickets?.length">
+    <h3 class="title">{{ 'jj._YOUR_TICKETS' | translate }}</h3>
+    <ticket *ngFor="let ticket of tickets" [ticket]="ticket"></ticket>
+    <ion-infinite-scroll *ngIf="!ticketsEnded" (ionInfinite)="loadMoreTickets($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="ticketsEnded" class="note">
+      <ion-label>{{ 'jj._NO_MORE_TICKETS' | translate }}</ion-label>
+    </div>
+  </ng-container>
 </div>

@@ -31,7 +31,7 @@ export class LuckyDrawResultComponent extends SharedComponent implements OnInit 
     this.prizeGroups = [];
     this.winnersPage = this.defaultPage;
 
-    let winners = await this.getWinners();
+    const winners = await this.getWinners();
     this.winners = winners;
     this.grouping(winners);
     this.winnersEnded = this.winners.length < this.winnersPage.itemsPerPage;
@@ -42,8 +42,8 @@ export class LuckyDrawResultComponent extends SharedComponent implements OnInit 
   }
 
   grouping(winners: JJWinner[]) {
-    for (let winner of winners) {
-      let index = this.prizeGroups.findIndex((group) => group.prize.doc_id == winner.prize_id);
+    for (const winner of winners) {
+      const index = this.prizeGroups.findIndex((group) => group.prize.doc_id == winner.prize_id);
       if (index > -1) {
         this.prizeGroups[index].winners.push(winner);
       } else {
@@ -56,7 +56,7 @@ export class LuckyDrawResultComponent extends SharedComponent implements OnInit 
   }
 
   async getWinners() {
-    let winners = await this.core.getWinners(this.winnersPage, {
+    const winners = await this.core.getWinners(this.winnersPage, {
       drawing_result_id: this.result.doc_id,
       drawing_result_id_type: '=',
     });
@@ -65,11 +65,11 @@ export class LuckyDrawResultComponent extends SharedComponent implements OnInit 
 
   async loadMoreWinners(event: Event) {
     this.winnersPage.currentPage += 1;
-    let incoming = await this.getWinners();
+    const incoming = await this.getWinners();
     this.winners = [...this.winners, ...incoming];
     this.grouping(incoming);
     this.winnersEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 }

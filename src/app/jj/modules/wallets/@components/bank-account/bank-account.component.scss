@@ -1,0 +1,20 @@
+ion-card {
+  --color: var(--ion-color-dark);
+}
+
+ion-grid,
+ion-col {
+  padding: 0;
+}
+
+ion-col:first-of-type {
+  padding-right: calc(var(--ion-padding) / 2);
+  h3 {
+    font-weight: var(--ion-font-bold);
+  }
+}
+
+ion-button {
+  margin-right: 0;
+  margin-left: 0;
+}

@@ -13,7 +13,7 @@
             <ng-template #newDocument>{{ "_NEW" | translate }}</ng-template>
         </div>
     </ion-toolbar>
-    <ion-grid fixed="true">
+    <ion-grid fixed>
         <ion-row>
             <ion-col size="12">
                 <cms-form [form]="form" [value]="document" [collection-path]="collectionPath" (submit)="saveDocument($event)"></cms-form>

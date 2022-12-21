@@ -55,16 +55,16 @@ export class UsersPage implements OnInit {
   }
 
   async loadMoreUsers(event: Event) {
-    let infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
+    const infiniteScrollEl = <HTMLIonInfiniteScrollElement>event.target;
     this.userPagination.currentPage += 1;
-    let users = await this.lucky.getUsersByMerchant(this.myMerchantId, this.userPagination);
+    const users = await this.lucky.getUsersByMerchant(this.myMerchantId, this.userPagination);
     this.users = [...this.users, ...users];
     this.noMoreUsers = users.length <= 0;
     infiniteScrollEl.complete();
   }
 
   async doRefresh(event: Event) {
-    let refresherEl = <HTMLIonRefresherElement>event.target;
+    const refresherEl = <HTMLIonRefresherElement>event.target;
     await this.loadData();
     refresherEl.complete();
   }

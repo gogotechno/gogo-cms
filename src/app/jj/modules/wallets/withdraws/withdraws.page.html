@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Withdraw History</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>_NO_WITHDRAWS_FOUND</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+    <ion-list-header>{{ date }}</ion-list-header>
+    <ion-item lines="full" class="transaction" *ngFor="let withdraw of withdraws[date]" [routerLink]=[withdraw.doc_id]>
+      <div class="ion-padding-vertical-sm">
+        <ion-text class="description">{{ withdraw.description || '-' }}</ion-text><br />
+        <ion-text class="reference2">{{ withdraw.reference1 || '-' }}</ion-text><br />
+        <ion-text>{{ withdraw.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
+      </div>
+
+      <div slot="end">
+        <ion-text class="right" class="reference1">RM {{ withdraw.amount || '-' }}</ion-text><br />
+        <ion-badge slot="end" color="warning">{{ withdraw.status || '-' }}</ion-badge>
+      </div>
+    </ion-item>
+  </ng-container>
+  </ion-list>
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!withdrawsEnded" (ionInfinite)="loadMoreWithdraws($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  <div *ngIf="withdrawsEnded" class="note">
+      <ion-label>
+        <ion-text>ALL_LOADED</ion-text><br />
+        <ion-text>
+          UPDATED_AT_WITH_DATE
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content>
+
+
+

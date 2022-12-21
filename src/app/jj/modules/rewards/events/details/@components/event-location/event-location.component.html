@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card *ngIf="event.showNearestStore">
   <ion-card-content>
     <h3 class="title">{{ 'jj._NEAREST_MERCHANT' | translate }}</h3>
     <ion-item lines="none">
@@ -7,7 +7,7 @@
       </ion-button>
       <ion-label>
         <h3>{{ event?.merchant?.name }}</h3>
-        <p *ngIf="event.distance">{{ 'jj._DISTANCE_AWAY' | translate: { distance: event.distance + 'KM' } }}</p>
+        <p *ngIf="event.distance">{{ 'jj._DISTANCE_AWAY' | translate : { distance: event.distance + 'KM' } }}</p>
       </ion-label>
       <ion-button slot="end" color="light" (click)="openLocation()">
         <ion-icon slot="icon-only" name="locate"></ion-icon>

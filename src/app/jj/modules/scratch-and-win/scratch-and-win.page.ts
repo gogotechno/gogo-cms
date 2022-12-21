@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
-import { Conditions, GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
+import { Conditions, Pagination } from 'src/app/sws-erp.type';
 import { AuthService, CoreService } from '../../services';
 import { CountdownTimer, SharedComponent } from '../../shared';
 import {
@@ -12,7 +12,6 @@ import {
   JJScratchRequest,
   JJWallet,
   ScratchRequestExtras,
-  WalletType,
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';
@@ -27,14 +26,14 @@ import { ScratchResultComponent } from './@components/scratch-result/scratch-res
 })
 export class ScratchAndWinPage extends SharedComponent implements OnInit {
   timer: CountdownTimer;
-
   eventId: number;
   event: JJScratchAndWinEvent;
   wallet: JJWallet;
   messages: string[];
   totalChance: number;
-
   buttons = buttons;
+  scratching: boolean;
+  prizes: JJScratchAndWinPrize[];
 
   get contentOffsetTop() {
     let offset = this.platform.is('ios') ? 46 : 56;
@@ -42,6 +41,26 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       offset = offset + 20;
     }
     return `${offset}px`;
+  }
+
+  get prizesOpts() {
+    return {
+      loop: true,
+      spaceBetween: 8,
+      slidesPerView: 1.5,
+      breakpoints: {
+        540: {
+          slidesPerView: 2.5,
+        },
+        960: {
+          slidesPerView: 3.5,
+        },
+      },
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+      },
+    };
   }
 
   constructor(
@@ -55,7 +74,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     private translate: TranslateService,
     private auth: AuthService,
     private core: CoreService,
-    private memberHome: MemberHomeService,
+    private memberHomeService: MemberHomeService,
   ) {
     super();
     this.totalChance = 0;
@@ -63,8 +82,8 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.eventId = params['id'];
+    const params = this.route.snapshot.params;
+    this.eventId = params.id;
     await this.loadData();
   }
 
@@ -72,43 +91,47 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     this.event = await this.core.getScratchAndWinEventById(this.eventId, {
       withLocation: true,
     });
-
     this.startTimer();
-
     await this.getWallet();
     await this.getLatestWinners();
+    this.prizes = await this.core.getScratchAndWinPrizes({
+      scratch_and_win_event_id: this.eventId,
+      scratch_and_win_event_id_type: '=',
+      isActive: 1,
+      isActive_type: '=',
+      isDefault: 1,
+      isDefault_type: '!=',
+    });
   }
 
-  async getWallet(options: GetExtraOptions = {}) {
-    let wallets = await this.auth.findMyWallets(options);
-    this.wallet = wallets.find((wallet) => wallet.type == WalletType.SNW);
-
+  async getWallet(conditions: Conditions = {}) {
+    let wallets = await this.auth.findMyWallets(conditions);
+    this.wallet = wallets.find((wallet) => wallet.type == 'SNW');
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
     if (this.totalChance < 0) {
       this.totalChance = 0;
     }
   }
 
-  async getLatestWinners(options: GetExtraOptions = {}) {
+  async getLatestWinners(conditions: Conditions = {}) {
     let winnersPage: Pagination = {
       itemsPerPage: 10,
       currentPage: 1,
       sortBy: 'sr.doc_createdDate',
       sortOrder: 'DESC',
     };
-
-    let conditions: Conditions = {
-      hasPrize: true,
+    let _conditions: Conditions = {
       eventId: this.eventId,
+      hasPrize: true,
       isDefault: false,
+      ...conditions,
     };
-
-    let winners = await this.core.getScratchRequests(winnersPage, conditions, options);
+    let winners = await this.core.getScratchRequests(winnersPage, _conditions);
     this.messages = await Promise.all(
       winners.map(async (winner) => {
-        let customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);
-        let hiddenName = this.hideText.transform(customerName);
-        let prizeName = this.cmsTranslate.transform(winner.prize.nameTranslation);
+        const customerName = this.fullName.transform(winner.customer.firstName, winner.customer.lastName);
+        const hiddenName = this.hideText.transform(customerName);
+        const prizeName = this.cmsTranslate.transform(winner.prize.nameTranslation);
         return await this.translate
           .get('jj._SNW_WINNER_ANNOUNCEMENT', {
             name: hiddenName,
@@ -120,16 +143,16 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   startTimer() {
-    let endDate = new Date(this.event.endAt);
-    let interval: number = 1000;
-    let timer = setInterval(() => {
-      let { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
+    const endDate = new Date(this.event.endAt);
+    const interval = 1000;
+    const timer = setInterval(() => {
+      const { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
       if (time > 0) {
         this.timer = {
-          days: days,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
+          days,
+          hours,
+          minutes,
+          seconds,
         };
       } else {
         clearInterval(timer);
@@ -154,7 +177,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       componentProps: {
         eventId: this.eventId,
         event: this.event,
-        prize: prize,
+        prize,
       },
       cssClass: 'scratch-result-modal',
       backdropDismiss: false,
@@ -163,25 +186,32 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async onScratch() {
-    let currentUser = this.auth.currentUser;
-    let request: JJScratchRequest = {
-      scratch_and_win_event_id: this.eventId,
-      customer_id: currentUser.doc_id,
-      wallet_id: 0,
-      spend: 0,
-      status: 'PROCESSING',
-      scratch_and_win_prize_id: null,
-    };
-    let res = await this.core.createScratchRequest(request);
-    let extras: ScratchRequestExtras = res.data;
-
-    await this.getWallet({ skipLoading: true });
-    await this.getLatestWinners({ skipLoading: true });
-
-    this.memberHome.refresh();
-
-    if (extras['prize']) {
-      await this.openResult(extras['prize']);
+    if (this.scratching) {
+      return;
+    }
+    this.scratching = true;
+    try {
+      const currentUser = this.auth.currentUser;
+      const request: JJScratchRequest = {
+        scratch_and_win_event_id: this.eventId,
+        customer_id: currentUser.doc_id,
+        wallet_id: 0,
+        spend: 0,
+        status: 'PROCESSING',
+        scratch_and_win_prize_id: null,
+      };
+      const res = await this.core.createScratchRequest(request);
+      const extras: ScratchRequestExtras = res.data;
+      if (extras.prize) {
+        await this.openResult(extras.prize);
+      }
+      this.getWallet({ skipLoading: true });
+      this.getLatestWinners({ skipLoading: true });
+      this.memberHomeService.refresh();
+    } catch (err) {
+      console.error('Error when scratching: ', err);
+    } finally {
+      this.scratching = false;
     }
   }
 
@@ -196,22 +226,20 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
   }
 
   async openTnc() {
-    let title = await this.translate.get('jj._TERM_AND_CONDITIONS').toPromise();
-
+    const title = await this.translate.get('jj._TERM_AND_CONDITIONS').toPromise();
     const modal = await this.modalCtrl.create({
       component: ContentBoxComponent,
       componentProps: {
-        title: title,
+        title,
         content: this.event.tnc,
       },
     });
-
     await modal.present();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

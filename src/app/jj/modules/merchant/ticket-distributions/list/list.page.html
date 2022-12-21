@@ -50,7 +50,7 @@
                 <h3>{{ distribution.customerFirstName | fullName: distribution.customerLastName }}</h3>
                 <h3>{{ distribution.customerContactNo | hideText }}</h3>
                 <p>{{ "jj._BILL_NO" | translate }}&nbsp;:&nbsp;{{ distribution.billNo }}</p>
-                <p>{{ "jj._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranlate }}</p>
+                <p>{{ "jj._EVENT" | translate }}&nbsp;:&nbsp;{{ distribution.event.name | erpTranslate }}</p>
                 <p>
                   <span>{{ "jj._DISTRIBUTED_AT" | translate }}&nbsp;:&nbsp;</span>
                   <span>{{ distribution.distributedAt | date: "MM/dd/yy, h:mm a" }}</span>

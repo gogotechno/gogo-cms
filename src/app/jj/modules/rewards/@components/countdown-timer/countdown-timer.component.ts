@@ -7,13 +7,13 @@ import { CountdownTimer, SharedComponent } from 'src/app/jj/shared';
   styleUrls: ['./countdown-timer.component.scss'],
 })
 export class CountdownTimerComponent extends SharedComponent implements OnInit {
-  @Input('timer') timer: CountdownTimer;
-  @Input('endDate') endDate: Date;
+  @Input() timer: CountdownTimer;
+  @Input() endDate: Date;
 
-  @Input('unitFormat') unitFormat: 'full' | 'short' = 'short';
-  @Input('separator') separator: string = ':';
+  @Input() unitFormat: 'full' | 'short' = 'short';
+  @Input() separator = ':';
 
-  @Input('columns') columns: string[] = ['days', 'hours', 'minutes', 'seconds'];
+  @Input() columns: string[] = ['days', 'hours', 'minutes', 'seconds'];
 
   unit: UnitFormat;
 
@@ -22,7 +22,7 @@ export class CountdownTimerComponent extends SharedComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['endDate'] && !this.timer) {
+    if (changes.endDate && !this.timer) {
       this.startTimer();
     }
   }
@@ -64,16 +64,16 @@ export class CountdownTimerComponent extends SharedComponent implements OnInit {
   }
 
   startTimer() {
-    let endDate = new Date(this.endDate);
-    let interval: number = 1000;
-    let timer = setInterval(() => {
-      let { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
+    const endDate = new Date(this.endDate);
+    const interval = 1000;
+    const timer = setInterval(() => {
+      const { time, days, hours, minutes, seconds } = this.getDateDiff(endDate);
       if (time > 0) {
         this.timer = {
-          days: days,
-          hours: hours,
-          minutes: minutes,
-          seconds: seconds,
+          days,
+          hours,
+          minutes,
+          seconds,
         };
       } else {
         clearInterval(timer);

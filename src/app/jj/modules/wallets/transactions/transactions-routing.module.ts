@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: TransactionsPage
+  },
+  {
+    path: 'transfer-receipt/:refNo',
+    loadChildren: () => import('../transfer-receipt/transfer-receipt.module').then((m) => m.TransferReceiptPageModule)
   }
 ];
 

@@ -1,0 +1,25 @@
+<ion-item>
+  <ion-label [position]="labelPosition">
+    <span>{{ label | cmsTranslate }}</span>
+    <cms-required-tag *ngIf="required"></cms-required-tag>
+  </ion-label>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let column of columns; let index = index">
+        <ion-input
+          type="password"
+          inputmode="numeric"
+          [clearOnEdit]="false"
+          [maxlength]="index == lastIndex ? 1 : 2"
+          [autofocus]="index == 0"
+          (ionFocus)="onInputFocus(index, $event)"
+          (ionChange)="onInputChange(index, $event)"
+        >
+          <div *ngIf="getInputValue(index)" class="dot-container">
+            <div class="dot"></div>
+          </div>
+        </ion-input>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-item>

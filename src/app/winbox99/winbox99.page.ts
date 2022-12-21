@@ -51,14 +51,14 @@ export class Winbox99Page implements OnInit {
   }
 
   isActive(path: string) {
-    let activePath = this.router.url;
+    const activePath = this.router.url;
     return path === activePath;
   }
 
   onActivate(event?: Event) {
-    console.log(event)
-    let scrollToTop = window.setInterval(() => {
-      let pos = window.pageYOffset;
+    console.log(event);
+    const scrollToTop = window.setInterval(() => {
+      const pos = window.pageYOffset;
       if (pos > 0) {
         window.scrollTo(0, pos - 20); // how far to scroll on each step
       } else {
@@ -68,7 +68,7 @@ export class Winbox99Page implements OnInit {
   }
 
   async onLanguageChanged(event?: Event) {
-    let selected = (<CustomEvent>event).detail.value;
+    const selected = (<CustomEvent>event).detail.value;
     this.translate.use(selected);
   }
 

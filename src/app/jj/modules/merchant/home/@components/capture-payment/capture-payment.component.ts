@@ -33,17 +33,17 @@ export class CapturePaymentComponent implements OnInit {
   }
 
   async onSendRequest(request: JJCapturePaymentRequest) {
-    let confirmMessage = await this.translate.get('jj._CONFIRM_TO_MAKE_PAYMENT').toPromise();
-    let confirm = await this.appUtils.presentConfirm(confirmMessage);
+    const confirmMessage = await this.translate.get('jj._CONFIRM_TO_MAKE_PAYMENT').toPromise();
+    const confirm = await this.appUtils.presentConfirm(confirmMessage);
     if (confirm) {
-      let customerWallet = await this.core.getWalletByNo(request.fromWalletNo);
+      const customerWallet = await this.core.getWalletByNo(request.fromWalletNo);
       delete request.fromWalletNo;
       request.fromWallet = customerWallet.doc_id;
       request.toWallet = this.wallet.doc_id;
       request.refNo = '';
-      let response = await this.core.createCapturePaymentRequest(request);
+      const response = await this.core.createCapturePaymentRequest(request);
       await this.appUtils.presentAlert('jj._PAYMENT_MADE', '_SUCCESS');
-      let extras: CapturePaymentRequestExtras = response.data;
+      const extras: CapturePaymentRequestExtras = response.data;
       this.common.sendSms(extras.customerInfo.customer.phone, 'CAPTURE_PAYMENT', {
         refNo: extras.customerInfo.transaction.refNo,
         amount: String(extras.request.amount),
@@ -65,9 +65,9 @@ const form: CmsForm = {
     {
       code: 'fromWalletNo',
       label: {
-        en: 'Wallet No',
+        en: 'Wallet No.',
         zh: '钱包账号',
-        ms: 'No Dompet',
+        ms: 'No. Dompet',
       },
       type: 'barcode-scanner',
       required: true,

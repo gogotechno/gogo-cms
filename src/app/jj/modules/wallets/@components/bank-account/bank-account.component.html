@@ -1,0 +1,21 @@
+<ion-card class="bordered-card">
+  <ion-card-content>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="5">
+          <h3>{{ 'jj._BANK' | translate }}</h3>
+          <h3>{{ 'jj._ACCOUNT_NO' | translate }}</h3>
+          <h3>{{ 'jj._HOLDER_NAME' | translate }}</h3>
+        </ion-col>
+        <ion-col>
+          <h3>{{ bankName | erpTranslate }}</h3>
+          <h3>{{ accountNo }}</h3>
+          <h3>{{ holderName }}</h3>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button expand="block" (click)="copyAccountNo()">
+      <ion-label>{{ '_COPY' | translate }}</ion-label>
+    </ion-button>
+  </ion-card-content>
+</ion-card>

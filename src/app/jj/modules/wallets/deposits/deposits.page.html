@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list>
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>{{ '_NO_TRANSACTIONS_FOUND' | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+    <ion-list-header>{{ date }}</ion-list-header>
+    <ion-item lines="full" class="transaction" *ngFor="let deposit of deposits[date]" [routerLink]=[deposit.doc_id]>
+      <div class="ion-padding-vertical-sm">
+        <ion-text class="description">{{ deposit.description || '-' }}</ion-text><br />
+        <ion-text class="reference2">{{ deposit.reference1 || '-' }}</ion-text><br />
+        <ion-text>{{ deposit.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
+      </div>
+
+      <div slot="end">
+        <ion-text class="right" class="reference1">RM{{ deposit.amount | number:'.2-2' || '-' }}</ion-text><br />
+        <ion-badge slot="end"  class="{{ deposit.status }}">{{ deposit.status || '-' }}</ion-badge>
+      </div>
+    </ion-item>
+  </ng-container>
+  </ion-list>
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!depositsEnded" (ionInfinite)="loadMoreDeposits($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  <div *ngIf="depositsEnded" class="note">
+      <ion-label>
+        <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+        <ion-text>
+          {{ '_UPDATED_AT_WITH_DATE' | translate }}
+        </ion-text>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content>

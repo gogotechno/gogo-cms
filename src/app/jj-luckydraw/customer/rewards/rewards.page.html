@@ -32,13 +32,13 @@
             <ion-item *ngFor="let reward of rewards" [routerLink]="[reward.doc_id]">
               <ion-label>
                 <p>{{ "jj-luckydraw._SERIAL_NO" | translate }}&nbsp;:&nbsp;{{ reward.ticket.serialNo }}</p>
-                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.event.name | erpTranlate }}</p>
+                <p>{{ "jj-luckydraw._EVENT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.event.name | erpTranslate }}</p>
                 <p>{{ "jj-luckydraw._DREW_AT" | translate }}&nbsp;:&nbsp;{{ reward.drawing_result.drewAt | date: "MM/dd/yy, h:mm a" }}</p>
               </ion-label>
               <ion-badge slot="end" [color]="badgeColor(reward.status)">
                 <div class="d-flex-column ion-padding-vertical-sm">
-                  <div *ngIf="reward.status == 'PENDING'">{{ "jj-luckydraw._PENDING" | translate }}</div>
-                  <div *ngIf="reward.status == 'DELIVERED'">{{ "jj-luckydraw._DELIVERED" | translate }}</div>
+                  <div *ngIf="reward.status === 'PENDING'">{{ "jj-luckydraw._PENDING" | translate }}</div>
+                  <div *ngIf="reward.status === 'DELIVERED'">{{ "jj-luckydraw._DELIVERED" | translate }}</div>
                 </div>
               </ion-badge>
             </ion-item>

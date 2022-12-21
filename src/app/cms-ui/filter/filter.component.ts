@@ -9,10 +9,10 @@ import _ from 'lodash';
   styleUrls: ['./filter.component.scss'],
 })
 export class FilterComponent implements OnInit {
-  @Input('form') form: CmsFilter;
-  @Input('value') value: { [key: string]: any };
-  @Output('submit') submit = new EventEmitter<any>();
-  @Output('reset') reset = new EventEmitter<any>();
+  @Input() form: CmsFilter;
+  @Input() value: { [key: string]: any };
+  @Output() submit = new EventEmitter<any>();
+  @Output() reset = new EventEmitter<any>();
 
   formGroup: FormGroup;
 
@@ -25,7 +25,7 @@ export class FilterComponent implements OnInit {
   async loadData() {
     if (!this.form) return;
     this.formGroup = this.fb.group({});
-    for (let item of this.form.items) {
+    for (const item of this.form.items) {
       switch (item.type) {
         case 'date-between':
           this.formGroup.setControl(this.getDateBetweenFormControlName('from', item.code), this.loadControl(item));
@@ -41,8 +41,8 @@ export class FilterComponent implements OnInit {
   }
 
   private loadControl(item: CmsFilterItem) {
-    let control = new FormControl();
-    let validators: ValidatorFn[] = [];
+    const control = new FormControl();
+    const validators: ValidatorFn[] = [];
     if (item.required) {
       validators.push(Validators.required);
     }
@@ -53,7 +53,7 @@ export class FilterComponent implements OnInit {
   }
 
   onSearchableSelectFilterItemChange(code: string, item: CmsFilterItem) {
-    let index = this.form.items.findIndex((i) => i.code == code);
+    const index = this.form.items.findIndex((i) => i.code == code);
     this.form.items[index] = item;
   }
 
@@ -78,11 +78,19 @@ export class FilterComponent implements OnInit {
 
   onReset() {
     this.resetForm();
-    this.reset.emit(this.formGroup.value);
+    let formValue = this.formGroup.value;
+    if (this.form.disallowEmpty) {
+      formValue = this.removeEmptyKeys(formValue);
+    }
+    this.reset.emit(formValue);
   }
 
   onApply() {
-    this.submit.emit(this.formGroup.value);
+    let formValue = this.formGroup.value;
+    if (this.form.disallowEmpty) {
+      formValue = this.removeEmptyKeys(formValue);
+    }
+    this.submit.emit(formValue);
   }
 
   resetForm() {
@@ -93,8 +101,15 @@ export class FilterComponent implements OnInit {
   }
 
   removeEmptyKeys<T>(source: T) {
-    let cloned = _.cloneDeep(source);
-    Object.keys(cloned).forEach((key) => (!cloned[key] ? delete cloned[key] : cloned[key]));
+    const cloned = _.cloneDeep(source);
+    Object.keys(cloned).forEach((key) => {
+      if (!cloned[key]) {
+        delete cloned[key];
+      }
+    });
+    if (Object.keys(cloned).length == 0) {
+      return null;
+    }
     return cloned;
   }
 }

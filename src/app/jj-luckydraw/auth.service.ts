@@ -12,7 +12,7 @@ import { COMPANY_CODE, UserType, JJCustomer, JJUser } from './jj-luckydraw.type'
   providedIn: 'root',
 })
 export class AuthService {
-  private _AUTHENTICATED: boolean = false;
+  private _AUTHENTICATED = false;
   private _CURRENT_USER: JJUser | JJCustomer;
   private _USER_ROLE: UserType;
 
@@ -28,7 +28,7 @@ export class AuthService {
     return this._USER_ROLE;
   }
 
-  initialized: boolean = false;
+  initialized = false;
 
   authChange: BehaviorSubject<AuthEvent>;
 
@@ -50,12 +50,13 @@ export class AuthService {
 
   /**
    * Process authentication initialization
+   *
    * @returns Returns if initialized
    */
   async init() {
     if (this.initialized) return;
 
-    let refreshToken = await this.storage.get(`${COMPANY_CODE}_REFRESH_TOKEN`);
+    const refreshToken = await this.storage.get(`${COMPANY_CODE}_REFRESH_TOKEN`);
     if (refreshToken) {
       await this.erp.generateRefreshToken(refreshToken);
       await this.erp.generateAccessToken(this.erp.refreshToken);
@@ -69,6 +70,7 @@ export class AuthService {
 
   /**
    * Sign in with email and password
+   *
    * @param email User's email
    * @param password User's password
    * @param rememberMe Flag if user wish to keep logged-in
@@ -87,6 +89,7 @@ export class AuthService {
 
   /**
    * Sign in with key and password
+   *
    * @param email Customer's phone
    * @param password Customer's password
    * @param rememberMe Flag if user wish to keep logged-in
@@ -106,6 +109,7 @@ export class AuthService {
 
   /**
    * Sign out logged-in credential
+   *
    * @param silent Flag if user wish to sign out without confirmation
    */
   async signOut(silent: boolean = false) {
@@ -123,7 +127,7 @@ export class AuthService {
       this._USER_ROLE = null;
       await this.router.navigateByUrl('/jj-luckydraw/sign-in', { replaceUrl: true });
 
-      let authState = this.erp.authStateChange.getValue();
+      const authState = this.erp.authStateChange.getValue();
       if (!authState || authState.status != 'LOGGED_OUT') {
         this.erp.authStateChange.next({
           status: 'LOGGED_OUT',
@@ -134,11 +138,12 @@ export class AuthService {
 
   /**
    * Get current user's profile from SWS ERP and luckydraw
+   *
    * @returns Returns user object
    */
   async findMe() {
-    let docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
+    const docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
 
     if (docUser) {
       await this.erp.findMyDocUser(docUser.doc_id, true, true, true);
@@ -161,6 +166,7 @@ export class AuthService {
 
   /**
    * Get current user's profile from luckydraw
+   *
    * @returns Returns user object
    */
   async findMyLuckyUser() {
@@ -172,6 +178,7 @@ export class AuthService {
 
   /**
    * Update current user's profile
+   *
    * @param user User object
    * @returns Returns update response from SWS ERP
    */
@@ -186,6 +193,7 @@ export class AuthService {
 
   /**
    * Update current user's password
+   *
    * @param oldPassword User's old password
    * @param newPassword User's new password
    * @returns Returns update response from SWS ERP
@@ -207,6 +215,7 @@ export class AuthService {
 
   /**
    * Get current user's profile from luckydraw
+   *
    * @returns Returns user object
    */
   async findMyLuckyCustomer() {

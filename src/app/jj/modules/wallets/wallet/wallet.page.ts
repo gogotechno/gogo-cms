@@ -1,124 +1,190 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { AppUtils } from 'src/app/cms.util';
-import { JJLuckydrawService } from 'src/app/jj-luckydraw/jj-luckydraw.service';
-import { JJWallet, WalletType } from 'src/app/jj-luckydraw/jj-luckydraw.type';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { CoreService } from 'src/app/jj/services';
+import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
-import { Currency } from '../wallets.types';
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.page.html',
   styleUrls: ['./wallet.page.scss'],
 })
-export class WalletPage implements OnInit {
-  private _walletNo: string;
-
+export class WalletPage implements OnInit, OnDestroy {
+  walletNo: string;
   wallet: JJWallet;
-  actions = actions;
-  displayCurrency: Currency = {
-    code: 'MYR',
-    displaySymbol: 'RM',
-    precision: 2,
-    symbolPosition: 'start',
-  };
+  cards: WalletCard[];
+
+  destroy$: Subject<boolean>;
+
+  initialized: boolean;
 
   constructor(
-    route: ActivatedRoute,
+    private route: ActivatedRoute,
+    private router: Router,
     private modalCtrl: ModalController,
-    private appUtils: AppUtils,
-    private jj: JJLuckydrawService,
+    private walletsService: WalletsService,
+    private core: CoreService,
   ) {
-    this._walletNo = route.snapshot.params.walletNo;
+    this.destroy$ = new Subject();
   }
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    let params = this.route.snapshot.params;
+    this.walletNo = params['walletNo'];
+
+    this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
+      if (change && this.initialized) {
+        this.refreshData();
+      }
+    });
+
+    await this.loadData();
+    this.initialized = true;
   }
 
-  async loadData(event?: Event) {
-    this.wallet = await this.jj.getWalletByNo(this._walletNo);
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
-  onActionClick(action: WalletAction) {
-    if (!action.active) {
+  async loadData() {
+    this.wallet = await this.getWallet(false);
+    this.cards = this.getCards();
+  }
+
+  async refreshData() {
+    this.wallet = await this.getWallet(true);
+  }
+
+  async getWallet(silent: boolean) {
+    let wallet = await this.core.getWalletByNo(this.walletNo, {
+      skipLoading: silent,
+    });
+    return wallet;
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    const refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
+  }
+
+  onCardClick(card: WalletCard) {
+    if (!card.active) {
       return;
     }
-
-    switch (action.code) {
-      default:
+    switch (card.code) {
+      case 'QR_CODE':
         return this.openQrCode();
+      case 'PIN':
+        return this.openPin();
+      case 'DEPOSIT':
+      case 'WITHDRAW':
+      case 'TRANSFER':
+        return this.onCardNavigate(card.url);
+      default:
+        return;
     }
+  }
+
+  async onCardNavigate(path: string) {
+    await this.router.navigate([path], { relativeTo: this.route });
   }
 
   async openQrCode() {
-    if (this.wallet.type != WalletType.CUSTOMER) {
-      await this.appUtils.presentAlert('jj._THIS_WALLET_CANNOT_BE_USED_FOR_PAYMENT');
-      return;
-    }
-
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
-        qrData: this.wallet.walletNo,
+        qrData: this.walletNo,
       },
       cssClass: 'qrcode-modal',
     });
-
     await modal.present();
+  }
+
+  async openPin() {
+    let verification = await this.walletsService.verifyPin(this.wallet);
+    let verified = verification?.success;
+    if (!verified) {
+      return;
+    }
+    await this.router.navigate(['change-pin'], { relativeTo: this.route });
+  }
+
+  getCards() {
+    return cards.map((card) => {
+      switch (card.code) {
+        case 'TRANSFER':
+          card.active = this.wallet.walletType?.canTransfer;
+          break;
+        case 'QR_CODE':
+          card.active = this.wallet.walletType?.canPay;
+          break;
+        case 'PIN':
+        // case 'DEPOSIT':
+          card.active = true;
+          break;
+        default:
+          break;
+      }
+      return card;
+    });
   }
 }
 
-interface WalletAction {
-  type: 'modal';
-  nameKey: string;
-  icon: string;
+interface WalletCard {
   code: string;
+  name: string;
+  icon: string;
+  url: string;
   active: boolean;
 }
 
-const actions: WalletAction[] = [
+const cards: WalletCard[] = [
   {
-    type: 'modal',
-    nameKey: 'jj._DEPOSIT',
-    icon: 'enter-outline',
     code: 'DEPOSIT',
+    name: 'jj._DEPOSIT',
+    icon: 'enter-outline',
+    url: 'create-deposit',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._WITHDRAW',
-    icon: 'exit-outline',
     code: 'WITHDRAW',
+    name: 'jj._WITHDRAW',
+    icon: 'exit-outline',
+    url: 'create-withdraw',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._TRANSFER',
-    icon: 'arrow-redo-outline',
     code: 'TRANSFER',
+    name: 'jj._TRANSFER',
+    icon: 'arrow-redo-outline',
+    url: 'create-transfer',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._STATEMENT',
-    icon: 'document-text-outline',
     code: 'STATEMENT',
+    name: 'jj._STATEMENT',
+    icon: 'document-text-outline',
+    url: '',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._PIN',
-    icon: 'keypad-outline',
     code: 'PIN',
+    name: 'jj._PIN',
+    icon: 'keypad-outline',
+    url: '',
     active: false,
   },
   {
-    type: 'modal',
-    nameKey: 'jj._QR_CODE',
-    icon: 'qr-code-outline',
     code: 'QR_CODE',
-    active: true,
+    name: 'jj._QR_CODE',
+    icon: 'qr-code-outline',
+    url: '',
+    active: false,
   },
 ];

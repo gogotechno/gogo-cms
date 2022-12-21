@@ -32,8 +32,8 @@
   <div class="wallets" *ngIf="wallets; else loading">
     <ion-card *ngFor="let wallet of wallets" [routerLink]="['/jj/wallets/', wallet.walletNo]">
       <ion-card-content>
-        <p>{{ wallet.type }}</p>
-        <h3><jj-currency [value]="wallet.walletBalance"></jj-currency></h3>
+        <p>{{ wallet.walletType.name | cmsTranslate }}</p>
+        <h3><jj-currency [currency]="wallet.displayCurrency" [value]="wallet.walletBalance"></jj-currency></h3>
       </ion-card-content>
     </ion-card>
   </div>

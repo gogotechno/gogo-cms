@@ -20,7 +20,7 @@ export class WalletCardsComponent implements OnInit {
     this.home.wallets.subscribe((wallets) => {
       this.wallets = wallets;
       if (this.wallets) {
-        this.wallet = wallets.find((wallet) => wallet.type == WalletType.CUSTOMER);
+        this.wallet = wallets.find((wallet) => wallet.walletType?.canPay);
       }
     });
   }

@@ -4,7 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { AuthStateEvent, DocUser, GetExtraOptions, Pagination } from 'src/app/sws-erp.type';
+import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp.type';
 import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
 import { CoreService } from './core.service';
 
@@ -12,10 +12,10 @@ import { CoreService } from './core.service';
   providedIn: 'root',
 })
 export class AuthService {
-  private _AUTHENTICATED: boolean = false;
+  private _AUTHENTICATED = false;
   private _CURRENT_USER: User;
   private _USER_TYPE: UserType;
-  private initialized: boolean = false;
+  private initialized = false;
 
   authStateChange: BehaviorSubject<AuthStateEvent>;
 
@@ -50,7 +50,7 @@ export class AuthService {
     if (this.initialized) {
       return;
     }
-    let refreshToken = await this.storage.get(`${COMPANY_CODE}_REFRESH_TOKEN`);
+    const refreshToken = await this.storage.get(`${COMPANY_CODE}_REFRESH_TOKEN`);
     if (refreshToken) {
       await this.swsErp.generateRefreshToken(refreshToken);
       await this.swsErp.generateAccessToken(this.swsErp.refreshToken);
@@ -98,7 +98,7 @@ export class AuthService {
       this._USER_TYPE = null;
       await this.router.navigate(['/jj/login']);
 
-      let authState = this.swsErp.authStateChange.getValue();
+      const authState = this.swsErp.authStateChange.getValue();
       if (!authState || authState.status != 'LOGGED_OUT') {
         this.swsErp.authStateChange.next({ status: 'LOGGED_OUT' });
       }
@@ -121,8 +121,8 @@ export class AuthService {
   }
 
   async findMe(options: AccountOptions = {}) {
-    let docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
+    const docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
     if (docUser) {
       await this.swsErp.findMyDocUser(docUser.doc_id, true, true, true);
       await this.storage.set(`${COMPANY_CODE}_DOC_USER`, this.swsErp.docUser);
@@ -137,21 +137,21 @@ export class AuthService {
   }
 
   async findMyMerchantId() {
-    let docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    let access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
+    const docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
+    const access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
     return access ? Number(access.access_val) : null;
   }
 
-  async findMyWallets(options: GetExtraOptions = {}) {
+  async findMyWallets(conditions: Conditions = {}) {
     let wallets: JJWallet[];
     switch (this._USER_TYPE) {
       case 'MERCHANT':
         let merchantId = await this.findMyMerchantId();
-        wallets = await this.core.getWalletsByMerchantId(merchantId, options);
+        wallets = await this.core.getWalletsByMerchantId(merchantId, conditions);
         break;
       case 'CUSTOMER':
         let customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
-        wallets = await this.core.getWalletsByCustomerId(customer.doc_id, options);
+        wallets = await this.core.getWalletsByCustomerId(customer.doc_id, conditions);
         break;
       default:
         wallets = [];
@@ -161,7 +161,7 @@ export class AuthService {
   }
 
   updateMe(payload: Partial<User>) {
-    let userId = this._CURRENT_USER.doc_id;
+    const userId = this._CURRENT_USER.doc_id;
     switch (this._USER_TYPE) {
       case 'MERCHANT':
       case 'ADMIN':
@@ -172,7 +172,7 @@ export class AuthService {
   }
 
   changePassword(oldPassword: string, newPassword: string) {
-    let requestBody = {
+    const requestBody = {
       old_password: oldPassword,
       new_password: newPassword,
     };
@@ -181,7 +181,7 @@ export class AuthService {
       case 'ADMIN':
         return this.updateMe(requestBody);
       default:
-        let customerId = this._CURRENT_USER.doc_id;
+        const customerId = this._CURRENT_USER.doc_id;
         return this.swsErp.changePassword(customerId, requestBody, 'Customer');
     }
   }
@@ -192,20 +192,35 @@ export class AuthService {
       case 'ADMIN':
         return [];
       default:
-        let customerId = this._CURRENT_USER.doc_id;
-        let events = await this.core.getEvents(pagination, {
+        const customerId = this._CURRENT_USER.doc_id;
+        const events = await this.core.getEvents(pagination, {
           isJoined: true,
-          customerId: customerId,
+          customer_id: customerId,
         });
         return events;
     }
   }
 
   async findMyMerchant() {
-    let merchantId = await this.findMyMerchantId();
-    let merchant = await this.swsErp.getDoc<JJMerchant>('Merchant', merchantId, {
+    const merchantId = await this.findMyMerchantId();
+    const merchant = await this.swsErp.getDoc<JJMerchant>('Merchant', merchantId, {
       withSummary: true,
     });
     return this.core.populateMerchant(merchant);
+  }
+
+  async findMyBankAccounts(pagination: Pagination) {
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+      case 'ADMIN':
+        return [];
+      default:
+        const customerId = this._CURRENT_USER.doc_id;
+        const events = await this.core.getBankAccounts(pagination, {
+          customer_id: customerId,
+          customer_id_type: '=',
+        });
+        return events;
+    }
   }
 }

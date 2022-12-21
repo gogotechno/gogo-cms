@@ -20,10 +20,10 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 import { QuillModule } from 'ngx-quill';
 import Quill from 'quill';
-const Parchment = Quill.import("parchment");
-const Block = Parchment.query("block");
-class NewBlock extends Block { };
-NewBlock.tagName = "div";
+const Parchment = Quill.import('parchment');
+const Block = Parchment.query('block');
+class NewBlock extends Block {}
+NewBlock.tagName = 'div';
 Quill.register(NewBlock, true);
 
 import ImageResize from 'quill-image-resize-module';
@@ -44,14 +44,16 @@ import { SwsErpInterceptor } from './sws-erp.interceptors';
 import { SWS_ERP_COMPANY } from './sws-erp.type';
 
 import { BehaviorSubject } from 'rxjs';
+import { SharedModule } from './jj/shared';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot({
-    scrollAssist: false,
-    scrollPadding: false }),
+      scrollAssist: false,
+      scrollPadding: false,
+    }),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     HttpClientModule,
@@ -61,29 +63,29 @@ import { BehaviorSubject } from 'rxjs';
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
-      }
+        useFactory: createTranslateLoader,
+        deps: [HttpClient],
+      },
     }),
     QuillModule.forRoot({
       modules: {
         toolbar: [
           ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
-          [{ 'header': 1 }, { 'header': 2 }],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          [{ 'script': 'sub' }, { 'script': 'super' }],
-          [{ 'indent': '-1' }, { 'indent': '+1' }],
-          [{ 'direction': 'rtl' }],
-          [{ 'size': [] }],
-          [{ 'header': [] }],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'font': [] }],
-          [{ 'align': [] }],
+          [{ header: 1 }, { header: 2 }],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+          [{ size: [] }],
+          [{ header: [] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
           ['clean'],
-          ['link', 'image', 'video', 'formula']
-        ]
-      }
+          ['link', 'image', 'video', 'formula'],
+        ],
+      },
     }),
     IonicStorageModule.forRoot(),
     NgxMaskModule.forRoot(),
@@ -91,19 +93,19 @@ import { BehaviorSubject } from 'rxjs';
   providers: [
     {
       provide: RouteReuseStrategy,
-      useClass: IonicRouteStrategy
+      useClass: IonicRouteStrategy,
     },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SwsErpInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: SWS_ERP_COMPANY,
-      useValue: new BehaviorSubject<string>("default")
+      useValue: new BehaviorSubject<string>('default'),
     },
-    SiteGuard
+    SiteGuard,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

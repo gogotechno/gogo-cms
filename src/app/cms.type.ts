@@ -8,6 +8,8 @@ export interface CmsDocument {
   createdBy?: string;
 }
 
+export type CmsTranslable = CmsTranslation | string;
+
 export interface CmsTranslation {
   [key: string]: string;
 }
@@ -93,6 +95,7 @@ export interface CmsForm extends CmsDocument {
   code: string;
   name?: CmsTranslation;
   submitButtonText?: string;
+  submitButtonId?: string;
   autoValidate?: boolean;
   autoRemoveUnusedKeys?: 'swserp';
   items: Array<CmsFormItem>;
@@ -103,7 +106,7 @@ export interface CmsForm extends CmsDocument {
 
 export interface CmsFormItem extends CmsDocument {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
   type: CmsFormItemType;
   dataType?: string;
   required?: boolean;
@@ -114,14 +117,22 @@ export interface CmsFormItem extends CmsDocument {
   minimumLength?: number;
   maximumLength?: number;
   matchWith?: string[];
-  placeholder?: CmsTranslation;
+  placeholder?: CmsTranslable;
   inputMask?: string;
   inputPrefix?: string;
+  writable?: boolean;
+  readonly?: boolean;
+  precision?: number;
+  direction?: 'vertical' | 'horizontal';
+  buttons?: Array<CmsFormItemOption>;
+  counter?: boolean;
+  hint?: CmsTranslable;
 }
 
 export interface CmsFormItemOption {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
+  disabled?: boolean;
 }
 
 export type CmsFormItemType =
@@ -137,7 +148,11 @@ export type CmsFormItemType =
   | 'datetime'
   | 'cms-translate'
   | 'cms-translate-editor'
-  | 'barcode-scanner';
+  | 'barcode-scanner'
+  | 'radio'
+  | 'pin'
+  | 'textarea'
+  | 'files';
 
 export interface CmsFormValidation {
   valid: boolean;
@@ -149,15 +164,25 @@ export interface CmsFormValidationError {
   message: string;
 }
 
+export interface CmsFile {
+  name: string;
+  fileType: 'image' | 'file';
+  mimeType: string;
+  previewUrl: string;
+  file?: File;
+  base64String?: string;
+}
+
 export interface CmsFilter {
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
   lines?: 'full' | 'inset' | 'none' | undefined;
+  disallowEmpty?: boolean;
   items: Array<CmsFilterItem>;
 }
 
 export interface CmsFilterItem {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
   type: CmsFilterItemType;
   icon?: string;
   img?: string;
@@ -188,7 +213,7 @@ export type OnSelectScrollToEnd = (pagination: Pagination) => Promise<[any[], Pa
 
 export interface CmsFilterItemOption {
   code: string;
-  label: CmsTranslation;
+  label: CmsTranslable;
 }
 
 export type CmsFilterItemType =
@@ -221,7 +246,7 @@ export interface CmsTable extends CmsDocument {
 }
 
 export class CmsAdminChildPage {
-  title: string = '';
+  title = '';
 }
 
 export interface CmsUser extends CmsDocument {

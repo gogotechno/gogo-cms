@@ -1,0 +1,48 @@
+ion-list-header {
+    --background: var(--ion-color-light);
+    font-size: small;
+    min-height: 0px;
+    padding-top: calc(var(--ion-padding, 16px) / 2);
+    padding-bottom: calc(var(--ion-padding, 16px) / 2);
+}
+
+.header-title {
+    margin: 0;
+    font-size: 17px;
+}
+
+.header-subtitle {
+    margin: 0;
+    font-size: small;
+}
+
+.transaction {
+    .description {
+        font-weight: bold;
+    }
+
+    .reference1 {
+        font-weight: bold;
+    }
+
+    .reference2 {
+        font-size: small;
+    }
+}
+
+.right {
+    text-align: end;
+}
+
+.APPROVED {
+    background: var(--ion-color-success); 
+  }
+  
+.PENDING {
+    background: var(--ion-color-warning); 
+  }
+  
+.DECLINED {
+    background: var(--ion-color-danger); 
+  }
+  

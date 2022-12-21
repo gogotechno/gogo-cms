@@ -22,33 +22,25 @@ export class SwsErpInterceptor implements HttpInterceptor {
   }
 
   async handle(request: HttpRequest<any>, next: HttpHandler) {
-    let apiUrl = environment.swsErp.apiUrl;
+    const apiUrl = environment.swsErp.apiUrl;
     if (request.url.substring(0, apiUrl.length) !== apiUrl) {
       return await next.handle(request).toPromise();
     }
 
     let skipLoading = request.headers.get('SkipLoading');
     let skipErrorAlert = request.headers.get('SkipErrorAlert');
-    if (skipLoading) {
-      request = request.clone({
-        headers: request.headers.delete('SkipLoading').delete('SkipErrorAlert'),
-      });
-    } else {
+
+    request = request.clone({ headers: request.headers.delete('SkipLoading') });
+    request = request.clone({ headers: request.headers.delete('SkipErrorAlert') });
+
+    if (!skipLoading) {
       this.app.requestChange.next(1);
     }
 
-    let updatedRequest = request.clone({
-      setParams: {
-        lang: this.erp.language,
-      },
-    });
+    let updatedRequest = request.clone({ setParams: { lang: this.erp.language } });
 
     if (!request.headers.get('Authorization') && this.erp.token) {
-      updatedRequest = updatedRequest.clone({
-        setHeaders: {
-          Authorization: `Bearer ${this.erp.token}`,
-        },
-      });
+      updatedRequest = updatedRequest.clone({ setHeaders: { Authorization: `Bearer ${this.erp.token}` } });
     }
 
     console.log('Before making api call :', updatedRequest);
@@ -64,7 +56,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
           },
           async (err) => {
             console.error('api call error :', err);
-            let header = '_ERROR';
+            const header = '_ERROR';
             let message = '_UNKNOWN_ERROR';
             if (err instanceof HttpErrorResponse) {
               message = err.error.message || err.error.error || err.message;
@@ -114,7 +106,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
   }
 
   private isUserNotFoundError(err: any) {
-    let isUserNotFoundMessage: boolean = false;
+    let isUserNotFoundMessage = false;
     if (err.error?.error) {
       isUserNotFoundMessage = err.error.error.startsWith('User not found');
     }
@@ -126,7 +118,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
 
   private async handleExpiredAccessToken(request: HttpRequest<any>, next: HttpHandler) {
     await this.erp.generateAccessToken(this.erp.refreshToken);
-    let updatedRequest = request.clone({
+    const updatedRequest = request.clone({
       setHeaders: { Authorization: `Bearer ${this.erp.token}` },
     });
     return next.handle(updatedRequest).toPromise();

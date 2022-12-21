@@ -55,3 +55,10 @@
   --max-width: 384px;
   --box-shadow: none;
 }
+
+.bordered-card {
+  box-shadow: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--ion-border-color);
+}

@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { WalletsPageRoutingModule } from './wallets-routing.module';
-
-import { WalletsPage } from './wallets.page';
-import { TranslateModule } from '@ngx-translate/core';
 import { JJComponentsModule } from '../@components/jj-components.module';
+import { WalletsPage } from './wallets.page';
+import { SharedModule } from '../../shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
@@ -16,9 +14,10 @@ import { JJComponentsModule } from '../@components/jj-components.module';
     FormsModule,
     IonicModule,
     WalletsPageRoutingModule,
-    TranslateModule,
     JJComponentsModule,
+    SharedModule,
+    CmsUIModule,
   ],
-  declarations: [WalletsPage]
+  declarations: [WalletsPage],
 })
 export class WalletsPageModule {}

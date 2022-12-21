@@ -19,7 +19,19 @@ const routes: Routes = [
   {
     path: 'change-language',
     loadChildren: () => import('./change-language/change-language.module').then( m => m.ChangeLanguagePageModule)
+  },  {
+    path: 'bank-accounts',
+    loadChildren: () => import('./bank-accounts/bank-accounts.module').then( m => m.BankAccountsPageModule)
   },
+  {
+    path: 'bank-account',
+    loadChildren: () => import('./bank-account/bank-account.module').then( m => m.BankAccountPageModule)
+  },
+  {
+    path: 'create-bank-account',
+    loadChildren: () => import('./create-bank-account/create-bank-account.module').then( m => m.CreateBankAccountPageModule)
+  },
+
 ];
 
 @NgModule({

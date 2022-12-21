@@ -15,10 +15,9 @@ export class DetailsPage implements OnInit {
   constructor(private route: ActivatedRoute, private details: DetailsService) {}
 
   async ngOnInit() {
-    let params = this.route.snapshot.params;
-    this.details.eventId = params['id'];
+    const params = this.route.snapshot.params;
+    this.details.eventId = params.id;
     await this.loadData();
-
     this.details.event.subscribe((event) => (this.event = event));
   }
 
@@ -32,7 +31,7 @@ export class DetailsPage implements OnInit {
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

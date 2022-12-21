@@ -1,0 +1,24 @@
+<ion-item class="only-label">
+  <ion-label>
+    <span>{{ label | cmsTranslate }}</span>
+    <cms-required-tag *ngIf="required"></cms-required-tag>
+  </ion-label>
+  <ion-label slot="end" *ngIf="maximum">
+    <ion-note>{{ currentLength }}/{{ maximum }}</ion-note>
+  </ion-label>
+</ion-item>
+<input #file class="ion-display-none" type="file" (change)="onFileChange($event)" />
+<ion-item *ngFor="let file of files; let index = index">
+  <ion-thumbnail slot="start">
+    <img [class.file]="file.fileType === 'file'" [src]="file.previewUrl" />
+  </ion-thumbnail>
+  <ion-label>{{ file.name }}</ion-label>
+  <ion-button slot="end" fill="clear" size="default" *ngIf="canRemove" (click)="removeFile(index)">
+    <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+  </ion-button>
+</ion-item>
+<div class="ion-text-center" *ngIf="canUpload">
+  <ion-button fill="clear" expand="block" (click)="file.click()">
+    <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+  </ion-button>
+</div>

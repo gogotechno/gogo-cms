@@ -36,29 +36,29 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getEndedEvents() {
-    let events = await this.core.getEvents(this.eventsPage, {
+    const events = await this.core.getEvents(this.eventsPage, {
       status: 'ENDED',
       status_type: '=',
       sortBy: 'startAt',
       sortType: 'desc',
       withSummary: true,
-      withoutResult: true,
+      withResult: true,
     });
     return events;
   }
 
   async loadMoreEvents(event: Event) {
     this.eventsPage.currentPage += 1;
-    let incoming = await this.getEndedEvents();
+    const incoming = await this.getEndedEvents();
     this.events = [...this.events, ...incoming];
     this.eventsEnded = incoming.length <= 0;
-    let scroller = <HTMLIonInfiniteScrollElement>event.target;
+    const scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }
 
   async doRefresh(event: Event) {
     await this.loadData();
-    let refresher = <HTMLIonRefresherElement>event.target;
+    const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
 }

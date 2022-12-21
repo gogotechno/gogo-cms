@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { RewardsComponentsModule } from '../../../@components/rewards-components.module';
+import { DetailsComponentsModule as MyRewardDetailsComponentsModule } from '../../../my-rewards/details/@components/details-components.module';
 import { SharedModule } from 'src/app/jj/shared';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 import { SwsErpModule } from 'src/app/sws-erp.module';
@@ -34,6 +35,7 @@ const components = [
     IonicModule,
     RouterModule,
     RewardsComponentsModule,
+    MyRewardDetailsComponentsModule,
     SharedModule,
     CmsUIModule,
     SwsErpModule,
@@ -41,4 +43,4 @@ const components = [
   exports: components,
   declarations: components,
 })
-export class DetailsComponentsModule { }
+export class DetailsComponentsModule {}
