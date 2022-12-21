@@ -9,10 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.5.6] - 2022-12-19
 
+### Added
+
+- Add control to show/hide lucky draw's end date countdown timer, nearest store and customer's ticket list
+- Add free gift code and scratch voucher when register with referrer code
+
 ### Changed
 
 - Move scratch and win prizes outside
-- Add control to show/hide lucky draw's end date countdown timer, nearest store and customer's ticket list
-- Add free gift code and scratch voucher when register with referrer code
-- Modify scratch and win images
 - Show event's countdown timer and change title in home directory
+- Change scratch and win images
+- Change logo
