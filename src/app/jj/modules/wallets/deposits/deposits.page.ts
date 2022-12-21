@@ -44,6 +44,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.depositsPage = this.defaultPage;
+    this.deposits = [];
     let deposits = await this.getDeposits();
     this.grouping(deposits);
     this.depositsEnded = deposits.length < this.depositsPage.itemsPerPage;

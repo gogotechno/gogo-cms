@@ -44,6 +44,7 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.withdrawsPage = this.defaultPage;
+    this.withdraws = [];
     let withdraws = await this.getWithdraws();
     this.grouping(withdraws);
     this.withdrawsEnded = withdraws.length < this.withdrawsPage.itemsPerPage;

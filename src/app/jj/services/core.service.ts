@@ -283,6 +283,10 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Withdraw Request', request);
   }
 
+  updateWithdrawRequest(requestId: number, request: Partial<JJWithdrawRequest>) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, request);
+  }
+
   async getWithdrawRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
     return res;
@@ -327,9 +331,9 @@ export class CoreService extends SharedComponent {
   // @ Bank
   // -----------------------------------------------------------------------------------------------------
 
-  async getDefaultBankAccount() {
+  async getRandomBankAccount() {
     const query: GetOptions = {
-      default: true,
+      system: true,
       random: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);

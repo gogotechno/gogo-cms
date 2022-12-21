@@ -47,15 +47,23 @@ export class DepositRequestPage implements OnInit {
 
   async onApprove() {
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_APPROVE_DEPOSIT');
-    if (!confirm) return;
-    await this.core.updateDepositRequest(this.deposit.doc_id, { status: 'APPROVED' });
+    if (!confirm) {
+      return;
+    }
+    await this.core.updateDepositRequest(this.deposit.doc_id, {
+      status: 'APPROVED',
+    });
     await this.loadData();
   }
 
   async onDecline() {
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_DECLINE_DEPOSIT');
-    if (!confirm) return;
-    await this.core.updateDepositRequest(this.deposit.doc_id, { status: 'DECLINED' });
+    if (!confirm) {
+      return;
+    }
+    await this.core.updateDepositRequest(this.deposit.doc_id, {
+      status: 'DECLINED',
+    });
     await this.loadData();
   }
 }

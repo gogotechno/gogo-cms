@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../../wallets/wallets.service';
@@ -23,6 +24,7 @@ export class WithdrawRequestPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
+    private appUtils: AppUtils,
     private common: CommonService,
     private core: CoreService,
     private walletsService: WalletsService,
@@ -48,5 +50,14 @@ export class WithdrawRequestPage implements OnInit {
 
   async onApprove() {}
 
-  async onDecline() {}
+  async onDecline() {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_DECLINE_DEPOSIT');
+    if (!confirm) {
+      return;
+    }
+    await this.core.updateWithdrawRequest(this.withdraw.doc_id, {
+      status: 'DECLINED',
+    });
+    await this.loadData();
+  }
 }
