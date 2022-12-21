@@ -120,9 +120,13 @@ export class WalletPage implements OnInit, OnDestroy {
         case 'QR_CODE':
           card.active = this.wallet.walletType?.canPay;
           break;
-        case 'PIN':
         case 'DEPOSIT':
+          card.active = this.wallet.walletType?.canDeposit;
+          break;
         case 'WITHDRAW':
+          card.active = this.wallet.walletType?.canWithdraw;
+          break;
+        case 'PIN':
           card.active = true;
           break;
         default:
