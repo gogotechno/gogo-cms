@@ -117,13 +117,18 @@ export interface JJEvent extends ErpDoc {
   totalOfGainedSnwTickets?: number;
   drawingResult?: JJDrawingResult;
   drewAt?: Date;
-  winningSummary?: {
-    prize: JJEventPrize;
-    winningNumbers: string[];
-  }[];
+  showEndDateCountdown: boolean;
+  showNearestStore: boolean;
+  showCustomerTickets: boolean;
+  winningSummary?: WinningSummaryDetails[];
 
   // app use only
   _status: string;
+}
+
+export interface WinningSummaryDetails {
+  prize: JJEventPrize;
+  winningNumbers: string[];
 }
 
 export enum EventStatus {
@@ -485,6 +490,7 @@ export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED'
 
 export interface JJDepositMethod extends ErpDoc {
   name: string;
+  code: string;
   description: string;
   isActive: boolean;
   isVisible: boolean;
@@ -503,8 +509,9 @@ export interface JJWithdrawRequest extends ErpDoc {
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
 
-export interface JJWithdrawMethod {
+export interface JJWithdrawMethod extends ErpDoc {
   name: string;
+  code: string;
   description: string;
   isActive: boolean;
   isVisible: boolean;
@@ -517,10 +524,11 @@ export interface JJBank extends ErpDoc {
 export interface JJBankAccount extends ErpDoc {
   accountNo: string;
   holderName: string;
-  isActive: boolean;
-  isDefault: boolean;
   bank_id: number;
-  bank?: JJBank;
+  isActive?: boolean;
+  isDefault?: boolean;
+  customerId?: number;
+  merchantId?: number;
   bankName?: string;
 }
 

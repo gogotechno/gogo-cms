@@ -6,7 +6,7 @@ import { CmsService } from 'src/app/cms.service';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { AuthService } from 'src/app/jj/services';
+import { AuthService, CommonService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-register',
@@ -14,27 +14,25 @@ import { AuthService } from 'src/app/jj/services';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  @ViewChild(IonModal) modal: IonModal;
-  platform: string;
+  backButtonText: string;
   form: CmsForm | null = null;
   value: any | null = null;
   referrerCode: string;
 
   constructor(
-    route: ActivatedRoute,
-    platform: Platform,
+    private route: ActivatedRoute,
     private router: Router,
-    private modalController: ModalController,
+    private modalCtrl: ModalController,
     private appUtils: AppUtils,
     private erp: SwsErpService,
-    private cms: CmsService,
     private auth: AuthService,
-  ) {
-    this.referrerCode = route.snapshot.queryParams.referrerCode;
-    this.platform = platform.is('ios') ? 'ios' : 'md';
-  }
+    private cms: CmsService,
+    private common: CommonService,
+  ) {}
 
   ngOnInit() {
+    this.referrerCode = this.route.snapshot.queryParams.referrerCode;
+    this.backButtonText = this.common.getBackButtonText();
     this.loadData();
   }
 
@@ -51,26 +49,23 @@ export class RegisterPage implements OnInit {
   async onRegister(formValue: any) {
     console.log(`Member registering...`);
     // PRESENT PHONE VERIFICATION
-    const phone = `+6${formValue.phone}`;
-    const modal = await this.modalController.create({
+    const modal = await this.modalCtrl.create({
       component: PhoneNumberVerificationComponent,
-      componentProps: { phone },
+      componentProps: {
+        phone: `+6${formValue.phone}`,
+      },
     });
     modal.onDidDismiss().then(async (v) => {
-      if (!v.data) {
+      if (!v?.data) {
         return;
       }
-
       if (v.data.status === 'success') {
         try {
-          await this.appUtils.presentLoading();
-          const response = await this.erp.postDoc('Customer', formValue, { skipErrorAlert: true });
+          await this.erp.postDoc('Customer', formValue, { skipErrorAlert: true });
           await this.auth.signInCustomer(formValue.phone, formValue.password, true);
-          this.router.navigateByUrl('/jj', { replaceUrl: true });
+          await this.router.navigateByUrl('/jj', { replaceUrl: true });
         } catch (error) {
           await this.appUtils.presentAlert(error.error?.error || error?.message, '_FAILED');
-        } finally {
-          await this.appUtils.dismissLoading();
         }
       } else {
         await this.appUtils.presentAlert(v.data.error?.message, '_FAILED');

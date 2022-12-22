@@ -43,9 +43,9 @@ export class CreateDepositPage implements OnInit {
     }));
 
     this.value = {
+      walletNo: this.walletNo,
       amount: null,
       depositMethodId: null,
-      walletNo: this.walletNo,
     };
   }
 
@@ -77,22 +77,14 @@ const form: CmsForm = {
   items: [
     {
       code: 'walletNo',
-      label: {
-        en: 'Wallet No.',
-        zh: '钱包账号',
-        ms: 'No. Dompet',
-      },
+      label: 'jj._WALLET_NO',
       type: 'text',
       required: true,
       readonly: true,
     },
     {
       code: 'amount',
-      label: {
-        en: 'Amount',
-        zh: '金额',
-        ms: 'Jumlah',
-      },
+      label: 'jj._AMOUNT',
       placeholder: '0.00',
       type: 'number',
       precision: 2,
@@ -100,11 +92,7 @@ const form: CmsForm = {
     },
     {
       code: 'depositMethodId',
-      label: {
-        en: 'Method',
-        zh: '方式',
-        ms: 'Kaedah',
-      },
+      label: 'jj._METHOD',
       type: 'radio',
       required: true,
       direction: 'vertical',
@@ -113,7 +101,7 @@ const form: CmsForm = {
 };
 
 interface CreateDepositDto {
+  walletNo: string;
   amount: number;
   depositMethodId: number;
-  walletNo: string;
 }

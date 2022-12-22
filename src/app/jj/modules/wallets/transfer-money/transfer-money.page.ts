@@ -119,6 +119,7 @@ const form: CmsForm = {
       placeholder: '0.00',
       type: 'number',
       required: true,
+      precision: 2,
     },
     {
       code: 'description',
@@ -127,7 +128,10 @@ const form: CmsForm = {
         zh: '详情',
         ms: 'Penerangan',
       },
-      type: 'text',
+      type: 'textarea',
+      required: true,
+      maximumLength: 50,
+      counter: true,
     },
   ],
 };

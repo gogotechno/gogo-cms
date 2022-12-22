@@ -6,6 +6,7 @@ import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { DepositRequestStatus, JJDepositRequest } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
+import { WalletsService } from '../../wallets/wallets.service';
 import { FilterComponent } from './@components/filter/filter.component';
 
 @Component({
@@ -22,7 +23,12 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
 
   filter: CmsFilter;
 
-  constructor(private date: DatePipe, private modalCtrl: ModalController, private core: CoreService) {
+  constructor(
+    private date: DatePipe,
+    private modalCtrl: ModalController,
+    private core: CoreService,
+    private walletsService: WalletsService,
+  ) {
     super();
   }
 
@@ -105,16 +111,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   }
 
   getStatusColor(request: JJDepositRequest) {
-    switch (request.status) {
-      case 'DECLINED':
-        return 'danger';
-      case 'APPROVED':
-        return 'success';
-      case 'PROCESSING':
-        return 'warning';
-      default:
-        return 'medium';
-    }
+    return this.walletsService.getDepositStatusColor(request.status);
   }
 
   get _filter(): CmsFilter {

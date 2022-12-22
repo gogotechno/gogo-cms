@@ -2,10 +2,7 @@
   <ion-toolbar>
     <ion-title>{{ '_REGISTER' | translate }}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/jj/login"
-        [text]="platform === 'ios' ? ('_BACK' | translate) : ''"
-      ></ion-back-button>
+      <ion-back-button defaultHref="/jj/login" [text]="backButtonText"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

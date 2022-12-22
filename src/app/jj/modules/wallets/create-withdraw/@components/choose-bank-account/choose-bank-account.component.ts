@@ -1,42 +1,31 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
-import { ActivatedRoute, Router } from '@angular/router';
+import { CreateBankAccountComponent } from '../create-bank-account/create-bank-account.component';
 
 @Component({
-  selector: 'app-bank-accounts',
-  templateUrl: './bank-accounts.page.html',
-  styleUrls: ['./bank-accounts.page.scss'],
+  selector: 'app-choose-bank-account',
+  templateUrl: './choose-bank-account.component.html',
+  styleUrls: ['./choose-bank-account.component.scss'],
 })
-export class BankAccountsPage extends SharedComponent implements OnInit {
+export class ChooseBankAccountComponent extends SharedComponent implements OnInit {
   accountsPage: Pagination;
   accounts: JJBankAccount[];
   accountsEnded: boolean;
   updatedAt: Date;
   customerId: number;
   merchantId: number;
-  accountId: number
 
-  constructor(
-    private auth: AuthService, 
-    private core: CoreService, 
-    private router: Router,
-    private route: ActivatedRoute,) 
-    { 
-    super(); 
-    }
+  constructor(private modalCtrl: ModalController, private auth: AuthService, private core: CoreService) {
+    super();
+  }
 
   async ngOnInit() {
-    this.route.queryParams.subscribe(async (queryParams) => {
-      if (queryParams.refresh) {
-        await this.loadData();
-        // await this.router.navigate([]);
-      }
-    });
-
     await this.loadData();
+    console.log(this.accounts);
   }
 
   async loadData() {
@@ -77,11 +66,14 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
     return accounts;
   }
 
-  async doRefresh(event: Event) {
-    await this.loadData();
-    const refresher = <HTMLIonRefresherElement>event.target;
-    refresher.complete();
+  async onDismiss() {
+    await this.modalCtrl.dismiss();
   }
 
-
+  async openCreate() {
+    const modal = await this.modalCtrl.create({
+      component: CreateBankAccountComponent,
+    });
+    await modal.present();
+  }
 }

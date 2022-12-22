@@ -12,7 +12,6 @@ import {
   JJScratchRequest,
   JJWallet,
   ScratchRequestExtras,
-  WalletType,
 } from '../../typings';
 import { TickerButton } from '../@components/jj-news-ticker/jj-news-ticker.component';
 import { ContentBoxComponent } from '../common/@components/content-box/content-box.component';
@@ -27,16 +26,14 @@ import { ScratchResultComponent } from './@components/scratch-result/scratch-res
 })
 export class ScratchAndWinPage extends SharedComponent implements OnInit {
   timer: CountdownTimer;
-
   eventId: number;
   event: JJScratchAndWinEvent;
   wallet: JJWallet;
   messages: string[];
   totalChance: number;
-
   buttons = buttons;
-
   scratching: boolean;
+  prizes: JJScratchAndWinPrize[];
 
   get contentOffsetTop() {
     let offset = this.platform.is('ios') ? 46 : 56;
@@ -44,6 +41,26 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       offset = offset + 20;
     }
     return `${offset}px`;
+  }
+
+  get prizesOpts() {
+    return {
+      loop: true,
+      spaceBetween: 8,
+      slidesPerView: 1.5,
+      breakpoints: {
+        540: {
+          slidesPerView: 2.5,
+        },
+        960: {
+          slidesPerView: 3.5,
+        },
+      },
+      autoplay: {
+        delay: 2000,
+        disableOnInteraction: false,
+      },
+    };
   }
 
   constructor(
@@ -79,6 +96,13 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
     await this.getWallet();
     await this.getLatestWinners();
+
+    this.prizes = await this.core.getScratchAndWinPrizes({
+      scratch_and_win_event_id: this.eventId,
+      scratch_and_win_event_id_type: '=',
+      isActive: 1,
+      isActive_type: '=',
+    });
   }
 
   async getWallet(conditions: Conditions = {}) {

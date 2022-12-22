@@ -63,6 +63,7 @@
   "_CHANGE_LANGUAGE": "Change language",
   "_CHANGE_PASSWORD": "Change password",
   "_EDIT_PROFILE": "Edit profile",
+  "_EDIT_BANK_INFO": "Edit bank accounts",
   "_VIEW_ALL": "View All",
   "_DAYS": "Days",
   "_HOURS": "Hours",
@@ -469,6 +470,15 @@
     "_SUCCESS": "Success",
     "_FAILED": "Failed",
     "_CONTACT_SERVICE": "Contact Service",
-    "_MAKE_PAYMENT": "Make Payment"
+    "_MAKE_PAYMENT": "Make Payment",
+    "_YOUR_TICKETS": "Your Tickets",
+    "_VALID": "Valid",
+    "_INVALID": "Invalid",
+    "_EDIT_BANK_ACCOUNTS": "Edit bank accounts" ,
+    "_ADD_BANK_ACCOUNT": "Add bank account",
+    "_EDIT_BANK_ACCOUNT": "Edit account info",
+    "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm to update bank info?",
+    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim to remove this bank account?",
+    "_INACTIVE": "Inactive"
   }
 }

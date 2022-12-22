@@ -57,7 +57,6 @@ const routes: Routes = [
           },
         ],
       },
-
       {
         path: 'create-transfer',
         loadChildren: () => import('./create-transfer/create-transfer.module').then((m) => m.CreateTransferPageModule),

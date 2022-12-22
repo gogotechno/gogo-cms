@@ -5,6 +5,7 @@ import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJDepositRequest, JJWallet } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-deposits',
@@ -19,7 +20,6 @@ export class DepositsPage extends SharedComponent implements OnInit {
   depositsEnded: boolean;
   deposits: JJDepositRequest[][];
   updatedAt: Date;
-  
 
   get dates(): string[] {
     if (!this.deposits) {
@@ -28,7 +28,12 @@ export class DepositsPage extends SharedComponent implements OnInit {
     return Object.keys(this.deposits);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
+  constructor(
+    private route: ActivatedRoute,
+    private date: DatePipe,
+    private core: CoreService,
+    private walletsService: WalletsService,
+  ) {
     super();
   }
 
@@ -84,5 +89,9 @@ export class DepositsPage extends SharedComponent implements OnInit {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
+  }
+
+  getStatusColor(request: JJDepositRequest) {
+    return this.walletsService.getDepositStatusColor(request.status);
   }
 }
