@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
+import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
@@ -47,9 +48,7 @@ import {
 } from '../typings';
 import { CommonService } from './common.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CoreService extends SharedComponent {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
   private initialized = false;
@@ -757,6 +756,12 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
+    // if (request.attachments) {
+    //   request.attachments = request.attachments.map((attachment) => {
+    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    //     return attachment;
+    //   });
+    // }
     return request;
   }
 
@@ -765,6 +770,12 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
+    // if (request.attachments) {
+    //   request.attachments = request.attachments.map((attachment) => {
+    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    //     return attachment;
+    //   });
+    // }
     return request;
   }
 

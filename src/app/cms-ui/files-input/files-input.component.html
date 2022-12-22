@@ -1,5 +1,5 @@
 <ion-item class="only-label">
-  <ion-label>
+  <ion-label class="cms-files-lbl">
     <span>{{ label | cmsTranslate }}</span>
     <cms-required-tag *ngIf="required"></cms-required-tag>
   </ion-label>
@@ -8,11 +8,13 @@
   </ion-label>
 </ion-item>
 <input #file class="ion-display-none" type="file" (change)="onFileChange($event)" />
-<ion-item *ngFor="let file of files; let index = index">
+<ion-item *ngFor="let file of files; let index = index" class="cms-file-item" (click)="onItemClick(file)">
   <ion-thumbnail slot="start">
     <img [class.file]="file.fileType === 'file'" [src]="file.previewUrl" />
   </ion-thumbnail>
-  <ion-label>{{ file.name }}</ion-label>
+  <ion-label>
+    <h3>{{ file.name }}</h3>
+  </ion-label>
   <ion-button slot="end" fill="clear" size="default" *ngIf="canRemove" (click)="removeFile(index)">
     <ion-icon slot="icon-only" name="close-circle"></ion-icon>
   </ion-button>

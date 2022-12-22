@@ -18,9 +18,7 @@ import {
 } from 'src/app/jj/typings';
 import { Conditions } from 'src/app/sws-erp.type';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;

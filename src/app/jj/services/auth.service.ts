@@ -8,9 +8,7 @@ import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp
 import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
 import { CoreService } from './core.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AuthService {
   private _AUTHENTICATED = false;
   private _CURRENT_USER: User;

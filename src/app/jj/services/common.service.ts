@@ -22,9 +22,7 @@ const DEFAULT_LANG: CmsSiteAttributeOption = {
   value: null,
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CommonService {
   constructor(
     private platform: Platform,

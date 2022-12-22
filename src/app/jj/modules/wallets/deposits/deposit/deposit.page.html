@@ -62,6 +62,7 @@
           <p><jj-currency [currency]="deposit.wallet.displayCurrency" [value]="deposit.amount"></jj-currency></p>
         </ion-label>
       </ion-item>
+      <cms-files-input [label]="'jj._ATTACHMENTS'" [files]="deposit.attachments" [readonly]="true"></cms-files-input>
     </ion-list>
   </ng-container>
 </ion-content>
