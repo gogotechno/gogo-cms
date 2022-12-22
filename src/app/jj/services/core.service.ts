@@ -382,7 +382,7 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Bank Account', account);
   }
 
-  updateBankAccount(accountId: number, account: JJBankAccount) {
+  updateBankAccount(accountId: number, account: Partial<JJBankAccount>) {
     return this.swsErp.putDoc('Bank Account', accountId, account);
   }
 
