@@ -148,7 +148,9 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   add(event?: Event) {
-    this.form.submitButtonId = this.submitButtonId;
+    if (this.config?.submitButtonPosition == 'footer') {
+      this.form.submitButtonId = this.submitButtonId;
+    }
     this.modal.present();
   }
 

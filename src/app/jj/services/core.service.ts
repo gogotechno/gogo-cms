@@ -24,6 +24,7 @@ import {
   JJEventStatus,
   JJFab,
   JJMerchant,
+  JJMiniProgram,
   JJPinVerification,
   JJPointRule,
   JJProduct,
@@ -564,7 +565,9 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode });
+    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
+      groupCode: groupCode,
+    });
     return res.result;
   }
 
@@ -579,6 +582,15 @@ export class CoreService extends SharedComponent {
       ...conditions,
     };
     let res = await this.swsErp.getDocs<JJFab>('FAB', query);
+    return res.result;
+  }
+
+  async getMiniPrograms() {
+    // {
+    //   isActive: true,
+    //   isActive_type: "="
+    // }
+    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
     return res.result;
   }
 

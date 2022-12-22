@@ -580,3 +580,7 @@ export interface JJPinVerification extends ErpDoc {
   walletNo: string;
   walletPin: string;
 }
+
+export interface JJMiniProgram extends ErpDoc {
+  
+}

@@ -7,7 +7,7 @@ import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
-
+import { MerchantService } from '../../merchant.service';
 
 @Component({
   selector: 'app-event-details',
@@ -19,12 +19,18 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
   event: JJEvent;
   form: CmsForm;
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe, private app: AppUtils) {
+  constructor(
+    private route: ActivatedRoute,
+    private core: CoreService,
+    private date: DatePipe,
+    private app: AppUtils,
+    private merchantService: MerchantService,
+  ) {
     super();
   }
 
   async ngOnInit() {
-    this.form = this.updateEventForm;
+    this.form = this.merchantService.eventForm;
     const params = this.route.snapshot.params;
     this.eventId = params['id'];
     await this.loadData();
@@ -42,214 +48,246 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
     console.log(data);
   }
 
-  updateEventForm: CmsForm = {
-    code: 'update-event',
-    labelPosition: 'stacked',
-    submitButtonText: '_UPDATE',
-    // autoValidate: true,
-    autoRemoveUnusedKeys: 'swserp',
-    items: [
-      {
-        code: 'merchant_id',
-        label: {
-          en: 'Merchant',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: true,
-      },
-      {
-        code: 'name',
-        label: {
-          en: 'Name',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: true,
-      }, {
-        code: 'status',
-        label: {
-          en: 'Status',
-          zh: '',
-          ms: '',
-        },
-        options: [
-          {
-            code: "Active",
-            label: "Active"
-          },
-          {
-            code: "Inactive",
-            label: "Inactive"
-          },
-          {
-            code: "Ended",
-            label: "Ended"
-          }
-        ],
-        type: 'select',
-        required: true,
-      },
-      {
-        code: 'highlight',
-        label: {
-          en: 'Highlight',
-          zh: '',
-          ms: '',
-        },
-        type: 'cms-translate',
-        required: false,
-      },
-      {
-        code: 'description',
-        label: {
-          en: 'Description',
-          zh: '',
-          ms: '',
-        },
-        type: 'cms-translate-editor',
-        required: false,
-      },
-      {
-        code: 'tnc',
-        label: {
-          en: 'Terms & Conditions',
-          zh: '',
-          ms: '',
-        },
-        type: 'cms-translate-editor',
-        required: false,
-      },
+  // prizeForm: CmsForm = {
+  //   code: 'event-prize',
+  //   labelPosition: 'stacked',
+  //   autoValidate: true,
+  //   autoRemoveUnusedKeys: 'swserp',
+  //   items: [
+  //     {
+  //       code: 'name',
+  //       label: 'jj._NAME',
+  //       type: 'text',
+  //     },
+  //     {
+  //       code: 'worth',
+  //       label: 'jj._WORTH',
+  //       type: 'number',
+  //     },
+  //   ],
+  // };
 
-      {
-        code: 'startAt',
-        label: {
-          en: 'Start At',
-          zh: '',
-          ms: '',
-        },
-        type: 'date',
-        required: true,
-      },
-      {
-        code: 'endAt',
-        label: {
-          en: 'End At',
-          zh: '',
-          ms: '',
-        },
-        type: 'date',
-        required: false,
-      },
-      {
-        code: 'drawAt',
-        label: {
-          en: 'Draw At',
-          zh: '',
-          ms: '',
-        },
-        type: 'date',
-        required: false,
-      },
-      {
-        code: 'minSpend',
-        label: {
-          en: 'Min Spend',
-          zh: '',
-          ms: '',
-        },
-        type: 'number',
-        required: true,
-      },
-      {
-        code: 'serialNoPrefix',
-        label: {
-          en: 'Prefix',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: false,
-      },
-      {
-        code: 'serialNoPostfix',
-        label: {
-          en: 'Postfix',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: false,
-      },
-      {
-        code: 'serialNoSeqLength',
-        label: {
-          en: 'Length',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: false,
-      },
-      {
-        code: 'serialNoSeqPadStr',
-        label: {
-          en: 'PadStr',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: false,
-      },
-      {
-        code: 'ticketMethod',
-        label: "jj._TICKET_METHOD",
-        options: [
-          {
-            code: "_RANDOM_CHAR",
-            label: "_RANDOM_CHAR"
-          },
-          {
-            code: "_SEQUENCE",
-            label: "_SEQUENCE"
-          }
-        ],
-        type: 'text',
-        required: true,
-      },
-      {
-        code: 'prizes',
-        label: {
-          en: 'prizes',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: true,
-      },
-      {
-        code: 'backgroundImage',
-        label: {
-          en: 'Background Image',
-          zh: '',
-          ms: '',
-        },
-        type: 'files',
-        required: false,
-      },
-      {
-        code: 'thumbnailImage',
-        label: {
-          en: 'Thumbnail Image',
-          zh: '',
-          ms: '',
-        },
-        type: 'files',
-        required: false,
-      },
-    ],
-  }
+  // updateEventForm: CmsForm = {
+  //   code: 'update-event',
+  //   labelPosition: 'stacked',
+  //   submitButtonText: '_UPDATE',
+  //   // autoValidate: true,
+  //   autoRemoveUnusedKeys: 'swserp',
+  //   items: [
+  //     {
+  //       code: 'merchant_id',
+  //       label: {
+  //         en: 'Merchant',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'name',
+  //       label: {
+  //         en: 'Name',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'status',
+  //       label: {
+  //         en: 'Status',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       options: [
+  //         {
+  //           code: 'Active',
+  //           label: 'Active',
+  //         },
+  //         {
+  //           code: 'Inactive',
+  //           label: 'Inactive',
+  //         },
+  //         {
+  //           code: 'Ended',
+  //           label: 'Ended',
+  //         },
+  //       ],
+  //       type: 'select',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'highlight',
+  //       label: {
+  //         en: 'Highlight',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'cms-translate',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'description',
+  //       label: {
+  //         en: 'Description',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'cms-translate-editor',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'tnc',
+  //       label: {
+  //         en: 'Terms & Conditions',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'cms-translate-editor',
+  //       required: false,
+  //     },
 
+  //     {
+  //       code: 'startAt',
+  //       label: {
+  //         en: 'Start At',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'date',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'endAt',
+  //       label: {
+  //         en: 'End At',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'date',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'drawAt',
+  //       label: {
+  //         en: 'Draw At',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'date',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'minSpend',
+  //       label: {
+  //         en: 'Min Spend',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'number',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'serialNoPrefix',
+  //       label: {
+  //         en: 'Prefix',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'serialNoPostfix',
+  //       label: {
+  //         en: 'Postfix',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'serialNoSeqLength',
+  //       label: {
+  //         en: 'Length',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'serialNoSeqPadStr',
+  //       label: {
+  //         en: 'PadStr',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'ticketMethod',
+  //       label: 'jj._TICKET_METHOD',
+  //       options: [
+  //         {
+  //           code: '_RANDOM_CHAR',
+  //           label: '_RANDOM_CHAR',
+  //         },
+  //         {
+  //           code: '_SEQUENCE',
+  //           label: '_SEQUENCE',
+  //         },
+  //       ],
+  //       type: 'text',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'prizes',
+  //       label: {
+  //         en: 'prizes',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'text',
+  //       required: true,
+  //     },
+  //     {
+  //       code: 'backgroundImage',
+  //       label: {
+  //         en: 'Background Image',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'files',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'thumbnailImage',
+  //       label: {
+  //         en: 'Thumbnail Image',
+  //         zh: '',
+  //         ms: '',
+  //       },
+  //       type: 'files',
+  //       required: false,
+  //     },
+  //     {
+  //       code: 'prizes',
+  //       label: 'jj._PRIZES',
+  //       type: 'array',
+  //       dataType: 'custom',
+  //       childForm: this.prizeForm,
+  //       arrayConfig: {
+  //         nameFields: ['name', 'worth'],
+  //         nameSeparator: '-',
+  //         closeButtonPosition: 'end',
+  //         submitButtonPosition: 'footer',
+  //       },
+  //     },
+  //   ],
+  // };
 }
