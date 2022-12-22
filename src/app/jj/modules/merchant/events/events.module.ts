@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { EventsPageRoutingModule } from './events-routing.module';
 
 import { EventsPage } from './events.page';
+import { TranslateModule } from '@ngx-translate/core';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EventsPageRoutingModule
+    EventsPageRoutingModule,
+    TranslateModule,
+    SwsErpModule
   ],
   declarations: [EventsPage]
 })

@@ -373,12 +373,17 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  updateBankAccount(accountId: number, account: JJBankAccount) {
-    return this.swsErp.putDoc('Bank Account', accountId, account);
+  async getBankAccountById(accountId: number) {
+    const res = await this.swsErp.getDoc<JJBankAccount>('Bank Account', accountId);
+    return res;
   }
 
   createBankAccount(account: JJBankAccount) {
     return this.swsErp.postDoc('Bank Account', account);
+  }
+
+  updateBankAccount(accountId: number, account: JJBankAccount) {
+    return this.swsErp.putDoc('Bank Account', accountId, account);
   }
 
   // -----------------------------------------------------------------------------------------------------

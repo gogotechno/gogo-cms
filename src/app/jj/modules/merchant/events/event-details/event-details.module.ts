@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { EventDetailsPageRoutingModule } from './event-details-routing.module';
 
 import { EventDetailsPage } from './event-details.page';
+import { TranslateModule } from '@ngx-translate/core';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { SharedModule } from 'src/app/jj/shared';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EventDetailsPageRoutingModule
+    EventDetailsPageRoutingModule,
+    TranslateModule,
+    SharedModule,
+    CmsUIModule
   ],
   declarations: [EventDetailsPage]
 })

@@ -63,6 +63,7 @@
   "_CHANGE_LANGUAGE": "更改语言",
   "_CHANGE_PASSWORD": "更改密码",
   "_EDIT_PROFILE": "更改个人资料",
+  "_EDIT_BANK_INFO": "更改银行资料",
   "_VIEW_ALL": "查看全部",
   "_DAYS": "天",
   "_HOURS": "小时",
@@ -466,6 +467,12 @@
     "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "金额必须大于零",
     "_YOUR_TICKETS": "您的抽奖券",
     "_VALID": "有效",
-    "_INVALID": "无效"
+    "_INVALID": "无效",
+    "_EDIT_BANK_ACCOUNTS": "编辑银行账户" ,
+    "_ADD_BANK_ACCOUNT": "添加银行户口",
+    "_EDIT_BANK_ACCOUNT": "编辑户口资料",
+    "_CONFIRM_TO_UPDATE_BANK_INFO": "确认更新银行信息？",
+    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "确认移除此银行户口?",
+    "_INACTIVE": "闲置账户"
   }
 }

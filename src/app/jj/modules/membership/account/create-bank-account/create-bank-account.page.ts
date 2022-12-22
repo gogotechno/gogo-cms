@@ -1,26 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
+import { AuthService, CoreService } from 'src/app/jj/services';
+import { SharedComponent } from 'src/app/jj/shared';
+import { JJBankAccount } from 'src/app/jj/typings';
+import { Pagination } from 'src/app/sws-erp.type';
+
 
 @Component({
   selector: 'app-create-bank-account',
   templateUrl: './create-bank-account.page.html',
   styleUrls: ['./create-bank-account.page.scss'],
 })
-export class CreateBankAccountPage implements OnInit {
+export class CreateBankAccountPage extends SharedComponent implements OnInit {
   form: CmsForm;
-  bank: any;
   eventId: number;
+  accountId: number;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private appUtils: AppUtils,
     private app: AppUtils,
-  ) { }
+    private core: CoreService,
+    private auth: AuthService,
+    private router: Router,
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this.form = bankAccountForm
+    this.form = this._form;
     const params = this.route.snapshot.params;
     this.eventId = params.id;
   }
@@ -28,61 +38,66 @@ export class CreateBankAccountPage implements OnInit {
   async onSubmit(data: any) {
     let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
     if (!confirm) return;
+    let account: JJBankAccount = {
+      ...data,
+      customerId: this.auth.currentUser.doc_id
+    }
+    await this.core.createBankAccount(account);
     console.log(data);
+    // await this.core.updateBankAccount(this.accountId, data);
+    await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
+    await this.router.navigate(['/jj/account/bank-accounts'], {
+      replaceUrl: true,
+      queryParams: {
+        refresh: true
+      },
+    });
+
   }
 
+  get _form(): CmsForm {
+    return {
+      code: 'create-bank-account',
+      labelPosition: 'stacked',
+      autoValidate: true,
+      submitButtonId: 'create-bank-btn',
+      autoRemoveUnusedKeys: 'swserp',
+      items: [
+        {
+          code: 'accountNo',
+          label: 'jj._ACCOUNT_NO',
+          type: 'text',
+          required: true,
+        },
+        {
+          code: 'holderName',
+          label: 'jj._HOLDER_NAME',
+          type: 'text',
+          required: true,
+        },
+        {
+          code: 'bank_id',
+          label: 'jj._BANK',
+          type: 'select',
+          required: true,
+          searchable: true,
+          selectConfig: {
+            labelFields: ['name'],
+            codeFields: ['doc_id'],
+          },
+          selectHandler: {
+            onLoad: async () => {
+              let pagination: Pagination = this.defaultPage;
+              let banks = await this.core.getBanks(pagination);
+              return [banks, pagination];
+            },
+            onScrollToEnd: async (pagination: Pagination) => {
+              let banks = await this.core.getBanks(pagination);
+              return [banks, pagination];
+            },
+          },
+        },
+      ],
+    };
+  }
 }
-
-const bankAccountForm: CmsForm = {
-  code: 'add-bank-account',
-  labelPosition: 'stacked',
-  submitButtonText: '_UPDATE',
-  autoValidate: true,
-  autoRemoveUnusedKeys: 'swserp',
-  items: [
-    {
-      code: 'accountNo',
-      label: {
-        en: 'Bank Account Number',
-        zh: '银行户口号码',
-        ms: 'Nombor Akaun Bank',
-      },
-      type: 'text',
-      required: true,
-    },
-    {
-      code: 'holderName',
-      label: {
-        en: 'Bank Account Name',
-        zh: '银行户口名字',
-        ms: 'Nama Akaun Bank',
-      },
-      type: 'text',
-      required: true,
-    },
-    {
-      code: 'bank_id',
-      label: {
-        en: 'Bank',
-        zh: '银行',
-        ms: 'Bank',
-      },
-      type: 'select',
-      required: true,
-      options: [
-        {
-          code: "1",
-          label: "_MAYBANK"
-        },
-        {
-          code: "2",
-          label: "_HONG_LEONG_BANK"
-        },
-        {
-          code: "3",
-          label: "_CIMB_BANK"
-        }
-      ]
-    },
-  ],
-};

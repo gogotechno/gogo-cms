@@ -1,9 +1,15 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/merchant/events">
+      </ion-back-button>
+    </ion-buttons>
     <ion-title>event-details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="ion-padding-sm">
+    <cms-form [form]="form" [value]="event" (submit)="onSubmit($event)"></cms-form>
+  </div>
 </ion-content>
