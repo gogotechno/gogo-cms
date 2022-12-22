@@ -473,6 +473,7 @@
     "_ADD_BANK_ACCOUNT": "Tambah Akaun Bank" ,
     "_EDIT_BANK_ACCOUNT": "Edit Maklumat Akaun",
     "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm Nak Kemaskini Info Bank?",
-    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim Nak Padam Akaun Bank Ini?"
+    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim Nak Padam Akaun Bank Ini?",
+    "_INACTIVE": "Tidak Aktif"
   }
 }

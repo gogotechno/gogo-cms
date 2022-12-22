@@ -1,9 +1,37 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/merchant/events">
+      </ion-back-button>
+      </ion-buttons>
     <ion-title>event-details</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ng-container *ngIf="event">
+    <ion-list lines="full">
+      <ion-item>
+        <ion-label>
+          <h3>{{ "jj._NAME" | translate }}</h3>
+          <p>{{ event.name }}</p>
+        </ion-label>
+        <ion-label slot="end">
+          <p>{{ event.startAt | date: "d/M/yyyy h:mma" }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>{{ "jj._MINSPEND" | translate }}</h3>
+          <p>{{ event.minSpend }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>{{ "jj._DESCRIPTION" | translate }}</h3>
+          <p>{{ event.description || "-" }}</p>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-container>
 </ion-content>

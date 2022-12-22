@@ -12,12 +12,18 @@
     <div *ngIf="!accounts?.length" class="note">
       <ion-label>{{ 'jj._NO_ACCOUNTS_FOUND' | translate }}</ion-label>
     </div>
-      <ion-item *ngFor="let account of accounts" [routerLink]="[account.doc_id]">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+      <ion-item *ngFor="let account of accounts" [routerLink]="[account.doc_id]"> 
         <ion-label class="transaction">
           <ion-text class="description">{{ account.accountNo }}</ion-text><br />
           <ion-text class="reference1">{{ account.bankName | erpTranslate }}</ion-text><br />
           <ion-text class="reference2">{{ account.holderName }}</ion-text>
         </ion-label>
+        <div *ngIf="!account.isActive">
+          <ion-badge slot="end" color="danger">{{ "jj._INACTIVE" | translate }}</ion-badge>
+        </div>
       </ion-item>
   </ion-list>
   <ng-container *ngIf="accounts?.length">

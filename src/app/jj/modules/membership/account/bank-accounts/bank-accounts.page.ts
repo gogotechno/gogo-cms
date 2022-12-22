@@ -32,7 +32,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
     this.route.queryParams.subscribe(async (queryParams) => {
       if (queryParams.refresh) {
         await this.loadData();
-        await this.router.navigate([]);
+        // await this.router.navigate([]);
       }
     });
 
@@ -75,6 +75,12 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
     let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
     this.updatedAt = new Date();
     return accounts;
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    const refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
   }
 
 

@@ -20,52 +20,51 @@ export class BankAccountPage extends SharedComponent implements OnInit {
   accounts: JJBankAccount[];
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private appUtils: AppUtils,
     private app: AppUtils,
     private core: CoreService,
     private router: Router,
-    ) 
-    {
-      super();
-     }
+  ) {
+    super();
+  }
 
-     async ngOnInit() {
-      this.form = this._form;
+  async ngOnInit() {
+    this.form = this._form;
 
-      const params = this.route.snapshot.params;
-      this.accountId = params.id;
+    const params = this.route.snapshot.params;
+    this.accountId = params.id;
 
-      await this.loadData();
+    await this.loadData();
 
-    }
+  }
 
-    async loadData() {
-      this.bank = await this.core.getBankAccount(this.accountId);    
-    }
+  async loadData() {
+    this.bank = await this.core.getBankAccount(this.accountId);
+  }
 
-    async onSubmit(data: any) {
-      let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_BANK_INFO');
-      if (!confirm) return;
-      console.log(data);
-      await this.core.updateBankAccount(this.accountId, data);
-      await this.appUtils.presentAlert('jj._ACCOUNT_UPDATED', '_SUCCESS');
-      await this.router.navigate(['/jj/account/bank-accounts'], {
-          replaceUrl: true,
-          queryParams: { refresh: true },
-        });
-    }
-    
-    async deleteBank(){
-      let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_REMOVE_BANK_ACCOUNT');
-      if (!confirm) return;
-      await this.core.updateBankAccount(this.accountId, {doc_status: DocStatus.CANCEL,});
-      await this.appUtils.presentAlert('jj._BANK_ACCOUNT_REMOVED', '_SUCCESS');
-      await this.router.navigate(['/jj/account/bank-accounts'], {
-        replaceUrl: true,
-        queryParams: { refresh: true },
-      });
-    }
+  async onSubmit(data: any) {
+    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_BANK_INFO');
+    if (!confirm) return;
+    console.log(data);
+    await this.core.updateBankAccount(this.accountId, data);
+    await this.appUtils.presentAlert('jj._ACCOUNT_UPDATED', '_SUCCESS');
+    // await this.router.navigate(['/jj/account'], {
+    //   replaceUrl: true,
+    //   queryParams: { refresh: true },
+    // });
+  }
+
+  async deleteBank() {
+    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_REMOVE_BANK_ACCOUNT');
+    if (!confirm) return;
+    await this.core.updateBankAccount(this.accountId, { doc_status: DocStatus.CANCEL, });
+    await this.appUtils.presentAlert('jj._BANK_ACCOUNT_REMOVED', '_SUCCESS');
+    await this.router.navigate(['/jj/account/bank-accounts'], {
+      replaceUrl: true,
+      queryParams: { refresh: true },
+    });
+  }
 
   get _form(): CmsForm {
     return {

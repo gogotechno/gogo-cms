@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { JJEvent } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-event-details',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./event-details.page.scss'],
 })
 export class EventDetailsPage implements OnInit {
+  event: JJEvent;
+  eventId: number;
 
-  constructor() { }
+  constructor() {    
 
-  ngOnInit() {
+  }
+
+  async ngOnInit() {
   }
 
 }

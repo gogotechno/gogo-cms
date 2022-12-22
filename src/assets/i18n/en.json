@@ -478,6 +478,7 @@
     "_ADD_BANK_ACCOUNT": "Add bank account",
     "_EDIT_BANK_ACCOUNT": "Edit account info",
     "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm to update bank info?",
-    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim to remove this bank account?"
+    "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim to remove this bank account?",
+    "_INACTIVE": "Inactive"
   }
 }

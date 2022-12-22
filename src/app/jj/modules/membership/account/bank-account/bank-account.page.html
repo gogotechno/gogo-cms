@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ "jj._EDIT_BANK_ACCOUNT" | translate }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button  (click)="deleteBank()">
+      <ion-button [disabled]="true" (click)="deleteBank()">
         <ion-icon  color="danger "slot="icon-only" name="trash"></ion-icon>
       </ion-button>
     </ion-buttons>

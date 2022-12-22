@@ -19,7 +19,7 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
   accountId: number;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private appUtils: AppUtils,
     private app: AppUtils,
     private core: CoreService,
@@ -27,7 +27,7 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
     private router: Router,
   ) {
     super();
-   }
+  }
 
   ngOnInit() {
     this.form = this._form;
@@ -38,19 +38,21 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
   async onSubmit(data: any) {
     let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
     if (!confirm) return;
-     let account: JJBankAccount = {
+    let account: JJBankAccount = {
       ...data,
-       customerId: this.auth.currentUser.doc_id
-     }
-     await this.core.createBankAccount(account);
-     console.log(data);
-      await this.core.updateBankAccount(this.accountId, data);
-      await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
-        await this.router.navigate(['/jj/account/bank-accounts'], {
-          replaceUrl: true,
-          queryParams: { refresh: true },
-        });
-    
+      customerId: this.auth.currentUser.doc_id
+    }
+    await this.core.createBankAccount(account);
+    console.log(data);
+    // await this.core.updateBankAccount(this.accountId, data);
+    await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
+    await this.router.navigate(['/jj/account/bank-accounts'], {
+      replaceUrl: true,
+      queryParams: {
+        refresh: true
+      },
+    });
+
   }
 
   get _form(): CmsForm {
