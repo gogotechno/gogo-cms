@@ -14,22 +14,19 @@ export class CreateEventPage implements OnInit {
   event: any;
   eventId: number;
 
-  constructor(private route: ActivatedRoute, private appUtils: AppUtils,private app: AppUtils,) { }
+  constructor(private route: ActivatedRoute, private app: AppUtils) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.form = this.createEventForm;
-    this.event = {
-      a: '1',
-      b: '2',
-      c: "3",
-    }
     const params = this.route.snapshot.params;
     this.eventId = params.id;
   }
 
   async onSubmit(data: any) {
     let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
-    if (!confirm) return;
+    if (!confirm) {
+      return;
+    }
     console.log(data);
   }
 
@@ -47,7 +44,7 @@ export class CreateEventPage implements OnInit {
           zh: '',
           ms: '',
         },
-        type: 'number',
+        type: 'text',
         required: true,
       },
       {
@@ -59,38 +56,7 @@ export class CreateEventPage implements OnInit {
         },
         type: 'text',
         required: true,
-      },
-      {
-        code: 'highlight',
-        label: {
-          en: 'Highlight',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: true,
-      },
-      {
-        code: 'description',
-        label: {
-          en: 'Description',
-          zh: '',
-          ms: '',
-        },
-        type: 'text',
-        required: true,
-      },
-      {
-        code: 'tnc',
-        label: {
-          en: 'Terms & Conditions',
-          zh: '',
-          ms: '',
-        },
-        type: 'textarea',
-        required: true,
-      },
-      {
+      }, {
         code: 'status',
         label: {
           en: 'Status',
@@ -99,21 +65,52 @@ export class CreateEventPage implements OnInit {
         },
         options: [
           {
-            code: "1",
-            label: "_"
+            code: "Active",
+            label: "Active"
           },
           {
-            code: "2",
-            label: "_"
+            code: "Inactive",
+            label: "Inactive"
           },
           {
-            code: "3",
-            label: "_"
+            code: "Ended",
+            label: "Ended"
           }
         ],
-        type: 'text',
+        type: 'select',
         required: true,
       },
+      {
+        code: 'highlight',
+        label: {
+          en: 'Highlight',
+          zh: '',
+          ms: '',
+        },
+        type: 'cms-translate',
+        required: false,
+      },
+      {
+        code: 'description',
+        label: {
+          en: 'Description',
+          zh: '',
+          ms: '',
+        },
+        type: 'cms-translate-editor',
+        required: false,
+      },
+      {
+        code: 'tnc',
+        label: {
+          en: 'Terms & Conditions',
+          zh: '',
+          ms: '',
+        },
+        type: 'cms-translate-editor',
+        required: false,
+      },
+
       {
         code: 'startAt',
         label: {
@@ -132,7 +129,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'date',
-        required: true,
+        required: false,
       },
       {
         code: 'drawAt',
@@ -142,7 +139,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'date',
-        required: true,
+        required: false,
       },
       {
         code: 'minSpend',
@@ -162,7 +159,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'text',
-        required: true,
+        required: false,
       },
       {
         code: 'serialNoPostfix',
@@ -172,7 +169,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'text',
-        required: true,
+        required: false,
       },
       {
         code: 'serialNoSeqLength',
@@ -182,7 +179,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'text',
-        required: true,
+        required: false,
       },
       {
         code: 'serialNoSeqPadStr',
@@ -192,7 +189,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'text',
-        required: true,
+        required: false,
       },
       {
         code: 'ticketMethod',
@@ -203,19 +200,26 @@ export class CreateEventPage implements OnInit {
         },
         options: [
           {
-            code: "1",
-            label: "_"
+            code: "_RANDOM_CHAR",
+            label: "_RANDOM_CHAR"
           },
           {
-            code: "2",
-            label: "_"
-          },
-          {
-            code: "3",
-            label: "_"
+            code: "_SEQUENCE",
+            label: "_SEQUENCE"
           }
         ],
         type: 'text',
+        required: true,
+      },
+      {
+        code: 'Prizes',
+        label: {
+          en: 'Prizes',
+          zh: '',
+          ms: '',
+        },
+        type: 'text',
+        // buttons: onSubmit(),
         required: true,
       },
       {
@@ -226,7 +230,7 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'files',
-        required: true,
+        required: false,
       },
       {
         code: 'thumbnailImage',
@@ -236,8 +240,8 @@ export class CreateEventPage implements OnInit {
           ms: '',
         },
         type: 'files',
-        required: true,
-      }, 
+        required: false,
+      },
     ],
-}
+  }
 }
