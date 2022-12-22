@@ -5,6 +5,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../../wallets/wallets.service';
+import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
   selector: 'app-withdraw-request',
@@ -39,7 +40,6 @@ export class WithdrawRequestPage implements OnInit {
 
   async loadData() {
     this.withdraw = await this.core.getWithdrawRequestByRefNo(this.refNo);
-    console.log(this.withdraw);
   }
 
   async doRefresh(event: Event) {
@@ -48,16 +48,40 @@ export class WithdrawRequestPage implements OnInit {
     refresher.complete();
   }
 
-  async onApprove() {}
+  async onApprove() {
+    if (this.withdraw.withdrawMethod.code == 'BANK_TRANSFER') {
+      let attachments = await this.openUploadAttachment();
+      if (!attachments) {
+        return;
+      }
+    }
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_APPROVE_DEPOSIT');
+    if (!confirm) {
+      return;
+    }
+    await this.core.approveWithdrawRequest(this.withdraw.doc_id);
+    await this.loadData();
+  }
 
   async onDecline() {
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_DECLINE_DEPOSIT');
     if (!confirm) {
       return;
     }
-    await this.core.updateWithdrawRequest(this.withdraw.doc_id, {
-      status: 'DECLINED',
-    });
+    await this.core.declineWithdrawRequest(this.withdraw.doc_id);
     await this.loadData();
+  }
+
+  async openUploadAttachment() {
+    const modal = await this.modalCtrl.create({
+      component: UploadAttachmentsComponent,
+      componentProps: {
+        withdrawId: this.withdraw.doc_id,
+        bankAccount: this.withdraw.bankAccount,
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    return data?.attachments;
   }
 }

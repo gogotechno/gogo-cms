@@ -1,34 +1,46 @@
 <ion-list class="ion-no-padding">
-    <ion-reorder-group *ngIf="value" (ionItemReorder)="reorder($event)" disabled="false">
-        <ion-item-sliding *ngFor="let item of value; let i = index">
-            <ion-item (click)="edit(i, $event)">
-                <ion-reorder slot="start"></ion-reorder>
-                <ion-label>{{ (getName(item) | cmsTranslate) || (item.label | cmsTranslate) || item }}</ion-label>
-            </ion-item>
-            <ion-item-options side="end">
-                <ion-item-option color="danger" (click)="remove(i)">{{ '_REMOVE' | translate }}</ion-item-option>
-            </ion-item-options>
-        </ion-item-sliding>
-    </ion-reorder-group>
-    <ion-button color="success" fill="clear" expand="block" (click)="add($event)">
-        <ion-icon name="add-circle" slot="start"></ion-icon>
-        {{ '_ADD' | translate }}
-    </ion-button>
+  <ion-reorder-group *ngIf="value" (ionItemReorder)="reorder($event)" disabled="false">
+    <ion-item-sliding *ngFor="let item of value; let i = index">
+      <ion-item (click)="edit(i, $event)">
+        <ion-reorder slot="start"></ion-reorder>
+        <ion-label>{{ (getName(item) | cmsTranslate) || (item.label | cmsTranslate) || item }}</ion-label>
+      </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="remove(i)">{{ '_REMOVE' | translate }}</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-reorder-group>
+  <ion-button color="success" fill="clear" expand="block" (click)="add($event)">
+    <ion-icon name="add-circle" slot="start"></ion-icon>
+    <ion-label>{{ '_ADD' | translate }}</ion-label>
+  </ion-button>
 </ion-list>
 
 <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
-    <ng-template>
-        <ion-header>
-            <ion-toolbar>
-                <ion-buttons slot="start">
-                    <ion-button (click)="cancel($event)">{{ "_CANCEL" | translate }}</ion-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-            <ng-container *ngIf="form">
-                <cms-form (submit)="update($event)" [form]="form" [value]="activatedValue" [collection-path]="collectionPath"></cms-form>
-            </ng-container>
-        </ion-content>
-    </ng-template>
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons [slot]="config?.closeButtonPosition || 'start'">
+          <ion-button (click)="cancel($event)">{{ '_CANCEL' | translate }}</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ng-container *ngIf="form">
+        <cms-form
+          (submit)="update($event)"
+          [form]="form"
+          [value]="activatedValue"
+          [collection-path]="collectionPath"
+        ></cms-form>
+      </ng-container>
+    </ion-content>
+    <ion-footer *ngIf="config?.submitButtonPosition == 'footer'">
+      <ion-toolbar>
+        <ion-button [id]="submitButtonId" expand="block">
+          <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
 </ion-modal>

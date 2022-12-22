@@ -59,7 +59,7 @@
       <ion-item>
         <ion-label>
           <h3>{{ 'jj._AMOUNT' | translate }}</h3>
-          <p><jj-currency [value]="deposit.amount"></jj-currency></p>
+          <p><jj-currency [currency]="deposit.wallet.displayCurrency" [value]="deposit.amount"></jj-currency></p>
         </ion-label>
       </ion-item>
     </ion-list>
@@ -69,7 +69,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-button expand="block" *ngIf="deposit?.status == 'PENDING_PAYMENT'" (click)="openUploadAttachment()">
-      <ion-label>{{ "jj._PAY" | translate }}</ion-label>
+      <ion-label>{{ "jj._MAKE_PAYMENT" | translate }}</ion-label>
     </ion-button>
     <ion-button expand="block" [disabled]="!whatsappLink">
       <ion-label>{{ "jj._CONTACT_SERVICE" | translate }}</ion-label>

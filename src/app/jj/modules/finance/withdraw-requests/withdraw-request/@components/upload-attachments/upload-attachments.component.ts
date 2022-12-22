@@ -12,7 +12,7 @@ import { JJBankAccount } from 'src/app/jj/typings';
 })
 export class UploadAttachmentsComponent implements OnInit {
   form = form;
-  depositId: number;
+  withdrawId: number;
   bankAccount: JJBankAccount;
 
   constructor(private modalCtrl: ModalController, private appUtils: AppUtils, private core: CoreService) {}
@@ -24,9 +24,8 @@ export class UploadAttachmentsComponent implements OnInit {
     if (!confirm) {
       return;
     }
-    await this.core.updateDepositRequest(this.depositId, { attachments: data.attachments });
     await this.modalCtrl.dismiss({
-      success: true,
+      attachments: data.attachments,
     });
   }
 
@@ -36,9 +35,9 @@ export class UploadAttachmentsComponent implements OnInit {
 }
 
 const form: CmsForm = {
-  code: 'upload-deposit',
+  code: 'upload-withdraw',
   labelPosition: 'stacked',
-  submitButtonId: 'upload-deposit-btn',
+  submitButtonId: 'upload-withdraw-btn',
   items: [
     {
       code: 'attachments',

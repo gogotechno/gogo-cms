@@ -12,7 +12,7 @@ export function array_move(arr: Array<any>, old_index: number, new_index: number
     }
   }
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr; // for testing
+  return arr;
 }
 
 export function start_of_day(date: Date) {
@@ -136,8 +136,12 @@ export class AppUtils {
     if (!options) {
       options = defaultOpts;
     } else {
-      if (!options.buttons) {options.buttons = defaultOpts.buttons;}
-      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
+      if (!options.buttons) {
+        options.buttons = defaultOpts.buttons;
+      }
+      if (options.subHeader) {
+        options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      }
     }
     const alert = await this.alertCtrl.create({
       header: await this.translate.get(header).toPromise(),
@@ -201,7 +205,9 @@ export class AppUtils {
     cancelBtnText = cancelBtnText ? cancelBtnText : '_CANCEL';
     if (!options) {
     } else {
-      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
+      if (options.subHeader) {
+        options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      }
     }
     return new Promise<boolean>(async (resolve) => {
       const confirm = await this.alertCtrl.create({

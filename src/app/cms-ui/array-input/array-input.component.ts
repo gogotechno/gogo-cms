@@ -1,10 +1,9 @@
 import { Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonModal, ItemReorderCustomEvent } from '@ionic/angular';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { CmsService } from 'src/app/cms.service';
-import { CmsForm, CmsTable } from 'src/app/cms.type';
-import { array_move } from 'src/app/cms.util';
+import { ArrayConfig, CmsForm, CmsTable } from 'src/app/cms.type';
+import { AppUtils, array_move } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-array-input',
@@ -14,17 +13,17 @@ import { array_move } from 'src/app/cms.util';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => ArrayInputComponent),
-      multi: true
+      multi: true,
     },
-    TranslatePipe
-  ]
+  ],
 })
 export class ArrayInputComponent implements OnInit, ControlValueAccessor {
-
   @ViewChild(IonModal) modal: IonModal;
 
   @Input('data-type') dataType: string;
   @Input('collection-path') collectionPath: string;
+  @Input('custom-form') customForm: CmsForm;
+  @Input('config') config: ArrayConfig;
 
   form: CmsForm;
   table: CmsTable;
@@ -32,19 +31,25 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   activatedIndex: number;
 
   disabled = false;
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
   get activatedValue() {
     let value = null;
     if (this.activatedIndex != null) {
       value = this.value[this.activatedIndex];
     }
-
     return value;
   }
 
-  constructor(private translate: TranslatePipe, private cms: CmsService) { }
+  get submitButtonId() {
+    if (this.activatedIndex != null) {
+      return `array-${this.activatedIndex}-btn`;
+    }
+    return 'array-new-btn';
+  }
+
+  constructor(private appUtils: AppUtils, private cms: CmsService) {}
 
   ngOnInit() {
     this.loadData();
@@ -52,7 +57,6 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   async loadData() {
     if (this.dataType) {
-
       switch (this.dataType) {
         case 'text':
           this.form = {
@@ -60,19 +64,20 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
             items: [
               {
                 code: 'value',
-                label: { en: 'Text Value' },
-                type: 'text'
-              }
+                label: '_TEXT_VALUE',
+                type: 'text',
+              },
             ],
           };
           break;
-
+        case 'custom':
+          this.form = this.customForm;
+          break;
         default:
           this.form = await this.cms.getForm(this.dataType);
           this.table = await this.cms.getTable(this.dataType);
           break;
       }
-
     }
   }
 
@@ -96,8 +101,9 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  remove(i: number) {
-    if (confirm(this.translate.transform('_DELETE_CONFIRMATION_MESSAGE'))) {
+  async remove(i: number) {
+    let confirm = await this.appUtils.presentConfirm('_DELETE_CONFIRMATION_MESSAGE');
+    if (confirm) {
       this.value.splice(i, 1);
       this.onChange(this.value);
     }
@@ -117,6 +123,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
   onWillDismiss(event: Event) {
     this.activatedIndex = null;
+    this.form.submitButtonId = null;
   }
 
   cancel(event: Event) {
@@ -131,7 +138,6 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
         case 'text':
           this.value.push(item.value);
           break;
-
         default:
           this.value.push(item);
           break;
@@ -142,14 +148,18 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   add(event?: Event) {
+    this.form.submitButtonId = this.submitButtonId;
     this.modal.present();
   }
 
-  getName(item: { [key: string]: any }) {
+  getName(item: any) {
     try {
+      if (this.config) {
+        return this.config.nameFields.map((f) => item[f]).join(this.config.nameSeparator || ' ');
+      }
       return item[this.table.nameField];
-    } catch (error) {
-      return '';
+    } catch (err) {
+      return '-';
     }
   }
 }

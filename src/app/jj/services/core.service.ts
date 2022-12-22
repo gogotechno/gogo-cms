@@ -268,7 +268,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateDepositRequest(request));
   }
 
   async getDepositMethods() {
@@ -285,6 +285,18 @@ export class CoreService extends SharedComponent {
 
   updateWithdrawRequest(requestId: number, request: Partial<JJWithdrawRequest>) {
     return this.swsErp.putDoc('Withdraw Request', requestId, request);
+  }
+
+  declineWithdrawRequest(requestId: number) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, {
+      status: 'DECLINED',
+    });
+  }
+
+  approveWithdrawRequest(requestId: number) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, {
+      status: 'APPROVED',
+    });
   }
 
   async getWithdrawRequestById(requestId: number) {
@@ -696,7 +708,6 @@ export class CoreService extends SharedComponent {
     if (!transaction) {
       return null;
     }
-
     transaction.amountText = transaction.amount > 0 ? `+${transaction.amount}` : `${transaction.amount}`;
     return transaction;
   }

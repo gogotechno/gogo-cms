@@ -131,6 +131,8 @@ export interface CmsFormItem extends CmsDocument {
   items?: Array<any>;
   selectConfig?: SearchableConfig;
   selectHandler?: SearchableHanlder;
+  childForm?: CmsForm;
+  arrayConfig?: ArrayConfig;
 }
 
 export interface CmsFormItemOption {
@@ -209,7 +211,6 @@ export interface SearchableConfig {
   codeSeparator?: string;
   noMoreText?: string;
   emptyText?: string;
-  // selectedItems?: any[];
 }
 
 export interface SearchableHanlder {
@@ -219,6 +220,13 @@ export interface SearchableHanlder {
 
 export type OnSelectLoad = () => Promise<[any[], Pagination]>;
 export type OnSelectScrollToEnd = (pagination: Pagination) => Promise<[any[], Pagination]>;
+
+export interface ArrayConfig {
+  nameFields: string[];
+  nameSeparator?: string;
+  closeButtonPosition?: 'start' | 'end';
+  submitButtonPosition?: 'default' | 'footer';
+}
 
 export interface CmsFilterItemOption {
   code: string;

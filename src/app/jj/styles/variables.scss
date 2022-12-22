@@ -305,6 +305,11 @@ ion-back-button.ios.back-button-has-icon-only {
   height: 40px;
 }
 
+html.ios ion-modal ion-toolbar {
+  padding-right: calc(var(--ion-safe-area-right));
+  padding-left: calc(var(--ion-safe-area-left));
+}
+
 ion-back-button.filled-back-button {
   &::part(icon) {
     width: 36px;
