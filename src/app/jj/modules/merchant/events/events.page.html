@@ -1,17 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/merchant">
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>{{ "jj._EVENT" | translate }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button routerLink="/jj/merchant/create-event">
-        <ion-label>{{ "jj._NEW_EVENT" | translate }}</ion-label>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="home-content">
+  <ion-header>
+    <menu-header></menu-header>
+  </ion-header>
+  <ion-content>
+    <menu-content></menu-content>
+  </ion-content>
+  <ion-footer>
+    <menu-footer></menu-footer>
+  </ion-footer>
+</ion-menu>
+
+<div class="ion-page" id="home-content">
+  <ion-header class="ion-header-clear">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{ "jj._EVENT" | translate }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button routerLink="/jj/merchant/create-event">
+          <ion-label>{{ "jj._NEW_EVENT" | translate }}</ion-label>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">

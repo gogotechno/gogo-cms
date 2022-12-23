@@ -9,6 +9,7 @@ import { EventsPageRoutingModule } from './events-routing.module';
 import { EventsPage } from './events.page';
 import { TranslateModule } from '@ngx-translate/core';
 import { SwsErpModule } from 'src/app/sws-erp.module';
+import { MerchantComponentsModule } from '../@components/merchant-components.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { SwsErpModule } from 'src/app/sws-erp.module';
     IonicModule,
     EventsPageRoutingModule,
     TranslateModule,
-    SwsErpModule
+    SwsErpModule,
+    MerchantComponentsModule,
   ],
   declarations: [EventsPage]
 })
