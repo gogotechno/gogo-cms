@@ -13,7 +13,9 @@ export class SlideshowComponent implements OnInit {
   slideshowItems: JJSlideshowItem[];
 
   slideOpts = {
+    initialSlide: 1,
     loop: true,
+    speed: 400,
     spaceBetween: 8,
     autoplay: {
       delay: 2000,
