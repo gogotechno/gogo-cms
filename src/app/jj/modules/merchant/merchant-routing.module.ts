@@ -34,22 +34,13 @@ const routes: Routes = [
     path: 'create-user',
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
+ 
   {
-<<<<<<< HEAD
-=======
-    path: 'merchants',
-    loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
-  },
-  {
->>>>>>> 1e4925b7089ee027ff32cd4513f4d09c2c31ff26
     path: 'create-event',
     loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),
   },
   {
     path: 'events',
-<<<<<<< HEAD
-    loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
-=======
     children: [
       {
         path: '',
@@ -60,15 +51,10 @@ const routes: Routes = [
         loadChildren: () => import('./events/event-details/event-details.module').then((m) => m.EventDetailsPageModule),
       },
     ]
->>>>>>> 1e4925b7089ee027ff32cd4513f4d09c2c31ff26
   },
 ];
 
-<<<<<<< HEAD
-=======
-];
 
->>>>>>> 1e4925b7089ee027ff32cd4513f4d09c2c31ff26
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
