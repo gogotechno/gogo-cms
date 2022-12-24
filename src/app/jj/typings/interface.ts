@@ -180,7 +180,7 @@ export interface JJWallet extends ErpDoc {
   colors?: any;
 }
 
-export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW';
+export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW' | 'CASH';
 
 export interface JJWalletType extends ErpDoc {
   code: WalletType;
