@@ -58,35 +58,41 @@
         </ion-card>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="wallet">
-      <ion-card-header>
-        <!-- <ion-card-subtitle>{{ 'jj._BALANCE' | translate }}</ion-card-subtitle>
-        <ion-card-title>{{ 'jj._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance } }}</ion-card-title> -->
-        <ion-card-title>{{ wallet?.walletNo }}</ion-card-title>
-        <ion-card-subtitle class="wallet-balance">
-          <jj-currency [currency]="wallet?.displayCurrency" [value]="wallet?.walletBalance"></jj-currency>
-        </ion-card-subtitle>
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <ion-button expand="block" (click)="openQrCode()">
-                <ion-icon name="qr-code" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button expand="block" (click)="onCapturePayment()">
-                <ion-icon name="scan" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col>
-              <ion-button expand="block" routerLink="wallet-transactions">
-                <ion-icon name="list" slot="icon-only"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-header>
-    </ion-card>
+    <ng-container *ngIf="wallets">
+      <ion-card *ngFor="let wallet of wallets">
+        <ion-card-header>
+          <!-- <ion-card-subtitle>{{ 'jj._BALANCE' | translate }}</ion-card-subtitle>
+          <ion-card-title>{{ 'jj._POINTS_WITH_COUNT' | translate: { count: wallet?.walletBalance } }}</ion-card-title> -->
+          <!-- <ion-card-title>{{ wallet?.walletNo }}</ion-card-title> -->
+          <ion-card-title class="wallet-balance">
+            <jj-currency [currency]="wallet?.displayCurrency" [value]="wallet?.walletBalance"></jj-currency>
+          </ion-card-title>
+          <ion-card-subtitle>
+            {{ wallet.walletType.name | cmsTranslate }}
+            <ion-text class="ion-float-right">{{ wallet?.walletNo }}</ion-text>
+          </ion-card-subtitle>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-button expand="block" (click)="openQrCode(wallet)">
+                  <ion-icon name="qr-code" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button expand="block" (click)="onCapturePayment()">
+                  <ion-icon name="scan" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button expand="block" routerLink="wallet-transactions" [queryParams]="{ walletId: wallet.doc_id }">
+                  <ion-icon name="list" slot="icon-only"></ion-icon>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card-header>
+      </ion-card>
+    </ng-container>
     <div class="summary">
       <h3 class="title">{{ "jj._SUMMARY_REPORT" | translate }}</h3>
       <ion-card class="card-clear">

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
-import { JJWalletTransaction, WalletType } from 'src/app/jj/typings';
+import { JJWallet, JJWalletTransaction, WalletType } from 'src/app/jj/typings';
+import { SwsErpService } from 'src/app/sws-erp.service';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -11,23 +13,33 @@ import { Pagination } from 'src/app/sws-erp.type';
 })
 export class ListPage extends SharedComponent implements OnInit {
   walletId: number;
+  wallet: JJWallet;
   transactionsPage: Pagination;
   transactionsEnded: boolean;
   transactions: JJWalletTransaction[];
 
-  constructor(private auth: AuthService, private core: CoreService) {
+  constructor(private auth: AuthService, private core: CoreService, route: ActivatedRoute, private erp: SwsErpService) {
     super();
+    const walletId = route.snapshot.queryParams.walletId;
+    if (walletId) {
+      this.walletId = walletId;
+      console.log(this.walletId)
+    }
   }
 
   async ngOnInit() {
-    const wallets = await this.auth.findMyWallets();
-    const wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
-    this.walletId = wallet.doc_id;
+    if (!this.walletId) {
+      const wallets = await this.auth.findMyWallets();
+      const wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
+      this.walletId = wallet.doc_id;
+    }
 
     await this.loadData();
   }
 
   async loadData() {
+    this.wallet = await this.erp.getDoc('Wallet', this.walletId);
+
     this.transactionsEnded = false;
     this.transactionsPage = this.defaultPage;
     this.transactions = await this.getTransactions();
