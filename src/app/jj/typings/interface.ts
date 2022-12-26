@@ -44,13 +44,10 @@ export interface EventConfig {
 }
 
 export interface MiniProgram extends ErpDoc {
-  code: string;
   name: string;
-  url: string;
+  link: string;
   icon?: string;
   colors?: any;
-  isActive: boolean;
-  isVisible: boolean;
 }
 
 export interface AccountOptions {
