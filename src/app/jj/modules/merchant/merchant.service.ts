@@ -47,7 +47,7 @@ export class MerchantService {
 
   get eventGiftForm(): CmsForm {
     return {
-      code: 'event-point',
+      code: 'event-gift',
       labelPosition: 'stacked',
       submitButtonText: '_SUBMIT',
       autoValidate: true,
@@ -311,8 +311,18 @@ export class MerchantService {
       label: status.name,
     }));
 
+    let methods = await this.core.getTicketGenerationMethods();
+    let methodsField = eventForm.items.find((item) => item.code == 'ticketMethod');
+    methodsField.options = methods.map((methods) => ({
+      code: methods.code,
+      label: methods.name,
+    }));
+
     let pointRulesField = eventForm.items.find((item) => item.code == 'pointRules');
     pointRulesField.childForm = await this.getGiftForm();
+
+    let SNWRulesField = eventForm.items.find((item) => item.code == 'scratchAndWinRules');
+    SNWRulesField.childForm = await this.getSNWForm();
 
     return eventForm;
   }
@@ -328,5 +338,18 @@ export class MerchantService {
     }));
 
     return giftForm;
+  }
+
+  async getSNWForm() {
+    let SNWForm = this.eventSNWForm;
+
+    let modes = await this.core.getIssueModes();
+    let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
+    modeField.options = modes.map((mode) => ({
+      code: mode.code,
+      label: mode.name,
+    }));
+
+    return SNWForm;
   }
 }
