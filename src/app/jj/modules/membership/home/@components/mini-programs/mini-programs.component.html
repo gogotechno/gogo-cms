@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="3" *ngFor="let miniProgram of miniPrograms">
-        <div class="mini-program ion-activatable ripple-parent circle" [routerLink]="miniProgram.link">
+        <div class="mini-program ion-activatable ripple-parent circle" [routerLink]="miniProgram.url">
           <ion-icon class="mini-program-icon" [name]="miniProgram.icon"
             [style.color]="miniProgram.colors ? miniProgram.colors['primary'] : 'var(--ion-color-primary)'"
             [style.background-color]="miniProgram.colors ? miniProgram.colors['primary-light'] : 'var(--ion-color-primary-light)'">
