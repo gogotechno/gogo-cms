@@ -68,8 +68,12 @@ export class FormComponent extends CmsComponent implements OnInit {
         case 'datetime':
           let value = null;
           if (this.value) {
-            const datetime = (<Timestamp>this.value[item.code]).toDate();
-            value = this.date.transform(datetime, 'YYYY-MM-ddTHH:mm');
+            try {
+              let datetime = (<Timestamp>this.value[item.code]).toDate();
+              value = this.date.transform(datetime, 'YYYY-MM-ddTHH:mm');
+            } catch (err) {
+              value = this.date.transform(this.value[item.code], 'YYYY-MM-ddTHH:mm');
+            }
           }
           controls[item.code] = [value];
           break;

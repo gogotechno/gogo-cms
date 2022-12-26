@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
+import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { SharedComponent } from '../shared';
@@ -23,6 +24,7 @@ import {
   JJEventStatus,
   JJFab,
   JJMerchant,
+  JJMiniProgram,
   JJPinVerification,
   JJPointRule,
   JJProduct,
@@ -47,9 +49,7 @@ import {
 } from '../typings';
 import { CommonService } from './common.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CoreService extends SharedComponent {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
   private initialized = false;
@@ -268,7 +268,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateDepositRequest(request));
   }
 
   async getDepositMethods() {
@@ -283,9 +283,33 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Withdraw Request', request);
   }
 
+  updateWithdrawRequest(requestId: number, request: Partial<JJWithdrawRequest>) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, request);
+  }
+
+  declineWithdrawRequest(requestId: number) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, {
+      status: 'DECLINED',
+    });
+  }
+
+  approveWithdrawRequest(requestId: number) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, {
+      status: 'APPROVED',
+    });
+  }
+
   async getWithdrawRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
     return res;
+  }
+
+  async getWithdrawRequestByRefNo(refNo: string) {
+    const res = await this.getWithdrawRequests(this.defaultPage, {
+      refNo: refNo,
+      refNo_type: '=',
+    });
+    return this.populateWithdrawRequest(res[0]);
   }
 
   async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
@@ -319,9 +343,9 @@ export class CoreService extends SharedComponent {
   // @ Bank
   // -----------------------------------------------------------------------------------------------------
 
-  async getDefaultBankAccount() {
+  async getRandomBankAccount() {
     const query: GetOptions = {
-      default: true,
+      system: true,
       random: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
@@ -339,11 +363,6 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  /**
-   * let accounts = await this.core.getBankAccounts(this.accountsPage, {
-   *  customer_id: this.auth.currentUser.doc_id
-   * })
-   */
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
       itemsPerPage: pagination.itemsPerPage,
@@ -355,36 +374,17 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getBankAccount(accountId: number) {
+  async getBankAccountById(accountId: number) {
     const res = await this.swsErp.getDoc<JJBankAccount>('Bank Account', accountId);
     return res;
   }
 
-  /**
-   * this.accountId = params.id;
-   * 
-   * onSubmit(data) {
-   *  // CONFIRM ALERT
-   *  await this.core.updateBankAccount(this.accountId, data);
-   * }
-   */
-  updateBankAccount(accountId: number, account: Partial<JJBankAccount>) {
-    return this.swsErp.putDoc('Bank Account', accountId, account);
-  }
-
-  /**
-   * onSubmit(data) {
-   *  // CONFIRM ALERT
-   *  // data: { accountNo: "12345", bank_id: 1, holderName: "Tan Zhi De" }
-   *  let account: JJBankAccount = {
-   *    ...data,
-   *    customerId: this.auth.currentUser.doc_id
-   *  }
-   *  await this.core.createBankAccount();
-   * }
-   */
   createBankAccount(account: JJBankAccount) {
     return this.swsErp.postDoc('Bank Account', account);
+  }
+
+  updateBankAccount(accountId: number, account: Partial<JJBankAccount>) {
+    return this.swsErp.putDoc('Bank Account', accountId, account);
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -565,7 +565,9 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode });
+    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
+      groupCode: groupCode,
+    });
     return res.result;
   }
 
@@ -580,6 +582,15 @@ export class CoreService extends SharedComponent {
       ...conditions,
     };
     let res = await this.swsErp.getDocs<JJFab>('FAB', query);
+    return res.result;
+  }
+
+  async getMiniPrograms() {
+    // {
+    //   isActive: true,
+    //   isActive_type: "="
+    // }
+    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
     return res.result;
   }
 
@@ -713,7 +724,6 @@ export class CoreService extends SharedComponent {
     if (!transaction) {
       return null;
     }
-
     transaction.amountText = transaction.amount > 0 ? `+${transaction.amount}` : `${transaction.amount}`;
     return transaction;
   }
@@ -763,6 +773,26 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
+    // if (request.attachments) {
+    //   request.attachments = request.attachments.map((attachment) => {
+    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    //     return attachment;
+    //   });
+    // }
+    return request;
+  }
+
+  populateWithdrawRequest(request: JJWithdrawRequest) {
+    if (!request) {
+      return null;
+    }
+    request.wallet = this.populateWallet(request.wallet);
+    // if (request.attachments) {
+    //   request.attachments = request.attachments.map((attachment) => {
+    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    //     return attachment;
+    //   });
+    // }
     return request;
   }
 

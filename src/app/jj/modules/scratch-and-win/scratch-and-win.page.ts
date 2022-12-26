@@ -91,24 +91,22 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     this.event = await this.core.getScratchAndWinEventById(this.eventId, {
       withLocation: true,
     });
-
     this.startTimer();
-
     await this.getWallet();
     await this.getLatestWinners();
-
     this.prizes = await this.core.getScratchAndWinPrizes({
       scratch_and_win_event_id: this.eventId,
       scratch_and_win_event_id_type: '=',
       isActive: 1,
       isActive_type: '=',
+      isDefault: 1,
+      isDefault_type: '!=',
     });
   }
 
   async getWallet(conditions: Conditions = {}) {
     let wallets = await this.auth.findMyWallets(conditions);
     this.wallet = wallets.find((wallet) => wallet.type == 'SNW');
-
     this.totalChance = Math.floor(this.wallet.walletBalance / this.event.pricePerScratch);
     if (this.totalChance < 0) {
       this.totalChance = 0;
@@ -122,14 +120,12 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       sortBy: 'sr.doc_createdDate',
       sortOrder: 'DESC',
     };
-
     let _conditions: Conditions = {
       eventId: this.eventId,
       hasPrize: true,
       isDefault: false,
       ...conditions,
     };
-
     let winners = await this.core.getScratchRequests(winnersPage, _conditions);
     this.messages = await Promise.all(
       winners.map(async (winner) => {
@@ -193,29 +189,30 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     if (this.scratching) {
       return;
     }
-
     this.scratching = true;
-
-    const currentUser = this.auth.currentUser;
-    const request: JJScratchRequest = {
-      scratch_and_win_event_id: this.eventId,
-      customer_id: currentUser.doc_id,
-      wallet_id: 0,
-      spend: 0,
-      status: 'PROCESSING',
-      scratch_and_win_prize_id: null,
-    };
-    const res = await this.core.createScratchRequest(request);
-    const extras: ScratchRequestExtras = res.data;
-    if (extras.prize) {
-      await this.openResult(extras.prize);
+    try {
+      const currentUser = this.auth.currentUser;
+      const request: JJScratchRequest = {
+        scratch_and_win_event_id: this.eventId,
+        customer_id: currentUser.doc_id,
+        wallet_id: 0,
+        spend: 0,
+        status: 'PROCESSING',
+        scratch_and_win_prize_id: null,
+      };
+      const res = await this.core.createScratchRequest(request);
+      const extras: ScratchRequestExtras = res.data;
+      if (extras.prize) {
+        await this.openResult(extras.prize);
+      }
+      this.getWallet({ skipLoading: true });
+      this.getLatestWinners({ skipLoading: true });
+      this.memberHomeService.refresh();
+    } catch (err) {
+      console.error('Error when scratching: ', err);
+    } finally {
+      this.scratching = false;
     }
-
-    this.getWallet({ skipLoading: true });
-    this.getLatestWinners({ skipLoading: true });
-    this.memberHomeService.refresh();
-
-    this.scratching = false;
   }
 
   async onTickerButtonClick(code: string) {
@@ -230,7 +227,6 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
 
   async openTnc() {
     const title = await this.translate.get('jj._TERM_AND_CONDITIONS').toPromise();
-
     const modal = await this.modalCtrl.create({
       component: ContentBoxComponent,
       componentProps: {
@@ -238,7 +234,6 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
         content: this.event.tnc,
       },
     });
-
     await modal.present();
   }
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
-import { DepositRequestStatus, JJWallet } from '../../typings';
+import { DepositRequestStatus, JJWallet, WithdrawRequestStatus } from '../../typings';
 import { CreatePinComponent } from './@components/create-pin/create-pin.component';
 import { VerifyPinComponent } from './@components/verify-pin/verify-pin.component';
 
@@ -45,7 +45,7 @@ export class WalletsService {
     return data;
   }
 
-  getDepositStatusColor(status: DepositRequestStatus) {
+  getStatusColor(status: string) {
     switch (status) {
       case 'DECLINED':
         return 'danger';

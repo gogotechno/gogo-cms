@@ -20,7 +20,6 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   requestsEnded: boolean;
   requests: JJDepositRequest[][];
   requestsConditions: RequestsConditions;
-
   filter: CmsFilter;
 
   constructor(
@@ -33,9 +32,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   }
 
   get dates(): string[] {
-    if (!this.requests) {
-      return null;
-    }
+    if (!this.requests) return null;
     return Object.keys(this.requests);
   }
 
@@ -111,7 +108,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   }
 
   getStatusColor(request: JJDepositRequest) {
-    return this.walletsService.getDepositStatusColor(request.status);
+    return this.walletsService.getStatusColor(request.status);
   }
 
   get _filter(): CmsFilter {

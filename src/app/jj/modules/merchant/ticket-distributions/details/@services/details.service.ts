@@ -5,9 +5,7 @@ import { SharedComponent } from 'src/app/jj/shared';
 import { JJTicket, JJTicketDistribution } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DetailsService extends SharedComponent {
   private DISTRIBUTION$: BehaviorSubject<JJTicketDistribution>;
   private TICKETS$: BehaviorSubject<JJTicket[]>;

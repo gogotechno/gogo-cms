@@ -6,8 +6,12 @@ import { DepositsPage } from './deposits.page';
 const routes: Routes = [
   {
     path: '',
-    component: DepositsPage
-  }
+    component: DepositsPage,
+  },
+  {
+    path: ':refNo',
+    loadChildren: () => import('./deposit/deposit.module').then((m) => m.DepositPageModule),
+  },
 ];
 
 @NgModule({

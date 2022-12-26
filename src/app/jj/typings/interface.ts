@@ -500,14 +500,22 @@ export interface JJDepositMethod extends ErpDoc {
 }
 
 export interface JJWithdrawRequest extends ErpDoc {
-  wallet_id: number;
+  wallet_id?: number;
   amount: number;
   refNo: string;
   description?: string | null;
   reference1?: string | null;
   reference2?: string | null;
   reference3?: string | null;
-  status: WithdrawRequestStatus;
+  status?: WithdrawRequestStatus;
+  withdraw_method_id: number;
+  bank_account_id?: number;
+  attachments?: CmsFile[];
+  walletNo?: string;
+  walletPin?: string;
+  bankAccount?: JJBankAccount;
+  withdrawMethod?: JJWithdrawMethod;
+  wallet?: JJWallet;
 }
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
@@ -574,4 +582,8 @@ export interface JJWalletTypePermission extends ErpDoc {
 export interface JJPinVerification extends ErpDoc {
   walletNo: string;
   walletPin: string;
+}
+
+export interface JJMiniProgram extends ErpDoc {
+  
 }

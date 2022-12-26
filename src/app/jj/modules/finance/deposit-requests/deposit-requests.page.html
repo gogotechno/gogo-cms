@@ -29,11 +29,7 @@
           <ion-text class="reference2">{{ request.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
         </div>
         <div slot="end">
-          <jj-currency
-            [currency]="request.wallet.displayCurrency"
-            [value]="request.amount"
-            [showColor]="true"
-          ></jj-currency>
+          <jj-currency [currency]="request.wallet.displayCurrency" [value]="request.amount"></jj-currency>
           <ion-badge [color]="getStatusColor(request)">{{ "jj._" + request.status | translate }}</ion-badge>
         </div>
       </ion-item>

@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/finance"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._WITHDRAW_REQUESTS" }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onFilter()">
+        <ion-icon name="filter-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="full">
+    <div *ngIf="!dates?.length" class="note">
+      <ion-label>{{ 'jj._NO_REQUESTS_FOUND' | translate }}</ion-label>
+    </div>
+    <ng-container *ngFor="let date of dates">
+      <ion-list-header>{{ date }}</ion-list-header>
+      <ion-item class="request" *ngFor="let request of requests[date]" [routerLink]="request.refNo">
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="description">{{ request.description || '-' }}</ion-text><br />
+          <ion-text class="reference1">{{ request.reference1 || '-' }}</ion-text><br />
+          <ion-text class="reference2">{{ request.doc_createdDate | date: 'hh:mm:ss a' }}</ion-text>
+        </div>
+        <div slot="end">
+          <jj-currency [currency]="request.wallet.displayCurrency" [value]="request.amount"></jj-currency>
+          <ion-badge [color]="getStatusColor(request)">{{ "jj._" + request.status | translate }}</ion-badge>
+        </div>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+  <ng-container *ngIf="dates?.length">
+    <ion-infinite-scroll *ngIf="!requestsEnded" (ionInfinite)="loadMoreRequests($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="requestsEnded" class="note">
+      <ion-label>
+        <span>{{ '_ALL_LOADED' | translate }}</span><br />
+        <span>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</span>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content>

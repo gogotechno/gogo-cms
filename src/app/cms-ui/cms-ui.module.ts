@@ -34,7 +34,6 @@ const internalComponents = [
   SearchAreaComponent,
   ScannerComponent,
   PinInputComponent,
-  FilesInputComponent,
   SearchableSelectComponent,
   BarcodeScannerComponent,
 ];
@@ -49,6 +48,7 @@ const exportedComponents = [
   FilterComponent,
   RequiredTagComponent,
   PhoneNumberVerificationComponent,
+  FilesInputComponent,
 ];
 
 const pipes = [

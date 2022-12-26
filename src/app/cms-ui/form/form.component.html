@@ -17,13 +17,17 @@
           </ng-container>
 
           <ng-container *ngSwitchCase="'array'">
-            <ion-list-header>
-              <span>{{ item.label | cmsTranslate | translate }}</span>
-              <cms-required-tag *ngIf="item.required"></cms-required-tag>
-            </ion-list-header>
+            <ion-item>
+              <ion-label>
+                <span>{{ item.label | cmsTranslate | translate }}</span>
+                <cms-required-tag *ngIf="item.required"></cms-required-tag>
+              </ion-label>
+            </ion-item>
             <cms-array-input 
               [data-type]="item.dataType" 
               [collection-path]="collectionPath" 
+              [custom-form]="item.childForm"
+              [config]="item.arrayConfig"
               [formControlName]="item.code"
             ></cms-array-input>
           </ng-container>
@@ -78,6 +82,7 @@
               <cms-searchable-select
                 [code]="item.code"
                 [label]="item.label"
+                [labelPosition]="form.labelPosition"
                 [config]="item.selectConfig"
                 [handler]="item.selectHandler"
                 [items]="item.items"

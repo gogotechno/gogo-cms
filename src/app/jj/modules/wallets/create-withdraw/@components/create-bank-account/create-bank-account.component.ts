@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
-import { CoreService } from 'src/app/jj/services';
+import { AppUtils } from 'src/app/cms.util';
+import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
+import { JJBankAccount } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -12,8 +14,15 @@ import { Pagination } from 'src/app/sws-erp.type';
 })
 export class CreateBankAccountComponent extends SharedComponent implements OnInit {
   form: CmsForm;
+  customerId: number;
+  merchantId: number;
 
-  constructor(private modalCtrl: ModalController, private core: CoreService) {
+  constructor(
+    private modalCtrl: ModalController,
+    private appUtils: AppUtils,
+    private auth: AuthService,
+    private core: CoreService,
+  ) {
     super();
   }
 
@@ -25,10 +34,32 @@ export class CreateBankAccountComponent extends SharedComponent implements OnIni
     await this.modalCtrl.dismiss();
   }
 
+  async onSubmit(data: JJBankAccount) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_BANK_ACCOUNT');
+    if (!confirm) {
+      return;
+    }
+    let account: JJBankAccount = {
+      accountNo: data.accountNo,
+      holderName: data.holderName,
+      bank_id: data.bank_id,
+      customerId: this.customerId,
+      merchantId: this.merchantId,
+    };
+    if (!this.customerId && !this.merchantId) {
+      account.isDefault = true;
+    }
+    let response = await this.core.createBankAccount(account);
+    await this.modalCtrl.dismiss({
+      account: response.data.account,
+    });
+  }
+
   get _form(): CmsForm {
     return {
       code: 'create-bank-account',
       labelPosition: 'stacked',
+      submitButtonId: 'create-bank-account-btn',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [

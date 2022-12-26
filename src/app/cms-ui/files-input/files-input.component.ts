@@ -21,7 +21,7 @@ export class FilesInputComponent implements ControlValueAccessor {
   @Input('maximum') maximum: number;
   @Input('readonly') readonly: boolean;
 
-  files: CmsFile[];
+  @Input('files') files: CmsFile[];
 
   disabled = false;
   onChange: any = () => {};
@@ -118,5 +118,14 @@ export class FilesInputComponent implements ControlValueAccessor {
     });
     this.writeValue(this.files);
     this.onChange(this.files);
+  }
+
+  onItemClick(file: CmsFile) {
+    const anchor = document.createElement('a');
+    anchor.setAttribute('href', file.previewUrl);
+    anchor.setAttribute('download', file.name);
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
   }
 }

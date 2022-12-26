@@ -22,9 +22,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
 
   get dates(): string[] {
-    if (!this.deposits) {
-      return null;
-    }
+    if (!this.deposits) return null;
     return Object.keys(this.deposits);
   }
 
@@ -46,6 +44,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.depositsPage = this.defaultPage;
+    this.deposits = [];
     let deposits = await this.getDeposits();
     this.grouping(deposits);
     this.depositsEnded = deposits.length < this.depositsPage.itemsPerPage;
@@ -92,6 +91,6 @@ export class DepositsPage extends SharedComponent implements OnInit {
   }
 
   getStatusColor(request: JJDepositRequest) {
-    return this.walletsService.getDepositStatusColor(request.status);
+    return this.walletsService.getStatusColor(request.status);
   }
 }

@@ -21,9 +21,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
 
   get dates(): string[] {
-    if (!this.transactions) {
-      return null;
-    }
+    if (!this.transactions) return null;
     return Object.keys(this.transactions);
   }
 

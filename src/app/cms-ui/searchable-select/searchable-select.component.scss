@@ -1,3 +1,10 @@
+ion-item.stacked-select {
+  --min-height: 68px;
+  ion-label {
+    align-self: baseline;
+  }
+}
+
 .select {
   --padding-top: 10px;
   --padding-end: 10px;

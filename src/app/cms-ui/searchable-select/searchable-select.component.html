@@ -1,5 +1,5 @@
-<ion-item>
-  <ion-label [id]="labelId">{{ label | cmsTranslate | translate }}</ion-label>
+<ion-item [class.stacked-select]="labelPosition === 'stacked'">
+  <ion-label [id]="labelId" [position]="labelPosition || 'fixed'">{{ label | cmsTranslate | translate }}</ion-label>
   <div slot="end" [id]="clickId" class="select" (click)="onSelect()">
     <div class="select-text">{{ selectedLabel }}</div>
     <div class="select-icon">
