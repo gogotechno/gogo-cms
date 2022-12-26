@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
-import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -42,6 +42,7 @@ import {
   JJUser,
   JJUserRole,
   JJWallet,
+  JJWalletCurrency,
   JJWalletTransaction,
   JJWinner,
   JJWithdrawMethod,
@@ -321,7 +322,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateWithdrawRequest(request));
   }
 
   async getWithdrawMethods() {
@@ -755,22 +756,26 @@ export class CoreService extends SharedComponent {
     return winner;
   }
 
+  populateCurrency(currency: JJWalletCurrency) {
+    if (!currency) {
+      return null;
+    }
+    let displayCurrency: Currency = {
+      code: currency.code,
+      displaySymbol: currency.symbol,
+      symbolPosition: currency.symbolPosition,
+      precision: currency.digits,
+    };
+    return displayCurrency;
+  }
+
   populateWallet(wallet: JJWallet) {
     if (!wallet) {
       return null;
     }
-    if (wallet.walletCurrency) {
-      wallet.displayCurrency = {
-        code: wallet.walletCurrency.code,
-        displaySymbol: wallet.walletCurrency.symbol,
-        symbolPosition: wallet.walletCurrency.symbolPosition,
-        precision: wallet.walletCurrency.digits,
-      };
-    }
-    if (wallet.walletType) {
-      wallet.icon = wallet.walletType.icon;
-      wallet.colors = wallet.walletType.colors;
-    }
+    wallet.displayCurrency = this.populateCurrency(wallet.walletCurrency);
+    wallet.icon = wallet.walletType?.icon;
+    wallet.colors = wallet.walletType?.colors;
     return wallet;
   }
 
@@ -779,12 +784,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    // if (request.attachments) {
-    //   request.attachments = request.attachments.map((attachment) => {
-    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    //     return attachment;
-    //   });
-    // }
+    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
     return request;
   }
 
@@ -793,12 +793,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    // if (request.attachments) {
-    //   request.attachments = request.attachments.map((attachment) => {
-    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    //     return attachment;
-    //   });
-    // }
+    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
     return request;
   }
 

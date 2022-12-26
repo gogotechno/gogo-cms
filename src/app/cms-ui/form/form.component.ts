@@ -97,7 +97,11 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
 
       if (item.minimum) {
-        validators.push(Validators.min(item.minimum));
+        if (item.type == 'files') {
+          validators.push(CustomValidators.MinimumArrayLength(item.minimum));
+        } else {
+          validators.push(Validators.min(item.minimum));
+        }
       }
 
       if (item.maximum) {
@@ -355,16 +359,16 @@ class NeedMatching {
 class CustomValidators {
   static MatchValidator(config: MatchingConfig): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      for (const key of Object.keys(config)) {
-        const matchingFrom = control.get(key);
-        const needMatching = config[key].map((c) => new NeedMatching(control, c));
-        const notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
-        const allMatched = notMatching.length <= 0;
+      for (let key of Object.keys(config)) {
+        let matchingFrom = control.get(key);
+        let needMatching = config[key].map((c) => new NeedMatching(control, c));
+        let notMatching = needMatching.filter((n) => n.control.value != matchingFrom.value);
+        let allMatched = notMatching.length <= 0;
         if (!allMatched) {
           matchingFrom.setErrors({ notMatching: { fields: notMatching.map((n) => n.key) } });
         } else {
           if (matchingFrom.errors) {
-            const keys = Object.keys(matchingFrom.errors);
+            let keys = Object.keys(matchingFrom.errors);
             if (keys.length > 0 && keys.includes('notMatching')) {
               delete matchingFrom.errors.notMatching;
               if (keys.length == 1) {
@@ -373,6 +377,23 @@ class CustomValidators {
             }
           }
         }
+      }
+      return null;
+    };
+  }
+
+  static MinimumArrayLength(minimum: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.hasError('required') && !control.value) {
+        return null;
+      }
+      if (!control.value || control.value.length < minimum) {
+        return {
+          min: {
+            min: minimum,
+            actual: control.value?.length || 0,
+          },
+        };
       }
       return null;
     };

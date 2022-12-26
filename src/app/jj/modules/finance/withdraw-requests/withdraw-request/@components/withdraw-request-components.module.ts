@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/jj/shared';
 import { SwsErpModule } from 'src/app/sws-erp.module';
 import { UploadAttachmentsComponent } from './upload-attachments/upload-attachments.component';
 import { WalletsComponentsModule } from 'src/app/jj/modules/wallets/@components/wallets-components.module';
+import { JJComponentsModule } from 'src/app/jj/modules/@components/jj-components.module';
 
 const components = [
   UploadAttachmentsComponent
@@ -21,7 +22,8 @@ const components = [
     SharedModule, 
     CmsUIModule, 
     SwsErpModule, 
-    WalletsComponentsModule
+    WalletsComponentsModule,
+    JJComponentsModule
   ],
   exports: components,
 })
