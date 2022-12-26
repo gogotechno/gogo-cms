@@ -35,13 +35,10 @@ const routes: Routes = [
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
  
-<<<<<<< HEAD
   // {
   //   path: 'merchants',
   //   loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
   // },
-=======
->>>>>>> 5272f99ba643501190427e683afcf01d2ffb8d51
   {
     path: 'create-event',
     loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),
