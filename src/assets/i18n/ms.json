@@ -467,6 +467,10 @@
     "_AMOUNT_MUST_BE_MORE_THAN_ZERO": "Jumlah mestilah lebih daripada sifar",
     "_YOUR_TICKETS": "Tiket Anda",
     "_VALID": "Sah",
-    "_INVALID": "Tidak Sah"
+    "_INVALID": "Tidak Sah",
+    "_INSUFFICIENT_SNW_TICKETS": "Maaf, anda telah kehabisan kupon calar! Sila lawati kedai kami untuk membuat pembelian atau mengesyorkan pengguna baharu untuk mendapatkan kupon calar!",
+    "_EVENT_IS_DRAWING": "Cabutan sedang diproseskan",
+    "_WINNERS_ARE_OUT": "Pemenang sudah keluar!",
+    "_VIEW_RESULT": "Lihat Keputusan"
   }
 }

@@ -3,11 +3,9 @@
   <div class="ion-padding-horizontal ion-padding-bottom">
     <cms-form [form]="form" [value]="value" (submit)="onLogin($event)"></cms-form>
     <div class="cms-form">
-      <!-- <ion-list>
-        <ion-item>
-          <ion-label class="ion-text-end ion-no-margin-end">{{ "_FORGOT_PASSWORD" | translate }}?</ion-label>
-        </ion-item>
-      </ion-list> -->
+      <ion-item [disabled]="!whatsappLink" (click)="onForgotPassword()">
+        <ion-label class="ion-text-end ion-no-margin-end">{{ "_FORGOT_PASSWORD" | translate }}?</ion-label>
+      </ion-item>
       <ion-button expand="block" fill="outline" routerLink="/jj/register" [queryParamsHandling]="'merge'">
         <ion-label>{{ "_REGISTER_ACCOUNT" | translate }}</ion-label>
       </ion-button>

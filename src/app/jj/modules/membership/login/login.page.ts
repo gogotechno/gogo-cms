@@ -59,6 +59,10 @@ export class LoginPage extends SharedComponent implements OnInit {
   async onHelpCenter() {
     await Browser.open({ url: `https://${this.whatsappLink}` });
   }
+
+  async onForgotPassword() {
+    await Browser.open({ url: `https://${this.whatsappLink}` });
+  }
 }
 
 const form: CmsForm = {
