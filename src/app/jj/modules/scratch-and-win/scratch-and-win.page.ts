@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsTranslatePipe, FullNamePipe, HideTextPipe } from 'src/app/cms-ui/cms.pipe';
+import { AppUtils } from 'src/app/cms.util';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
 import { AuthService, CoreService } from '../../services';
 import { CountdownTimer, SharedComponent } from '../../shared';
@@ -72,6 +73,7 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
     private fullName: FullNamePipe,
     private cmsTranslate: CmsTranslatePipe,
     private translate: TranslateService,
+    private appUtils: AppUtils,
     private auth: AuthService,
     private core: CoreService,
     private memberHomeService: MemberHomeService,
@@ -200,7 +202,9 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
         status: 'PROCESSING',
         scratch_and_win_prize_id: null,
       };
-      const res = await this.core.createScratchRequest(request);
+      const res = await this.core.createScratchRequest(request, {
+        skipErrorAlert: true,
+      });
       const extras: ScratchRequestExtras = res.data;
       if (extras.prize) {
         await this.openResult(extras.prize);
@@ -209,7 +213,11 @@ export class ScratchAndWinPage extends SharedComponent implements OnInit {
       this.getLatestWinners({ skipLoading: true });
       this.memberHomeService.refresh();
     } catch (err) {
-      console.error('Error when scratching: ', err);
+      let message = err.error?.message || err.error?.error || err.message;
+      if (message == 'jj._INSUFFICIENT_WALLET_BALANCE') {
+        message = 'jj._INSUFFICIENT_SNW_TICKETS';
+      }
+      await this.appUtils.presentAlert(message);
     } finally {
       this.scratching = false;
     }
