@@ -22,6 +22,9 @@
     <ng-container *ngSwitchCase="'rewards'">
       <div class="events-container">
         <h3 class="title">{{ "jj._JOINED_EVENTS" | translate }}</h3>
+        <div *ngIf="!events?.length" class="note">
+          <ion-label>{{ "jj._NO_EVENTS_FOUND" | translate }}</ion-label>
+        </div>
         <div class="events" (scroll)="loadMoreEvents($event)">
           <ion-avatar
             *ngFor="let event of events"
@@ -36,7 +39,7 @@
           </div>
         </div>
       </div>
-      <ion-list lines="full" class="distributions">
+      <ion-list lines="full" *ngIf="events?.length" class="distributions">
         <h3 class="title">{{ selectedEvent?.nameTranslation | cmsTranslate }}</h3>
         <div *ngIf="!distributions?.length" class="note">
           <ion-label>{{ "jj._NO_DISTRIBUTIONS_FOUND" | translate }}</ion-label>

@@ -472,6 +472,10 @@
     "_MAKE_PAYMENT": "Make Payment",
     "_YOUR_TICKETS": "Your Tickets",
     "_VALID": "Valid",
-    "_INVALID": "Invalid"
+    "_INVALID": "Invalid",
+    "_INSUFFICIENT_SNW_TICKETS": "Sorry, you have run out of scratch coupons! Please visit our stores to make purchases or refer new users to get scratch coupons!",
+    "_EVENT_IS_DRAWING": "Event is drawing",
+    "_WINNERS_ARE_OUT": "Winners are out!",
+    "_VIEW_RESULT": "View Result"
   }
 }

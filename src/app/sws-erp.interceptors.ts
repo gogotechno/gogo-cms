@@ -59,7 +59,7 @@ export class SwsErpInterceptor implements HttpInterceptor {
             const header = '_ERROR';
             let message = '_UNKNOWN_ERROR';
             if (err instanceof HttpErrorResponse) {
-              message = err.error.message || err.error.error || err.message;
+              message = err.error?.message || err.error?.error || err.message;
             }
             if (this.isRefreshTokenExpiredError(err) || this.isWrongAuthTokenError(err)) {
               message = '_YOUR_CREDENTIAL_IS_EXPIRED';
@@ -108,10 +108,10 @@ export class SwsErpInterceptor implements HttpInterceptor {
   private isUserNotFoundError(err: any) {
     let isUserNotFoundMessage = false;
     if (err.error?.error) {
-      isUserNotFoundMessage = err.error.error.startsWith('User not found');
+      isUserNotFoundMessage = err.error.error?.startsWith('User not found');
     }
     if (err.error?.message) {
-      isUserNotFoundMessage = err.error.message.startsWith('User not found');
+      isUserNotFoundMessage = err.error.message?.startsWith('User not found');
     }
     return err instanceof HttpErrorResponse && err.status == 409 && isUserNotFoundMessage;
   }
