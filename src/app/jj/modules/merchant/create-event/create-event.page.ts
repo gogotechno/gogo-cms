@@ -10,15 +10,14 @@ import { MerchantService } from '../merchant.service';
   styleUrls: ['./create-event.page.scss'],
 })
 export class CreateEventPage implements OnInit {
-
   form: CmsForm;
   event: any;
   eventId: number;
 
-  constructor(private route: ActivatedRoute, private app: AppUtils, private merchantService: MerchantService) { }
+  constructor(private route: ActivatedRoute, private app: AppUtils, private merchantService: MerchantService) {}
 
-  ngOnInit() {
-    this.form = this.merchantService.eventForm;
+  async ngOnInit() {
+    this.form = await this.merchantService.getEventForm();
     const params = this.route.snapshot.params;
     this.eventId = params.id;
   }
@@ -30,5 +29,4 @@ export class CreateEventPage implements OnInit {
     }
     console.log(data);
   }
-
 }

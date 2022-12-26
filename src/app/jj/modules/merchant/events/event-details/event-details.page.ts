@@ -27,7 +27,7 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.form = this.merchantService.eventForm;
+    this.form = await this.merchantService.getEventForm();
     const params = this.route.snapshot.params;
     this.eventId = params['id'];
     await this.loadData();
