@@ -150,6 +150,11 @@ export interface JJTicketGenerationMethod extends ErpDoc {
   name: string;
 }
 
+export interface JJIssueMode extends ErpDoc {
+  code: string;
+  name: string;
+}
+
 export interface JJEventPrize extends ErpDoc {
   name: string;
   description: string;
@@ -584,6 +589,4 @@ export interface JJPinVerification extends ErpDoc {
   walletPin: string;
 }
 
-export interface JJMiniProgram extends ErpDoc {
-  
-}
+export interface JJMiniProgram extends ErpDoc {}

@@ -23,6 +23,7 @@ import {
   JJEventPrize,
   JJEventStatus,
   JJFab,
+  JJIssueMode,
   JJMerchant,
   JJMiniProgram,
   JJPinVerification,
@@ -409,6 +410,11 @@ export class CoreService extends SharedComponent {
 
   async getTicketGenerationMethods() {
     const res = await this.swsErp.getDocs<JJTicketGenerationMethod>('Ticket Generation Method');
+    return res.result;
+  }
+
+  async getIssueModes() {
+    const res = await this.swsErp.getDocs<JJIssueMode>('Issue Mode');
     return res.result;
   }
 
