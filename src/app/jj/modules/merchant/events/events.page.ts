@@ -1,5 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { JJEvent } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
@@ -23,7 +24,7 @@ export class EventsPage extends SharedComponent implements OnInit {
     return Object.keys(this.events);
   }
 
-  constructor(private core: CoreService, private date: DatePipe) {
+  constructor(private core: CoreService, private date: DatePipe, private menuCtrl: MenuController) {
     super();
   }
 
@@ -73,5 +74,10 @@ export class EventsPage extends SharedComponent implements OnInit {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
+  }
+
+  async openMenu() {
+    await this.menuCtrl.enable(true);
+    await this.menuCtrl.open();
   }
 }
