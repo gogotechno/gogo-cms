@@ -586,10 +586,6 @@ export class CoreService extends SharedComponent {
   }
 
   async getMiniPrograms() {
-    // {
-    //   isActive: true,
-    //   isActive_type: "="
-    // }
     let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
     return res.result;
   }

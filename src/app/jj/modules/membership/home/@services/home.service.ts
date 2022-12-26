@@ -10,9 +10,9 @@ import {
   JJAnnouncement,
   JJEvent,
   JJFab,
+  JJMiniProgram,
   JJSlideshow,
   JJWallet,
-  MiniProgram,
   User,
   UserType,
 } from 'src/app/jj/typings';
@@ -23,7 +23,7 @@ export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
   private _ONGOING_EVENTS: BehaviorSubject<JJEvent[]>;
-  // private _MINI_PROGRAMS: BehaviorSubject<MiniProgram[]>;
+  private _MINI_PROGRAMS: BehaviorSubject<JJMiniProgram[]>;
   private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
   private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
   private _FABS: BehaviorSubject<JJFab[]>;
@@ -49,9 +49,9 @@ export class HomeService extends SharedComponent {
     return this._ONGOING_EVENTS.asObservable();
   }
 
-  // get miniPrograms() {
-  //   return this._MINI_PROGRAMS.asObservable();
-  // }
+  get miniPrograms() {
+    return this._MINI_PROGRAMS.asObservable();
+  }
 
   get announcements() {
     return this._ANNOUNCEMENTS.asObservable();
@@ -95,7 +95,7 @@ export class HomeService extends SharedComponent {
     this._USER = new BehaviorSubject(null);
     this._WALLETS = new BehaviorSubject(null);
     this._ONGOING_EVENTS = new BehaviorSubject(null);
-    // this._MINI_PROGRAMS = new BehaviorSubject(null);
+    this._MINI_PROGRAMS = new BehaviorSubject(null);
     this._ANNOUNCEMENTS = new BehaviorSubject(null);
     this._SLIDESHOW = new BehaviorSubject(null);
     this._FABS = new BehaviorSubject(null);
@@ -136,7 +136,8 @@ export class HomeService extends SharedComponent {
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
 
-    // this._MINI_PROGRAMS.next(this.getMiniPrograms(this.auth.userType));
+    let miniPrograms = await this.getMiniPrograms(this.auth.userType);
+    this._MINI_PROGRAMS.next(miniPrograms);
 
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
@@ -149,7 +150,7 @@ export class HomeService extends SharedComponent {
     this._USER.next(null);
     this._WALLETS.next(null);
     this._ONGOING_EVENTS.next(null);
-    // this._MINI_PROGRAMS.next(null);
+    this._MINI_PROGRAMS.next(null);
     this._ANNOUNCEMENTS.next(null);
     this._SLIDESHOW.next(null);
     this._FABS.next(null);
@@ -169,16 +170,19 @@ export class HomeService extends SharedComponent {
     this._FABS.next(fabs);
   }
 
-  // getMiniPrograms(role: UserType) {
-  //   switch (role) {
-  //     case 'MERCHANT':
-  //       return MERCHANT_MINI_PROGRAMS;
-  //     case 'ADMIN':
-  //       return SYSTEM_MINI_PROGRAMS;
-  //     default:
-  //       return MINI_PROGRAMS;
-  //   }
-  // }
+  async getMiniPrograms(role: UserType) {
+    // switch (role) {
+    //   case 'MERCHANT':
+    //     return MERCHANT_MINI_PROGRAMS;
+    //   case 'ADMIN':
+    //     return SYSTEM_MINI_PROGRAMS;
+    //   default:
+    //     return MINI_PROGRAMS;
+    // }
+
+    let miniPrograms = await this.core.getMiniPrograms();
+    return miniPrograms;
+  }
 
   getFabsConditions(silent: boolean) {
     let fabsConditions: Conditions = {};
