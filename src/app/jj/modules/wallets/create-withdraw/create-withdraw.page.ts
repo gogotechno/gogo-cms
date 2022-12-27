@@ -75,11 +75,11 @@ export class CreateWithdrawPage implements OnInit {
       case 'SELF_PICKUP':
         break;
       default:
-        let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
-        if (!confirm) {
-          return;
-        }
         break;
+    }
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
+    if (!confirm) {
+      return;
     }
     let verification = await this.walletsService.verifyPin(this.wallet);
     let verified = verification?.success;
@@ -87,7 +87,11 @@ export class CreateWithdrawPage implements OnInit {
       return;
     }
     request.walletPin = verification.pin;
-    await this.core.createWithdrawRequest(request);
+    let response = await this.core.createWithdrawRequest(request);
+    await this.router.navigate(['../withdraws', response.data.refNo], {
+      relativeTo: this.route,
+      replaceUrl: true,
+    });
   }
 
   async chooseBankAccount() {

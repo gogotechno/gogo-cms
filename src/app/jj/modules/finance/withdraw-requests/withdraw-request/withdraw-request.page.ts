@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { CmsFile } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
@@ -18,7 +19,9 @@ export class WithdrawRequestPage implements OnInit {
   withdraw: JJWithdrawRequest;
 
   get statusColor() {
-    if (!this.withdraw) return;
+    if (!this.withdraw) {
+      return;
+    }
     return this.walletsService.getStatusColor(this.withdraw.status);
   }
 
@@ -54,12 +57,19 @@ export class WithdrawRequestPage implements OnInit {
       if (!attachments) {
         return;
       }
+      console.log(attachments);
+      await this.approveRequest(attachments);
+    } else {
+      await this.approveRequest();
     }
+  }
+
+  async approveRequest(attachments?: CmsFile[]) {
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_APPROVE_DEPOSIT');
     if (!confirm) {
       return;
     }
-    await this.core.approveWithdrawRequest(this.withdraw.doc_id);
+    await this.core.approveWithdrawRequest(this.withdraw.doc_id, attachments);
     await this.loadData();
   }
 

@@ -23,7 +23,9 @@ export class FilterComponent implements OnInit {
   }
 
   async loadData() {
-    if (!this.form) return;
+    if (!this.form) {
+      return;
+    }
     this.formGroup = this.fb.group({});
     for (const item of this.form.items) {
       switch (item.type) {

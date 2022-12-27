@@ -7,7 +7,6 @@ import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
-
 @Component({
   selector: 'app-create-bank-account',
   templateUrl: './create-bank-account.page.html',
@@ -37,11 +36,13 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
 
   async onSubmit(data: any) {
     let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
-    if (!confirm) return;
+    if (!confirm) {
+      return;
+    }
     let account: JJBankAccount = {
       ...data,
-      customerId: this.auth.currentUser.doc_id
-    }
+      customerId: this.auth.currentUser.doc_id,
+    };
     await this.core.createBankAccount(account);
     console.log(data);
     // await this.core.updateBankAccount(this.accountId, data);
@@ -49,10 +50,9 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
     await this.router.navigate(['/jj/account/bank-accounts'], {
       replaceUrl: true,
       queryParams: {
-        refresh: true
+        refresh: true,
       },
     });
-
   }
 
   get _form(): CmsForm {

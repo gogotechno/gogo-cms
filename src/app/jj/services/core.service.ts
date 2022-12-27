@@ -2,8 +2,10 @@ import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { CmsFile } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
+import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { Currency } from '../modules/wallets/wallets.types';
@@ -65,6 +67,7 @@ export class CoreService extends SharedComponent {
     private translate: TranslateService,
     private swsErp: SwsErpService,
     private common: CommonService,
+    private erpImg: ErpImagePipe,
   ) {
     super();
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
@@ -249,9 +252,23 @@ export class CoreService extends SharedComponent {
     return this.swsErp.putDoc('Deposit Request', requestId, request);
   }
 
+  declineDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'DECLINED',
+    });
+  }
+
+  approveDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'APPROVED',
+    });
+  }
+
   async getDepositRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
-    return res;
+    return this.populateDepositRequest(res);
   }
 
   async getDepositRequestByRefNo(refNo: string) {
@@ -290,20 +307,23 @@ export class CoreService extends SharedComponent {
   }
 
   declineWithdrawRequest(requestId: number) {
-    return this.swsErp.putDoc('Withdraw Request', requestId, {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
       status: 'DECLINED',
     });
   }
 
-  approveWithdrawRequest(requestId: number) {
-    return this.swsErp.putDoc('Withdraw Request', requestId, {
+  approveWithdrawRequest(requestId: number, attachments?: CmsFile[]) {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
       status: 'APPROVED',
+      attachments: attachments,
     });
   }
 
   async getWithdrawRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
-    return res;
+    return this.populateWithdrawRequest(res);
   }
 
   async getWithdrawRequestByRefNo(refNo: string) {
@@ -651,6 +671,42 @@ export class CoreService extends SharedComponent {
   }
 
   // -----------------------------------------------------------------------------------------------------
+  // @ Converter
+  // -----------------------------------------------------------------------------------------------------
+
+  convertCurrency(currency: JJWalletCurrency) {
+    if (!currency) {
+      return null;
+    }
+    let displayCurrency: Currency = {
+      code: currency.code,
+      displaySymbol: currency.symbol,
+      symbolPosition: currency.symbolPosition,
+      precision: currency.digits,
+    };
+    return displayCurrency;
+  }
+
+  convertAttachment(attachment: CmsFile) {
+    if (attachment.fileType == 'image') {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    } else {
+      switch (attachment.mimeType) {
+        case 'application/pdf':
+          attachment.previewUrl = 'assets/jj/file-types/pdf.png';
+          break;
+        case 'text/plain':
+          attachment.previewUrl = 'assets/jj/file-types/txt.png';
+          break;
+        default:
+          attachment.previewUrl = 'assets/jj/file-types/file.png';
+          break;
+      }
+    }
+    return attachment;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
 
@@ -760,24 +816,11 @@ export class CoreService extends SharedComponent {
     return winner;
   }
 
-  populateCurrency(currency: JJWalletCurrency) {
-    if (!currency) {
-      return null;
-    }
-    let displayCurrency: Currency = {
-      code: currency.code,
-      displaySymbol: currency.symbol,
-      symbolPosition: currency.symbolPosition,
-      precision: currency.digits,
-    };
-    return displayCurrency;
-  }
-
   populateWallet(wallet: JJWallet) {
     if (!wallet) {
       return null;
     }
-    wallet.displayCurrency = this.populateCurrency(wallet.walletCurrency);
+    wallet.displayCurrency = this.convertCurrency(wallet.walletCurrency);
     wallet.icon = wallet.walletType?.icon;
     wallet.colors = wallet.walletType?.colors;
     return wallet;
@@ -788,7 +831,8 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
     return request;
   }
 
@@ -797,7 +841,8 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
     return request;
   }
 

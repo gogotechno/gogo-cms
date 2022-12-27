@@ -492,6 +492,9 @@ export interface JJDepositRequest extends ErpDoc {
   displayCurrency?: Currency;
   convertedCurrency?: JJWalletCurrency;
   convertedAmount?: number;
+  beneficiaryName?: string;
+  beneficiaryPhone?: string;
+  beneficiaryWalletNo?: string;
 }
 
 export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED' | 'DECLINED';
@@ -524,6 +527,9 @@ export interface JJWithdrawRequest extends ErpDoc {
   displayCurrency?: Currency;
   convertedCurrency?: JJWalletCurrency;
   convertedAmount?: number;
+  beneficiaryName?: string;
+  beneficiaryPhone?: string;
+  beneficiaryWalletNo?: string;
 }
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';

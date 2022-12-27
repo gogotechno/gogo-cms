@@ -106,7 +106,9 @@ export class HomeService extends SharedComponent {
     this._GROUP_CODE = new BehaviorSubject(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
-      if (!event) return;
+      if (!event) {
+        return;
+      }
       switch (event.status) {
         case 'LOGGED_IN':
           if (this.initialized && !this._USER.getValue()) {

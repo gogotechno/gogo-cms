@@ -14,15 +14,11 @@ export class UploadAttachmentsComponent implements OnInit {
   withdrawId: number;
   withdraw: JJWithdrawRequest;
 
-  constructor(private modalCtrl: ModalController, private appUtils: AppUtils) {}
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
   async onUpload(data: UploadDto) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_MAKE_PAYMENT');
-    if (!confirm) {
-      return;
-    }
     await this.modalCtrl.dismiss({
       attachments: data.attachments,
     });
@@ -44,8 +40,6 @@ const form: CmsForm = {
       label: '_ATTACHMENTS',
       type: 'files',
       required: true,
-      maximum: 3,
-      minimum: 2,
     },
   ],
 };

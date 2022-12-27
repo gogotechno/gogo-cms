@@ -95,10 +95,6 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async onConfirm() {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
-    if (!confirm) {
-      return;
-    }
     await this.modalCtrl.dismiss({
       bankId: this.selectedBankId,
     });

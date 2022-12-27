@@ -31,7 +31,9 @@ export class EditProfilePage implements OnInit {
 
   async onSubmit(data: User) {
     const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
-    if (!confirm) return;
+    if (!confirm) {
+      return;
+    }
     if (this.auth.userType == 'MERCHANT') {
       await this.auth.updateMe(data);
       await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');

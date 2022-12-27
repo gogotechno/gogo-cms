@@ -28,8 +28,20 @@
       </ion-item>
       <ion-item>
         <ion-label>
+          <h3>{{ "jj._BENEFICIARY_NAME" | translate }}</h3>
+          <p>{{ withdraw.beneficiaryName }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <h3>{{ "jj._BENEFICIARY_CONTACT" | translate }}</h3>
+          <p>{{ withdraw.beneficiaryPhone }}</p>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
           <h3>{{ "jj._BENEFICIARY_WALLET_NO" | translate }}</h3>
-          <p>{{ withdraw.wallet.walletNo }}</p>
+          <p>{{ withdraw.beneficiaryWalletNo }}</p>
         </ion-label>
       </ion-item>
       <ion-item>
@@ -62,11 +74,17 @@
           <p><jj-currency [currency]="withdraw.wallet.displayCurrency" [value]="withdraw.amount"></jj-currency></p>
         </ion-label>
       </ion-item>
+      <cms-files-input
+        [label]="'jj._ATTACHMENTS'"
+        [files]="withdraw.attachments"
+        [readonly]="true"
+        [showEmptyMessage]="true"
+      ></cms-files-input>
     </ion-list>
   </ng-container>
 </ion-content>
 
-<ion-footer>
+<ion-footer *ngIf="withdraw?.status == 'PROCESSING'">
   <ion-toolbar>
     <ion-grid class="ion-no-padding">
       <ion-row>
