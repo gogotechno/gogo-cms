@@ -28,5 +28,6 @@ export class CreateEventPage implements OnInit {
       return;
     }
     console.log(data);
+    console.log(JSON.stringify(data));
   }
 }

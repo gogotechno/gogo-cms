@@ -1,10 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CmsForm } from 'src/app/cms.type';
 import { CoreService } from '../../services';
 
 @Injectable()
 export class MerchantService {
-  constructor(private core: CoreService) {}
+
+  _url = 'http://localhost:4200/#/lucky/Lucky%20Draw/Event/';
+  constructor(private core: CoreService, private _http: HttpClient) {}
 
   get eventPrizeForm(): CmsForm {
     return {
@@ -68,12 +71,12 @@ export class MerchantService {
         {
           code: 'vaild_from',
           label: 'jj._VAILD_FROM',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'vaild_to',
           label: 'jj._VAILD_TO',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'priority',
@@ -119,12 +122,12 @@ export class MerchantService {
         {
           code: 'vaild_from',
           label: 'jj._VAILD_FROM',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'vaild_to',
           label: 'jj._VAILD_TO',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'priority',
@@ -195,19 +198,19 @@ export class MerchantService {
         {
           code: 'startAt',
           label: 'jj._START_AT',
-          type: 'date',
+          type: 'datetime',
           required: true,
         },
         {
           code: 'endAt',
           label: 'jj._END_AT',
-          type: 'date',
+          type: 'datetime',
           required: false,
         },
         {
           code: 'drawAt',
           label: 'jj._DRAW_AT',
-          type: 'date',
+          type: 'datetime',
           required: false,
         },
         {
@@ -351,5 +354,11 @@ export class MerchantService {
     }));
 
     return SNWForm;
+  }
+
+
+
+  register(data){
+    return this._http.post<any>(this._url, data);
   }
 }

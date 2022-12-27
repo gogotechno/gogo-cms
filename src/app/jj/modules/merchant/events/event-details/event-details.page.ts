@@ -42,7 +42,13 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
     if (!confirm) {
       return;
     }
-    console.log(data);
+    this.merchantService.register(data)
+      .subscribe(
+        data => console.log('Success!', data),
+        error => console.log('Error!', error)
+      );
+    // console.log(data);
+    // console.log(JSON.stringify(data));
   }
 
 }
