@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/jj/merchant/scratch-and-wins">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>scratch-and-win-details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding-sm">
+    <cms-form *ngIf="form" [form]="form" [value]="ScratchAndWinEvent" (submit)="onSubmit($event)"></cms-form>
+  </div>
+</ion-content>

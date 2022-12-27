@@ -77,7 +77,7 @@ export class WithdrawRequestPage implements OnInit {
       component: UploadAttachmentsComponent,
       componentProps: {
         withdrawId: this.withdraw.doc_id,
-        bankAccount: this.withdraw.bankAccount,
+        withdraw: this.withdraw,
       },
     });
     await modal.present();

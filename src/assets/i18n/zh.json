@@ -473,6 +473,7 @@
     "_EDIT_BANK_ACCOUNT": "编辑户口资料",
     "_CONFIRM_TO_UPDATE_BANK_INFO": "确认更新银行信息？",
     "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "确认移除此银行户口?",
-    "_INACTIVE": "闲置账户"
+    "_INACTIVE": "闲置账户",
+    "_SCRATCH_AND_WINS": "刮刮乐"
   }
 }

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CmsFile, CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
-import { JJBankAccount } from 'src/app/jj/typings';
+import { JJWithdrawRequest } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-upload-attachments',
@@ -13,9 +12,9 @@ import { JJBankAccount } from 'src/app/jj/typings';
 export class UploadAttachmentsComponent implements OnInit {
   form = form;
   withdrawId: number;
-  bankAccount: JJBankAccount;
+  withdraw: JJWithdrawRequest;
 
-  constructor(private modalCtrl: ModalController, private appUtils: AppUtils, private core: CoreService) {}
+  constructor(private modalCtrl: ModalController, private appUtils: AppUtils) {}
 
   ngOnInit() {}
 
@@ -38,17 +37,15 @@ const form: CmsForm = {
   code: 'upload-withdraw',
   labelPosition: 'stacked',
   submitButtonId: 'upload-withdraw-btn',
+  autoValidate: true,
   items: [
     {
       code: 'attachments',
-      label: {
-        en: 'Attachments',
-        zh: '附件',
-        ms: '',
-      },
+      label: '_ATTACHMENTS',
       type: 'files',
       required: true,
       maximum: 3,
+      minimum: 2,
     },
   ],
 };

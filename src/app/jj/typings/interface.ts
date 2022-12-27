@@ -44,13 +44,10 @@ export interface EventConfig {
 }
 
 export interface MiniProgram extends ErpDoc {
-  code: string;
   name: string;
-  url: string;
+  link: string;
   icon?: string;
   colors?: any;
-  isActive: boolean;
-  isVisible: boolean;
 }
 
 export interface AccountOptions {
@@ -492,6 +489,9 @@ export interface JJDepositRequest extends ErpDoc {
   bankAccount?: JJBankAccount;
   depositMethod?: JJDepositMethod;
   wallet?: JJWallet;
+  displayCurrency?: Currency;
+  convertedCurrency?: JJWalletCurrency;
+  convertedAmount?: number;
 }
 
 export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED' | 'DECLINED';
@@ -521,6 +521,9 @@ export interface JJWithdrawRequest extends ErpDoc {
   bankAccount?: JJBankAccount;
   withdrawMethod?: JJWithdrawMethod;
   wallet?: JJWallet;
+  displayCurrency?: Currency;
+  convertedCurrency?: JJWalletCurrency;
+  convertedAmount?: number;
 }
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';

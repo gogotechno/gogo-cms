@@ -9,12 +9,18 @@
 </ion-header>
 
 <ion-content>
-  <bank-account
-    *ngIf="bankAccount"
-    [bank]="bankAccount.bankName"
-    [holder]="bankAccount.holderName"
-    [accountNo]="bankAccount.accountNo"
-  ></bank-account>
+  <ion-item lines="none">
+    <ion-label class="amount-to-pay">
+      <jj-currency [currency]="withdraw?.displayCurrency" [value]="withdraw?.convertedAmount"></jj-currency>
+    </ion-label>
+  </ion-item>
+  <ng-container *ngIf="withdraw?.bankAccount">
+    <bank-account
+      [bank]="withdraw?.bankAccount.bankName"
+      [holder]="withdraw?.bankAccount.holderName"
+      [accountNo]="withdraw?.bankAccount.accountNo"
+    ></bank-account>
+  </ng-container>
   <div class="ion-padding-horizontal">
     <cms-form [form]="form" (submit)="onUpload($event)"></cms-form>
   </div>

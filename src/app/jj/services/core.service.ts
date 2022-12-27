@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
-import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
   AccountOptions,
@@ -42,6 +42,7 @@ import {
   JJUser,
   JJUserRole,
   JJWallet,
+  JJWalletCurrency,
   JJWalletTransaction,
   JJWinner,
   JJWithdrawMethod,
@@ -321,7 +322,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateWithdrawRequest(request));
   }
 
   async getWithdrawMethods() {
@@ -418,9 +419,8 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
-    const conditions: Conditions = {};
-    if (options.withLocation) {
+  async getOngoingEvents(pagination: Pagination, conditions: Conditions = {}) {
+    if (conditions.withLocation) {
       const coords = await this.common.getCurrentCoords();
       conditions.longitude = coords.longitude;
       conditions.latitude = coords.latitude;
@@ -475,7 +475,8 @@ export class CoreService extends SharedComponent {
       conditions.latitude = coords.latitude;
       delete conditions.withLocation;
     }
-    const res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJEvent>('Event', eventId, query);
     return this.populateEvent(res);
   }
 
@@ -616,19 +617,27 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
-  async getScratchAndWinEventById(eventId: number, options: { withLocation?: boolean } = {}) {
-    const conditions: Conditions = {};
-    if (options.withLocation) {
+  async getScratchAndWinEvent(pagination: Pagination, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    };
+    const res = await this.swsErp.getDocs<JJScratchAndWinEvent>('Scratch And Win Event', query);
+    return res.result;
+  }
+
+  async getScratchAndWinEventById(eventId: number, conditions: Conditions = {}) {
+    if (conditions.withLocation) {
       const coords = await this.common.getCurrentCoords();
       conditions.longitude = coords.longitude;
       conditions.latitude = coords.latitude;
       delete conditions.withLocation;
     }
-    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>(
-      'Scratch And Win Event',
-      eventId,
-      <GetOptions>conditions,
-    );
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, query);
     return res;
   }
 
@@ -751,22 +760,26 @@ export class CoreService extends SharedComponent {
     return winner;
   }
 
+  populateCurrency(currency: JJWalletCurrency) {
+    if (!currency) {
+      return null;
+    }
+    let displayCurrency: Currency = {
+      code: currency.code,
+      displaySymbol: currency.symbol,
+      symbolPosition: currency.symbolPosition,
+      precision: currency.digits,
+    };
+    return displayCurrency;
+  }
+
   populateWallet(wallet: JJWallet) {
     if (!wallet) {
       return null;
     }
-    if (wallet.walletCurrency) {
-      wallet.displayCurrency = {
-        code: wallet.walletCurrency.code,
-        displaySymbol: wallet.walletCurrency.symbol,
-        symbolPosition: wallet.walletCurrency.symbolPosition,
-        precision: wallet.walletCurrency.digits,
-      };
-    }
-    if (wallet.walletType) {
-      wallet.icon = wallet.walletType.icon;
-      wallet.colors = wallet.walletType.colors;
-    }
+    wallet.displayCurrency = this.populateCurrency(wallet.walletCurrency);
+    wallet.icon = wallet.walletType?.icon;
+    wallet.colors = wallet.walletType?.colors;
     return wallet;
   }
 
@@ -775,12 +788,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    // if (request.attachments) {
-    //   request.attachments = request.attachments.map((attachment) => {
-    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    //     return attachment;
-    //   });
-    // }
+    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
     return request;
   }
 
@@ -789,12 +797,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    // if (request.attachments) {
-    //   request.attachments = request.attachments.map((attachment) => {
-    //     attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    //     return attachment;
-    //   });
-    // }
+    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
     return request;
   }
 
