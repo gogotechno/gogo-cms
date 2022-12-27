@@ -34,23 +34,22 @@ const routes: Routes = [
     path: 'create-user',
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
- 
+
   {
     path: 'create-event',
     loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),
   },
   {
     path: 'events',
-    children: [
-      {
-        path: '',
-        loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
-      },
-      {
-        path: ':id',
-        loadChildren: () => import('./events/event-details/event-details.module').then((m) => m.EventDetailsPageModule),
-      },
-    ],
+    loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
+  },
+  {
+    path: 'create-scratch-and-win',
+    loadChildren: () => import('./create-scratch-and-win/create-scratch-and-win.module').then((m) => m.CreateScratchAndWinPageModule),
+  },
+  {
+    path: 'scratch-and-wins',
+    loadChildren: () => import('./scratch-and-wins/scratch-and-wins.module').then((m) => m.ScratchAndWinsPageModule),
   },
 ];
 

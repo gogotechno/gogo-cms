@@ -419,9 +419,8 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getOngoingEvents(pagination: Pagination, options: { withLocation?: boolean } = {}) {
-    const conditions: Conditions = {};
-    if (options.withLocation) {
+  async getOngoingEvents(pagination: Pagination, conditions: Conditions = {}) {
+    if (conditions.withLocation) {
       const coords = await this.common.getCurrentCoords();
       conditions.longitude = coords.longitude;
       conditions.latitude = coords.latitude;
@@ -476,7 +475,8 @@ export class CoreService extends SharedComponent {
       conditions.latitude = coords.latitude;
       delete conditions.withLocation;
     }
-    const res = await this.swsErp.getDoc<JJEvent>('Event', eventId, <GetOptions>conditions);
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJEvent>('Event', eventId, query);
     return this.populateEvent(res);
   }
 
@@ -593,10 +593,6 @@ export class CoreService extends SharedComponent {
   }
 
   async getMiniPrograms() {
-    // {
-    //   isActive: true,
-    //   isActive_type: "="
-    // }
     let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
     return res.result;
   }
@@ -621,19 +617,27 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
-  async getScratchAndWinEventById(eventId: number, options: { withLocation?: boolean } = {}) {
-    const conditions: Conditions = {};
-    if (options.withLocation) {
+  async getScratchAndWinEvent(pagination: Pagination, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    };
+    const res = await this.swsErp.getDocs<JJScratchAndWinEvent>('Scratch And Win Event', query);
+    return res.result;
+  }
+
+  async getScratchAndWinEventById(eventId: number, conditions: Conditions = {}) {
+    if (conditions.withLocation) {
       const coords = await this.common.getCurrentCoords();
       conditions.longitude = coords.longitude;
       conditions.latitude = coords.latitude;
       delete conditions.withLocation;
     }
-    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>(
-      'Scratch And Win Event',
-      eventId,
-      <GetOptions>conditions,
-    );
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, query);
     return res;
   }
 
