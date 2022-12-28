@@ -621,8 +621,9 @@ export class CoreService extends SharedComponent {
   // @ Scratch and Win Event
   // -----------------------------------------------------------------------------------------------------
 
-  createScratchRequest(request: JJScratchRequest) {
-    return this.swsErp.postDoc('Scratch Request', request);
+  createScratchRequest(request: JJScratchRequest, conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    return this.swsErp.postDoc('Scratch Request', request, query);
   }
 
   async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
@@ -637,7 +638,7 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
-  async getScratchAndWinEvent(pagination: Pagination, conditions: Conditions = {}) {
+  async getScratchAndWinEvents(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,

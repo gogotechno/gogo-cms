@@ -470,11 +470,15 @@
     "_VALID": "Sah",
     "_INVALID": "Tidak Sah",
     "_EDIT_BANK_ACCOUNTS": "Edit Akaun Bank",
-    "_ADD_BANK_ACCOUNT": "Tambah Akaun Bank" ,
+    "_ADD_BANK_ACCOUNT": "Tambah Akaun Bank",
     "_EDIT_BANK_ACCOUNT": "Edit Maklumat Akaun",
     "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm Nak Kemaskini Info Bank?",
     "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim Nak Padam Akaun Bank Ini?",
     "_INACTIVE": "Tidak Aktif",
-    "_SCRATCH_AND_WINS": "Gores Dan Menang"
+    "_SCRATCH_AND_WINS": "Gores Dan Menang",
+    "_INSUFFICIENT_SNW_TICKETS": "Maaf, anda telah kehabisan kupon calar! Sila lawati kedai kami untuk membuat pembelian atau mengesyorkan pengguna baharu untuk mendapatkan kupon calar!",
+    "_EVENT_IS_DRAWING": "Cabutan sedang diproseskan",
+    "_WINNERS_ARE_OUT": "Pemenang sudah keluar!",
+    "_VIEW_RESULT": "Lihat Keputusan"
   }
 }

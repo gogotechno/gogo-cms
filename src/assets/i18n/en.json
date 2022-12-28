@@ -479,9 +479,6 @@
     "_EDIT_BANK_ACCOUNT": "Edit account info",
     "_CONFIRM_TO_UPDATE_BANK_INFO": "Confirm to update bank info?",
     "_CONFIRM_TO_DELETE_BANK_ACCOUNT": "Confrim to remove this bank account?",
-    "_ACTIVE": "ACTIVE",
-    "_INACTIVE": "INACTIVE",
-    "_ENDED": "ENDED",
     "_NAME": "Name",
     "_STATUS": "Status",
     "_HIGHLIGHT": "Highlight",
@@ -506,16 +503,16 @@
     "_VAILD_FROM": "Vaild From",
     "_VAILD_TO": "Vaild To",
     "_PRIORITY": "Priority",
-    "_IS_ACTIVE": "isActive",
+    "_IS_ACTIVE": "Is Active",
     "_ISSUE_MODE": "Issue Mode",
-    "_AMOUNT_ONLY": "Amount",
-    "_AMOUNT_AND_POINT": "Amount and Point",
-    "_RANDOM_CHAR": "RANDOM CHAR",
-    "_SEQUENCE": "SEQUENCE",
     "_SUBMIT": "Submit",
     "_NEW_EVENT": "New Event",
     "_EVENTS": "Events",
-    "_CONFIRM_TO_CREATE_EVENTS": "Confirm to Create Events",
-    "_SCRATCH_AND_WINS": "Scratch and wins"
+    "_CONFIRM_TO_CREATE_EVENT": "Confirm to create event?",
+    "_SCRATCH_AND_WINS": "Scratch and wins",
+    "_INSUFFICIENT_SNW_TICKETS": "Sorry, you have run out of scratch coupons! Please visit our stores to make purchases or refer new users to get scratch coupons!",
+    "_EVENT_IS_DRAWING": "Event is drawing",
+    "_WINNERS_ARE_OUT": "Winners are out!",
+    "_VIEW_RESULT": "View Result"
   }
 }
