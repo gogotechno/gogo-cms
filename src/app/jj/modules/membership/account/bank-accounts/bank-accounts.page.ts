@@ -3,7 +3,7 @@ import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bank-accounts',
@@ -19,12 +19,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   merchantId: number;
   accountId: number;
 
-  constructor(
-    private auth: AuthService,
-    private core: CoreService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor(private route: ActivatedRoute, private auth: AuthService) {
     super();
   }
 
@@ -38,16 +33,6 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    switch (this.auth.userRole) {
-      case 'CUSTOMER':
-        this.customerId = this.auth.currentUser.doc_id;
-        break;
-      case 'MERCHANT_ADMIN':
-        this.merchantId = await this.auth.findMyMerchantId();
-        break;
-      default:
-        break;
-    }
     this.accountsPage = this.defaultPage;
     this.accounts = await this.getAccounts();
     this.accountsEnded = this.accounts.length < this.accountsPage.itemsPerPage;
@@ -63,14 +48,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   }
 
   async getAccounts() {
-    let conditions: Conditions = {};
-    if (this.customerId) {
-      conditions['customer_id'] = this.customerId;
-    }
-    if (this.merchantId) {
-      conditions['merchant_id'] = this.merchantId;
-    }
-    let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
+    let accounts = await this.auth.findMyBankAccounts(this.accountsPage);
     this.updatedAt = new Date();
     return accounts;
   }

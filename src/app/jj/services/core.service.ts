@@ -11,7 +11,6 @@ import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from '
 import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
-  AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
   JJBank,
@@ -52,6 +51,7 @@ import {
   LANGUAGE_STORAGE_KEY,
   UserRole,
 } from '../typings';
+import { AuthDataService } from './auth-data.service';
 import { CommonService } from './common.service';
 
 @Injectable()
@@ -69,6 +69,7 @@ export class CoreService extends SharedComponent {
     private swsErp: SwsErpService,
     private common: CommonService,
     private erpImg: ErpImagePipe,
+    private authData: AuthDataService,
   ) {
     super();
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
@@ -115,14 +116,13 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
-    const conditions: Conditions = {
+  async getUserByDocUserId(docUserId: number, conditions: Conditions = {}) {
+    let query: GetOptions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
-      ...accountOptions,
+      ...conditions,
     };
-
-    const res = await this.getUsers(this.defaultPage, conditions);
+    const res = await this.swsErp.getDocs<JJUser>('User', query);
     return res[0];
   }
 
@@ -163,16 +163,15 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
-    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
-      ...accountOptions,
-    });
+  async getCustomerById(customerId: number, conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, query);
     return res;
   }
 
   async getCustomerByPhone(phone: string) {
     const res = await this.swsErp.getDocs<JJCustomer>('Customer', {
-      phone,
+      phone: phone,
       phone_type: '=',
     });
     return res.result[0];
@@ -368,8 +367,8 @@ export class CoreService extends SharedComponent {
 
   async getRandomBankAccount() {
     const query: GetOptions = {
-      system: true,
-      random: true,
+      isSystem: true,
+      isRandom: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
@@ -407,7 +406,18 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  createBankAccount(account: JJBankAccount) {
+  async createBankAccount(account: JJBankAccount) {
+    switch (this.authData.getUserRole()) {
+      case 'CUSTOMER':
+        account['customerId'] = this.authData.getCurrentUser().doc_id;
+        break;
+      case 'MERCHANT_ADMIN':
+        account['merchantId'] = await this.authData.findMyMerchantId();
+        break;
+      default:
+        account['isSystem'] = true;
+        break;
+    }
     return this.swsErp.postDoc('Bank Account', account);
   }
 

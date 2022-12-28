@@ -34,6 +34,10 @@ export class CommonService {
     private swsErp: SwsErpService,
   ) {}
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Shared Methods
+  // -----------------------------------------------------------------------------------------------------
+
   getByUrl(url: string) {
     return this.http.get<any>(url).toPromise();
   }

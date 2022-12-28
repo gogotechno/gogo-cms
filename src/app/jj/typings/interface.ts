@@ -50,7 +50,7 @@ export interface MiniProgram extends ErpDoc {
   colors?: any;
 }
 
-export interface AccountOptions {
+export interface GetProfileOptions {
   checkWallet?: boolean;
 }
 
@@ -549,6 +549,7 @@ export interface JJBankAccount extends ErpDoc {
   bank_id: number;
   isActive?: boolean;
   isDefault?: boolean;
+  isSystem?: boolean;
   customerId?: number;
   merchantId?: number;
   bankName?: string;

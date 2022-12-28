@@ -12,6 +12,7 @@ import { WalletsService } from './modules/wallets/wallets.service';
 import { HomeService as MemberHomeService } from './modules/membership/home/@services/home.service';
 import { AuthService, CommonService, CoreService } from './services';
 import { MerchantService } from './modules/merchant/merchant.service';
+import { AuthDataService } from './services/auth-data.service';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { MerchantService } from './modules/merchant/merchant.service';
     PublicGuard,
     InitGuard,
     AuthService,
+    AuthDataService,
     CommonService,
     CoreService,
     WalletsService,

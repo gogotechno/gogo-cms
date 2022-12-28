@@ -5,14 +5,13 @@ import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp.type';
-import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
+import { GetProfileOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
+import { AuthDataService } from './auth-data.service';
 import { CoreService } from './core.service';
 
 @Injectable()
 export class AuthService {
   private _AUTHENTICATED = false;
-  private _CURRENT_USER: User;
-  private _USER_ROLE: UserRole;
   private initialized = false;
 
   authStateChange: BehaviorSubject<AuthStateEvent>;
@@ -22,11 +21,11 @@ export class AuthService {
   }
 
   get currentUser() {
-    return this._CURRENT_USER;
+    return this.authData.getCurrentUser();
   }
 
   get userRole() {
-    return this._USER_ROLE;
+    return this.authData.getUserRole();
   }
 
   constructor(
@@ -34,6 +33,7 @@ export class AuthService {
     private storage: LocalStorageService,
     private swsErp: SwsErpService,
     private appUtils: AppUtils,
+    private authData: AuthDataService,
     private core: CoreService,
   ) {
     this.authStateChange = new BehaviorSubject(null);
@@ -92,8 +92,8 @@ export class AuthService {
       await this.storage.remove(`${COMPANY_CODE}_DOC_USER`);
       await this.storage.remove(`${COMPANY_CODE}_CUSTOMER`);
       this._AUTHENTICATED = false;
-      this._CURRENT_USER = null;
-      this._USER_ROLE = null;
+      this.authData.setCurrentUser(null);
+      this.authData.setUserRole(null);
       await this.router.navigate(['/jj/login']);
 
       const authState = this.swsErp.authStateChange.getValue();
@@ -105,23 +105,25 @@ export class AuthService {
     }
   }
 
-  async findMyLuckyUser(options: AccountOptions = {}) {
-    this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id, options);
-    this._CURRENT_USER.docUser = this.swsErp.docUser;
-    this._USER_ROLE = this._CURRENT_USER.role;
-    if (!this._USER_ROLE) {
-      this._USER_ROLE = 'SYSTEM_ADMIN';
+  async findMyLuckyUser(options: GetProfileOptions = {}) {
+    let currenctUser = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id, <Conditions>options);
+    currenctUser.docUser = this.swsErp.docUser;
+    this.authData.setCurrentUser(currenctUser);
+    this.authData.setUserRole(currenctUser.role);
+    if (!this.authData.getUserRole()) {
+      this.authData.setUserRole('SYSTEM_ADMIN');
     }
-    return this._CURRENT_USER;
+    return currenctUser;
   }
 
-  async findMyLuckyCustomer(options: AccountOptions = {}) {
-    this._CURRENT_USER = await this.core.getCustomerById(this.swsErp.user.doc_id, options);
-    this._USER_ROLE = 'CUSTOMER';
-    return this._CURRENT_USER;
+  async findMyLuckyCustomer(options: GetProfileOptions = {}) {
+    let currenctUser = await this.core.getCustomerById(this.swsErp.user.doc_id, <Conditions>options);
+    this.authData.setCurrentUser(currenctUser);
+    this.authData.setUserRole('CUSTOMER');
+    return currenctUser;
   }
 
-  async findMe(options: AccountOptions = {}) {
+  async findMe(options: GetProfileOptions = {}) {
     const docUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
     const customer = await this.storage.get(`${COMPANY_CODE}_CUSTOMER`);
     if (docUser) {
@@ -134,18 +136,17 @@ export class AuthService {
       await this.storage.set(`${COMPANY_CODE}_CUSTOMER`, this.swsErp.user);
       await this.findMyLuckyCustomer(options);
     }
-    return this._CURRENT_USER;
+    return this.currentUser;
   }
 
   async findMyMerchantId() {
-    const docUser: DocUser = await this.storage.get(`${COMPANY_CODE}_DOC_USER`);
-    const access = docUser?.user_access?.find((ua) => ua.access_table === 'merchant');
-    return access ? Number(access.access_val) : null;
+    let merchantId = await this.authData.findMyMerchantId();
+    return merchantId;
   }
 
   async findMyWallets(conditions: Conditions = {}) {
     let wallets: JJWallet[];
-    switch (this._USER_ROLE) {
+    switch (this.userRole) {
       case 'MERCHANT_ADMIN':
         let merchantId = await this.findMyMerchantId();
         wallets = await this.core.getWalletsByMerchantId(merchantId, conditions);
@@ -162,8 +163,8 @@ export class AuthService {
   }
 
   updateMe(payload: Partial<User>) {
-    const userId = this._CURRENT_USER.doc_id;
-    switch (this._USER_ROLE) {
+    const userId = this.currentUser.doc_id;
+    switch (this.userRole) {
       case 'FINANCE_ADMIN':
       case 'MERCHANT_ADMIN':
       case 'SYSTEM_ADMIN':
@@ -178,25 +179,25 @@ export class AuthService {
       old_password: oldPassword,
       new_password: newPassword,
     };
-    switch (this._USER_ROLE) {
+    switch (this.userRole) {
       case 'FINANCE_ADMIN':
       case 'MERCHANT_ADMIN':
       case 'SYSTEM_ADMIN':
         return this.updateMe(requestBody);
       default:
-        const customerId = this._CURRENT_USER.doc_id;
+        const customerId = this.currentUser.doc_id;
         return this.swsErp.changePassword(customerId, requestBody, 'Customer');
     }
   }
 
   async findMyJoinedEvents(pagination: Pagination) {
-    switch (this._USER_ROLE) {
+    switch (this.userRole) {
       case 'FINANCE_ADMIN':
       case 'MERCHANT_ADMIN':
       case 'SYSTEM_ADMIN':
         return [];
       default:
-        const customerId = this._CURRENT_USER.doc_id;
+        const customerId = this.currentUser.doc_id;
         const events = await this.core.getEvents(pagination, {
           isJoined: true,
           customer_id: customerId,
@@ -214,18 +215,20 @@ export class AuthService {
   }
 
   async findMyBankAccounts(pagination: Pagination) {
-    switch (this._USER_ROLE) {
+    let conditions: Conditions = {};
+    switch (this.userRole) {
       case 'FINANCE_ADMIN':
-      case 'MERCHANT_ADMIN':
       case 'SYSTEM_ADMIN':
-        return [];
+        conditions['isSystem'] = true;
+        break;
+      case 'MERCHANT_ADMIN':
+        conditions['merchant_id'] = await this.findMyMerchantId();
+        break;
       default:
-        const customerId = this._CURRENT_USER.doc_id;
-        const events = await this.core.getBankAccounts(pagination, {
-          customer_id: customerId,
-          customer_id_type: '=',
-        });
-        return events;
+        conditions['customer_id'] = this.currentUser.doc_id;
+        break;
     }
+    const accounts = await this.core.getBankAccounts(pagination, conditions);
+    return accounts;
   }
 }
