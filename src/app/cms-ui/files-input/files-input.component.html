@@ -1,6 +1,6 @@
 <ion-item class="only-label" lines="none">
   <ion-label class="cms-files-lbl">
-    <span>{{ label | cmsTranslate }}</span>
+    <span>{{ label | cmsTranslate | translate }}</span>
     <cms-required-tag *ngIf="required"></cms-required-tag>
   </ion-label>
   <ion-label slot="end" *ngIf="maximum">

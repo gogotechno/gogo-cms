@@ -17,34 +17,32 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
   customerId: number;
   merchantId: number;
-  accountId: number
+  accountId: number;
 
   constructor(
-    private auth: AuthService, 
-    private core: CoreService, 
+    private auth: AuthService,
+    private core: CoreService,
     private router: Router,
-    private route: ActivatedRoute,) 
-    { 
-    super(); 
-    }
+    private route: ActivatedRoute,
+  ) {
+    super();
+  }
 
   async ngOnInit() {
     this.route.queryParams.subscribe(async (queryParams) => {
       if (queryParams.refresh) {
         await this.loadData();
-        // await this.router.navigate([]);
       }
     });
-
     await this.loadData();
   }
 
   async loadData() {
-    switch (this.auth.userType) {
+    switch (this.auth.userRole) {
       case 'CUSTOMER':
         this.customerId = this.auth.currentUser.doc_id;
         break;
-      case 'MERCHANT':
+      case 'MERCHANT_ADMIN':
         this.merchantId = await this.auth.findMyMerchantId();
         break;
       default:
@@ -67,10 +65,10 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   async getAccounts() {
     let conditions: Conditions = {};
     if (this.customerId) {
-      conditions.customer_id = this.customerId;
+      conditions['customer_id'] = this.customerId;
     }
     if (this.merchantId) {
-      conditions.merchant_id = this.merchantId;
+      conditions['merchant_id'] = this.merchantId;
     }
     let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
     this.updatedAt = new Date();
@@ -82,6 +80,4 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
     const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
-
-
 }

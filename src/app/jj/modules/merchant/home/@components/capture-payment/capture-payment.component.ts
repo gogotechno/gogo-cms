@@ -58,7 +58,7 @@ export class CapturePaymentComponent implements OnInit {
 const form: CmsForm = {
   code: 'capture-payment',
   labelPosition: 'stacked',
-  submitButtonText: 'jj._CONFIRM',
+  submitButtonText: '_CONFIRM',
   autoValidate: true,
   autoRemoveUnusedKeys: 'swserp',
   items: [

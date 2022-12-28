@@ -31,7 +31,6 @@ export class ListPage extends SharedComponent implements OnInit {
     this.route.queryParams.subscribe(async (queryParams) => {
       if (queryParams.refresh) {
         await this.loadData();
-        await this.router.navigate([]);
       }
     });
 

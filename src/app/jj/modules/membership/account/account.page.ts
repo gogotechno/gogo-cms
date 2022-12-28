@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Browser } from '@capacitor/browser';
 import { AuthService } from 'src/app/jj/services';
-import { JJContentPage } from 'src/app/jj/typings';
+import { JJContentPage, UserRole } from 'src/app/jj/typings';
 import { AccountService } from './@services/account.service';
 
 @Component({
@@ -12,11 +12,12 @@ import { AccountService } from './@services/account.service';
 export class AccountPage implements OnInit {
   contentPages: JJContentPage[];
   whatsappLink: string;
+  userRole: UserRole;
 
   constructor(private auth: AuthService, private account: AccountService) {}
 
-  ngOnInit() {
-    this.account.init();
+  async ngOnInit() {
+    await this.account.init();
     this.account.whatsappLink.subscribe((link) => (this.whatsappLink = link));
     this.account.contentPages.subscribe((contentPages) => (this.contentPages = contentPages));
   }

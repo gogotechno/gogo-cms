@@ -35,11 +35,11 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async loadData() {
-    switch (this.auth.userType) {
+    switch (this.auth.userRole) {
       case 'CUSTOMER':
         this.customerId = this.auth.currentUser.doc_id;
         break;
-      case 'MERCHANT':
+      case 'MERCHANT_ADMIN':
         this.merchantId = await this.auth.findMyMerchantId();
         break;
       default:

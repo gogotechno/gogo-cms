@@ -19,11 +19,10 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private appUtils: AppUtils,
-    private app: AppUtils,
     private core: CoreService,
     private auth: AuthService,
-    private router: Router,
   ) {
     super();
   }
@@ -34,18 +33,23 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
     this.eventId = params.id;
   }
 
-  async onSubmit(data: any) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
+  async onSubmit(data: CreateBankAccountDto) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
     if (!confirm) {
       return;
     }
-    let account: JJBankAccount = {
-      ...data,
-      customerId: this.auth.currentUser.doc_id,
-    };
+    let account: JJBankAccount = data;
+    switch (this.auth.userRole) {
+      case 'CUSTOMER':
+        account['customerId'] = this.auth.currentUser.doc_id;
+        break;
+      case 'MERCHANT_ADMIN':
+        account['merchantId'] = await this.auth.findMyMerchantId();
+        break;
+      default:
+        break;
+    }
     await this.core.createBankAccount(account);
-    console.log(data);
-    // await this.core.updateBankAccount(this.accountId, data);
     await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
     await this.router.navigate(['/jj/account/bank-accounts'], {
       replaceUrl: true,
@@ -100,4 +104,10 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
       ],
     };
   }
+}
+
+interface CreateBankAccountDto {
+  accountNo: string;
+  holderName: string;
+  bank_id: number;
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { JJBankAccount } from 'src/app/jj/typings';
-import { AuthService, CoreService } from 'src/app/jj/services';
-import { DocStatus, Pagination } from 'src/app/sws-erp.type';
+import { CoreService } from 'src/app/jj/services';
+import { Pagination } from 'src/app/sws-erp.type';
 import { SharedComponent } from 'src/app/jj/shared';
 
 @Component({
@@ -23,17 +23,14 @@ export class BankAccountPage extends SharedComponent implements OnInit {
     private appUtils: AppUtils,
     private app: AppUtils,
     private core: CoreService,
-    private router: Router,
   ) {
     super();
   }
 
   async ngOnInit() {
     this.form = this._form;
-
     const params = this.route.snapshot.params;
     this.accountId = params.id;
-
     await this.loadData();
   }
 
@@ -48,19 +45,6 @@ export class BankAccountPage extends SharedComponent implements OnInit {
     }
     await this.core.updateBankAccount(this.accountId, data);
     await this.appUtils.presentAlert('jj._ACCOUNT_UPDATED', '_SUCCESS');
-  }
-
-  async deleteBank() {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_REMOVE_BANK_ACCOUNT');
-    if (!confirm) {
-      return;
-    }
-    await this.core.updateBankAccount(this.accountId, {});
-    await this.appUtils.presentAlert('jj._BANK_ACCOUNT_REMOVED', '_SUCCESS');
-    await this.router.navigate(['/jj/account/bank-accounts'], {
-      replaceUrl: true,
-      queryParams: { refresh: true },
-    });
   }
 
   get _form(): CmsForm {
@@ -94,6 +78,10 @@ export class BankAccountPage extends SharedComponent implements OnInit {
             codeFields: ['doc_id'],
           },
           selectHandler: {
+            onInit: async (value: number) => {
+              let bank = await this.core.getBankById(value);
+              return [bank];
+            },
             onLoad: async () => {
               let pagination: Pagination = this.defaultPage;
               let banks = await this.core.getBanks(pagination);

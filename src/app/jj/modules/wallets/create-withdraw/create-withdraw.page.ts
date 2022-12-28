@@ -133,7 +133,7 @@ const form: CmsForm = {
     },
     {
       code: 'methodId',
-      label: 'jj._METHOD',
+      label: 'jj._METHODS',
       type: 'radio',
       required: true,
       direction: 'vertical',

@@ -5,14 +5,14 @@ import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp.type';
-import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserType } from '../typings';
+import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable()
 export class AuthService {
   private _AUTHENTICATED = false;
   private _CURRENT_USER: User;
-  private _USER_TYPE: UserType;
+  private _USER_ROLE: UserRole;
   private initialized = false;
 
   authStateChange: BehaviorSubject<AuthStateEvent>;
@@ -25,19 +25,8 @@ export class AuthService {
     return this._CURRENT_USER;
   }
 
-  get userType() {
-    return this._USER_TYPE;
-  }
-
   get userRole() {
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
-        return 'MERCHANT_ADMIN';
-      case 'ADMIN':
-        return 'SYSTEM_ADMIN';
-      default:
-        return 'CUSTOMER';
-    }
+    return this._USER_ROLE;
   }
 
   constructor(
@@ -104,7 +93,7 @@ export class AuthService {
       await this.storage.remove(`${COMPANY_CODE}_CUSTOMER`);
       this._AUTHENTICATED = false;
       this._CURRENT_USER = null;
-      this._USER_TYPE = null;
+      this._USER_ROLE = null;
       await this.router.navigate(['/jj/login']);
 
       const authState = this.swsErp.authStateChange.getValue();
@@ -119,16 +108,16 @@ export class AuthService {
   async findMyLuckyUser(options: AccountOptions = {}) {
     this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id, options);
     this._CURRENT_USER.docUser = this.swsErp.docUser;
-    this._USER_TYPE = 'ADMIN';
-    if (this._CURRENT_USER.role == 'MERCHANT_ADMIN') {
-      this._USER_TYPE = 'MERCHANT';
+    this._USER_ROLE = this._CURRENT_USER.role;
+    if (!this._USER_ROLE) {
+      this._USER_ROLE = 'SYSTEM_ADMIN';
     }
     return this._CURRENT_USER;
   }
 
   async findMyLuckyCustomer(options: AccountOptions = {}) {
     this._CURRENT_USER = await this.core.getCustomerById(this.swsErp.user.doc_id, options);
-    this._USER_TYPE = 'CUSTOMER';
+    this._USER_ROLE = 'CUSTOMER';
     return this._CURRENT_USER;
   }
 
@@ -156,8 +145,8 @@ export class AuthService {
 
   async findMyWallets(conditions: Conditions = {}) {
     let wallets: JJWallet[];
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
+    switch (this._USER_ROLE) {
+      case 'MERCHANT_ADMIN':
         let merchantId = await this.findMyMerchantId();
         wallets = await this.core.getWalletsByMerchantId(merchantId, conditions);
         break;
@@ -174,9 +163,10 @@ export class AuthService {
 
   updateMe(payload: Partial<User>) {
     const userId = this._CURRENT_USER.doc_id;
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
-      case 'ADMIN':
+    switch (this._USER_ROLE) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
         return this.core.updateUser(userId, payload);
       default:
         return this.core.updateCustomer(userId, payload);
@@ -188,9 +178,10 @@ export class AuthService {
       old_password: oldPassword,
       new_password: newPassword,
     };
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
-      case 'ADMIN':
+    switch (this._USER_ROLE) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
         return this.updateMe(requestBody);
       default:
         const customerId = this._CURRENT_USER.doc_id;
@@ -199,9 +190,10 @@ export class AuthService {
   }
 
   async findMyJoinedEvents(pagination: Pagination) {
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
-      case 'ADMIN':
+    switch (this._USER_ROLE) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
         return [];
       default:
         const customerId = this._CURRENT_USER.doc_id;
@@ -222,9 +214,10 @@ export class AuthService {
   }
 
   async findMyBankAccounts(pagination: Pagination) {
-    switch (this._USER_TYPE) {
-      case 'MERCHANT':
-      case 'ADMIN':
+    switch (this._USER_ROLE) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
         return [];
       default:
         const customerId = this._CURRENT_USER.doc_id;

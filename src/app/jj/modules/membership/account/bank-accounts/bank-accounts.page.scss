@@ -1,29 +1,9 @@
-ion-list-header {
-    min-height: 0;
-    font-size: var(--ion-font-sm);
-    padding-top: calc(var(--ion-padding, 16px) / 2);
-    padding-bottom: calc(var(--ion-padding, 16px) / 2);
-    --background: var(--ion-color-light);
-  }
-  
-  .header-title {
-    margin: 0;
-    font-size: var(--ion-font-lg);
-  }
-  
-  .header-subtitle {
-    margin: 0;
-    font-size: var(--ion-font-sm);
-  }
-  
-  .transaction {
-    .description {
-      font-weight: var(--ion-font-bold);
-      font-size: var(--ion-font-lg);
-    }
-  
-    .reference1,
-    .reference2 {
-      font-size: var(--ion-font-sm);
-    }
-  }
+.account-no {
+  font-weight: var(--ion-font-bold);
+  font-size: var(--ion-font-lg);
+}
+
+.bank-name,
+.holder-name {
+  font-size: var(--ion-font-sm);
+}

@@ -55,7 +55,7 @@ export interface AccountOptions {
 }
 
 export type User = JJCustomer | JJUser;
-export type UserType = 'ADMIN' | 'MERCHANT' | 'CUSTOMER';
+export type UserType = 'SYSTEM' | 'MERCHANT' | 'FINANCE' | 'CUSTOMER';
 
 export interface JJCustomer extends ErpDoc {
   firstName: string;
@@ -86,7 +86,7 @@ export interface JJUser extends ErpDoc {
   new_password?: string;
 }
 
-export type UserRole = 'SYSTEM_ADMIN' | 'MERCHANT_ADMIN' | 'CUSTOMER';
+export type UserRole = 'SYSTEM_ADMIN' | 'MERCHANT_ADMIN' | 'FINANCE_ADMIN' | 'CUSTOMER';
 
 export interface JJEvent extends ErpDoc {
   name: string;

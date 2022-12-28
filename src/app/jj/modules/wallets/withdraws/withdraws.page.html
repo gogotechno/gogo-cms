@@ -12,7 +12,7 @@
   </ion-refresher>
   <ion-list>
     <div *ngIf="!dates?.length" class="note">
-      <ion-label>{{ '_NO_WITHDRAWS_FOUND' | translate }}</ion-label>
+      <ion-label>{{ 'jj._NO_WITHDRAWS_FOUND' | translate }}</ion-label>
     </div>
     <ng-container *ngFor="let date of dates">
       <ion-list-header>{{ date }}</ion-list-header>

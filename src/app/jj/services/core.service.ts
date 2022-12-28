@@ -386,6 +386,11 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
+  async getBankById(bankId: number) {
+    const res = await this.swsErp.getDoc<JJBank>('Bank', bankId);
+    return res;
+  }
+
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', {
       itemsPerPage: pagination.itemsPerPage,
