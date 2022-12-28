@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { JJBankAccount } from 'src/app/jj/typings';
-import { AuthService, CoreService } from 'src/app/jj/services';
-import { DocStatus, Pagination } from 'src/app/sws-erp.type';
+import { CoreService } from 'src/app/jj/services';
+import { Pagination } from 'src/app/sws-erp.type';
 import { SharedComponent } from 'src/app/jj/shared';
 
 @Component({

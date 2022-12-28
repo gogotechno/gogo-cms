@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CmsForm } from 'src/app/cms.type';
 import { CoreService } from '../../services';
@@ -6,8 +5,7 @@ import { CoreService } from '../../services';
 @Injectable()
 export class MerchantService {
 
-  _url = 'http://localhost:4200/#/lucky/Lucky%20Draw/Event/';
-  constructor(private core: CoreService, private _http: HttpClient) {}
+  constructor(private core: CoreService) { }
 
   get eventPrizeForm(): CmsForm {
     return {
@@ -99,7 +97,7 @@ export class MerchantService {
     };
   }
 
-  get  eventSNWForm(): CmsForm {
+  get eventSnwForm(): CmsForm {
     return {
       code: 'event-snw',
       labelPosition: 'stacked',
@@ -149,7 +147,6 @@ export class MerchantService {
       ],
     };
   }
-
 
   get eventForm(): CmsForm {
     return {
@@ -281,7 +278,7 @@ export class MerchantService {
           label: 'jj._SNW_RULES',
           type: 'array',
           dataType: 'custom',
-          childForm: this.eventSNWForm,
+          childForm: this.eventSnwForm,
           arrayConfig: {
             nameFields: ['minimum_spend', 'free_tickets'],
             nameSeparator: ' ',
@@ -305,7 +302,8 @@ export class MerchantService {
     };
   }
 
-  get  snwPrizesForm(): CmsForm {
+  // Scratch and Win Part
+  get snwPrizesForm(): CmsForm {
     return {
       code: 'snw-prizes',
       labelPosition: 'stacked',
@@ -362,7 +360,7 @@ export class MerchantService {
     };
   }
 
-  get SNWeventForm(): CmsForm {
+  get snwEventForm(): CmsForm {
     return {
       code: 'snw-event',
       labelPosition: 'stacked',
@@ -373,7 +371,7 @@ export class MerchantService {
         {
           code: 'name',
           label: 'jj._NAME',
-          type: 'cms-translate-editor',
+          type: "cms-translate",
           required: true,
         },
         {
@@ -405,7 +403,6 @@ export class MerchantService {
           label: 'jj._PRICE_PER_SCRATCH',
           type: 'number',
           required: true,
-
         },
         {
           code: 'logo',
@@ -518,7 +515,7 @@ export class MerchantService {
     pointRulesField.childForm = await this.getGiftForm();
 
     let SNWRulesField = eventForm.items.find((item) => item.code == 'scratchAndWinRules');
-    SNWRulesField.childForm = await this.getSNWForm();
+    SNWRulesField.childForm = await this.getSnwForm();
 
     return eventForm;
   }
@@ -536,8 +533,8 @@ export class MerchantService {
     return giftForm;
   }
 
-  async getSNWForm() {
-    let SNWForm = this.eventSNWForm;
+  async getSnwForm() {
+    let SNWForm = this.eventSnwForm;
 
     let modes = await this.core.getIssueModes();
     let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
@@ -549,8 +546,8 @@ export class MerchantService {
     return SNWForm;
   }
 
-  async getSNWEventForm() {
-    let SNWEventForm = this.SNWeventForm;
+  async getSnwEventForm() {
+    let snwEventForm = this.snwEventForm;
 
     // let modes = await this.core.getIssueModes();
     // let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
@@ -559,14 +556,12 @@ export class MerchantService {
     //   label: mode.name,
     // }));
 
-    return SNWEventForm;
+    return snwEventForm;
   }
 
 
-  register(data){
-    return this._http.post<any>(this._url, data);
-  }
 
 
-  
+
+
 }

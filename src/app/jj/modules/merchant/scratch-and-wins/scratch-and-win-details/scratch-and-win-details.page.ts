@@ -13,8 +13,8 @@ import { MerchantService } from '../../merchant.service';
   styleUrls: ['./scratch-and-win-details.page.scss'],
 })
 export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit {
-  ScratchAndWinEventId: number;
-  ScratchAndWinEvent: JJScratchAndWinEvent;
+  scratchAndWinEventId: number;
+  scratchAndWinEvent: JJScratchAndWinEvent;
   form: CmsForm;
 
   constructor(
@@ -22,19 +22,19 @@ export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit 
     private core: CoreService,
     private app: AppUtils,
     private merchantService: MerchantService,
-  ) { 
+  ) {
     super();
   }
 
   async ngOnInit() {
-    this.form = await this.merchantService.getSNWEventForm();
+    this.form = await this.merchantService.getSnwEventForm();
     const params = this.route.snapshot.params;
-    this.ScratchAndWinEventId = params['id'];
+    this.scratchAndWinEventId = params.id;
     await this.loadData();
   }
 
   async loadData() {
-    this.ScratchAndWinEvent = await this.core.getScratchAndWinEventById(this.ScratchAndWinEventId);
+    this.scratchAndWinEvent = await this.core.getScratchAndWinEventById(this.scratchAndWinEventId);
   }
 
   async onSubmit(data: any) {

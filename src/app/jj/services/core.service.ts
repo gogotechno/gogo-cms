@@ -605,6 +605,10 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request);
   }
 
+  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    return this.swsErp.postDoc('Scratch And Win Event', event);
+  }
+
   async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
@@ -617,7 +621,7 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
-  async getScratchAndWinEvent(pagination: Pagination, conditions: Conditions = {}) {
+  async getScratchAndWinEvents(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
       currentPage: pagination.currentPage,
