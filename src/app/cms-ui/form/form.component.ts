@@ -210,7 +210,7 @@ export class FormComponent extends CmsComponent implements OnInit {
         for (const errorKey of Object.keys(errors)) {
           const error = errors[errorKey];
           const field = this.form.items.find((i) => i.code == controlKey);
-          const label = this.cmsTranslate.transform(field.label);
+          const label = await this.translate.get(this.cmsTranslate.transform(field.label)).toPromise();
           let messageKey: string;
           const messageParams: any = { label };
           switch (errorKey) {
@@ -237,7 +237,7 @@ export class FormComponent extends CmsComponent implements OnInit {
               messageKey = '_REQUIRES_MATCH_WITH';
               messageParams.matchingFields = this.form.items
                 .filter((i) => error.fields.includes(i.code))
-                .map((f) => this.cmsTranslate.transform(f.label))
+                .map(async (f) => await this.translate.get(this.cmsTranslate.transform(f.label)).toPromise())
                 .join(', ');
               break;
             default:

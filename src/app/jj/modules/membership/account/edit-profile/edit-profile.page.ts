@@ -25,18 +25,16 @@ export class EditProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.form = this.auth.userType == 'CUSTOMER' ? customerform : userForm;
+    this.form = this.auth.userRole == 'CUSTOMER' ? customerform : userForm;
     this.account.user.subscribe((user) => (this.user = user));
   }
 
   async onSubmit(data: User) {
     const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
-    if (!confirm) return;
-    if (this.auth.userType == 'MERCHANT') {
-      await this.auth.updateMe(data);
-      await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
-    } else {
-      // VALIDATE PHONE NUMBER
+    if (!confirm) {
+      return;
+    }
+    if (this.auth.userRole == 'CUSTOMER') {
       const modal = await this.modalController.create({
         component: PhoneNumberVerificationComponent,
         componentProps: {
@@ -44,7 +42,7 @@ export class EditProfilePage implements OnInit {
         },
       });
       modal.onDidDismiss().then(async (v) => {
-        if (!v?.data) {
+        if (!v.data) {
           return;
         }
         if (v.data.status === 'success') {
@@ -59,6 +57,9 @@ export class EditProfilePage implements OnInit {
         }
       });
       await modal.present();
+    } else {
+      await this.auth.updateMe(data);
+      await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
     }
   }
 }

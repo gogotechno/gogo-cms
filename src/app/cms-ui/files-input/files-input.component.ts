@@ -20,7 +20,7 @@ export class FilesInputComponent implements ControlValueAccessor {
   @Input('required') required: boolean;
   @Input('maximum') maximum: number;
   @Input('readonly') readonly: boolean;
-
+  @Input('showEmptyMessage') showEmptyMessage: boolean;
   @Input('files') files: CmsFile[];
 
   disabled = false;
@@ -77,20 +77,21 @@ export class FilesInputComponent implements ControlValueAccessor {
     if (!file) {
       return;
     }
+
     let previewUrl: string;
     let fileType: 'image' | 'file';
-    let base64String: string;
+    let dataUrl: string;
     await new Promise((resolve) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        base64String = String(reader.result);
+        dataUrl = String(reader.result);
         resolve(true);
       };
     });
     if (file.type.startsWith('image')) {
       fileType = 'image';
-      previewUrl = base64String;
+      previewUrl = dataUrl;
     } else {
       fileType = 'file';
       switch (file.type) {
@@ -105,6 +106,8 @@ export class FilesInputComponent implements ControlValueAccessor {
           break;
       }
     }
+    let dataUrlArr = dataUrl.split(',');
+    let base64String = dataUrlArr[dataUrlArr.length - 1];
     if (!this.files) {
       this.files = [];
     }

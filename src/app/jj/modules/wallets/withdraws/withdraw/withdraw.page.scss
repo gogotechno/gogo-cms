@@ -1,7 +1,9 @@
-ion-label h3 {
+ion-item ion-label h3,
+:host ::ng-deep cms-files-input ion-label.cms-files-lbl {
+  font-size: var(--ion-font-sm);
   font-weight: var(--ion-font-bold);
 }
 
-ion-label p {
+ion-item ion-label p {
   color: var(--ion-text-color, #000);
 }

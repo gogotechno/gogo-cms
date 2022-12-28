@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { AuthService, CoreService } from 'src/app/jj/services';
-import { JJMerchant, JJUser, UserRole } from 'src/app/jj/typings';
+import { JJMerchant, JJUser } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-create-user',
@@ -29,7 +29,7 @@ export class CreateUserPage implements OnInit {
     const roles = await this.core.getUserRoles();
     const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles
-      .filter((role) => role.code != UserRole.SYSTEM_ADMIN)
+      .filter((role) => role.code != 'SYSTEM_ADMIN')
       .map((role) => ({
         code: role.code,
         label: this.cmsUtils.parseCmsTranslation(role.name),
@@ -39,7 +39,7 @@ export class CreateUserPage implements OnInit {
 
     this.user = {
       merchant_id: this.merchant.doc_id,
-      role: UserRole.MERCHANT_ADMIN,
+      role: 'MERCHANT_ADMIN',
       firstName: '',
       lastName: '',
       email: '',
@@ -76,7 +76,7 @@ const form: CmsForm = {
       label: {
         en: 'Merchant',
         zh: '商家',
-        ms: 'Pedagang'
+        ms: 'Pedagang',
       },
       type: 'number',
       required: true,
@@ -87,7 +87,7 @@ const form: CmsForm = {
       label: {
         en: 'Role',
         zh: '角色',
-        ms: 'Peranan'
+        ms: 'Peranan',
       },
       type: 'select',
       required: true,
@@ -97,7 +97,7 @@ const form: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
-        ms: 'Nama Pertama'
+        ms: 'Nama Pertama',
       },
       type: 'text',
       required: true,
@@ -107,7 +107,7 @@ const form: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
-        ms: 'Nama Terakhir'
+        ms: 'Nama Terakhir',
       },
       type: 'text',
       required: true,
@@ -117,7 +117,7 @@ const form: CmsForm = {
       label: {
         en: 'Email',
         zh: '电子邮件',
-        ms: 'Emel'
+        ms: 'Emel',
       },
       type: 'text',
       required: true,
@@ -127,7 +127,7 @@ const form: CmsForm = {
       label: {
         en: 'Password',
         zh: '密码',
-        ms: 'Kata Laluan'
+        ms: 'Kata Laluan',
       },
       type: 'password',
       required: true,

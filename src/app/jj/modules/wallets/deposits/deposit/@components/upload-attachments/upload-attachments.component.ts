@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { CmsFile, CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CoreService } from 'src/app/jj/services';
-import { JJBankAccount } from 'src/app/jj/typings';
+import { JJBankAccount, JJDepositRequest } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-upload-attachments',
@@ -13,20 +13,15 @@ import { JJBankAccount } from 'src/app/jj/typings';
 export class UploadAttachmentsComponent implements OnInit {
   form = form;
   depositId: number;
-  bankAccount: JJBankAccount;
+  deposit: JJDepositRequest;
 
-  constructor(private modalCtrl: ModalController, private appUtils: AppUtils, private core: CoreService) {}
+  constructor(private modalCtrl: ModalController) {}
 
   ngOnInit() {}
 
   async onUpload(data: UploadDto) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_MAKE_PAYMENT');
-    if (!confirm) {
-      return;
-    }
-    await this.core.updateDepositRequest(this.depositId, { attachments: data.attachments });
     await this.modalCtrl.dismiss({
-      success: true,
+      attachments: data.attachments,
     });
   }
 

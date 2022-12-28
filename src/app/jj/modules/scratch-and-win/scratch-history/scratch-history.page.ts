@@ -29,7 +29,7 @@ export class ScratchHistoryPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    if (this.auth.userType == 'CUSTOMER') {
+    if (this.auth.userRole == 'CUSTOMER') {
       this.event = await this.core.getScratchAndWinEventById(this.eventId);
       this.requestsPage = this.defaultPage;
       this.requests = await this.getRequests();

@@ -16,7 +16,9 @@ export class DepositRequestPage implements OnInit {
   deposit: JJDepositRequest;
 
   get statusColor() {
-    if (!this.deposit) return;
+    if (!this.deposit) {
+      return;
+    }
     return this.walletsService.getStatusColor(this.deposit.status);
   }
 
@@ -50,9 +52,7 @@ export class DepositRequestPage implements OnInit {
     if (!confirm) {
       return;
     }
-    await this.core.updateDepositRequest(this.deposit.doc_id, {
-      status: 'APPROVED',
-    });
+    await this.core.approveDepositRequest(this.deposit.doc_id);
     await this.loadData();
   }
 
@@ -61,9 +61,7 @@ export class DepositRequestPage implements OnInit {
     if (!confirm) {
       return;
     }
-    await this.core.updateDepositRequest(this.deposit.doc_id, {
-      status: 'DECLINED',
-    });
+    await this.core.declineDepositRequest(this.deposit.doc_id);
     await this.loadData();
   }
 }

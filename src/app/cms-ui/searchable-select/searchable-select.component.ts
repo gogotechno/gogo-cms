@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import {
   CmsTranslable,
+  OnSelectInit,
   OnSelectLoad,
   OnSelectScrollToEnd,
   SearchableConfig,
@@ -44,6 +45,7 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
 
   selectedItems: any[];
 
+  onInit: OnSelectInit;
   onLoad: OnSelectLoad;
   onScrollToEnd: OnSelectScrollToEnd;
 
@@ -80,8 +82,12 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
     this.labelSeparator = this.config?.labelSeparator || ' ';
     this.codeFields = this.config?.codeFields || [];
     this.codeSeparator = this.config?.codeSeparator || ' ';
+    this.onInit = this.handler?.onInit;
     this.onLoad = this.handler?.onLoad;
     this.onScrollToEnd = this.handler?.onScrollToEnd;
+    if (!this.onInit) {
+      console.warn('onInit is not provided!');
+    }
     if (!this.onLoad) {
       console.warn('onLoad is not provided!');
     }
@@ -90,8 +96,12 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  writeValue(value: string) {
+  async writeValue(value: string) {
     this.value = value;
+    if (this.value && this.onInit) {
+      let items = await this.onInit(this.value);
+      this.selectedItems = items;
+    }
   }
 
   setDisabledState?(disabled: boolean): void {

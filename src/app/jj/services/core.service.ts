@@ -2,14 +2,15 @@ import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { CmsFile } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
+import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
 import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
-  AccountOptions,
   COMPANY_CODE,
   JJAnnouncement,
   JJBank,
@@ -48,7 +49,9 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
+  UserRole,
 } from '../typings';
+import { AuthDataService } from './auth-data.service';
 import { CommonService } from './common.service';
 
 @Injectable()
@@ -65,6 +68,8 @@ export class CoreService extends SharedComponent {
     private translate: TranslateService,
     private swsErp: SwsErpService,
     private common: CommonService,
+    private erpImg: ErpImagePipe,
+    private authData: AuthDataService,
   ) {
     super();
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
@@ -111,14 +116,13 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
-    const conditions: Conditions = {
+  async getUserByDocUserId(docUserId: number, conditions: Conditions = {}) {
+    let query: GetOptions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
-      ...accountOptions,
+      ...conditions,
     };
-
-    const res = await this.getUsers(this.defaultPage, conditions);
+    const res = await this.swsErp.getDocs<JJUser>('User', query);
     return res[0];
   }
 
@@ -159,16 +163,15 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
-    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
-      ...accountOptions,
-    });
+  async getCustomerById(customerId: number, conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, query);
     return res;
   }
 
   async getCustomerByPhone(phone: string) {
     const res = await this.swsErp.getDocs<JJCustomer>('Customer', {
-      phone,
+      phone: phone,
       phone_type: '=',
     });
     return res.result[0];
@@ -249,9 +252,23 @@ export class CoreService extends SharedComponent {
     return this.swsErp.putDoc('Deposit Request', requestId, request);
   }
 
+  declineDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'DECLINED',
+    });
+  }
+
+  approveDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'APPROVED',
+    });
+  }
+
   async getDepositRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
-    return res;
+    return this.populateDepositRequest(res);
   }
 
   async getDepositRequestByRefNo(refNo: string) {
@@ -290,20 +307,23 @@ export class CoreService extends SharedComponent {
   }
 
   declineWithdrawRequest(requestId: number) {
-    return this.swsErp.putDoc('Withdraw Request', requestId, {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
       status: 'DECLINED',
     });
   }
 
-  approveWithdrawRequest(requestId: number) {
-    return this.swsErp.putDoc('Withdraw Request', requestId, {
+  approveWithdrawRequest(requestId: number, attachments?: CmsFile[]) {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
       status: 'APPROVED',
+      attachments: attachments,
     });
   }
 
   async getWithdrawRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
-    return res;
+    return this.populateWithdrawRequest(res);
   }
 
   async getWithdrawRequestByRefNo(refNo: string) {
@@ -347,8 +367,8 @@ export class CoreService extends SharedComponent {
 
   async getRandomBankAccount() {
     const query: GetOptions = {
-      system: true,
-      random: true,
+      isSystem: true,
+      isRandom: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
@@ -363,6 +383,11 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result;
+  }
+
+  async getBankById(bankId: number) {
+    const res = await this.swsErp.getDoc<JJBank>('Bank', bankId);
+    return res;
   }
 
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
@@ -381,7 +406,18 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  createBankAccount(account: JJBankAccount) {
+  async createBankAccount(account: JJBankAccount) {
+    switch (this.authData.getUserRole()) {
+      case 'CUSTOMER':
+        account['customerId'] = this.authData.getCurrentUser().doc_id;
+        break;
+      case 'MERCHANT_ADMIN':
+        account['merchantId'] = await this.authData.findMyMerchantId();
+        break;
+      default:
+        account['isSystem'] = true;
+        break;
+    }
     return this.swsErp.postDoc('Bank Account', account);
   }
 
@@ -592,17 +628,20 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getMiniPrograms() {
-    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
-    return res.result;
+  async getMiniPrograms(userRole: UserRole) {
+    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program', {
+      userRole: userRole,
+    });
+    return res.result.map((program) => this.populateMiniPrograms(program));
   }
 
   // -----------------------------------------------------------------------------------------------------
   // @ Scratch and Win Event
   // -----------------------------------------------------------------------------------------------------
 
-  createScratchRequest(request: JJScratchRequest) {
-    return this.swsErp.postDoc('Scratch Request', request);
+  createScratchRequest(request: JJScratchRequest, conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    return this.swsErp.postDoc('Scratch Request', request, query);
   }
 
   createScratchAndWinEvent(event: JJScratchAndWinEvent) {
@@ -652,6 +691,42 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Converter
+  // -----------------------------------------------------------------------------------------------------
+
+  convertCurrency(currency: JJWalletCurrency) {
+    if (!currency) {
+      return null;
+    }
+    let displayCurrency: Currency = {
+      code: currency.code,
+      displaySymbol: currency.symbol,
+      symbolPosition: currency.symbolPosition,
+      precision: currency.digits,
+    };
+    return displayCurrency;
+  }
+
+  convertAttachment(attachment: CmsFile) {
+    if (attachment.fileType == 'image') {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+    } else {
+      switch (attachment.mimeType) {
+        case 'application/pdf':
+          attachment.previewUrl = 'assets/jj/file-types/pdf.png';
+          break;
+        case 'text/plain':
+          attachment.previewUrl = 'assets/jj/file-types/txt.png';
+          break;
+        default:
+          attachment.previewUrl = 'assets/jj/file-types/file.png';
+          break;
+      }
+    }
+    return attachment;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -764,24 +839,11 @@ export class CoreService extends SharedComponent {
     return winner;
   }
 
-  populateCurrency(currency: JJWalletCurrency) {
-    if (!currency) {
-      return null;
-    }
-    let displayCurrency: Currency = {
-      code: currency.code,
-      displaySymbol: currency.symbol,
-      symbolPosition: currency.symbolPosition,
-      precision: currency.digits,
-    };
-    return displayCurrency;
-  }
-
   populateWallet(wallet: JJWallet) {
     if (!wallet) {
       return null;
     }
-    wallet.displayCurrency = this.populateCurrency(wallet.walletCurrency);
+    wallet.displayCurrency = this.convertCurrency(wallet.walletCurrency);
     wallet.icon = wallet.walletType?.icon;
     wallet.colors = wallet.walletType?.colors;
     return wallet;
@@ -792,7 +854,8 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
     return request;
   }
 
@@ -801,7 +864,8 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.populateCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
     return request;
   }
 
@@ -822,5 +886,13 @@ export class CoreService extends SharedComponent {
     }
     request.prize = this.populateScratchAndWinPrize(request.prize);
     return request;
+  }
+
+  populateMiniPrograms(program: JJMiniProgram) {
+    if (!program) {
+      return null;
+    }
+    program.colors = this.common.parseJson(program.colors);
+    return program;
   }
 }

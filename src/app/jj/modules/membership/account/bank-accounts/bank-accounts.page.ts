@@ -3,7 +3,7 @@ import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bank-accounts',
@@ -17,39 +17,22 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
   customerId: number;
   merchantId: number;
-  accountId: number
+  accountId: number;
 
-  constructor(
-    private auth: AuthService, 
-    private core: CoreService, 
-    private router: Router,
-    private route: ActivatedRoute,) 
-    { 
-    super(); 
-    }
+  constructor(private route: ActivatedRoute, private auth: AuthService) {
+    super();
+  }
 
   async ngOnInit() {
     this.route.queryParams.subscribe(async (queryParams) => {
       if (queryParams.refresh) {
         await this.loadData();
-        // await this.router.navigate([]);
       }
     });
-
     await this.loadData();
   }
 
   async loadData() {
-    switch (this.auth.userType) {
-      case 'CUSTOMER':
-        this.customerId = this.auth.currentUser.doc_id;
-        break;
-      case 'MERCHANT':
-        this.merchantId = await this.auth.findMyMerchantId();
-        break;
-      default:
-        break;
-    }
     this.accountsPage = this.defaultPage;
     this.accounts = await this.getAccounts();
     this.accountsEnded = this.accounts.length < this.accountsPage.itemsPerPage;
@@ -65,14 +48,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   }
 
   async getAccounts() {
-    let conditions: Conditions = {};
-    if (this.customerId) {
-      conditions.customer_id = this.customerId;
-    }
-    if (this.merchantId) {
-      conditions.merchant_id = this.merchantId;
-    }
-    let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
+    let accounts = await this.auth.findMyBankAccounts(this.accountsPage);
     this.updatedAt = new Date();
     return accounts;
   }
@@ -82,6 +58,4 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
     const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
-
-
 }

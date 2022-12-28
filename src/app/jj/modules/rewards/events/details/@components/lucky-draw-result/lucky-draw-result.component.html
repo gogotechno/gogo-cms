@@ -18,11 +18,17 @@
           <table>
             <tr>
               <th>{{ 'jj._RESULT_REF_NO' | translate }}&nbsp;:&nbsp;</th>
-              <td>{{ result.doc_id }}</td>
+              <td>
+                <span *ngIf="!result">-</span>
+                <span *ngIf="result">{{ result?.doc_id }}</span>
+              </td>
             </tr>
             <tr>
               <th>{{ 'jj._DREW_AT' | translate }}&nbsp;:&nbsp;</th>
-              <td>{{ event.drewAt | date: 'd/M/yyyy hh:mm:ss a' }}</td>
+              <td>
+                <span *ngIf="!result">-</span>
+                <span *ngIf="result">{{ event.drewAt | date : 'd/M/yyyy hh:mm:ss a' }}</span>
+              </td>
             </tr>
           </table>
         </ion-card-content>
@@ -36,7 +42,7 @@
         <ion-list-header>
           <ion-label>
             <p class="prize-name">{{ group.prize.nameTranslation | cmsTranslate }}</p>
-            <p class="prize-worth">{{ 'jj._WORTH' | translate }}&nbsp;RM{{ group.prize.worth | number: '1.2-2' }}</p>
+            <p class="prize-worth">{{ 'jj._WORTH' | translate }}&nbsp;RM{{ group.prize.worth | number : '1.2-2' }}</p>
           </ion-label>
         </ion-list-header>
         <div *ngIf="!winners?.length" class="note">
@@ -51,7 +57,7 @@
               <span *ngIf="!winner.merchant">-</span>
             </p>
             <p *ngIf="winner.customer" class="customer-name">
-              {{ winner.customer.firstName | fullName: winner.customer.lastName | hideText }}&nbsp;|&nbsp;
+              {{ winner.customer.firstName | fullName : winner.customer.lastName | hideText }}&nbsp;|&nbsp;
               {{ winner.customer.phone | hideText }}
             </p>
           </ion-label>

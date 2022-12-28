@@ -2,11 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
-
 
 @Component({
   selector: 'app-create-bank-account',
@@ -19,12 +18,10 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
   accountId: number;
 
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private appUtils: AppUtils,
-    private app: AppUtils,
     private core: CoreService,
-    private auth: AuthService,
-    private router: Router,
   ) {
     super();
   }
@@ -35,24 +32,19 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
     this.eventId = params.id;
   }
 
-  async onSubmit(data: any) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
-    if (!confirm) return;
-    let account: JJBankAccount = {
-      ...data,
-      customerId: this.auth.currentUser.doc_id
+  async onSubmit(data: JJBankAccount) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
+    if (!confirm) {
+      return;
     }
-    await this.core.createBankAccount(account);
-    console.log(data);
-    // await this.core.updateBankAccount(this.accountId, data);
+    await this.core.createBankAccount(data);
     await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
     await this.router.navigate(['/jj/account/bank-accounts'], {
       replaceUrl: true,
       queryParams: {
-        refresh: true
+        refresh: true,
       },
     });
-
   }
 
   get _form(): CmsForm {

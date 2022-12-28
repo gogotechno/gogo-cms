@@ -1,0 +1,7 @@
+.amount-to-pay {
+  font-size: var(--ion-font-4xl);
+  font-weight: var(--ion-font-bold);
+  jj-currency {
+    --symbol-size: var(--ion-font-3xl);
+  }
+}

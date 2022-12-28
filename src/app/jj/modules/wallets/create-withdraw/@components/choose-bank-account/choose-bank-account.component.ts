@@ -21,12 +21,7 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   merchantId: number;
   selectedBankId: number;
 
-  constructor(
-    private modalCtrl: ModalController,
-    private appUtils: AppUtils,
-    private auth: AuthService,
-    private core: CoreService,
-  ) {
+  constructor(private modalCtrl: ModalController, private auth: AuthService) {
     super();
   }
 
@@ -35,16 +30,6 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async loadData() {
-    switch (this.auth.userType) {
-      case 'CUSTOMER':
-        this.customerId = this.auth.currentUser.doc_id;
-        break;
-      case 'MERCHANT':
-        this.merchantId = await this.auth.findMyMerchantId();
-        break;
-      default:
-        break;
-    }
     this.accountsPage = this.defaultPage;
     this.accounts = await this.getAccounts();
     this.accountsEnded = this.accounts.length < this.accountsPage.itemsPerPage;
@@ -60,17 +45,7 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async getAccounts() {
-    let conditions: Conditions = {};
-    if (this.customerId) {
-      conditions.customer_id = this.customerId;
-    }
-    if (this.merchantId) {
-      conditions.merchant_id = this.merchantId;
-    }
-    if (!this.customerId && !this.merchantId) {
-      conditions.default = true;
-    }
-    let accounts = await this.core.getBankAccounts(this.accountsPage, conditions);
+    let accounts = await this.auth.findMyBankAccounts(this.accountsPage);
     this.updatedAt = new Date();
     return accounts;
   }
@@ -95,10 +70,6 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async onConfirm() {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
-    if (!confirm) {
-      return;
-    }
     await this.modalCtrl.dismiss({
       bankId: this.selectedBankId,
     });

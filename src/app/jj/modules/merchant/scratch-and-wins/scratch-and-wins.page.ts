@@ -56,5 +56,4 @@ export class ScratchAndWinsPage extends SharedComponent implements OnInit {
     await this.menuCtrl.enable(true);
     await this.menuCtrl.open();
   }
-
 }
