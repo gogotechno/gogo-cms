@@ -122,10 +122,6 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
           type: 'select',
           options: [
             {
-              code: 'PENDING_PAYMENT',
-              label: 'jj._PENDING_PAYMENT',
-            },
-            {
               code: 'PROCESSING',
               label: 'jj._PROCESSING',
             },

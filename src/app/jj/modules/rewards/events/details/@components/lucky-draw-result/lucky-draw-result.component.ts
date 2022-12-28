@@ -29,12 +29,13 @@ export class LuckyDrawResultComponent extends SharedComponent implements OnInit 
   async ngOnInit() {
     this.result = this.event.drawingResult;
     this.prizeGroups = [];
-    this.winnersPage = this.defaultPage;
-
-    const winners = await this.getWinners();
-    this.winners = winners;
-    this.grouping(winners);
-    this.winnersEnded = this.winners.length < this.winnersPage.itemsPerPage;
+    if (this.result) {
+      this.winnersPage = this.defaultPage;
+      const winners = await this.getWinners();
+      this.winners = winners;
+      this.grouping(winners);
+      this.winnersEnded = this.winners.length < this.winnersPage.itemsPerPage;
+    }
   }
 
   onDismiss(event?: Event) {

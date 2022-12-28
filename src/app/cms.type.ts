@@ -214,10 +214,12 @@ export interface SearchableConfig {
 }
 
 export interface SearchableHanlder {
+  onInit?: OnSelectInit;
   onLoad: OnSelectLoad;
   onScrollToEnd: OnSelectScrollToEnd;
 }
 
+export type OnSelectInit = (value: any) => Promise<any>;
 export type OnSelectLoad = () => Promise<[any[], Pagination]>;
 export type OnSelectScrollToEnd = (pagination: Pagination) => Promise<[any[], Pagination]>;
 

@@ -4,7 +4,7 @@ import { PopoverController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { AuthService, CoreService } from 'src/app/jj/services';
-import { JJCustomer, JJUser, UserRole } from 'src/app/jj/typings';
+import { JJCustomer, JJUser } from 'src/app/jj/typings';
 import { MoreOptionsComponent } from './@component/more-options/more-options.component';
 
 @Component({
@@ -35,7 +35,7 @@ export class DetailsPage implements OnInit {
   }
 
   async loadData() {
-    this.form = this.currentUser.role == UserRole.SYSTEM_ADMIN ? systemForm : merchantForm;
+    this.form = this.currentUser.role == 'SYSTEM_ADMIN' ? systemForm : merchantForm;
     this.customer = await this.core.getCustomerById(this.customerId);
   }
 
@@ -78,7 +78,7 @@ const merchantForm: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
-        ms: 'Nama Pertama'
+        ms: 'Nama Pertama',
       },
       type: 'text',
       required: true,
@@ -88,7 +88,7 @@ const merchantForm: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
-        ms: 'Nama Terakhir'
+        ms: 'Nama Terakhir',
       },
       type: 'text',
       required: true,
@@ -108,7 +108,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
-        ms: 'Nama Pertama'
+        ms: 'Nama Pertama',
       },
       type: 'text',
       required: true,
@@ -118,7 +118,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
-        ms: 'Nama Terakhir'
+        ms: 'Nama Terakhir',
       },
       type: 'text',
       required: true,
@@ -128,7 +128,7 @@ const systemForm: CmsForm = {
       label: {
         en: 'Phone Number',
         zh: '手机号码',
-        ms: 'Nombor Telefon'
+        ms: 'Nombor Telefon',
       },
       type: 'text',
       required: true,

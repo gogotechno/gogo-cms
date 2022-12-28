@@ -50,12 +50,12 @@ export interface MiniProgram extends ErpDoc {
   colors?: any;
 }
 
-export interface AccountOptions {
+export interface GetProfileOptions {
   checkWallet?: boolean;
 }
 
 export type User = JJCustomer | JJUser;
-export type UserType = 'ADMIN' | 'MERCHANT' | 'CUSTOMER';
+export type UserType = 'SYSTEM' | 'MERCHANT' | 'FINANCE' | 'CUSTOMER';
 
 export interface JJCustomer extends ErpDoc {
   firstName: string;
@@ -86,10 +86,7 @@ export interface JJUser extends ErpDoc {
   new_password?: string;
 }
 
-export enum UserRole {
-  SYSTEM_ADMIN = 'SYSTEM_ADMIN',
-  MERCHANT_ADMIN = 'MERCHANT_ADMIN',
-}
+export type UserRole = 'SYSTEM_ADMIN' | 'MERCHANT_ADMIN' | 'FINANCE_ADMIN' | 'CUSTOMER';
 
 export interface JJEvent extends ErpDoc {
   name: string;
@@ -185,7 +182,7 @@ export interface JJWallet extends ErpDoc {
   colors?: any;
 }
 
-export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW';
+export type WalletType = 'CUSTOMER' | 'MERCHANT' | 'SNW' | 'CASH';
 
 export interface JJWalletType extends ErpDoc {
   code: WalletType;
@@ -492,6 +489,9 @@ export interface JJDepositRequest extends ErpDoc {
   displayCurrency?: Currency;
   convertedCurrency?: JJWalletCurrency;
   convertedAmount?: number;
+  beneficiaryName?: string;
+  beneficiaryPhone?: string;
+  beneficiaryWalletNo?: string;
 }
 
 export type DepositRequestStatus = 'PENDING_PAYMENT' | 'PROCESSING' | 'APPROVED' | 'DECLINED';
@@ -524,6 +524,9 @@ export interface JJWithdrawRequest extends ErpDoc {
   displayCurrency?: Currency;
   convertedCurrency?: JJWalletCurrency;
   convertedAmount?: number;
+  beneficiaryName?: string;
+  beneficiaryPhone?: string;
+  beneficiaryWalletNo?: string;
 }
 
 export type WithdrawRequestStatus = 'PROCESSING' | 'APPROVED' | 'DECLINED';
@@ -546,6 +549,7 @@ export interface JJBankAccount extends ErpDoc {
   bank_id: number;
   isActive?: boolean;
   isDefault?: boolean;
+  isSystem?: boolean;
   customerId?: number;
   merchantId?: number;
   bankName?: string;

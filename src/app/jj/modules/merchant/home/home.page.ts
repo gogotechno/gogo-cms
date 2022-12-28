@@ -14,7 +14,9 @@ import { CapturePaymentComponent } from './@components/capture-payment/capture-p
 })
 export class HomePage implements OnInit {
   merchant: JJMerchant;
+  wallets: JJWallet[];
   wallet: JJWallet;
+  cashWallet: JJWallet;
 
   constructor(private modalCtrl: ModalController, private menuCtrl: MenuController, private auth: AuthService) {}
 
@@ -33,8 +35,9 @@ export class HomePage implements OnInit {
   }
 
   async getWallet() {
-    const wallets = await this.auth.findMyWallets();
-    this.wallet = wallets.find((wallet) => wallet.type == 'MERCHANT');
+    this.wallets = await this.auth.findMyWallets();
+    this.wallet = this.wallets.find((wallet) => wallet.type == 'MERCHANT');
+    this.cashWallet = this.wallets.find((wallet) => wallet.type == 'CASH');
   }
 
   async doRefresh(event: Event) {
@@ -57,11 +60,11 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-  async onCapturePayment() {
+  async onCapturePayment(wallet?: JJWallet) {
     const modal = await this.modalCtrl.create({
       component: CapturePaymentComponent,
       componentProps: {
-        wallet: this.wallet,
+        wallet: wallet || this.wallet,
       },
     });
     await modal.present();
@@ -73,11 +76,11 @@ export class HomePage implements OnInit {
     }
   }
 
-  async openQrCode() {
+  async openQrCode(wallet?: JJWallet) {
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
-        qrData: this.wallet.walletNo,
+        qrData: wallet.walletNo || this.wallet.walletNo,
       },
       cssClass: 'qrcode-modal',
     });

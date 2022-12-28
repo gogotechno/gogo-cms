@@ -97,7 +97,6 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    console.log(data);
     if (data?.needRefresh) {
       this.requestsPage = this.defaultPage;
       this.requestsConditions = data.conditions || this._conditions;

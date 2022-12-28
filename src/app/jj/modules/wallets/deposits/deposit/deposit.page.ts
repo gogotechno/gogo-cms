@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../wallets.service';
@@ -19,13 +20,16 @@ export class DepositPage implements OnInit {
   deposit: JJDepositRequest;
 
   get statusColor() {
-    if (!this.deposit) return;
+    if (!this.deposit) {
+      return;
+    }
     return this.walletsService.getStatusColor(this.deposit.status);
   }
 
   constructor(
     private route: ActivatedRoute,
     private modalCtrl: ModalController,
+    private appUtils: AppUtils,
     private core: CoreService,
     private common: CommonService,
     private walletsService: WalletsService,
@@ -49,12 +53,17 @@ export class DepositPage implements OnInit {
       component: UploadAttachmentsComponent,
       componentProps: {
         depositId: this.deposit.doc_id,
-        bankAccount: this.deposit.bankAccount,
+        deposit: this.deposit,
       },
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    if (data?.success) {
+    if (data?.attachments) {
+      let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_MAKE_PAYMENT');
+      if (!confirm) {
+        return;
+      }
+      await this.core.updateDepositRequest(this.deposit.doc_id, { attachments: data.attachments });
       await this.loadData();
     }
   }
