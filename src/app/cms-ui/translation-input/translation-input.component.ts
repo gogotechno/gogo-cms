@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
@@ -12,22 +12,21 @@ import { CmsTranslation } from 'src/app/cms.type';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TranslationInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TranslationInputComponent implements OnInit, ControlValueAccessor {
-
   languages = languages;
-  value: CmsTranslation = {};
   language: string;
   text: string;
+  value: CmsTranslation = {};
+
   disabled = false;
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
-  onChange: any = () => { };
-  onTouched: any = () => { };
-
-  constructor(private cms: CmsService) { }
+  constructor(private cms: CmsService) {}
 
   ngOnInit() {
     this.language = this.cms.SITE.defaultLanguage;
@@ -58,8 +57,6 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
     if (this.value != null) {
       this.text = this.value[this.language];
     }
-
-    console.log('Language changed', this.value);
   }
 
   textChanged(event?: Event) {
@@ -67,7 +64,5 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
       this.value[this.language] = this.text;
       this.onChange(this.value);
     }
-
-    console.log('Text changed', this.value);
   }
 }

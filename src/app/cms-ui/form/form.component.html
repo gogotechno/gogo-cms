@@ -41,6 +41,7 @@
             </ion-item>
             <cms-translation-editor-input 
               [collection-path]="collectionPath" 
+              [hide-html]="item.hideHtml"
               [formControlName]="item.code"
             ></cms-translation-editor-input>
           </ng-container>
@@ -52,6 +53,8 @@
               [required]="item.required"
               [maximum]="item.maximum"
               [readonly]="item.readonly"
+              [config]="item.fileConfig"
+              [handler]="item.fileHandler"
               [formControlName]="item.code"
             ></cms-files-input>
           </ng-container>

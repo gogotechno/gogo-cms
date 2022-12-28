@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ErpImagePipe } from './sws-erp.pipe';
 import {
   SWS_ERP_COMPANY,
   GetOptions,
@@ -19,6 +20,7 @@ import {
   PostOptions,
   PutOptions,
   ChangePasswordDto,
+  UploadFileResponse,
 } from './sws-erp.type';
 
 @Injectable({
@@ -315,5 +317,24 @@ export class SwsErpService {
     this.authStateChange.next({
       status: 'LOGGED_OUT',
     });
+  }
+
+  uploadFile(documentType: string, file: File) {
+    const requestUrl = `${this.API_URL}/file/${documentType}`;
+    const formData = new FormData();
+    formData.append('file', file);
+    return this._http.post<UploadFileResponse>(requestUrl, formData).toPromise();
+  }
+}
+
+@Injectable()
+export class SwsFileHandler {
+  constructor(private swsErp: SwsErpService, private erpImg: ErpImagePipe) {}
+
+  onUpload(documentType: string) {
+    return async (file: File) => {
+      let res = await this.swsErp.uploadFile(documentType, file);
+      return this.erpImg.transform(res.url);
+    };
   }
 }

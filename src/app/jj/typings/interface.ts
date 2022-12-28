@@ -128,11 +128,7 @@ export interface WinningSummaryDetails {
   winningNumbers: string[];
 }
 
-export enum EventStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  ENDED = 'ENDED',
-}
+export type EventStatus = 'ACTIVE' | 'INACTIVE' | 'ENDED';
 
 export interface JJEventStatus extends ErpDoc {
   code: string;
@@ -260,10 +256,7 @@ export interface JJTicket extends ErpDoc {
   statusTranslation?: CmsTranslation;
 }
 
-export enum TicketStatus {
-  VALID = 'VALID',
-  INVALID = 'INVALID',
-}
+export type TicketStatus = 'VALID' | 'INVALID';
 
 export interface JJWinner extends ErpDoc {
   quantity: number;
@@ -328,10 +321,7 @@ export interface JJScratchAndWinRule extends ErpDoc {
   eventId: number;
 }
 
-export enum IssueMode {
-  AMOUNT_PAID = 'AMOUNT_PAID',
-  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
-}
+export type IssueMode = 'AMOUNT_PAID' | 'AMOUNT_POINT_PAID';
 
 export interface JJWalletTransaction extends ErpDoc {
   wallet_id: number;

@@ -11,6 +11,7 @@ import { CmsForm, CmsFormItem, CmsFormItemOption, CmsFormValidation, CmsFormVali
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
 import { InputCustomEvent } from '@ionic/angular';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 
 @Component({
@@ -167,13 +168,24 @@ export class FormComponent extends CmsComponent implements OnInit {
   async onSubmit(event?: Event) {
     let data = this.formGroup.value;
 
-    const datetimeItems = this.form.items.filter((item) => item.type == 'datetime');
-    for (const item of datetimeItems) {
-      data[item.code] = new Date(data[item.code]);
+    for (let item of this.form.items.filter((item) => item.type == 'datetime')) {
+      if (data[item.code]) {
+        if (item.dateFormat) {
+          data[item.code] = dayjs(data[item.code]).format(item.dateFormat);
+        } else {
+          data[item.code] = new Date(data[item.code]);
+        }
+      }
+    }
+
+    for (let item of this.form.items.filter((item) => item.type == ('cms-translate' || 'cms-translate-editor'))) {
+      if (item.stringify) {
+        data[item.code] = JSON.stringify(data[item.code]);
+      }
     }
 
     if (this.form.autoValidate) {
-      const validation = await this.validateFormAndShowErrorMessages();
+      let validation = await this.validateFormAndShowErrorMessages();
       if (!validation.valid) {
         return;
       }

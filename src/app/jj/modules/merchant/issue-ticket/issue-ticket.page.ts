@@ -170,7 +170,7 @@ export class IssueTicketPage implements OnInit {
   }
 
   private getTotalSpend(application: JJTicketDistributionApplication, issueMode: IssueMode) {
-    return issueMode == IssueMode.AMOUNT_PAID ? application.expense : +application.expense + +application.pointExpense;
+    return issueMode == 'AMOUNT_PAID' ? application.expense : +application.expense + +application.pointExpense;
   }
 
   async countFreePoint(application: JJTicketDistributionApplication) {

@@ -1,6 +1,6 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CmsFile, CmsTranslable } from 'src/app/cms.type';
+import { CmsFile, CmsFileConfig, CmsFileHandler, CmsTranslable, OnFileUpload } from 'src/app/cms.type';
 
 @Component({
   selector: 'cms-files-input',
@@ -14,7 +14,7 @@ import { CmsFile, CmsTranslable } from 'src/app/cms.type';
     },
   ],
 })
-export class FilesInputComponent implements ControlValueAccessor {
+export class FilesInputComponent implements OnInit, ControlValueAccessor {
   @Input('code') code: string;
   @Input('label') label: CmsTranslable;
   @Input('required') required: boolean;
@@ -22,10 +22,15 @@ export class FilesInputComponent implements ControlValueAccessor {
   @Input('readonly') readonly: boolean;
   @Input('showEmptyMessage') showEmptyMessage: boolean;
   @Input('files') files: CmsFile[];
+  @Input('config') config: CmsFileConfig;
+  @Input('handler') handler: CmsFileHandler;
 
   disabled = false;
   onChange: any = () => {};
   onTouched: any = () => {};
+
+  realtimeUpload: boolean;
+  onUpload: OnFileUpload;
 
   get currentLength() {
     return this.files?.length || 0;
@@ -46,6 +51,11 @@ export class FilesInputComponent implements ControlValueAccessor {
   }
 
   constructor() {}
+
+  ngOnInit() {
+    this.realtimeUpload = this.config?.realtimeUpload;
+    this.onUpload = this.handler?.onUpload;
+  }
 
   writeValue(files: CmsFile[]) {
     this.files = files;
@@ -77,37 +87,20 @@ export class FilesInputComponent implements ControlValueAccessor {
     if (!file) {
       return;
     }
-
+    let fileType: 'image' | 'file' = file.type.startsWith('image') ? 'image' : 'file';
     let previewUrl: string;
-    let fileType: 'image' | 'file';
-    let dataUrl: string;
-    await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        dataUrl = String(reader.result);
-        resolve(true);
-      };
-    });
-    if (file.type.startsWith('image')) {
-      fileType = 'image';
-      previewUrl = dataUrl;
-    } else {
-      fileType = 'file';
-      switch (file.type) {
-        case 'application/pdf':
-          previewUrl = 'assets/jj/file-types/pdf.png';
-          break;
-        case 'text/plain':
-          previewUrl = 'assets/jj/file-types/txt.png';
-          break;
-        default:
-          previewUrl = 'assets/jj/file-types/file.png';
-          break;
+    let base64String: string;
+    if (this.realtimeUpload) {
+      if (!this.onUpload) {
+        throw new Error('ER_ONUPLOAD_FN_NOT_CONFIGURED');
       }
+      previewUrl = await this.onUpload(file);
+    } else {
+      let dataUrl = await this.getDataUrl(file);
+      let dataUrlArr = dataUrl.split(',');
+      base64String = dataUrlArr[dataUrlArr.length - 1];
+      previewUrl = this.getPreviewUrl(fileType, file.type, dataUrl);
     }
-    let dataUrlArr = dataUrl.split(',');
-    let base64String = dataUrlArr[dataUrlArr.length - 1];
     if (!this.files) {
       this.files = [];
     }
@@ -121,6 +114,39 @@ export class FilesInputComponent implements ControlValueAccessor {
     });
     this.writeValue(this.files);
     this.onChange(this.files);
+  }
+
+  async getDataUrl(file: File) {
+    let dataUrl: string;
+    await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        dataUrl = String(reader.result);
+        resolve(true);
+      };
+    });
+    return dataUrl;
+  }
+
+  getPreviewUrl(fileType: 'image' | 'file', mimeType: string, dataUrl: string) {
+    let previewUrl: string;
+    if (fileType == 'image') {
+      previewUrl = dataUrl;
+    } else {
+      switch (mimeType) {
+        case 'application/pdf':
+          previewUrl = 'assets/jj/file-types/pdf.png';
+          break;
+        case 'text/plain':
+          previewUrl = 'assets/jj/file-types/txt.png';
+          break;
+        default:
+          previewUrl = 'assets/jj/file-types/file.png';
+          break;
+      }
+    }
+    return previewUrl;
   }
 
   onItemClick(file: CmsFile) {

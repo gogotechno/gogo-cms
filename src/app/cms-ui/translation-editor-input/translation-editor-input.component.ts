@@ -15,13 +15,13 @@ import { AppUtils } from 'src/app/cms.util';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => TranslationEditorInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class TranslationEditorInputComponent implements OnInit, ControlValueAccessor {
-
   @Input('collection-path') collectionPath: string;
+  @Input('hide-html') hideHtml: boolean = true;
 
   site: CmsSite;
   language: string;
@@ -31,14 +31,10 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
   modules: QuillModules;
 
   disabled = false;
-  onChange: any = () => { };
-  onTouched: any = () => { };
+  onChange: any = () => {};
+  onTouched: any = () => {};
 
-  constructor(
-    private app: AppUtils,
-    private cms: CmsService,
-    private storage: AngularFireStorage
-  ) { }
+  constructor(private app: AppUtils, private cms: CmsService, private storage: AngularFireStorage) {}
 
   ngOnInit() {
     this.site = this.cms.SITE;
@@ -72,8 +68,6 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
     if (this.value != null) {
       this.text = this.value[this.language];
     }
-
-    console.log('Language changed', this.value);
   }
 
   textChanged(event?: Event) {
@@ -81,19 +75,17 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
       this.value[this.language] = this.text;
       this.onChange(this.value);
     }
-
-    console.log('Text changed', this.value);
   }
 
   getModules() {
-    const uploadFile = (file: File) => new Promise(async (resolve, reject) => {
+    const uploadFile = (file: File) =>
+      new Promise(async (resolve, reject) => {
         try {
           if (this.collectionPath.split('/').length < 2) {
             await this.app.presentAlert('_PLEASE_SAVE_OR_SUBMIT_TO_UPLOAD_FILE', '_ERROR');
             reject('Please save document to get valid collection path');
             return;
           }
-
           const pathName = `${this.site.code}/upload/${this.collectionPath}/${file.name}`;
           const ref = this.storage.ref(pathName);
           const task = this.storage.upload(pathName, file);
@@ -122,11 +114,15 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
         [{ font: [] }],
         [{ align: [] }],
         ['clean'],
-        ['link', 'image', 'video', 'formula']
+        ['link', 'image', 'video', 'formula'],
       ],
       imageResize: {},
-      imageHandler: { upload: uploadFile },
-      videoHandler: { upload: uploadFile }
+      imageHandler: {
+        upload: uploadFile,
+      },
+      videoHandler: {
+        upload: uploadFile,
+      },
     };
 
     return modules;

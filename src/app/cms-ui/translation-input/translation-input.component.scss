@@ -1,20 +1,16 @@
 :host {
-    --width: 100%;
-    width: var(--width);
+  width: 100%;
 }
 
-.container {
-    width: var(--width);
+ion-item {
+  --min-height: auto;
 }
 
-.container ion-select {
-    display: inline-flex;
-    width: 50px;
-    padding: 0 10px;
-    padding-right: 2px;
-}
-
-.container ion-input {
-    display: inline-flex;
-    width: calc(100% - 50px);
+ion-select {
+  margin: 0;
+  height: 100%;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }

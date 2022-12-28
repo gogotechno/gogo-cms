@@ -429,6 +429,10 @@ export class CoreService extends SharedComponent {
   // @ Event
   // -----------------------------------------------------------------------------------------------------
 
+  createEvent(event: JJEvent) {
+    return this.swsErp.postDoc('Event', event);
+  }
+
   async getEvents(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,

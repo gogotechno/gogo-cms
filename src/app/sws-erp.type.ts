@@ -35,6 +35,10 @@ export interface UpdateResponse {
   data: any;
 }
 
+export interface UploadFileResponse {
+  url: string;
+}
+
 export interface FindUserResponse<T = DocUser> {
   message: string;
   data: T;

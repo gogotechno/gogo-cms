@@ -133,6 +133,11 @@ export interface CmsFormItem extends CmsDocument {
   selectHandler?: SearchableHanlder;
   childForm?: CmsForm;
   arrayConfig?: ArrayConfig;
+  hideHtml?: boolean;
+  stringify?: boolean;
+  dateFormat?: string;
+  fileConfig?: CmsFileConfig;
+  fileHandler?: CmsFileHandler;
 }
 
 export interface CmsFormItemOption {
@@ -175,9 +180,20 @@ export interface CmsFile {
   fileType: 'image' | 'file';
   mimeType: string;
   previewUrl: string;
-  file?: File;
   base64String?: string;
+  file?: File;
 }
+
+export interface CmsFileConfig {
+  outputType?: 'default' | 'urlOnly';
+  realtimeUpload?: boolean;
+}
+
+export interface CmsFileHandler {
+  onUpload: OnFileUpload;
+}
+
+export type OnFileUpload = (value: any) => Promise<any>;
 
 export interface CmsFilter {
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;

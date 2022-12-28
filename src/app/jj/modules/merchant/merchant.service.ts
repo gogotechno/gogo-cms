@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 import { CmsForm } from 'src/app/cms.type';
+import { SwsFileHandler } from 'src/app/sws-erp.service';
 import { CoreService } from '../../services';
 
 @Injectable()
 export class MerchantService {
-
-  constructor(private core: CoreService) { }
+  constructor(private core: CoreService, private swsFileHandler: SwsFileHandler) {}
 
   get eventPrizeForm(): CmsForm {
     return {
       code: 'event-prize',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
+        {
+          code: 'event_id',
+          label: 'jj._EVENT',
+          type: 'number',
+          hidden: true,
+        },
         {
           code: 'name',
           label: 'jj._NAME',
@@ -33,11 +38,6 @@ export class MerchantService {
           type: 'number',
         },
         {
-          code: 'level',
-          label: 'jj._LEVEL',
-          type: 'number',
-        },
-        {
           code: 'thumbnail_image',
           label: 'jj._THUMBNAIL_IMAGE',
           type: 'files',
@@ -50,10 +50,15 @@ export class MerchantService {
     return {
       code: 'event-gift',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
+        {
+          code: 'event_id',
+          label: 'jj._EVENT',
+          type: 'number',
+          hidden: true,
+        },
         {
           code: 'minimum_spend',
           label: 'jj._MIN_SPEND',
@@ -101,10 +106,15 @@ export class MerchantService {
     return {
       code: 'event-snw',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
+        {
+          code: 'event_id',
+          label: 'jj._EVENT',
+          type: 'number',
+          hidden: true,
+        },
         {
           code: 'minimum_spend',
           label: 'jj._MIN_SPEND',
@@ -152,21 +162,41 @@ export class MerchantService {
     return {
       code: 'event',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
         {
           code: 'merchant_id',
           label: 'jj._MERCHANT',
-          type: 'text',
+          type: 'number',
           required: true,
+          hidden: true,
         },
         {
           code: 'name',
           label: 'jj._NAME',
-          type: 'text',
+          type: 'cms-translate',
           required: true,
+          stringify: true,
+        },
+        {
+          code: 'backgroundImage',
+          label: 'jj._BACKGROUND_IMAGE',
+          type: 'files',
+          maximum: 1,
+          fileConfig: {
+            outputType: 'urlOnly',
+            realtimeUpload: true,
+          },
+          fileHandler: {
+            onUpload: this.swsFileHandler.onUpload('Event'),
+          },
+        },
+        {
+          code: 'thumbnailImage',
+          label: 'jj._THUMBNAIL_IMAGE',
+          type: 'files',
+          maximum: 1,
         },
         {
           code: 'status',
@@ -175,41 +205,23 @@ export class MerchantService {
           required: true,
         },
         {
-          code: 'highlight',
-          label: 'jj._HIGHLIGHT',
-          type: 'cms-translate',
-          required: false,
-        },
-        {
-          code: 'description',
-          label: 'jj._DESCRIPTION',
-          type: 'cms-translate-editor',
-          required: false,
-        },
-        {
-          code: 'tnc',
-          label: 'jj._TNC',
-          type: 'cms-translate-editor',
-          required: false,
-        },
-
-        {
           code: 'startAt',
           label: 'jj._START_AT',
           type: 'datetime',
           required: true,
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'endAt',
           label: 'jj._END_AT',
           type: 'datetime',
-          required: false,
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'drawAt',
           label: 'jj._DRAW_AT',
           type: 'datetime',
-          required: false,
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'minSpend',
@@ -218,28 +230,41 @@ export class MerchantService {
           required: true,
         },
         {
+          code: 'highlight',
+          label: 'jj._HIGHLIGHT',
+          type: 'cms-translate',
+        },
+        {
+          code: 'description',
+          label: 'jj._DESCRIPTION',
+          type: 'cms-translate-editor',
+          hideHtml: true,
+        },
+        {
+          code: 'tnc',
+          label: 'jj._TNC',
+          type: 'cms-translate-editor',
+          hideHtml: true,
+        },
+        {
           code: 'serialNoPrefix',
-          label: 'jj._PREFIX',
+          label: 'jj._SERIAL_NO_PREFIX',
           type: 'text',
-          required: false,
         },
         {
           code: 'serialNoPostfix',
-          label: 'jj._POSTFIX',
+          label: 'jj._SERIAL_NO_POSTFIX',
           type: 'text',
-          required: false,
         },
         {
           code: 'serialNoSeqLength',
-          label: 'jj._LENGTH',
+          label: 'jj._SERIAL_NO_SEQ_LENGTH',
           type: 'text',
-          required: false,
         },
         {
           code: 'serialNoSeqPadStr',
-          label: 'jj._PADSTR',
+          label: 'jj._SERIAL_NO_SEQ_PAD_STR',
           type: 'text',
-          required: false,
         },
         {
           code: 'ticketMethod',
@@ -265,7 +290,6 @@ export class MerchantService {
           label: 'jj._POINT_RULES',
           type: 'array',
           dataType: 'custom',
-          childForm: this.eventGiftForm,
           arrayConfig: {
             nameFields: ['minimum_spend', 'free_points'],
             nameSeparator: ' ',
@@ -278,7 +302,6 @@ export class MerchantService {
           label: 'jj._SNW_RULES',
           type: 'array',
           dataType: 'custom',
-          childForm: this.eventSnwForm,
           arrayConfig: {
             nameFields: ['minimum_spend', 'free_tickets'],
             nameSeparator: ' ',
@@ -287,27 +310,28 @@ export class MerchantService {
           },
         },
         {
-          code: 'backgroundImage',
-          label: 'jj._BACKGROUND_IMAGE',
-          type: 'files',
-          required: false,
+          code: 'showEndDateCountdown',
+          label: 'jj._SHOW_END_DATE_COUNTDOWN',
+          type: 'checkbox',
         },
         {
-          code: 'thumbnailImage',
-          label: 'jj._THUMBNAIL_IMAGE',
-          type: 'files',
-          required: false,
+          code: 'showNearestStore',
+          label: 'jj._SHOW_NEAREST_STORE',
+          type: 'checkbox',
+        },
+        {
+          code: 'showCustomerTickets',
+          label: 'jj._SHOW_CUSTOMER_TICKETS',
+          type: 'checkbox',
         },
       ],
     };
   }
 
-  // Scratch and Win Part
   get snwPrizesForm(): CmsForm {
     return {
       code: 'snw-prizes',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
@@ -364,14 +388,13 @@ export class MerchantService {
     return {
       code: 'snw-event',
       labelPosition: 'stacked',
-      submitButtonText: '_SUBMIT',
       autoValidate: true,
       autoRemoveUnusedKeys: 'swserp',
       items: [
         {
           code: 'name',
           label: 'jj._NAME',
-          type: "cms-translate",
+          type: 'cms-translate',
           required: true,
         },
         {
@@ -481,7 +504,6 @@ export class MerchantService {
           label: 'jj._SNW_PRIZES',
           type: 'array',
           dataType: 'custom',
-          childForm: this.snwPrizesForm,
           required: false,
           arrayConfig: {
             nameFields: ['minimum_spend', 'free_tickets'],
@@ -512,15 +534,15 @@ export class MerchantService {
     }));
 
     let pointRulesField = eventForm.items.find((item) => item.code == 'pointRules');
-    pointRulesField.childForm = await this.getGiftForm();
+    pointRulesField.childForm = await this.getEventGiftForm();
 
-    let SNWRulesField = eventForm.items.find((item) => item.code == 'scratchAndWinRules');
-    SNWRulesField.childForm = await this.getSnwForm();
+    let snwRulesField = eventForm.items.find((item) => item.code == 'scratchAndWinRules');
+    snwRulesField.childForm = await this.getEventSnwForm();
 
     return eventForm;
   }
 
-  async getGiftForm() {
+  async getEventGiftForm() {
     let giftForm = this.eventGiftForm;
 
     let modes = await this.core.getIssueModes();
@@ -533,35 +555,21 @@ export class MerchantService {
     return giftForm;
   }
 
-  async getSnwForm() {
-    let SNWForm = this.eventSnwForm;
+  async getEventSnwForm() {
+    let snwForm = this.eventSnwForm;
 
     let modes = await this.core.getIssueModes();
-    let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
+    let modeField = snwForm.items.find((item) => item.code == 'issue_mode');
     modeField.options = modes.map((mode) => ({
       code: mode.code,
       label: mode.name,
     }));
 
-    return SNWForm;
+    return snwForm;
   }
 
   async getSnwEventForm() {
     let snwEventForm = this.snwEventForm;
-
-    // let modes = await this.core.getIssueModes();
-    // let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
-    // modeField.options = modes.map((mode) => ({
-    //   code: mode.code,
-    //   label: mode.name,
-    // }));
-
     return snwEventForm;
   }
-
-
-
-
-
-
 }
