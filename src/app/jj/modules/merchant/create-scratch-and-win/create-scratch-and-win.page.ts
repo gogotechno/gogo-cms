@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CmsForm } from 'src/app/cms.type';
+import { AppUtils } from 'src/app/cms.util';
+import { MerchantService } from '../merchant.service';
 
 @Component({
   selector: 'app-create-scratch-and-win',
@@ -6,10 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-scratch-and-win.page.scss'],
 })
 export class CreateScratchAndWinPage implements OnInit {
+  ScratchAndWinEventId: number;
+  ScratchAndWinEvent: any;
+  form: CmsForm;
+  
+  constructor(private route: ActivatedRoute, private app: AppUtils, private merchantService: MerchantService) {}
 
-  constructor() { }
+  async ngOnInit() {
+    this.form = await this.merchantService.getSNWEventForm();
+    const params = this.route.snapshot.params;
+    this.ScratchAndWinEventId = params.id;
+  }
 
-  ngOnInit() {
+  async onSubmit(data: any) {
+    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
+    if (!confirm) {
+      return;
+    }
+    console.log(data);
   }
 
 }

@@ -598,4 +598,12 @@ export interface JJPinVerification extends ErpDoc {
   walletPin: string;
 }
 
-export interface JJMiniProgram extends ErpDoc {}
+export interface JJMiniProgram extends ErpDoc {
+  code: string;
+  name: string;
+  url: string;
+  icon?: string;
+  colors?: any;
+  isActive: boolean;
+  isVisible: boolean;
+}

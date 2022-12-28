@@ -34,7 +34,6 @@ const routes: Routes = [
     path: 'create-user',
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
-
   {
     path: 'create-event',
     loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),

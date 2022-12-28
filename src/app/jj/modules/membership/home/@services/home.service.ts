@@ -10,9 +10,9 @@ import {
   JJAnnouncement,
   JJEvent,
   JJFab,
+  JJMiniProgram,
   JJSlideshow,
   JJWallet,
-  MiniProgram,
   User,
   UserType,
 } from 'src/app/jj/typings';
@@ -23,7 +23,7 @@ export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
   private _ONGOING_EVENTS: BehaviorSubject<JJEvent[]>;
-  private _MINI_PROGRAMS: BehaviorSubject<MiniProgram[]>;
+  private _MINI_PROGRAMS: BehaviorSubject<JJMiniProgram[]>;
   private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
   private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
   private _FABS: BehaviorSubject<JJFab[]>;
@@ -138,7 +138,8 @@ export class HomeService extends SharedComponent {
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
 
-    this._MINI_PROGRAMS.next(this.getMiniPrograms(this.auth.userType));
+    let miniPrograms = await this.getMiniPrograms(this.auth.userType);
+    this._MINI_PROGRAMS.next(miniPrograms);
 
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
@@ -171,15 +172,18 @@ export class HomeService extends SharedComponent {
     this._FABS.next(fabs);
   }
 
-  getMiniPrograms(role: UserType) {
-    switch (role) {
-      case 'MERCHANT':
-        return MERCHANT_MINI_PROGRAMS;
-      case 'ADMIN':
-        return SYSTEM_MINI_PROGRAMS;
-      default:
-        return MINI_PROGRAMS;
-    }
+  async getMiniPrograms(role: UserType) {
+    // switch (role) {
+    //   case 'MERCHANT':
+    //     return MERCHANT_MINI_PROGRAMS;
+    //   case 'ADMIN':
+    //     return SYSTEM_MINI_PROGRAMS;
+    //   default:
+    //     return MINI_PROGRAMS;
+    // }
+
+    let miniPrograms = await this.core.getMiniPrograms();
+    return miniPrograms;
   }
 
   getFabsConditions(silent: boolean) {
@@ -232,68 +236,84 @@ export class HomeService extends SharedComponent {
   }
 }
 
-const MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Reward',
-      zh: 'JJ福利',
-      ms: 'JJ Ganjaran',
-    }),
-    icon: 'gift',
-    link: '/jj/rewards',
-    colors: {
-      primary: '#FFC000',
-      'primary-light': '#FFF2CC',
-    },
-  },
-  {
-    name: JSON.stringify({
-      en: 'JJ Wallet',
-      zh: 'JJ钱包',
-      ms: 'JJ Dompet',
-    }),
-    icon: 'wallet',
-    link: '/jj/wallets',
-  },
-];
+// const MINI_PROGRAMS: MiniProgram[] = [
+//   {
+//     name: JSON.stringify({
+//       en: 'JJ Reward',
+//       zh: 'JJ福利',
+//       ms: 'JJ Ganjaran',
+//     }),
+//     code: 'reward',
+//     icon: 'gift',
+//     url: '/jj/rewards',
+//     colors: {
+//       primary: '#FFC000',
+//       'primary-light': '#FFF2CC',
+//     },
+//     isActive: true,
+//     isVisible: true,
+//   },
+//   {
+//     name: JSON.stringify({
+//       en: 'JJ Wallet',
+//       zh: 'JJ钱包',
+//       ms: 'JJ Dompet',
+//     }),
+//     code: 'wallet',
+//     icon: 'wallet',
+//     url: '/jj/wallets',
+//     isActive: true,
+//     isVisible: true,
+    
+//   },
+// ];
 
-const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Merchant',
-      zh: 'JJ门市',
-      ms: 'JJ Pedagang',
-    }),
-    icon: 'storefront',
-    link: '/jj/merchant',
-    colors: {
-      primary: '#70AD47',
-      'primary-light': '#E2F0D9',
-    },
-  },
-  {
-    name: JSON.stringify({
-      en: 'JJ Wallet',
-      zh: 'JJ钱包',
-      ms: 'JJ Dompet',
-    }),
-    icon: 'wallet',
-    link: '/jj/wallets',
-  },
-];
+// const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
+//   {
+//     name: JSON.stringify({
+//       en: 'JJ Merchant',
+//       zh: 'JJ门市',
+//       ms: 'JJ Pedagang',
+//     }),
+//     code: 'merchant',
+//     icon: 'storefront',
+//     url: '/jj/merchant',
+//     colors: {
+//       primary: '#70AD47',
+//       'primary-light': '#E2F0D9',
+//     },
+//     isActive: true,
+//     isVisible: true,
+//   },
+//   {
+//     name: JSON.stringify({
+//       en: 'JJ Wallet',
+//       zh: 'JJ钱包',
+//       ms: 'JJ Dompet',
+//     }),
+//     code: 'wallet',
+//     icon: 'wallet',
+//     url: '/jj/wallets',
+//     isActive: true,
+//     isVisible: true,
+//   },
+// ];
 
-const SYSTEM_MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Admin',
-      zh: 'JJ管理员',
-      ms: 'JJ Pentadbir',
-    }),
-    icon: 'tv',
-    link: '/jj/admin',
-    colors: {
-      primary: '#FF0000',
-      'primary-light': '#FFC9C9',
-    },
-  },
-];
+// const SYSTEM_MINI_PROGRAMS: MiniProgram[] = [
+//   {
+//     name: JSON.stringify({
+//       en: 'JJ Admin',
+//       zh: 'JJ管理员',
+//       ms: 'JJ Pentadbir',
+//     }),
+//     code: 'admin',
+//     icon: 'tv',
+//     url: '/jj/admin',
+//     colors: {
+//       primary: '#FF0000',
+//       'primary-light': '#FFC9C9',
+//     },
+//     isActive: true,
+//     isVisible: true,
+//   },
+// ];

@@ -1,6 +1,11 @@
 .container {
   .mini-program {
     text-align: center;
+    position: relative;
+    width: 42px;
+    top:1px;
+    right: 1px;
+    overflow: visible!important;
     .mini-program-icon {
       font-size: var(--ion-font-2xl);
       padding: var(--ion-padding-sm);
@@ -14,4 +19,16 @@
       line-height: 1;
     }
   }
+}
+
+ion-badge {
+  position: absolute; 
+  font-size: 6pt;
+  right: -20px;
+  top: -3px; 
+  z-index: 1;
+}
+
+.badge-text{
+  font-size: var(--ion-font-4xs);
 }

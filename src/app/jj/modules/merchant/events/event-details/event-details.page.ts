@@ -27,7 +27,7 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.form = this.merchantService.eventForm;
+    this.form = await this.merchantService.getEventForm();
     const params = this.route.snapshot.params;
     this.eventId = params['id'];
     await this.loadData();
@@ -42,7 +42,13 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
     if (!confirm) {
       return;
     }
-    console.log(data);
+    this.merchantService.register(data)
+      .subscribe(
+        data => console.log('Success!', data),
+        error => console.log('Error!', error)
+      );
+    // console.log(data);
+    // console.log(JSON.stringify(data));
   }
 
 }

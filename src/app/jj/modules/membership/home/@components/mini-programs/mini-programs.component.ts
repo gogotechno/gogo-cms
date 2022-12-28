@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MiniProgram } from 'src/app/jj/typings';
+import { Component, OnInit, ɵsetAllowDuplicateNgModuleIdsForTest } from '@angular/core';
+import { IonIcon } from '@ionic/angular';
+import { CommonService } from 'src/app/jj/services';
+import { JJMiniProgram } from 'src/app/jj/typings';
 import { HomeService } from '../../@services/home.service';
 
 @Component({
@@ -8,11 +10,19 @@ import { HomeService } from '../../@services/home.service';
   styleUrls: ['./mini-programs.component.scss'],
 })
 export class MiniProgramsComponent implements OnInit {
-  miniPrograms: MiniProgram[];
+  miniPrograms: JJMiniProgram[];
 
-  constructor(private home: HomeService) {}
+  constructor(
+    private home: HomeService,
+    private common: CommonService,) {}
 
-  ngOnInit() {
+  async onMiniProgramClick(miniProgram: JJMiniProgram) {
+    if (miniProgram.isActive)
+    await this.common.navigateCustomUrl(miniProgram.url);
+  }
+
+  async ngOnInit() {
     this.home.miniPrograms.subscribe((miniPrograms) => (this.miniPrograms = miniPrograms));
   }
 }
+

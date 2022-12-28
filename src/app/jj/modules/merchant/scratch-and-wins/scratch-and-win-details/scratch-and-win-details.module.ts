@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { ScratchAndWinDetailsPageRoutingModule } from './scratch-and-win-details-routing.module';
 
 import { ScratchAndWinDetailsPage } from './scratch-and-win-details.page';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { SharedModule } from 'src/app/jj/shared';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ScratchAndWinDetailsPageRoutingModule
+    ScratchAndWinDetailsPageRoutingModule,
+    TranslateModule,
+    SharedModule,
+    CmsUIModule
   ],
   declarations: [ScratchAndWinDetailsPage]
 })

@@ -7,14 +7,20 @@ import { IonicModule } from '@ionic/angular';
 import { ScratchAndWinsPageRoutingModule } from './scratch-and-wins-routing.module';
 
 import { ScratchAndWinsPage } from './scratch-and-wins.page';
+import { MerchantComponentsModule } from "../@components/merchant-components.module";
+import { TranslateModule } from '@ngx-translate/core';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ScratchAndWinsPageRoutingModule
+    ScratchAndWinsPageRoutingModule,
+    MerchantComponentsModule,
+    TranslateModule,
+    SwsErpModule,
   ],
-  declarations: [ScratchAndWinsPage]
+  declarations: [ScratchAndWinsPage],
 })
 export class ScratchAndWinsPageModule {}

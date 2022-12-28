@@ -7,13 +7,17 @@ import { IonicModule } from '@ionic/angular';
 import { CreateScratchAndWinPageRoutingModule } from './create-scratch-and-win-routing.module';
 
 import { CreateScratchAndWinPage } from './create-scratch-and-win.page';
+import { SharedModule } from 'src/app/jj/shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateScratchAndWinPageRoutingModule
+    CreateScratchAndWinPageRoutingModule,
+    SharedModule,
+    CmsUIModule,
   ],
   declarations: [CreateScratchAndWinPage]
 })

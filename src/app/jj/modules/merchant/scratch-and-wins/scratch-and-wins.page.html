@@ -1,9 +1,64 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>scratch-and-wins</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-menu contentId="home-content">
+  <ion-header>
+    <menu-header></menu-header>
+  </ion-header>
+  <ion-content>
+    <menu-content></menu-content>
+  </ion-content>
+  <ion-footer>
+    <menu-footer></menu-footer>
+  </ion-footer>
+</ion-menu>
 
-<ion-content>
+<div class="ion-page" id="home-content">
+  <ion-header class="ion-header-clear">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{ "jj._SCRATCH_AND_WINS" | translate }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button routerLink="/jj/merchant/create-scratch-and-win">
+          <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
 
-</ion-content>
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+      <div *ngIf="!dates?.length" class="note">
+        <ion-label>{{ '_NO_EVENTS_FOUND' | translate }}</ion-label>
+      </div>
+      <ng-container *ngFor="let date of dates">
+        <ion-list-header>{{ date }}</ion-list-header>
+        <ion-item lines="full" class="event" *ngFor="let event of ScratchAndWins[date]" [routerLink]="event.doc_id">
+          <ion-thumbnail slot="start">
+          <img [src]="event.thumbnailImage | erpImg" />
+          </ion-thumbnail>
+          <div class="ion-padding-vertical-sm">
+            <ion-text class="description">{{ event.name || '-' }}</ion-text><br />
+            <ion-text class="reference2">{{ event.startAt | date: 'hh:mm:ss a' }}</ion-text>
+          </div>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+    <ng-container *ngIf="dates?.length">
+      <ion-infinite-scroll *ngIf="!ScratchAndWinsEnded" (ionInfinite)="loadMoreEvents($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <div *ngIf="ScratchAndWinsEnded" class="note">
+        <ion-label>
+          <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+          <ion-text>
+            {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+          </ion-text>
+        </ion-label>
+      </div>
+    </ng-container>
+  </ion-content>

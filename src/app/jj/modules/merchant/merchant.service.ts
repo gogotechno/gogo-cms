@@ -1,10 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CmsForm } from 'src/app/cms.type';
 import { CoreService } from '../../services';
 
 @Injectable()
 export class MerchantService {
-  constructor(private core: CoreService) {}
+
+  _url = 'http://localhost:4200/#/lucky/Lucky%20Draw/Event/';
+  constructor(private core: CoreService, private _http: HttpClient) {}
 
   get eventPrizeForm(): CmsForm {
     return {
@@ -47,7 +50,7 @@ export class MerchantService {
 
   get eventGiftForm(): CmsForm {
     return {
-      code: 'event-point',
+      code: 'event-gift',
       labelPosition: 'stacked',
       submitButtonText: '_SUBMIT',
       autoValidate: true,
@@ -68,12 +71,12 @@ export class MerchantService {
         {
           code: 'vaild_from',
           label: 'jj._VAILD_FROM',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'vaild_to',
           label: 'jj._VAILD_TO',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'priority',
@@ -96,7 +99,7 @@ export class MerchantService {
     };
   }
 
-  get eventSNWForm(): CmsForm {
+  get  eventSNWForm(): CmsForm {
     return {
       code: 'event-snw',
       labelPosition: 'stacked',
@@ -119,12 +122,12 @@ export class MerchantService {
         {
           code: 'vaild_from',
           label: 'jj._VAILD_FROM',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'vaild_to',
           label: 'jj._VAILD_TO',
-          type: 'date',
+          type: 'datetime',
         },
         {
           code: 'priority',
@@ -146,6 +149,7 @@ export class MerchantService {
       ],
     };
   }
+
 
   get eventForm(): CmsForm {
     return {
@@ -195,19 +199,19 @@ export class MerchantService {
         {
           code: 'startAt',
           label: 'jj._START_AT',
-          type: 'date',
+          type: 'datetime',
           required: true,
         },
         {
           code: 'endAt',
           label: 'jj._END_AT',
-          type: 'date',
+          type: 'datetime',
           required: false,
         },
         {
           code: 'drawAt',
           label: 'jj._DRAW_AT',
-          type: 'date',
+          type: 'datetime',
           required: false,
         },
         {
@@ -301,6 +305,198 @@ export class MerchantService {
     };
   }
 
+  get  snwPrizesForm(): CmsForm {
+    return {
+      code: 'snw-prizes',
+      labelPosition: 'stacked',
+      submitButtonText: '_SUBMIT',
+      autoValidate: true,
+      autoRemoveUnusedKeys: 'swserp',
+      items: [
+        {
+          code: 'name',
+          label: 'jj._NAME',
+          type: 'cms-translate-editor',
+          required: true,
+        },
+        {
+          code: 'minimum_spend',
+          label: 'jj._MIN_SPEND',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'free_tickets',
+          label: 'jj._FREE_TICKETS',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'vaild_from',
+          label: 'jj._VAILD_FROM',
+          type: 'date',
+        },
+        {
+          code: 'vaild_to',
+          label: 'jj._VAILD_TO',
+          type: 'date',
+        },
+        {
+          code: 'priority',
+          label: 'jj._PRIORITY',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
+        },
+        {
+          code: 'issue_mode',
+          label: 'jj._ISSUE_MODE',
+          type: 'select',
+          required: true,
+        },
+      ],
+    };
+  }
+
+  get SNWeventForm(): CmsForm {
+    return {
+      code: 'snw-event',
+      labelPosition: 'stacked',
+      submitButtonText: '_SUBMIT',
+      autoValidate: true,
+      autoRemoveUnusedKeys: 'swserp',
+      items: [
+        {
+          code: 'name',
+          label: 'jj._NAME',
+          type: 'cms-translate-editor',
+          required: true,
+        },
+        {
+          code: 'startAt',
+          label: 'jj._START_AT',
+          type: 'date',
+          required: true,
+        },
+        {
+          code: 'endAt',
+          label: 'jj._END_AT',
+          type: 'date',
+          required: true,
+        },
+        {
+          code: 'tnc',
+          label: 'jj._TNC',
+          type: 'cms-translate-editor',
+          required: true,
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
+          required: true,
+        },
+        {
+          code: 'pricePerScratch',
+          label: 'jj._PRICE_PER_SCRATCH',
+          type: 'number',
+          required: true,
+
+        },
+        {
+          code: 'logo',
+          label: 'jj._LOGO',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'coverImage',
+          label: 'jj._COVER_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'backgroundImage',
+          label: 'jj._BACKGROUND_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'cardBackgroundImage',
+          label: 'jj._CARD_BACKGROUND_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'scratchAreaPlaceholderImage',
+          label: 'jj._SCRATCH_AREA_PLACEHOLDER_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'congratulationImage',
+          label: 'jj._CONGRATULATION_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'congratulationBackgroundImage',
+          label: 'jj._CONGRATULATION_BACKGROUND_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'congratulationMessage',
+          label: 'jj._CONGRATULATION_MESSAGE',
+          type: 'cms-translate-editor',
+          required: false,
+        },
+        {
+          code: 'thankYouImage',
+          label: 'jj._THANKYOU_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'thankYouBackgroundImage',
+          label: 'jj._THANKYOU_BACKGROUND_IMAGE',
+          type: 'files',
+          required: false,
+        },
+        {
+          code: 'thankYouMessage',
+          label: 'jj._THANKYOU_MESSAGE',
+          type: 'cms-translate-editor',
+          required: false,
+        },
+        {
+          code: 'merchant_id',
+          label: 'jj._MERCHANT',
+          type: 'text',
+          required: false,
+        },
+        {
+          code: 'prizes',
+          label: 'jj._SNW_PRIZES',
+          type: 'array',
+          dataType: 'custom',
+          childForm: this.snwPrizesForm,
+          required: false,
+          arrayConfig: {
+            nameFields: ['minimum_spend', 'free_tickets'],
+            nameSeparator: ' ',
+            closeButtonPosition: 'end',
+            submitButtonPosition: 'footer',
+          },
+        },
+      ],
+    };
+  }
+
   async getEventForm(): Promise<CmsForm> {
     let eventForm = this.eventForm;
 
@@ -311,8 +507,18 @@ export class MerchantService {
       label: status.name,
     }));
 
+    let methods = await this.core.getTicketGenerationMethods();
+    let methodsField = eventForm.items.find((item) => item.code == 'ticketMethod');
+    methodsField.options = methods.map((methods) => ({
+      code: methods.code,
+      label: methods.name,
+    }));
+
     let pointRulesField = eventForm.items.find((item) => item.code == 'pointRules');
     pointRulesField.childForm = await this.getGiftForm();
+
+    let SNWRulesField = eventForm.items.find((item) => item.code == 'scratchAndWinRules');
+    SNWRulesField.childForm = await this.getSNWForm();
 
     return eventForm;
   }
@@ -329,4 +535,38 @@ export class MerchantService {
 
     return giftForm;
   }
+
+  async getSNWForm() {
+    let SNWForm = this.eventSNWForm;
+
+    let modes = await this.core.getIssueModes();
+    let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
+    modeField.options = modes.map((mode) => ({
+      code: mode.code,
+      label: mode.name,
+    }));
+
+    return SNWForm;
+  }
+
+  async getSNWEventForm() {
+    let SNWEventForm = this.SNWeventForm;
+
+    // let modes = await this.core.getIssueModes();
+    // let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
+    // modeField.options = modes.map((mode) => ({
+    //   code: mode.code,
+    //   label: mode.name,
+    // }));
+
+    return SNWEventForm;
+  }
+
+
+  register(data){
+    return this._http.post<any>(this._url, data);
+  }
+
+
+  
 }
