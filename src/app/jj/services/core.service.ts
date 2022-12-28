@@ -123,7 +123,7 @@ export class CoreService extends SharedComponent {
       ...conditions,
     };
     const res = await this.swsErp.getDocs<JJUser>('User', query);
-    return res[0];
+    return res.result[0];
   }
 
   async getWalletsByMerchantId(merchantId: number, conditions: Conditions = {}) {
