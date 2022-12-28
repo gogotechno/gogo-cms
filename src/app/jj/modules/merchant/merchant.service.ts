@@ -312,12 +312,6 @@ export class MerchantService {
       autoRemoveUnusedKeys: 'swserp',
       items: [
         {
-          code: 'scratch_and_win_event_id',
-          label: 'jj._SNW_EVENT_ID',
-          type: 'text',
-          required: false,
-        },
-        {
           code: 'name',
           label: 'jj._NAME',
           type: 'cms-translate',
@@ -512,7 +506,7 @@ export class MerchantService {
         {
           code: 'merchant_id',
           label: 'jj._MERCHANT',
-          type: 'text',
+          type: 'select',
           required: false,
         },
         {
