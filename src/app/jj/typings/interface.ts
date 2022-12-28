@@ -86,10 +86,7 @@ export interface JJUser extends ErpDoc {
   new_password?: string;
 }
 
-export enum UserRole {
-  SYSTEM_ADMIN = 'SYSTEM_ADMIN',
-  MERCHANT_ADMIN = 'MERCHANT_ADMIN',
-}
+export type UserRole = 'SYSTEM_ADMIN' | 'MERCHANT_ADMIN' | 'CUSTOMER';
 
 export interface JJEvent extends ErpDoc {
   name: string;

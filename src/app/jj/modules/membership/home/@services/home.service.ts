@@ -138,7 +138,7 @@ export class HomeService extends SharedComponent {
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
 
-    let miniPrograms = await this.getMiniPrograms(this.auth.userType);
+    let miniPrograms = await this.getMiniPrograms();
     this._MINI_PROGRAMS.next(miniPrograms);
 
     this._ANNOUNCEMENTS.next(announcements);
@@ -172,17 +172,8 @@ export class HomeService extends SharedComponent {
     this._FABS.next(fabs);
   }
 
-  async getMiniPrograms(role: UserType) {
-    // switch (role) {
-    //   case 'MERCHANT':
-    //     return MERCHANT_MINI_PROGRAMS;
-    //   case 'ADMIN':
-    //     return SYSTEM_MINI_PROGRAMS;
-    //   default:
-    //     return MINI_PROGRAMS;
-    // }
-
-    let miniPrograms = await this.core.getMiniPrograms();
+  async getMiniPrograms() {
+    let miniPrograms = await this.core.getMiniPrograms(this.auth.userRole);
     return miniPrograms;
   }
 
@@ -264,7 +255,7 @@ export class HomeService extends SharedComponent {
 //     url: '/jj/wallets',
 //     isActive: true,
 //     isVisible: true,
-    
+
 //   },
 // ];
 

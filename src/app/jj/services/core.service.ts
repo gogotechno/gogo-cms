@@ -50,6 +50,7 @@ import {
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
+  UserRole,
 } from '../typings';
 import { CommonService } from './common.service';
 
@@ -612,9 +613,11 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getMiniPrograms() {
-    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program');
-    return res.result;
+  async getMiniPrograms(userRole: UserRole) {
+    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program', {
+      userRole: userRole,
+    });
+    return res.result.map((program) => this.populateMiniPrograms(program));
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -864,5 +867,13 @@ export class CoreService extends SharedComponent {
     }
     request.prize = this.populateScratchAndWinPrize(request.prize);
     return request;
+  }
+
+  populateMiniPrograms(program: JJMiniProgram) {
+    if (!program) {
+      return null;
+    }
+    program.colors = this.common.parseJson(program.colors);
+    return program;
   }
 }

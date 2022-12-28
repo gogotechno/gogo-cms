@@ -6,7 +6,7 @@ import { Pagination } from 'src/app/sws-erp.type';
 import { DatePipe } from '@angular/common';
 import { JJScratchAndWinEvent } from 'src/app/jj/typings';
 
-@Component({ 
+@Component({
   selector: 'app-scratch-and-wins',
   templateUrl: './scratch-and-wins.page.html',
   styleUrls: ['./scratch-and-wins.page.scss'],
@@ -26,28 +26,28 @@ export class ScratchAndWinsPage extends SharedComponent implements OnInit {
 
   constructor(private core: CoreService, private date: DatePipe, private menuCtrl: MenuController) {
     super();
-   }
-    
+  }
+
   async ngOnInit() {
     await this.loadData();
   }
 
   async loadData() {
     this.ScratchAndWinsPage = this.defaultPage;
-    let events = await this.getScratchAndWinEvent();
+    let events = await this.getScratchAndWinEvents();
     this.grouping(events);
     this.ScratchAndWinsEnded = events.length < this.ScratchAndWinsPage.itemsPerPage;
   }
 
-  async getScratchAndWinEvent() {
-    let events = await this.core.getScratchAndWinEvent(this.ScratchAndWinsPage);
+  async getScratchAndWinEvents() {
+    let events = await this.core.getScratchAndWinEvents(this.ScratchAndWinsPage);
     this.updatedAt = new Date();
     return events;
   }
 
   async loadMoreEvents(event: Event) {
     this.ScratchAndWinsPage.currentPage += 1;
-    let incoming = await this.getScratchAndWinEvent();
+    let incoming = await this.getScratchAndWinEvents();
     this.grouping(incoming);
     this.ScratchAndWinsEnded = incoming.length <= 0;
     let scroller = <HTMLIonInfiniteScrollElement>event.target;
@@ -80,5 +80,4 @@ export class ScratchAndWinsPage extends SharedComponent implements OnInit {
     await this.menuCtrl.enable(true);
     await this.menuCtrl.open();
   }
-
 }

@@ -170,4 +170,15 @@ export class CommonService {
   getBackButtonText() {
     return this.platform.is('ios') ? '_BACK' : '';
   }
+
+  parseJson(value: string) {
+    try {
+      if (!value) {
+        return null;
+      }
+      return JSON.parse(value);
+    } catch (err) {
+      return value;
+    }
+  }
 }

@@ -5,7 +5,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp.type';
-import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
+import { AccountOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserType } from '../typings';
 import { CoreService } from './core.service';
 
 @Injectable()
@@ -27,6 +27,17 @@ export class AuthService {
 
   get userType() {
     return this._USER_TYPE;
+  }
+
+  get userRole() {
+    switch (this._USER_TYPE) {
+      case 'MERCHANT':
+        return 'MERCHANT_ADMIN';
+      case 'ADMIN':
+        return 'SYSTEM_ADMIN';
+      default:
+        return 'CUSTOMER';
+    }
   }
 
   constructor(
@@ -108,7 +119,10 @@ export class AuthService {
   async findMyLuckyUser(options: AccountOptions = {}) {
     this._CURRENT_USER = await this.core.getUserByDocUserId(this.swsErp.docUser.doc_id, options);
     this._CURRENT_USER.docUser = this.swsErp.docUser;
-    this._USER_TYPE = this._CURRENT_USER.role == UserRole.MERCHANT_ADMIN ? 'MERCHANT' : 'ADMIN';
+    this._USER_TYPE = 'ADMIN';
+    if (this._CURRENT_USER.role == 'MERCHANT_ADMIN') {
+      this._USER_TYPE = 'MERCHANT';
+    }
     return this._CURRENT_USER;
   }
 
