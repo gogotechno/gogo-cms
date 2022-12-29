@@ -589,15 +589,11 @@ export class MerchantService {
     //   label: status.name,
     // }));
 
-    // let snwPrizeType = await this.core.getSnwPrizeType();
-    // let snwPrizeTypeField = snwEventForm.items.find((item) => item.code == 'SNW Prize Type');
-    // snwPrizeTypeField.options = snwPrizeType.map((status) => ({
-    //   code: status.code,
-    //   label: status.name,
-    // }));
-
     let snwWalletTypeField = snwEventForm.items.find((item) => item.code == 'prizes');
     snwWalletTypeField.childForm = await this.getSnwWalletTypeForm();
+
+    let SnwPrizesTypeField = snwEventForm.items.find((item) => item.code == 'prizes');
+    SnwPrizesTypeField.childForm = await this.getSnwWalletTypeForm();
 
     return snwEventForm;
   }
@@ -610,6 +606,19 @@ export class MerchantService {
     let walletType = await this.core.getWalletType();
     let walletTypeField = snwPrizesForm.items.find((item) => item.code == 'walletType');
     walletTypeField.options = walletType.map((status) => ({
+      code: status.code,
+      label: status.name,
+    }));
+
+    return snwPrizesForm;
+  }
+
+  async getSnwPrizesTypeForm() {
+    let snwPrizesForm = this.snwPrizesForm;
+
+    let SnwPrizesType = await this.core.getSnwPrizeType();
+    let SnwPrizesTypeField = snwPrizesForm.items.find((item) => item.code == 'walletType');
+    SnwPrizesTypeField.options = SnwPrizesType.map((status) => ({
       code: status.code,
       label: status.name,
     }));
