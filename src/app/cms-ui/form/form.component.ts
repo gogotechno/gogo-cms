@@ -7,7 +7,14 @@ import { MaskApplierService } from 'ngx-mask';
 import { CmsAdminService } from 'src/app/cms-admin/cms-admin.service';
 import { CmsComponent } from 'src/app/cms.component';
 import { CmsService } from 'src/app/cms.service';
-import { CmsForm, CmsFormItem, CmsFormItemOption, CmsFormValidation, CmsFormValidationError } from 'src/app/cms.type';
+import {
+  CmsForm,
+  CmsFormItem,
+  CmsFormItemOption,
+  CmsFormValidation,
+  CmsFormValidationError,
+  LiteralObject,
+} from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CmsTranslatePipe } from '../cms.pipe';
 import { InputCustomEvent } from '@ionic/angular';
@@ -21,7 +28,7 @@ import _ from 'lodash';
 })
 export class FormComponent extends CmsComponent implements OnInit {
   @Input() form: CmsForm;
-  @Input() value: object;
+  @Input() value: LiteralObject;
   @Input('collection-path') collectionPath: string;
   @Output() submit = new EventEmitter<any>();
 
@@ -48,7 +55,12 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.value && this.formGroup) {
-      this.formGroup.patchValue(changes.value.currentValue);
+      let value = {};
+      for (let item of this.form.items) {
+        let controlValue = this.getControlValue(item, changes.value.currentValue);
+        value[item.code] = controlValue;
+      }
+      this.formGroup.patchValue(value);
     }
   }
 
@@ -64,32 +76,26 @@ export class FormComponent extends CmsComponent implements OnInit {
     this.matchingFields = {};
 
     const controls: any = {};
+
     for (const item of this.form.items) {
       switch (item.type) {
-        case 'datetime':
-          let value = null;
-          if (this.value) {
-            try {
-              let datetime = (<Timestamp>this.value[item.code]).toDate();
-              value = this.date.transform(datetime, 'YYYY-MM-ddTHH:mm');
-            } catch (err) {
-              value = this.date.transform(this.value[item.code], 'YYYY-MM-ddTHH:mm');
-            }
-          }
-          controls[item.code] = [value];
-          break;
-
         case 'pin':
           if (!item.minimumLength) {
             item.minimumLength = 6;
           }
-          controls[item.code] = [this.value ? this.value[item.code] : null];
+          break;
+
+        case 'files':
+          if (!item.fileConfig?.multiple) {
+            item.maximum = 1;
+          }
           break;
 
         default:
-          controls[item.code] = [this.value ? this.value[item.code] : null];
           break;
       }
+
+      controls[item.code] = [this.getControlValue(item, this.value)];
 
       const validators = [];
 
@@ -99,7 +105,7 @@ export class FormComponent extends CmsComponent implements OnInit {
 
       if (item.minimum) {
         if (item.type == 'files') {
-          validators.push(CustomValidators.MinimumArrayLength(item.minimum));
+          validators.push(CustomValidators.minSize(item.minimum));
         } else {
           validators.push(Validators.min(item.minimum));
         }
@@ -142,7 +148,7 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
 
     this.formGroup = this.fb.group(controls, {
-      validators: CustomValidators.MatchValidator(this.matchingFields),
+      validators: CustomValidators.match(this.matchingFields),
     });
 
     this.maskedItems.forEach((item) => {
@@ -163,6 +169,44 @@ export class FormComponent extends CmsComponent implements OnInit {
         });
       }
     }
+  }
+
+  getControlValue(item: CmsFormItem, value: LiteralObject) {
+    let controlCode = item.code;
+    let controlValue = null;
+    let defaultValue = null;
+    if (value) {
+      if (item.referTo && value[item.referTo]) {
+        controlCode = item.referTo;
+      }
+      defaultValue = value[controlCode];
+    }
+    switch (item.type) {
+      case 'datetime':
+        if (defaultValue) {
+          let dateFormat = 'YYYY-MM-ddTHH:mm';
+          try {
+            let timestampValue = <Timestamp>defaultValue;
+            controlValue = this.date.transform(timestampValue.toDate(), dateFormat);
+          } catch (err) {
+            controlValue = this.date.transform(defaultValue, dateFormat);
+          }
+        }
+        break;
+      case 'checkbox':
+        if (value) {
+          let checkboxValue = value[controlCode];
+          if (checkboxValue != (null || undefined)) {
+            controlValue = checkboxValue;
+          }
+        }
+        break;
+      default:
+        if (defaultValue) {
+          controlValue = defaultValue;
+        }
+    }
+    return controlValue;
   }
 
   async onSubmit(event?: Event) {
@@ -369,7 +413,7 @@ class NeedMatching {
 }
 
 class CustomValidators {
-  static MatchValidator(config: MatchingConfig): ValidatorFn {
+  static match(config: MatchingConfig): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       for (let key of Object.keys(config)) {
         let matchingFrom = control.get(key);
@@ -394,7 +438,7 @@ class CustomValidators {
     };
   }
 
-  static MinimumArrayLength(minimum: number): ValidatorFn {
+  static minSize(minimum: number): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (control.hasError('required') && !control.value) {
         return null;

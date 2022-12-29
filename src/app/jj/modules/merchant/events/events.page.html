@@ -40,8 +40,7 @@
           <img [src]="event.thumbnailImage | erpImg" />
         </ion-thumbnail>
         <div class="ion-padding-vertical-sm">
-          <ion-text class="description">{{ event.name || '-' }}</ion-text><br />
-          <ion-text class="reference2">{{ event.startAt | date: 'hh:mm:ss a' }}</ion-text>
+          <ion-text class="event-name">{{ event.name || '-' }}</ion-text>
         </div>
       </ion-item>
     </ion-list>

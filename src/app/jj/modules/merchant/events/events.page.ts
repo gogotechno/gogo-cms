@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
@@ -16,11 +17,16 @@ export class EventsPage extends SharedComponent implements OnInit {
   events: JJEvent[];
   updatedAt: Date;
 
-  constructor(private menuCtrl: MenuController, private core: CoreService) {
+  constructor(private menuCtrl: MenuController, private route: ActivatedRoute, private core: CoreService) {
     super();
   }
 
   async ngOnInit() {
+    this.route.queryParams.subscribe(async (queryParams) => {
+      if (queryParams.refresh) {
+        await this.loadData();
+      }
+    });
     await this.loadData();
   }
 

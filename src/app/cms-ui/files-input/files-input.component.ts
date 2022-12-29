@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CmsFile, CmsFileConfig, CmsFileHandler, CmsTranslable, OnFileUpload } from 'src/app/cms.type';
+import { CmsFile, CmsFileConfig, CmsFileHandler, CmsTranslable, OnFilePreview, OnFileUpload } from 'src/app/cms.type';
+import { CmsUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-files-input',
@@ -20,7 +21,6 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
   @Input('required') required: boolean;
   @Input('maximum') maximum: number;
   @Input('readonly') readonly: boolean;
-  @Input('showEmptyMessage') showEmptyMessage: boolean;
   @Input('files') files: CmsFile[];
   @Input('config') config: CmsFileConfig;
   @Input('handler') handler: CmsFileHandler;
@@ -29,8 +29,12 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  realtimeUpload: boolean;
+  @Input('multiple') multiple: boolean;
+  @Input('outputType') outputType: 'default' | 'uploadUrl';
+  @Input('realtimeUpload') realtimeUpload: boolean;
+
   onUpload: OnFileUpload;
+  onPreview: OnFilePreview;
 
   get currentLength() {
     return this.files?.length || 0;
@@ -50,15 +54,45 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
     return !this.readonly;
   }
 
-  constructor() {}
+  constructor(private cmsUtils: CmsUtils) {}
 
   ngOnInit() {
+    this.multiple = this.config?.multiple;
+    this.outputType = this.config?.outputType;
+    if (!this.outputType) {
+      this.outputType = 'default';
+    }
     this.realtimeUpload = this.config?.realtimeUpload;
     this.onUpload = this.handler?.onUpload;
+    this.onPreview = this.handler?.onPreview;
   }
 
-  writeValue(files: CmsFile[]) {
-    this.files = files;
+  convertStringToFile(value: string) {
+    let response = this.cmsUtils.getFileType(value);
+    let mimeType = this.cmsUtils.getMimeType(response.fileType, response.fileFormat);
+    let file: CmsFile = {
+      name: value,
+      fileType: response.fileType,
+      mimeType: mimeType,
+      previewUrl: value,
+    };
+    return file;
+  }
+
+  async writeValue(value: string | CmsFile | (string | CmsFile)[]) {
+    let files: CmsFile[] = [];
+    if (typeof value == 'string') {
+      files.push(this.convertStringToFile(value));
+    }
+    this.files = await Promise.all(
+      files.map(async (file) => {
+        if (this.onPreview) {
+          file.previewUrl = await this.onPreview(file.previewUrl);
+        }
+        file.previewUrl = this.cmsUtils.getPreviewUrl(file.fileType, file.mimeType, file.previewUrl);
+        return file;
+      }),
+    );
   }
 
   registerOnChange(fn: any) {
@@ -88,13 +122,16 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
       return;
     }
     let fileType: 'image' | 'file' = file.type.startsWith('image') ? 'image' : 'file';
+    let uploadUrl: string;
     let previewUrl: string;
     let base64String: string;
     if (this.realtimeUpload) {
       if (!this.onUpload) {
         throw new Error('ER_ONUPLOAD_FN_NOT_CONFIGURED');
       }
-      previewUrl = await this.onUpload(file);
+      let [_uploadUrl, _previewUrl] = await this.onUpload(file);
+      uploadUrl = _uploadUrl;
+      previewUrl = _previewUrl;
     } else {
       let dataUrl = await this.getDataUrl(file);
       let dataUrlArr = dataUrl.split(',');
@@ -111,9 +148,22 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
       mimeType: file.type,
       previewUrl: previewUrl,
       base64String: base64String,
+      uploadUrl: uploadUrl,
     });
     this.writeValue(this.files);
-    this.onChange(this.files);
+    let result: string | CmsFile | (string | CmsFile)[];
+    switch (this.outputType) {
+      case 'uploadUrl':
+        result = this.files.map((file) => file.uploadUrl);
+        break;
+      default:
+        result = this.files;
+        break;
+    }
+    if (!this.multiple) {
+      result = result[0];
+    }
+    this.onChange(result);
   }
 
   async getDataUrl(file: File) {

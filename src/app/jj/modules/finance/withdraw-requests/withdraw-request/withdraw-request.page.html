@@ -74,12 +74,7 @@
           <p><jj-currency [currency]="withdraw.wallet.displayCurrency" [value]="withdraw.amount"></jj-currency></p>
         </ion-label>
       </ion-item>
-      <cms-files-input
-        [label]="'jj._ATTACHMENTS'"
-        [files]="withdraw.attachments"
-        [readonly]="true"
-        [showEmptyMessage]="true"
-      ></cms-files-input>
+      <cms-files-input [label]="'jj._ATTACHMENTS'" [files]="withdraw.attachments" [readonly]="true"></cms-files-input>
     </ion-list>
   </ng-container>
 </ion-content>

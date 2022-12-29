@@ -11,7 +11,6 @@ import { CoreService } from 'src/app/jj/services';
   styleUrls: ['./create-scratch-and-win.page.scss'],
 })
 export class CreateScratchAndWinPage implements OnInit {
-
   form: CmsForm;
 
   constructor(
@@ -21,31 +20,17 @@ export class CreateScratchAndWinPage implements OnInit {
     private core: CoreService,
     private router: Router,
     private appUtils: AppUtils,
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.form = await this.merchantService.getSnwEventForm();
   }
 
   async onSubmit(data: any) {
+    console.log(data);
     let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
     if (!confirm) {
       return;
     }
-    console.log(data);
-    // let SNWevent: JJScratchAndWinEvent = {
-    //   ...data, 
-    // }
-    // await this.core.createScratchEvent(SNWevent);
-    // console.log(data);
-    // // await this.core.updateBankAccount(this.accountId, data);
-    // await this.appUtils.presentAlert('jj._EVENT_ADDED', '_SUCCESS');
-    // await this.router.navigate(['/jj/merchant/scratch-and-wins'], {
-    //   replaceUrl: true,
-    //   queryParams: {
-    //     refresh: true
-    //   },
-    // });
   }
-
 }

@@ -56,6 +56,43 @@ export class CmsUtils {
       };
     }
   }
+
+  getFileType(url: string) {
+    const imageFormats = ['jpg', 'jpeg', 'png'];
+    let fileFormatArr = url.split('.');
+    let fileFormat = fileFormatArr[fileFormatArr.length - 1];
+    let fileType = imageFormats.includes(fileFormat) ? 'image' : 'file';
+    return {
+      fileFormat: fileFormat,
+      fileType: fileType,
+    };
+  }
+
+  getMimeType(fileType: string, format: string) {
+    let mimeType = fileType == 'image' ? `image/${format}` : format;
+    if (mimeType == 'pdf') {
+      mimeType = 'application/pdf';
+    }
+    if (mimeType == 'txt') {
+      mimeType = 'text/plain';
+    }
+    return mimeType;
+  }
+
+  getPreviewUrl(fileType: string, mimeType: string, url: string) {
+    if (fileType == 'image') {
+      return url;
+    } else {
+      switch (mimeType) {
+        case 'application/pdf':
+          return 'assets/jj/file-types/pdf.png';
+        case 'text/plain':
+          return 'assets/jj/file-types/txt.png';
+        default:
+          return 'assets/jj/file-types/file.png';
+      }
+    }
+  }
 }
 
 @Injectable({

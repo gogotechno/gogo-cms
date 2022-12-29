@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
-import { CmsForm } from 'src/app/cms.type';
+import { CmsForm, CmsFormItem } from 'src/app/cms.type';
 import { SwsFileHandler } from 'src/app/sws-erp.service';
 import { CoreService } from '../../services';
 
 @Injectable()
 export class MerchantService {
   constructor(private core: CoreService, private swsFileHandler: SwsFileHandler) {}
+
+  fileSettings(documentType: string): Partial<CmsFormItem> {
+    return {
+      fileConfig: {
+        multiple: false,
+        outputType: 'uploadUrl',
+        realtimeUpload: true,
+      },
+      fileHandler: {
+        onUpload: this.swsFileHandler.onUpload(documentType),
+        onPreview: this.swsFileHandler.onPreview(),
+      },
+    };
+  }
 
   get eventPrizeForm(): CmsForm {
     return {
@@ -23,8 +37,10 @@ export class MerchantService {
         {
           code: 'name',
           label: 'jj._NAME',
-          type: 'text',
+          type: 'cms-translate',
           required: true,
+          stringify: true,
+          referTo: 'nameTranslation',
         },
         {
           code: 'worth',
@@ -38,9 +54,10 @@ export class MerchantService {
           type: 'number',
         },
         {
-          code: 'thumbnail_image',
+          code: 'thumbnailImage',
           label: 'jj._THUMBNAIL_IMAGE',
           type: 'files',
+          ...this.fileSettings('Event Prize'),
         },
       ],
     };
@@ -60,24 +77,24 @@ export class MerchantService {
           hidden: true,
         },
         {
-          code: 'minimum_spend',
+          code: 'minimumSpend',
           label: 'jj._MIN_SPEND',
           type: 'number',
           required: true,
         },
         {
-          code: 'free_point',
+          code: 'freePoint',
           label: 'jj._FREE_POINT',
           type: 'number',
           required: true,
         },
         {
-          code: 'vaild_from',
+          code: 'validFrom',
           label: 'jj._VAILD_FROM',
           type: 'datetime',
         },
         {
-          code: 'vaild_to',
+          code: 'validTo',
           label: 'jj._VAILD_TO',
           type: 'datetime',
         },
@@ -88,15 +105,15 @@ export class MerchantService {
           required: true,
         },
         {
-          code: 'isActive',
-          label: 'jj._IS_ACTIVE',
-          type: 'checkbox',
-        },
-        {
-          code: 'issue_mode',
+          code: 'issueMode',
           label: 'jj._ISSUE_MODE',
           type: 'select',
           required: true,
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
         },
       ],
     };
@@ -116,24 +133,24 @@ export class MerchantService {
           hidden: true,
         },
         {
-          code: 'minimum_spend',
+          code: 'minimumSpend',
           label: 'jj._MIN_SPEND',
           type: 'number',
           required: true,
         },
         {
-          code: 'free_tickets',
+          code: 'freeTickets',
           label: 'jj._FREE_TICKETS',
           type: 'number',
           required: true,
         },
         {
-          code: 'vaild_from',
+          code: 'validFrom',
           label: 'jj._VAILD_FROM',
           type: 'datetime',
         },
         {
-          code: 'vaild_to',
+          code: 'validTo',
           label: 'jj._VAILD_TO',
           type: 'datetime',
         },
@@ -144,15 +161,15 @@ export class MerchantService {
           required: true,
         },
         {
-          code: 'isActive',
-          label: 'jj._IS_ACTIVE',
-          type: 'checkbox',
-        },
-        {
-          code: 'issue_mode',
+          code: 'issueMode',
           label: 'jj._ISSUE_MODE',
           type: 'select',
           required: true,
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
         },
       ],
     };
@@ -178,25 +195,19 @@ export class MerchantService {
           type: 'cms-translate',
           required: true,
           stringify: true,
+          referTo: 'nameTranslation',
         },
         {
           code: 'backgroundImage',
           label: 'jj._BACKGROUND_IMAGE',
           type: 'files',
-          maximum: 1,
-          fileConfig: {
-            outputType: 'urlOnly',
-            realtimeUpload: true,
-          },
-          fileHandler: {
-            onUpload: this.swsFileHandler.onUpload('Event'),
-          },
+          ...this.fileSettings('Event'),
         },
         {
           code: 'thumbnailImage',
           label: 'jj._THUMBNAIL_IMAGE',
           type: 'files',
-          maximum: 1,
+          ...this.fileSettings('Event'),
         },
         {
           code: 'status',
@@ -233,18 +244,21 @@ export class MerchantService {
           code: 'highlight',
           label: 'jj._HIGHLIGHT',
           type: 'cms-translate',
+          stringify: true,
         },
         {
           code: 'description',
           label: 'jj._DESCRIPTION',
           type: 'cms-translate-editor',
           hideHtml: true,
+          stringify: true,
         },
         {
           code: 'tnc',
           label: 'jj._TNC',
           type: 'cms-translate-editor',
           hideHtml: true,
+          stringify: true,
         },
         {
           code: 'serialNoPrefix',
@@ -291,7 +305,7 @@ export class MerchantService {
           type: 'array',
           dataType: 'custom',
           arrayConfig: {
-            nameFields: ['minimum_spend', 'free_points'],
+            nameFields: ['minimumSpend', 'freePoint'],
             nameSeparator: ' ',
             closeButtonPosition: 'end',
             submitButtonPosition: 'footer',
@@ -303,7 +317,7 @@ export class MerchantService {
           type: 'array',
           dataType: 'custom',
           arrayConfig: {
-            nameFields: ['minimum_spend', 'free_tickets'],
+            nameFields: ['minimumSpend', 'freeTickets'],
             nameSeparator: ' ',
             closeButtonPosition: 'end',
             submitButtonPosition: 'footer',
@@ -546,7 +560,7 @@ export class MerchantService {
     let giftForm = this.eventGiftForm;
 
     let modes = await this.core.getIssueModes();
-    let modeField = giftForm.items.find((item) => item.code == 'issue_mode');
+    let modeField = giftForm.items.find((item) => item.code == 'issueMode');
     modeField.options = modes.map((mode) => ({
       code: mode.code,
       label: mode.name,
@@ -559,7 +573,7 @@ export class MerchantService {
     let snwForm = this.eventSnwForm;
 
     let modes = await this.core.getIssueModes();
-    let modeField = snwForm.items.find((item) => item.code == 'issue_mode');
+    let modeField = snwForm.items.find((item) => item.code == 'issueMode');
     modeField.options = modes.map((mode) => ({
       code: mode.code,
       label: mode.name,

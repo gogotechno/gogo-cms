@@ -3,7 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { IonModal, ItemReorderCustomEvent } from '@ionic/angular';
 import { CmsService } from 'src/app/cms.service';
 import { ArrayConfig, CmsForm, CmsTable } from 'src/app/cms.type';
-import { AppUtils, array_move } from 'src/app/cms.util';
+import { AppUtils, array_move, CmsUtils } from 'src/app/cms.util';
+import { CmsTranslatePipe } from '../cms.pipe';
 
 @Component({
   selector: 'cms-array-input',
@@ -49,35 +50,38 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     return 'array-new-btn';
   }
 
-  constructor(private appUtils: AppUtils, private cms: CmsService) {}
+  constructor(
+    private appUtils: AppUtils,
+    private cmsUtils: CmsUtils,
+    private cmsTranslate: CmsTranslatePipe,
+    private cms: CmsService,
+  ) {}
 
   ngOnInit() {
     this.loadData();
   }
 
   async loadData() {
-    if (this.dataType) {
-      switch (this.dataType) {
-        case 'text':
-          this.form = {
-            code: 'text-form',
-            items: [
-              {
-                code: 'value',
-                label: '_TEXT_VALUE',
-                type: 'text',
-              },
-            ],
-          };
-          break;
-        case 'custom':
-          this.form = this.customForm;
-          break;
-        default:
-          this.form = await this.cms.getForm(this.dataType);
-          this.table = await this.cms.getTable(this.dataType);
-          break;
-      }
+    switch (this.dataType) {
+      case 'text':
+        this.form = {
+          code: 'text-form',
+          items: [
+            {
+              code: 'value',
+              label: '_TEXT_VALUE',
+              type: 'text',
+            },
+          ],
+        };
+        break;
+      case 'custom':
+        this.form = this.customForm;
+        break;
+      default:
+        this.form = await this.cms.getForm(this.dataType);
+        this.table = await this.cms.getTable(this.dataType);
+        break;
     }
   }
 
@@ -86,7 +90,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
       value = [];
     }
     this.value = value;
-    this.onChange(this.value);
+    this.onChange(this.removeKeys(this.value));
   }
 
   registerOnChange(fn: any): void {
@@ -105,14 +109,14 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     let confirm = await this.appUtils.presentConfirm('_DELETE_CONFIRMATION_MESSAGE');
     if (confirm) {
       this.value.splice(i, 1);
-      this.onChange(this.value);
+      this.onChange(this.removeKeys(this.value));
     }
   }
 
   reorder(event: Event) {
     const detail = (<ItemReorderCustomEvent>event).detail;
     this.value = array_move(this.value, detail.from, detail.to);
-    this.onChange(this.value);
+    this.onChange(this.removeKeys(this.value));
     detail.complete(true);
   }
 
@@ -146,7 +150,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
           break;
       }
     }
-    this.onChange(this.value);
+    this.onChange(this.removeKeys(this.value));
     this.modal.dismiss();
   }
 
@@ -160,11 +164,26 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   getName(item: any) {
     try {
       if (this.config) {
-        return this.config.nameFields.map((f) => item[f]).join(this.config.nameSeparator || ' ');
+        let names = this.config.nameFields.map((f) => {
+          let translable = this.cmsUtils.parseCmsTranslation(item[f]);
+          let name = this.cmsTranslate.transform(translable);
+          return name;
+        });
+        return names.join(this.config.nameSeparator || ' ');
       }
       return item[this.table.nameField];
     } catch (err) {
       return '-';
     }
+  }
+
+  removeKeys(value: any[]) {
+    return value.map((v) => {
+      let cloned = {};
+      for (let item of this.form.items) {
+        cloned[item.code] = v[item.code];
+      }
+      return cloned;
+    });
   }
 }

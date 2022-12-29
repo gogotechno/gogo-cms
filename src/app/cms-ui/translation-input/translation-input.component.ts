@@ -3,6 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
 import { CmsTranslation } from 'src/app/cms.type';
+import { CmsUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-translation-input',
@@ -26,15 +27,17 @@ export class TranslationInputComponent implements OnInit, ControlValueAccessor {
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  constructor(private cms: CmsService) {}
+  constructor(private cmsUtils: CmsUtils, private cms: CmsService) {}
 
   ngOnInit() {
     this.language = this.cms.SITE.defaultLanguage;
-    this.onChange(this.value);
   }
 
   writeValue(value: CmsTranslation): void {
     if (value) {
+      if (typeof value == 'string') {
+        value = this.cmsUtils.parseCmsTranslation(value);
+      }
       this.value = value;
       this.onChange(this.value);
     }

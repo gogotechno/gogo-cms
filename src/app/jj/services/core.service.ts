@@ -64,11 +64,11 @@ export class CoreService extends SharedComponent {
     private title: Title,
     private appUtils: AppUtils,
     private cmsUtils: CmsUtils,
+    private erpImg: ErpImagePipe,
     private storage: LocalStorageService,
     private translate: TranslateService,
     private swsErp: SwsErpService,
     private common: CommonService,
-    private erpImg: ErpImagePipe,
     private authData: AuthDataService,
   ) {
     super();
@@ -433,6 +433,10 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Event', event);
   }
 
+  updateEvent(eventId: number, event: Partial<JJEvent>) {
+    return this.swsErp.putDoc('Event', eventId, event);
+  }
+
   async getEvents(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
@@ -714,25 +718,6 @@ export class CoreService extends SharedComponent {
     return displayCurrency;
   }
 
-  convertAttachment(attachment: CmsFile) {
-    if (attachment.fileType == 'image') {
-      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    } else {
-      switch (attachment.mimeType) {
-        case 'application/pdf':
-          attachment.previewUrl = 'assets/jj/file-types/pdf.png';
-          break;
-        case 'text/plain':
-          attachment.previewUrl = 'assets/jj/file-types/txt.png';
-          break;
-        default:
-          attachment.previewUrl = 'assets/jj/file-types/file.png';
-          break;
-      }
-    }
-    return attachment;
-  }
-
   // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
@@ -749,10 +734,8 @@ export class CoreService extends SharedComponent {
     if (!product) {
       return null;
     }
-    product.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      product.translate ? product.translate.name : product.name,
-      product.name,
-    );
+    let name = product.translate ? product.translate.name : product.name;
+    product.nameTranslation = this.cmsUtils.parseCmsTranslation(name, product.name);
     return product;
   }
 
@@ -760,11 +743,12 @@ export class CoreService extends SharedComponent {
     if (!event) {
       return null;
     }
-    event.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      event.translate ? event.translate.name : event.name,
-      event.name,
-    );
+    let name = event.translate ? event.translate.name : event.name;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
     event.drewAt = event.drawingResult?.drewAt;
+    if (event.prizes?.length) {
+      event.prizes = event.prizes.map((prize) => this.populateEventPrize(prize));
+    }
     return event;
   }
 
@@ -826,10 +810,8 @@ export class CoreService extends SharedComponent {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 
@@ -859,7 +841,10 @@ export class CoreService extends SharedComponent {
     }
     request.wallet = this.populateWallet(request.wallet);
     request.displayCurrency = this.convertCurrency(request.convertedCurrency);
-    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
     return request;
   }
 
@@ -869,7 +854,10 @@ export class CoreService extends SharedComponent {
     }
     request.wallet = this.populateWallet(request.wallet);
     request.displayCurrency = this.convertCurrency(request.convertedCurrency);
-    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
     return request;
   }
 
@@ -877,10 +865,8 @@ export class CoreService extends SharedComponent {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 

@@ -332,9 +332,16 @@ export class SwsFileHandler {
   constructor(private swsErp: SwsErpService, private erpImg: ErpImagePipe) {}
 
   onUpload(documentType: string) {
-    return async (file: File) => {
+    return async (file: File): Promise<[string, string]> => {
       let res = await this.swsErp.uploadFile(documentType, file);
-      return this.erpImg.transform(res.url);
+      return [res.url, this.erpImg.transform(res.url)];
+    };
+  }
+
+  onPreview() {
+    return async (previewUrl: string) => {
+      let url = this.erpImg.transform(previewUrl);
+      return url;
     };
   }
 }

@@ -5,7 +5,7 @@ import { languages } from 'src/app/cms.constant';
 import { CmsService } from 'src/app/cms.service';
 import { CmsSite, CmsTranslation } from 'src/app/cms.type';
 import { QuillModules } from 'ngx-quill';
-import { AppUtils } from 'src/app/cms.util';
+import { AppUtils, CmsUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-translation-editor-input',
@@ -34,17 +34,24 @@ export class TranslationEditorInputComponent implements OnInit, ControlValueAcce
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  constructor(private app: AppUtils, private cms: CmsService, private storage: AngularFireStorage) {}
+  constructor(
+    private app: AppUtils,
+    private cmsUtils: CmsUtils,
+    private cms: CmsService,
+    private storage: AngularFireStorage,
+  ) {}
 
   ngOnInit() {
     this.site = this.cms.SITE;
     this.language = this.site.defaultLanguage;
     this.modules = this.getModules();
-    this.onChange(this.value);
   }
 
   writeValue(value: CmsTranslation): void {
     if (value) {
+      if (typeof value == 'string') {
+        value = this.cmsUtils.parseCmsTranslation(value);
+      }
       this.value = value;
       this.onChange(this.value);
     }

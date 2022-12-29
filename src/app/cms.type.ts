@@ -1,6 +1,10 @@
 import { Timestamp } from '@angular/fire/firestore';
 import { Pagination } from './sws-erp.type';
 
+export interface LiteralObject {
+  [key: string]: any;
+}
+
 export interface CmsDocument {
   updatedAt?: Timestamp;
   updatedBy?: string;
@@ -138,6 +142,7 @@ export interface CmsFormItem extends CmsDocument {
   dateFormat?: string;
   fileConfig?: CmsFileConfig;
   fileHandler?: CmsFileHandler;
+  referTo?: string;
 }
 
 export interface CmsFormItemOption {
@@ -177,23 +182,27 @@ export interface CmsFormValidationError {
 
 export interface CmsFile {
   name: string;
-  fileType: 'image' | 'file';
+  fileType: string;
   mimeType: string;
   previewUrl: string;
   base64String?: string;
+  uploadUrl?: string;
   file?: File;
 }
 
 export interface CmsFileConfig {
-  outputType?: 'default' | 'urlOnly';
+  multiple?: boolean;
+  outputType?: 'default' | 'uploadUrl';
   realtimeUpload?: boolean;
 }
 
 export interface CmsFileHandler {
   onUpload: OnFileUpload;
+  onPreview?: OnFilePreview;
 }
 
-export type OnFileUpload = (value: any) => Promise<any>;
+export type OnFileUpload = (value: File) => Promise<[string, string]>;
+export type OnFilePreview = (value: string) => Promise<string>;
 
 export interface CmsFilter {
   labelPosition?: 'fixed' | 'floating' | 'stacked' | undefined;
