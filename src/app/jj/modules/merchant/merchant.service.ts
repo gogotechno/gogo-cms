@@ -351,7 +351,7 @@ export class MerchantService {
           code: 'type',
           label: 'jj._TYPE',
           type: 'select',
-          required: false,
+          required: true,
         },
         {
           code: 'walletType',
@@ -582,12 +582,26 @@ export class MerchantService {
   async getSnwEventForm() {
     let snwEventForm = this.snwEventForm;
 
-    // let modes = await this.core.getIssueModes();
-    // let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
-    // modeField.options = modes.map((mode) => ({
-    //   code: mode.code,
-    //   label: mode.name,
+    // let statuses = await this.core.getEventStatuses();
+    // let statusField = eventForm.items.find((item) => item.code == 'status');
+    // statusField.options = statuses.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
     // }));
+
+    let snwPrizeType = await this.core.getSnwPrizeType();
+    let snwPrizeTypeField = snwEventForm.items.find((item) => item.code == 'SNW Prize Type');
+    snwPrizeTypeField.options = snwPrizeType.map((status) => ({
+      code: status.code,
+      label: status.name,
+    }));
+
+    let walletType = await this.core.getWalletType();
+    let walletTypeField = snwEventForm.items.find((item) => item.code == 'walletType');
+    walletTypeField.options = walletType.map((status) => ({
+      code: status.code,
+      label: status.name,
+    }));
 
     return snwEventForm;
   }

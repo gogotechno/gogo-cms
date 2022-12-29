@@ -32,6 +32,7 @@ import {
   JJProduct,
   JJScratchAndWinEvent,
   JJScratchAndWinPrize,
+  JJScratchAndWinPrizeType,
   JJScratchAndWinRule,
   JJScratchRequest,
   JJSlideshow,
@@ -45,6 +46,7 @@ import {
   JJWallet,
   JJWalletCurrency,
   JJWalletTransaction,
+  JJWalletType,
   JJWinner,
   JJWithdrawMethod,
   JJWithdrawRequest,
@@ -690,6 +692,16 @@ export class CoreService extends SharedComponent {
       sortType: 'DESC',
       ...conditions,
     });
+    return res.result;
+  }
+
+  async getSnwPrizeType() {
+    const res = await this.swsErp.getDocs<JJScratchAndWinPrizeType>('Scratch And Win Prize Type');
+    return res.result;
+  }
+  
+  async getWalletType() {
+    const res = await this.swsErp.getDocs<JJWalletType>('Wallet Type');
     return res.result;
   }
 
