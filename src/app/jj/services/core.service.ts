@@ -11,11 +11,13 @@ import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from '
 import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
+  CheckConversionResult,
   COMPANY_CODE,
   JJAnnouncement,
   JJBank,
   JJBankAccount,
   JJCapturePaymentRequest,
+  JJCheckConversionRequest,
   JJContentPage,
   JJCustomer,
   JJDepositMethod,
@@ -366,6 +368,11 @@ export class CoreService extends SharedComponent {
 
   createPinVerification(verification: JJPinVerification) {
     return this.swsErp.postDoc('Pin Verification', verification);
+  }
+
+  async createCheckConversionRequest(request: JJCheckConversionRequest) {
+    let res = await this.swsErp.postDoc('Check Conversion Request', request);
+    return res.data as CheckConversionResult;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -721,7 +728,7 @@ export class CoreService extends SharedComponent {
   // @ Converter
   // -----------------------------------------------------------------------------------------------------
 
-  convertCurrency(currency: JJWalletCurrency) {
+  convertToCurrency(currency: JJWalletCurrency) {
     if (!currency) {
       return null;
     }
@@ -851,7 +858,7 @@ export class CoreService extends SharedComponent {
     if (!wallet) {
       return null;
     }
-    wallet.displayCurrency = this.convertCurrency(wallet.walletCurrency);
+    wallet.displayCurrency = this.convertToCurrency(wallet.walletCurrency);
     wallet.icon = wallet.walletType?.icon;
     wallet.colors = wallet.walletType?.colors;
     return wallet;
@@ -862,7 +869,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertToCurrency(request.convertedCurrency);
     request.attachments = request.attachments.map((attachment) => {
       attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
       return attachment;
@@ -875,7 +882,7 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
-    request.displayCurrency = this.convertCurrency(request.convertedCurrency);
+    request.displayCurrency = this.convertToCurrency(request.convertedCurrency);
     request.attachments = request.attachments.map((attachment) => {
       attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
       return attachment;

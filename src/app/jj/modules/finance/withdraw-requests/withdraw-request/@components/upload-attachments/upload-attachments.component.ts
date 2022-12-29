@@ -40,6 +40,10 @@ const form: CmsForm = {
       label: '_ATTACHMENTS',
       type: 'files',
       required: true,
+      maximum: 3,
+      fileConfig: {
+        multiple: true,
+      },
     },
   ],
 };

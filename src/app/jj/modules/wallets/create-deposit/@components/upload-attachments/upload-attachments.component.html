@@ -9,16 +9,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-item lines="none">
+  <ion-item lines="full" *ngIf="displayCurrency && amountToPay">
     <ion-label class="amount-to-pay">
-      <jj-currency [currency]="deposit?.displayCurrency" [value]="deposit?.convertedAmount"></jj-currency>
+      <jj-currency [currency]="displayCurrency" [value]="amountToPay"></jj-currency>
     </ion-label>
   </ion-item>
-  <ng-container *ngIf="deposit?.bankAccount">
+  <ng-container *ngIf="bankAccount">
     <bank-account
-      [bank]="deposit?.bankAccount.bankName"
-      [holder]="deposit?.bankAccount.holderName"
-      [accountNo]="deposit?.bankAccount.accountNo"
+      [bank]="bankAccount.bankName"
+      [holder]="bankAccount.holderName"
+      [accountNo]="bankAccount.accountNo"
     ></bank-account>
   </ng-container>
   <div class="ion-padding-horizontal">

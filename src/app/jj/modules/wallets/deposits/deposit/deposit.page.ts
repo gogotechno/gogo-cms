@@ -5,7 +5,6 @@ import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../wallets.service';
-import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
   selector: 'app-deposit',
@@ -46,26 +45,6 @@ export class DepositPage implements OnInit {
   async loadData() {
     this.whatsappLink = await this.common.getWhatsapp();
     this.deposit = await this.core.getDepositRequestByRefNo(this.refNo);
-  }
-
-  async openUploadAttachment() {
-    const modal = await this.modalCtrl.create({
-      component: UploadAttachmentsComponent,
-      componentProps: {
-        depositId: this.deposit.doc_id,
-        deposit: this.deposit,
-      },
-    });
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    if (data?.attachments) {
-      let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_MAKE_PAYMENT');
-      if (!confirm) {
-        return;
-      }
-      await this.core.updateDepositRequest(this.deposit.doc_id, { attachments: data.attachments });
-      await this.loadData();
-    }
   }
 
   async doRefresh(event: Event) {

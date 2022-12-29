@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
+import { JJDepositMethod, JJDepositRequest, JJWallet } from 'src/app/jj/typings';
+import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
   selector: 'app-create-deposit',
@@ -13,11 +16,13 @@ export class CreateDepositPage implements OnInit {
   backButtonText: string;
   walletNo: string;
   form = form;
-  value: CreateDepositDto;
+  value: Partial<JJDepositRequest>;
+  methods: JJDepositMethod[];
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private modalCtrl: ModalController,
     private appUtils: AppUtils,
     private common: CommonService,
     private core: CoreService,
@@ -31,9 +36,9 @@ export class CreateDepositPage implements OnInit {
   }
 
   async loadData() {
-    const methods = await this.core.getDepositMethods();
-    const methodField = this.form.items.find((item) => item.code == 'methodId');
-    methodField.options = methods.map((method) => ({
+    this.methods = await this.core.getDepositMethods();
+    const methodField = this.form.items.find((item) => item.code == 'deposit_method_id');
+    methodField.options = this.methods.map((method) => ({
       code: String(method.doc_id),
       label: method.name,
       disabled: !method.isActive,
@@ -42,26 +47,41 @@ export class CreateDepositPage implements OnInit {
       walletNo: this.walletNo,
       amount: null,
       description: null,
-      methodId: null,
+      deposit_method_id: null,
     };
   }
 
-  async onConfirm(data: CreateDepositDto) {
+  async onConfirm(data: JJDepositRequest) {
+    let method = this.methods.find((m) => m.doc_id == data.deposit_method_id);
+    if (method.code == 'BANK_TRANSFER') {
+      let attachments = await this.openUploadAttachment(data.walletNo, data.amount);
+      if (!attachments) {
+        return;
+      }
+      data.attachments = attachments;
+    }
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_DEPOSIT');
     if (!confirm) {
       return;
     }
-    let response = await this.core.createDepositRequest({
-      refNo: '',
-      amount: data.amount,
-      description: data.description,
-      deposit_method_id: data.methodId,
-      walletNo: this.walletNo,
-    });
+    let response = await this.core.createDepositRequest({ refNo: '', ...data });
     await this.router.navigate(['../deposits', response.data.refNo], {
       relativeTo: this.route,
       replaceUrl: true,
     });
+  }
+
+  async openUploadAttachment(walletNo: string, amount: number) {
+    const modal = await this.modalCtrl.create({
+      component: UploadAttachmentsComponent,
+      componentProps: {
+        walletNo: walletNo,
+        amount: amount,
+      },
+    });
+    await modal.present();
+    const { data } = await modal.onWillDismiss();
+    return data?.attachments;
   }
 }
 
@@ -70,6 +90,7 @@ const form: CmsForm = {
   labelPosition: 'stacked',
   submitButtonId: 'create-deposit-btn',
   autoValidate: true,
+  autoRemoveUnusedKeys: 'swserp',
   items: [
     {
       code: 'walletNo',
@@ -93,7 +114,7 @@ const form: CmsForm = {
       required: true,
     },
     {
-      code: 'methodId',
+      code: 'deposit_method_id',
       label: 'jj._METHODS',
       type: 'radio',
       required: true,
@@ -101,10 +122,3 @@ const form: CmsForm = {
     },
   ],
 };
-
-interface CreateDepositDto {
-  walletNo: string;
-  amount: number;
-  description: string;
-  methodId: number;
-}

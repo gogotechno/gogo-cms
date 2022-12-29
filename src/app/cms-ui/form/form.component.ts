@@ -89,6 +89,9 @@ export class FormComponent extends CmsComponent implements OnInit {
           if (!item.fileConfig?.multiple) {
             item.maximum = 1;
           }
+          if (item.required) {
+            item.minimum = 1;
+          }
           break;
 
         default:

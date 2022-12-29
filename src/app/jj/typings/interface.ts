@@ -612,3 +612,16 @@ export interface JJScratchAndWinPrizeType extends ErpDoc {
   code: string;
   name: string;
 }
+
+export interface JJCheckConversionRequest extends ErpDoc {
+  wallet_id?: number;
+  walletNo?: string;
+  amount: number;
+}
+
+export interface CheckConversionResult {
+  defaultCurrency: JJWalletCurrency;
+  targetCurrency: JJWalletCurrency;
+  conversion: JJWalletCurrencyConversion;
+  amount: number;
+}

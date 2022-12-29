@@ -57,7 +57,6 @@ export class WithdrawRequestPage implements OnInit {
       if (!attachments) {
         return;
       }
-      console.log(attachments);
       await this.approveRequest(attachments);
     } else {
       await this.approveRequest();

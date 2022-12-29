@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CmsFile, CmsForm } from 'src/app/cms.type';
-import { AppUtils } from 'src/app/cms.util';
 import { CoreService } from 'src/app/jj/services';
-import { JJBankAccount, JJDepositRequest } from 'src/app/jj/typings';
+import { JJBankAccount } from 'src/app/jj/typings';
+import { Currency } from '../../../wallets.types';
 
 @Component({
   selector: 'app-upload-attachments',
@@ -11,13 +11,24 @@ import { JJBankAccount, JJDepositRequest } from 'src/app/jj/typings';
   styleUrls: ['./upload-attachments.component.scss'],
 })
 export class UploadAttachmentsComponent implements OnInit {
+  walletNo: string;
+  amount: number;
+  bankAccount: JJBankAccount;
+  displayCurrency: Currency;
+  amountToPay: number;
   form = form;
-  depositId: number;
-  deposit: JJDepositRequest;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private core: CoreService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    let result = await this.core.createCheckConversionRequest({
+      walletNo: this.walletNo,
+      amount: this.amount,
+    });
+    this.displayCurrency = this.core.convertToCurrency(result.defaultCurrency);
+    this.amountToPay = result.amount;
+    this.bankAccount = await this.core.getRandomBankAccount();
+  }
 
   async onUpload(data: UploadDto) {
     await this.modalCtrl.dismiss({
@@ -37,14 +48,13 @@ const form: CmsForm = {
   items: [
     {
       code: 'attachments',
-      label: {
-        en: 'Attachments',
-        zh: '附件',
-        ms: '',
-      },
+      label: '_ATTACHMENTS',
       type: 'files',
       required: true,
       maximum: 3,
+      fileConfig: {
+        multiple: true,
+      },
     },
   ],
 };
