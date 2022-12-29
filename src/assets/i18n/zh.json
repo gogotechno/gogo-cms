@@ -546,6 +546,7 @@
     "_TOTAL_LIMIT": "总限额",
     "_DAILY_LIMIT": "每日限额",
     "_USER_LIMIT": "用户限制",
-    "_SEQUENCE": "顺序"
+    "_SEQUENCE": "顺序",
+    "_EVENT_RESULTS": "活动结果"
   }
 }

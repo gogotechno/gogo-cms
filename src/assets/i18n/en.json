@@ -552,6 +552,7 @@
     "_TOTAL_LIMIT": "Total Limit",
     "_DAILY_LIMIT": "Daily Limit",
     "_USER_LIMIT": "User Limit",
-    "_SEQUENCE": "Sequence"
+    "_SEQUENCE": "Sequence",
+    "_EVENT_RESULTS": "Event Results"
   }
 }
