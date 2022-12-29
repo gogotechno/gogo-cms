@@ -211,34 +211,38 @@ export class FormComponent extends CmsComponent implements OnInit {
 
   async onSubmit(event?: Event) {
     let data = this.formGroup.value;
-
-    for (let item of this.form.items.filter((item) => item.type == 'datetime')) {
-      if (data[item.code]) {
-        if (item.dateFormat) {
-          data[item.code] = dayjs(data[item.code]).format(item.dateFormat);
-        } else {
-          data[item.code] = new Date(data[item.code]);
-        }
+    for (let item of this.form.items) {
+      switch (item.type) {
+        case 'datetime':
+          if (data[item.code]) {
+            if (item.dateFormat) {
+              data[item.code] = dayjs(data[item.code]).format(item.dateFormat);
+            } else {
+              data[item.code] = new Date(data[item.code]);
+            }
+          }
+          break;
+        case 'cms-translate':
+        case 'cms-translate-editor':
+          if (data[item.code]) {
+            if (item.stringify) {
+              data[item.code] = JSON.stringify(data[item.code]);
+            }
+          }
+          break;
+        default:
+          break;
       }
     }
-
-    for (let item of this.form.items.filter((item) => item.type == ('cms-translate' || 'cms-translate-editor'))) {
-      if (item.stringify) {
-        data[item.code] = JSON.stringify(data[item.code]);
-      }
-    }
-
     if (this.form.autoValidate) {
       let validation = await this.validateFormAndShowErrorMessages();
       if (!validation.valid) {
         return;
       }
     }
-
     if (this.form.autoRemoveUnusedKeys) {
       data = this.removeUnusedKeys(this.form.autoRemoveUnusedKeys, data);
     }
-
     this.submit.emit(data);
   }
 

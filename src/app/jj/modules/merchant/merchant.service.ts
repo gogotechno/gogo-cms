@@ -84,18 +84,18 @@ export class MerchantService {
         },
         {
           code: 'freePoint',
-          label: 'jj._FREE_POINT',
+          label: 'jj._FREE_POINTS',
           type: 'number',
           required: true,
         },
         {
           code: 'validFrom',
-          label: 'jj._VAILD_FROM',
+          label: 'jj._VALID_FROM',
           type: 'datetime',
         },
         {
           code: 'validTo',
-          label: 'jj._VAILD_TO',
+          label: 'jj._VALID_TO',
           type: 'datetime',
         },
         {
@@ -146,12 +146,12 @@ export class MerchantService {
         },
         {
           code: 'validFrom',
-          label: 'jj._VAILD_FROM',
+          label: 'jj._VALID_FROM',
           type: 'datetime',
         },
         {
           code: 'validTo',
-          label: 'jj._VAILD_TO',
+          label: 'jj._VALID_TO',
           type: 'datetime',
         },
         {
@@ -369,12 +369,12 @@ export class MerchantService {
         },
         {
           code: 'vaild_from',
-          label: 'jj._VAILD_FROM',
+          label: 'jj._VALID_FROM',
           type: 'date',
         },
         {
           code: 'vaild_to',
-          label: 'jj._VAILD_TO',
+          label: 'jj._VALID_TO',
           type: 'date',
         },
         {
