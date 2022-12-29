@@ -589,19 +589,19 @@ export class MerchantService {
     //   label: status.name,
     // }));
 
-    let snwPrizeType = await this.core.getSnwPrizeType();
-    let snwPrizeTypeField = snwEventForm.items.find((item) => item.code == 'SNW Prize Type');
-    snwPrizeTypeField.options = snwPrizeType.map((status) => ({
-      code: status.code,
-      label: status.name,
-    }));
+    // let snwPrizeType = await this.core.getSnwPrizeType();
+    // let snwPrizeTypeField = snwEventForm.items.find((item) => item.code == 'SNW Prize Type');
+    // snwPrizeTypeField.options = snwPrizeType.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
+    // }));
 
-    let walletType = await this.core.getWalletType();
-    let walletTypeField = snwEventForm.items.find((item) => item.code == 'walletType');
-    walletTypeField.options = walletType.map((status) => ({
-      code: status.code,
-      label: status.name,
-    }));
+    // let walletType = await this.core.getWalletType();
+    // let walletTypeField = snwEventForm.items.find((item) => item.code == 'walletType');
+    // walletTypeField.options = walletType.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
+    // }));
 
     return snwEventForm;
   }
