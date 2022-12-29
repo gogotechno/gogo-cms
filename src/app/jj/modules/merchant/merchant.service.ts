@@ -314,47 +314,80 @@ export class MerchantService {
         {
           code: 'name',
           label: 'jj._NAME',
-          type: 'cms-translate-editor',
+          type: 'cms-translate',
           required: true,
         },
         {
-          code: 'minimum_spend',
-          label: 'jj._MIN_SPEND',
-          type: 'number',
-          required: true,
+          code: 'thumbnailImage',
+          label: 'jj._THUMBNAIL_IMAGE',
+          type: 'files',
+          required: false,
         },
         {
-          code: 'free_tickets',
-          label: 'jj._FREE_TICKETS',
-          type: 'number',
-          required: true,
+          code: 'backgroundImage',
+          label: 'jj._BACKGROUND_IMAGE',
+          type: 'files',
+          required: false,
         },
         {
-          code: 'vaild_from',
-          label: 'jj._VAILD_FROM',
-          type: 'date',
-        },
-        {
-          code: 'vaild_to',
-          label: 'jj._VAILD_TO',
-          type: 'date',
-        },
-        {
-          code: 'priority',
-          label: 'jj._PRIORITY',
-          type: 'number',
+          code: 'chance',
+          label: 'jj._CHANCE',
+          type: 'text',
           required: true,
         },
         {
           code: 'isActive',
           label: 'jj._IS_ACTIVE',
           type: 'checkbox',
+          required: true,
         },
         {
-          code: 'issue_mode',
-          label: 'jj._ISSUE_MODE',
+          code: 'isDefault',
+          label: 'jj._IS_DEFAULT',
+          type: 'checkbox',
+          required: true,
+        },
+        {
+          code: 'type',
+          label: 'jj._TYPE',
           type: 'select',
           required: true,
+        },
+        {
+          code: 'walletType',
+          label: 'jj._WALLET_TYPE',
+          type: 'select',
+          required: false,
+        },
+        {
+          code: 'worth',
+          label: 'jj._WORTH',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'totalLimit',
+          label: 'jj._TOTAL_LIMIT',
+          type: 'number',
+          required: false,
+        },
+        {
+          code: 'dailyLimit',
+          label: 'jj._DAILY_LIMIT',
+          type: 'number',
+          required: false,
+        },
+        {
+          code: 'userLimit',
+          label: 'jj._USER_LIMIT',
+          type: 'number',
+          required: false,
+        },
+        {
+          code: 'sequence',
+          label: 'jj._SEQUENCE',
+          type: 'number',
+          required: false,
         },
       ],
     };
@@ -449,7 +482,7 @@ export class MerchantService {
         {
           code: 'congratulationMessage',
           label: 'jj._CONGRATULATION_MESSAGE',
-          type: 'cms-translate-editor',
+          type: 'cms-translate',
           required: false,
         },
         {
@@ -467,13 +500,13 @@ export class MerchantService {
         {
           code: 'thankYouMessage',
           label: 'jj._THANKYOU_MESSAGE',
-          type: 'cms-translate-editor',
+          type: 'cms-translate',
           required: false,
         },
         {
           code: 'merchant_id',
           label: 'jj._MERCHANT',
-          type: 'text',
+          type: 'select',
           required: false,
         },
         {
@@ -549,11 +582,25 @@ export class MerchantService {
   async getSnwEventForm() {
     let snwEventForm = this.snwEventForm;
 
-    // let modes = await this.core.getIssueModes();
-    // let modeField = SNWForm.items.find((item) => item.code == 'issue_mode');
-    // modeField.options = modes.map((mode) => ({
-    //   code: mode.code,
-    //   label: mode.name,
+    // let statuses = await this.core.getEventStatuses();
+    // let statusField = eventForm.items.find((item) => item.code == 'status');
+    // statusField.options = statuses.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
+    // }));
+
+    // let snwPrizeType = await this.core.getSnwPrizeType();
+    // let snwPrizeTypeField = snwEventForm.items.find((item) => item.code == 'SNW Prize Type');
+    // snwPrizeTypeField.options = snwPrizeType.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
+    // }));
+
+    // let walletType = await this.core.getWalletType();
+    // let walletTypeField = snwEventForm.items.find((item) => item.code == 'walletType');
+    // walletTypeField.options = walletType.map((status) => ({
+    //   code: status.code,
+    //   label: status.name,
     // }));
 
     return snwEventForm;

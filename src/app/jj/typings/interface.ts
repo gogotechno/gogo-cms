@@ -144,6 +144,11 @@ export interface JJTicketGenerationMethod extends ErpDoc {
   name: string;
 }
 
+export interface JJScratchAndWinPrizeType extends ErpDoc {
+  code: string;
+  name: string;
+}
+
 export interface JJIssueMode extends ErpDoc {
   code: string;
   name: string;
