@@ -107,6 +107,9 @@ export interface JJEvent extends ErpDoc {
   scratchAndWinRules?: JJScratchAndWinRule[];
   distance?: number;
   nameTranslation?: CmsTranslation;
+  highlightTranslation?: CmsTranslation;
+  descriptionTranslation?: CmsTranslation;
+  tncTranslation?: CmsTranslation;
   totalOfTickets?: number;
   totalOfWinners?: number;
   totalOfGainedTickets?: number;
@@ -425,6 +428,10 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   prizes?: JJScratchAndWinPrize[];
   merchant?: JJMerchant;
   distance?: number;
+  nameTranslation?: CmsTranslation;
+  tncTranslation?: CmsTranslation;
+  congratTranslation?: CmsTranslation;
+  thankTranslation?: CmsTranslation;
 }
 
 export interface JJScratchAndWinPrize extends ErpDoc {
@@ -594,4 +601,9 @@ export interface JJMiniProgram extends ErpDoc {
   colors?: any;
   isActive: boolean;
   isVisible: boolean;
+}
+
+export interface JJScratchAndWinPrizeType extends ErpDoc {
+  code: string;
+  name: string;
 }

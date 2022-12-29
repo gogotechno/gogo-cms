@@ -21,6 +21,10 @@ export class MerchantService {
     };
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Lucky Draw Event
+  // -----------------------------------------------------------------------------------------------------
+
   get eventPrizeForm(): CmsForm {
     return {
       code: 'event-prize',
@@ -92,11 +96,13 @@ export class MerchantService {
           code: 'validFrom',
           label: 'jj._VALID_FROM',
           type: 'datetime',
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'validTo',
           label: 'jj._VALID_TO',
           type: 'datetime',
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'priority',
@@ -114,6 +120,7 @@ export class MerchantService {
           code: 'isActive',
           label: 'jj._IS_ACTIVE',
           type: 'checkbox',
+          required: true,
         },
       ],
     };
@@ -148,11 +155,13 @@ export class MerchantService {
           code: 'validFrom',
           label: 'jj._VALID_FROM',
           type: 'datetime',
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'validTo',
           label: 'jj._VALID_TO',
           type: 'datetime',
+          dateFormat: 'YYYY-MM-DD HH:mm:ss',
         },
         {
           code: 'priority',
@@ -170,6 +179,7 @@ export class MerchantService {
           code: 'isActive',
           label: 'jj._IS_ACTIVE',
           type: 'checkbox',
+          required: true,
         },
       ],
     };
@@ -245,6 +255,7 @@ export class MerchantService {
           label: 'jj._HIGHLIGHT',
           type: 'cms-translate',
           stringify: true,
+          referTo: 'highlightTranslation',
         },
         {
           code: 'description',
@@ -252,6 +263,7 @@ export class MerchantService {
           type: 'cms-translate-editor',
           hideHtml: true,
           stringify: true,
+          referTo: 'descriptionTranslation',
         },
         {
           code: 'tnc',
@@ -259,6 +271,7 @@ export class MerchantService {
           type: 'cms-translate-editor',
           hideHtml: true,
           stringify: true,
+          referTo: 'tncTranslation',
         },
         {
           code: 'serialNoPrefix',
@@ -342,194 +355,6 @@ export class MerchantService {
     };
   }
 
-  get snwPrizesForm(): CmsForm {
-    return {
-      code: 'snw-prizes',
-      labelPosition: 'stacked',
-      autoValidate: true,
-      autoRemoveUnusedKeys: 'swserp',
-      items: [
-        {
-          code: 'name',
-          label: 'jj._NAME',
-          type: 'cms-translate-editor',
-          required: true,
-        },
-        {
-          code: 'minimum_spend',
-          label: 'jj._MIN_SPEND',
-          type: 'number',
-          required: true,
-        },
-        {
-          code: 'free_tickets',
-          label: 'jj._FREE_TICKETS',
-          type: 'number',
-          required: true,
-        },
-        {
-          code: 'vaild_from',
-          label: 'jj._VALID_FROM',
-          type: 'date',
-        },
-        {
-          code: 'vaild_to',
-          label: 'jj._VALID_TO',
-          type: 'date',
-        },
-        {
-          code: 'priority',
-          label: 'jj._PRIORITY',
-          type: 'number',
-          required: true,
-        },
-        {
-          code: 'isActive',
-          label: 'jj._IS_ACTIVE',
-          type: 'checkbox',
-        },
-        {
-          code: 'issue_mode',
-          label: 'jj._ISSUE_MODE',
-          type: 'select',
-          required: true,
-        },
-      ],
-    };
-  }
-
-  get snwEventForm(): CmsForm {
-    return {
-      code: 'snw-event',
-      labelPosition: 'stacked',
-      autoValidate: true,
-      autoRemoveUnusedKeys: 'swserp',
-      items: [
-        {
-          code: 'name',
-          label: 'jj._NAME',
-          type: 'cms-translate',
-          required: true,
-        },
-        {
-          code: 'startAt',
-          label: 'jj._START_AT',
-          type: 'date',
-          required: true,
-        },
-        {
-          code: 'endAt',
-          label: 'jj._END_AT',
-          type: 'date',
-          required: true,
-        },
-        {
-          code: 'tnc',
-          label: 'jj._TNC',
-          type: 'cms-translate-editor',
-          required: true,
-        },
-        {
-          code: 'isActive',
-          label: 'jj._IS_ACTIVE',
-          type: 'checkbox',
-          required: true,
-        },
-        {
-          code: 'pricePerScratch',
-          label: 'jj._PRICE_PER_SCRATCH',
-          type: 'number',
-          required: true,
-        },
-        {
-          code: 'logo',
-          label: 'jj._LOGO',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'coverImage',
-          label: 'jj._COVER_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'backgroundImage',
-          label: 'jj._BACKGROUND_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'cardBackgroundImage',
-          label: 'jj._CARD_BACKGROUND_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'scratchAreaPlaceholderImage',
-          label: 'jj._SCRATCH_AREA_PLACEHOLDER_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'congratulationImage',
-          label: 'jj._CONGRATULATION_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'congratulationBackgroundImage',
-          label: 'jj._CONGRATULATION_BACKGROUND_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'congratulationMessage',
-          label: 'jj._CONGRATULATION_MESSAGE',
-          type: 'cms-translate-editor',
-          required: false,
-        },
-        {
-          code: 'thankYouImage',
-          label: 'jj._THANKYOU_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'thankYouBackgroundImage',
-          label: 'jj._THANKYOU_BACKGROUND_IMAGE',
-          type: 'files',
-          required: false,
-        },
-        {
-          code: 'thankYouMessage',
-          label: 'jj._THANKYOU_MESSAGE',
-          type: 'cms-translate-editor',
-          required: false,
-        },
-        {
-          code: 'merchant_id',
-          label: 'jj._MERCHANT',
-          type: 'text',
-          required: false,
-        },
-        {
-          code: 'prizes',
-          label: 'jj._SNW_PRIZES',
-          type: 'array',
-          dataType: 'custom',
-          required: false,
-          arrayConfig: {
-            nameFields: ['minimum_spend', 'free_tickets'],
-            nameSeparator: ' ',
-            closeButtonPosition: 'end',
-            submitButtonPosition: 'footer',
-          },
-        },
-      ],
-    };
-  }
-
   async getEventForm(): Promise<CmsForm> {
     let eventForm = this.eventForm;
 
@@ -582,8 +407,258 @@ export class MerchantService {
     return snwForm;
   }
 
+  // -----------------------------------------------------------------------------------------------------
+  // @ Scratch and Win Event
+  // -----------------------------------------------------------------------------------------------------
+
+  get snwPrizeForm(): CmsForm {
+    return {
+      code: 'snw-prizes',
+      labelPosition: 'stacked',
+      autoValidate: true,
+      autoRemoveUnusedKeys: 'swserp',
+      items: [
+        {
+          code: 'name',
+          label: 'jj._NAME',
+          type: 'cms-translate',
+          required: true,
+          stringify: true,
+          referTo: 'nameTranslation',
+        },
+        {
+          code: 'thumbnailImage',
+          label: 'jj._THUMBNAIL_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Prize'),
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
+          required: true,
+        },
+        {
+          code: 'isDefault',
+          label: 'jj._IS_DEFAULT',
+          type: 'checkbox',
+          required: true,
+        },
+        {
+          code: 'chance',
+          label: 'jj._CHANCE',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'type',
+          label: 'jj._TYPE',
+          type: 'select',
+          required: true,
+        },
+        {
+          code: 'walletType',
+          label: 'jj._WALLET_TYPE',
+          type: 'select',
+          required: true,
+        },
+        {
+          code: 'worth',
+          label: 'jj._WORTH',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'totalLimit',
+          label: 'jj._TOTAL_LIMIT',
+          type: 'number',
+        },
+        {
+          code: 'dailyLimit',
+          label: 'jj._DAILY_LIMIT',
+          type: 'number',
+        },
+        {
+          code: 'userLimit',
+          label: 'jj._USER_LIMIT',
+          type: 'number',
+        },
+        {
+          code: 'sequence',
+          label: 'jj._SEQUENCE',
+          type: 'number',
+        },
+      ],
+    };
+  }
+
+  get snwEventForm(): CmsForm {
+    return {
+      code: 'snw-event',
+      labelPosition: 'stacked',
+      autoValidate: true,
+      autoRemoveUnusedKeys: 'swserp',
+      items: [
+        {
+          code: 'merchant_id',
+          label: 'jj._MERCHANT',
+          type: 'number',
+          required: true,
+          hidden: true,
+        },
+        {
+          code: 'name',
+          label: 'jj._NAME',
+          type: 'cms-translate',
+          required: true,
+          stringify: true,
+          referTo: 'nameTranslation',
+        },
+        {
+          code: 'startAt',
+          label: 'jj._START_AT',
+          type: 'date',
+          required: true,
+          dateFormat: 'YYYY-MM-DD',
+        },
+        {
+          code: 'endAt',
+          label: 'jj._END_AT',
+          type: 'date',
+          required: true,
+          dateFormat: 'YYYY-MM-DD',
+        },
+        {
+          code: 'isActive',
+          label: 'jj._IS_ACTIVE',
+          type: 'checkbox',
+          required: true,
+        },
+        {
+          code: 'tnc',
+          label: 'jj._TNC',
+          type: 'cms-translate-editor',
+          required: true,
+          hideHtml: true,
+          stringify: true,
+          referTo: 'tncTranslation',
+        },
+        {
+          code: 'pricePerScratch',
+          label: 'jj._PRICE_PER_SCRATCH',
+          type: 'number',
+          required: true,
+        },
+        {
+          code: 'logo',
+          label: 'jj._LOGO',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'coverImage',
+          label: 'jj._COVER_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'backgroundImage',
+          label: 'jj._BACKGROUND_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'cardBackgroundImage',
+          label: 'jj._CARD_BACKGROUND_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'scratchAreaPlaceholderImage',
+          label: 'jj._SCRATCH_AREA_PLACEHOLDER_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'congratulationImage',
+          label: 'jj._CONGRATULATION_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'congratulationBackgroundImage',
+          label: 'jj._CONGRATULATION_BACKGROUND_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'congratulationMessage',
+          label: 'jj._CONGRATULATION_MESSAGE',
+          type: 'cms-translate',
+          stringify: true,
+          referTo: 'congratTranslation',
+        },
+        {
+          code: 'thankYouImage',
+          label: 'jj._THANKYOU_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'thankYouBackgroundImage',
+          label: 'jj._THANKYOU_BACKGROUND_IMAGE',
+          type: 'files',
+          ...this.fileSettings('Scratch And Win Event'),
+        },
+        {
+          code: 'thankYouMessage',
+          label: 'jj._THANKYOU_MESSAGE',
+          type: 'cms-translate',
+          stringify: true,
+          referTo: 'thankTranslation',
+        },
+        {
+          code: 'prizes',
+          label: 'jj._PRIZES',
+          type: 'array',
+          dataType: 'custom',
+          arrayConfig: {
+            nameFields: ['name', 'chance', 'isActive', 'isDefault'],
+            nameSeparator: ' ',
+            closeButtonPosition: 'end',
+            submitButtonPosition: 'footer',
+          },
+        },
+      ],
+    };
+  }
+
   async getSnwEventForm() {
     let snwEventForm = this.snwEventForm;
+
+    let prizesField = snwEventForm.items.find((item) => item.code == 'prizes');
+    prizesField.childForm = await this.getSnwPrizeForm();
+
     return snwEventForm;
+  }
+
+  async getSnwPrizeForm() {
+    let prizeForm = this.snwPrizeForm;
+
+    let types = await this.core.getScratchAndWinPrizeTypes();
+    let typeField = prizeForm.items.find((item) => item.code == 'type');
+    typeField.options = types.map((type) => ({
+      code: type.code,
+      label: type.name,
+    }));
+
+    let walletTypes = await this.core.getWalletTypes();
+    let walletTypeField = prizeForm.items.find((item) => item.code == 'walletType');
+    walletTypeField.options = walletTypes.map((type) => ({
+      code: type.code,
+      label: type.name,
+    }));
+
+    return prizeForm;
   }
 }

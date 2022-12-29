@@ -80,11 +80,20 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
   }
 
   async writeValue(value: string | CmsFile | (string | CmsFile)[]) {
+    this.files = await this.convertToFiles(value);
+  }
+
+  async convertToFiles(value: string | CmsFile | (string | CmsFile)[]) {
     let files: CmsFile[] = [];
-    if (typeof value == 'string') {
-      files.push(this.convertStringToFile(value));
+    if (!value) {
+      return files;
     }
-    this.files = await Promise.all(
+    if (value instanceof Array) {
+      files = value.map((v) => this.convertToFile(v));
+    } else {
+      files.push(this.convertToFile(value));
+    }
+    files = await Promise.all(
       files.map(async (file) => {
         if (this.onPreview) {
           file.previewUrl = await this.onPreview(file.previewUrl);
@@ -93,6 +102,14 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
         return file;
       }),
     );
+    return files;
+  }
+
+  convertToFile(value: string | CmsFile) {
+    if (typeof value == 'string') {
+      return this.convertStringToFile(value);
+    }
+    return value;
   }
 
   registerOnChange(fn: any) {
@@ -112,7 +129,6 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
     if (this.files.length == 0) {
       this.files = null;
     }
-    this.writeValue(this.files);
     this.onChange(this.files);
   }
 
@@ -150,7 +166,6 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
       base64String: base64String,
       uploadUrl: uploadUrl,
     });
-    this.writeValue(this.files);
     let result: string | CmsFile | (string | CmsFile)[];
     switch (this.outputType) {
       case 'uploadUrl':

@@ -40,7 +40,6 @@ export class CreateEventPage implements OnInit {
   }
 
   async onSubmit(data: JJEvent) {
-    console.log(data);
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_EVENT');
     if (!confirm) {
       return;

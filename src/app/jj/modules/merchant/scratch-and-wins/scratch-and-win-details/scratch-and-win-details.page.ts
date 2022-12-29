@@ -13,14 +13,14 @@ import { MerchantService } from '../../merchant.service';
   styleUrls: ['./scratch-and-win-details.page.scss'],
 })
 export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit {
-  scratchAndWinEventId: number;
-  scratchAndWinEvent: JJScratchAndWinEvent;
+  eventId: number;
+  event: JJScratchAndWinEvent;
   form: CmsForm;
 
   constructor(
     private route: ActivatedRoute,
+    private appUtils: AppUtils,
     private core: CoreService,
-    private app: AppUtils,
     private merchantService: MerchantService,
   ) {
     super();
@@ -28,21 +28,24 @@ export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit 
 
   async ngOnInit() {
     this.form = await this.merchantService.getSnwEventForm();
+    this.form.submitButtonId = 'edit-snw-event-btn';
     const params = this.route.snapshot.params;
-    this.scratchAndWinEventId = params.id;
+    this.eventId = params.id;
     await this.loadData();
   }
 
   async loadData() {
-    this.scratchAndWinEvent = await this.core.getScratchAndWinEventById(this.scratchAndWinEventId);
+    this.event = await this.core.getScratchAndWinEventById(this.eventId, {
+      hasFk: true,
+    });
   }
 
-  async onSubmit(data: any) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
+  async onSubmit(data: JJScratchAndWinEvent) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_EVENT');
     if (!confirm) {
       return;
     }
-    console.log(data);
+    await this.core.updateScratchAndWinEvent(this.eventId, data);
+    await this.appUtils.presentAlert('jj._EVENT_UPDATED');
   }
-
 }

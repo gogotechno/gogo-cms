@@ -12,9 +12,9 @@ import { JJScratchAndWinEvent } from 'src/app/jj/typings';
   styleUrls: ['./scratch-and-wins.page.scss'],
 })
 export class ScratchAndWinsPage extends SharedComponent implements OnInit {
-  scratchAndWinsPage: Pagination;
-  scratchAndWinsEnded: boolean;
-  scratchAndWinEvents: JJScratchAndWinEvent[];
+  eventsPage: Pagination;
+  eventsEnded: boolean;
+  events: JJScratchAndWinEvent[];
   updatedAt: Date;
 
   constructor(private core: CoreService, private date: DatePipe, private menuCtrl: MenuController) {
@@ -26,22 +26,22 @@ export class ScratchAndWinsPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
-    this.scratchAndWinsPage = this.defaultPage;
-    this.scratchAndWinEvents = await this.getScratchAndWinEvent();
-    this.scratchAndWinsEnded = this.scratchAndWinEvents.length < this.scratchAndWinsPage.itemsPerPage;
+    this.eventsPage = this.defaultPage;
+    this.events = await this.getScratchAndWinEvent();
+    this.eventsEnded = this.events.length < this.eventsPage.itemsPerPage;
   }
 
   async getScratchAndWinEvent() {
-    let events = await this.core.getScratchAndWinEvents(this.scratchAndWinsPage);
+    let events = await this.core.getScratchAndWinEvents(this.eventsPage);
     this.updatedAt = new Date();
     return events;
   }
 
   async loadMoreEvents(event: Event) {
-    this.scratchAndWinsPage.currentPage += 1;
+    this.eventsPage.currentPage += 1;
     let incoming = await this.getScratchAndWinEvent();
-    this.scratchAndWinEvents = [...this.scratchAndWinEvents, ...incoming];
-    this.scratchAndWinsEnded = incoming.length <= 0;
+    this.events = [...this.events, ...incoming];
+    this.eventsEnded = incoming.length <= 0;
     let scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
   }

@@ -533,6 +533,25 @@
     "_ISSUE_MODE": "Issue Mode",
     "_IS_ACTIVE": "Is Active",
     "_CREATE_EVENT": "Create Event",
-    "_EVENTS": "Events"
+    "_EVENTS": "Events",
+    "_PRICE_PER_SCRATCH": "Price Per Scratch",
+    "_LOGO": "Logo",
+    "_COVER_IMAGE": "Cover Image",
+    "_CARD_BACKGROUND_IMAGE": "Card Background Image",
+    "_SCRATCH_AREA_PLACEHOLDER_IMAGE": "Scratch Area Placeholder Image",
+    "_CONGRATULATION_IMAGE": "Congratulation Image",
+    "_CONGRATULATION_BACKGROUND_IMAGE": "Congratulation Background Image",
+    "_CONGRATULATION_MESSAGE": "Congratulation Message",
+    "_THANKYOU_IMAGE": "Thank You Image",
+    "_THANKYOU_BACKGROUND_IMAGE": "Thank You Background Image",
+    "_THANKYOU_MESSAGE": "Thank You Message",
+    "_IS_DEFAULT": "Is Default",
+    "_CHANCE": "Chance",
+    "_TYPE": "Type",
+    "_WALLET_TYPE": "Wallet Type",
+    "_TOTAL_LIMIT": "Total Limit",
+    "_DAILY_LIMIT": "Daily Limit",
+    "_USER_LIMIT": "User Limit",
+    "_SEQUENCE": "Sequence"
   }
 }

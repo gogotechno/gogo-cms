@@ -183,8 +183,17 @@ export class FormComponent extends CmsComponent implements OnInit {
     }
     switch (item.type) {
       case 'datetime':
+      case 'date':
         if (defaultValue) {
-          let dateFormat = 'YYYY-MM-ddTHH:mm';
+          let dateFormat: string;
+          switch (item.type) {
+            case 'date':
+              dateFormat = 'YYYY-MM-dd';
+              break;
+            default:
+              dateFormat = 'YYYY-MM-ddTHH:mm';
+              break;
+          }
           try {
             let timestampValue = <Timestamp>defaultValue;
             controlValue = this.date.transform(timestampValue.toDate(), dateFormat);
@@ -210,24 +219,30 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   async onSubmit(event?: Event) {
-    let data = this.formGroup.value;
+    let formValue = this.formGroup.value;
     for (let item of this.form.items) {
       switch (item.type) {
         case 'datetime':
-          if (data[item.code]) {
+        case 'date':
+          if (formValue[item.code]) {
             if (item.dateFormat) {
-              data[item.code] = dayjs(data[item.code]).format(item.dateFormat);
+              formValue[item.code] = dayjs(formValue[item.code]).format(item.dateFormat);
             } else {
-              data[item.code] = new Date(data[item.code]);
+              formValue[item.code] = new Date(formValue[item.code]);
             }
           }
           break;
         case 'cms-translate':
         case 'cms-translate-editor':
-          if (data[item.code]) {
+          if (formValue[item.code]) {
             if (item.stringify) {
-              data[item.code] = JSON.stringify(data[item.code]);
+              formValue[item.code] = JSON.stringify(formValue[item.code]);
             }
+          }
+          break;
+        case 'checkbox':
+          if (item.required && !formValue[item.code]) {
+            formValue[item.code] = false;
           }
           break;
         default:
@@ -241,9 +256,9 @@ export class FormComponent extends CmsComponent implements OnInit {
       }
     }
     if (this.form.autoRemoveUnusedKeys) {
-      data = this.removeUnusedKeys(this.form.autoRemoveUnusedKeys, data);
+      formValue = this.removeUnusedKeys(this.form.autoRemoveUnusedKeys, formValue);
     }
-    this.submit.emit(data);
+    this.submit.emit(formValue);
   }
 
   onPrint(event?: Event) {

@@ -527,6 +527,25 @@
     "_ISSUE_MODE": "分配模式",
     "_IS_ACTIVE": "已激活",
     "_CREATE_EVENT": "创建活动",
-    "_EVENTS": "活动"
+    "_EVENTS": "活动",
+    "_PRICE_PER_SCRATCH": "每次花费",
+    "_LOGO": "标志",
+    "_COVER_IMAGE": "封面图",
+    "_CARD_BACKGROUND_IMAGE": "卡片背景",
+    "_SCRATCH_AREA_PLACEHOLDER_IMAGE": "刮刮位置图",
+    "_CONGRATULATION_IMAGE": "祝贺图",
+    "_CONGRATULATION_BACKGROUND_IMAGE": "祝贺背景图",
+    "_CONGRATULATION_MESSAGE": "祝贺词",
+    "_THANKYOU_IMAGE": "感谢图",
+    "_THANKYOU_BACKGROUND_IMAGE": "谢谢背景图",
+    "_THANKYOU_MESSAGE": "感谢词",
+    "_IS_DEFAULT": "默认",
+    "_CHANCE": "机会",
+    "_TYPE": "类型",
+    "_WALLET_TYPE": "钱包类型",
+    "_TOTAL_LIMIT": "总限额",
+    "_DAILY_LIMIT": "每日限额",
+    "_USER_LIMIT": "用户限制",
+    "_SEQUENCE": "顺序"
   }
 }

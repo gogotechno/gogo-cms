@@ -32,6 +32,7 @@ import {
   JJProduct,
   JJScratchAndWinEvent,
   JJScratchAndWinPrize,
+  JJScratchAndWinPrizeType,
   JJScratchAndWinRule,
   JJScratchRequest,
   JJSlideshow,
@@ -45,6 +46,7 @@ import {
   JJWallet,
   JJWalletCurrency,
   JJWalletTransaction,
+  JJWalletType,
   JJWinner,
   JJWithdrawMethod,
   JJWithdrawRequest,
@@ -207,6 +209,11 @@ export class CoreService extends SharedComponent {
 
   updateWallet(walletId: number, wallet: Partial<JJWallet>) {
     return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
+  async getWalletTypes() {
+    const res = await this.swsErp.getDocs<JJWalletType>('Wallet Type');
+    return res.result;
   }
 
   async getWalletByNo(walletNo: string, conditions: Conditions = {}) {
@@ -652,10 +659,6 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request, query);
   }
 
-  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
-    return this.swsErp.postDoc('Scratch And Win Event', event);
-  }
-
   async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
@@ -668,6 +671,14 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
+  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    return this.swsErp.postDoc('Scratch And Win Event', event);
+  }
+
+  updateScratchAndWinEvent(eventId: number, event: Partial<JJScratchAndWinEvent>) {
+    return this.swsErp.putDoc('Scratch And Win Event', eventId, event);
+  }
+
   async getScratchAndWinEvents(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
@@ -677,7 +688,7 @@ export class CoreService extends SharedComponent {
       ...conditions,
     };
     const res = await this.swsErp.getDocs<JJScratchAndWinEvent>('Scratch And Win Event', query);
-    return res.result;
+    return res.result.map((event) => this.populateScratchAndWinEvent(event));
   }
 
   async getScratchAndWinEventById(eventId: number, conditions: Conditions = {}) {
@@ -689,7 +700,7 @@ export class CoreService extends SharedComponent {
     }
     let query = <GetOptions>conditions;
     const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, query);
-    return res;
+    return this.populateScratchAndWinEvent(res);
   }
 
   async getScratchAndWinPrizes(conditions: Conditions = {}) {
@@ -698,6 +709,11 @@ export class CoreService extends SharedComponent {
       sortType: 'DESC',
       ...conditions,
     });
+    return res.result;
+  }
+
+  async getScratchAndWinPrizeTypes() {
+    const res = await this.swsErp.getDocs<JJScratchAndWinPrizeType>('Scratch And Win Prize Type');
     return res.result;
   }
 
@@ -744,7 +760,13 @@ export class CoreService extends SharedComponent {
       return null;
     }
     let name = event.translate ? event.translate.name : event.name;
+    let highlight = event.translate ? event.translate.highlight : event.highlight;
+    let description = event.translate ? event.translate.description : event.description;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
     event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.highlightTranslation = this.cmsUtils.parseCmsTranslation(highlight, event.highlight);
+    event.descriptionTranslation = this.cmsUtils.parseCmsTranslation(description, event.description);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
     event.drewAt = event.drawingResult?.drewAt;
     if (event.prizes?.length) {
       event.prizes = event.prizes.map((prize) => this.populateEventPrize(prize));
@@ -859,6 +881,24 @@ export class CoreService extends SharedComponent {
       return attachment;
     });
     return request;
+  }
+
+  populateScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    if (!event) {
+      return null;
+    }
+    let name = event.translate ? event.translate.name : event.name;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
+    let congratMessage = event.translate ? event.translate.congratulationMessage : event.congratulationMessage;
+    let thankYouMessage = event.translate ? event.translate.thankYouMessage : event.thankYouMessage;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
+    event.congratTranslation = this.cmsUtils.parseCmsTranslation(congratMessage, event.congratulationMessage);
+    event.thankTranslation = this.cmsUtils.parseCmsTranslation(thankYouMessage, event.thankYouMessage);
+    if (event.prizes) {
+      event.prizes = event.prizes.map((prize) => this.populateScratchAndWinPrize(prize));
+    }
+    return event;
   }
 
   populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {

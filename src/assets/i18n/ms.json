@@ -528,6 +528,25 @@
     "_ISSUE_MODE": "Kaedah Peruntukan",
     "_IS_ACTIVE": "Diaktifkan",
     "_CREATE_EVENT": "Buat Acara",
-    "_EVENTS": "Acara"
+    "_EVENTS": "Acara",
+    "_PRICE_PER_SCRATCH": "Harga Setiap Gores",
+    "_LOGO": "Logo",
+    "_COVER_IMAGE": "Gambar Muka Depan",
+    "_CARD_BACKGROUND_IMAGE": "Gambar Latar Belakang Kad",
+    "_SCRATCH_AREA_PLACEHOLDER_IMAGE": "Gambar Kawasan Gores",
+    "_CONGRATULATION_IMAGE": "Gambar Tahniah",
+    "_CONGRATULATION_BACKGROUND_IMAGE": "Gambar Latar Belakang Tahniah",
+    "_CONGRATULATION_MESSAGE": "Mesej Tahniah",
+    "_THANKYOU_IMAGE": "Gambar Terima Kasih",
+    "_THANKYOU_BACKGROUND_IMAGE": "Gambar Latar Belakang Terima Kasih",
+    "_THANKYOU_MESSAGE": "Mesej Terima Kasih",
+    "_IS_DEFAULT": "Adalah Lalai",
+    "_CHANCE": "Peluang",
+    "_TYPE": "Jenis",
+    "_WALLET_TYPE": "Jenis Dompet",
+    "_TOTAL_LIMIT": "Had Jumlah",
+    "_DAILY_LIMIT": "Had Harian",
+    "_USER_LIMIT": "Had Pengguna",
+    "_SEQUENCE": "Urutan"
   }
 }
