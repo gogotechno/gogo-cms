@@ -1,6 +1,7 @@
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { CmsFile, CmsTranslable } from 'src/app/cms.type';
+import { CmsFile, CmsFileConfig, CmsFileHandler, CmsTranslable, OnFilePreview, OnFileUpload } from 'src/app/cms.type';
+import { CmsUtils } from 'src/app/cms.util';
 
 @Component({
   selector: 'cms-files-input',
@@ -14,18 +15,26 @@ import { CmsFile, CmsTranslable } from 'src/app/cms.type';
     },
   ],
 })
-export class FilesInputComponent implements ControlValueAccessor {
+export class FilesInputComponent implements OnInit, ControlValueAccessor {
   @Input('code') code: string;
   @Input('label') label: CmsTranslable;
   @Input('required') required: boolean;
   @Input('maximum') maximum: number;
   @Input('readonly') readonly: boolean;
-  @Input('showEmptyMessage') showEmptyMessage: boolean;
   @Input('files') files: CmsFile[];
+  @Input('config') config: CmsFileConfig;
+  @Input('handler') handler: CmsFileHandler;
 
   disabled = false;
   onChange: any = () => {};
   onTouched: any = () => {};
+
+  @Input('multiple') multiple: boolean;
+  @Input('outputType') outputType: 'default' | 'uploadUrl';
+  @Input('realtimeUpload') realtimeUpload: boolean;
+
+  onUpload: OnFileUpload;
+  onPreview: OnFilePreview;
 
   get currentLength() {
     return this.files?.length || 0;
@@ -45,10 +54,62 @@ export class FilesInputComponent implements ControlValueAccessor {
     return !this.readonly;
   }
 
-  constructor() {}
+  constructor(private cmsUtils: CmsUtils) {}
 
-  writeValue(files: CmsFile[]) {
-    this.files = files;
+  ngOnInit() {
+    this.multiple = this.config?.multiple;
+    this.outputType = this.config?.outputType;
+    if (!this.outputType) {
+      this.outputType = 'default';
+    }
+    this.realtimeUpload = this.config?.realtimeUpload;
+    this.onUpload = this.handler?.onUpload;
+    this.onPreview = this.handler?.onPreview;
+  }
+
+  convertStringToFile(value: string) {
+    let response = this.cmsUtils.getFileType(value);
+    let mimeType = this.cmsUtils.getMimeType(response.fileType, response.fileFormat);
+    let file: CmsFile = {
+      name: value,
+      fileType: response.fileType,
+      mimeType: mimeType,
+      previewUrl: value,
+    };
+    return file;
+  }
+
+  async writeValue(value: string | CmsFile | (string | CmsFile)[]) {
+    this.files = await this.convertToFiles(value);
+  }
+
+  async convertToFiles(value: string | CmsFile | (string | CmsFile)[]) {
+    let files: CmsFile[] = [];
+    if (!value) {
+      return files;
+    }
+    if (value instanceof Array) {
+      files = value.map((v) => this.convertToFile(v));
+    } else {
+      files.push(this.convertToFile(value));
+    }
+    files = await Promise.all(
+      files.map(async (file) => {
+        if (this.onPreview) {
+          file.previewUrl = await this.onPreview(file.previewUrl);
+        }
+        file.previewUrl = this.cmsUtils.getPreviewUrl(file.fileType, file.mimeType, file.previewUrl);
+        return file;
+      }),
+    );
+    return files;
+  }
+
+  convertToFile(value: string | CmsFile) {
+    if (typeof value == 'string') {
+      return this.convertStringToFile(value);
+    }
+    return value;
   }
 
   registerOnChange(fn: any) {
@@ -68,7 +129,6 @@ export class FilesInputComponent implements ControlValueAccessor {
     if (this.files.length == 0) {
       this.files = null;
     }
-    this.writeValue(this.files);
     this.onChange(this.files);
   }
 
@@ -77,9 +137,51 @@ export class FilesInputComponent implements ControlValueAccessor {
     if (!file) {
       return;
     }
-
+    let fileType: 'image' | 'file' = file.type.startsWith('image') ? 'image' : 'file';
+    let uploadUrl: string;
     let previewUrl: string;
-    let fileType: 'image' | 'file';
+    let base64String: string;
+    if (this.realtimeUpload) {
+      if (!this.onUpload) {
+        throw new Error('ER_ONUPLOAD_FN_NOT_CONFIGURED');
+      }
+      let [_uploadUrl, _previewUrl] = await this.onUpload(file);
+      uploadUrl = _uploadUrl;
+      previewUrl = _previewUrl;
+    } else {
+      let dataUrl = await this.getDataUrl(file);
+      let dataUrlArr = dataUrl.split(',');
+      base64String = dataUrlArr[dataUrlArr.length - 1];
+      previewUrl = this.getPreviewUrl(fileType, file.type, dataUrl);
+    }
+    if (!this.files) {
+      this.files = [];
+    }
+    this.files.push({
+      file: file,
+      name: file.name,
+      fileType: fileType,
+      mimeType: file.type,
+      previewUrl: previewUrl,
+      base64String: base64String,
+      uploadUrl: uploadUrl,
+    });
+    let result: string | CmsFile | (string | CmsFile)[];
+    switch (this.outputType) {
+      case 'uploadUrl':
+        result = this.files.map((file) => file.uploadUrl);
+        break;
+      default:
+        result = this.files;
+        break;
+    }
+    if (!this.multiple) {
+      result = result[0];
+    }
+    this.onChange(result);
+  }
+
+  async getDataUrl(file: File) {
     let dataUrl: string;
     await new Promise((resolve) => {
       const reader = new FileReader();
@@ -89,12 +191,15 @@ export class FilesInputComponent implements ControlValueAccessor {
         resolve(true);
       };
     });
-    if (file.type.startsWith('image')) {
-      fileType = 'image';
+    return dataUrl;
+  }
+
+  getPreviewUrl(fileType: 'image' | 'file', mimeType: string, dataUrl: string) {
+    let previewUrl: string;
+    if (fileType == 'image') {
       previewUrl = dataUrl;
     } else {
-      fileType = 'file';
-      switch (file.type) {
+      switch (mimeType) {
         case 'application/pdf':
           previewUrl = 'assets/jj/file-types/pdf.png';
           break;
@@ -106,21 +211,7 @@ export class FilesInputComponent implements ControlValueAccessor {
           break;
       }
     }
-    let dataUrlArr = dataUrl.split(',');
-    let base64String = dataUrlArr[dataUrlArr.length - 1];
-    if (!this.files) {
-      this.files = [];
-    }
-    this.files.push({
-      file: file,
-      name: file.name,
-      fileType: fileType,
-      mimeType: file.type,
-      previewUrl: previewUrl,
-      base64String: base64String,
-    });
-    this.writeValue(this.files);
-    this.onChange(this.files);
+    return previewUrl;
   }
 
   onItemClick(file: CmsFile) {

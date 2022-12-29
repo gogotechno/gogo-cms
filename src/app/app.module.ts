@@ -44,7 +44,6 @@ import { SwsErpInterceptor } from './sws-erp.interceptors';
 import { SWS_ERP_COMPANY } from './sws-erp.type';
 
 import { BehaviorSubject } from 'rxjs';
-import { SharedModule } from './jj/shared';
 
 @NgModule({
   declarations: [AppComponent],

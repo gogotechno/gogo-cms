@@ -20,7 +20,7 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private core: CoreService,
-    private app: AppUtils,
+    private appUtils: AppUtils,
     private merchantService: MerchantService,
   ) {
     super();
@@ -28,23 +28,24 @@ export class EventDetailsPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     this.form = await this.merchantService.getEventForm();
+    this.form.submitButtonId = 'edit-event-btn';
     const params = this.route.snapshot.params;
     this.eventId = params['id'];
     await this.loadData();
   }
 
   async loadData() {
-    this.event = await this.core.getEventById(this.eventId);
+    this.event = await this.core.getEventById(this.eventId, {
+      hasFk: true,
+    });
   }
 
-  async onSubmit(data: any) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
+  async onSubmit(data: JJEvent) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_EVENT');
     if (!confirm) {
       return;
     }
-    
-    // console.log(data);
-    // console.log(JSON.stringify(data));
+    await this.core.updateEvent(this.eventId, data);
+    await this.appUtils.presentAlert('jj._EVENT_UPDATED');
   }
-
 }

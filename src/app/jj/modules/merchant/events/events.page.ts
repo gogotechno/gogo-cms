@@ -1,9 +1,9 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { JJEvent } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
+import { JJEvent } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -14,29 +14,26 @@ import { Pagination } from 'src/app/sws-erp.type';
 export class EventsPage extends SharedComponent implements OnInit {
   eventsPage: Pagination;
   eventsEnded: boolean;
-  events: JJEvent[][];
+  events: JJEvent[];
   updatedAt: Date;
 
-  get dates(): string[] {
-    if (!this.events) {
-      return null;
-    }
-    return Object.keys(this.events);
-  }
-
-  constructor(private core: CoreService, private date: DatePipe, private menuCtrl: MenuController) {
+  constructor(private menuCtrl: MenuController, private route: ActivatedRoute, private core: CoreService) {
     super();
   }
 
   async ngOnInit() {
+    this.route.queryParams.subscribe(async (queryParams) => {
+      if (queryParams.refresh) {
+        await this.loadData();
+      }
+    });
     await this.loadData();
   }
 
   async loadData() {
     this.eventsPage = this.defaultPage;
-    let events = await this.getEvents();
-    this.grouping(events);
-    this.eventsEnded = events.length < this.eventsPage.itemsPerPage;
+    this.events = await this.getEvents();
+    this.eventsEnded = this.events.length < this.eventsPage.itemsPerPage;
   }
 
   async getEvents() {
@@ -48,26 +45,10 @@ export class EventsPage extends SharedComponent implements OnInit {
   async loadMoreEvents(event: Event) {
     this.eventsPage.currentPage += 1;
     let incoming = await this.getEvents();
-    this.grouping(incoming);
+    this.events = [...this.events, ...incoming];
     this.eventsEnded = incoming.length <= 0;
     let scroller = <HTMLIonInfiniteScrollElement>event.target;
     scroller.complete();
-  }
-
-  grouping(events: JJEvent[]) {
-    if (!this.events) {
-      this.events = [];
-    }
-    events.forEach((events) => {
-      let date = this.date.transform(events.doc_createdDate, 'd/M/yyyy');
-      let list = this.events[date];
-      if (list === undefined) {
-        list = [events];
-      } else {
-        list.push(events);
-      }
-      this.events[date] = list;
-    });
   }
 
   async doRefresh(event: Event) {

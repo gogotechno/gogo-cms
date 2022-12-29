@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { MerchantService } from '../merchant.service';
-import { CoreService } from 'src/app/jj/services';
+import { AuthService, CoreService } from 'src/app/jj/services';
+import { JJScratchAndWinEvent } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-create-scratch-and-win',
@@ -11,41 +12,40 @@ import { CoreService } from 'src/app/jj/services';
   styleUrls: ['./create-scratch-and-win.page.scss'],
 })
 export class CreateScratchAndWinPage implements OnInit {
-
   form: CmsForm;
+  value: Partial<JJScratchAndWinEvent>;
 
   constructor(
-    private route: ActivatedRoute,
-    private app: AppUtils,
-    private merchantService: MerchantService,
-    private core: CoreService,
     private router: Router,
     private appUtils: AppUtils,
-  ) { }
+    private auth: AuthService,
+    private core: CoreService,
+    private merchantService: MerchantService,
+  ) {}
 
   async ngOnInit() {
     this.form = await this.merchantService.getSnwEventForm();
+    this.form.submitButtonId = 'create-snw-event-btn';
+    let merchantId = await this.auth.findMyMerchantId();
+    this.value = {
+      merchant_id: merchantId,
+      isActive: true,
+      prizes: [],
+    };
   }
 
-  async onSubmit(data: any) {
-    let confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CREATE_EVENTS');
+  async onSubmit(data: JJScratchAndWinEvent) {
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_EVENT');
     if (!confirm) {
       return;
     }
-    console.log(data);
-    // let SNWevent: JJScratchAndWinEvent = {
-    //   ...data, 
-    // }
-    // await this.core.createScratchEvent(SNWevent);
-    // console.log(data);
-    // // await this.core.updateBankAccount(this.accountId, data);
-    // await this.appUtils.presentAlert('jj._EVENT_ADDED', '_SUCCESS');
-    // await this.router.navigate(['/jj/merchant/scratch-and-wins'], {
-    //   replaceUrl: true,
-    //   queryParams: {
-    //     refresh: true
-    //   },
-    // });
+    await this.core.createScratchAndWinEvent(data);
+    await this.appUtils.presentAlert('jj._EVENT_CREATED');
+    await this.router.navigate(['/jj/merchant/scratch-and-wins'], {
+      replaceUrl: true,
+      queryParams: {
+        refresh: true,
+      },
+    });
   }
-
 }

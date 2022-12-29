@@ -5,12 +5,20 @@
         <ion-title>{{ "jj._MERCHANT" | translate }}</ion-title>
       </ion-back-button>
     </ion-buttons>
-    <ion-title>Create Event</ion-title>
+    <ion-title>{{ "jj._CREATE_EVENT" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div class="ion-padding-sm">
-    <cms-form *ngIf="form" [form]="form" [value]="event" (submit)="onSubmit($event)"></cms-form>
+    <cms-form *ngIf="form" [form]="form" [value]="value" (submit)="onSubmit($event)"></cms-form>
   </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="create-event-btn" expand="block">
+      <ion-label>{{ "_CREATE" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

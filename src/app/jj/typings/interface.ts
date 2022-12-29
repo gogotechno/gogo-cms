@@ -107,6 +107,9 @@ export interface JJEvent extends ErpDoc {
   scratchAndWinRules?: JJScratchAndWinRule[];
   distance?: number;
   nameTranslation?: CmsTranslation;
+  highlightTranslation?: CmsTranslation;
+  descriptionTranslation?: CmsTranslation;
+  tncTranslation?: CmsTranslation;
   totalOfTickets?: number;
   totalOfWinners?: number;
   totalOfGainedTickets?: number;
@@ -128,11 +131,7 @@ export interface WinningSummaryDetails {
   winningNumbers: string[];
 }
 
-export enum EventStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  ENDED = 'ENDED',
-}
+export type EventStatus = 'ACTIVE' | 'INACTIVE' | 'ENDED';
 
 export interface JJEventStatus extends ErpDoc {
   code: string;
@@ -265,10 +264,7 @@ export interface JJTicket extends ErpDoc {
   statusTranslation?: CmsTranslation;
 }
 
-export enum TicketStatus {
-  VALID = 'VALID',
-  INVALID = 'INVALID',
-}
+export type TicketStatus = 'VALID' | 'INVALID';
 
 export interface JJWinner extends ErpDoc {
   quantity: number;
@@ -333,10 +329,7 @@ export interface JJScratchAndWinRule extends ErpDoc {
   eventId: number;
 }
 
-export enum IssueMode {
-  AMOUNT_PAID = 'AMOUNT_PAID',
-  AMOUNT_POINT_PAID = 'AMOUNT_POINT_PAID',
-}
+export type IssueMode = 'AMOUNT_PAID' | 'AMOUNT_POINT_PAID';
 
 export interface JJWalletTransaction extends ErpDoc {
   wallet_id: number;
@@ -440,6 +433,10 @@ export interface JJScratchAndWinEvent extends ErpDoc {
   prizes?: JJScratchAndWinPrize[];
   merchant?: JJMerchant;
   distance?: number;
+  nameTranslation?: CmsTranslation;
+  tncTranslation?: CmsTranslation;
+  congratTranslation?: CmsTranslation;
+  thankTranslation?: CmsTranslation;
 }
 
 export interface JJScratchAndWinPrize extends ErpDoc {
@@ -609,4 +606,9 @@ export interface JJMiniProgram extends ErpDoc {
   colors?: any;
   isActive: boolean;
   isVisible: boolean;
+}
+
+export interface JJScratchAndWinPrizeType extends ErpDoc {
+  code: string;
+  name: string;
 }

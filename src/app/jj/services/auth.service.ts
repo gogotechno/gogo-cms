@@ -4,8 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { AppUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
 import { SwsErpService } from 'src/app/sws-erp.service';
-import { AuthStateEvent, Conditions, DocUser, Pagination } from 'src/app/sws-erp.type';
-import { GetProfileOptions, COMPANY_CODE, JJMerchant, JJWallet, User, UserRole, UserType } from '../typings';
+import { AuthStateEvent, Conditions, Pagination } from 'src/app/sws-erp.type';
+import { GetProfileOptions, COMPANY_CODE, JJMerchant, JJWallet, User } from '../typings';
 import { AuthDataService } from './auth-data.service';
 import { CoreService } from './core.service';
 

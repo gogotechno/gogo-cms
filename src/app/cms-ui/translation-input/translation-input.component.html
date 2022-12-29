@@ -1,6 +1,6 @@
-<div class="container">
-    <ion-input [(ngModel)]="text" (ionChange)="textChanged($event)"></ion-input>
-    <ion-select [(ngModel)]="language" (ionChange)="languageChanged($event)">
-        <ion-select-option *ngFor="let language of languages" [value]="language">{{ language }}</ion-select-option>
-    </ion-select>
-</div>
+<ion-item>
+  <ion-input [(ngModel)]="text" (ionChange)="textChanged($event)"></ion-input>
+  <ion-select slot="end" [(ngModel)]="language" (ionChange)="languageChanged($event)">
+    <ion-select-option *ngFor="let language of languages" [value]="language">{{ language }}</ion-select-option>
+  </ion-select>
+</ion-item>

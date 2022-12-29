@@ -1,21 +1,3 @@
-ion-list-header {
-    --background: var(--ion-color-light);
-    font-size: small;
-    min-height: 0px;
-    padding-top: calc(var(--ion-padding, 16px) / 2);
-    padding-bottom: calc(var(--ion-padding, 16px) / 2);
-}
-
-.event {
-    .description {
-        font-weight: bold;
-    }
-
-    .reference1 {
-        font-weight: bold;
-    }
-
-    .reference2 {
-        font-size: small;
-    }
+.event-name {
+  font-weight: var(--ion-font-bold);
 }

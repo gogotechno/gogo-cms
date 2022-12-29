@@ -66,11 +66,11 @@ export class CoreService extends SharedComponent {
     private title: Title,
     private appUtils: AppUtils,
     private cmsUtils: CmsUtils,
+    private erpImg: ErpImagePipe,
     private storage: LocalStorageService,
     private translate: TranslateService,
     private swsErp: SwsErpService,
     private common: CommonService,
-    private erpImg: ErpImagePipe,
     private authData: AuthDataService,
   ) {
     super();
@@ -209,6 +209,11 @@ export class CoreService extends SharedComponent {
 
   updateWallet(walletId: number, wallet: Partial<JJWallet>) {
     return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
+  async getWalletTypes() {
+    const res = await this.swsErp.getDocs<JJWalletType>('Wallet Type');
+    return res.result;
   }
 
   async getWalletByNo(walletNo: string, conditions: Conditions = {}) {
@@ -431,6 +436,14 @@ export class CoreService extends SharedComponent {
   // @ Event
   // -----------------------------------------------------------------------------------------------------
 
+  createEvent(event: JJEvent) {
+    return this.swsErp.postDoc('Event', event);
+  }
+
+  updateEvent(eventId: number, event: Partial<JJEvent>) {
+    return this.swsErp.putDoc('Event', eventId, event);
+  }
+
   async getEvents(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJEvent>('Event', {
       itemsPerPage: pagination.itemsPerPage,
@@ -646,10 +659,6 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Scratch Request', request, query);
   }
 
-  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
-    return this.swsErp.postDoc('Scratch And Win Event', event);
-  }
-
   async getScratchRequests(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
@@ -662,6 +671,14 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
+  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    return this.swsErp.postDoc('Scratch And Win Event', event);
+  }
+
+  updateScratchAndWinEvent(eventId: number, event: Partial<JJScratchAndWinEvent>) {
+    return this.swsErp.putDoc('Scratch And Win Event', eventId, event);
+  }
+
   async getScratchAndWinEvents(pagination: Pagination, conditions: Conditions = {}) {
     let query: GetOptions = {
       itemsPerPage: pagination.itemsPerPage,
@@ -671,7 +688,7 @@ export class CoreService extends SharedComponent {
       ...conditions,
     };
     const res = await this.swsErp.getDocs<JJScratchAndWinEvent>('Scratch And Win Event', query);
-    return res.result;
+    return res.result.map((event) => this.populateScratchAndWinEvent(event));
   }
 
   async getScratchAndWinEventById(eventId: number, conditions: Conditions = {}) {
@@ -683,7 +700,7 @@ export class CoreService extends SharedComponent {
     }
     let query = <GetOptions>conditions;
     const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, query);
-    return res;
+    return this.populateScratchAndWinEvent(res);
   }
 
   async getScratchAndWinPrizes(conditions: Conditions = {}) {
@@ -695,13 +712,8 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getSnwPrizeType() {
+  async getScratchAndWinPrizeTypes() {
     const res = await this.swsErp.getDocs<JJScratchAndWinPrizeType>('Scratch And Win Prize Type');
-    return res.result;
-  }
-  
-  async getWalletType() {
-    const res = await this.swsErp.getDocs<JJWalletType>('Wallet Type');
     return res.result;
   }
 
@@ -722,25 +734,6 @@ export class CoreService extends SharedComponent {
     return displayCurrency;
   }
 
-  convertAttachment(attachment: CmsFile) {
-    if (attachment.fileType == 'image') {
-      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
-    } else {
-      switch (attachment.mimeType) {
-        case 'application/pdf':
-          attachment.previewUrl = 'assets/jj/file-types/pdf.png';
-          break;
-        case 'text/plain':
-          attachment.previewUrl = 'assets/jj/file-types/txt.png';
-          break;
-        default:
-          attachment.previewUrl = 'assets/jj/file-types/file.png';
-          break;
-      }
-    }
-    return attachment;
-  }
-
   // -----------------------------------------------------------------------------------------------------
   // @ Mapper
   // -----------------------------------------------------------------------------------------------------
@@ -757,10 +750,8 @@ export class CoreService extends SharedComponent {
     if (!product) {
       return null;
     }
-    product.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      product.translate ? product.translate.name : product.name,
-      product.name,
-    );
+    let name = product.translate ? product.translate.name : product.name;
+    product.nameTranslation = this.cmsUtils.parseCmsTranslation(name, product.name);
     return product;
   }
 
@@ -768,11 +759,18 @@ export class CoreService extends SharedComponent {
     if (!event) {
       return null;
     }
-    event.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      event.translate ? event.translate.name : event.name,
-      event.name,
-    );
+    let name = event.translate ? event.translate.name : event.name;
+    let highlight = event.translate ? event.translate.highlight : event.highlight;
+    let description = event.translate ? event.translate.description : event.description;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.highlightTranslation = this.cmsUtils.parseCmsTranslation(highlight, event.highlight);
+    event.descriptionTranslation = this.cmsUtils.parseCmsTranslation(description, event.description);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
     event.drewAt = event.drawingResult?.drewAt;
+    if (event.prizes?.length) {
+      event.prizes = event.prizes.map((prize) => this.populateEventPrize(prize));
+    }
     return event;
   }
 
@@ -834,10 +832,8 @@ export class CoreService extends SharedComponent {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 
@@ -867,7 +863,10 @@ export class CoreService extends SharedComponent {
     }
     request.wallet = this.populateWallet(request.wallet);
     request.displayCurrency = this.convertCurrency(request.convertedCurrency);
-    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
     return request;
   }
 
@@ -877,18 +876,37 @@ export class CoreService extends SharedComponent {
     }
     request.wallet = this.populateWallet(request.wallet);
     request.displayCurrency = this.convertCurrency(request.convertedCurrency);
-    request.attachments = request.attachments.map((attachment) => this.convertAttachment(attachment));
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
     return request;
+  }
+
+  populateScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    if (!event) {
+      return null;
+    }
+    let name = event.translate ? event.translate.name : event.name;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
+    let congratMessage = event.translate ? event.translate.congratulationMessage : event.congratulationMessage;
+    let thankYouMessage = event.translate ? event.translate.thankYouMessage : event.thankYouMessage;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
+    event.congratTranslation = this.cmsUtils.parseCmsTranslation(congratMessage, event.congratulationMessage);
+    event.thankTranslation = this.cmsUtils.parseCmsTranslation(thankYouMessage, event.thankYouMessage);
+    if (event.prizes) {
+      event.prizes = event.prizes.map((prize) => this.populateScratchAndWinPrize(prize));
+    }
+    return event;
   }
 
   populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 
