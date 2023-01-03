@@ -18,7 +18,7 @@ export class CreateWithdrawPage implements OnInit {
   walletNo: string;
   wallet: JJWallet;
   form = form;
-  value: CreateWithdrawDto;
+  value: Partial<JJWithdrawRequest>;
   methods: JJWithdrawMethod[];
 
   constructor(
@@ -51,26 +51,19 @@ export class CreateWithdrawPage implements OnInit {
       walletNo: this.walletNo,
       amount: null,
       description: null,
-      methodId: null,
+      withdraw_method_id: null,
     };
   }
 
-  async onConfirm(data: CreateWithdrawDto) {
-    let request: JJWithdrawRequest = {
-      refNo: '',
-      amount: data.amount,
-      description: data.description,
-      withdraw_method_id: data.methodId,
-      walletNo: data.walletNo,
-    };
-    let method = this.methods.find((method) => method.doc_id == data.methodId);
+  async onConfirm(data: JJWithdrawRequest) {
+    let method = this.methods.find((method) => method.doc_id == data.withdraw_method_id);
     switch (method.code) {
       case 'BANK_TRANSFER':
         let bankId = await this.chooseBankAccount();
         if (!bankId) {
           return;
         }
-        request.bank_account_id = bankId;
+        data.bank_account_id = bankId;
         break;
       case 'SELF_PICKUP':
         break;
@@ -86,8 +79,8 @@ export class CreateWithdrawPage implements OnInit {
     if (!verified) {
       return;
     }
-    request.walletPin = verification.pin;
-    let response = await this.core.createWithdrawRequest(request);
+    data.walletPin = verification.pin;
+    let response = await this.core.createWithdrawRequest({ refNo: '', ...data });
     await this.router.navigate(['../withdraws', response.data.refNo], {
       relativeTo: this.route,
       replaceUrl: true,
@@ -109,6 +102,7 @@ const form: CmsForm = {
   labelPosition: 'stacked',
   submitButtonId: 'create-withdraw-btn',
   autoValidate: true,
+  autoRemoveUnusedKeys: 'swserp',
   items: [
     {
       code: 'walletNo',
@@ -132,7 +126,7 @@ const form: CmsForm = {
       required: true,
     },
     {
-      code: 'methodId',
+      code: 'withdraw_method_id',
       label: 'jj._METHODS',
       type: 'radio',
       required: true,
@@ -140,10 +134,3 @@ const form: CmsForm = {
     },
   ],
 };
-
-interface CreateWithdrawDto {
-  walletNo: string;
-  amount: number;
-  description: string;
-  methodId: number;
-}

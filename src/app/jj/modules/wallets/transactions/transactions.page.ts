@@ -20,13 +20,17 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   transactions: JJWalletTransaction[][];
   updatedAt: Date;
 
-
   get dates(): string[] {
     if (!this.transactions) return null;
     return Object.keys(this.transactions);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private core: CoreService,
+    private date: DatePipe,
+    private router: Router,
+  ) {
     super();
   }
 
@@ -78,17 +82,17 @@ export class TransactionsPage extends SharedComponent implements OnInit {
 
   async openDetails(identifier: string) {
     let txt = identifier;
-    let arr = txt.split('-')
-    let start = arr[0]
+    let arr = txt.split('-');
+    let start = arr[0];
     switch (start) {
       case 'DR':
-        this.router.navigate(['/jj/wallets/', this.walletNo, 'deposits', identifier])
+        this.router.navigate(['/jj/wallets/', this.walletNo, 'deposits', identifier]);
         break;
       case 'TR':
-        this.router.navigate(['/jj/wallets/', this.walletNo,'transactions/transfer-receipt', identifier])
+        this.router.navigate(['/jj/wallets/', this.walletNo, 'transactions/transfer-receipt', identifier]);
         break;
       case 'WR':
-        this.router.navigate(['/jj/wallets/', this.walletNo, 'withdraws', identifier])
+        this.router.navigate(['/jj/wallets/', this.walletNo, 'withdraws', identifier]);
         break;
       default:
         break;
