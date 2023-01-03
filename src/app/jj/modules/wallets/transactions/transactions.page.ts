@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWalletTransaction } from 'src/app/jj/typings';
@@ -20,12 +20,13 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   transactions: JJWalletTransaction[][];
   updatedAt: Date;
 
+
   get dates(): string[] {
     if (!this.transactions) return null;
     return Object.keys(this.transactions);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
+  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe, private router: Router) {
     super();
   }
 
@@ -73,6 +74,25 @@ export class TransactionsPage extends SharedComponent implements OnInit {
       }
       this.transactions[date] = list;
     });
+  }
+
+  async openDetails(identifier: string) {
+    let txt = identifier;
+    let arr = txt.split('-')
+    let start = arr[0]
+    switch (start) {
+      case 'DR': 
+      this.router.navigate(['/jj/wallets/W00058/deposits' , identifier ])
+      break;
+      case 'TR':
+      this.router.navigate(['/jj/wallets/W00058/transactions/transfer-receipt' , identifier ])
+      break;
+      case 'WR':
+        this.router.navigate(['/jj/wallets/W00058/withdraws' , identifier ])
+      break;
+      default:
+      break;
+    }
   }
 
   async doRefresh(event: Event) {
