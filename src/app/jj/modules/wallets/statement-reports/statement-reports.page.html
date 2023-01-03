@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="'/jj/wallets/' + walletNo "></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._STATEMENT_REPORTS" | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="full">
+    <div *ngIf="!reports?.length" class="note">
+      <ion-label>{{ 'jj._NO_REPORTS_FOUND' | translate }}</ion-label>
+    </div>
+    <ion-item class="report" [detail]="true" *ngFor="let report of reports" (click)="onReportClick(report)">
+      <ion-label>
+        <h3>{{ report.serialNo }}</h3>
+        <p>{{ report.year }}-{{ report.month }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ng-container *ngIf="reports?.length">
+    <ion-infinite-scroll *ngIf="!reportsEnded" (ionInfinite)="loadMoreReports($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="reportsEnded" class="note">
+      <ion-label>
+        <span>{{ '_ALL_LOADED' | translate }}</span><br />
+        <span>{{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}</span>
+      </ion-label>
+    </div>
+  </ng-container>
+</ion-content>

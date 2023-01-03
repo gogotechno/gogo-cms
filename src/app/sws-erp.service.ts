@@ -21,6 +21,7 @@ import {
   PutOptions,
   ChangePasswordDto,
   UploadFileResponse,
+  GetPrintTemplateResponse,
 } from './sws-erp.type';
 
 @Injectable({
@@ -324,6 +325,19 @@ export class SwsErpService {
     const formData = new FormData();
     formData.append('file', file);
     return this._http.post<UploadFileResponse>(requestUrl, formData).toPromise();
+  }
+
+  async getPrintTemplate(documentType: string, ids: number[]) {
+    const requestUrl = `${this.API_URL}/print/${documentType}`;
+    const query = {};
+    query['id'] = ids.join(',');
+    query['apiUrl'] = environment.swsErp.apiUrl;
+    query['googleMapApiKey'] = environment.swsErp.googleMapApiKey;
+    const response = await this._http.get<GetPrintTemplateResponse>(requestUrl, { params: query }).toPromise();
+    if (response?.data?.htmls?.length) {
+      response.data.html = response.data.htmls.join('');
+    }
+    return response;
   }
 }
 

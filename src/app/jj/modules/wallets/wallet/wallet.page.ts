@@ -81,6 +81,7 @@ export class WalletPage implements OnInit, OnDestroy {
       case 'DEPOSIT':
       case 'WITHDRAW':
       case 'TRANSFER':
+      case 'STATEMENT':
         return this.onCardNavigate(card.url);
       default:
         return;
@@ -126,6 +127,7 @@ export class WalletPage implements OnInit, OnDestroy {
         case 'WITHDRAW':
           card.active = this.wallet.walletType?.canWithdraw;
           break;
+        case 'STATEMENT':
         case 'PIN':
           card.active = true;
           break;
@@ -171,7 +173,7 @@ const cards: WalletCard[] = [
     code: 'STATEMENT',
     name: 'jj._STATEMENT',
     icon: 'document-text-outline',
-    url: '',
+    url: 'statement-reports',
     active: false,
   },
   {

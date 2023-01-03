@@ -47,6 +47,7 @@ import {
   JJUserRole,
   JJWallet,
   JJWalletCurrency,
+  JJWalletStatementReport,
   JJWalletTransaction,
   JJWalletType,
   JJWinner,
@@ -373,6 +374,17 @@ export class CoreService extends SharedComponent {
   async createCheckConversionRequest(request: JJCheckConversionRequest) {
     let res = await this.swsErp.postDoc('Check Conversion Request', request);
     return res.data as CheckConversionResult;
+  }
+
+  async getWalletStatementReports(pagination: Pagination, conditions: Conditions = {}) {
+    const res = await this.swsErp.getDocs<JJWalletStatementReport>('Wallet Statement Report', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
   }
 
   // -----------------------------------------------------------------------------------------------------

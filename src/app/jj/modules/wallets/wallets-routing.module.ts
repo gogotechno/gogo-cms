@@ -48,6 +48,10 @@ const routes: Routes = [
     path: ':walletNo/change-pin',
     loadChildren: () => import('./change-pin/change-pin.module').then((m) => m.ChangePinPageModule),
   },
+  {
+    path: ':walletNo/statement-reports',
+    loadChildren: () => import('./statement-reports/statement-reports.module').then((m) => m.StatementReportsPageModule),
+  },
 ];
 
 @NgModule({

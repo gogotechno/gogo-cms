@@ -52,6 +52,14 @@ export interface GenerateAccessTokenResponse {
   data: any;
 }
 
+export interface GetPrintTemplateResponse {
+  message: string;
+  data: {
+    htmls: string[];
+    html: string;
+  };
+}
+
 export interface Pageable<T = any> {
   total: number;
   result: T[];

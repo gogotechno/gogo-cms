@@ -122,7 +122,7 @@ export interface JJEvent extends ErpDoc {
   showCustomerTickets: boolean;
   winningSummary?: WinningSummaryDetails[];
 
-  // app use only
+  // app use
   _status: string;
 }
 
@@ -624,4 +624,14 @@ export interface CheckConversionResult {
   targetCurrency: JJWalletCurrency;
   conversion: JJWalletCurrencyConversion;
   amount: number;
+}
+
+export interface JJWalletStatementReport extends ErpDoc {
+  serialNo: string;
+  year: string;
+  month: string;
+  transactionsJson: string;
+  wallet_id: number;
+  // app use
+  url?: string;
 }
