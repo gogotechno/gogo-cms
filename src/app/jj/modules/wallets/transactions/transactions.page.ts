@@ -81,17 +81,17 @@ export class TransactionsPage extends SharedComponent implements OnInit {
     let arr = txt.split('-')
     let start = arr[0]
     switch (start) {
-      case 'DR': 
-      this.router.navigate(['/jj/wallets/W00058/deposits' , identifier ])
-      break;
+      case 'DR':
+        this.router.navigate(['/jj/wallets/', this.walletNo, 'deposits', identifier])
+        break;
       case 'TR':
-      this.router.navigate(['/jj/wallets/W00058/transactions/transfer-receipt' , identifier ])
-      break;
+        this.router.navigate(['/jj/wallets/', this.walletNo,'transactions/transfer-receipt', identifier])
+        break;
       case 'WR':
-        this.router.navigate(['/jj/wallets/W00058/withdraws' , identifier ])
-      break;
+        this.router.navigate(['/jj/wallets/', this.walletNo, 'withdraws', identifier])
+        break;
       default:
-      break;
+        break;
     }
   }
 
