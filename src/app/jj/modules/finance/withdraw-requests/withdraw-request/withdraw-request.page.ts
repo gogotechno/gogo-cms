@@ -6,6 +6,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWithdrawRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../../wallets/wallets.service';
+import { FinanceService } from '../../finance.service';
 import { UploadAttachmentsComponent } from './@components/upload-attachments/upload-attachments.component';
 
 @Component({
@@ -32,6 +33,7 @@ export class WithdrawRequestPage implements OnInit {
     private common: CommonService,
     private core: CoreService,
     private walletsService: WalletsService,
+    private financeService: FinanceService,
   ) {}
 
   async ngOnInit() {
@@ -69,6 +71,7 @@ export class WithdrawRequestPage implements OnInit {
       return;
     }
     await this.core.approveWithdrawRequest(this.withdraw.doc_id, attachments);
+    this.financeService.withdrawChange.next(true);
     await this.loadData();
   }
 
@@ -78,6 +81,7 @@ export class WithdrawRequestPage implements OnInit {
       return;
     }
     await this.core.declineWithdrawRequest(this.withdraw.doc_id);
+    this.financeService.withdrawChange.next(true);
     await this.loadData();
   }
 

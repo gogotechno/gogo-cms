@@ -1,0 +1,19 @@
+<ion-header class="ion-header-clear">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-slides>
+    <ion-slide *ngFor="let image of images">
+      <div class="swiper-zoom-container">
+        <img [src]="image" />
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

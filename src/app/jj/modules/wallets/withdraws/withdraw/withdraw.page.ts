@@ -33,6 +33,7 @@ export class WithdrawPage implements OnInit {
   async ngOnInit() {
     this.backButtonText = this.common.getBackButtonText();
     const params = this.route.snapshot.params;
+    this.walletNo = params['walletNo'];
     this.refNo = params['refNo'];
     await this.loadData();
   }

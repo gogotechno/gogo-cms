@@ -25,6 +25,7 @@ import { RequiredTagComponent } from './required-tag/required-tag.component';
 import { PhoneNumberVerificationComponent } from './phone-number-verification/phone-number-verification.component';
 import { PinInputComponent } from './pin-input/pin-input.component';
 import { FilesInputComponent } from './files-input/files-input.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 const internalComponents = [
   ArrayInputComponent,
@@ -49,6 +50,7 @@ const exportedComponents = [
   RequiredTagComponent,
   PhoneNumberVerificationComponent,
   FilesInputComponent,
+  GalleryComponent
 ];
 
 const pipes = [

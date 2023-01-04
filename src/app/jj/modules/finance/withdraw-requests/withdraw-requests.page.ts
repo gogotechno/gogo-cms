@@ -1,12 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CmsFilter } from 'src/app/cms.type';
 import { CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWithdrawRequest, WithdrawRequestStatus } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
 import { WalletsService } from '../../wallets/wallets.service';
+import { FinanceService } from '../finance.service';
 import { FilterComponent } from './@components/filter/filter.component';
 
 @Component({
@@ -22,43 +25,65 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
   requestsConditions: RequestsConditions;
   filter: CmsFilter;
 
+  initialized: boolean;
+  destroy$: Subject<boolean>;
+
   constructor(
     private date: DatePipe,
     private modalCtrl: ModalController,
     private core: CoreService,
     private walletsService: WalletsService,
+    private financeService: FinanceService,
   ) {
     super();
+    this.destroy$ = new Subject();
   }
 
   get dates(): string[] {
-    if (!this.requests) return null;
+    if (!this.requests) {
+      return null;
+    }
     return Object.keys(this.requests);
   }
 
   async ngOnInit() {
     this.filter = this._filter;
     this.requestsConditions = this._conditions;
-    await this.loadData();
+    this.financeService.withdrawChange.pipe(takeUntil(this.destroy$)).subscribe(async (change) => {
+      if (change && this.initialized) {
+        await this.loadData(true);
+      }
+    });
+    await this.loadData(false);
+    this.initialized = true;
   }
 
-  async loadData() {
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  async loadData(silent: boolean) {
     this.requests = [];
     this.requestsPage = this.defaultPage;
-    const requests = await this.getRequests();
+    const requests = await this.getRequests(silent);
     this.grouping(requests);
     this.requestsEnded = requests.length < this.requestsPage.itemsPerPage;
   }
 
-  async getRequests() {
-    const requests = await this.core.getWithdrawRequests(this.requestsPage, this.requestsConditions);
+  async getRequests(silent: boolean) {
+    let conditions = {
+      skipLoading: silent,
+      ...this.requestsConditions,
+    };
+    const requests = await this.core.getWithdrawRequests(this.requestsPage, conditions);
     this.updatedAt = new Date();
     return requests;
   }
 
   async loadMoreRequests(event: Event) {
     this.requestsPage.currentPage += 1;
-    const incoming = await this.getRequests();
+    const incoming = await this.getRequests(false);
     this.grouping(incoming);
     this.requestsEnded = incoming.length <= 0;
     const scroller = <HTMLIonInfiniteScrollElement>event.target;
@@ -82,7 +107,7 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    await this.loadData();
+    await this.loadData(false);
     const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
@@ -101,7 +126,7 @@ export class WithdrawRequestsPage extends SharedComponent implements OnInit {
       this.requestsPage = this.defaultPage;
       this.requestsConditions = data.conditions || this._conditions;
       this.requests = [];
-      const incoming = await this.getRequests();
+      const incoming = await this.getRequests(false);
       this.grouping(incoming);
     }
   }

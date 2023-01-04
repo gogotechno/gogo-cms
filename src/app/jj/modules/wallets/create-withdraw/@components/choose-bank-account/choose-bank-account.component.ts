@@ -45,7 +45,10 @@ export class ChooseBankAccountComponent extends SharedComponent implements OnIni
   }
 
   async getAccounts() {
-    let accounts = await this.auth.findMyBankAccounts(this.accountsPage);
+    let accounts = await this.auth.findMyBankAccounts(this.accountsPage, {
+      isActive: 1,
+      isActive_type: '=',
+    });
     this.updatedAt = new Date();
     return accounts;
   }

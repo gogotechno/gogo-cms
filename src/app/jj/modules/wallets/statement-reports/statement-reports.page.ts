@@ -69,12 +69,17 @@ export class StatementReportsPage extends SharedComponent implements OnInit {
 
   async onReportClick(report: JJWalletStatementReport) {
     let response = await this.swsErp.getPrintTemplate('Wallet Statement Report', [report.doc_id]);
-    await this.appUtils.presentLoading();
-    let options = {
-      margin: 8,
-    };
-    let worker = html2pdf();
-    await worker.set(options).from(response.data.html).toPdf().save(`${report.serialNo}.pdf`);
-    await this.appUtils.dismissLoading();
+    try {
+      await this.appUtils.presentLoading();
+      let options = {
+        margin: 8,
+      };
+      let worker = html2pdf();
+      await worker.set(options).from(response.data.html).toPdf().get('pdf').save(`${report.serialNo}.pdf`);
+    } catch (err) {
+      await this.appUtils.presentAlert('_CANNOT_GENERATE_PDF', '_ERROR');
+    } finally {
+      await this.appUtils.dismissLoading();
+    }
   }
 }

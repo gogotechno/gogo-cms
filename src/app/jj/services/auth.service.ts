@@ -214,8 +214,7 @@ export class AuthService {
     return this.core.populateMerchant(merchant);
   }
 
-  async findMyBankAccounts(pagination: Pagination) {
-    let conditions: Conditions = {};
+  async findMyBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
     switch (this.userRole) {
       case 'FINANCE_ADMIN':
       case 'SYSTEM_ADMIN':

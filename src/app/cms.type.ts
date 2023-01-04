@@ -193,6 +193,7 @@ export interface CmsFile {
 export interface CmsFileConfig {
   multiple?: boolean;
   outputType?: 'default' | 'uploadUrl';
+  acceptTypes?: string[];
   realtimeUpload?: boolean;
 }
 

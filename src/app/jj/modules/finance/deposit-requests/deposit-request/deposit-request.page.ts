@@ -4,6 +4,7 @@ import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../../wallets/wallets.service';
+import { FinanceService } from '../../finance.service';
 
 @Component({
   selector: 'app-deposit-request',
@@ -28,6 +29,7 @@ export class DepositRequestPage implements OnInit {
     private core: CoreService,
     private common: CommonService,
     private walletsService: WalletsService,
+    private financeService: FinanceService,
   ) {}
 
   async ngOnInit() {
@@ -53,6 +55,7 @@ export class DepositRequestPage implements OnInit {
       return;
     }
     await this.core.approveDepositRequest(this.deposit.doc_id);
+    this.financeService.depositChange.next(true);
     await this.loadData();
   }
 
@@ -62,6 +65,7 @@ export class DepositRequestPage implements OnInit {
       return;
     }
     await this.core.declineDepositRequest(this.deposit.doc_id);
+    this.financeService.depositChange.next(true);
     await this.loadData();
   }
 }

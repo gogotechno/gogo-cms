@@ -25,7 +25,10 @@ export class VerifyPinComponent implements OnInit {
       walletNo: this.walletNo,
       walletPin: data.pin,
     });
-    await this.modalCtrl.dismiss({ success: true });
+    await this.modalCtrl.dismiss({
+      success: true,
+      pin: data.pin,
+    });
   }
 }
 

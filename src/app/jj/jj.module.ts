@@ -13,6 +13,7 @@ import { HomeService as MemberHomeService } from './modules/membership/home/@ser
 import { AuthService, CommonService, CoreService } from './services';
 import { MerchantService } from './modules/merchant/merchant.service';
 import { AuthDataService } from './services/auth-data.service';
+import { FinanceService } from './modules/finance/finance.service';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { AuthDataService } from './services/auth-data.service';
     AuthDataService,
     CommonService,
     CoreService,
+    FinanceService,
     WalletsService,
     MerchantService,
     MemberHomeService,

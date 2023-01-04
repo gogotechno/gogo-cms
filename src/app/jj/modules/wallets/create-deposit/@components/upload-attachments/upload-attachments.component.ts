@@ -48,7 +48,7 @@ const form: CmsForm = {
   items: [
     {
       code: 'attachments',
-      label: '_ATTACHMENTS',
+      label: 'jj._ATTACHMENTS',
       type: 'files',
       required: true,
       maximum: 3,

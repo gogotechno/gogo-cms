@@ -1,7 +1,9 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 import { CmsFile, CmsFileConfig, CmsFileHandler, CmsTranslable, OnFilePreview, OnFileUpload } from 'src/app/cms.type';
 import { CmsUtils } from 'src/app/cms.util';
+import { GalleryComponent } from '../gallery/gallery.component';
 
 @Component({
   selector: 'cms-files-input',
@@ -31,6 +33,7 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
 
   @Input('multiple') multiple: boolean;
   @Input('outputType') outputType: 'default' | 'uploadUrl';
+  @Input('acceptTypes') acceptTypes: string[];
   @Input('realtimeUpload') realtimeUpload: boolean;
 
   onUpload: OnFileUpload;
@@ -54,13 +57,21 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
     return !this.readonly;
   }
 
-  constructor(private cmsUtils: CmsUtils) {}
+  get acceptedTypes() {
+    return this.acceptTypes.join(',');
+  }
+
+  constructor(private modalCtrl: ModalController, private cmsUtils: CmsUtils) {}
 
   ngOnInit() {
     this.multiple = this.config?.multiple;
     this.outputType = this.config?.outputType;
     if (!this.outputType) {
       this.outputType = 'default';
+    }
+    this.acceptTypes = this.config?.acceptTypes;
+    if (!this.acceptTypes) {
+      this.acceptTypes = ['image/*'];
     }
     this.realtimeUpload = this.config?.realtimeUpload;
     this.onUpload = this.handler?.onUpload;
@@ -214,12 +225,22 @@ export class FilesInputComponent implements OnInit, ControlValueAccessor {
     return previewUrl;
   }
 
-  onItemClick(file: CmsFile) {
-    const anchor = document.createElement('a');
-    anchor.setAttribute('href', file.previewUrl);
-    anchor.setAttribute('download', file.name);
-    document.body.appendChild(anchor);
-    anchor.click();
-    document.body.removeChild(anchor);
+  async onItemClick(file: CmsFile) {
+    if (file.fileType == 'image') {
+      const modal = await this.modalCtrl.create({
+        component: GalleryComponent,
+        componentProps: {
+          images: [file.previewUrl],
+        },
+      });
+      await modal.present();
+    } else {
+      const anchor = document.createElement('a');
+      anchor.setAttribute('href', file.previewUrl);
+      anchor.setAttribute('download', file.name);
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    }
   }
 }

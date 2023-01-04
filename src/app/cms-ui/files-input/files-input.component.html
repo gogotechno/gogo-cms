@@ -7,7 +7,7 @@
     <ion-note>{{ currentLength }}/{{ maximum }}</ion-note>
   </ion-label>
 </ion-item>
-<input #file class="ion-display-none" type="file" (change)="onFileChange($event)" />
+<input #file class="ion-display-none" type="file" [accept]="acceptedTypes" (change)="onFileChange($event)" />
 <ion-list lines="full">
   <ion-item *ngFor="let file of files; let index = index" class="cms-file-item" (click)="onItemClick(file)">
     <ion-thumbnail slot="start">

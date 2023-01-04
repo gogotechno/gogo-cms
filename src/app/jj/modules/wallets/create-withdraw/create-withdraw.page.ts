@@ -5,6 +5,7 @@ import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWallet, JJWithdrawMethod, JJWithdrawRequest } from 'src/app/jj/typings';
+import { HomeService as MemberHomeService } from '../../membership/home/@services/home.service';
 import { WalletsService } from '../wallets.service';
 import { ChooseBankAccountComponent } from './@components/choose-bank-account/choose-bank-account.component';
 
@@ -29,6 +30,7 @@ export class CreateWithdrawPage implements OnInit {
     private common: CommonService,
     private core: CoreService,
     private walletsService: WalletsService,
+    private memberHomeService: MemberHomeService,
   ) {}
 
   async ngOnInit() {
@@ -41,7 +43,7 @@ export class CreateWithdrawPage implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.methods = await this.core.getWithdrawMethods();
-    const methodField = this.form.items.find((item) => item.code == 'methodId');
+    const methodField = this.form.items.find((item) => item.code == 'withdraw_method_id');
     methodField.options = this.methods.map((method) => ({
       code: String(method.doc_id),
       label: method.name,
@@ -70,17 +72,29 @@ export class CreateWithdrawPage implements OnInit {
       default:
         break;
     }
+
     let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_WITHDRAW');
     if (!confirm) {
       return;
     }
+
     let verification = await this.walletsService.verifyPin(this.wallet);
     let verified = verification?.success;
     if (!verified) {
       return;
     }
+
+    if (!this.wallet.pin) {
+      this.wallet.pin = verification.pin;
+    }
+
+    data.refNo = '';
     data.walletPin = verification.pin;
-    let response = await this.core.createWithdrawRequest({ refNo: '', ...data });
+    let response = await this.core.createWithdrawRequest(data);
+
+    this.walletsService.transferSuccess.next(true);
+    this.memberHomeService.refresh();
+
     await this.router.navigate(['../withdraws', response.data.refNo], {
       relativeTo: this.route,
       replaceUrl: true,

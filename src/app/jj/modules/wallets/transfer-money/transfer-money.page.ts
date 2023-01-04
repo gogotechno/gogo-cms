@@ -79,6 +79,10 @@ export class TransferMoneyPage implements OnInit {
       return;
     }
 
+    if (!this.wallet.pin) {
+      this.wallet.pin = verification.pin;
+    }
+
     let response = await this.core.createTransferRequest({
       refNo: '',
       amount: data.amount,
@@ -90,12 +94,6 @@ export class TransferMoneyPage implements OnInit {
 
     this.walletsService.transferSuccess.next(true);
     this.memberHomeService.refresh();
-
-    // await this.appUtils.presentAlert('jj._TRANSFER_SUCCESS');
-    // await this.router.navigate(['../..'], {
-    //   relativeTo: this.route,
-    //   replaceUrl: true,
-    // });
 
     await this.router.navigate(['/jj/wallets/transfer-receipt', response.data.refNo], {
       replaceUrl: true,

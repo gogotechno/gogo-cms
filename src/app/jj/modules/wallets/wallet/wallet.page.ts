@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
 import { WalletsService } from '../wallets.service';
@@ -14,6 +14,7 @@ import { WalletsService } from '../wallets.service';
   styleUrls: ['./wallet.page.scss'],
 })
 export class WalletPage implements OnInit, OnDestroy {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   cards: WalletCard[];
@@ -26,11 +27,13 @@ export class WalletPage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private walletsService: WalletsService,
     private core: CoreService,
+    private common: CommonService,
   ) {
     this.destroy$ = new Subject();
   }
 
   async ngOnInit() {
+    this.backButtonText = this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
@@ -108,6 +111,9 @@ export class WalletPage implements OnInit, OnDestroy {
     let verified = verification?.success;
     if (!verified) {
       return;
+    }
+    if (!this.wallet.pin) {
+      this.wallet.pin = verification.pin;
     }
     await this.router.navigate(['change-pin'], { relativeTo: this.route });
   }
