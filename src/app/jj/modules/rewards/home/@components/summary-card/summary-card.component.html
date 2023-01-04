@@ -18,11 +18,11 @@
           <ion-row>
             <ion-col>
               <p>{{ 'jj._TICKETS' | translate }}</p>
-              <h3>{{ customer?.totalOfTickets }}</h3>
+              <h3>{{ customer?.totalOfTickets || 0 }}</h3>
             </ion-col>
             <ion-col>
               <p>{{ 'jj._JACKPOT' | translate }}</p>
-              <h3>{{ customer?.totalOfWinners }}</h3>
+              <h3>{{ customer?.totalOfWinners || 0 }}</h3>
             </ion-col>
             <ion-col>
               <ion-button size="small" fill="clear" routerLink="my-rewards">

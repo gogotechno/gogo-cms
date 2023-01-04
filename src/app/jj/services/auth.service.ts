@@ -156,7 +156,9 @@ export class AuthService {
         wallets = await this.core.getWalletsByCustomerId(customer.doc_id, conditions);
         break;
       default:
-        wallets = [];
+        conditions['isSystem'] = 1;
+        conditions['isSystem_type'] = '=';
+        wallets = await this.core.getAllWallets(conditions);
         break;
     }
     return wallets;
@@ -203,6 +205,39 @@ export class AuthService {
           customer_id: customerId,
         });
         return events;
+    }
+  }
+
+  async findMyEventTickets(eventId: number, pagination: Pagination) {
+    switch (this.userRole) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
+        return [];
+      default:
+        const customerId = this.currentUser.doc_id;
+        const tickets = await this.core.getTickets(pagination, {
+          event_id: eventId,
+          event_id_type: '=',
+          customer_id: customerId,
+          customer_id_type: '=',
+        });
+        return tickets;
+    }
+  }
+
+  async findMyWinners(pagination: Pagination) {
+    switch (this.userRole) {
+      case 'FINANCE_ADMIN':
+      case 'MERCHANT_ADMIN':
+      case 'SYSTEM_ADMIN':
+        return [];
+      default:
+        const customerId = this.currentUser.doc_id;
+        const winners = await this.core.getWinners(pagination, {
+          customerId: customerId,
+        });
+        return winners;
     }
   }
 

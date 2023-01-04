@@ -206,6 +206,12 @@ export class CoreService extends SharedComponent {
   // @ Wallet
   // -----------------------------------------------------------------------------------------------------
 
+  async getAllWallets(conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
+    return res.result.map((wallet) => this.populateWallet(wallet));
+  }
+
   createCapturePaymentRequest(request: JJCapturePaymentRequest) {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }

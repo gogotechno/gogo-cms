@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/jj/services';
-import { JJMerchant, JJWallet, WalletType } from 'src/app/jj/typings';
+import { JJMerchant, JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
 import { CreateUserPage } from '../create-user/create-user.page';
 import { IssueTicketPage } from '../issue-ticket/issue-ticket.page';
@@ -15,8 +15,6 @@ import { CapturePaymentComponent } from './@components/capture-payment/capture-p
 export class HomePage implements OnInit {
   merchant: JJMerchant;
   wallets: JJWallet[];
-  wallet: JJWallet;
-  cashWallet: JJWallet;
 
   constructor(private modalCtrl: ModalController, private menuCtrl: MenuController, private auth: AuthService) {}
 
@@ -31,13 +29,11 @@ export class HomePage implements OnInit {
 
   async loadData() {
     this.merchant = await this.auth.findMyMerchant();
-    await this.getWallet();
+    await this.getWallets();
   }
 
-  async getWallet() {
+  async getWallets() {
     this.wallets = await this.auth.findMyWallets();
-    this.wallet = this.wallets.find((wallet) => wallet.type == 'MERCHANT');
-    this.cashWallet = this.wallets.find((wallet) => wallet.type == 'CASH');
   }
 
   async doRefresh(event: Event) {
@@ -60,31 +56,28 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-  async onCapturePayment(wallet?: JJWallet) {
+  async onCapturePayment(wallet: JJWallet) {
     const modal = await this.modalCtrl.create({
       component: CapturePaymentComponent,
       componentProps: {
-        wallet: wallet || this.wallet,
+        wallet: wallet,
       },
     });
     await modal.present();
-
     const { data } = await modal.onWillDismiss();
-
     if (data?.success) {
-      await this.getWallet();
+      await this.getWallets();
     }
   }
 
-  async openQrCode(wallet?: JJWallet) {
+  async openQrCode(wallet: JJWallet) {
     const modal = await this.modalCtrl.create({
       component: QrCodePage,
       componentProps: {
-        qrData: wallet.walletNo || this.wallet.walletNo,
+        qrData: wallet.walletNo,
       },
       cssClass: 'qrcode-modal',
     });
-
     await modal.present();
   }
 }

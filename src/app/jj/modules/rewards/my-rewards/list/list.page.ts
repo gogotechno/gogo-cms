@@ -85,9 +85,7 @@ export class ListPage extends SharedComponent implements OnInit {
   }
 
   async getWinners() {
-    const winners = await this.core.getWinners(this.winnersPage, {
-      customerId: this.currentUser.doc_id,
-    });
+    const winners = await this.auth.findMyWinners(this.winnersPage);
     return winners;
   }
 
