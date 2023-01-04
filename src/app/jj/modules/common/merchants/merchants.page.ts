@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJMerchant } from 'src/app/jj/typings';
 
 @Component({
@@ -9,22 +9,22 @@ import { JJMerchant } from 'src/app/jj/typings';
   styleUrls: ['./merchants.page.scss'],
 })
 export class MerchantsPage implements OnInit {
-
   readonly itemsPerPage = 20;
   currentPage = 1;
   merchants$: Promise<JJMerchant[]>;
+  backButtonText: string;
 
-  constructor(
-    public platform: Platform,
-    private jj: CoreService,
-  ) { }
+  constructor(private core: CoreService, private common: CommonService) {}
 
   ngOnInit() {
+    this.backButtonText = this.common.getBackButtonText();
     this.loadData();
   }
 
   loadData(event?: Event) {
-    this.merchants$ = this.jj.getMerchants({ currentPage: this.currentPage, itemsPerPage: this.itemsPerPage }, { withLocation: true });
+    this.merchants$ = this.core.getMerchants(
+      { currentPage: this.currentPage, itemsPerPage: this.itemsPerPage },
+      { withLocation: true },
+    );
   }
-
 }

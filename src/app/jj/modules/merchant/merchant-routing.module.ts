@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'scratch-and-wins',
     loadChildren: () => import('./scratch-and-wins/scratch-and-wins.module').then((m) => m.ScratchAndWinsPageModule),
   },
+  {
+    path: 'merchants',
+    loadChildren: () => import('../common/merchants/merchants.module').then((m) => m.MerchantsPageModule),
+  },
 ];
 
 @NgModule({
