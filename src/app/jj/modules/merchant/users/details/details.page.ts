@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { FullNamePipe } from 'src/app/cms-ui/cms.pipe';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { AuthService, CoreService } from 'src/app/jj/services';
 import { JJUser } from 'src/app/jj/typings';
 import { DocStatus } from 'src/app/sws-erp.type';
 import { MoreOptionsComponent } from './@component/more-options/more-options.component';
@@ -32,6 +32,7 @@ export class DetailsPage implements OnInit {
     private translate: TranslateService,
     private appUtils: AppUtils,
     private cmsUtils: CmsUtils,
+    private auth: AuthService,
     private core: CoreService,
   ) {
     this.destroy$ = new Subject<boolean>();
@@ -51,15 +52,12 @@ export class DetailsPage implements OnInit {
 
   async loadData() {
     this.form = form;
-    const roles = await this.core.getUserRoles();
+    const roles = await this.auth.findMyUserRoles();
     const roleField = this.form.items.find((item) => item.code == 'role');
-    roleField.options = roles
-      .filter((role) => role.code != 'SYSTEM_ADMIN')
-      .map((role) => ({
-        code: role.code,
-        label: this.cmsUtils.parseCmsTranslation(role.name),
-      }));
-
+    roleField.options = roles.map((role) => ({
+      code: role.code,
+      label: this.cmsUtils.parseCmsTranslation(role.name),
+    }));
     this.user = await this.core.getUserById(this.userId);
   }
 

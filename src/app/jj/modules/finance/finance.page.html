@@ -3,15 +3,39 @@
     <ion-buttons slot="start">
       <ion-back-button text="" defaultHref="/jj"></ion-back-button>
     </ion-buttons>
-    <ion-title>finance</ion-title>
+    <ion-title>{{ "jj._FINANCE" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button routerLink="deposit-requests">
-    <ion-label>DEPOSITS</ion-label>
-  </ion-button>
-  <ion-button routerLink="withdraw-requests">
-    <ion-label>WITHDRAWS</ion-label>
-  </ion-button>
+  <ion-grid [fixed]="true">
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+            <p>{{ "jj._NEW_DEPOSITS" | translate }}</p>
+            <h3>{{ depositsCount || 0 }}</h3>
+            <div class="ion-text-end">
+              <ion-button routerLink="deposit-requests">
+                <ion-label>{{ "jj._VIEW_MORE" | translate }}</ion-label>
+                <ion-icon slot="end" name="arrow-forward"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <p>{{ "jj._NEW_WITHDRAWS" | translate }}</p>
+            <h3>{{ withdrawsCount || 0 }}</h3>
+            <div class="ion-text-end">
+              <ion-button routerLink="withdraw-requests">
+                <ion-label>{{ "jj._VIEW_MORE" | translate }}</ion-label>
+                <ion-icon slot="end" name="arrow-forward"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

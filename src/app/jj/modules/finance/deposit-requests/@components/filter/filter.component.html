@@ -13,12 +13,14 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <cms-filter
-          [form]="filter"
-          [value]="conditions"
-          (submit)="onSubmit($event)"
-          (reset)="onReset($event)"
-        ></cms-filter>
+        <div class="ion-padding-sm">
+          <cms-filter
+            [form]="filter"
+            [value]="conditions"
+            (submit)="onSubmit($event)"
+            (reset)="onReset($event)"
+          ></cms-filter>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>

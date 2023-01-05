@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { AuthService, CoreService } from 'src/app/jj/services';
@@ -17,28 +17,23 @@ export class CreateUserPage implements OnInit {
   success: boolean;
 
   constructor(
+    private router: Router,
     private cmsUtils: CmsUtils,
     private appUtils: AppUtils,
-    private modalCtrl: ModalController,
     private auth: AuthService,
     private core: CoreService,
   ) {}
 
   async ngOnInit() {
     this.form = form;
-    const roles = await this.core.getUserRoles();
+    const roles = await this.auth.findMyUserRoles();
     const roleField = this.form.items.find((item) => item.code == 'role');
-    roleField.options = roles
-      .filter((role) => role.code != 'SYSTEM_ADMIN')
-      .map((role) => ({
-        code: role.code,
-        label: this.cmsUtils.parseCmsTranslation(role.name),
-      }));
-
-    this.merchant = await this.auth.findMyMerchant();
-
+    roleField.options = roles.map((role) => ({
+      code: role.code,
+      label: this.cmsUtils.parseCmsTranslation(role.name),
+    }));
     this.user = {
-      merchant_id: this.merchant.doc_id,
+      merchant_id: await this.auth.findMyMerchantId(),
       role: 'MERCHANT_ADMIN',
       firstName: '',
       lastName: '',
@@ -49,17 +44,16 @@ export class CreateUserPage implements OnInit {
 
   async onCreateUser(user: JJUser) {
     const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_USER');
-    if (confirm) {
-      await this.core.createUser(user);
-      await this.appUtils.presentAlert('jj._USER_CREATED', '_SUCCESS');
-      this.success = true;
-      this.onDismiss();
+    if (!confirm) {
+      return;
     }
-  }
-
-  async onDismiss() {
-    await this.modalCtrl.dismiss({
-      success: this.success,
+    await this.core.createUser(user);
+    await this.appUtils.presentAlert('jj._USER_CREATED', '_SUCCESS');
+    await this.router.navigate(['/jj/merchant/scratch-and-wins'], {
+      replaceUrl: true,
+      queryParams: {
+        refresh: true,
+      },
     });
   }
 }

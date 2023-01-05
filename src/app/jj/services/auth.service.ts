@@ -265,4 +265,16 @@ export class AuthService {
     const accounts = await this.core.getBankAccounts(pagination, conditions);
     return accounts;
   }
+
+  async findMyUserRoles() {
+    let roles = await this.core.getUserRoles();
+    switch (this.userRole) {
+      case 'MERCHANT_ADMIN':
+      case 'FINANCE_ADMIN':
+      case 'CUSTOMER':
+        return roles.filter((role) => role.code == this.userRole);
+      default:
+        return roles;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJMerchant } from 'src/app/jj/typings';
+import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
   selector: 'app-merchants',
@@ -22,9 +22,12 @@ export class MerchantsPage implements OnInit {
   }
 
   loadData(event?: Event) {
-    this.merchants$ = this.core.getMerchants(
-      { currentPage: this.currentPage, itemsPerPage: this.itemsPerPage },
-      { withLocation: true },
-    );
+    let pagination: Pagination = {
+      currentPage: this.currentPage,
+      itemsPerPage: this.itemsPerPage,
+    };
+    this.merchants$ = this.core.getMerchants(pagination, {
+      withLocation: true,
+    });
   }
 }

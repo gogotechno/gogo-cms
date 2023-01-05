@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
@@ -19,7 +19,6 @@ export class ListPage extends SharedComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private menuCtrl: MenuController,
     private auth: AuthService,
     private core: CoreService,
@@ -33,7 +32,6 @@ export class ListPage extends SharedComponent implements OnInit {
         await this.loadData();
       }
     });
-
     await this.loadData();
   }
 

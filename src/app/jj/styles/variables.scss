@@ -108,6 +108,10 @@
   --ion-font-2xl: 24px;
   --ion-font-3xl: 30px;
   --ion-font-4xl: 36px;
+  --ion-font-5xl: 48px;
+  --ion-font-6xl: 60px;
+  --ion-font-7xl: 72px;
+  --ion-font-8xl: 96px;
 
   --ion-font-bold: bold;
 
@@ -369,7 +373,7 @@ ion-button.filled-button,
 }
 
 ion-grid.grid-fixed,
-ion-grid.grid-fixed > ion-col {
+ion-grid.grid-fixed > ion-row > ion-col {
   padding: 0;
 }
 

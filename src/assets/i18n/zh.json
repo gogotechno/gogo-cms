@@ -568,6 +568,9 @@
     "_DAILY_LIMIT": "每日限额",
     "_USER_LIMIT": "用户限制",
     "_SEQUENCE": "顺序",
-    "_EVENT_RESULTS": "活动结果"
+    "_EVENT_RESULTS": "成绩",
+    "_FINANCE": "金融",
+    "_NEW_ DEPOSITS": "新增存款",
+    "_NEW_ WITHDRAWS": "新增提取"
   }
 }

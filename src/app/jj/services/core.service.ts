@@ -94,6 +94,16 @@ export class CoreService extends SharedComponent {
     this.initialized = true;
   }
 
+  async getTotal(docType: string, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: 0,
+      currentPage: 1,
+      ...conditions,
+    };
+    const res = await this.swsErp.getDocs(docType, query);
+    return res.total;
+  }
+
   async getUserRoles() {
     const res = await this.swsErp.getDocs<JJUserRole>('User Role');
     return res.result;
@@ -621,7 +631,6 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    console.log(res);
     return res.result;
   }
 

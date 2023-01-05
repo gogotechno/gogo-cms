@@ -553,6 +553,9 @@
     "_DAILY_LIMIT": "Daily Limit",
     "_USER_LIMIT": "User Limit",
     "_SEQUENCE": "Sequence",
-    "_EVENT_RESULTS": "Event Results"
+    "_EVENT_RESULTS": "Results",
+    "_FINANCE": "Finance",
+    "_NEW_DEPOSITS": "New Deposits",
+    "_NEW_WITHDRAWS": "New Withdraws"
   }
 }
