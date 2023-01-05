@@ -81,18 +81,18 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   async openDetails(identifier: string) {
-    let txt = identifier;
-    let arr = txt.split('-');
+    let basePath = `/jj/wallets`;
+    let arr = identifier.split('-');
     let start = arr[0];
     switch (start) {
-      case 'DR':
-        this.router.navigate(['/jj/wallets/', this.walletNo, 'deposits', identifier]);
-        break;
       case 'TR':
-        this.router.navigate(['/jj/wallets/', this.walletNo, 'transactions/transfer-receipt', identifier]);
+        this.router.navigate([`${basePath}/transfer-receipt/${identifier}`]);
+        break;
+      case 'DR':
+        this.router.navigate([`${basePath}/${this.walletNo}/deposits/${identifier}`]);
         break;
       case 'WR':
-        this.router.navigate(['/jj/wallets/', this.walletNo, 'withdraws', identifier]);
+        this.router.navigate([`${basePath}/${this.walletNo}/withdraws/${identifier}`]);
         break;
       default:
         break;
