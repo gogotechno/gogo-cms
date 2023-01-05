@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { CoreService } from 'src/app/jj/services';
+import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -15,9 +15,15 @@ export class EventsPage extends SharedComponent implements OnInit {
   eventsPage: Pagination;
   eventsEnded: boolean;
   events: JJEvent[];
+  merchantId: number;
   updatedAt: Date;
 
-  constructor(private menuCtrl: MenuController, private route: ActivatedRoute, private core: CoreService) {
+  constructor(
+    private route: ActivatedRoute,
+    private menuCtrl: MenuController,
+    private auth: AuthService,
+    private core: CoreService,
+  ) {
     super();
   }
 
@@ -31,13 +37,17 @@ export class EventsPage extends SharedComponent implements OnInit {
   }
 
   async loadData() {
+    this.merchantId = await this.auth.findMyMerchantId();
     this.eventsPage = this.defaultPage;
     this.events = await this.getEvents();
     this.eventsEnded = this.events.length < this.eventsPage.itemsPerPage;
   }
 
   async getEvents() {
-    let events = await this.core.getEvents(this.eventsPage);
+    let events = await this.core.getEvents(this.eventsPage, {
+      merchant_id: this.merchantId,
+      merchant_id_type: '=',
+    });
     this.updatedAt = new Date();
     return events;
   }
