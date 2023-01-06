@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWalletTransaction } from 'src/app/jj/typings';
 
 @Component({
@@ -9,12 +9,14 @@ import { JJWalletTransaction } from 'src/app/jj/typings';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+  backButtonText: string;
   transactionId: number;
   transaction: JJWalletTransaction;
 
-  constructor(private route: ActivatedRoute, private core: CoreService) {}
+  constructor(private route: ActivatedRoute, private core: CoreService, private common: CommonService) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.transactionId = params.id;
     await this.loadData();

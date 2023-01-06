@@ -2,13 +2,18 @@
   <ion-grid>
     <ion-row>
       <ion-col size="3" *ngFor="let miniProgram of miniPrograms">
-        <div class="mini-program ion-activatable ripple-parent circle" [routerLink]="miniProgram.link">
-          <ion-icon class="mini-program-icon" [name]="miniProgram.icon"
-            [style.color]="miniProgram.colors ? miniProgram.colors['primary'] : 'var(--ion-color-primary)'"
-            [style.background-color]="miniProgram.colors ? miniProgram.colors['primary-light'] : 'var(--ion-color-primary-light)'">
-          </ion-icon>
-          <h3 class="mini-program-name">{{ miniProgram.name | erpTranslate }}</h3>
-          <ion-ripple-effect></ion-ripple-effect>
+        <div class="mini-program ion-activatable ripple-parent" (click)="onMiniProgramClick(miniProgram)">
+          <div class="mini-program-wrapper" [class.inactive]="!miniProgram.isActive">
+            <ion-icon
+              class="mini-program-icon"
+              [name]="miniProgram.icon"
+              [style.color]="miniProgram.colors?.['primary']"
+              [style.background-color]="miniProgram.colors?.['primary-light']"
+            >
+            </ion-icon>
+            <h3 class="mini-program-name">{{ miniProgram.name | erpTranslate }}</h3>
+            <ion-ripple-effect></ion-ripple-effect>
+          </div>
         </div>
       </ion-col>
     </ion-row>

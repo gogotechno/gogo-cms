@@ -1,9 +1,22 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>event-details</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/merchant/events"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._EVENT_DETAILS" | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <div class="ion-padding-sm">
+    <cms-form *ngIf="form" [form]="form" [value]="event" (submit)="onSubmit($event)"></cms-form>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="edit-event-btn" expand="block">
+      <ion-label>{{ "_UPDATE" | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

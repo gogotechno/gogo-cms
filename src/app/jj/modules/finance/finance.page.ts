@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Conditions } from 'src/app/sws-erp.type';
+import { CommonService, CoreService } from '../../services';
 
 @Component({
   selector: 'app-finance',
@@ -6,10 +8,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./finance.page.scss'],
 })
 export class FinancePage implements OnInit {
+  backButtonText: string;
+  depositsCount: number;
+  withdrawsCount: number;
 
-  constructor() { }
+  constructor(private core: CoreService, private common: CommonService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
+    let conditions: Conditions = {
+      status: 'PROCESSING',
+      status_type: '=',
+    };
+    const [depositsCount, withdrawsCount] = await Promise.all([
+      this.core.getTotal('Deposit Request', conditions),
+      this.core.getTotal('Withdraw Request', conditions),
+    ]);
+    this.depositsCount = depositsCount;
+    this.withdrawsCount = withdrawsCount;
   }
-
 }

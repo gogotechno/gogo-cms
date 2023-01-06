@@ -22,9 +22,7 @@ const DEFAULT_LANG: CmsSiteAttributeOption = {
   value: null,
 };
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CommonService {
   constructor(
     private platform: Platform,
@@ -35,6 +33,10 @@ export class CommonService {
     private cms: CmsService,
     private swsErp: SwsErpService,
   ) {}
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Shared Methods
+  // -----------------------------------------------------------------------------------------------------
 
   getByUrl(url: string) {
     return this.http.get<any>(url).toPromise();
@@ -169,7 +171,21 @@ export class CommonService {
     return url;
   }
 
-  getBackButtonText() {
-    return this.platform.is('ios') ? '_BACK' : '';
+  async getBackButtonText() {
+    if (this.platform.is('ios')) {
+      return await this.translate.get('_BACK').toPromise();
+    }
+    return '';
+  }
+
+  parseJson(value: string) {
+    try {
+      if (!value) {
+        return null;
+      }
+      return JSON.parse(value);
+    } catch (err) {
+      return value;
+    }
   }
 }

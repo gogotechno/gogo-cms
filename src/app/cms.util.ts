@@ -12,7 +12,7 @@ export function array_move(arr: Array<any>, old_index: number, new_index: number
     }
   }
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-  return arr; // for testing
+  return arr;
 }
 
 export function start_of_day(date: Date) {
@@ -45,8 +45,11 @@ export class CmsUtils {
    * @param defaultText Default text if conversion failed, use original JSON string if not provided
    * @returns Returns converted CmsTranslation object
    */
-  parseCmsTranslation(jsonString: string, defaultText?: string) {
+  parseCmsTranslation(jsonString: string | object, defaultText?: string) {
     try {
+      if (typeof jsonString == 'object') {
+        return jsonString;
+      }
       return JSON.parse(jsonString);
     } catch (err) {
       const lang = this.translate.currentLang;
@@ -54,6 +57,43 @@ export class CmsUtils {
       return {
         [lang]: text,
       };
+    }
+  }
+
+  getFileType(url: string) {
+    const imageFormats = ['jpg', 'jpeg', 'png'];
+    let fileFormatArr = url.split('.');
+    let fileFormat = fileFormatArr[fileFormatArr.length - 1];
+    let fileType = imageFormats.includes(fileFormat) ? 'image' : 'file';
+    return {
+      fileFormat: fileFormat,
+      fileType: fileType,
+    };
+  }
+
+  getMimeType(fileType: string, format: string) {
+    let mimeType = fileType == 'image' ? `image/${format}` : format;
+    if (mimeType == 'pdf') {
+      mimeType = 'application/pdf';
+    }
+    if (mimeType == 'txt') {
+      mimeType = 'text/plain';
+    }
+    return mimeType;
+  }
+
+  getPreviewUrl(fileType: string, mimeType: string, url: string) {
+    if (fileType == 'image') {
+      return url;
+    } else {
+      switch (mimeType) {
+        case 'application/pdf':
+          return 'assets/jj/file-types/pdf.png';
+        case 'text/plain':
+          return 'assets/jj/file-types/txt.png';
+        default:
+          return 'assets/jj/file-types/file.png';
+      }
     }
   }
 }
@@ -136,8 +176,12 @@ export class AppUtils {
     if (!options) {
       options = defaultOpts;
     } else {
-      if (!options.buttons) {options.buttons = defaultOpts.buttons;}
-      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
+      if (!options.buttons) {
+        options.buttons = defaultOpts.buttons;
+      }
+      if (options.subHeader) {
+        options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      }
     }
     const alert = await this.alertCtrl.create({
       header: await this.translate.get(header).toPromise(),
@@ -151,7 +195,9 @@ export class AppUtils {
    * Present loading
    */
   async presentLoading(message?: string) {
-    if (await this.getTopLoading()) return;
+    if (await this.getTopLoading()) {
+      return;
+    }
     message = message ? message : '_LOADING';
     const defaultOpts: LoadingOptions = { spinner: 'bubbles' };
     const loading = await this.loadingCtrl.create({
@@ -167,7 +213,9 @@ export class AppUtils {
    * @returns Returns null if no loading presenting
    */
   async dismissLoading() {
-    if (!(await this.getTopLoading())) return;
+    if (!(await this.getTopLoading())) {
+      return;
+    }
     await this.loadingCtrl.dismiss();
   }
 
@@ -201,7 +249,9 @@ export class AppUtils {
     cancelBtnText = cancelBtnText ? cancelBtnText : '_CANCEL';
     if (!options) {
     } else {
-      if (options.subHeader) {options.subHeader = await this.translate.get(options.subHeader).toPromise();}
+      if (options.subHeader) {
+        options.subHeader = await this.translate.get(options.subHeader).toPromise();
+      }
     }
     return new Promise<boolean>(async (resolve) => {
       const confirm = await this.alertCtrl.create({

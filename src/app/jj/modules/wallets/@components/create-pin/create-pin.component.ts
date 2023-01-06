@@ -21,8 +21,13 @@ export class CreatePinComponent implements OnInit {
   }
 
   async onCreate(data: CreatePinDto) {
-    await this.core.updateWallet(this.walletId, { pin: data.pin });
-    await this.modalCtrl.dismiss({ success: true });
+    await this.core.updateWallet(this.walletId, {
+      pin: data.pin,
+    });
+    await this.modalCtrl.dismiss({
+      success: true,
+      pin: data.pin,
+    });
   }
 }
 

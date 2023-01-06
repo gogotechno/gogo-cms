@@ -10,22 +10,20 @@ import {
   JJAnnouncement,
   JJEvent,
   JJFab,
+  JJMiniProgram,
   JJSlideshow,
   JJWallet,
-  MiniProgram,
   User,
-  UserType,
 } from 'src/app/jj/typings';
 import { Conditions } from 'src/app/sws-erp.type';
+import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class HomeService extends SharedComponent {
   private _USER: BehaviorSubject<User>;
   private _WALLETS: BehaviorSubject<JJWallet[]>;
   private _ONGOING_EVENTS: BehaviorSubject<JJEvent[]>;
-  private _MINI_PROGRAMS: BehaviorSubject<MiniProgram[]>;
+  private _MINI_PROGRAMS: BehaviorSubject<JJMiniProgram[]>;
   private _ANNOUNCEMENTS: BehaviorSubject<JJAnnouncement[]>;
   private _SLIDESHOW: BehaviorSubject<JJSlideshow>;
   private _FABS: BehaviorSubject<JJFab[]>;
@@ -108,7 +106,9 @@ export class HomeService extends SharedComponent {
     this._GROUP_CODE = new BehaviorSubject(null);
 
     this.auth.authStateChange.subscribe(async (event) => {
-      if (!event) return;
+      if (!event) {
+        return;
+      }
       switch (event.status) {
         case 'LOGGED_IN':
           if (this.initialized && !this._USER.getValue()) {
@@ -138,7 +138,8 @@ export class HomeService extends SharedComponent {
     this._WALLETS.next(wallets);
     this._ONGOING_EVENTS.next(ongoingEvents);
 
-    this._MINI_PROGRAMS.next(this.getMiniPrograms(this.auth.userType));
+    let miniPrograms = await this.getMiniPrograms();
+    this._MINI_PROGRAMS.next(miniPrograms);
 
     this._ANNOUNCEMENTS.next(announcements);
     this._SLIDESHOW.next(slideshow);
@@ -171,30 +172,22 @@ export class HomeService extends SharedComponent {
     this._FABS.next(fabs);
   }
 
-  getMiniPrograms(role: UserType) {
-    switch (role) {
-      case 'MERCHANT':
-        return MERCHANT_MINI_PROGRAMS;
-      case 'ADMIN':
-        return SYSTEM_MINI_PROGRAMS;
-      default:
-        return MINI_PROGRAMS;
-    }
+  async getMiniPrograms() {
+    let miniPrograms = await this.core.getMiniPrograms(this.auth.userRole);
+    return miniPrograms;
   }
 
   getFabsConditions(silent: boolean) {
     let fabsConditions: Conditions = {};
-    if (this.auth.userType == 'CUSTOMER') {
+    if (this.auth.userRole == 'CUSTOMER') {
       fabsConditions['customerId'] = this.auth.currentUser.doc_id;
     }
-    if (silent) {
-      fabsConditions['skipLoading'] = true;
-    }
+    fabsConditions['skipLoading'] = silent;
     return fabsConditions;
   }
 
   async loadBulletins() {
-    const url = await this.cms.getDownloadURL('home-directory.json');
+    const url = await this.cms.getDownloadURL(environment.jj.homeDirectoryFileName);
     const data = await this.common.getByUrl(url);
 
     const eventConfig = data.event;
@@ -224,76 +217,10 @@ export class HomeService extends SharedComponent {
 
     const filtered = this.allBulletins.filter((bulletin) => {
       const tags = bulletin.tags?.length ? bulletin.tags.includes(groupCode) : true;
-      const roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userType) : true;
+      const roles = bulletin.roles?.length ? bulletin.roles.includes(this.auth.userRole) : true;
       return tags && roles;
     });
 
     this._BULLETINS.next(filtered);
   }
 }
-
-const MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Reward',
-      zh: 'JJ福利',
-      ms: 'JJ Ganjaran',
-    }),
-    icon: 'gift',
-    link: '/jj/rewards',
-    colors: {
-      primary: '#FFC000',
-      'primary-light': '#FFF2CC',
-    },
-  },
-  {
-    name: JSON.stringify({
-      en: 'JJ Wallet',
-      zh: 'JJ钱包',
-      ms: 'JJ Dompet',
-    }),
-    icon: 'wallet',
-    link: '/jj/wallets',
-  },
-];
-
-const MERCHANT_MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Merchant',
-      zh: 'JJ门市',
-      ms: 'JJ Pedagang',
-    }),
-    icon: 'storefront',
-    link: '/jj/merchant',
-    colors: {
-      primary: '#70AD47',
-      'primary-light': '#E2F0D9',
-    },
-  },
-  {
-    name: JSON.stringify({
-      en: 'JJ Wallet',
-      zh: 'JJ钱包',
-      ms: 'JJ Dompet',
-    }),
-    icon: 'wallet',
-    link: '/jj/wallets',
-  },
-];
-
-const SYSTEM_MINI_PROGRAMS: MiniProgram[] = [
-  {
-    name: JSON.stringify({
-      en: 'JJ Admin',
-      zh: 'JJ管理员',
-      ms: 'JJ Pentadbir',
-    }),
-    icon: 'tv',
-    link: '/jj/admin',
-    colors: {
-      primary: '#FF0000',
-      'primary-light': '#FFC9C9',
-    },
-  },
-];

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
 import { QrCodePage } from '../../common/qr-code/qr-code.page';
 import { WalletsService } from '../wallets.service';
@@ -14,13 +14,12 @@ import { WalletsService } from '../wallets.service';
   styleUrls: ['./wallet.page.scss'],
 })
 export class WalletPage implements OnInit, OnDestroy {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   cards: WalletCard[];
-
-  destroy$: Subject<boolean>;
-
   initialized: boolean;
+  destroy$: Subject<boolean>;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,20 +27,20 @@ export class WalletPage implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private walletsService: WalletsService,
     private core: CoreService,
+    private common: CommonService,
   ) {
     this.destroy$ = new Subject();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
-
     this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {
       if (change && this.initialized) {
         this.refreshData();
       }
     });
-
     await this.loadData();
     this.initialized = true;
   }
@@ -85,6 +84,7 @@ export class WalletPage implements OnInit, OnDestroy {
       case 'DEPOSIT':
       case 'WITHDRAW':
       case 'TRANSFER':
+      case 'STATEMENT':
         return this.onCardNavigate(card.url);
       default:
         return;
@@ -112,6 +112,9 @@ export class WalletPage implements OnInit, OnDestroy {
     if (!verified) {
       return;
     }
+    if (!this.wallet.pin) {
+      this.wallet.pin = verification.pin;
+    }
     await this.router.navigate(['change-pin'], { relativeTo: this.route });
   }
 
@@ -124,8 +127,14 @@ export class WalletPage implements OnInit, OnDestroy {
         case 'QR_CODE':
           card.active = this.wallet.walletType?.canPay;
           break;
+        case 'DEPOSIT':
+          card.active = this.wallet.walletType?.canDeposit;
+          break;
+        case 'WITHDRAW':
+          card.active = this.wallet.walletType?.canWithdraw;
+          break;
+        case 'STATEMENT':
         case 'PIN':
-        // case 'DEPOSIT':
           card.active = true;
           break;
         default:
@@ -170,7 +179,7 @@ const cards: WalletCard[] = [
     code: 'STATEMENT',
     name: 'jj._STATEMENT',
     icon: 'document-text-outline',
-    url: '',
+    url: 'statement-reports',
     active: false,
   },
   {

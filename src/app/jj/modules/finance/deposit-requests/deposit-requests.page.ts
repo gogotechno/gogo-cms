@@ -1,11 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CmsFilter } from 'src/app/cms.type';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { DepositRequestStatus, JJDepositRequest } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
+import { WalletsService } from '../../wallets/wallets.service';
+import { FinanceService } from '../finance.service';
 import { FilterComponent } from './@components/filter/filter.component';
 
 @Component({
@@ -14,16 +18,27 @@ import { FilterComponent } from './@components/filter/filter.component';
   styleUrls: ['./deposit-requests.page.scss'],
 })
 export class DepositRequestsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   updatedAt: Date;
   requestsPage: Pagination;
   requestsEnded: boolean;
   requests: JJDepositRequest[][];
   requestsConditions: RequestsConditions;
-
   filter: CmsFilter;
 
-  constructor(private date: DatePipe, private modalCtrl: ModalController, private core: CoreService) {
+  initialized: boolean;
+  destroy$: Subject<boolean>;
+
+  constructor(
+    private date: DatePipe,
+    private modalCtrl: ModalController,
+    private core: CoreService,
+    private common: CommonService,
+    private walletsService: WalletsService,
+    private financeService: FinanceService,
+  ) {
     super();
+    this.destroy$ = new Subject();
   }
 
   get dates(): string[] {
@@ -35,27 +50,38 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     this.filter = this._filter;
+    this.backButtonText = await this.common.getBackButtonText();
     this.requestsConditions = this._conditions;
-    await this.loadData();
+    this.financeService.depositChange.pipe(takeUntil(this.destroy$)).subscribe(async (change) => {
+      if (change && this.initialized) {
+        await this.loadData(true);
+      }
+    });
+    await this.loadData(false);
+    this.initialized = true;
   }
 
-  async loadData() {
+  async loadData(silent: boolean) {
     this.requests = [];
     this.requestsPage = this.defaultPage;
-    const requests = await this.getRequests();
+    const requests = await this.getRequests(silent);
     this.grouping(requests);
     this.requestsEnded = requests.length < this.requestsPage.itemsPerPage;
   }
 
-  async getRequests() {
-    const requests = await this.core.getDepositRequests(this.requestsPage, this.requestsConditions);
+  async getRequests(silent: boolean) {
+    let conditions = {
+      skipLoading: silent,
+      ...this.requestsConditions,
+    };
+    const requests = await this.core.getDepositRequests(this.requestsPage, conditions);
     this.updatedAt = new Date();
     return requests;
   }
 
   async loadMoreRequests(event: Event) {
     this.requestsPage.currentPage += 1;
-    const incoming = await this.getRequests();
+    const incoming = await this.getRequests(false);
     this.grouping(incoming);
     this.requestsEnded = incoming.length <= 0;
     const scroller = <HTMLIonInfiniteScrollElement>event.target;
@@ -79,7 +105,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
   }
 
   async doRefresh(event: Event) {
-    await this.loadData();
+    await this.loadData(false);
     const refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
   }
@@ -94,27 +120,17 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
-    console.log(data);
     if (data?.needRefresh) {
       this.requestsPage = this.defaultPage;
       this.requestsConditions = data.conditions || this._conditions;
       this.requests = [];
-      const incoming = await this.getRequests();
+      const incoming = await this.getRequests(false);
       this.grouping(incoming);
     }
   }
 
   getStatusColor(request: JJDepositRequest) {
-    switch (request.status) {
-      case 'DECLINED':
-        return 'danger';
-      case 'APPROVED':
-        return 'success';
-      case 'PROCESSING':
-        return 'warning';
-      default:
-        return 'medium';
-    }
+    return this.walletsService.getStatusColor(request.status);
   }
 
   get _filter(): CmsFilter {
@@ -127,10 +143,6 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
           label: '_STATUS',
           type: 'select',
           options: [
-            {
-              code: 'PENDING_PAYMENT',
-              label: 'jj._PENDING_PAYMENT',
-            },
             {
               code: 'PROCESSING',
               label: 'jj._PROCESSING',

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { JJUser } from 'src/app/jj-luckydraw/jj-luckydraw.type';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
+import { JJUser } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
 
 @Component({
@@ -19,7 +19,6 @@ export class ListPage extends SharedComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private menuCtrl: MenuController,
     private auth: AuthService,
     private core: CoreService,
@@ -31,10 +30,8 @@ export class ListPage extends SharedComponent implements OnInit {
     this.route.queryParams.subscribe(async (queryParams) => {
       if (queryParams.refresh) {
         await this.loadData();
-        await this.router.navigate([]);
       }
     });
-
     await this.loadData();
   }
 

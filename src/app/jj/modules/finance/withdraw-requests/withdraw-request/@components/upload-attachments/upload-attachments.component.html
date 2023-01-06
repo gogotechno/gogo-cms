@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="full">
+    <ion-label class="amount-to-pay">
+      <jj-currency [currency]="withdraw?.displayCurrency" [value]="withdraw?.convertedAmount"></jj-currency>
+    </ion-label>
+  </ion-item>
+  <ng-container *ngIf="withdraw?.bankAccount">
+    <bank-account
+      [bank]="withdraw?.bankAccount.bankName"
+      [holder]="withdraw?.bankAccount.holderName"
+      [accountNo]="withdraw?.bankAccount.accountNo"
+    ></bank-account>
+  </ng-container>
+  <div class="ion-padding-horizontal">
+    <cms-form [form]="form" (submit)="onUpload($event)"></cms-form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="upload-withdraw-btn" expand="block">
+      <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

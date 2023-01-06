@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-notifications',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notifications.page.scss'],
 })
 export class NotificationsPage implements OnInit {
+  backButtonText: string;
 
-  constructor() { }
+  constructor(private common: CommonService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
   }
-
 }

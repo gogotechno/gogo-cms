@@ -1,9 +1,49 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>bank-accounts</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/account"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ "jj._BANK_ACCOUNTS" | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="../create-bank-account">
+        <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list lines="full">
+    <div *ngIf="!accounts?.length" class="note">
+      <ion-label>{{ 'jj._NO_ACCOUNTS_FOUND' | translate }}</ion-label>
+    </div>
+    <ion-item
+      class="account"
+      *ngFor="let account of accounts"
+      [class.inactive]="!account.isActive"
+      [routerLink]="[account.doc_id]"
+    >
+      <ion-label>
+        <ion-text class="account-no">{{ account.accountNo }}</ion-text><br />
+        <ion-text class="bank-name">{{ account.bankName | erpTranslate }}</ion-text><br />
+        <ion-text class="holder-name">{{ account.holderName }}</ion-text>
+      </ion-label>
+      <ion-badge *ngIf="account.isActive" slot="end" color="success">{{ "jj._ACTIVE" | translate }}</ion-badge>
+      <ion-badge *ngIf="!account.isActive" slot="end" color="danger">{{ "jj._INACTIVE" | translate }}</ion-badge>
+    </ion-item>
+  </ion-list>
+  <ng-container *ngIf="accounts?.length">
+    <ion-infinite-scroll *ngIf="!accountsEnded" (ionInfinite)="loadMoreAccounts($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <div *ngIf="accountsEnded" class="note">
+      <ion-label>
+        <span>{{ '_ALL_LOADED' | translate }}</span><br />
+        <span>{{ '_UPDATED_AT_WITH_DATE' | translate : { date: (updatedAt | date : 'd/M/yyyy hh:mm:ss a') } }}</span>
+      </ion-label>
+    </div>
+  </ng-container>
 </ion-content>

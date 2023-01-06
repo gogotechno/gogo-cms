@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JJTicket, TicketStatus } from 'src/app/jj/typings';
+import { JJTicket } from 'src/app/jj/typings';
 import { DetailsService } from '../../@services/details.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class TicketsComponent implements OnInit {
 
   getTicketStatusColor(ticket: JJTicket) {
     switch (ticket.status) {
-      case TicketStatus.INVALID:
+      case 'INVALID':
         return 'danger';
       default:
         return 'success';

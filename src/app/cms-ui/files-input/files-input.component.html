@@ -1,24 +1,28 @@
-<ion-item class="only-label">
-  <ion-label>
-    <span>{{ label | cmsTranslate }}</span>
+<ion-item class="only-label" lines="none">
+  <ion-label class="cms-files-lbl">
+    <span>{{ label | cmsTranslate | translate }}</span>
     <cms-required-tag *ngIf="required"></cms-required-tag>
   </ion-label>
-  <ion-label slot="end" *ngIf="maximum">
+  <ion-label *ngIf="maximum" slot="end">
     <ion-note>{{ currentLength }}/{{ maximum }}</ion-note>
   </ion-label>
 </ion-item>
-<input #file class="ion-display-none" type="file" (change)="onFileChange($event)" />
-<ion-item *ngFor="let file of files; let index = index">
-  <ion-thumbnail slot="start">
-    <img [class.file]="file.fileType === 'file'" [src]="file.previewUrl" />
-  </ion-thumbnail>
-  <ion-label>{{ file.name }}</ion-label>
-  <ion-button slot="end" fill="clear" size="default" *ngIf="canRemove" (click)="removeFile(index)">
-    <ion-icon slot="icon-only" name="close-circle"></ion-icon>
-  </ion-button>
-</ion-item>
-<div class="ion-text-center" *ngIf="canUpload">
-  <ion-button fill="clear" expand="block" (click)="file.click()">
+<input #file class="ion-display-none" type="file" [accept]="acceptedTypes" (change)="onFileChange($event)" />
+<ion-list lines="full">
+  <ion-item *ngFor="let file of files; let index = index" class="cms-file-item" (click)="onItemClick(file)">
+    <ion-thumbnail slot="start">
+      <img [class.file]="file.fileType == 'file'" [src]="file.previewUrl" />
+    </ion-thumbnail>
+    <ion-label>
+      <h3>{{ file.name }}</h3>
+    </ion-label>
+    <ion-button *ngIf="canRemove" slot="end" fill="clear" size="default" color="danger" (click)="removeFile(index)">
+      <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-list>
+<div *ngIf="canUpload" class="ion-text-center">
+  <ion-button fill="clear" expand="block" color="success" (click)="file.click()">
     <ion-icon slot="icon-only" name="add-circle"></ion-icon>
   </ion-button>
 </div>

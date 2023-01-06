@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ErpImagePipe } from './sws-erp.pipe';
 import {
   SWS_ERP_COMPANY,
   GetOptions,
@@ -19,6 +20,8 @@ import {
   PostOptions,
   PutOptions,
   ChangePasswordDto,
+  UploadFileResponse,
+  GetPrintTemplateResponse,
 } from './sws-erp.type';
 
 @Injectable({
@@ -315,5 +318,44 @@ export class SwsErpService {
     this.authStateChange.next({
       status: 'LOGGED_OUT',
     });
+  }
+
+  uploadFile(documentType: string, file: File) {
+    const requestUrl = `${this.API_URL}/file/${documentType}`;
+    const formData = new FormData();
+    formData.append('file', file);
+    return this._http.post<UploadFileResponse>(requestUrl, formData).toPromise();
+  }
+
+  async getPrintTemplate(documentType: string, ids: number[]) {
+    const requestUrl = `${this.API_URL}/print/${documentType}`;
+    const query = {};
+    query['id'] = ids.join(',');
+    query['apiUrl'] = environment.swsErp.apiUrl;
+    query['googleMapApiKey'] = environment.swsErp.googleMapApiKey;
+    const response = await this._http.get<GetPrintTemplateResponse>(requestUrl, { params: query }).toPromise();
+    if (response?.data?.htmls?.length) {
+      response.data.html = response.data.htmls.join('');
+    }
+    return response;
+  }
+}
+
+@Injectable()
+export class SwsFileHandler {
+  constructor(private swsErp: SwsErpService, private erpImg: ErpImagePipe) {}
+
+  onUpload(documentType: string) {
+    return async (file: File): Promise<[string, string]> => {
+      let res = await this.swsErp.uploadFile(documentType, file);
+      return [res.url, this.erpImg.transform(res.url)];
+    };
+  }
+
+  onPreview() {
+    return async (previewUrl: string) => {
+      let url = this.erpImg.transform(previewUrl);
+      return url;
+    };
   }
 }

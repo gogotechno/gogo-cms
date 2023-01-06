@@ -1,5 +1,7 @@
 <ng-container *ngIf="currency">
-  <span *ngIf="currency.symbolPosition === 'START'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>
-  <span class="number">{{ value | number : numberFormat }}</span>
-  <span *ngIf="currency.symbolPosition === 'END'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>
+  <ion-text [color]="color">
+    <span *ngIf="currency.symbolPosition === 'START'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>
+    <span class="number">{{ value | number : numberFormat }}</span>
+    <span *ngIf="currency.symbolPosition === 'END'">{{ (currency.displaySymbol | erpTranslate) || '$' }}</span>
+  </ion-text>
 </ng-container>

@@ -2,17 +2,22 @@ import { Injectable, Injector } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from 'rxjs';
+import { CmsFile } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { LocalStorageService } from 'src/app/local-storage.service';
+import { ErpImagePipe } from 'src/app/sws-erp.pipe';
 import { SwsErpService } from 'src/app/sws-erp.service';
 import { Conditions, DocStatus, GetOptions, Pagination, SWS_ERP_COMPANY } from 'src/app/sws-erp.type';
+import { Currency } from '../modules/wallets/wallets.types';
 import { SharedComponent } from '../shared';
 import {
-  AccountOptions,
+  CheckConversionResult,
   COMPANY_CODE,
   JJAnnouncement,
+  JJBank,
   JJBankAccount,
   JJCapturePaymentRequest,
+  JJCheckConversionRequest,
   JJContentPage,
   JJCustomer,
   JJDepositMethod,
@@ -21,12 +26,15 @@ import {
   JJEventPrize,
   JJEventStatus,
   JJFab,
+  JJIssueMode,
   JJMerchant,
+  JJMiniProgram,
   JJPinVerification,
   JJPointRule,
   JJProduct,
   JJScratchAndWinEvent,
   JJScratchAndWinPrize,
+  JJScratchAndWinPrizeType,
   JJScratchAndWinRule,
   JJScratchRequest,
   JJSlideshow,
@@ -38,17 +46,20 @@ import {
   JJUser,
   JJUserRole,
   JJWallet,
+  JJWalletCurrency,
+  JJWalletStatementReport,
   JJWalletTransaction,
+  JJWalletType,
   JJWinner,
   JJWithdrawMethod,
   JJWithdrawRequest,
   LANGUAGE_STORAGE_KEY,
+  UserRole,
 } from '../typings';
+import { AuthDataService } from './auth-data.service';
 import { CommonService } from './common.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CoreService extends SharedComponent {
   private readonly SWS_ERP_COMPANY_TOKEN: BehaviorSubject<string>;
   private initialized = false;
@@ -58,10 +69,12 @@ export class CoreService extends SharedComponent {
     private title: Title,
     private appUtils: AppUtils,
     private cmsUtils: CmsUtils,
+    private erpImg: ErpImagePipe,
     private storage: LocalStorageService,
     private translate: TranslateService,
     private swsErp: SwsErpService,
     private common: CommonService,
+    private authData: AuthDataService,
   ) {
     super();
     this.SWS_ERP_COMPANY_TOKEN = injector.get(SWS_ERP_COMPANY);
@@ -79,6 +92,16 @@ export class CoreService extends SharedComponent {
       await this.translate.use(storedLang).toPromise();
     }
     this.initialized = true;
+  }
+
+  async getTotal(docType: string, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: 0,
+      currentPage: 1,
+      ...conditions,
+    };
+    const res = await this.swsErp.getDocs(docType, query);
+    return res.total;
   }
 
   async getUserRoles() {
@@ -108,15 +131,14 @@ export class CoreService extends SharedComponent {
     return res;
   }
 
-  async getUserByDocUserId(docUserId: number, accountOptions: AccountOptions = {}) {
-    const conditions: Conditions = {
+  async getUserByDocUserId(docUserId: number, conditions: Conditions = {}) {
+    let query: GetOptions = {
       doc_user_id: docUserId,
       doc_user_id_type: '=',
-      ...accountOptions,
+      ...conditions,
     };
-
-    const res = await this.getUsers(this.defaultPage, conditions);
-    return res[0];
+    const res = await this.swsErp.getDocs<JJUser>('User', query);
+    return res.result[0];
   }
 
   async getWalletsByMerchantId(merchantId: number, conditions: Conditions = {}) {
@@ -156,16 +178,15 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
-  async getCustomerById(customerId: number, accountOptions: AccountOptions = {}) {
-    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, {
-      ...accountOptions,
-    });
+  async getCustomerById(customerId: number, conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    const res = await this.swsErp.getDoc<JJCustomer>('Customer', customerId, query);
     return res;
   }
 
   async getCustomerByPhone(phone: string) {
     const res = await this.swsErp.getDocs<JJCustomer>('Customer', {
-      phone,
+      phone: phone,
       phone_type: '=',
     });
     return res.result[0];
@@ -195,12 +216,23 @@ export class CoreService extends SharedComponent {
   // @ Wallet
   // -----------------------------------------------------------------------------------------------------
 
+  async getAllWallets(conditions: Conditions = {}) {
+    let query = <GetOptions>conditions;
+    let res = await this.swsErp.getDocs<JJWallet>('Wallet', query);
+    return res.result.map((wallet) => this.populateWallet(wallet));
+  }
+
   createCapturePaymentRequest(request: JJCapturePaymentRequest) {
     return this.swsErp.postDoc('Capture Payment Request', request);
   }
 
   updateWallet(walletId: number, wallet: Partial<JJWallet>) {
     return this.swsErp.putDoc('Wallet', walletId, wallet);
+  }
+
+  async getWalletTypes() {
+    const res = await this.swsErp.getDocs<JJWalletType>('Wallet Type');
+    return res.result;
   }
 
   async getWalletByNo(walletNo: string, conditions: Conditions = {}) {
@@ -246,9 +278,23 @@ export class CoreService extends SharedComponent {
     return this.swsErp.putDoc('Deposit Request', requestId, request);
   }
 
+  declineDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'DECLINED',
+    });
+  }
+
+  approveDepositRequest(requestId: number) {
+    return this.swsErp.postDoc('Deposit Approval', {
+      deposit_request_id: requestId,
+      status: 'APPROVED',
+    });
+  }
+
   async getDepositRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJDepositRequest>('Deposit Request', requestId);
-    return res;
+    return this.populateDepositRequest(res);
   }
 
   async getDepositRequestByRefNo(refNo: string) {
@@ -267,7 +313,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateDepositRequest(request));
   }
 
   async getDepositMethods() {
@@ -282,9 +328,36 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Withdraw Request', request);
   }
 
+  updateWithdrawRequest(requestId: number, request: Partial<JJWithdrawRequest>) {
+    return this.swsErp.putDoc('Withdraw Request', requestId, request);
+  }
+
+  declineWithdrawRequest(requestId: number) {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
+      status: 'DECLINED',
+    });
+  }
+
+  approveWithdrawRequest(requestId: number, attachments?: CmsFile[]) {
+    return this.swsErp.postDoc('Withdraw Approval', {
+      withdraw_request_id: requestId,
+      status: 'APPROVED',
+      attachments: attachments,
+    });
+  }
+
   async getWithdrawRequestById(requestId: number) {
     const res = await this.swsErp.getDoc<JJWithdrawRequest>('Withdraw Request', requestId);
-    return res;
+    return this.populateWithdrawRequest(res);
+  }
+
+  async getWithdrawRequestByRefNo(refNo: string) {
+    const res = await this.getWithdrawRequests(this.defaultPage, {
+      refNo: refNo,
+      refNo_type: '=',
+    });
+    return this.populateWithdrawRequest(res[0]);
   }
 
   async getWithdrawRequests(pagination: Pagination, conditions: Conditions = {}) {
@@ -295,7 +368,7 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    return res.result;
+    return res.result.map((request) => this.populateWithdrawRequest(request));
   }
 
   async getWithdrawMethods() {
@@ -314,16 +387,49 @@ export class CoreService extends SharedComponent {
     return this.swsErp.postDoc('Pin Verification', verification);
   }
 
+  async createCheckConversionRequest(request: JJCheckConversionRequest) {
+    let res = await this.swsErp.postDoc('Check Conversion Request', request);
+    return res.data as CheckConversionResult;
+  }
+
+  async getWalletStatementReports(pagination: Pagination, conditions: Conditions = {}) {
+    const res = await this.swsErp.getDocs<JJWalletStatementReport>('Wallet Statement Report', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Bank
   // -----------------------------------------------------------------------------------------------------
 
-  async getDefaultBankAccount() {
+  async getRandomBankAccount() {
     const query: GetOptions = {
-      default: true,
+      isSystem: true,
+      isRandom: true,
     };
     const res = await this.swsErp.getDocs<JJBankAccount>('Bank Account', query);
     return res.result[0];
+  }
+
+  async getBanks(pagination: Pagination, conditions: Conditions = {}) {
+    const res = await this.swsErp.getDocs<JJBank>('Bank', {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    });
+    return res.result;
+  }
+
+  async getBankById(bankId: number) {
+    const res = await this.swsErp.getDoc<JJBank>('Bank', bankId);
+    return res;
   }
 
   async getBankAccounts(pagination: Pagination, conditions: Conditions = {}) {
@@ -337,9 +443,41 @@ export class CoreService extends SharedComponent {
     return res.result;
   }
 
+  async getBankAccountById(accountId: number) {
+    const res = await this.swsErp.getDoc<JJBankAccount>('Bank Account', accountId);
+    return res;
+  }
+
+  async createBankAccount(account: JJBankAccount) {
+    switch (this.authData.getUserRole()) {
+      case 'CUSTOMER':
+        account['customerId'] = this.authData.getCurrentUser().doc_id;
+        break;
+      case 'MERCHANT_ADMIN':
+        account['merchantId'] = await this.authData.findMyMerchantId();
+        break;
+      default:
+        account['isSystem'] = true;
+        break;
+    }
+    return this.swsErp.postDoc('Bank Account', account);
+  }
+
+  updateBankAccount(accountId: number, account: Partial<JJBankAccount>) {
+    return this.swsErp.putDoc('Bank Account', accountId, account);
+  }
+
   // -----------------------------------------------------------------------------------------------------
   // @ Event
   // -----------------------------------------------------------------------------------------------------
+
+  createEvent(event: JJEvent) {
+    return this.swsErp.postDoc('Event', event);
+  }
+
+  updateEvent(eventId: number, event: Partial<JJEvent>) {
+    return this.swsErp.putDoc('Event', eventId, event);
+  }
 
   async getEvents(pagination: Pagination, conditions: Conditions = {}) {
     const res = await this.swsErp.getDocs<JJEvent>('Event', {
@@ -359,6 +497,11 @@ export class CoreService extends SharedComponent {
 
   async getTicketGenerationMethods() {
     const res = await this.swsErp.getDocs<JJTicketGenerationMethod>('Ticket Generation Method');
+    return res.result;
+  }
+
+  async getIssueModes() {
+    const res = await this.swsErp.getDocs<JJIssueMode>('Issue Mode');
     return res.result;
   }
 
@@ -488,7 +631,6 @@ export class CoreService extends SharedComponent {
       sortType: pagination.sortOrder,
       ...conditions,
     });
-    console.log(res);
     return res.result;
   }
 
@@ -515,7 +657,9 @@ export class CoreService extends SharedComponent {
   }
 
   async getContentPagesByGroupCode(groupCode: string) {
-    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', { groupCode });
+    const res = await this.swsErp.getDocs<JJContentPage>('Content Page', {
+      groupCode: groupCode,
+    });
     return res.result;
   }
 
@@ -531,6 +675,13 @@ export class CoreService extends SharedComponent {
     };
     let res = await this.swsErp.getDocs<JJFab>('FAB', query);
     return res.result;
+  }
+
+  async getMiniPrograms(userRole: UserRole) {
+    let res = await this.swsErp.getDocs<JJMiniProgram>('Mini Program', {
+      userRole: userRole,
+    });
+    return res.result.map((program) => this.populateMiniPrograms(program));
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -554,6 +705,26 @@ export class CoreService extends SharedComponent {
     return res.result.map((request) => this.populateScratchRequest(request));
   }
 
+  createScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    return this.swsErp.postDoc('Scratch And Win Event', event);
+  }
+
+  updateScratchAndWinEvent(eventId: number, event: Partial<JJScratchAndWinEvent>) {
+    return this.swsErp.putDoc('Scratch And Win Event', eventId, event);
+  }
+
+  async getScratchAndWinEvents(pagination: Pagination, conditions: Conditions = {}) {
+    let query: GetOptions = {
+      itemsPerPage: pagination.itemsPerPage,
+      currentPage: pagination.currentPage,
+      sortBy: pagination.sortBy,
+      sortType: pagination.sortOrder,
+      ...conditions,
+    };
+    const res = await this.swsErp.getDocs<JJScratchAndWinEvent>('Scratch And Win Event', query);
+    return res.result.map((event) => this.populateScratchAndWinEvent(event));
+  }
+
   async getScratchAndWinEventById(eventId: number, conditions: Conditions = {}) {
     if (conditions.withLocation) {
       const coords = await this.common.getCurrentCoords();
@@ -563,7 +734,7 @@ export class CoreService extends SharedComponent {
     }
     let query = <GetOptions>conditions;
     const res = await this.swsErp.getDoc<JJScratchAndWinEvent>('Scratch And Win Event', eventId, query);
-    return res;
+    return this.populateScratchAndWinEvent(res);
   }
 
   async getScratchAndWinPrizes(conditions: Conditions = {}) {
@@ -573,6 +744,28 @@ export class CoreService extends SharedComponent {
       ...conditions,
     });
     return res.result;
+  }
+
+  async getScratchAndWinPrizeTypes() {
+    const res = await this.swsErp.getDocs<JJScratchAndWinPrizeType>('Scratch And Win Prize Type');
+    return res.result;
+  }
+
+  // -----------------------------------------------------------------------------------------------------
+  // @ Converter
+  // -----------------------------------------------------------------------------------------------------
+
+  convertToCurrency(currency: JJWalletCurrency) {
+    if (!currency) {
+      return null;
+    }
+    let displayCurrency: Currency = {
+      code: currency.code,
+      displaySymbol: currency.symbol,
+      symbolPosition: currency.symbolPosition,
+      precision: currency.digits,
+    };
+    return displayCurrency;
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -591,10 +784,8 @@ export class CoreService extends SharedComponent {
     if (!product) {
       return null;
     }
-    product.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      product.translate ? product.translate.name : product.name,
-      product.name,
-    );
+    let name = product.translate ? product.translate.name : product.name;
+    product.nameTranslation = this.cmsUtils.parseCmsTranslation(name, product.name);
     return product;
   }
 
@@ -602,11 +793,18 @@ export class CoreService extends SharedComponent {
     if (!event) {
       return null;
     }
-    event.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      event.translate ? event.translate.name : event.name,
-      event.name,
-    );
+    let name = event.translate ? event.translate.name : event.name;
+    let highlight = event.translate ? event.translate.highlight : event.highlight;
+    let description = event.translate ? event.translate.description : event.description;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.highlightTranslation = this.cmsUtils.parseCmsTranslation(highlight, event.highlight);
+    event.descriptionTranslation = this.cmsUtils.parseCmsTranslation(description, event.description);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
     event.drewAt = event.drawingResult?.drewAt;
+    if (event.prizes?.length) {
+      event.prizes = event.prizes.map((prize) => this.populateEventPrize(prize));
+    }
     return event;
   }
 
@@ -660,7 +858,6 @@ export class CoreService extends SharedComponent {
     if (!transaction) {
       return null;
     }
-
     transaction.amountText = transaction.amount > 0 ? `+${transaction.amount}` : `${transaction.amount}`;
     return transaction;
   }
@@ -669,10 +866,8 @@ export class CoreService extends SharedComponent {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 
@@ -690,18 +885,9 @@ export class CoreService extends SharedComponent {
     if (!wallet) {
       return null;
     }
-    if (wallet.walletCurrency) {
-      wallet.displayCurrency = {
-        code: wallet.walletCurrency.code,
-        displaySymbol: wallet.walletCurrency.symbol,
-        symbolPosition: wallet.walletCurrency.symbolPosition,
-        precision: wallet.walletCurrency.digits,
-      };
-    }
-    if (wallet.walletType) {
-      wallet.icon = wallet.walletType.icon;
-      wallet.colors = wallet.walletType.colors;
-    }
+    wallet.displayCurrency = this.convertToCurrency(wallet.walletCurrency);
+    wallet.icon = wallet.walletType?.icon;
+    wallet.colors = wallet.walletType?.colors;
     return wallet;
   }
 
@@ -710,17 +896,51 @@ export class CoreService extends SharedComponent {
       return null;
     }
     request.wallet = this.populateWallet(request.wallet);
+    request.displayCurrency = this.convertToCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
     return request;
+  }
+
+  populateWithdrawRequest(request: JJWithdrawRequest) {
+    if (!request) {
+      return null;
+    }
+    request.wallet = this.populateWallet(request.wallet);
+    request.displayCurrency = this.convertToCurrency(request.convertedCurrency);
+    request.attachments = request.attachments.map((attachment) => {
+      attachment.previewUrl = this.erpImg.transform(attachment.previewUrl);
+      return attachment;
+    });
+    return request;
+  }
+
+  populateScratchAndWinEvent(event: JJScratchAndWinEvent) {
+    if (!event) {
+      return null;
+    }
+    let name = event.translate ? event.translate.name : event.name;
+    let tnc = event.translate ? event.translate.tnc : event.tnc;
+    let congratMessage = event.translate ? event.translate.congratulationMessage : event.congratulationMessage;
+    let thankYouMessage = event.translate ? event.translate.thankYouMessage : event.thankYouMessage;
+    event.nameTranslation = this.cmsUtils.parseCmsTranslation(name, event.name);
+    event.tncTranslation = this.cmsUtils.parseCmsTranslation(tnc, event.tnc);
+    event.congratTranslation = this.cmsUtils.parseCmsTranslation(congratMessage, event.congratulationMessage);
+    event.thankTranslation = this.cmsUtils.parseCmsTranslation(thankYouMessage, event.thankYouMessage);
+    if (event.prizes) {
+      event.prizes = event.prizes.map((prize) => this.populateScratchAndWinPrize(prize));
+    }
+    return event;
   }
 
   populateScratchAndWinPrize(prize: JJScratchAndWinPrize) {
     if (!prize) {
       return null;
     }
-    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(
-      prize.translate ? prize.translate.name : prize.name,
-      prize.name,
-    );
+    let name = prize.translate ? prize.translate.name : prize.name;
+    prize.nameTranslation = this.cmsUtils.parseCmsTranslation(name, prize.name);
     return prize;
   }
 
@@ -730,5 +950,13 @@ export class CoreService extends SharedComponent {
     }
     request.prize = this.populateScratchAndWinPrize(request.prize);
     return request;
+  }
+
+  populateMiniPrograms(program: JJMiniProgram) {
+    if (!program) {
+      return null;
+    }
+    program.colors = this.common.parseJson(program.colors);
+    return program;
   }
 }

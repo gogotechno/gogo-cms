@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWithdrawRequest } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-withdraws',
@@ -13,6 +14,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   providers: [DatePipe],
 })
 export class WithdrawsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   withdrawsPage: Pagination;
@@ -21,17 +23,22 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
 
   get dates(): string[] {
-    if (!this.withdraws) {
-      return null;
-    }
+    if (!this.withdraws) return null;
     return Object.keys(this.withdraws);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
+  constructor(
+    private route: ActivatedRoute,
+    private date: DatePipe,
+    private core: CoreService,
+    private common: CommonService,
+    private walletsService: WalletsService,
+  ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     await this.loadData();
@@ -40,6 +47,7 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.withdrawsPage = this.defaultPage;
+    this.withdraws = [];
     let withdraws = await this.getWithdraws();
     this.grouping(withdraws);
     this.withdrawsEnded = withdraws.length < this.withdrawsPage.itemsPerPage;
@@ -83,5 +91,9 @@ export class WithdrawsPage extends SharedComponent implements OnInit {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
+  }
+
+  getStatusColor(request: JJWithdrawRequest) {
+    return this.walletsService.getStatusColor(request.status);
   }
 }

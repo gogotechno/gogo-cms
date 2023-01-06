@@ -10,7 +10,7 @@ import _ from 'lodash';
 })
 export class FilterComponent implements OnInit {
   @Input() form: CmsFilter;
-  @Input() value: { [key: string]: any };
+  @Input() value: any;
   @Output() submit = new EventEmitter<any>();
   @Output() reset = new EventEmitter<any>();
 
@@ -23,7 +23,9 @@ export class FilterComponent implements OnInit {
   }
 
   async loadData() {
-    if (!this.form) return;
+    if (!this.form) {
+      return;
+    }
     this.formGroup = this.fb.group({});
     for (const item of this.form.items) {
       switch (item.type) {
@@ -52,9 +54,9 @@ export class FilterComponent implements OnInit {
     return control;
   }
 
-  onSearchableSelectFilterItemChange(code: string, item: CmsFilterItem) {
-    const index = this.form.items.findIndex((i) => i.code == code);
-    this.form.items[index] = item;
+  onSearchableItemsChange(code: string, items: Array<any>) {
+    let index = this.form.items.findIndex((i) => i.code == code);
+    this.form.items[index].items = items;
   }
 
   getDateBetweenFormControlName(type: 'from' | 'to', code: string) {
@@ -95,9 +97,9 @@ export class FilterComponent implements OnInit {
 
   resetForm() {
     this.formGroup.reset();
-    this.form.items
-      .filter((i) => i.type == 'select' && i.searchable)
-      .forEach((i) => (i.selectConfig.selectedItems = []));
+    // this.form.items
+    //   .filter((i) => i.type == 'select' && i.searchable)
+    //   .forEach((i) => (i.selectConfig.selectedItems = []));
   }
 
   removeEmptyKeys<T>(source: T) {

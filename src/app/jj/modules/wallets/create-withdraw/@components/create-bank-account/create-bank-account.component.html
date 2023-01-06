@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ 'jj._CREATE_BANK_ACCOUNT' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding-sm">
+    <cms-form [form]="form" (submit)="onSubmit($event)"></cms-form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-button id="create-bank-account-btn" expand="block">
+      <ion-label>{{ '_CONFIRM' | translate }}</ion-label>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

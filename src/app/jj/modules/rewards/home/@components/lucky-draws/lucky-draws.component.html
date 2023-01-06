@@ -1,37 +1,36 @@
 <div class="container" *ngIf="events; else loading">
-  <h3 class="title">{{ 'jj._LUCKY_DRAWS' | translate }}</h3>
-  <ion-slides [pager]="true" class="lucky-draws">
-    <ion-slide class="lucky-draw" *ngFor="let event of events">
-      <ion-card [routerLink]="['events', event.doc_id]">
-        <!-- <ion-badge>{{ 'jj._OWNED_TICKETS' | translate: { count: 99 } }}</ion-badge> -->
-        <img class="event-background" [src]="event.backgroundImage | erpImg" />
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="3.5">
-                <ion-slides class="prizes">
-                  <ion-slide *ngFor="let prize of event.prizes">
-                    <img class="prize-thumbnail" [src]="prize.thumbnailImage | erpImg" />
-                  </ion-slide>
-                </ion-slides>
-              </ion-col>
-              <ion-col size="5">
-                <h3 class="ion-text-ellipsis">{{ event.name }}</h3>
-                <lucky-draw-countdown [event]="event"></lucky-draw-countdown>
-              </ion-col>
-              <ion-col size="3.5">
-                <!-- <p class="ion-color-note">{{ 'jj._ODDS_OF_WINNING' | translate }}</p> -->
-                <!-- <h3>4.56%</h3> -->
-                <p *ngIf="event.distance">
-                  {{ 'jj._DISTANCE_AWAY' | translate : { distance: event.distance + 'KM' } }}
-                </p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
+  <ng-container *ngIf="events?.length">
+    <h3 class="title">{{ 'jj._LUCKY_DRAWS' | translate }}</h3>
+    <ion-slides [pager]="true" class="lucky-draws">
+      <ion-slide class="lucky-draw" *ngFor="let event of events">
+        <ion-card [routerLink]="['events', event.doc_id]">
+          <img class="event-background" [src]="event.backgroundImage | erpImg" />
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="3.5">
+                  <ion-slides class="prizes">
+                    <ion-slide *ngFor="let prize of event.prizes">
+                      <img class="prize-thumbnail" [src]="prize.thumbnailImage | erpImg" />
+                    </ion-slide>
+                  </ion-slides>
+                </ion-col>
+                <ion-col size="5">
+                  <h3 class="ion-text-ellipsis">{{ event.name }}</h3>
+                  <lucky-draw-countdown [event]="event"></lucky-draw-countdown>
+                </ion-col>
+                <ion-col size="3.5">
+                  <p *ngIf="event.distance">
+                    {{ 'jj._DISTANCE_AWAY' | translate : { distance: event.distance + 'KM' } }}
+                  </p>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+  </ng-container>
 </div>
 
 <ng-template #loading>

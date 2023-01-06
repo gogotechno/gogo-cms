@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService } from 'src/app/jj/services';
+import { AuthService, CommonService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-change-password',
@@ -9,17 +9,20 @@ import { AuthService } from 'src/app/jj/services';
   styleUrls: ['./change-password.page.scss'],
 })
 export class ChangePasswordPage implements OnInit {
+  backButtonText: string;
   form = form;
 
-  constructor(private app: AppUtils, private auth: AuthService) {}
+  constructor(private appUtils: AppUtils, private auth: AuthService, private common: CommonService) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
+  }
 
   async onSubmit(data: ChangePasswordDto) {
-    const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_CHANGE_PASSWORD');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CHANGE_PASSWORD');
     if (confirm) {
       await this.auth.changePassword(data.oldPassword, data.newPassword);
-      await this.app.presentAlert('jj._PASSWORD_UPDATED', '_SUCCESS');
+      await this.appUtils.presentAlert('jj._PASSWORD_UPDATED', '_SUCCESS');
     }
   }
 }

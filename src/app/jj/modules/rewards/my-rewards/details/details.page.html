@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/rewards/my-rewards"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/rewards/my-rewards"></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="distribution">
       <span>#{{ distribution.doc_id }}</span>

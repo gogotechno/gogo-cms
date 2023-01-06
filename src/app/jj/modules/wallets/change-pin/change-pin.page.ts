@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
 
 @Component({
@@ -10,16 +10,22 @@ import { JJWallet } from 'src/app/jj/typings';
   styleUrls: ['./change-pin.page.scss'],
 })
 export class ChangePinPage implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   form = form;
 
-  constructor(private route: ActivatedRoute, private router: Router, private core: CoreService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private core: CoreService,
+    private common: CommonService,
+  ) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
-
     this.wallet = await this.core.getWalletByNo(this.walletNo);
   }
 

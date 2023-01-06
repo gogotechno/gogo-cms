@@ -11,6 +11,10 @@ export const environment = {
   },
   swsErp: {
     apiUrl: 'https://erp.lucky365.shop/api',
+    googleMapApiKey: 'AIzaSyAhhLvlImXIWUEqgk9fC2xMUJ-i36b21ZY',
+  },
+  jj: {
+    homeDirectoryFileName: 'home-directory-1.1.0.json',
   },
   production: true,
 };

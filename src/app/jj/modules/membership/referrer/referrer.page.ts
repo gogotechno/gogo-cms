@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
-
-import { Platform } from '@ionic/angular';
-
 import { Share } from '@capacitor/share';
-
-import { JJCustomer } from 'src/app/jj-luckydraw/jj-luckydraw.type';
-import { AuthService } from 'src/app/jj/services';
+import { AuthService, CommonService } from 'src/app/jj/services';
+import { JJCustomer } from 'src/app/jj/typings';
 
 @Component({
   selector: 'app-referrer',
@@ -14,28 +9,22 @@ import { AuthService } from 'src/app/jj/services';
   styleUrls: ['./referrer.page.scss'],
 })
 export class ReferrerPage implements OnInit {
-
+  backButtonText: string;
   path = '';
   canShare = false;
   me: JJCustomer | null = null;
 
-  constructor(
-    public platform: Platform,
-    private auth: AuthService,
-    public meta: Meta
-  ) {
-    console.log(window.location.protocol);
-    console.log(window.location.host);
-  }
+  constructor(private auth: AuthService, private common: CommonService) {}
 
-  ngOnInit() {
-    this.loadData();
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
+    await this.loadData();
   }
 
   async loadData() {
     const canShareResult = await Share.canShare();
     this.canShare = canShareResult.value;
-    this.me = await this.auth.findMe() as JJCustomer;
+    this.me = <JJCustomer>await this.auth.findMe();
     this.path = `${window.location.protocol}//${window.location.host}/#/jj/register?referrerCode=${this.me.phone}`;
   }
 
@@ -43,10 +32,8 @@ export class ReferrerPage implements OnInit {
     if (!this.canShare) {
       return;
     }
-    const shareResult = await Share.share({
-      url: this.path
+    await Share.share({
+      url: this.path,
     });
-    console.log(shareResult);
   }
-
 }

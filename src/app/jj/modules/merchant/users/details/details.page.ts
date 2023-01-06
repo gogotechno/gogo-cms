@@ -6,8 +6,8 @@ import { Subject } from 'rxjs';
 import { FullNamePipe } from 'src/app/cms-ui/cms.pipe';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
-import { JJUser, UserRole } from 'src/app/jj/typings';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
+import { JJUser } from 'src/app/jj/typings';
 import { DocStatus } from 'src/app/sws-erp.type';
 import { MoreOptionsComponent } from './@component/more-options/more-options.component';
 
@@ -17,11 +17,10 @@ import { MoreOptionsComponent } from './@component/more-options/more-options.com
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+  backButtonText: string;
   userId: number;
   user: JJUser;
-
   form: CmsForm;
-
   destroy$: Subject<boolean>;
 
   constructor(
@@ -32,15 +31,17 @@ export class DetailsPage implements OnInit {
     private translate: TranslateService,
     private appUtils: AppUtils,
     private cmsUtils: CmsUtils,
+    private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
   ) {
     this.destroy$ = new Subject<boolean>();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.userId = params.id;
-
     await this.loadData();
   }
 
@@ -51,15 +52,12 @@ export class DetailsPage implements OnInit {
 
   async loadData() {
     this.form = form;
-    const roles = await this.core.getUserRoles();
+    const roles = await this.auth.findMyUserRoles();
     const roleField = this.form.items.find((item) => item.code == 'role');
-    roleField.options = roles
-      .filter((role) => role.code != UserRole.SYSTEM_ADMIN)
-      .map((role) => ({
-        code: role.code,
-        label: this.cmsUtils.parseCmsTranslation(role.name),
-      }));
-
+    roleField.options = roles.map((role) => ({
+      code: role.code,
+      label: this.cmsUtils.parseCmsTranslation(role.name),
+    }));
     this.user = await this.core.getUserById(this.userId);
   }
 
@@ -101,7 +99,9 @@ export class DetailsPage implements OnInit {
         await this.appUtils.presentAlert('jj._USER_REMOVED', '_SUCCESS');
         await this.router.navigate(['/jj/merchant/users'], {
           replaceUrl: true,
-          queryParams: { refresh: true },
+          queryParams: {
+            refresh: true,
+          },
         });
       }
     }
@@ -120,7 +120,7 @@ const form: CmsForm = {
       label: {
         en: 'Merchant',
         zh: '商家',
-        ms: 'Pedagang'
+        ms: 'Pedagang',
       },
       type: 'number',
       required: true,
@@ -131,7 +131,7 @@ const form: CmsForm = {
       label: {
         en: 'Role',
         zh: '角色',
-        ms: 'Peranan'
+        ms: 'Peranan',
       },
       type: 'select',
       required: true,
@@ -141,7 +141,7 @@ const form: CmsForm = {
       label: {
         en: 'First Name',
         zh: '名字',
-        ms: 'Nama Pertama'
+        ms: 'Nama Pertama',
       },
       type: 'text',
       required: true,
@@ -151,7 +151,7 @@ const form: CmsForm = {
       label: {
         en: 'Last Name',
         zh: '姓氏',
-        ms: 'Nama Terakhir'
+        ms: 'Nama Terakhir',
       },
       type: 'text',
       required: true,
@@ -161,7 +161,7 @@ const form: CmsForm = {
       label: {
         en: 'Email',
         zh: '电子邮件',
-        ms: 'Emel'
+        ms: 'Emel',
       },
       type: 'text',
       required: true,

@@ -8,12 +8,17 @@ import { BankAccountsPageRoutingModule } from './bank-accounts-routing.module';
 
 import { BankAccountsPage } from './bank-accounts.page';
 
+import { SharedModule } from 'src/app/jj/shared';
+import { SwsErpModule } from 'src/app/sws-erp.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BankAccountsPageRoutingModule
+    BankAccountsPageRoutingModule,
+    SharedModule,
+    SwsErpModule,
   ],
   declarations: [BankAccountsPage]
 })

@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="white">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._MY_ACCOUNT" | translate }}</ion-title>
   </ion-toolbar>
@@ -22,6 +22,10 @@
     <ion-item routerLink="change-language">
       <ion-icon slot="start" name="language"></ion-icon>
       <ion-label><h3>{{ "_CHANGE_LANGUAGE" | translate }}</h3></ion-label>
+    </ion-item>
+    <ion-item routerLink="bank-accounts">
+      <ion-icon slot="start" name="card"></ion-icon>
+      <ion-label><h3>{{ "jj._BANK_ACCOUNTS" | translate }}</h3></ion-label>
     </ion-item>
   </ion-list>
 
