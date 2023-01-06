@@ -5,7 +5,12 @@
     </ion-select-option>
   </ion-select>
 </ion-item>
-<quill-editor [modules]="modules" [(ngModel)]="text" (onContentChanged)="textChanged()"></quill-editor>
+<quill-editor
+  [modules]="modules"
+  [placeholder]="'_INSERT_TEXT_HERE' | translate"
+  [(ngModel)]="text"
+  (onContentChanged)="textChanged()"
+></quill-editor>
 <ion-item *ngIf="!hideHtml" lines="none">
   <ion-textarea autoGrow [(ngModel)]="text" (onChange)="textChanged()"></ion-textarea>
 </ion-item>

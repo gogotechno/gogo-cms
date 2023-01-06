@@ -254,6 +254,8 @@ export interface ArrayConfig {
   nameSeparator?: string;
   closeButtonPosition?: 'start' | 'end';
   submitButtonPosition?: 'default' | 'footer';
+  prefixes?: LiteralObject;
+  prefixSeparator?: string;
 }
 
 export interface CmsFilterItemOption {

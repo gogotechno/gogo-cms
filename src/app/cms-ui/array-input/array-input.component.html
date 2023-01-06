@@ -3,7 +3,9 @@
     <ion-item-sliding *ngFor="let item of value; let i = index">
       <ion-item (click)="edit(i, $event)">
         <ion-reorder slot="start"></ion-reorder>
-        <ion-label>{{ (getName(item) | cmsTranslate) || (item.label | cmsTranslate) || item }}</ion-label>
+        <ion-label>
+          {{ item.arrayItemLabel || (getName(item) | cmsTranslate) || (item.label | cmsTranslate) || item }}
+        </ion-label>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option color="danger" (click)="remove(i)">{{ '_REMOVE' | translate }}</ion-item-option>

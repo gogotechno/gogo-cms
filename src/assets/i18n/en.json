@@ -90,6 +90,9 @@
   "_COPY": "Copy",
   "_HISTORY": "History",
   "_STATUS": "Status",
+  "_YES": "Yes",
+  "_NO": "No",
+  "_INSERT_TEXT_HERE": "Insert text here",
   "winbox99": {
     "_LOGIN": "Login",
     "_GAMES": "Our Games",

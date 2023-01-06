@@ -11,6 +11,7 @@ ion-card {
   --color: var(--ion-color-dark);
 
   ion-card-content {
+    height: 100%;
     display: flex;
     align-items: center;
 
@@ -26,7 +27,8 @@ ion-card.actions {
   background: transparent;
   overflow: visible;
 
-  & > ion-card-content {
+  > ion-card-content {
+    align-items: stretch;
     padding: 0;
 
     ion-card {
