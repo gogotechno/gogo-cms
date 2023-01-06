@@ -13,5 +13,8 @@ export const environment = {
     apiUrl: 'https://uat.erp.swstechno.com/api',
     googleMapApiKey: 'AIzaSyAhhLvlImXIWUEqgk9fC2xMUJ-i36b21ZY',
   },
+  jj: {
+    homeDirectoryFileName: 'home-directory-1.1.0.json',
+  },
   production: true,
 };

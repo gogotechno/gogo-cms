@@ -16,6 +16,7 @@ import {
   User,
 } from 'src/app/jj/typings';
 import { Conditions } from 'src/app/sws-erp.type';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HomeService extends SharedComponent {
@@ -186,7 +187,7 @@ export class HomeService extends SharedComponent {
   }
 
   async loadBulletins() {
-    const url = await this.cms.getDownloadURL('home-directory.json');
+    const url = await this.cms.getDownloadURL(environment.jj.homeDirectoryFileName);
     const data = await this.common.getByUrl(url);
 
     const eventConfig = data.event;
