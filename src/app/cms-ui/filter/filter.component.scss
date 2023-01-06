@@ -1,3 +1,10 @@
+ion-item.stacked-select {
+  --min-height: 68px;
+  ion-label {
+    align-self: baseline;
+  }
+}
+
 .date-between {
   display: flex;
   align-items: center;

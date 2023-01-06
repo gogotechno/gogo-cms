@@ -8,12 +8,14 @@ import { CommonService } from 'src/app/jj/services';
   styleUrls: ['./change-language.page.scss'],
 })
 export class ChangeLanguagePage implements OnInit {
+  backButtonText: string;
   currentLangCode: string;
   languages: CmsLanguage[];
 
   constructor(private common: CommonService) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.currentLangCode = this.common.getCurrentLanguage();
     this.languages = await this.common.getSupportedLanguages();
   }

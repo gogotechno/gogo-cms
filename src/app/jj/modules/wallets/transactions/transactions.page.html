@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/wallets"></ion-back-button>
     </ion-buttons>
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>
@@ -26,7 +26,7 @@
       <ion-item
         class="transaction"
         *ngFor="let transaction of transactions[date]"
-        [routerLink]="transaction.identifier1 ? 'transfer-receipt/' + transaction.identifier1 : undefined"
+        (click)="openDetails(transaction.identifier1)"
       >
         <div class="ion-padding-vertical-sm">
           <ion-text class="description">{{ transaction.description || '-' }}</ion-text><br />
@@ -37,7 +37,7 @@
           <jj-currency
             [currency]="wallet.displayCurrency"
             [value]="transaction.amount"
-            [style.color]="transaction.amount < 0 ? 'var(--ion-color-danger)' : 'var(--ion-color-success)'"
+            [showColor]="true"
           ></jj-currency>
         </div>
       </ion-item>

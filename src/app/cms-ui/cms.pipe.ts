@@ -22,6 +22,9 @@ export class CmsTranslatePipe implements PipeTransform {
       if (value[defaultLang]) {
         return value[defaultLang];
       }
+      if (typeof value == 'object') {
+        return '';
+      }
       return value;
     } catch (error) {
       return value;

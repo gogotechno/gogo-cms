@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJTicket, JJTicketDistribution } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -12,13 +12,15 @@ import { DetailsService } from './@services/details.service';
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   segment: 'details' | 'tickets';
 
-  constructor(private route: ActivatedRoute, private details: DetailsService) {
+  constructor(private route: ActivatedRoute, private common: CommonService, private details: DetailsService) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.details.distributionId = params.id;
     this.segment = 'details';

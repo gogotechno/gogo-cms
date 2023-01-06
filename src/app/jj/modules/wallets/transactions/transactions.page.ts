@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWalletTransaction } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -13,6 +13,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   providers: [DatePipe],
 })
 export class TransactionsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   transactionsPage: Pagination;
@@ -21,17 +22,22 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   updatedAt: Date;
 
   get dates(): string[] {
-    if (!this.transactions) {
-      return null;
-    }
+    if (!this.transactions) return null;
     return Object.keys(this.transactions);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
+  constructor(
+    private route: ActivatedRoute,
+    private core: CoreService,
+    private common: CommonService,
+    private date: DatePipe,
+    private router: Router,
+  ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params.walletNo;
     await this.loadData();
@@ -75,6 +81,25 @@ export class TransactionsPage extends SharedComponent implements OnInit {
       }
       this.transactions[date] = list;
     });
+  }
+
+  async openDetails(identifier: string) {
+    let basePath = `/jj/wallets`;
+    let arr = identifier.split('-');
+    let start = arr[0];
+    switch (start) {
+      case 'TR':
+        this.router.navigate([`${basePath}/transfer-receipt/${identifier}`]);
+        break;
+      case 'DR':
+        this.router.navigate([`${basePath}/${this.walletNo}/deposits/${identifier}`]);
+        break;
+      case 'WR':
+        this.router.navigate([`${basePath}/${this.walletNo}/withdraws/${identifier}`]);
+        break;
+      default:
+        break;
+    }
   }
 
   async doRefresh(event: Event) {

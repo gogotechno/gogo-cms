@@ -1,18 +1,23 @@
 import { NgModule } from '@angular/core';
 import { ErpImagePipe, ErpTranslationPipe } from './sws-erp.pipe';
+import { SwsFileHandler } from './sws-erp.service';
 
 const pipes = [
-    ErpImagePipe,
-    ErpTranslationPipe
+  ErpImagePipe, 
+  ErpTranslationPipe
 ];
 
 @NgModule({
-    declarations: [
-        ...pipes
-    ],
-    imports: [],
-    exports: [
-        ...pipes
-    ]
+  declarations: [
+    ...pipes
+  ],
+  imports: [],
+  exports: [
+    ...pipes
+  ],
+  providers: [
+    ...pipes, 
+    SwsFileHandler
+  ],
 })
-export class SwsErpModule { }
+export class SwsErpModule {}

@@ -7,6 +7,7 @@ import { DetailsComponentsModule } from './@components/details-components.module
 import { DetailsPage } from './details.page';
 import { SharedModule } from 'src/app/jj/shared';
 import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { DetailsService } from './@services/details.service';
 
 @NgModule({
   imports: [
@@ -19,5 +20,6 @@ import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
     CmsUIModule,
   ],
   declarations: [DetailsPage],
+  providers: [DetailsService]
 })
 export class DetailsPageModule {}

@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent, JJTicket } from 'src/app/jj/typings';
-import { Pagination } from 'src/app/sws-erp.type';
+import { Conditions, Pagination } from 'src/app/sws-erp.type';
 
 @Injectable()
 export class DetailsService extends SharedComponent {
@@ -47,22 +47,20 @@ export class DetailsService extends SharedComponent {
   }
 
   private getEvent() {
-    const events = this.core.getEventById(this.eventId, {
+    let conditions: Conditions = {
       hasFk: true,
       withSummary: true,
       withLocation: true,
-      customer_id: this.auth.currentUser.doc_id,
-    });
+    };
+    if (this.auth.userRole == 'CUSTOMER') {
+      conditions['customer_id'] = this.auth.currentUser.doc_id;
+    }
+    const events = this.core.getEventById(this.eventId, conditions);
     return events;
   }
 
-  private async getTickets() {
-    const tickets = await this.core.getTickets(this.ticketsPage, {
-      event_id: this.eventId,
-      event_id_type: '=',
-      customer_id: this.auth.currentUser.doc_id,
-      customer_id_type: '=',
-    });
+  async getTickets() {
+    const tickets = await this.auth.findMyEventTickets(this.eventId, this.ticketsPage);
     return tickets;
   }
 

@@ -45,6 +45,7 @@ const routes: Routes = [
       },
       {
         path: 'finance',
+        canActivate: [AuthGuard],
         loadChildren: () => import('./modules/finance/finance.module').then((m) => m.FinancePageModule),
       },
     ],

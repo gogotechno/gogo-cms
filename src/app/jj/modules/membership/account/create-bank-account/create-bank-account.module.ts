@@ -8,12 +8,17 @@ import { CreateBankAccountPageRoutingModule } from './create-bank-account-routin
 
 import { CreateBankAccountPage } from './create-bank-account.page';
 
+import { SharedModule } from 'src/app/jj/shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CreateBankAccountPageRoutingModule
+    CreateBankAccountPageRoutingModule,
+    SharedModule,
+    CmsUIModule,
   ],
   declarations: [CreateBankAccountPage]
 })

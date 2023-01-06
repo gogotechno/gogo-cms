@@ -15,6 +15,10 @@ export const environment = {
   },
   swsErp: {
     apiUrl: 'http://localhost:3000',
+    googleMapApiKey: 'AIzaSyAhhLvlImXIWUEqgk9fC2xMUJ-i36b21ZY',
+  },
+  jj: {
+    homeDirectoryFileName: 'home-directory-1.1.0.json',
   },
   production: false,
 };

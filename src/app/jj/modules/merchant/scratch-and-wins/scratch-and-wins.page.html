@@ -1,0 +1,61 @@
+<ion-menu contentId="snw-content">
+  <ion-header>
+    <menu-header></menu-header>
+  </ion-header>
+  <ion-content>
+    <menu-content></menu-content>
+  </ion-content>
+  <ion-footer>
+    <menu-footer></menu-footer>
+  </ion-footer>
+</ion-menu>
+
+<div class="ion-page" id="snw-content">
+  <ion-header class="ion-header-clear">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="openMenu()">
+          <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>{{ "jj._SCRATCH_AND_WIN_EVENTS" | translate }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button routerLink="/jj/merchant/create-scratch-and-win">
+          <ion-icon slot="icon-only" name="add-circle"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-list>
+      <div *ngIf="!events?.length" class="note">
+        <ion-label>{{ 'jj._NO_EVENTS_FOUND' | translate }}</ion-label>
+      </div>
+      <ion-item lines="full" class="event" *ngFor="let event of events" [routerLink]="[event.doc_id]">
+        <ion-thumbnail slot="start">
+          <img [src]="event.logo | erpImg" />
+        </ion-thumbnail>
+        <div class="ion-padding-vertical-sm">
+          <ion-text class="event-name">{{ event.name || '-' }}</ion-text>
+        </div>
+      </ion-item>
+    </ion-list>
+    <ng-container *ngIf="events?.length">
+      <ion-infinite-scroll *ngIf="!eventsEnded" (ionInfinite)="loadMoreEvents($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <div *ngIf="eventsEnded" class="note">
+        <ion-label>
+          <ion-text>{{ '_ALL_LOADED' | translate }}</ion-text><br />
+          <ion-text>
+            {{ '_UPDATED_AT_WITH_DATE' | translate: { date: (updatedAt | date: 'd/M/yyyy hh:mm:ss a') } }}
+          </ion-text>
+        </ion-label>
+      </div>
+    </ng-container>
+  </ion-content>
+</div>

@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJDepositRequest, JJWallet } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
+import { WalletsService } from '../wallets.service';
 
 @Component({
   selector: 'app-deposits',
@@ -13,26 +14,31 @@ import { Pagination } from 'src/app/sws-erp.type';
   providers: [DatePipe],
 })
 export class DepositsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   depositsPage: Pagination;
   depositsEnded: boolean;
   deposits: JJDepositRequest[][];
   updatedAt: Date;
-  
 
   get dates(): string[] {
-    if (!this.deposits) {
-      return null;
-    }
+    if (!this.deposits) return null;
     return Object.keys(this.deposits);
   }
 
-  constructor(private route: ActivatedRoute, private core: CoreService, private date: DatePipe) {
+  constructor(
+    private route: ActivatedRoute,
+    private date: DatePipe,
+    private core: CoreService,
+    private common: CommonService,
+    private walletsService: WalletsService,
+  ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     await this.loadData();
@@ -41,6 +47,7 @@ export class DepositsPage extends SharedComponent implements OnInit {
   async loadData() {
     this.wallet = await this.core.getWalletByNo(this.walletNo);
     this.depositsPage = this.defaultPage;
+    this.deposits = [];
     let deposits = await this.getDeposits();
     this.grouping(deposits);
     this.depositsEnded = deposits.length < this.depositsPage.itemsPerPage;
@@ -84,5 +91,9 @@ export class DepositsPage extends SharedComponent implements OnInit {
     await this.loadData();
     let refresher = <HTMLIonRefresherElement>event.target;
     refresher.complete();
+  }
+
+  getStatusColor(request: JJDepositRequest) {
+    return this.walletsService.getStatusColor(request.status);
   }
 }

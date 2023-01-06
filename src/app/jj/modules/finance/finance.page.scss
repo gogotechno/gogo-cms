@@ -1,0 +1,16 @@
+ion-card {
+  --color: var(--ion-color-dark);
+
+  ion-card-content p,
+  ion-card-content h3 {
+    font-weight: var(--ion-font-bold);
+  }
+
+  ion-card-content p {
+    font-size: var(--ion-font-xl);
+  }
+
+  ion-card-content h3 {
+    font-size: var(--ion-font-6xl);
+  }
+}

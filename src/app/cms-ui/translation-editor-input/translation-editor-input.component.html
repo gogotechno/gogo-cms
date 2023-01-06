@@ -1,11 +1,16 @@
 <ion-item lines="none">
-    <ion-select slot="end" [(ngModel)]="language" (ionChange)="languageChanged()">
-        <ion-select-option *ngFor="let language of languages" [value]="language">
-            <ion-label>{{ language }}</ion-label>
-        </ion-select-option>
-    </ion-select>
+  <ion-select [(ngModel)]="language" (ionChange)="languageChanged()">
+    <ion-select-option *ngFor="let language of languages" [value]="language">
+      <ion-label>{{ language }}</ion-label>
+    </ion-select-option>
+  </ion-select>
 </ion-item>
-<quill-editor [modules]="modules" [(ngModel)]="text" (onContentChanged)="textChanged()"></quill-editor>
-<ion-item>
-    <ion-textarea autoGrow [(ngModel)]="text" (onChange)="textChanged()"></ion-textarea>
+<quill-editor
+  [modules]="modules"
+  [placeholder]="'_INSERT_TEXT_HERE' | translate"
+  [(ngModel)]="text"
+  (onContentChanged)="textChanged()"
+></quill-editor>
+<ion-item *ngIf="!hideHtml" lines="none">
+  <ion-textarea autoGrow [(ngModel)]="text" (onChange)="textChanged()"></ion-textarea>
 </ion-item>

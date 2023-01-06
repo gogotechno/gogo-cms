@@ -1,4 +1,4 @@
-<div class="container" *ngIf="winnerGroups">
+<div class="container" *ngIf="winnerGroups?.length">
   <h3 class="title">{{ 'jj._LUCKY_STARS' | translate }}</h3>
   <ion-slides [pager]="true">
     <ion-slide *ngFor="let winners of winnerGroups">

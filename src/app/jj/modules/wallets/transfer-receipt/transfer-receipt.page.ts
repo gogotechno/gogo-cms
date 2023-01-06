@@ -20,11 +20,11 @@ export class TransferReceiptPage implements OnInit {
 
   constructor(private route: ActivatedRoute, private erp: SwsErpService, private common: CommonService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.refNo = this.route.snapshot.params.refNo;
     this.walletNo = this.route.snapshot.params.walletNo;
-    this.backButtonText = this.common.getBackButtonText();
-    this.loadData();
+    await this.loadData();
   }
 
   async loadData(event?: Event) {

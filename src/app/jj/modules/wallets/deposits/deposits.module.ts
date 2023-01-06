@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { DepositsPageRoutingModule } from './deposits-routing.module';
-
+import { JJComponentsModule } from '../../@components/jj-components.module';
 import { DepositsPage } from './deposits.page';
-import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'src/app/jj/shared';
+import { CmsUIModule } from 'src/app/cms-ui/cms-ui.module';
+import { SwsErpModule } from 'src/app/sws-erp.module';
 
 @NgModule({
   imports: [
@@ -15,8 +15,11 @@ import { TranslateModule } from '@ngx-translate/core';
     FormsModule,
     IonicModule,
     DepositsPageRoutingModule,
-    TranslateModule
+    JJComponentsModule,
+    SharedModule,
+    CmsUIModule,
+    SwsErpModule,
   ],
-  declarations: [DepositsPage]
+  declarations: [DepositsPage],
 })
 export class DepositsPageModule {}

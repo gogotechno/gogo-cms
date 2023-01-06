@@ -35,17 +35,25 @@ const routes: Routes = [
     loadChildren: () => import('./create-user/create-user.module').then((m) => m.CreateUserPageModule),
   },
   {
-    path: 'merchants',
-    loadChildren: () => import('./merchants/merchants.module').then((m) => m.MerchantsPageModule),
-  },  {
     path: 'create-event',
-    loadChildren: () => import('./create-event/create-event.module').then( m => m.CreateEventPageModule)
+    loadChildren: () => import('./create-event/create-event.module').then((m) => m.CreateEventPageModule),
   },
   {
     path: 'events',
-    loadChildren: () => import('./events/events.module').then( m => m.EventsPageModule)
+    loadChildren: () => import('./events/events.module').then((m) => m.EventsPageModule),
   },
-
+  {
+    path: 'create-scratch-and-win',
+    loadChildren: () => import('./create-scratch-and-win/create-scratch-and-win.module').then((m) => m.CreateScratchAndWinPageModule),
+  },
+  {
+    path: 'scratch-and-wins',
+    loadChildren: () => import('./scratch-and-wins/scratch-and-wins.module').then((m) => m.ScratchAndWinsPageModule),
+  },
+  // {
+  //   path: 'merchants',
+  //   loadChildren: () => import('../common/merchants/merchants.module').then((m) => m.MerchantsPageModule),
+  // },
 ];
 
 @NgModule({

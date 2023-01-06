@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/rewards"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/rewards"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._MY_REWARDS" | translate }}</ion-title>
   </ion-toolbar>
@@ -21,23 +21,25 @@
   <ng-container [ngSwitch]="segmentCode">
     <ng-container *ngSwitchCase="'rewards'">
       <div class="events-container">
-        <h3 class="title">{{ "jj._JOINED_EVENTS" | translate }}</h3>
         <div *ngIf="!events?.length" class="note">
-          <ion-label>{{ "jj._NO_EVENTS_FOUND" | translate }}</ion-label>
+          <ion-label>{{ "jj._NO_JOINED_EVENTS_FOUND" | translate }}</ion-label>
         </div>
-        <div class="events" (scroll)="loadMoreEvents($event)">
-          <ion-avatar
-            *ngFor="let event of events"
-            [class.active]="event.doc_id == selectedEvent?.doc_id"
-            (click)="onEventClick(event)"
-          >
-            <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
-            <ion-img [src]="event.backgroundImage | erpImg"></ion-img>
-          </ion-avatar>
-          <div class="loading" *ngIf="distributionsLoading">
-            <ion-spinner></ion-spinner>
+        <ng-container *ngIf="events?.length">
+          <h3 class="title">{{ "jj._JOINED_EVENTS" | translate }}</h3>
+          <div class="events" (scroll)="loadMoreEvents($event)">
+            <ion-avatar
+              *ngFor="let event of events"
+              [class.active]="event.doc_id == selectedEvent?.doc_id"
+              (click)="onEventClick(event)"
+            >
+              <ion-badge color="danger">{{ event.totalOfTickets }}</ion-badge>
+              <ion-img [src]="event.backgroundImage | erpImg"></ion-img>
+            </ion-avatar>
+            <div class="loading" *ngIf="distributionsLoading">
+              <ion-spinner></ion-spinner>
+            </div>
           </div>
-        </div>
+        </ng-container>
       </div>
       <ion-list lines="full" *ngIf="events?.length" class="distributions">
         <h3 class="title">{{ selectedEvent?.nameTranslation | cmsTranslate }}</h3>

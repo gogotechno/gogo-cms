@@ -35,6 +35,10 @@ export interface UpdateResponse {
   data: any;
 }
 
+export interface UploadFileResponse {
+  url: string;
+}
+
 export interface FindUserResponse<T = DocUser> {
   message: string;
   data: T;
@@ -46,6 +50,14 @@ export interface GenerateRefreshTokenResponse {
 
 export interface GenerateAccessTokenResponse {
   data: any;
+}
+
+export interface GetPrintTemplateResponse {
+  message: string;
+  data: {
+    htmls: string[];
+    html: string;
+  };
 }
 
 export interface Pageable<T = any> {

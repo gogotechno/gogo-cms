@@ -6,8 +6,12 @@ import { WithdrawsPage } from './withdraws.page';
 const routes: Routes = [
   {
     path: '',
-    component: WithdrawsPage
-  }
+    component: WithdrawsPage,
+  },
+  {
+    path: ':refNo',
+    loadChildren: () => import('./withdraw/withdraw.module').then((m) => m.WithdrawPageModule),
+  },
 ];
 
 @NgModule({

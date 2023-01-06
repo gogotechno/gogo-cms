@@ -22,3 +22,8 @@ ion-card {
     font-weight: var(--ion-font-bold);
   }
 }
+
+ion-grid,
+ion-row {
+  height: 100%;
+}

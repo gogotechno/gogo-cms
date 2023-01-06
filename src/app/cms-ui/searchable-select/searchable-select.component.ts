@@ -1,7 +1,14 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { CmsFilterItem, OnSelectLoad, OnSelectScrollToEnd } from 'src/app/cms.type';
+import {
+  CmsTranslable,
+  OnSelectInit,
+  OnSelectLoad,
+  OnSelectScrollToEnd,
+  SearchableConfig,
+  SearchableHanlder,
+} from 'src/app/cms.type';
 import { SearchAreaComponent } from './search-area/search-area.component';
 
 @Component({
@@ -17,8 +24,13 @@ import { SearchAreaComponent } from './search-area/search-area.component';
   ],
 })
 export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
-  @Input() filterItem: CmsFilterItem;
-  @Output() filterItemChange: EventEmitter<CmsFilterItem>;
+  @Input('code') code: string;
+  @Input('label') label: CmsTranslable;
+  @Input('labelPosition') labelPosition: string;
+  @Input('config') config: SearchableConfig;
+  @Input('handler') handler: SearchableHanlder;
+  @Input('items') items: any;
+  @Output('itemsChange') itemsChange: any;
 
   value: string;
   disabled: boolean;
@@ -33,15 +45,16 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
 
   selectedItems: any[];
 
+  onInit: OnSelectInit;
   onLoad: OnSelectLoad;
   onScrollToEnd: OnSelectScrollToEnd;
 
   get labelId() {
-    return `cms-sel-${this.filterItem.code}-lbl`;
+    return `cms-sel-${this.code}-lbl`;
   }
 
   get clickId() {
-    return `cms-sel-${this.filterItem.code}-clk`;
+    return `cms-sel-${this.code}-clk`;
   }
 
   get selectedLabel() {
@@ -57,32 +70,38 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
   }
 
   constructor(private modalCtrl: ModalController) {
-    this.filterItemChange = new EventEmitter<CmsFilterItem>();
+    this.itemsChange = new EventEmitter();
   }
 
   ngOnInit() {
-    this.selectedItems = this.filterItem.selectConfig?.selectedItems || [];
-
-    this.labelFields = this.filterItem.selectConfig?.labelFields || [];
-    this.labelSeparator = this.filterItem.selectConfig?.labelSeparator || ' ';
-
-    this.codeFields = this.filterItem.selectConfig?.codeFields || [];
-    this.codeSeparator = this.filterItem.selectConfig?.codeSeparator || ' ';
-
-    this.onLoad = this.filterItem.selectHandler?.onLoad;
-    this.onScrollToEnd = this.filterItem.selectHandler?.onScrollToEnd;
-
+    this.selectedItems = [];
+    if (this.items) {
+      this.selectedItems = this.items;
+    }
+    this.labelFields = this.config?.labelFields || [];
+    this.labelSeparator = this.config?.labelSeparator || ' ';
+    this.codeFields = this.config?.codeFields || [];
+    this.codeSeparator = this.config?.codeSeparator || ' ';
+    this.onInit = this.handler?.onInit;
+    this.onLoad = this.handler?.onLoad;
+    this.onScrollToEnd = this.handler?.onScrollToEnd;
+    if (!this.onInit) {
+      console.warn('onInit is not provided!');
+    }
     if (!this.onLoad) {
       console.warn('onLoad is not provided!');
     }
-
     if (!this.onScrollToEnd) {
       console.warn('onScrollToEnd is not provided!');
     }
   }
 
-  writeValue(value: string) {
+  async writeValue(value: string) {
     this.value = value;
+    if (this.value && this.onInit) {
+      let items = await this.onInit(this.value);
+      this.selectedItems = items;
+    }
   }
 
   setDisabledState?(disabled: boolean): void {
@@ -101,7 +120,7 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
     const modal = await this.modalCtrl.create({
       component: SearchAreaComponent,
       componentProps: {
-        title: this.filterItem.label,
+        title: this.label,
         labelFields: this.labelFields,
         labelSeparator: this.labelSeparator,
         codeFields: this.codeFields,
@@ -116,9 +135,8 @@ export class SearchableSelectComponent implements OnInit, ControlValueAccessor {
     if (data?.items) {
       this.selectedItems = data?.items;
       this.onChange(this.selectCode);
-
-      this.filterItem.selectConfig.selectedItems = this.selectedItems;
-      this.filterItemChange.emit(this.filterItem);
+      this.items = this.selectedItems;
+      this.itemsChange.emit(this.items);
     }
   }
 }

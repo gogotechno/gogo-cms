@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="onDismiss()">
-        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
-      </ion-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/merchant/users"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._CREATE_USER" | translate }}</ion-title>
   </ion-toolbar>
