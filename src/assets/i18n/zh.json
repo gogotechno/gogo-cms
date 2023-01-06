@@ -573,8 +573,8 @@
     "_SEQUENCE": "顺序",
     "_EVENT_RESULTS": "成绩",
     "_FINANCE": "金融",
-    "_NEW_ DEPOSITS": "新增存款",
-    "_NEW_ WITHDRAWS": "新增提取",
+    "_NEW_DEPOSITS": "新增存款",
+    "_NEW_WITHDRAWS": "新增提取",
     "_UNKNOWN_RELATIONSHIP": "未知关系",
     "_WALLET_NOT_FOUND": "未找到钱包",
     "_NO_DEFAULT_CURRENCY_CONFIGURED": "未设置默认货币",
@@ -590,6 +590,16 @@
     "_INVALID_PRIZE_FOUND": "发现无效奖品",
     "_CREATE_SCRATCH_AND_WIN_EVENT": "创建刮刮乐活动",
     "_SCRATCH_AND_WIN_EVENTS": "刮刮乐活动",
-    "_SCRATCH_AND_WIN_EVENT": "刮刮乐活动"
+    "_SCRATCH_AND_WIN_EVENT": "刮刮乐活动",
+    "_STATEMENT_REPORTS": "结单报告",
+    "_NO_REPORTS_FOUND": "未找到报告",
+    "_CONFIRM_TO_DEPOSIT": "确认创建存款？",
+    "_CONFIRM_TO_WITHDRAW": "确认创建提取？",
+    "_CHOOSE_BANK_ACCOUNT": "选择银行账户",
+    "_CREATE_BANK_ACCOUNT": "创建银行账户",
+    "_CONFIRM_TO_APPROVE_DEPOSIT": "确认批准存款？",
+    "_CONFIRM_TO_DECLINE_DEPOSIT": "确认拒绝存款？",
+    "_CONFIRM_TO_APPROVE_WITHDRAW": "确认批准提取？",
+    "_CONFIRM_TO_DECLINE_WITHDRAW": "确认拒绝提取？"
   }
 }

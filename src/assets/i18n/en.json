@@ -578,6 +578,16 @@
     "_NO_ACCOUNTS_FOUND": "No accounts found",
     "_CREATE_SCRATCH_AND_WIN_EVENT": "Create S&W Event",
     "_SCRATCH_AND_WIN_EVENTS": "S&W Events",
-    "_SCRATCH_AND_WIN_EVENT": "S&W Event"
+    "_SCRATCH_AND_WIN_EVENT": "S&W Event",
+    "_STATEMENT_REPORTS": "Statement Reports",
+    "_NO_REPORTS_FOUND": "No reports found",
+    "_CONFIRM_TO_DEPOSIT": "Confirm to create deposit?",
+    "_CONFIRM_TO_WITHDRAW": "Confirm to create withdraw?",
+    "_CHOOSE_BANK_ACCOUNT": "Choose Bank Account",
+    "_CREATE_BANK_ACCOUNT": "Create Bank Account",
+    "_CONFIRM_TO_APPROVE_DEPOSIT": "Confirm to approve deposit?",
+    "_CONFIRM_TO_DECLINE_DEPOSIT": "Confirm to decline deposit?",
+    "_CONFIRM_TO_APPROVE_WITHDRAW": "Confirm to approve withdraw?",
+    "_CONFIRM_TO_DECLINE_WITHDRAW": "Confirm to decline withdraw?"
   }
 }

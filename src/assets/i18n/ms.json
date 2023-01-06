@@ -573,8 +573,8 @@
     "_SEQUENCE": "Urutan",
     "_EVENT_RESULTS": "Acara",
     "_FINANCE": "Kewangan",
-    "_NEW_ DEPOSIT": "Deposit Baharu",
-    "_NEW_ WITHDRAWS": "Pengeluaran Baharu",
+    "_NEW_DEPOSITS": "Deposit Baharu",
+    "_NEW_WITHDRAWS": "Pengeluaran Baharu",
     "_UNKNOWN_RELATIONSHIP": "Perhubungan tidak diketahui",
     "_WALLET_NOT_FOUND": "Dompet tidak ditemui",
     "_NO_DEFAULT_CURRENCY_CONFIGURED": "Tiada mata wang lalai dikonfigurasikan",
@@ -593,6 +593,16 @@
     "_NO_ACCOUNTS_FOUND": "Tiada akaun ditemui",
     "_CREATE_SCRATCH_AND_WIN_EVENT": "Buat Acara S&W",
     "_SCRATCH_AND_WIN_EVENTS": "Acara S&W",
-    "_SCRATCH_AND_WIN_EVENT": "Acara S&W"
+    "_SCRATCH_AND_WIN_EVENT": "Acara S&W",
+    "_STATEMENT_REPORTS": "Laporan Penyata",
+    "_NO_REPORTS_FOUND": "Tiada laporan ditemui",
+    "_CONFIRM_TO_DEPOSIT": "Sahkan untuk membuat deposit?",
+    "_CONFIRM_TO_WITHDRAW": "Sahkan untuk membuat pengeluaran?",
+    "_CHOOSE_BANK_ACCOUNT": "Pilih Akaun Bank",
+    "_CREATE_BANK_ACCOUNT": "Buat Akaun Bank",
+    "_CONFIRM_TO_APPROVE_DEPOSIT": "Sahkan untuk meluluskan deposit?",
+    "_CONFIRM_TO_DECLINE_DEPOSIT": "Sahkan untuk menolak deposit?",
+    "_CONFIRM_TO_APPROVE_WITHDRAW": "Sahkan untuk meluluskan pengeluaran?",
+    "_CONFIRM_TO_DECLINE_WITHDRAW": "Sahkan untuk menolak pengeluaran?"
   }
 }
