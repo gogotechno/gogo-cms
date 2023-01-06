@@ -574,6 +574,22 @@
     "_EVENT_RESULTS": "成绩",
     "_FINANCE": "金融",
     "_NEW_ DEPOSITS": "新增存款",
-    "_NEW_ WITHDRAWS": "新增提取"
+    "_NEW_ WITHDRAWS": "新增提取",
+    "_UNKNOWN_RELATIONSHIP": "未知关系",
+    "_WALLET_NOT_FOUND": "未找到钱包",
+    "_NO_DEFAULT_CURRENCY_CONFIGURED": "未设置默认货币",
+    "_TARGET_CURRENCY_NOT_FOUND": "未找到目标货币",
+    "_BANK_ACCOUNT_ALREADY_EXISTS": "银行账户已存在",
+    "_PHONE_ALREADY_EXISTS": "电话已存在",
+    "_CANNOT_CHANGE_COMPLETED_DEPOSIT_REQUEST": "无法更改已完成的存款请求",
+    "_CANNOT_CHANGE_COMPLETED_WITHDRAW_REQUEST": "无法更改已完成的提款请求",
+    "_NO_SYSTEM_WALLET_CONFIGURED": "未设置系统钱包",
+    "_METHOD_IS_NOT_ACTIVATED": "方法未激活",
+    "_DEPOSIT_IS_NOT_ALLOWED": "存款不被允许",
+    "_WITHDRAW_IS_NOT_ALLOWED": "提款不被允许",
+    "_INVALID_PRIZE_FOUND": "发现无效奖品",
+    "_CONFIRM_TO_CREATE_EVENT": "确认创建活动？",
+    "_EVENT_CREATED": "活动已创建",
+    "_NO_ACCOUNTS_FOUND": "未找到账户"
   }
 }

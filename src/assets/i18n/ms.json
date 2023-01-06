@@ -574,6 +574,22 @@
     "_EVENT_RESULTS": "Acara",
     "_FINANCE": "Kewangan",
     "_NEW_ DEPOSIT": "Deposit Baharu",
-    "_NEW_ WITHDRAWS": "Pengeluaran Baharu"
+    "_NEW_ WITHDRAWS": "Pengeluaran Baharu",
+    "_UNKNOWN_RELATIONSHIP": "Perhubungan tidak diketahui",
+    "_WALLET_NOT_FOUND": "Dompet tidak ditemui",
+    "_NO_DEFAULT_CURRENCY_CONFIGURED": "Tiada mata wang lalai dikonfigurasikan",
+    "_TARGET_CURRENCY_NOT_FOUND": "Mata wang sasaran tidak ditemui",
+    "_BANK_ACCOUNT_ALREADY_EXISTS": "Akaun bank sudah wujud",
+    "_PHONE_ALREADY_EXISTS": "Telefon sudah wujud",
+    "_CANNOT_CHANGE_COMPLETED_DEPOSIT_REQUEST": "Tidak boleh menukar permintaan deposit yang lengkap",
+    "_CANNOT_CHANGE_COMPLETED_WITHDRAW_REQUEST": "Tidak boleh menukar permintaan pengeluaran yang lengkap",
+    "_NO_SYSTEM_WALLET_CONFIGURED": "Tiada dompet sistem dikonfigurasikan",
+    "_METHOD_IS_NOT_ACTIVATED": "Kaedah tidak diaktifkan",
+    "_DEPOSIT_IS_NOT_ALLOWED": "Deposit tidak dibenarkan",
+    "_WITHDRAW_IS_NOT_ALLOWED": "Pengeluaran tidak dibenarkan",
+    "_INVALID_PRIZE_FOUND": "Hadiah yang tidak sah ditemui",
+    "_CONFIRM_TO_CREATE_EVENT": "Sahkan untuk membuat acara?",
+    "_EVENT_CREATED": "Acara dibuat",
+    "_NO_ACCOUNTS_FOUND": "Tiada akaun ditemui"
   }
 }

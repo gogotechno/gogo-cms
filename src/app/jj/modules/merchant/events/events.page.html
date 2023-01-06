@@ -33,7 +33,7 @@
     </ion-refresher>
     <ion-list>
       <div *ngIf="!events?.length" class="note">
-        <ion-label>{{ '_NO_EVENTS_FOUND' | translate }}</ion-label>
+        <ion-label>{{ 'jj._NO_EVENTS_FOUND' | translate }}</ion-label>
       </div>
       <ion-item lines="full" class="event" *ngFor="let event of events" [routerLink]="[event.doc_id]">
         <ion-thumbnail slot="start">

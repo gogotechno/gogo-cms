@@ -559,6 +559,22 @@
     "_EVENT_RESULTS": "Results",
     "_FINANCE": "Finance",
     "_NEW_DEPOSITS": "New Deposits",
-    "_NEW_WITHDRAWS": "New Withdraws"
+    "_NEW_WITHDRAWS": "New Withdraws",
+    "_UNKNOWN_RELATIONSHIP": "Unknown relationship",
+    "_WALLET_NOT_FOUND": "Wallet not found",
+    "_NO_DEFAULT_CURRENCY_CONFIGURED": "No default currency configured",
+    "_TARGET_CURRENCY_NOT_FOUND": "Target currency not found",
+    "_BANK_ACCOUNT_ALREADY_EXISTS": "Bank account alreadt exists",
+    "_PHONE_ALREADY_EXISTS": "Phone already exists",
+    "_CANNOT_CHANGE_COMPLETED_DEPOSIT_REQUEST": "Cannot change completed deposit request",
+    "_CANNOT_CHANGE_COMPLETED_WITHDRAW_REQUEST": "Cannot change completed withdraw request",
+    "_NO_SYSTEM_WALLET_CONFIGURED": "No system wallet configured",
+    "_METHOD_IS_NOT_ACTIVATED": "Method is not activated",
+    "_DEPOSIT_IS_NOT_ALLOWED": "Deposit is not allowed",
+    "_WITHDRAW_IS_NOT_ALLOWED": "Withdraw is not allowed",
+    "_INVALID_PRIZE_FOUND": "Invalid prize found",
+    "_CONFIRM_TO_CREATE_EVENT": "Confirm to create event?",
+    "_EVENT_CREATED": "Event created",
+    "_NO_ACCOUNTS_FOUND": "No accounts found"
   }
 }
