@@ -33,7 +33,7 @@ export class DepositRequestPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.backButtonText = this.common.getBackButtonText();
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.refNo = params['refNo'];
     await this.loadData();

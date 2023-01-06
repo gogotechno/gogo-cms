@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJScratchAndWinEvent } from 'src/app/jj/typings';
 import { MerchantService } from '../../merchant.service';
@@ -13,6 +13,7 @@ import { MerchantService } from '../../merchant.service';
   styleUrls: ['./scratch-and-win-details.page.scss'],
 })
 export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   eventId: number;
   event: JJScratchAndWinEvent;
   form: CmsForm;
@@ -21,12 +22,14 @@ export class ScratchAndWinDetailsPage extends SharedComponent implements OnInit 
     private route: ActivatedRoute,
     private appUtils: AppUtils,
     private core: CoreService,
+    private common: CommonService,
     private merchantService: MerchantService,
   ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.form = await this.merchantService.getSnwEventForm();
     this.form.submitButtonId = 'edit-snw-event-btn';
     const params = this.route.snapshot.params;

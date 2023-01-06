@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { JJCustomer, JJUser } from 'src/app/jj/typings';
 import { MoreOptionsComponent } from './@component/more-options/more-options.component';
 
@@ -13,6 +13,7 @@ import { MoreOptionsComponent } from './@component/more-options/more-options.com
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+  backButtonText: string;
   currentUser: JJUser;
   customerId: number;
   customer: JJCustomer;
@@ -25,9 +26,12 @@ export class DetailsPage implements OnInit {
     private appUtils: AppUtils,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
   ) {}
 
   async ngOnInit() {
+    this.form = this.currentUser.role == 'SYSTEM_ADMIN' ? systemForm : merchantForm;
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.customerId = params.id;
     this.currentUser = <JJUser>this.auth.currentUser;
@@ -35,7 +39,6 @@ export class DetailsPage implements OnInit {
   }
 
   async loadData() {
-    this.form = this.currentUser.role == 'SYSTEM_ADMIN' ? systemForm : merchantForm;
     this.customer = await this.core.getCustomerById(this.customerId);
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent } from 'src/app/jj/typings';
 import { MerchantService } from '../../merchant.service';
@@ -13,20 +13,23 @@ import { MerchantService } from '../../merchant.service';
   styleUrls: ['./event-details.page.scss'],
 })
 export class EventDetailsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   eventId: number;
   event: JJEvent;
   form: CmsForm;
 
   constructor(
     private route: ActivatedRoute,
-    private core: CoreService,
     private appUtils: AppUtils,
+    private core: CoreService,
+    private common: CommonService,
     private merchantService: MerchantService,
   ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.form = await this.merchantService.getEventForm();
     this.form.submitButtonId = 'edit-event-btn';
     const params = this.route.snapshot.params;

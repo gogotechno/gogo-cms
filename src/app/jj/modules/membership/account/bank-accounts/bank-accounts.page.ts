@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./bank-accounts.page.scss'],
 })
 export class BankAccountsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   accountsPage: Pagination;
   accounts: JJBankAccount[];
   accountsEnded: boolean;
@@ -19,7 +20,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
   merchantId: number;
   accountId: number;
 
-  constructor(private route: ActivatedRoute, private auth: AuthService) {
+  constructor(private route: ActivatedRoute, private auth: AuthService, private common: CommonService) {
     super();
   }
 
@@ -29,6 +30,7 @@ export class BankAccountsPage extends SharedComponent implements OnInit {
         await this.loadData();
       }
     });
+    this.backButtonText = await this.common.getBackButtonText();
     await this.loadData();
   }
 

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { JJBankAccount } from 'src/app/jj/typings';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { Pagination } from 'src/app/sws-erp.type';
 import { SharedComponent } from 'src/app/jj/shared';
 
@@ -13,6 +13,7 @@ import { SharedComponent } from 'src/app/jj/shared';
   styleUrls: ['./bank-account.page.scss'],
 })
 export class BankAccountPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   bank: any;
   accountId: number;
@@ -23,12 +24,14 @@ export class BankAccountPage extends SharedComponent implements OnInit {
     private appUtils: AppUtils,
     private app: AppUtils,
     private core: CoreService,
+    private common: CommonService,
   ) {
     super();
   }
 
   async ngOnInit() {
     this.form = this._form;
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.accountId = params.id;
     await this.loadData();

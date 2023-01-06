@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWalletTransaction } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -13,6 +13,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   providers: [DatePipe],
 })
 export class TransactionsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   transactionsPage: Pagination;
@@ -28,6 +29,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private core: CoreService,
+    private common: CommonService,
     private date: DatePipe,
     private router: Router,
   ) {
@@ -35,6 +37,7 @@ export class TransactionsPage extends SharedComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params.walletNo;
     await this.loadData();

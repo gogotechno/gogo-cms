@@ -33,7 +33,7 @@ export class WalletPage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.backButtonText = this.common.getBackButtonText();
+    this.backButtonText = await this.common.getBackButtonText();
     let params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     this.walletsService.transferSuccess.pipe(takeUntil(this.destroy$)).subscribe((change) => {

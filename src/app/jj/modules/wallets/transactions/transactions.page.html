@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/wallets"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/wallets"></ion-back-button>
     </ion-buttons>
     <div class="ion-padding-horizontal" *ngIf="wallet">
       <h1 class="header-title">{{ wallet.walletNo }}</h1>

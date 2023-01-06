@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/finance"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/finance"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._DEPOSIT_REQUESTS" | translate }}</ion-title>
     <ion-buttons slot="end">

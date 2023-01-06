@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJEvent, JJTicketDistribution, JJWinner, User } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -10,6 +10,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   styleUrls: ['./list.page.scss'],
 })
 export class ListPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   segmentButtons = segmentButtons;
   segmentCode: SegmentCode;
 
@@ -29,11 +30,12 @@ export class ListPage extends SharedComponent implements OnInit {
   winnersEnded: boolean;
   winners: JJWinner[];
 
-  constructor(private auth: AuthService, private core: CoreService) {
+  constructor(private auth: AuthService, private core: CoreService, private common: CommonService) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.currentUser = this.auth.currentUser;
     this.segmentCode = 'rewards';
     await this.loadEvents();

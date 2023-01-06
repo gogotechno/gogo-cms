@@ -30,10 +30,10 @@ export class RegisterPage implements OnInit {
     private common: CommonService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.referrerCode = this.route.snapshot.queryParams.referrerCode;
-    this.backButtonText = this.common.getBackButtonText();
-    this.loadData();
+    await this.loadData();
   }
 
   async loadData(event?: Event) {

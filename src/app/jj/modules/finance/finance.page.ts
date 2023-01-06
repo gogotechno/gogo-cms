@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Conditions } from 'src/app/sws-erp.type';
-import { CoreService } from '../../services';
+import { CommonService, CoreService } from '../../services';
 
 @Component({
   selector: 'app-finance',
@@ -8,12 +8,14 @@ import { CoreService } from '../../services';
   styleUrls: ['./finance.page.scss'],
 })
 export class FinancePage implements OnInit {
+  backButtonText: string;
   depositsCount: number;
   withdrawsCount: number;
 
-  constructor(private core: CoreService) {}
+  constructor(private core: CoreService, private common: CommonService) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     let conditions: Conditions = {
       status: 'PROCESSING',
       status_type: '=',

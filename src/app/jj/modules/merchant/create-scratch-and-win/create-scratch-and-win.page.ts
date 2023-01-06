@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
 import { MerchantService } from '../merchant.service';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { JJScratchAndWinEvent } from 'src/app/jj/typings';
 
 @Component({
@@ -12,6 +12,7 @@ import { JJScratchAndWinEvent } from 'src/app/jj/typings';
   styleUrls: ['./create-scratch-and-win.page.scss'],
 })
 export class CreateScratchAndWinPage implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   value: Partial<JJScratchAndWinEvent>;
 
@@ -20,10 +21,12 @@ export class CreateScratchAndWinPage implements OnInit {
     private appUtils: AppUtils,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
     private merchantService: MerchantService,
   ) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.form = await this.merchantService.getSnwEventForm();
     this.form.submitButtonId = 'create-snw-event-btn';
     let merchantId = await this.auth.findMyMerchantId();

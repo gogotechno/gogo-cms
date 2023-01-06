@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { FullNamePipe } from 'src/app/cms-ui/cms.pipe';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { JJUser } from 'src/app/jj/typings';
 import { DocStatus } from 'src/app/sws-erp.type';
 import { MoreOptionsComponent } from './@component/more-options/more-options.component';
@@ -17,11 +17,10 @@ import { MoreOptionsComponent } from './@component/more-options/more-options.com
   styleUrls: ['./details.page.scss'],
 })
 export class DetailsPage implements OnInit {
+  backButtonText: string;
   userId: number;
   user: JJUser;
-
   form: CmsForm;
-
   destroy$: Subject<boolean>;
 
   constructor(
@@ -34,14 +33,15 @@ export class DetailsPage implements OnInit {
     private cmsUtils: CmsUtils,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
   ) {
     this.destroy$ = new Subject<boolean>();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.userId = params.id;
-
     await this.loadData();
   }
 

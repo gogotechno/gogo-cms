@@ -3,7 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { PhoneNumberVerificationComponent } from 'src/app/cms-ui/phone-number-verification/phone-number-verification.component';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService } from 'src/app/jj/services';
+import { AuthService, CommonService } from 'src/app/jj/services';
 import { JJCustomer, User } from 'src/app/jj/typings';
 import { AccountService } from '../@services/account.service';
 
@@ -13,29 +13,31 @@ import { AccountService } from '../@services/account.service';
   styleUrls: ['./edit-profile.page.scss'],
 })
 export class EditProfilePage implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   user: User;
 
   constructor(
-    private app: AppUtils,
     private auth: AuthService,
-    private account: AccountService,
-    private modalController: ModalController,
     private appUtils: AppUtils,
+    private modalCtrl: ModalController,
+    private common: CommonService,
+    private account: AccountService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.form = this.auth.userRole == 'CUSTOMER' ? customerform : userForm;
+    this.backButtonText = await this.common.getBackButtonText();
     this.account.user.subscribe((user) => (this.user = user));
   }
 
   async onSubmit(data: User) {
-    const confirm = await this.app.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
+    const confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_UPDATE_PROFILE');
     if (!confirm) {
       return;
     }
     if (this.auth.userRole == 'CUSTOMER') {
-      const modal = await this.modalController.create({
+      const modal = await this.modalCtrl.create({
         component: PhoneNumberVerificationComponent,
         componentProps: {
           phone: `+6${(<JJCustomer>data).phone}`,
@@ -48,7 +50,7 @@ export class EditProfilePage implements OnInit {
         if (v.data.status === 'success') {
           try {
             await this.auth.updateMe(data);
-            await this.app.presentAlert('jj-luckydraw._PROFILE_UPDATED', '_SUCCESS');
+            await this.appUtils.presentAlert('jj-luckydraw._PROFILE_UPDATED', '_SUCCESS');
           } catch (error) {
             await this.appUtils.presentAlert(error.error?.error || error?.message, '_FAILED');
           }
@@ -59,7 +61,7 @@ export class EditProfilePage implements OnInit {
       await modal.present();
     } else {
       await this.auth.updateMe(data);
-      await this.app.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
+      await this.appUtils.presentAlert('jj._PROFILE_UPDATED', '_SUCCESS');
     }
   }
 }

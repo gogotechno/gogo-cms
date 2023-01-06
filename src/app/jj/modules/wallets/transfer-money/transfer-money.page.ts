@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJWallet } from 'src/app/jj/typings';
 import { ErpTranslationPipe } from 'src/app/sws-erp.pipe';
 import { HomeService as MemberHomeService } from '../../membership/home/@services/home.service';
@@ -15,6 +15,7 @@ import { WalletsService } from '../wallets.service';
   styleUrls: ['./transfer-money.page.scss'],
 })
 export class TransferMoneyPage implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   toWalletNo: string;
@@ -30,17 +31,17 @@ export class TransferMoneyPage implements OnInit {
     private walletsService: WalletsService,
     private appUtils: AppUtils,
     private core: CoreService,
+    private common: CommonService,
   ) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params.walletNo;
     this.toWalletNo = params.toWalletNo;
-
     let state = this.router.getCurrentNavigation().extras.state;
     this.wallet = state?.['wallet'] || (await this.core.getWalletByNo(this.walletNo));
     this.toWallet = state?.['toWallet'] || (await this.core.getWalletByNo(this.toWalletNo));
-
     await this.calculateBalance();
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { JJMerchant, JJUser } from 'src/app/jj/typings';
 
 @Component({
@@ -11,6 +11,7 @@ import { JJMerchant, JJUser } from 'src/app/jj/typings';
   styleUrls: ['./create-user.page.scss'],
 })
 export class CreateUserPage implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   user: Partial<JJUser>;
   merchant: JJMerchant;
@@ -22,10 +23,12 @@ export class CreateUserPage implements OnInit {
     private appUtils: AppUtils,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
   ) {}
 
   async ngOnInit() {
     this.form = form;
+    this.backButtonText = await this.common.getBackButtonText();
     const roles = await this.auth.findMyUserRoles();
     const roleField = this.form.items.find((item) => item.code == 'role');
     roleField.options = roles.map((role) => ({

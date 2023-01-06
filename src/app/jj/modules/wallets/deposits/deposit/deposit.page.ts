@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalController } from '@ionic/angular';
-import { AppUtils } from 'src/app/cms.util';
 import { CommonService, CoreService } from 'src/app/jj/services';
 import { JJDepositRequest } from 'src/app/jj/typings';
 import { WalletsService } from '../../wallets.service';
@@ -27,15 +25,13 @@ export class DepositPage implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private modalCtrl: ModalController,
-    private appUtils: AppUtils,
     private core: CoreService,
     private common: CommonService,
     private walletsService: WalletsService,
   ) {}
 
   async ngOnInit() {
-    this.backButtonText = this.common.getBackButtonText();
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     this.refNo = params['refNo'];

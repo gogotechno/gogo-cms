@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { JJEvent } from 'src/app/jj/typings';
 import { MerchantService } from '../merchant.service';
 
@@ -12,6 +12,7 @@ import { MerchantService } from '../merchant.service';
   styleUrls: ['./create-event.page.scss'],
 })
 export class CreateEventPage implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   value: Partial<JJEvent>;
 
@@ -20,10 +21,12 @@ export class CreateEventPage implements OnInit {
     private appUtils: AppUtils,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
     private merchantService: MerchantService,
   ) {}
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.form = await this.merchantService.getEventForm();
     this.form.submitButtonId = 'create-event-btn';
     let merchantId = await this.auth.findMyMerchantId();

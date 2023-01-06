@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import html2pdf from 'html2pdf.js';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWalletStatementReport } from 'src/app/jj/typings';
 import { SwsErpService } from 'src/app/sws-erp.service';
@@ -14,6 +14,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   styleUrls: ['./statement-reports.page.scss'],
 })
 export class StatementReportsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletNo: string;
   wallet: JJWallet;
   reportsPage: Pagination;
@@ -26,11 +27,13 @@ export class StatementReportsPage extends SharedComponent implements OnInit {
     private appUtils: AppUtils,
     private swsErp: SwsErpService,
     private core: CoreService,
+    private common: CommonService,
   ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params['walletNo'];
     await this.loadData();

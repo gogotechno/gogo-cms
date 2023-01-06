@@ -171,8 +171,11 @@ export class CommonService {
     return url;
   }
 
-  getBackButtonText() {
-    return this.platform.is('ios') ? '_BACK' : '';
+  async getBackButtonText() {
+    if (this.platform.is('ios')) {
+      return await this.translate.get('_BACK').toPromise();
+    }
+    return '';
   }
 
   parseJson(value: string) {

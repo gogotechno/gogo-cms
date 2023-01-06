@@ -9,15 +9,15 @@ import { Pagination } from 'src/app/sws-erp.type';
   styleUrls: ['./merchants.page.scss'],
 })
 export class MerchantsPage implements OnInit {
-  readonly itemsPerPage = 20;
+  backButtonText: string;
+  itemsPerPage = 20;
   currentPage = 1;
   merchants$: Promise<JJMerchant[]>;
-  backButtonText: string;
 
   constructor(private core: CoreService, private common: CommonService) {}
 
-  ngOnInit() {
-    this.backButtonText = this.common.getBackButtonText();
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     this.loadData();
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService, CoreService } from 'src/app/jj/services';
+import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJWallet, JJWalletTransaction, WalletType } from 'src/app/jj/typings';
 import { SwsErpService } from 'src/app/sws-erp.service';
@@ -12,6 +12,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   styleUrls: ['./list.page.scss'],
 })
 export class ListPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   walletId: number;
   wallet: JJWallet;
   transactionsPage: Pagination;
@@ -22,12 +23,14 @@ export class ListPage extends SharedComponent implements OnInit {
     private route: ActivatedRoute,
     private auth: AuthService,
     private core: CoreService,
+    private common: CommonService,
     private erp: SwsErpService,
   ) {
     super();
   }
 
   async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const queryParams = this.route.snapshot.queryParams;
     this.walletId = queryParams['walletId'];
     await this.loadData();

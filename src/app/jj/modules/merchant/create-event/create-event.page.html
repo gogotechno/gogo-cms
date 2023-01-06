@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/merchant">
-        <ion-title>{{ "jj._MERCHANT" | translate }}</ion-title>
-      </ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/merchant"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._CREATE_EVENT" | translate }}</ion-title>
   </ion-toolbar>

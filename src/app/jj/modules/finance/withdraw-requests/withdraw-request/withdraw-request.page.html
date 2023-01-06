@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/jj/finance/withdraw-requests"></ion-back-button>
+      <ion-back-button [text]="backButtonText" defaultHref="/jj/finance/withdraw-requests"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ "jj._WITHDRAW_REQUEST" | translate }}</ion-title>
   </ion-toolbar>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 
 @Component({
   selector: 'app-create-transfer',
@@ -10,6 +10,7 @@ import { CoreService } from 'src/app/jj/services';
   styleUrls: ['./create-transfer.page.scss'],
 })
 export class CreateTransferPage implements OnInit {
+  backButtonText: string;
   walletNo: string;
   form = form;
 
@@ -18,9 +19,11 @@ export class CreateTransferPage implements OnInit {
     private route: ActivatedRoute,
     private appUtils: AppUtils,
     private core: CoreService,
+    private common: CommonService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.walletNo = params.walletNo;
   }

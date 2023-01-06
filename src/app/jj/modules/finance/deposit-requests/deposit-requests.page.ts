@@ -4,7 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CmsFilter } from 'src/app/cms.type';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { DepositRequestStatus, JJDepositRequest } from 'src/app/jj/typings';
 import { Conditions, Pagination } from 'src/app/sws-erp.type';
@@ -18,6 +18,7 @@ import { FilterComponent } from './@components/filter/filter.component';
   styleUrls: ['./deposit-requests.page.scss'],
 })
 export class DepositRequestsPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   updatedAt: Date;
   requestsPage: Pagination;
   requestsEnded: boolean;
@@ -32,6 +33,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
     private date: DatePipe,
     private modalCtrl: ModalController,
     private core: CoreService,
+    private common: CommonService,
     private walletsService: WalletsService,
     private financeService: FinanceService,
   ) {
@@ -48,6 +50,7 @@ export class DepositRequestsPage extends SharedComponent implements OnInit {
 
   async ngOnInit() {
     this.filter = this._filter;
+    this.backButtonText = await this.common.getBackButtonText();
     this.requestsConditions = this._conditions;
     this.financeService.depositChange.pipe(takeUntil(this.destroy$)).subscribe(async (change) => {
       if (change && this.initialized) {

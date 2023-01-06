@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button [defaultHref]="'/jj/wallets/' + walletNo"></ion-back-button>
+      <ion-back-button [text]="backButtonText" [defaultHref]="'/jj/wallets/' + walletNo"></ion-back-button>
     </ion-buttons>
     <ion-title>{{ 'jj._CHANGE_PIN' | translate }}</ion-title>
   </ion-toolbar>

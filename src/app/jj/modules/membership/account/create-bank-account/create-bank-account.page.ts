@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils } from 'src/app/cms.util';
-import { CoreService } from 'src/app/jj/services';
+import { CommonService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { JJBankAccount } from 'src/app/jj/typings';
 import { Pagination } from 'src/app/sws-erp.type';
@@ -13,6 +13,7 @@ import { Pagination } from 'src/app/sws-erp.type';
   styleUrls: ['./create-bank-account.page.scss'],
 })
 export class CreateBankAccountPage extends SharedComponent implements OnInit {
+  backButtonText: string;
   form: CmsForm;
   eventId: number;
   accountId: number;
@@ -22,12 +23,14 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
     private route: ActivatedRoute,
     private appUtils: AppUtils,
     private core: CoreService,
+    private common: CommonService,
   ) {
     super();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.form = this._form;
+    this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.eventId = params.id;
   }
