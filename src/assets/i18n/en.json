@@ -575,6 +575,9 @@
     "_INVALID_PRIZE_FOUND": "Invalid prize found",
     "_CONFIRM_TO_CREATE_EVENT": "Confirm to create event?",
     "_EVENT_CREATED": "Event created",
-    "_NO_ACCOUNTS_FOUND": "No accounts found"
+    "_NO_ACCOUNTS_FOUND": "No accounts found",
+    "_CREATE_SCRATCH_AND_WIN_EVENT": "Create S&W Event",
+    "_SCRATCH_AND_WIN_EVENTS": "S&W Events",
+    "_SCRATCH_AND_WIN_EVENT": "S&W Event"
   }
 }

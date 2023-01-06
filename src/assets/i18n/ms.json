@@ -590,6 +590,9 @@
     "_INVALID_PRIZE_FOUND": "Hadiah yang tidak sah ditemui",
     "_CONFIRM_TO_CREATE_EVENT": "Sahkan untuk membuat acara?",
     "_EVENT_CREATED": "Acara dibuat",
-    "_NO_ACCOUNTS_FOUND": "Tiada akaun ditemui"
+    "_NO_ACCOUNTS_FOUND": "Tiada akaun ditemui",
+    "_CREATE_SCRATCH_AND_WIN_EVENT": "Buat Acara S&W",
+    "_SCRATCH_AND_WIN_EVENTS": "Acara S&W",
+    "_SCRATCH_AND_WIN_EVENT": "Acara S&W"
   }
 }

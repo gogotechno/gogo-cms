@@ -588,8 +588,8 @@
     "_DEPOSIT_IS_NOT_ALLOWED": "存款不被允许",
     "_WITHDRAW_IS_NOT_ALLOWED": "提款不被允许",
     "_INVALID_PRIZE_FOUND": "发现无效奖品",
-    "_CONFIRM_TO_CREATE_EVENT": "确认创建活动？",
-    "_EVENT_CREATED": "活动已创建",
-    "_NO_ACCOUNTS_FOUND": "未找到账户"
+    "_CREATE_SCRATCH_AND_WIN_EVENT": "创建刮刮乐活动",
+    "_SCRATCH_AND_WIN_EVENTS": "刮刮乐活动",
+    "_SCRATCH_AND_WIN_EVENT": "刮刮乐活动"
   }
 }
