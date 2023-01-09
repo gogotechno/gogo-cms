@@ -14,7 +14,6 @@ import { MoreOptionsComponent } from './@component/more-options/more-options.com
 })
 export class DetailsPage implements OnInit {
   backButtonText: string;
-  currentUser: JJUser;
   customerId: number;
   customer: JJCustomer;
 
@@ -30,11 +29,10 @@ export class DetailsPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.form = this.currentUser.role == 'SYSTEM_ADMIN' ? systemForm : merchantForm;
+    this.form = (<JJUser>this.auth.currentUser).role == 'SYSTEM_ADMIN' ? systemForm : merchantForm;
     this.backButtonText = await this.common.getBackButtonText();
     const params = this.route.snapshot.params;
     this.customerId = params.id;
-    this.currentUser = <JJUser>this.auth.currentUser;
     await this.loadData();
   }
 

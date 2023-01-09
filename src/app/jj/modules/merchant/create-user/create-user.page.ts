@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { CmsForm } from 'src/app/cms.type';
 import { AppUtils, CmsUtils } from 'src/app/cms.util';
 import { AuthService, CommonService, CoreService } from 'src/app/jj/services';
@@ -11,6 +12,7 @@ import { JJMerchant, JJUser } from 'src/app/jj/typings';
   styleUrls: ['./create-user.page.scss'],
 })
 export class CreateUserPage implements OnInit {
+  pageType = 'page';
   backButtonText: string;
   form: CmsForm;
   user: Partial<JJUser>;
@@ -19,6 +21,7 @@ export class CreateUserPage implements OnInit {
 
   constructor(
     private router: Router,
+    private modalCtrl: ModalController,
     private cmsUtils: CmsUtils,
     private appUtils: AppUtils,
     private auth: AuthService,
@@ -43,6 +46,10 @@ export class CreateUserPage implements OnInit {
       email: '',
       password: '',
     };
+  }
+
+  async onDismiss() {
+    await this.modalCtrl.dismiss();
   }
 
   async onCreateUser(user: JJUser) {

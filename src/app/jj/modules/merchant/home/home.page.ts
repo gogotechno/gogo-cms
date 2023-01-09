@@ -45,6 +45,9 @@ export class HomePage implements OnInit {
   async onCreateUser() {
     const modal = await this.modalCtrl.create({
       component: CreateUserPage,
+      componentProps: {
+        pageType: 'modal',
+      },
     });
     await modal.present();
   }

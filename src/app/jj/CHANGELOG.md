@@ -11,7 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Cannot get wallet when transfer
+- Fix cannot get wallet when transfer
+- Fix form component cannot get submmit button id
+- Fix form component cannot initialize form group
+- Fix create user form cannot be dismissed
+- Fix create customer form cannot initialize form
 
 ## [Released]
 
