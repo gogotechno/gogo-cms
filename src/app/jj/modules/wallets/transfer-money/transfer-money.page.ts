@@ -39,7 +39,7 @@ export class TransferMoneyPage implements OnInit {
     const params = this.route.snapshot.params;
     this.walletNo = params.walletNo;
     this.toWalletNo = params.toWalletNo;
-    let state = this.router.getCurrentNavigation().extras.state;
+    let state = this.router.getCurrentNavigation()?.extras?.state;
     this.wallet = state?.['wallet'] || (await this.core.getWalletByNo(this.walletNo));
     this.toWallet = state?.['toWallet'] || (await this.core.getWalletByNo(this.toWalletNo));
     await this.calculateBalance();
