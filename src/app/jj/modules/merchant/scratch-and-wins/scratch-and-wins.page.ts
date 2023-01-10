@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
-import { CoreService } from 'src/app/jj/services';
+import { AuthService, CoreService } from 'src/app/jj/services';
 import { SharedComponent } from 'src/app/jj/shared';
 import { Pagination } from 'src/app/sws-erp.type';
-import { DatePipe } from '@angular/common';
 import { JJScratchAndWinEvent } from 'src/app/jj/typings';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-scratch-and-wins',
@@ -15,24 +15,39 @@ export class ScratchAndWinsPage extends SharedComponent implements OnInit {
   eventsPage: Pagination;
   eventsEnded: boolean;
   events: JJScratchAndWinEvent[];
+  merchantId: number;
   updatedAt: Date;
 
-  constructor(private core: CoreService, private date: DatePipe, private menuCtrl: MenuController) {
+  constructor(
+    private route: ActivatedRoute,
+    private menuCtrl: MenuController,
+    private auth: AuthService,
+    private core: CoreService,
+  ) {
     super();
   }
 
   async ngOnInit() {
+    this.route.queryParams.subscribe(async (queryParams) => {
+      if (queryParams.refresh) {
+        await this.loadData();
+      }
+    });
     await this.loadData();
   }
 
   async loadData() {
+    this.merchantId = await this.auth.findMyMerchantId();
     this.eventsPage = this.defaultPage;
     this.events = await this.getScratchAndWinEvent();
     this.eventsEnded = this.events.length < this.eventsPage.itemsPerPage;
   }
 
   async getScratchAndWinEvent() {
-    let events = await this.core.getScratchAndWinEvents(this.eventsPage);
+    let events = await this.core.getScratchAndWinEvents(this.eventsPage, {
+      merchant_id: this.merchantId,
+      merchant_id_type: '=',
+    });
     this.updatedAt = new Date();
     return events;
   }

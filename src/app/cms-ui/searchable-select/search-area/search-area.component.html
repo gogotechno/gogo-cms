@@ -5,7 +5,7 @@
         <ion-icon name="close-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{ title | cmsTranslate }}</ion-title>
+    <ion-title>{{ title | cmsTranslate | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,7 +17,7 @@
           <ion-list>
             <ion-list-header *ngIf="!items || items.length <= 0" class="ion-no-padding">
               <ion-label class="font-small ion-text-center">
-                {{ (emptyText || "_NO_ITEMS_FOUND") | translate }}
+                {{ emptyText || '_NO_ITEMS_FOUND' | translate }}
               </ion-label>
             </ion-list-header>
             <ion-item *ngFor="let item of items" (click)="onItemClicked(item)">
@@ -33,7 +33,7 @@
             </ion-infinite-scroll>
             <ion-list-header *ngIf="noMoreItems" class="ion-no-padding">
               <ion-label class="font-small ion-text-center">
-                {{ (noMoreText || "_NO_MORE_ITEMS") | translate }}
+                {{ noMoreText || '_NO_MORE_ITEMS' | translate }}
               </ion-label>
             </ion-list-header>
           </ng-container>

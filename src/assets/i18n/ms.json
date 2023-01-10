@@ -603,6 +603,8 @@
     "_CONFIRM_TO_APPROVE_DEPOSIT": "Sahkan untuk meluluskan deposit?",
     "_CONFIRM_TO_DECLINE_DEPOSIT": "Sahkan untuk menolak deposit?",
     "_CONFIRM_TO_APPROVE_WITHDRAW": "Sahkan untuk meluluskan pengeluaran?",
-    "_CONFIRM_TO_DECLINE_WITHDRAW": "Sahkan untuk menolak pengeluaran?"
+    "_CONFIRM_TO_DECLINE_WITHDRAW": "Sahkan untuk menolak pengeluaran?",
+    "_CONFIRM_TO_ADD_BANK_ACCOUNT": "Sahkan untuk membuat akaun bank?",
+    "_ACCOUNT_ADDED": "Akaun bank dibuatkan"
   }
 }

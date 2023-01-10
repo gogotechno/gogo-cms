@@ -1,14 +1,14 @@
 <div class="container">
   <h3>
-    <span>{{ tickets }}</span>
+    <span>{{ tickets || 0 }}</span>
     <span>{{ 'jj._TICKETS' | translate }}</span>
   </h3>
   <h3>
-    <span>{{ points }}</span>
+    <span>{{ points || 0 }}</span>
     <span>{{ 'jj._POINTS' | translate }}</span>
   </h3>
   <h3>
-    <span>{{ snwTickets }}</span>
+    <span>{{ snwTickets || 0 }}</span>
     <span>{{ 'jj._SNW_TICKETS' | translate }}</span>
   </h3>
 </div>
