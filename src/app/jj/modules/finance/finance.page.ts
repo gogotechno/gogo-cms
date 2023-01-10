@@ -16,6 +16,10 @@ export class FinancePage implements OnInit {
 
   async ngOnInit() {
     this.backButtonText = await this.common.getBackButtonText();
+    await this.loadData();
+  }
+
+  async loadData() {
     let conditions: Conditions = {
       status: 'PROCESSING',
       status_type: '=',
@@ -26,5 +30,11 @@ export class FinancePage implements OnInit {
     ]);
     this.depositsCount = depositsCount;
     this.withdrawsCount = withdrawsCount;
+  }
+
+  async doRefresh(event: Event) {
+    await this.loadData();
+    const refresher = <HTMLIonRefresherElement>event.target;
+    refresher.complete();
   }
 }
