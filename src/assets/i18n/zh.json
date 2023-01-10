@@ -604,7 +604,7 @@
     "_CONFIRM_TO_DECLINE_DEPOSIT": "确认拒绝存款？",
     "_CONFIRM_TO_APPROVE_WITHDRAW": "确认批准提取？",
     "_CONFIRM_TO_DECLINE_WITHDRAW": "确认拒绝提取？",
-    "_CONFIRM_TO_ADD_BANK_ACCOUNT": "确认添加银行账户？",
-    "_ACCOUNT_ADDED": "已添加银行账户"
+    "_CONFIRM_TO_CREATE_BANK_ACCOUNT": "确认创建银行账户？",
+    "_BANK_ACCOUNT_CREATED": "已创建银行账户"
   }
 }

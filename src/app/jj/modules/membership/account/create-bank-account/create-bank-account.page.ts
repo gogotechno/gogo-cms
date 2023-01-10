@@ -36,12 +36,12 @@ export class CreateBankAccountPage extends SharedComponent implements OnInit {
   }
 
   async onSubmit(data: JJBankAccount) {
-    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_ADD_BANK_INFO');
+    let confirm = await this.appUtils.presentConfirm('jj._CONFIRM_TO_CREATE_BANK_ACCOUNT');
     if (!confirm) {
       return;
     }
     await this.core.createBankAccount(data);
-    await this.appUtils.presentAlert('jj._ACCOUNT_ADDED', '_SUCCESS');
+    await this.appUtils.presentAlert('jj._BANK_ACCOUNT_CREATED', '_SUCCESS');
     await this.router.navigate(['/jj/account/bank-accounts'], {
       replaceUrl: true,
       queryParams: {

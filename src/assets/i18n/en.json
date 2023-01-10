@@ -589,7 +589,7 @@
     "_CONFIRM_TO_DECLINE_DEPOSIT": "Confirm to decline deposit?",
     "_CONFIRM_TO_APPROVE_WITHDRAW": "Confirm to approve withdraw?",
     "_CONFIRM_TO_DECLINE_WITHDRAW": "Confirm to decline withdraw?",
-    "_CONFIRM_TO_ADD_BANK_ACCOUNT": "Confirm to add bank account?",
-    "_ACCOUNT_ADDED": "Bank account added"
+    "_CONFIRM_TO_CREATE_BANK_ACCOUNT": "Confirm to create bank account?",
+    "_BANK_ACCOUNT_CREATED": "Bank account created"
   }
 }
