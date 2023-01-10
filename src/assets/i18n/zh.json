@@ -588,6 +588,9 @@
     "_DEPOSIT_IS_NOT_ALLOWED": "存款不被允许",
     "_WITHDRAW_IS_NOT_ALLOWED": "提款不被允许",
     "_INVALID_PRIZE_FOUND": "发现无效奖品",
+    "_CONFIRM_TO_CREATE_EVENT": "确认创建活动？",
+    "_EVENT_CREATED": "活动已创建",
+    "_NO_ACCOUNTS_FOUND": "未找到银行账户",
     "_CREATE_SCRATCH_AND_WIN_EVENT": "创建刮刮乐活动",
     "_SCRATCH_AND_WIN_EVENTS": "刮刮乐活动",
     "_SCRATCH_AND_WIN_EVENT": "刮刮乐活动",
@@ -600,6 +603,8 @@
     "_CONFIRM_TO_APPROVE_DEPOSIT": "确认批准存款？",
     "_CONFIRM_TO_DECLINE_DEPOSIT": "确认拒绝存款？",
     "_CONFIRM_TO_APPROVE_WITHDRAW": "确认批准提取？",
-    "_CONFIRM_TO_DECLINE_WITHDRAW": "确认拒绝提取？"
+    "_CONFIRM_TO_DECLINE_WITHDRAW": "确认拒绝提取？",
+    "_CONFIRM_TO_ADD_BANK_ACCOUNT": "确认添加银行账户？",
+    "_ACCOUNT_ADDED": "已添加银行账户"
   }
 }

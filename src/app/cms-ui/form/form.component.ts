@@ -54,6 +54,9 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.form && !this.formGroup) {
+      this.initFormGroup();
+    }
     if (changes.value && this.formGroup) {
       let value = {};
       for (let item of this.form.items) {
@@ -65,10 +68,10 @@ export class FormComponent extends CmsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadData();
+    this.initFormGroup();
   }
 
-  async loadData() {
+  async initFormGroup() {
     if (!this.form) {
       return;
     }
@@ -167,7 +170,8 @@ export class FormComponent extends CmsComponent implements OnInit {
     if (this.form.submitButtonId) {
       let button = document.getElementById(this.form.submitButtonId);
       if (button) {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (event) => {
+          event.stopImmediatePropagation();
           this.onSubmit();
         });
       }

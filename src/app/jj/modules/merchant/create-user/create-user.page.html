@@ -1,7 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button [text]="backButtonText" defaultHref="/jj/merchant/users"></ion-back-button>
+      <ion-back-button
+        *ngIf="pageType == 'page'"
+        [text]="backButtonText"
+        defaultHref="/jj/merchant/users"
+      ></ion-back-button>
+      <ion-button *ngIf="pageType == 'modal'" (click)="onDismiss()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>{{ "jj._CREATE_USER" | translate }}</ion-title>
   </ion-toolbar>

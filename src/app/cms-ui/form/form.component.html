@@ -162,7 +162,7 @@
   </ion-list>
 </ng-container>
 
-<ng-container *ngIf="!form.submitButtonId">
+<ng-container *ngIf="form && !form.submitButtonId">
   <hr />
   <ion-button expand="block" [disabled]="cannotSubmit" (click)="onSubmit($event)">
     <ion-label>{{ form.submitButtonText || '_SUBMIT' | translate }}</ion-label>
