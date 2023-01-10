@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix form component cannot initialize form group
 - Fix create user form cannot be dismissed
 - Fix create customer form cannot initialize form
+- Fix form submit button click event fires twice
+- Fix searchable select translation
+- Fix merchant can get other merchants' s&w events
+- Fix missing translations
 
 ## [Released]
 
